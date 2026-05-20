@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brevet J-30 — Hub Central</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a26;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0efe8;
+    --muted: rgba(240,239,232,0.45);
+    --muted2: rgba(240,239,232,0.25);
+    --gold: #e8c87a;
+    --gold2: #f5dfa0;
+    --teal: #5ecfb1;
+    --coral: #f07a5a;
+    --blue: #6ab4f5;
+    --purple: #a98af5;
+    --green: #7ecf8a;
+    --red: #f55a5a;
+    --w: #7eb8f5;
+    --n: #f59eb8;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 32px 32px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .header-left h1 span {
+    color: var(--gold);
+  }
+
+  .header-left p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* COUNTDOWN */
+  .countdown-block {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 160px;
+  }
+
+  .countdown-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .countdown-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  .exam-date {
+    font-size: 11px;
+    color: var(--muted2);
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* MAIN GRID */
+  .main {
+    padding: 24px 32px 32px;
+    display: grid;
+    gap: 20px;
+  }
+
+  /* JUMEAUX ROW */
+  .jumeaux-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .jumeau-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .jumeau-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .jumeau-card.wassil::before { background: linear-gradient(90deg, var(--w), #4a9fe0); }
+  .jumeau-card.nawal::before { background: linear-gradient(90deg, var(--n), #e07a9f); }
+
+  .jumeau-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+  }
+
+  .avatar.w { background: rgba(126,184,245,0.15); color: var(--w); border: 1px solid rgba(126,184,245,0.25); }
+  .avatar.n { background: rgba(245,158,184,0.15); color: var(--n); border: 1px solid rgba(245,158,184,0.25); }
+
+  .jumeau-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .jumeau-oral {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* MATIÈRES GRID */
+  .matieres-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .matiere-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.18s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .matiere-btn:hover {
+    border-color: var(--border2);
+    background: rgba(255,255,255,0.04);
+    transform: translateY(-1px);
+  }
+
+  .matiere-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+  .matiere-name { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* PROGRESS BARS */
+  .progress-section { margin-top: 14px; }
+  .prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .prog-label { font-size: 11px; color: var(--muted); width: 68px; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .prog-bar { flex: 1; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 999px; transition: width 0.8s ease; }
+  .prog-pct { font-size: 11px; color: var(--muted2); width: 30px; text-align: right; font-family: 'DM Mono', monospace; }
+
+  .fill-w { background: linear-gradient(90deg, var(--w), #4a9fe0); }
+  .fill-n { background: linear-gradient(90deg, var(--n), #e07a9f); }
+
+  /* AGENTS SECTION */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .agent-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card:hover {
+    border-color: var(--border2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .agent-card .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 14px; right: 14px;
+  }
+
+  .dot-ready { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-build { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+  .dot-soon  { background: var(--muted2); }
+
+  .agent-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+  .agent-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .agent-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .agent-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+
+  .tag-maths { color: var(--blue); border-color: rgba(106,180,245,0.3); background: rgba(106,180,245,0.07); }
+  .tag-fr { color: var(--teal); border-color: rgba(94,207,177,0.3); background: rgba(94,207,177,0.07); }
+  .tag-hg { color: var(--coral); border-color: rgba(240,122,90,0.3); background: rgba(240,122,90,0.07); }
+  .tag-sc { color: var(--green); border-color: rgba(126,207,138,0.3); background: rgba(126,207,138,0.07); }
+  .tag-oral { color: var(--gold); border-color: rgba(232,200,122,0.3); background: rgba(232,200,122,0.07); }
+  .tag-auto { color: var(--purple); border-color: rgba(169,138,245,0.3); background: rgba(169,138,245,0.07); }
+  .tag-coach { color: var(--n); border-color: rgba(245,158,184,0.3); background: rgba(245,158,184,0.07); }
+
+  /* SESSIONS / PLANNING */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  /* CALENDRIER J-30 */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    margin-top: 14px;
+  }
+
+  .cal-day {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    position: relative;
+  }
+
+  .cal-day.done { background: rgba(94,207,177,0.12); color: var(--teal); border-color: rgba(94,207,177,0.2); }
+  .cal-day.today { background: rgba(232,200,122,0.15); color: var(--gold); border-color: rgba(232,200,122,0.4); font-weight: 700; }
+  .cal-day.future { background: var(--bg3); color: var(--muted2); border-color: var(--border); }
+  .cal-day.exam { background: rgba(240,122,90,0.15); color: var(--coral); border-color: rgba(240,122,90,0.4); font-weight: 700; }
+  .cal-day:hover { border-color: var(--border2) !important; }
+
+  /* INSPIRATION */
+  .citation {
+    border-left: 2px solid var(--gold);
+    padding: 10px 16px;
+    margin-top: 14px;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    background: rgba(232,200,122,0.04);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .citation-author {
+    font-style: normal;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    margin-top: 8px;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 6px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  /* REVEAL ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .main > * {
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .main > *:nth-child(1) { animation-delay: 0.05s; }
+  .main > *:nth-child(2) { animation-delay: 0.12s; }
+  .main > *:nth-child(3) { animation-delay: 0.19s; }
+  .main > *:nth-child(4) { animation-delay: 0.26s; }
+  .main > *:nth-child(5) { animation-delay: 0.33s; }
+  .main > *:nth-child(6) { animation-delay: 0.4s; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    padding: 28px;
+    max-width: 480px;
+    width: 90%;
+    transform: scale(0.95);
+    transition: transform 0.2s;
+  }
+
+  .modal-overlay.open .modal { transform: scale(1); }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .modal-body { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+  .modal-close {
+    margin-top: 20px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 8px 20px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    transition: background 0.15s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,0.06); }
+
+  /* SESSION BUTTON */
+  .session-btn {
+    width: 100%;
+    margin-top: 16px;
+    background: linear-gradient(135deg, rgba(232,200,122,0.12), rgba(232,200,122,0.06));
+    border: 1px solid rgba(232,200,122,0.3);
+    border-radius: var(--radius-sm);
+    padding: 12px 20px;
+    color: var(--gold2);
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .session-btn:hover {
+    background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1));
+    transform: translateY(-1px);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .header { flex-direction: column; }
+    .jumeaux-row { grid-template-columns: 1fr; }
+    .agents-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .bottom-row { grid-template-columns: 1fr; }
+    .matieres-grid { grid-template-columns: repeat(3, 1fr); }
+    .main { padding: 16px; }
+    .header { padding: 20px 16px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Brevet <span>2026</span> — Hub Central</h1>
+    <p id="date-display">Chargement...</p>
+  </div>
+  <div class="countdown-block">
+    <div class="countdown-number" id="jours-restants">—</div>
+    <div class="countdown-label">jours restants</div>
+    <div class="exam-date">DNB — 30 juin 2026</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--teal)" id="stat-sessions">0</div>
+      <div class="stat-label">Sessions today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--gold)">5</div>
+      <div class="stat-label">Matières</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--purple)">2</div>
+      <div class="stat-label">Oraux préparés</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--coral)" id="stat-pct">0%</div>
+      <div class="stat-label">Programme vu</div>
+    </div>
+  </div>
+
+  <!-- JUMEAUX -->
+  <div class="jumeaux-row">
+
+    <!-- WASSIL -->
+    <div class="jumeau-card wassil">
+      <div class="jumeau-header">
+        <div class="avatar w">W</div>
+        <div>
+          <div class="jumeau-name">Wassil</div>
+          <div class="jumeau-oral">Oral : L'invention du zéro</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="prog-row">
+          <span class="prog-label">Maths</span>
+          <div class="prog-bar"><div class="prog-fill fill-w" id="w-maths" style="width:0%"></div></div>
+          <span class="prog-pct" id="w-maths-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Français</span>
+          <div class="prog-bar"><div class="prog-fill fill-w" id="w-fr" style="width:0%"></div></div>
+          <span class="prog-pct" id="w-fr-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Hist-Géo</span>
+          <div class="prog-bar"><div class="prog-fill fill-w" id="w-hg" style="width:0%"></div></div>
+          <span class="prog-pct" id="w-hg-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Sciences</span>
+          <div class="prog-bar"><div class="prog-fill fill-w" id="w-sc" style="width:0%"></div></div>
+          <span class="prog-pct" id="w-sc-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Oral</span>
+          <div class="prog-bar"><div class="prog-fill fill-w" id="w-oral" style="width:0%"></div></div>
+          <span class="prog-pct" id="w-oral-pct">0%</span>
+        </div>
+      </div>
+      <div class="matieres-grid" style="margin-top:14px">
+        <a class="matiere-btn" onclick="openAgent('maths','W')"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
+        <a class="matiere-btn" onclick="openAgent('fr','W')"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
+        <a class="matiere-btn" onclick="openAgent('hg','W')"><span class="matiere-icon">🌍</span><span class="matiere-name">Hist-Géo</span></a>
+        <a class="matiere-btn" onclick="openAgent('svt','W')"><span class="matiere-icon">🔬</span><span class="matiere-name">SVT</span></a>
+        <a class="matiere-btn" onclick="openAgent('oral-w','W')"><span class="matiere-icon">🎤</span><span class="matiere-name">Oral</span></a>
+      </div>
+    </div>
+
+    <!-- NAWAL -->
+    <div class="jumeau-card nawal">
+      <div class="jumeau-header">
+        <div class="avatar n">N</div>
+        <div>
+          <div class="jumeau-name">Nawal</div>
+          <div class="jumeau-oral">Oral : Féminisme et Malala</div>
+        </div>
+      </div>
+      <div class="progress-section">
+        <div class="prog-row">
+          <span class="prog-label">Maths</span>
+          <div class="prog-bar"><div class="prog-fill fill-n" id="n-maths" style="width:0%"></div></div>
+          <span class="prog-pct" id="n-maths-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Français</span>
+          <div class="prog-bar"><div class="prog-fill fill-n" id="n-fr" style="width:0%"></div></div>
+          <span class="prog-pct" id="n-fr-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Hist-Géo</span>
+          <div class="prog-bar"><div class="prog-fill fill-n" id="n-hg" style="width:0%"></div></div>
+          <span class="prog-pct" id="n-hg-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Sciences</span>
+          <div class="prog-bar"><div class="prog-fill fill-n" id="n-sc" style="width:0%"></div></div>
+          <span class="prog-pct" id="n-sc-pct">0%</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">Oral</span>
+          <div class="prog-bar"><div class="prog-fill fill-n" id="n-oral" style="width:0%"></div></div>
+          <span class="prog-pct" id="n-oral-pct">0%</span>
+        </div>
+      </div>
+      <div class="matieres-grid" style="margin-top:14px">
+        <a class="matiere-btn" onclick="openAgent('maths','N')"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
+        <a class="matiere-btn" onclick="openAgent('fr','N')"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
+        <a class="matiere-btn" onclick="openAgent('hg','N')"><span class="matiere-icon">🌍</span><span class="matiere-name">Hist-Géo</span></a>
+        <a class="matiere-btn" onclick="openAgent('svt','N')"><span class="matiere-icon">🔬</span><span class="matiere-name">SVT</span></a>
+        <a class="matiere-btn" onclick="openAgent('oral-n','N')"><span class="matiere-icon">🎤</span><span class="matiere-name">Oral</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENTS -->
+  <div>
+    <div class="section-title">— Agents spécialisés</div>
+    <div class="agents-grid">
+
+      <div class="agent-card" onclick="openAgent('auto')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">⚡</span>
+        <div class="agent-name">Automatismes</div>
+        <div class="agent-desc">10 min/jour. Maths sans calculatrice + Français express. Tout le programme.</div>
+        <span class="agent-tag tag-auto">En construction</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('annales')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">📋</span>
+        <div class="agent-name">Annales DNB</div>
+        <div class="agent-desc">Sujets 2021→2025 analysés. Barèmes officiels. Corrections annotées.</div>
+        <span class="agent-tag tag-maths">2021–2025</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('flashcards')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">🗂</span>
+        <div class="agent-name">Flashcards</div>
+        <div class="agent-desc">Répétition espacée J+1·3·7. Notions clés par matière. Mindmaps.</div>
+        <span class="agent-tag tag-fr">Répétition espacée</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('diag')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">🔍</span>
+        <div class="agent-name">Éval. diagnostique</div>
+        <div class="agent-desc">QCM de positionnement. Détection des lacunes. Plan de rattrapage perso.</div>
+        <span class="agent-tag tag-sc">Lacunes → action</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('oral-w')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">🔢</span>
+        <div class="agent-name">Oral Wassil</div>
+        <div class="agent-desc">L'invention du zéro. Plan · arguments · questions jury · simulation.</div>
+        <span class="agent-tag tag-oral">Wassil</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('oral-n')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">✊</span>
+        <div class="agent-name">Oral Nawal</div>
+        <div class="agent-desc">Féminisme et Malala. Plan · chiffres · questions jury · simulation.</div>
+        <span class="agent-tag tag-oral">Nawal</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('coach')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">🌱</span>
+        <div class="agent-name">Coaching</div>
+        <div class="agent-desc">Citation d'ouverture. Feedback perso. Pas de comparaison. Tu t'améliores.</div>
+        <span class="agent-tag tag-coach">Motivation perso</span>
+      </div>
+
+      <div class="agent-card" onclick="openAgent('phys')">
+        <div class="dot dot-build"></div>
+        <span class="agent-icon">⚗️</span>
+        <div class="agent-name">Phys-Chimie</div>
+        <div class="agent-desc">Notions clés cycle 4. Exercices types. Barème DNB intégré.</div>
+        <span class="agent-tag tag-sc">En construction</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+
+    <!-- CALENDRIER -->
+    <div class="panel">
+      <div class="section-title">— Calendrier J-30</div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <button class="session-btn" onclick="logSession()">✓ Marquer la session d'aujourd'hui</button>
+    </div>
+
+    <!-- INSPIRATION -->
+    <div class="panel">
+      <div class="section-title">— Citation du jour</div>
+      <div class="citation" id="citation-text">
+        "Le succès, c'est aller d'échec en échec sans perdre son enthousiasme."
+        <div class="citation-author">— Winston Churchill</div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="section-title">— Aujourd'hui à travailler</div>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px" id="today-tasks">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+            <span style="font-size:14px">⚡</span>
+            <span style="font-size:12px;color:var(--muted)">Automatismes — 10 min sans calculatrice</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+            <span style="font-size:14px">📐</span>
+            <span style="font-size:12px;color:var(--muted)">Maths — 1 exercice type DNB</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+            <span style="font-size:14px">🗂</span>
+            <span style="font-size:12px;color:var(--muted)">Flashcards — 10 cartes J+1</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)">
+            <span style="font-size:14px">🎤</span>
+            <span style="font-size:12px;color:var(--muted)">Oral — 15 min de préparation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Agent</div>
+    <div class="modal-body" id="modal-body">Chargement...</div>
+    <button class="modal-close" onclick="closeModalDirect()">Fermer</button>
+  </div>
+</div>
+
+<script>
+// ── DATE & COUNTDOWN ──
+const EXAM_DATE = new Date('2026-06-30T09:00:00');
+const START_DATE = new Date('2026-05-20T00:00:00'); // J-41 aujourd'hui
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = Math.ceil((EXAM_DATE - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('jours-restants').textContent = Math.max(0, diff);
+
+  const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const d = now;
+  document.getElementById('date-display').textContent =
+    `${jours[d.getDay()]} ${d.getDate()} ${mois[d.getMonth()]} ${d.getFullYear()}`;
+}
+updateCountdown();
+
+// ── STORAGE ──
+function getStore() {
+  try { return JSON.parse(localStorage.getItem('brevet2026') || '{}'); }
+  catch(e) { return {}; }
+}
+function setStore(d) {
+  try { localStorage.setItem('brevet2026', JSON.stringify(d)); } catch(e) {}
+}
+
+// ── PROGRESS BARS (example data — à ajuster) ──
+const defaultProgress = {
+  w: { maths:15, fr:10, hg:8, sc:5, oral:20 },
+  n: { maths:12, fr:18, hg:10, sc:7, oral:15 }
+};
+
+function loadProgress() {
+  const store = getStore();
+  const p = store.progress || defaultProgress;
+  const ids = ['maths','fr','hg','sc','oral'];
+  ['w','n'].forEach(who => {
+    ids.forEach(m => {
+      const val = p[who][m] || 0;
+      const el = document.getElementById(`${who}-${m}`);
+      const pct = document.getElementById(`${who}-${m}-pct`);
+      if (el) { setTimeout(() => { el.style.width = val + '%'; }, 300); }
+      if (pct) pct.textContent = val + '%';
+    });
+  });
+
+  // global %
+  const allVals = Object.values(p.w).concat(Object.values(p.n));
+  const avg = Math.round(allVals.reduce((a,b)=>a+b,0) / allVals.length);
+  document.getElementById('stat-pct').textContent = avg + '%';
+}
+loadProgress();
+
+// ── CALENDAR ──
+function buildCalendar() {
+  const store = getStore();
+  const done = store.sessions || [];
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  const now = new Date();
+  const totalDays = Math.ceil((EXAM_DATE - START_DATE) / (1000 * 60 * 60 * 24));
+
+  for (let i = 0; i < Math.min(totalDays, 42); i++) {
+    const d = new Date(START_DATE);
+    d.setDate(d.getDate() + i);
+    const key = d.toISOString().split('T')[0];
+    const isToday = key === now.toISOString().split('T')[0];
+    const isExam = key === '2026-06-30';
+    const isPast = d < now && !isToday;
+    const isDone = done.includes(key);
+
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d.getDate();
+    el.title = key;
+
+    if (isExam) el.classList.add('exam');
+    else if (isToday) el.classList.add('today');
+    else if (isDone) el.classList.add('done');
+    else if (isPast) el.classList.add('done');
+    else el.classList.add('future');
+
+    grid.appendChild(el);
+  }
+}
+buildCalendar();
+
+function logSession() {
+  const store = getStore();
+  if (!store.sessions) store.sessions = [];
+  const today = new Date().toISOString().split('T')[0];
+  if (!store.sessions.includes(today)) {
+    store.sessions.push(today);
+    setStore(store);
+  }
+  const cur = parseInt(document.getElementById('stat-sessions').textContent) || 0;
+  document.getElementById('stat-sessions').textContent = cur + 1;
+  buildCalendar();
+}
+
+// ── CITATIONS ──
+const citations = [
+  { text: "La réussite appartient à ceux qui ne cessent jamais d'apprendre.", author: "Confucius" },
+  { text: "Ce que tu fais aujourd'hui peut améliorer tous tes lendemains.", author: "Ralph Marston" },
+  { text: "La connaissance est la seule richesse qui ne diminue pas quand on la partage.", author: "Proverbe" },
+  { text: "Chaque expert a d'abord été un débutant. Chaque champion a d'abord échoué.", author: "Robin Sharma" },
+  { text: "Il ne s'agit pas d'être le meilleur. Il s'agit d'être meilleur qu'hier.", author: "Inconnue" },
+  { text: "L'éducation est l'arme la plus puissante que tu puisses utiliser pour changer le monde.", author: "Nelson Mandela" },
+  { text: "Les difficultés préparent des gens ordinaires à des destins extraordinaires.", author: "C.S. Lewis" },
+];
+
+const today = new Date().getDate();
+const c = citations[today % citations.length];
+document.getElementById('citation-text').innerHTML =
+  `"${c.text}"<div class="citation-author">— ${c.author}</div>`;
+
+// ── AGENTS INFO ──
+const agentInfo = {
+  'maths': {
+    title: '📐 Agent Mathématiques',
+    body: `<strong style="color:var(--blue)">Nouvelle épreuve DNB 2026</strong><br><br>
+<strong>Partie 1 — Automatismes (6 pts / 20 min / sans calculatrice)</strong><br>
+Questions directes, vrai/faux, QCM. Réflexes purs.<br><br>
+<strong>Partie 2 — Raisonnement (14 pts / 1h40 / avec calculatrice)</strong><br>
+Exercices types + 2 pts de rédaction.<br><br>
+<em style="color:var(--muted)">Cet agent est en construction. Il intégrera les sujets 0 officiels et les annales 2021–2025.</em>`
+  },
+  'fr': {
+    title: '📖 Agent Français',
+    body: `<strong style="color:var(--teal)">Épreuve Français DNB</strong><br><br>
+Compréhension écrite · Grammaire · Conjugaison · Rédaction.<br><br>
+Automatismes quotidiens : dictée express, analyse grammaticale, question de corpus.<br><br>
+<em style="color:var(--muted)">En construction — barème officiel DNB intégré.</em>`
+  },
+  'hg': {
+    title: '🌍 Agent Histoire-Géographie',
+    body: `<strong style="color:var(--coral)">Épreuve Hist-Géo DNB</strong><br><br>
+Étude de documents · Questions de cours · Croquis / schéma.<br><br>
+Notions clés : mondialisation, citoyenneté, grands conflits, développement durable.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'svt': {
+    title: '🔬 Agent SVT',
+    body: `<strong style="color:var(--green)">Sciences de la Vie et de la Terre</strong><br><br>
+Génétique · Évolution · Corps humain · Écologie.<br><br>
+Exercices types DNB avec démarche scientifique.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'oral-w': {
+    title: '🔢 Oral Wassil — L\'invention du zéro',
+    body: `<strong style="color:var(--w)">Sujet : L'invention du zéro</strong><br><br>
+📍 Axes : Histoire des sciences · Civilisations · Philosophie du néant<br><br>
+<strong>Figures clés :</strong> Brahmagupta (Inde, VIIe s.) · Al-Khwarizmi (monde arabe) · Fibonacci (transmission Europe)<br><br>
+<strong>Questions probables du jury :</strong> Pourquoi le zéro est-il révolutionnaire ? Quel lien avec l'informatique aujourd'hui ?<br><br>
+<em style="color:var(--muted)">Agent oral complet en construction.</em>`
+  },
+  'oral-n': {
+    title: '✊ Oral Nawal — Féminisme et Malala',
+    body: `<strong style="color:var(--n)">Sujet : Féminisme et Malala</strong><br><br>
+📍 Axes : Droits humains · Éducation des filles · Pakistan · Prix Nobel de la Paix 2014<br><br>
+<strong>Chiffres clés :</strong> 130 millions de filles non scolarisées dans le monde · Malala née 1997<br><br>
+<strong>Questions probables du jury :</strong> Qu'est-ce que le féminisme ? Pourquoi Malala est-elle un symbole universel ?<br><br>
+<em style="color:var(--muted)">Agent oral complet en construction.</em>`
+  },
+  'auto': {
+    title: '⚡ Automatismes quotidiens',
+    body: `<strong style="color:var(--purple)">10 minutes par jour — tout le programme</strong><br><br>
+<strong>Maths :</strong> Calcul mental, fractions, proportionnalité, pythagore, statistiques...<br>
+<strong>Français :</strong> Conjugaison, analyse grammaticale, vocabulaire...<br><br>
+Format : questions rapides sans calculatrice, feedback immédiat.<br><br>
+<em style="color:var(--muted)">En construction — basé sur la liste officielle Eduscol.</em>`
+  },
+  'annales': {
+    title: '📋 Annales DNB 2021–2025',
+    body: `<strong>5 années d'annales analysées par matière</strong><br><br>
+Tendances récurrentes · Points souvent oubliés · Barèmes officiels.<br><br>
+Chaque sujet avec correction annotée rouge/vert.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'flashcards': {
+    title: '🗂 Flashcards — Répétition espacée',
+    body: `<strong>Système J+1 · J+3 · J+7</strong><br><br>
+Une notion vue aujourd'hui sera revue demain, dans 3 jours, puis dans 7 jours.<br><br>
+Par matière · Par chapitre · Par niveau de maîtrise.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'diag': {
+    title: '🔍 Évaluation diagnostique',
+    body: `<strong>Où en es-tu vraiment ?</strong><br><br>
+QCM de 20 questions par matière · Résultat immédiat · Plan de rattrapage personnalisé.<br><br>
+Les barres de progression dans ton profil sont mises à jour automatiquement.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'coach': {
+    title: '🌱 Coaching & motivation',
+    body: `<strong>Règle d'or : tu t'améliores, point.</strong><br><br>
+Pas de comparaison entre Wassil et Nawal.<br>
+Chaque progrès est personnel et célébré.<br><br>
+Citation du jour · Rappel de fréquence · Encouragement basé sur tes efforts réels.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+  'phys': {
+    title: '⚗️ Agent Physique-Chimie',
+    body: `<strong style="color:var(--green)">Physique-Chimie cycle 4</strong><br><br>
+Optique · Électricité · Mécanique · Chimie organique.<br><br>
+Démarche expérimentale · Questions de raisonnement.<br><br>
+<em style="color:var(--muted)">En construction.</em>`
+  },
+};
+
+// ── MODAL ──
+function openAgent(id) {
+  const info = agentInfo[id] || { title: 'Agent', body: 'En construction...' };
+  document.getElementById('modal-title').textContent = info.title;
+  document.getElementById('modal-body').innerHTML = info.body;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+</script>
+</body>
+</html>
