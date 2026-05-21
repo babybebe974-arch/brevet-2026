@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎤 Agent Oral — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09080f;--bg2:#111018;--bg3:#1a1825;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);--text:#ede8f5;--muted:rgba(237,232,245,0.45);--muted2:rgba(237,232,245,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--teal:#5ecfb1;--w:#7eb8f5;--n:#f59eb8;--purple:#c4aeff;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 20%,rgba(169,138,245,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(94,207,177,0.04) 0%,transparent 50%);}
+#screen-home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;}
+.logo-badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:var(--gold);border:1px solid rgba(232,200,122,0.3);background:rgba(232,200,122,0.06);padding:6px 16px;border-radius:999px;margin-bottom:28px;}
+.home-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8vw,68px);font-weight:700;text-align:center;line-height:1.05;letter-spacing:-1px;margin-bottom:14px;}
+.home-title em{color:var(--gold);font-style:italic;}
+.home-sub{color:var(--muted);font-size:15px;text-align:center;max-width:500px;line-height:1.7;margin-bottom:36px;}
+.bareme-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:20px 24px;max-width:520px;width:100%;margin-bottom:32px;}
+.bareme-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;}
+.bareme-row{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--border);}
+.bareme-row:last-child{border-bottom:none;}
+.bpts{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;min-width:40px;text-align:right;line-height:1;}
+.bpts.f{color:var(--gold);}.bpts.s{color:var(--purple);}.bpts.t{color:var(--teal);}
+.blabel{font-size:13px;color:var(--muted);line-height:1.5;}
+.blabel strong{color:var(--text);display:block;}
+.sujet-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:560px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--r);padding:20px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.sujet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity 0.2s;}
+.sujet-card.wassil::before{background:linear-gradient(90deg,var(--w),#4a9fe0);}
+.sujet-card.nawal::before{background:linear-gradient(90deg,var(--n),#e07a9f);}
+.sujet-card.selected{border-color:rgba(232,200,122,0.4);background:rgba(232,200,122,0.04);}
+.sujet-card.selected::before{opacity:1;}
+.sc-who{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:6px;}
+.sc-who.w{color:var(--w);}.sc-who.n{color:var(--n);}
+.sc-sujet{font-size:12px;color:var(--muted);line-height:1.5;font-style:italic;}
+.sc-ck{position:absolute;top:14px;right:14px;width:20px;height:20px;border-radius:50%;background:var(--gold);display:none;align-items:center;justify-content:center;font-size:10px;color:#080600;}
+.sujet-card.selected .sc-ck{display:flex;}
+.start-btn{background:linear-gradient(135deg,rgba(232,200,122,0.15),rgba(232,200,122,0.08));border:1px solid rgba(232,200,122,0.35);border-radius:var(--r);padding:15px 48px;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;cursor:pointer;transition:all 0.2s;}
+.start-btn:hover{background:linear-gradient(135deg,rgba(232,200,122,0.22),rgba(232,200,122,0.12));transform:translateY(-2px);}
+.start-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+#screen-agent{display:none;max-width:820px;margin:0 auto;padding:28px 24px 60px;}
+.ag-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.ag-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;flex-shrink:0;}
+.av-w{background:rgba(126,184,245,0.12);color:var(--w);border:1px solid rgba(126,184,245,0.25);}
+.av-n{background:rgba(245,158,184,0.12);color:var(--n);border:1px solid rgba(245,158,184,0.25);}
+.ag-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;}
+.ag-sujet{font-size:12px;color:var(--muted);font-style:italic;margin-top:2px;}
+.back-btn{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;letter-spacing:1px;}
+.back-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.tabs{display:flex;margin-bottom:24px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.tab-btn{flex:1;padding:11px 6px;text-align:center;cursor:pointer;font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted2);background:none;border:none;border-right:1px solid var(--border);transition:all 0.2s;}
+.tab-btn:last-child{border-right:none;}
+.tab-btn.active{background:rgba(232,200,122,0.08);color:var(--gold);}
+.tab-btn.done{color:var(--teal);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.slbl{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;}
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.ctx-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;}
+.ctx-title{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.ctx-body{font-size:12px;color:var(--muted);line-height:1.6;}
+.ctx-body li{margin-left:14px;margin-bottom:3px;}
+.oral-ta{width:100%;min-height:280px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.8;outline:none;resize:vertical;transition:border-color 0.2s;margin-bottom:8px;}
+.oral-ta:focus{border-color:rgba(232,200,122,0.4);}
+.wcount{text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:14px;}
+.action-btn{width:100%;background:linear-gradient(135deg,rgba(232,200,122,0.15),rgba(232,200,122,0.08));border:1px solid rgba(232,200,122,0.35);border-radius:var(--r);padding:13px;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;cursor:pointer;transition:all 0.2s;}
+.action-btn:hover{background:linear-gradient(135deg,rgba(232,200,122,0.22),rgba(232,200,122,0.12));transform:translateY(-1px);}
+.grille-section{margin-bottom:24px;}
+.grille-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:14px;}
+.gi{margin-bottom:14px;}
+.gi-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.gi-label{font-size:13px;color:var(--text);}
+.gi-label span{font-size:11px;color:var(--muted);}
+.gi-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);}
+.gi-slider{width:100%;accent-color:var(--gold);}
+.gi-hint{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:2px;}
+.score-display{background:linear-gradient(135deg,rgba(232,200,122,0.1),rgba(232,200,122,0.05));border:1px solid rgba(232,200,122,0.25);border-radius:var(--r);padding:16px;text-align:center;margin-top:14px;}
+.sd-label{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;}
+.sd-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--gold);line-height:1.1;}
+.sd-msg{font-size:12px;color:var(--muted);margin-top:4px;}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:8px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.q-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.q-prog{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.q-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.qfbtn{padding:5px 11px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:10px;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.qfbtn.on{border-color:rgba(232,200,122,0.4);background:rgba(232,200,122,0.07);color:var(--gold);}
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:border-color 0.2s;}
+.q-card.answered{border-color:rgba(94,207,177,0.2);}
+.q-hdr{padding:14px 18px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;transition:background 0.15s;}
+.q-hdr:hover{background:rgba(255,255,255,0.02);}
+.qnum{width:26px;height:26px;border-radius:50%;background:rgba(232,200,122,0.1);border:1px solid rgba(232,200,122,0.25);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'DM Mono',monospace;color:var(--gold);flex-shrink:0;margin-top:1px;}
+.qnum.done{background:rgba(94,207,177,0.1);border-color:rgba(94,207,177,0.3);color:var(--teal);}
+.q-txt{font-size:13px;color:var(--text);flex:1;line-height:1.5;font-style:italic;}
+.qchev{font-size:10px;color:var(--muted2);transition:transform 0.2s;margin-top:4px;}
+.q-card.open .qchev{transform:rotate(180deg);}
+.q-body{display:none;padding:0 18px 16px;}
+.q-card.open .q-body{display:block;}
+.piste-box{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;padding:10px 12px;background:var(--bg3);border-radius:var(--r-sm);border-left:2px solid var(--gold);margin-bottom:10px;line-height:1.6;}
+.mots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.mot{font-size:10px;padding:3px 9px;border-radius:999px;border:1px solid rgba(196,174,255,0.3);background:rgba(196,174,255,0.07);color:var(--purple);font-family:'DM Mono',monospace;}
+.ata{width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.7;outline:none;resize:vertical;margin-bottom:10px;transition:border-color 0.2s;}
+.ata:focus{border-color:rgba(232,200,122,0.3);}
+.eval-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.ebtn{padding:7px 14px;border-radius:var(--r-sm);border:1px solid;cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.8px;}
+.ebtn-bon{color:var(--green);border-color:rgba(126,207,138,0.3);background:rgba(126,207,138,0.07);}
+.ebtn-bon:hover{background:rgba(126,207,138,0.15);}
+.ebtn-moy{color:var(--gold);border-color:rgba(232,200,122,0.3);background:rgba(232,200,122,0.07);}
+.ebtn-moy:hover{background:rgba(232,200,122,0.15);}
+.ebtn-rev{color:var(--coral);border-color:rgba(240,122,90,0.3);background:rgba(240,122,90,0.07);}
+.ebtn-rev:hover{background:rgba(240,122,90,0.15);}
+.res-badge{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;padding:3px 9px;border-radius:999px;border:1px solid;margin-top:8px;}
+.rb-bon{color:var(--green);border-color:rgba(126,207,138,0.3);background:rgba(126,207,138,0.07);}
+.rb-moy{color:var(--gold);border-color:rgba(232,200,122,0.3);background:rgba(232,200,122,0.07);}
+.rb-rev{color:var(--coral);border-color:rgba(240,122,90,0.3);background:rgba(240,122,90,0.07);}
+.bilan-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;margin-top:16px;}
+.brow{display:flex;align-items:center;gap:14px;padding:7px 0;border-bottom:1px solid var(--border);}
+.brow:last-child{border-bottom:none;}
+.bdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.bd-bon{background:var(--green);}.bd-moy{background:var(--gold);}.bd-rev{background:var(--coral);}
+.blabel{font-size:13px;flex:1;}.bcount{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp 0.3s ease forwards;opacity:0;}
+@media(max-width:560px){.sujet-cards,.ctx-grid{grid-template-columns:1fr;}.eval-btns{flex-wrap:wrap;}}
+</style>
+</head>
+<body>
+
+<div id="screen-home">
+  <div class="logo-badge">🎤 Agent Oral — DNB 2026</div>
+  <h1 class="home-title">Coach de<br><em>contenu oral</em></h1>
+  <p class="home-sub">Fiche de préparation complète, grille d'auto-évaluation selon le barème DNB, et 20 questions que le jury peut poser.</p>
+  <div class="bareme-card">
+    <div class="bareme-title">— Barème officiel oral DNB 2026 (BO n°33, sept. 2025)</div>
+    <div class="bareme-row"><div class="bpts f">12</div><div class="blabel"><strong>Fond — Maîtrise du sujet</strong>Contenu, exactitude, argumentation, interdisciplinaire</div></div>
+    <div class="bareme-row"><div class="bpts s">8</div><div class="blabel"><strong>Forme — Expression évaluable</strong>Vocabulaire, structure, cohérence des phrases</div></div>
+    <div class="bareme-row"><div class="bpts t">20</div><div class="blabel"><strong>Total</strong></div></div>
+  </div>
+  <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Choisir l'élève</div>
+  <div class="sujet-cards">
+    <div class="sujet-card wassil" onclick="sel('W')"><div class="sc-ck" id="ck-w">✓</div><div class="sc-who w">Wassil</div><div class="sc-sujet">"L'invention du zéro"<br>Histoire sciences · Maths · Philo</div></div>
+    <div class="sujet-card nawal"  onclick="sel('N')"><div class="sc-ck" id="ck-n">✓</div><div class="sc-who n">Nawal</div><div class="sc-sujet">"Féminisme et Malala"<br>Droits humains · Histoire · EMC</div></div>
+  </div>
+  <button class="start-btn" id="start-btn" onclick="start()" disabled>Ouvrir mon agent oral →</button>
+</div>
+
+<div id="screen-agent">
+  <div class="ag-header">
+    <div class="ag-av" id="av">W</div>
+    <div><div class="ag-name" id="ag-name">—</div><div class="ag-sujet" id="ag-sujet">—</div></div>
+    <button class="back-btn" onclick="goHome()">← Retour</button>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="goTab(1)">① Fiche</button>
+    <button class="tab-btn" onclick="goTab(2)">② Mon texte</button>
+    <button class="tab-btn" onclick="goTab(3)">③ Grille</button>
+    <button class="tab-btn" onclick="goTab(4)">④ 20 Questions</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-1">
+    <div class="slbl">— Fiche de préparation — <span id="fiche-t">—</span></div>
+    <div class="ctx-grid" id="ctx-grid"></div>
+    <button class="action-btn" onclick="goTab(2)">Aller à mon texte →</button>
+  </div>
+
+  <div class="tab-panel" id="tab-2">
+    <div class="slbl">— Colle ton texte Word ici</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">Copie-colle tout ce que tu as préparé — introduction, développement, conclusion.</p>
+    <textarea class="oral-ta" id="oral-ta" placeholder="Colle ton texte ici..." oninput="updateWC()"></textarea>
+    <div class="wcount" id="wcount">0 mot</div>
+    <button class="action-btn" onclick="goTab(3)">Passer à la grille d'évaluation →</button>
+  </div>
+
+  <div class="tab-panel" id="tab-3">
+    <div class="slbl">— Grille d'auto-évaluation DNB 2026</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">Relis ton texte et évalue-toi honnêtement. Déplace chaque curseur.</p>
+    <div class="grille-section">
+      <div class="grille-title">📚 Fond — 12 points</div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Exactitude des informations <span>(dates, noms, faits)</span></div><div class="gi-val" id="v-info">2/4</div></div><input type="range" class="gi-slider" min="0" max="4" value="2" oninput="upS('info',this.value,4)" id="s-info"><div class="gi-hint" id="h-info">—</div></div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Argumentation et structure <span>(intro/dév/conclu)</span></div><div class="gi-val" id="v-arg">1/3</div></div><input type="range" class="gi-slider" min="0" max="3" value="1" oninput="upS('arg',this.value,3)" id="s-arg"><div class="gi-hint" id="h-arg">—</div></div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Dimension interdisciplinaire <span>(liens autres matières)</span></div><div class="gi-val" id="v-inter">1/3</div></div><input type="range" class="gi-slider" min="0" max="3" value="1" oninput="upS('inter',this.value,3)" id="s-inter"><div class="gi-hint" id="h-inter">—</div></div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Réflexion personnelle <span>(avis, esprit critique)</span></div><div class="gi-val" id="v-reflex">1/2</div></div><input type="range" class="gi-slider" min="0" max="2" value="1" oninput="upS('reflex',this.value,2)" id="s-reflex"><div class="gi-hint" id="h-reflex">—</div></div>
+    </div>
+    <div class="grille-section">
+      <div class="grille-title">✍️ Forme — 8 points</div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Richesse du vocabulaire <span>(mots précis, variés)</span></div><div class="gi-val" id="v-vocab">2/4</div></div><input type="range" class="gi-slider" min="0" max="4" value="2" oninput="upS('vocab',this.value,4)" id="s-vocab"><div class="gi-hint" id="h-vocab">—</div></div>
+      <div class="gi"><div class="gi-top"><div class="gi-label">Structure et cohérence <span>(phrases claires, logique)</span></div><div class="gi-val" id="v-struct">2/4</div></div><input type="range" class="gi-slider" min="0" max="4" value="2" oninput="upS('struct',this.value,4)" id="s-struct"><div class="gi-hint" id="h-struct">—</div></div>
+    </div>
+    <div class="score-display"><div class="sd-label">Score estimé</div><div class="sd-num" id="sd-num">9/20</div><div class="sd-msg" id="sd-msg">Continue à améliorer ton texte</div></div>
+    <button class="action-btn" style="margin-top:14px" onclick="goTab(4)">Passer aux 20 questions →</button>
+    <button class="save-btn" onclick="saveGrille()">💾 Sauvegarder dans mon Sheet</button>
+  </div>
+
+  <div class="tab-panel" id="tab-4">
+    <div class="q-header-row"><div class="slbl" style="margin-bottom:0">— 20 questions du jury</div><div class="q-prog" id="q-prog">0 / 20 répondues</div></div>
+    <div class="q-filters">
+      <button class="qfbtn on" onclick="filt('all',this)">Toutes</button>
+      <button class="qfbtn" onclick="filt('bon',this)">✓ Bon</button>
+      <button class="qfbtn" onclick="filt('moyen',this)">~ Moyen</button>
+      <button class="qfbtn" onclick="filt('revoir',this)">✗ À revoir</button>
+      <button class="qfbtn" onclick="filt('none',this)">Sans réponse</button>
+    </div>
+    <div id="q-list"></div>
+    <div class="bilan-box" id="bilan" style="display:none">
+      <div class="slbl" style="margin-bottom:12px">— Bilan</div>
+      <div class="brow"><div class="bdot bd-bon"></div><div class="blabel">Bien maîtrisé</div><div class="bcount" id="bc-bon">0</div></div>
+      <div class="brow"><div class="bdot bd-moy"></div><div class="blabel">À consolider</div><div class="bcount" id="bc-moy">0</div></div>
+      <div class="brow"><div class="bdot bd-rev"></div><div class="blabel">À retravailler</div><div class="bcount" id="bc-rev">0</div></div>
+    </div>
+    <button class="save-btn" style="margin-top:14px" onclick="saveQ()">💾 Sauvegarder le bilan dans mon Sheet</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SH={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+const D={
+W:{nom:'Wassil',titre:"L'invention du zéro",avc:'av-w',avl:'W',
+ctx:[
+{t:'📅 Chronologie clé',i:["Inde Ve-VIIe s. : premiers systèmes positionnels","Brahmagupta (628) : 1ères règles du zéro","Al-Khwarizmi (IXe s.) : diffusion monde arabe","Fibonacci (1202) : Liber Abaci, Europe","Aujourd'hui : binaire informatique 0/1"]},
+{t:'🔑 Figures clés',i:["Brahmagupta (Inde, 598-668)","Al-Khwarizmi (780-850) : père de l'algèbre","Fibonacci (1170-1250) : Europe","Leibniz : système binaire (XVIIe s.)"]},
+{t:'💡 Enjeux philosophiques',i:["Représenter le 'rien' = révolution","Rupture avec pensée grecque (horreur du vide)","Lien bouddhisme : shunyata (néant)","Zéro ≠ absence : c'est un nombre à part entière"]},
+{t:'🌍 Interdisciplinaire',i:["Maths : algèbre, équations, puissances","Histoire : routes commerciales, civilisations","Philosophie : vide, infini, néant","Informatique : binaire 0 et 1"]},
+{t:"⚠️ Pièges du jury",i:["'Pourquoi les Grecs n'ont pas inventé le zéro ?'","'Zéro est-il pair ou impair ?'","'Quel lien avec l'informatique ?'","'Que se passe-t-il si on divise par zéro ?'"]},
+{t:'✅ Ce que le jury valorise',i:["Citer Brahmagupta ET Al-Khwarizmi","Expliquer la notation positionnelle","Lien avec le monde actuel (binaire)","Réflexion personnelle sur l'impact"]}
+],
+qs:[
+{q:"Qui est Brahmagupta et quel est son rôle dans l'histoire du zéro ?",p:"Mathématicien indien (598-668). Dans son traité Brahmasphutasiddhanta (628), il formalise le zéro comme nombre avec ses propres règles de calcul.",m:["indien","628","traité"]},
+{q:"Quelle est la différence entre le zéro comme chiffre et le zéro comme concept ?",p:"Zéro chiffre = symbole dans la notation positionnelle (10, 100...). Zéro concept = représentation du néant, révolution philosophique.",m:["positionnelle","néant","symbole"]},
+{q:"Comment le zéro a-t-il voyagé de l'Inde au monde arabe puis à l'Europe ?",p:"Inde → monde arabe via Al-Khwarizmi (IXe s.) → Europe via Fibonacci et son Liber Abaci (1202), routes commerciales.",m:["Al-Khwarizmi","Fibonacci","routes"]},
+{q:"Pourquoi les Grecs anciens n'ont-ils pas inventé le zéro ?",p:"Aristote et la philosophie grecque rejetaient le vide. Leur géométrie n'en avait pas besoin. 'La nature a horreur du vide.'",m:["Aristote","vide","géométrie"]},
+{q:"Explique ce qu'est la notation positionnelle. Pourquoi le zéro y est-il indispensable ?",p:"La valeur d'un chiffre dépend de sa position. Sans zéro, impossible de distinguer 1, 10, 100. Le zéro est le 'gardien des places'.",m:["position","valeur","distinguer"]},
+{q:"Quel lien existe entre le zéro et la philosophie bouddhiste indienne ?",p:"Le concept de shunyata (vide, néant) dans le bouddhisme a facilité l'acceptation intellectuelle du zéro en Inde.",m:["shunyata","vide","bouddhisme"]},
+{q:"Quel est le rôle du zéro en informatique moderne ?",p:"L'informatique repose sur le binaire : 0 et 1. Tout ce qui s'affiche sur un écran est encodé en suites de 0 et de 1.",m:["binaire","0 et 1","encodé"]},
+{q:"Le zéro est-il un nombre pair ou impair ? Justifie.",p:"0 est pair car 0 = 2×0. La définition d'un nombre pair : divisible par 2 sans reste. 0÷2 = 0, reste 0.",m:["pair","divisible","définition"]},
+{q:"Que se passe-t-il quand on divise un nombre par zéro ?",p:"Division par zéro est indéfinie (impossible). 5÷0 n'a pas de résultat. C'est une règle fondamentale des mathématiques.",m:["indéfini","impossible","règle"]},
+{q:"Comment Fibonacci a-t-il contribué à l'introduction du zéro en Europe ?",p:"Dans son Liber Abaci (1202), il présente le système décimal indien-arabe aux marchands italiens. Révolution pour la comptabilité.",m:["Liber Abaci","1202","marchands"]},
+{q:"En quoi l'invention du zéro est-elle une révolution dans l'histoire de la pensée ?",p:"Représenter le 'rien' par un symbole = rupture conceptuelle majeure. Permet équations, calculs complexes, science moderne.",m:["rupture","symbole","science"]},
+{q:"Quelle civilisation a eu une forme de zéro avant Brahmagupta ?",p:"Les Babyloniens (espace vide, IIIe s. av. J.-C.) et les Mayas (symbole coquillage) avaient des formes primitives du zéro.",m:["Babyloniens","Mayas","primitif"]},
+{q:"Quel rapport entre le zéro et les coordonnées en mathématiques ou en géographie ?",p:"L'origine d'un repère = point (0,0). Coordonnées GPS, cartes, graphiques — tout part du zéro comme référence.",m:["origine","repère","GPS"]},
+{q:"Quelle est la différence entre chiffres romains et chiffres arabes vis-à-vis du zéro ?",p:"Les chiffres romains (I, V, X...) n'ont pas de zéro. Impossible de faire des calculs complexes ou d'écrire de grands nombres.",m:["romains","absence","limite"]},
+{q:"Comment le zéro a-t-il changé le commerce au Moyen Âge ?",p:"Fibonacci l'a introduit pour la comptabilité marchande. Calculs rapides vs chiffres romains. Révolution commerciale.",m:["comptabilité","commerce","révolution"]},
+{q:"Explique la contribution d'Al-Khwarizmi à la diffusion du zéro.",p:"Al-Khwarizmi (780-850) est le 'père de l'algèbre'. Son nom a donné 'algorithme'. Il diffuse le système indien dans le monde.",m:["algèbre","algorithme","diffusion"]},
+{q:"Pourquoi a-t-il fallu autant de temps pour que le zéro soit accepté en Europe ?",p:"Résistances religieuses et philosophiques. Chiffres romains bien établis. Méfiance envers les systèmes 'arabes'.",m:["résistance","religion","méfiance"]},
+{q:"Quel lien fais-tu entre l'invention du zéro et le développement des sciences modernes ?",p:"Sans zéro : pas d'algèbre, pas de calcul différentiel (Newton, Leibniz), pas de physique moderne, pas d'informatique.",m:["algèbre","Newton","physique"]},
+{q:"Que serait notre monde sans l'invention du zéro ?",p:"Pas d'informatique, pas de téléphone, pas d'internet. Calculs limités. Science et technologie bloquées au niveau romain.",m:["informatique","science","technologie"]},
+{q:"Si tu devais expliquer l'importance du zéro à un enfant de 6 ans, que dirais-tu ?",p:"Question de reformulation. Montre ta maîtrise en simplifiant. Ex : 'Sans zéro, tu ne pourrais pas écrire 10 ou 100 !'",m:["simplifier","exemple","pédagogie"]}
+]},
+N:{nom:'Nawal',titre:'Féminisme et Malala',avc:'av-n',avl:'N',
+ctx:[
+{t:'📅 Chronologie clé',i:["1848 : 1ère convention droits des femmes (USA)","1944 : droit de vote des femmes en France","12 juil. 1997 : naissance de Malala (Pakistan)","9 oct. 2012 : attentat Taliban (15 ans)","2013 : discours ONU + création Malala Fund","2014 : Prix Nobel de la Paix (17 ans)"]},
+{t:'🔑 Définitions',i:["Féminisme : mouvement pour l'égalité H/F","3 vagues : suffragettes → droits civiques → intersectionnalité","Taliban : groupe islamiste, ferme écoles en 2008","Malala Fund : 12 ans d'éducation pour toutes les filles"]},
+{t:'💡 Chiffres clés',i:["130 millions de filles non scolarisées","12 millions de mariages forcés par an","2/3 des analphabètes dans le monde = femmes","Pakistan 2014 : 22M d'enfants hors école"]},
+{t:'🌍 Interdisciplinaire',i:["Histoire : luttes pour les droits civiques","Géographie : inégalités Nord/Sud","EMC : droits humains, DUDH article 26","Français : discours engagé, argumentation"]},
+{t:"⚠️ Pièges du jury",i:["'Le féminisme est-il universel ou culturel ?'","'Malala est-elle instrumentalisée par l'Occident ?'","'Qu'est-ce qui a changé depuis le Nobel ?'","'Quelles limites à son combat ?'"]},
+{t:'✅ Ce que le jury valorise',i:["Définir féminisme précisément","Citer des chiffres concrets (130M, 12M...)",  "Regard critique (progrès ET limites)","Lien DUDH article 26 droit à l'éducation"]}
+],
+qs:[
+{q:"Qui est Malala Yousafzai ? Donne trois informations essentielles.",p:"Née le 12 juillet 1997 à Mingora (Pakistan). Militante pour le droit à l'éducation des filles. Prix Nobel de la Paix 2014, plus jeune lauréate à 17 ans.",m:["Pakistan","Nobel 2014","17 ans"]},
+{q:"Qu'est-il arrivé à Malala en octobre 2012 ?",p:"Le 9 octobre 2012, un Taliban lui tire dessus dans son bus scolaire. Elle survit après de longues semaines de soins au Royaume-Uni.",m:["Taliban","bus","survie"]},
+{q:"Donne une définition précise du féminisme.",p:"Mouvement politique, social et culturel qui revendique l'égalité des droits entre femmes et hommes dans tous les domaines de la vie.",m:["égalité","droits","mouvement"]},
+{q:"Quelles sont les trois grandes 'vagues' du féminisme ? Cite une date clé pour chacune.",p:"1ère : suffragettes, droit de vote (XIXe-début XXe). 2ème : droits civiques, travail, contraception (1960-70s). 3ème : intersectionnalité (années 1990+).",m:["suffragettes","1960","intersectionnalité"]},
+{q:"Cite deux chiffres concrets sur la situation des filles dans le monde.",p:"130 millions de filles non scolarisées. 12 millions de mariages forcés par an. 2/3 des analphabètes dans le monde sont des femmes.",m:["130 millions","mariages forcés","analphabètes"]},
+{q:"Qu'a dit Malala dans son discours à l'ONU en juillet 2013 ?",p:"'Un enfant, un enseignant, un livre et un stylo peuvent changer le monde.' Discours à 16 ans devant les jeunes délégués.",m:["ONU","stylo","monde"]},
+{q:"Qu'est-ce que le Malala Fund et quel est son objectif ?",p:"Fondation créée par Malala en 2013. Objectif : garantir 12 ans d'éducation de qualité gratuite pour toutes les filles dans le monde.",m:["fondation","12 ans","gratuite"]},
+{q:"Pourquoi les Taliban s'opposaient-ils à l'éducation des filles au Pakistan ?",p:"Interprétation rigoriste de l'islam. L'éducation des filles = menace pour leur ordre social patriarcal. Fermeture des écoles de filles dès 2008.",m:["religion","patriarcal","2008"]},
+{q:"Le féminisme est-il un combat universel ou propre à certaines cultures ?",p:"Universel car les droits humains sont universels (DUDH 1948). Mais les formes varient selon les cultures. Universel dans les principes, local dans les combats.",m:["universel","DUDH","local"]},
+{q:"Quel article de la DUDH défend le droit à l'éducation que Malala incarne ?",p:"Article 26 de la Déclaration Universelle des Droits de l'Homme (1948) : 'Toute personne a droit à l'éducation.'",m:["Article 26","DUDH","1948"]},
+{q:"Quelles inégalités entre femmes et hommes existent encore en France aujourd'hui ?",p:"Écart salarial (25% en moyenne). Violences conjugales (1 femme tous les 3 jours). Sous-représentation en politique. Charge mentale.",m:["salaire","violences","politique"]},
+{q:"Cite une autre femme dans l'histoire qui s'est battue pour les droits des femmes.",p:"Olympe de Gouges (Déclaration des droits de la femme, 1791), Simone de Beauvoir, Rosa Parks, Simone Veil.",m:["Olympe","Beauvoir","symbole"]},
+{q:"En quoi le parcours de Malala est-il lié à la géographie et aux inégalités Nord/Sud ?",p:"Les pays du Sud, zones rurales et en conflit = plus d'inégalités d'éducation. Pauvreté + traditions + insécurité = obstacles cumulés.",m:["Nord/Sud","pauvreté","inégalités"]},
+{q:"Certains disent que Malala est 'instrumentalisée' par l'Occident. Que penses-tu de cette critique ?",p:"Critique légitime : son discours correspond aux valeurs occidentales. Mais son vécu est réel. L'élève doit nuancer sans trancher brutalement.",m:["instrumentalisation","Occident","nuancer"]},
+{q:"Quelles sont les limites du combat de Malala ?",p:"Symbole médiatique mais situation au Pakistan peu changée. Les Taliban ont refermé les écoles en Afghanistan (2021). Bilan mitigé malgré le Nobel.",m:["limite","médiatique","Afghanistan"]},
+{q:"Qu'est-ce qui a concrètement changé depuis le Prix Nobel de Malala en 2014 ?",p:"Malala Fund a scolarisé des milliers de filles. Mais en Afghanistan, les Taliban ont refermé les écoles en 2021. Bilan contrasté.",m:["Malala Fund","Afghanistan","bilan"]},
+{q:"Quel lien fais-tu entre l'éducation et la paix dans le monde ?",p:"'Une école, un livre, un stylo peuvent changer le monde.' L'éducation = sortir de la pauvreté, réduire les conflits, développer la pensée critique.",m:["paix","pauvreté","pensée critique"]},
+{q:"Quelle est la différence entre féminisme et antiféminisme ?",p:"Féminisme = pour l'égalité des droits. Antiféminisme = opposition à cette égalité, souvent liée au patriarcat et à des systèmes de domination.",m:["égalité","patriarcat","opposition"]},
+{q:"En quoi le parcours de Malala peut-il t'inspirer en tant que jeune ?",p:"Réponse personnelle. Droit à l'éducation souvent considéré acquis. Malala rappelle qu'il faut le défendre. Engagement citoyen possible.",m:["inspiration","citoyen","engagement"]},
+{q:"Si tu rencontrais Malala, quelle question lui poserais-tu ? Justifie.",p:"Question ouverte. Montre ta curiosité intellectuelle et ta compréhension profonde du sujet. Pas de bonne ou mauvaise réponse.",m:["personnel","curiosité","profondeur"]}
+]}};
+
+let eleve=null,qRes={},sc={info:2,arg:1,inter:1,reflex:1,vocab:2,struct:2},cf='all';
+const HINTS={info:['Aucun fait correct','Quelques éléments','Faits principaux présents','Bon niveau de détail','Excellent — dates et noms précis'],arg:['Pas de structure','Début d\'organisation','Structure présente','Bonne argumentation'],inter:['Aucun lien','Un lien évoqué','2 matières liées','Liens riches et pertinents'],reflex:['Aucune réflexion','Amorce d\'opinion','Réflexion personnelle claire'],vocab:['Vocabulaire très basique','Quelques mots précis','Vocabulaire correct','Vocabulaire riche','Excellent et varié'],struct:['Texte incohérent','Quelques phrases claires','Structure correcte','Bonne cohérence','Excellent — clair et fluide']};
+
+function sel(e){eleve=e;document.querySelector('.sujet-card.wassil').classList.toggle('selected',e==='W');document.querySelector('.sujet-card.nawal').classList.toggle('selected',e==='N');document.getElementById('ck-w').style.display=e==='W'?'flex':'none';document.getElementById('ck-n').style.display=e==='N'?'flex':'none';document.getElementById('start-btn').disabled=false;}
+function start(){const d=D[eleve];document.getElementById('screen-home').style.display='none';document.getElementById('screen-agent').style.display='block';const av=document.getElementById('av');av.textContent=d.avl;av.className='ag-av '+d.avc;document.getElementById('ag-name').textContent=d.nom;document.getElementById('ag-sujet').textContent='"'+d.titre+'"';document.getElementById('fiche-t').textContent='"'+d.titre+'"';buildCtx(d.ctx);buildQs(d.qs);updateSD();goTab(1);window.scrollTo(0,0);}
+function goHome(){document.getElementById('screen-agent').style.display='none';document.getElementById('screen-home').style.display='flex';}
+function goTab(n){document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i+1===n));document.querySelectorAll('.tab-btn').forEach((b,i)=>{b.className='tab-btn'+(i+1===n?' active':i+1<n?' done':'');});window.scrollTo(0,0);}
+function buildCtx(ctx){const g=document.getElementById('ctx-grid');g.innerHTML='';ctx.forEach(c=>{const d=document.createElement('div');d.className='ctx-card';d.innerHTML=`<div class="ctx-title">${c.t}</div><ul class="ctx-body">${c.i.map(x=>`<li>${x}</li>`).join('')}</ul>`;g.appendChild(d);});}
+function updateWC(){const t=document.getElementById('oral-ta').value.trim();const n=t?t.split(/\s+/).length:0;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');}
+function upS(k,v,max){sc[k]=parseInt(v);document.getElementById('v-'+k).textContent=v+'/'+max;document.getElementById('h-'+k).textContent=HINTS[k][parseInt(v)]||'';updateSD();}
+function updateSD(){const tot=Object.values(sc).reduce((a,b)=>a+b,0);const el=document.getElementById('sd-num');el.textContent=tot+'/20';el.style.color=tot>=15?'var(--green)':tot>=12?'var(--gold)':tot>=8?'var(--coral)':'var(--red)';const msgs=[[16,'🏆 Excellent !'],[13,'✅ Bien — quelques points à renforcer.'],[10,'🔄 Correct — travaille les points faibles.'],[0,'💪 À améliorer — consulte ta fiche.']];document.getElementById('sd-msg').textContent=msgs.find(([m])=>tot>=m)[1];}
+function buildQs(qs){const l=document.getElementById('q-list');l.innerHTML='';qs.forEach((q,i)=>{const d=document.createElement('div');d.className='q-card fu';d.id='qc-'+i;d.style.animationDelay=(i*0.03)+'s';d.innerHTML=`<div class="q-hdr" onclick="tQ(${i})"><div class="qnum" id="qn-${i}">${i+1}</div><div class="q-txt">${q.q}</div><div class="qchev">▼</div></div><div class="q-body"><div class="piste-box">💡 ${q.p}</div><div class="mots">${q.m.map(m=>`<span class="mot">${m}</span>`).join('')}</div><textarea class="ata" id="ata-${i}" placeholder="Ta réponse..."></textarea><div class="eval-btns"><button class="ebtn ebtn-bon" onclick="setR(${i},'bon')">✓ Bon</button><button class="ebtn ebtn-moy" onclick="setR(${i},'moyen')">~ Moyen</button><button class="ebtn ebtn-rev" onclick="setR(${i},'revoir')">✗ À revoir</button></div><div id="rb-${i}"></div></div>`;l.appendChild(d);});}
+function tQ(i){document.getElementById('qc-'+i).classList.toggle('open');}
+function setR(i,lv){qRes[i]=lv;const c=document.getElementById('qc-'+i);c.classList.add('answered');document.getElementById('qn-'+i).className='qnum done';const cfg={bon:{cls:'rb-bon',t:'✓ Bien maîtrisé'},moyen:{cls:'rb-moy',t:'~ À consolider'},revoir:{cls:'rb-rev',t:'✗ À retravailler'}};const r=cfg[lv];document.getElementById('rb-'+i).innerHTML=`<span class="res-badge ${r.cls}">${r.t}</span>`;updBilan();aFilt(cf);}
+function updBilan(){const v=Object.values(qRes);document.getElementById('q-prog').textContent=v.length+' / 20 répondues';document.getElementById('bc-bon').textContent=v.filter(x=>x==='bon').length;document.getElementById('bc-moy').textContent=v.filter(x=>x==='moyen').length;document.getElementById('bc-rev').textContent=v.filter(x=>x==='revoir').length;if(v.length>0)document.getElementById('bilan').style.display='block';}
+function filt(t,btn){cf=t;document.querySelectorAll('.qfbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');aFilt(t);}
+function aFilt(t){document.querySelectorAll('.q-card').forEach((c,i)=>{if(t==='all'){c.style.display='block';return;}if(t==='none'){c.style.display=qRes[i]?'none':'block';return;}c.style.display=qRes[i]===t?'block':'none';});}
+async function saveGrille(){const tot=Object.values(sc).reduce((a,b)=>a+b,0);try{const r=await fetch(SH[eleve],{method:'POST',mode:'cors',body:JSON.stringify({action:'logOral',duree:30,pointsForts:'Auto-évaluation : '+tot+'/20',pointsFaibles:getPF(),note:tot,objectifSuivant:'Améliorer critères faibles'})});if(r.ok)toast('✓ Sauvegardé','ok');else throw 0;}catch(e){toast('⚠ Sauvegarde impossible','err');}}
+async function saveQ(){const v=Object.values(qRes);const bon=v.filter(x=>x==='bon').length;try{const r=await fetch(SH[eleve],{method:'POST',mode:'cors',body:JSON.stringify({action:'logSession',matiere:'Oral',activite:'20 questions jury — '+D[eleve].titre,duree:45,score:Math.round(bon/20*20),notes:bon+'/20 bien maîtrisées'})});if(r.ok)toast('✓ Bilan sauvegardé','ok');else throw 0;}catch(e){toast('⚠ Sauvegarde impossible','err');}}
+function getPF(){const lbs={info:'Informations',arg:'Argumentation',inter:'Interdisciplinaire',reflex:'Réflexion',vocab:'Vocabulaire',struct:'Structure'};const mx={info:4,arg:3,inter:3,reflex:2,vocab:4,struct:4};return Object.entries(sc).filter(([k,v])=>v<mx[k]/2).map(([k])=>lbs[k]).join(', ')||'Aucun point faible majeur';}
+function toast(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+t;setTimeout(()=>el.className='toast',3500);}
+window.addEventListener('DOMContentLoaded',()=>{Object.entries(sc).forEach(([k,v])=>{document.getElementById('h-'+k).textContent=HINTS[k][v]||'';});});
+</script>
+</body>
+</html>
