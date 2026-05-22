@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📖 Sujets Blancs Français — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--teal);border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--teal);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sujet-card:hover{border-color:rgba(94,207,177,0.4);transform:translateY(-2px);}
+.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
+.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--teal);}
+.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
+.back:hover{background:rgba(255,255,255,0.04);}
+.chrono-bar{background:rgba(94,207,177,0.06);border-bottom:1px solid rgba(94,207,177,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--teal);}
+.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chrono-btns{display:flex;gap:8px;}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.07);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.s-body{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--teal);}
+.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.partie-body{padding:20px;}
+.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--teal);}
+.texte-box .auteur{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:12px;text-align:right;}
+.q-block{margin-bottom:16px;}
+.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);font-weight:700;min-width:24px;margin-top:2px;}
+.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
+.answer-ta:focus{border-color:rgba(94,207,177,0.4);}
+.redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
+.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.corr-btn:hover{background:rgba(94,207,177,0.12);}
+.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.corr-box.show{display:block;}
+.corr-box strong{color:var(--text);}
+.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
+.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ae-label{font-size:13px;flex:1;}
+.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
+.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ae-total{background:linear-gradient(135deg,rgba(94,207,177,0.1),rgba(94,207,177,0.05));border:1px solid rgba(94,207,177,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--teal);}
+.ae-total-lbl{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btns{display:flex;gap:10px;margin-top:12px;}
+.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
+.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btn.primary{background:linear-gradient(135deg,var(--teal),#3aad8a);border:none;color:#060f0a;font-weight:700;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="home">
+  <div class="badge">📖 Sujets blancs complets — Français</div>
+  <h1>Brevet Blanc <em>Français</em></h1>
+  <p class="sub">10 sujets complets format DNB. Texte + compréhension + grammaire + rédaction. Corrections détaillées avec barèmes.</p>
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+  <div class="sujets-grid" id="sujets-grid"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
+</div>
+
+<div id="sujet-page">
+  <div class="s-header">
+    <div><div class="s-logo">📖 Brevet Blanc Français</div><div class="s-meta" id="s-meta">—</div></div>
+    <button class="back" onclick="goHome()">← Retour</button>
+  </div>
+  <div class="chrono-bar">
+    <span style="font-size:11px;color:var(--teal);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre</span>
+    <div class="chrono-time" id="chrono">2:30:00</div>
+    <div class="chrono-btns">
+      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
+      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="s-body" id="s-body"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEETS={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+
+const SUJETS=[
+{id:1,titre:'La nature et l\'identité',
+texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.
+
+Ici, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.
+
+Il posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},
+  {n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},
+  {n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants). 3. "silence épais et vivant" → oxymore ou personnification.'},
+  {n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},
+  {n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},
+  {n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans, les notifications, le bruit constant" est une proposition participiale (gérondif/participe présent).'},
+  {n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité, montre le lien affectif de Thomas avec l\'arbre.'},
+],
+redaction:{pts:20,
+sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',
+sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation en vous appuyant sur des exemples précis. (Minimum 300 mots)',
+criteres:`Critères d'évaluation (20 pts) :
+• Compréhension du sujet et pertinence (4 pts)
+• Organisation et structure (intro/dév/conclu) (4 pts)
+• Richesse des arguments ou du récit (4 pts)
+• Qualité de la langue — vocabulaire, style (4 pts)
+• Orthographe et grammaire (4 pts)`}},
+
+{id:2,titre:'La mémoire et le temps qui passe',
+texte:`Grand-mère avait quatre-vingt-deux ans et une mémoire extraordinaire. Non pas pour les événements récents — ceux-là, elle les oubliait aussi vite qu'ils arrivaient — mais pour les souvenirs anciens, ceux d'avant, quand le monde était différent.
+
+Elle pouvait décrire avec une précision stupéfiante la robe qu'elle portait le jour de son premier bal, en 1958. Elle se souvenait de l'odeur exacte du pain frais que sa mère sortait du four chaque dimanche matin. Elle revoyait encore, les yeux fermés, le visage de son frère disparu à la guerre, un frère qu'elle n'avait plus vu depuis soixante ans.
+
+"Le passé est plus réel que le présent", disait-elle parfois avec un sourire mélancolique. Sa petite-fille Camille, assise en face d'elle, l'écoutait avec un mélange d'admiration et d'inquiétude. Ces souvenirs la tenaient en vie, c'était évident. Mais ils l'empêchaient aussi, peut-être, de vivre vraiment dans le présent.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Quelle particularité a la mémoire de la grand-mère ? Expliquez avec vos propres mots.',c:'Elle a une excellente mémoire du passé lointain mais oublie facilement les événements récents. Elle se souvient avec précision de détails d\'il y a 60 ans mais pas de ce qui vient de se passer.'},
+  {n:'2',pts:3,q:'Relevez trois exemples de souvenirs précis de la grand-mère.',c:'1. La robe du premier bal en 1958. 2. L\'odeur du pain frais de sa mère le dimanche. 3. Le visage de son frère disparu à la guerre.'},
+  {n:'3',pts:3,q:'Comment Camille voit-elle les souvenirs de sa grand-mère ? Est-ce uniquement positif ?',c:'Camille ressent un "mélange d\'admiration et d\'inquiétude". Positif : les souvenirs la "tenaient en vie". Négatif : ils l\'empêchaient "de vivre vraiment dans le présent". Vision nuancée.'},
+  {n:'4',pts:2,q:'Expliquez la phrase : "Le passé est plus réel que le présent."',c:'Pour la grand-mère, ses souvenirs anciens sont si précis et vivants qu\'ils semblent plus concrets que la réalité immédiate qu\'elle oublie. Le passé est sa vraie vie.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Analysez le groupe nominal "sa petite-fille Camille" : donnez la nature de chaque mot.',c:'"sa" = déterminant possessif. "petite-fille" = nom commun (noyau du GN). "Camille" = nom propre (apposition).'},
+  {n:'2',pts:2,q:'Conjuguez "disparaître" au plus-que-parfait de l\'indicatif, 3ème personne du singulier.',c:'"il/elle avait disparu"'},
+  {n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Mais ils l\'empêchaient aussi, peut-être, de vivre vraiment dans le présent."',c:'"de vivre vraiment dans le présent" est une proposition subordonnée infinitive complément du verbe "empêchaient".'},
+  {n:'4',pts:2,q:'Réécrivez au discours indirect : Elle disait : "Le passé est plus réel que le présent."',c:'Elle disait que le passé était plus réel que le présent.'},
+],
+redaction:{pts:20,
+sujet1:'Vous souvenez-vous d\'une personne âgée qui vous a transmis quelque chose d\'important ? Racontez cette rencontre et ce qu\'elle vous a apporté. (Min. 300 mots)',
+sujet2:'La mémoire fait-elle partie de l\'identité d\'une personne ? Développez votre réflexion en vous appuyant sur des exemples. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) :
+• Pertinence et richesse des idées (4 pts)
+• Structure (introduction, développement, conclusion) (4 pts)
+• Qualité narrative ou argumentative (4 pts)
+• Vocabulaire et style (4 pts)
+• Orthographe et grammaire (4 pts)`}},
+
+{id:3,titre:'L\'engagement et la jeunesse',
+texte:`À seize ans, Léa avait décidé de changer le monde. Ses amis trouvaient cela amusant — parfois attendrissant, parfois irritant. "Tu ne peux pas sauver la planète toute seule", lui répétait souvent son frère aîné avec une condescendance affectueuse.
+
+Mais Léa ne voulait pas sauver la planète toute seule. Elle voulait juste faire sa part. Depuis six mois, elle organisait des collectes de nourriture pour les familles en difficulté de son quartier. Elle avait convaincu trois restaurants du centre-ville de donner leurs invendus chaque soir. Elle avait créé un groupe de vingt bénévoles, lycéens comme elle, qui se relayaient pour distribuer les repas.
+
+Ce soir-là, en regardant une vieille dame sourire en recevant son plateau, Léa comprit quelque chose d'important : on ne change pas le monde en une fois. On le change repas par repas, sourire par sourire, geste par geste.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Comment les autres perçoivent-ils l\'engagement de Léa ? Citez le texte.',c:'Ses amis trouvaient cela "amusant", "attendrissant" ou "irritant". Son frère aîné le voyait avec "condescendance affectueuse" et lui disait : "Tu ne peux pas sauver la planète toute seule."'},
+  {n:'2',pts:3,q:'Décrivez concrètement les actions menées par Léa.',c:'1. Organise des collectes de nourriture pour familles en difficulté. 2. Convaincu 3 restaurants de donner leurs invendus. 3. Créé un groupe de 20 bénévoles lycéens pour distribuer les repas.'},
+  {n:'3',pts:3,q:'Quelle leçon Léa tire-t-elle de son expérience ? Relevez la phrase clé.',c:'Leçon : on change le monde progressivement, par petits gestes. Phrase clé : "on ne change pas le monde en une fois. On le change repas par repas, sourire par sourire, geste par geste."'},
+  {n:'4',pts:2,q:'Relevez et nommez la figure de style de la dernière phrase.',c:'"repas par repas, sourire par sourire, geste par geste" = anaphore (répétition de la structure "X par X") + gradation (du concret vers l\'abstrait).'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Donnez la classe grammaticale et la fonction de "toute seule" dans "Tu ne peux pas sauver la planète toute seule."',c:'"toute seule" = locution adjectivale (ou adjectif). Fonction : attribut du sujet "Tu".'},
+  {n:'2',pts:2,q:'Identifiez le mode et le temps de "avait décidé" et expliquez son emploi.',c:'Plus-que-parfait de l\'indicatif. Exprime une action accomplie avant un autre moment du passé (avant le récit principal).'},
+  {n:'3',pts:2,q:'Transformez à la voix passive : "Elle avait convaincu trois restaurants."',c:'"Trois restaurants avaient été convaincus par elle."'},
+  {n:'4',pts:2,q:'Relevez une proposition subordonnée relative dans le texte et donnez son antécédent.',c:'"qui se relayaient pour distribuer les repas" — subordonnée relative dont l\'antécédent est "vingt bénévoles".'},
+],
+redaction:{pts:20,
+sujet1:'Comme Léa, vous avez participé ou souhaitez participer à une action solidaire. Racontez et expliquez ce qui vous motive. (Min. 300 mots)',
+sujet2:'L\'engagement citoyen est-il une responsabilité de chaque individu ? Développez votre point de vue avec des exemples concrets. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:4,titre:'La science et le progrès',
+texte:`Le laboratoire était désert à cette heure-là. Seule Inès, vingt-huit ans, doctorante en biologie marine, travaillait encore sous la lumière froide des néons. Sur son écran s'affichaient des séquences d'ADN, colonnes de lettres incompréhensibles pour le commun des mortels, mais qui représentaient pour elle quelque chose d'extraordinaire : la possibilité de comprendre pourquoi certains coraux résistaient au blanchissement quand d'autres mouraient.
+
+Trois ans de travail. Des milliers d'heures passées à analyser des échantillons prélevés dans les océans du monde entier. Et peut-être, dans quelques semaines, une réponse.
+
+Elle pensa à ses parents, pêcheurs en Bretagne, qui lui avaient appris à respecter la mer avant de lui apprendre à lire. "La mer nourrit, mais elle se souvient", disait son père. Il avait raison, d'une façon qu'il n'imaginait pas : la mer se souvenait de chaque pollution, de chaque degré de réchauffement, de chaque erreur humaine.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Qui est Inès et quel est son domaine de recherche ?',c:'Inès est une doctorante de 28 ans en biologie marine. Elle recherche pourquoi certains coraux résistent au blanchissement.'},
+  {n:'2',pts:3,q:'Comment l\'auteur montre-t-il l\'investissement d\'Inès dans son travail ? Citez deux éléments.',c:'"Trois ans de travail", "des milliers d\'heures passées à analyser des échantillons", "travaillait encore sous la lumière froide des néons" (la nuit). Investissement total, solitaire et acharné.'},
+  {n:'3',pts:3,q:'Expliquez la phrase de conclusion : "la mer se souvenait de chaque pollution..." Quel lien avec le travail d\'Inès ?',c:'La mer "se souvient" = elle garde les traces des actions humaines (pollution, réchauffement). Lien : le travail d\'Inès vise précisément à mesurer et comprendre ces impacts. La science confirme ce que l\'intuition populaire pressentait.'},
+  {n:'4',pts:2,q:'Quel rôle jouent les parents d\'Inès dans sa vocation scientifique ?',c:'Ils lui ont transmis le respect de la mer, valeur fondatrice de sa recherche. Ils sont à l\'origine de son engagement scientifique, même sans formation académique.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Analysez la proposition "qui lui avaient appris à respecter la mer" : type et fonction.',c:'Proposition subordonnée relative. Fonction : complément du nom "parents" (antécédent).'},
+  {n:'2',pts:2,q:'Donnez la nature et la fonction du groupe "doctorante en biologie marine".',c:'Groupe nominal. Fonction : apposition au nom "Inès".'},
+  {n:'3',pts:2,q:'Réécrivez en remplaçant "elle" par "elles" (Inès et sa collègue) dès "Elle pensa à ses parents".',c:'"Elles pensèrent à leurs parents, pêcheurs en Bretagne, qui leur avaient appris..."'},
+  {n:'4',pts:2,q:'Identifiez le temps et mode de "s\'affichaient" et justifiez son emploi.',c:'Imparfait de l\'indicatif. Exprime une action en cours, habituelle ou décrivant l\'arrière-plan au moment du récit.'},
+],
+redaction:{pts:20,
+sujet1:'La science vous fascine-t-elle ? Racontez une découverte scientifique qui vous a marqué(e) et expliquez pourquoi. (Min. 300 mots)',
+sujet2:'Progrès scientifique et respect de la nature sont-ils compatibles ? Développez votre argumentation. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:5,titre:'L\'amitié et la différence',
+texte:`Ils étaient amis depuis l'enfance, ce qui n'avait jamais empêché leurs désaccords. Mathieu était grand, sportif, peu bavard. Sofiane était petit, passionné de musique, incapable de rester silencieux plus de trois minutes. Ils n'avaient, en apparence, aucun point commun.
+
+Et pourtant. Depuis la sixième, ils se retrouvaient chaque mercredi midi au même banc, dans la cour du collège. Mathieu mangeait ses sandwichs en silence. Sofiane parlait. Parfois de ses rêves musicaux, parfois de ses peurs, parfois de ses colères. Mathieu écoutait, hochait la tête, et parfois, rarement, disait une phrase qui valait mieux que mille mots.
+
+"L'amitié, ce n'est pas d'avoir les mêmes goûts", avait dit un jour leur professeur de français. "C'est de se choisir malgré les différences." Sofiane avait noté cette phrase dans son carnet. Il ne savait pas encore à quel point elle définirait sa vie.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Décrivez les personnalités de Mathieu et Sofiane. En quoi sont-ils différents ?',c:'Mathieu : grand, sportif, peu bavard. Sofiane : petit, passionné de musique, très bavard. Ils sont opposés en taille, caractère et centres d\'intérêt.'},
+  {n:'2',pts:3,q:'Comment leur amitié se manifeste-t-elle concrètement ? Décrivez leur rituel.',c:'Chaque mercredi midi, même banc dans la cour. Mathieu mange en silence, Sofiane parle. Mathieu écoute et dit parfois "une phrase qui valait mieux que mille mots".'},
+  {n:'3',pts:3,q:'Expliquez la citation du professeur. Êtes-vous d\'accord ? Justifiez.',c:'La citation signifie que l\'amitié ne repose pas sur les points communs mais sur le choix délibéré de s\'apprécier malgré les différences. Réponse personnelle attendue avec justification.'},
+  {n:'4',pts:2,q:'Relevez et commentez l\'expression "une phrase qui valait mieux que mille mots".',c:'Expression hyperbolique. Signifie que Mathieu, malgré son silence, dit rarement mais toujours quelque chose d\'essentiel, de profond. La qualité prime sur la quantité.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Dans "ce qui n\'avait jamais empêché leurs désaccords", identifiez la proposition et sa fonction.',c:'"ce qui n\'avait jamais empêché leurs désaccords" = proposition subordonnée relative. Antécédent : "ce" (pronom). Fonction : sujet de la principale implicite.'},
+  {n:'2',pts:2,q:'Conjuguez "se choisir" à l\'imparfait du subjonctif, 3ème pers. pluriel.',c:'"qu\'ils se choisissent" (subjonctif présent). Imparfait du subjonctif : "qu\'ils se choisissent" → forme rare, accepter subjonctif présent.'},
+  {n:'3',pts:2,q:'Analysez "malgré les différences" : nature du groupe, fonction.',c:'"malgré les différences" = groupe prépositionnel (préposition "malgré" + GN). Fonction : complément circonstanciel de concession.'},
+  {n:'4',pts:2,q:'Réécrivez au discours direct : Sofiane avait dit qu\'il ne savait pas encore à quel point cela définirait sa vie.',c:'Sofiane avait dit : "Je ne sais pas encore à quel point cela définira ma vie."'},
+],
+redaction:{pts:20,
+sujet1:'Décrivez une amitié importante dans votre vie. Qu\'est-ce qui vous unit à cette personne, malgré vos différences ? (Min. 300 mots)',
+sujet2:'La différence est-elle une richesse ou un obstacle dans les relations humaines ? Argumentez. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:6,titre:'Le courage et la peur',
+texte:`La peur est une chose étrange. Elle peut paralyser ou pousser à agir. Elle peut être la plus grande ennemie de l'homme ou, paradoxalement, sa meilleure alliée.
+
+Antoine, pompier depuis quinze ans, connaissait la peur intimement. Chaque intervention, même la plus banale, portait en elle ce frisson caractéristique dans la nuque, cette accélération du cœur, cette conscience aiguë du danger. "Celui qui te dit qu'il n'a pas peur en entrant dans un bâtiment en feu, c'est soit un menteur, soit un fou", expliquait-il souvent aux jeunes recrues.
+
+Pourtant, il continuait. Non pas malgré la peur, mais grâce à elle. Elle le maintenait vigilant, attentif, présent. C'était elle, en réalité, qui lui avait sauvé la vie lors de cet effondrement à Lyon, en 2018 — ce pressentiment fulgurant qui l'avait fait reculer deux secondes avant que le plafond ne s'effondre.
+
+La peur, comprit-il avec les années, n'est pas le contraire du courage. Elle en est la condition.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Comment Antoine définit-il la peur chez un pompier ? Citez le texte.',c:'"frisson caractéristique dans la nuque, accélération du cœur, conscience aiguë du danger". Et : "Celui qui te dit qu\'il n\'a pas peur... c\'est soit un menteur, soit un fou."'},
+  {n:'2',pts:3,q:'En quoi la peur est-elle présentée comme positive dans ce texte ?',c:'Elle le maintenait "vigilant, attentif, présent". Elle lui a sauvé la vie à Lyon (pressentiment). La thèse finale : "La peur... n\'est pas le contraire du courage. Elle en est la condition."'},
+  {n:'3',pts:3,q:'Relevez deux figures de style dans le troisième paragraphe et nommez-les.',c:'1. "Non pas malgré la peur, mais grâce à elle" → antithèse. 2. "pressentiment fulgurant" → métaphore (fulgurant = éclair). 3. "Elle le maintenait vigilant, attentif, présent" → gradation/tricolon.'},
+  {n:'4',pts:2,q:'Que s\'est-il passé à Lyon en 2018 ? Expliquez l\'importance de cet événement.',c:'Lors d\'un incendie, Antoine a reculé instinctivement deux secondes avant l\'effondrement d\'un plafond. Sans ce pressentiment (lié à la peur), il serait mort. Cet événement prouve concrètement le rôle protecteur de la peur.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Identifiez la nature et la fonction de "paradoxalement" dans la première phrase.',c:'Nature : adverbe de manière. Fonction : complément circonstanciel de manière du verbe "être".'},
+  {n:'2',pts:2,q:'Réécrivez en mettant le sujet au pluriel : "La peur est une chose étrange."',c:'"Les peurs sont des choses étranges."'},
+  {n:'3',pts:2,q:'Analysez "qui l\'avait fait reculer" : type de proposition et fonction.',c:'Proposition subordonnée relative. Antécédent : "pressentiment". Fonction : complément du nom "pressentiment".'},
+  {n:'4',pts:2,q:'Conjuguez "s\'effondrer" au conditionnel passé, 3ème personne du singulier.',c:'"il/elle se serait effondré(e)"'},
+],
+redaction:{pts:20,
+sujet1:'Avez-vous déjà surmonté une peur importante ? Racontez cette expérience et ce qu\'elle vous a appris sur vous-même. (Min. 300 mots)',
+sujet2:'Le courage consiste-t-il à ne pas avoir peur ou à agir malgré la peur ? Développez votre argumentation. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:7,titre:'L\'exil et les racines',
+texte:`Ma grand-mère gardait dans une boîte en fer-blanc, sous son lit, les seules choses qu'elle avait emportées de son pays. Une photo jaunie de ses parents, debout devant une maison que je n'ai jamais vue. Un petit carnet avec des adresses griffonnées à l'encre violette. Et une poignée de terre, sèche et rouge, enveloppée dans un carré de tissu.
+
+"Pourquoi tu gardes de la terre ?" lui avais-je demandé un jour, enfant.
+
+Elle avait souri. "Pour me souvenir que j'ai des racines, même quand je n'ai plus de sol sous les pieds."
+
+Je n'avais pas compris, à l'époque. J'ai mis des années à comprendre ce qu'elle voulait dire : qu'on peut perdre son pays, sa maison, ses habitudes, sa langue même — mais qu'on ne perd jamais ce qu'on porte en soi. L'identité n'est pas un lieu. C'est une mémoire.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Quels objets la grand-mère a-t-elle emportés de son pays ? Pourquoi ces objets sont-ils précieux ?',c:'Une photo jaunie de ses parents. Un petit carnet avec des adresses. Une poignée de terre rouge. Ils représentent ses origines, ses liens familiaux, ses souvenirs — tout ce qui ne peut pas tenir dans une valise.'},
+  {n:'2',pts:3,q:'Expliquez la métaphore de la terre et des racines.',c:'La terre = ses origines, son pays natal. Les racines = son identité profonde. Même sans sol (sans pays), elle conserve ses racines (son identité). La métaphore végétale souligne que l\'identité est enracinée, vivante.'},
+  {n:'3',pts:3,q:'Que comprend finalement le narrateur/la narratrice ? Relevez la phrase clé.',c:'Il/elle comprend que l\'identité n\'est pas attachée à un lieu physique. Phrase clé : "L\'identité n\'est pas un lieu. C\'est une mémoire."'},
+  {n:'4',pts:2,q:'Quel est le registre de ce texte ? Justifiez avec deux indices.',c:'Registre lyrique et/ou autobiographique. Indices : narration à la 1ère personne, présence des souvenirs d\'enfance, vocabulaire émotionnel ("précieux", "n\'avais pas compris"), rapport au temps passé/présent.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Analysez "enveloppée dans un carré de tissu" : nature et fonction.',c:'Participe passé épithète, accordé avec "terre" (féminin singulier). Fonction : épithète du nom "terre".'},
+  {n:'2',pts:2,q:'Réécrivez en style indirect : "Pour me souvenir que j\'ai des racines."',c:'Elle dit/répondit qu\'elle la gardait pour se souvenir qu\'elle avait des racines.'},
+  {n:'3',pts:2,q:'Identifiez dans la dernière phrase deux propositions et leur type.',c:'"L\'identité n\'est pas un lieu" = proposition principale. "C\'est une mémoire" = proposition principale juxtaposée (ou seconde principale).'},
+  {n:'4',pts:2,q:'Relevez les connecteurs logiques du dernier paragraphe et leur valeur.',c:'"mais" = opposition/concession. "même" = insistance/renforcement. "L\'identité n\'est pas... C\'est" = correction/reformulation.'},
+],
+redaction:{pts:20,
+sujet1:'Qu\'est-ce qui constitue votre identité ? Racontez un souvenir ou un objet qui vous définit. (Min. 300 mots)',
+sujet2:'Peut-on garder son identité quand on quitte son pays ou sa culture ? Développez votre réflexion. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:8,titre:'La justice et l\'injustice',
+texte:`Ce jour-là, Nora avait décidé de parler. Depuis des semaines, elle observait en silence. Elle voyait son camarade Alexis copier lors des contrôles, se vanter de ses bonnes notes, pendant que les autres travaillaient dur pour décrocher des résultats modestes.
+
+Ce n'était pas juste. Cette évidence la rongeait comme un acide. Et pourtant, parler, c'était risquer d'être isolée, d'être traitée de "balance", ce mot terrible qui faisait plus peur que l'injustice elle-même.
+
+Elle attendit la fin du cours et s'approcha du professeur. Sa voix tremblait légèrement. "Monsieur, je dois vous dire quelque chose."
+
+En sortant de la salle, elle ne savait pas si elle avait bien fait. Mais elle savait une chose : elle pouvait de nouveau se regarder dans un miroir sans se sentir complice.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Quelle situation injuste Nora observe-t-elle ? Expliquez.',c:'Son camarade Alexis triche lors des contrôles et obtient de bonnes notes, alors que les autres élèves travaillent honnêtement pour des résultats plus modestes.'},
+  {n:'2',pts:3,q:'Quel dilemme vit Nora avant de décider de parler ?',c:'Dilemme : parler = risquer l\'isolement social, être traitée de "balance". Se taire = être complice d\'une injustice. Elle doit choisir entre sa loyauté envers ses pairs et ses valeurs morales.'},
+  {n:'3',pts:3,q:'Comment interprétez-vous la dernière phrase : "elle pouvait de nouveau se regarder dans un miroir" ?',c:'Se regarder dans un miroir = affronter son propre regard, avoir bonne conscience. "De nouveau" = elle se sentait coupable avant. En parlant, elle retrouve l\'estime d\'elle-même. Métaphore de l\'intégrité morale.'},
+  {n:'4',pts:2,q:'Relevez la figure de style dans "Cette évidence la rongeait comme un acide" et expliquez son effet.',c:'Comparaison (rongeait comme un acide). Effet : montre l\'intensité douloureuse du sentiment d\'injustice, qui détruit Nora de l\'intérieur comme un acide corrode.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Quel est le mode et le temps de "avait décidé" ? Expliquez son emploi.',c:'Plus-que-parfait de l\'indicatif. Indique une action accomplie avant un autre moment du passé (avant le récit au passé composé/imparfait).'},
+  {n:'2',pts:2,q:'Analysez "ce mot terrible qui faisait plus peur que l\'injustice elle-même".',c:'"ce mot terrible" = groupe nominal (déterminant démonstratif + nom + adjectif épithète). "qui faisait plus peur que l\'injustice elle-même" = subordonnée relative, complément du nom "mot".'},
+  {n:'3',pts:2,q:'Transformez à la voix passive : "Nora observait son camarade."',c:'"Son camarade était observé par Nora."'},
+  {n:'4',pts:2,q:'Réécrivez en remplaçant "elle" (Nora) par "ils" (Nora et Marie).',c:'"Ils avaient décidé de parler..." → adapter tous les accords et pronoms en conséquence.'},
+],
+redaction:{pts:20,
+sujet1:'Avez-vous déjà été confronté(e) à une injustice ? Racontez la situation et comment vous avez réagi. (Min. 300 mots)',
+sujet2:'Faut-il toujours dénoncer une injustice, même si cela nous coûte ? Développez votre argumentation. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:9,titre:'La liberté et la création',
+texte:`Peindre avait toujours été, pour Nina, une façon de respirer. Pas de parler — elle n'aimait pas les mots — mais de respirer. De laisser sortir ce qui s'accumulait silencieusement quelque part entre la gorge et le ventre.
+
+Sa chambre était couverte de ses tableaux. Pas de belles scènes ordonnées, pas de paysages reconnaissables. Des couleurs qui se heurtaient, des formes qui semblaient chercher quelque chose sans jamais le trouver. Sa mère les regardait avec une perplexité bienveillante. Son professeur d'arts plastiques, lui, avait dit quelque chose qui avait tout changé : "Quand je regarde tes tableaux, je ressens quelque chose de vrai."
+
+Quelque chose de vrai. Nina avait répété cette phrase des dizaines de fois. Elle n'avait peut-être pas de talent académique. Mais elle avait quelque chose de plus rare : elle savait comment transformer la douleur en couleur.`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'Pourquoi Nina peint-elle ? Expliquez avec vos propres mots.',c:'Elle peint pour exprimer ce qu\'elle ne sait pas dire avec les mots — ses émotions intérieures. La peinture est sa façon de "respirer", de libérer ce qui s\'accumule en elle.'},
+  {n:'2',pts:3,q:'Comment sont décrits ses tableaux ? Que révèle cette description ?',c:'Pas de belles scènes ordonnées ni de paysages. Des couleurs qui se heurtent, des formes cherchant quelque chose. Cela révèle une peinture émotionnelle, abstraite, expression de son monde intérieur chaotique.'},
+  {n:'3',pts:3,q:'Quelle est la phrase clé qui change tout pour Nina ? Pourquoi est-elle si importante ?',c:'"Quand je regarde tes tableaux, je ressens quelque chose de vrai." Importance : c\'est la reconnaissance qu\'elle cherchait. Pas la beauté technique mais l\'authenticité. Son art communique réellement.'},
+  {n:'4',pts:2,q:'Expliquez la métaphore finale : "transformer la douleur en couleur".',c:'Métaphore de la création artistique comme sublimation. La douleur (émotion négative) se transforme en couleur (création positive). L\'art comme thérapie et transmutation de la souffrance.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Analysez "une perplexité bienveillante" : nature de chaque mot et fonction du groupe.',c:'"une" = article indéfini. "perplexité" = nom commun féminin. "bienveillante" = adjectif qualificatif épithète. Le groupe = GN complément d\'objet direct (regardait avec... → CC de manière).'},
+  {n:'2',pts:2,q:'Conjuguez "transformer" au subjonctif présent, 3ème pers. du singulier.',c:'"qu\'il/elle transforme"'},
+  {n:'3',pts:2,q:'Identifiez et analysez la proposition "ce qui s\'accumulait silencieusement".',c:'Proposition subordonnée relative sans antécédent (ou avec antécédent "ce"). Introduite par "ce qui". Fonction : complément de l\'objet.'},
+  {n:'4',pts:2,q:'Quelle est la valeur de l\'imparfait "avait répété" dans "Nina avait répété cette phrase des dizaines de fois" ?',c:'Plus-que-parfait (et non imparfait). Valeur : action accomplie et répétée dans le passé, avant le moment du récit. L\'aspect répétitif est renforcé par "des dizaines de fois".'},
+],
+redaction:{pts:20,
+sujet1:'Avez-vous une passion qui vous permet d\'exprimer ce que vous ne savez pas dire autrement ? Racontez et expliquez. (Min. 300 mots)',
+sujet2:'L\'art est-il un moyen de communication aussi important que les mots ? Argumentez. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+
+{id:10,titre:'Sujet de synthèse — L\'avenir',
+texte:`En 2050, la ville de Bordeaux avait changé. Pas au point d'être méconnaissable — les pierres blondes étaient toujours là, et la Garonne coulait toujours entre ses rives — mais suffisamment pour que Lucas, venu rendre visite à sa grand-mère pour la première fois depuis dix ans, s'arrête au bout du pont et regarde autour de lui avec une stupéfaction mêlée d'admiration.
+
+Les voitures avaient presque disparu du centre-ville. À leur place, des arbres — des centaines d'arbres — bordaient des allées larges où piétons et cyclistes se croisaient sans hâte. Des jardins en terrasse ornaient les façades des immeubles. L'air sentait différemment. Il sentait moins quelque chose — la pollution — et plus quelque chose d'autre, d'indéfinissable, peut-être simplement la ville elle-même.
+
+"C'était comme ça avant aussi, tu sais", lui dit sa grand-mère quand il lui décrivit ses impressions. "Avant les voitures. Il a fallu du temps pour comprendre qu'on n'avait fait que s'éloigner."`,
+auteur:'Texte original — type DNB 2026',
+comprehension:[
+  {n:'1',pts:2,q:'En quoi la ville a-t-elle changé ? Citez trois transformations concrètes.',c:'1. Les voitures ont presque disparu. 2. Des arbres bordent les allées. 3. Des jardins en terrasse ornent les immeubles. 4. L\'air est moins pollué.'},
+  {n:'2',pts:3,q:'Quelle est la réaction de Lucas face à ces changements ? Nuancez votre réponse.',c:'"Stupéfaction mêlée d\'admiration" — double sentiment. Il est surpris (il n\'a pas vu la ville évoluer) mais aussi admiratif (les changements sont positifs). La nuance est importante : pas de rejet, mais de l\'étonnement bienveillant.'},
+  {n:'3',pts:3,q:'Que suggère la phrase finale de la grand-mère sur le rapport de l\'humanité avec la nature ?',c:'Elle suggère que l\'harmonie entre ville et nature n\'est pas une innovation mais un retour à un état antérieur. "On n\'avait fait que s\'éloigner" = les voitures et la pollution sont une parenthèse dans l\'histoire humaine, pas la norme.'},
+  {n:'4',pts:2,q:'Relevez et commentez "l\'air sentait différemment... moins quelque chose... plus quelque chose d\'autre".',c:'Parallélisme structurel avec opposition (moins/plus). L\'air "sent moins la pollution" (éléments négatifs supprimés) et "plus quelque chose d\'indéfinissable" (qualité positive difficile à nommer). L\'indicible suggère que la pureté dépasse les mots.'},
+],
+grammaire:[
+  {n:'1',pts:2,q:'Analysez "mêlée d\'admiration" dans "stupéfaction mêlée d\'admiration".',c:'"mêlée" = participe passé épithète de "stupéfaction" (féminin singulier). "d\'admiration" = complément du nom (préposition + nom).'},
+  {n:'2',pts:2,q:'Réécrivez en remplaçant "Lucas" par "Lucas et Marie" dès "venu rendre visite".',c:'"venus rendre visite... s\'arrêtent... regardent avec une stupéfaction..."'},
+  {n:'3',pts:2,q:'Identifiez le temps des verbes dans le premier paragraphe et justifiez leur emploi.',c:'Plus-que-parfait "avait changé" (état accompli), imparfait "étaient, coulait" (description de l\'arrière-plan), passé simple "s\'arrête" (action ponctuelle). Mélange narratif classique.'},
+  {n:'4',pts:2,q:'Quel est le mode de "comprendre" dans "Il a fallu du temps pour comprendre" ? Justifiez.',c:'Infinitif. Introduit par la préposition "pour" après "temps". Valeur finale (but).'},
+],
+redaction:{pts:20,
+sujet1:'Imaginez la ville ou le village dans lequel vous vivez en 2050. Décrivez les changements que vous espérez ou craignez. (Min. 300 mots)',
+sujet2:'Les générations actuelles ont-elles une responsabilité envers les générations futures ? Développez votre argumentation. (Min. 300 mots)',
+criteres:`Critères DNB (20 pts) : Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)`}},
+];
+
+let who=null, currentIdx=0, chronoSecs=9000, running=false, chronoInterval=null;
+
+function selWho(w){who=w;document.getElementById('wb-w').className='who-btn'+(w==='W'?' aw':'');document.getElementById('wb-n').className='who-btn'+(w==='N'?' an':'');renderHome();}
+function renderHome(){const g=document.getElementById('sujets-grid');g.innerHTML='';const done=JSON.parse(localStorage.getItem('fr_done_'+(who||'X'))||'[]');SUJETS.forEach((s,i)=>{const d=document.createElement('div');d.className='sujet-card';d.onclick=()=>openSujet(i);const isDone=done.includes(s.id);d.innerHTML=`<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Compréhension · Grammaire · Rédaction</div><div class="sc-done" style="display:${isDone?'flex':'none'}">✓</div>`;g.appendChild(d);});}
+function openSujet(idx){currentIdx=idx;const s=SUJETS[idx];document.getElementById('home').style.display='none';document.getElementById('sujet-page').style.display='block';document.getElementById('s-meta').textContent='Sujet '+s.id+'/10 — '+(who==='W'?'Wassil':'Nawal');renderSujet(s);chronoSecs=9000;running=false;clearInterval(chronoInterval);updateChrono();window.scrollTo(0,0);}
+function goHome(){document.getElementById('sujet-page').style.display='none';document.getElementById('home').style.display='flex';clearInterval(chronoInterval);}
+
+function renderSujet(s){
+  let h='';
+  // TEXTE + COMPREHENSION
+  h+=`<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h+=`<div class="texte-box">${s.texte.replace(/\n\n/g,'</p><p style="margin-top:14px">').replace(/\n/g,'<br>')}<div class="auteur">${s.auteur}</div></div>`;
+  s.comprehension.forEach((q,i)=>{
+    h+=`<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('cc${i}')">Correction</button><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h+=`</div></div>`;
+  // GRAMMAIRE
+  h+=`<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
+  s.grammaire.forEach((q,i)=>{
+    h+=`<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('gc${i}')">Correction</button><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h+=`</div></div>`;
+  // RÉDACTION
+  h+=`<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h+=`<p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Choisissez UN sujet parmi les deux proposés. Minimum 300 mots.</p>`;
+  h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px;border-left:2px solid var(--gold)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet A — Texte narratif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet1}</div></div>`;
+  h+=`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border-left:2px solid var(--purple)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet B — Texte argumentatif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet2}</div></div>`;
+  h+=`<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
+  h+=`<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
+  h+=`<button class="corr-btn" onclick="tog('rc')">Voir les critères de correction</button><div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g,'<br>')}</div>`;
+  h+=`</div></div>`;
+  // AUTO-EVAL
+  h+=`<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
+    <div class="ae-row"><span class="ae-label">Compréhension</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-row"><span class="ae-label">Grammaire</span><input type="number" class="ae-input" id="ae2" min="0" max="16" value="0" oninput="updateTotal()"><span class="ae-max">/ 16</span></div>
+    <div class="ae-row"><span class="ae-label">Rédaction</span><input type="number" class="ae-input" id="ae3" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/56</div></div>
+  </div>`;
+  h+=`<div class="nav-btns">
+    ${currentIdx>0?`<button class="nav-btn" onclick="openSujet(${currentIdx-1})">← Précédent</button>`:''}
+    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>
+    ${currentIdx<SUJETS.length-1?`<button class="nav-btn primary" onclick="openSujet(${currentIdx+1})">Sujet suivant →</button>`:`<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}
+  </div>`;
+  document.getElementById('s-body').innerHTML=h;
+  // Word count pour rédaction
+  document.getElementById('redac').addEventListener('input',function(){const n=this.value.trim()?this.value.trim().split(/\s+/).length:0;document.getElementById('wc-redac').textContent=n+' mot'+(n>1?'s':'');});
+}
+
+function tog(id){const b=document.getElementById(id);b.classList.toggle('show');}
+function updateTotal(){const a=parseInt(document.getElementById('ae1').value)||0;const b=parseInt(document.getElementById('ae2').value)||0;const c=parseInt(document.getElementById('ae3').value)||0;const t=Math.min(a,20)+Math.min(b,16)+Math.min(c,20);const el=document.getElementById('ae-total');el.textContent=t+'/56';el.style.color=t>=45?'var(--green)':t>=36?'var(--gold)':t>=28?'var(--coral)':'var(--red)';}
+
+async function saveSujet(){const s=SUJETS[currentIdx];const a=parseInt(document.getElementById('ae1').value)||0;const b=parseInt(document.getElementById('ae2').value)||0;const c=parseInt(document.getElementById('ae3').value)||0;const t=Math.min(a,20)+Math.min(b,16)+Math.min(c,20);const done=JSON.parse(localStorage.getItem('fr_done_'+(who||'X'))||'[]');if(!done.includes(s.id)){done.push(s.id);localStorage.setItem('fr_done_'+(who||'X'),JSON.stringify(done));}const url=SHEETS[who];try{const res=await fetch(url,{method:'POST',mode:'cors',body:JSON.stringify({action:'logAnnale',matiere:'Français',annee:'Sujet blanc '+s.id,exercice:s.titre,score:Math.round(t/56*20),pointsPerdus:'C:'+a+'/20 G:'+b+'/16 R:'+c+'/20',bloque:'',aRetravailler:''})});if(res.ok)showToast('✓ Note sauvegardée','ok');else throw 0;}catch(e){showToast('⚠ Sauvegarde impossible','err');}}
+
+function startChrono(){if(running)return;running=true;chronoInterval=setInterval(()=>{if(chronoSecs<=0){clearInterval(chronoInterval);running=false;showToast('⏱ Temps écoulé !','err');return;}chronoSecs--;updateChrono();},1000);}
+function resetChrono(){clearInterval(chronoInterval);running=false;chronoSecs=9000;updateChrono();}
+function updateChrono(){const h=Math.floor(chronoSecs/3600);const m=Math.floor((chronoSecs%3600)/60);const s=chronoSecs%60;const el=document.getElementById('chrono');el.textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;el.className='chrono-time'+(chronoSecs<600?' urgent':'');}
+function showToast(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+t;setTimeout(()=>el.className='toast',3500);}
+window.addEventListener('DOMContentLoaded',()=>renderHome());
+</script>
+</body>
+</html>
