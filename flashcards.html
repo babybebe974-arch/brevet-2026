@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗂 Flashcards — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--blue:#6ab4f5;--purple:#a98af5;--w:#7eb8f5;--n:#f59eb8;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+/* HOME */
+#screen-home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--teal);border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.06);padding:5px 14px;border-radius:999px;margin-bottom:24px;}
+.home-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:800;text-align:center;line-height:1.05;letter-spacing:-1px;margin-bottom:10px;}
+.home-title span{color:var(--teal);}
+.home-sub{color:var(--muted);font-size:14px;text-align:center;max-width:460px;line-height:1.7;margin-bottom:36px;}
+
+/* Matières */
+.mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:560px;width:100%;margin-bottom:32px;}
+.mat-chip{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 10px;cursor:pointer;transition:all 0.18s;text-align:center;}
+.mat-chip:hover,.mat-chip.on{border-color:rgba(94,207,177,0.35);background:rgba(94,207,177,0.06);}
+.mat-chip.on{box-shadow:0 0 0 1px rgba(94,207,177,0.25);}
+.mat-ico{font-size:22px;display:block;margin-bottom:4px;}
+.mat-name{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.5px;}
+
+.who-row{display:flex;gap:10px;margin-bottom:28px;}
+.who-btn{padding:9px 24px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:var(--w);background:rgba(126,184,245,0.1);color:var(--w);}
+.who-btn.an{border-color:var(--n);background:rgba(245,158,184,0.1);color:var(--n);}
+
+.go-btn{background:linear-gradient(135deg,var(--teal),#3aad8a);border:none;border-radius:var(--r);padding:15px 48px;color:#060f0a;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 28px rgba(94,207,177,0.22);}
+.go-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(94,207,177,0.32);}
+.go-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+
+/* INFO CARDS */
+.info-row{display:flex;gap:16px;margin-top:24px;}
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 18px;text-align:center;}
+.info-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--teal);line-height:1;}
+.info-lbl{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.8px;margin-top:4px;}
+
+/* SESSION */
+#screen-session{display:none;min-height:100vh;padding:0;}
+
+.session-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.sess-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--teal);}
+.sess-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sess-prog{margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);}
+
+.prog-bar{height:3px;background:var(--border);}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--green));transition:width 0.4s ease;}
+
+.card-zone{padding:32px 24px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+
+/* FLASHCARD */
+.flashcard-wrap{width:100%;perspective:1200px;margin-bottom:28px;cursor:pointer;}
+.flashcard{width:100%;min-height:240px;position:relative;transform-style:preserve-3d;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
+.flashcard.flipped{transform:rotateY(180deg);}
+.card-face{position:absolute;width:100%;min-height:240px;backface-visibility:hidden;border-radius:var(--r);padding:32px 28px;display:flex;flex-direction:column;justify-content:center;}
+.card-front{background:var(--bg2);border:1px solid var(--border2);}
+.card-back{background:var(--bg3);border:1px solid var(--border2);transform:rotateY(180deg);}
+.card-mat-tag{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:3px 10px;border-radius:999px;border:1px solid;display:inline-block;margin-bottom:16px;align-self:flex-start;}
+.card-question{font-family:'Syne',sans-serif;font-size:clamp(17px,3.5vw,22px);font-weight:700;line-height:1.4;color:var(--text);}
+.card-hint{margin-top:14px;font-size:12px;color:var(--muted2);font-family:'DM Mono',monospace;}
+.card-answer-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:10px;}
+.card-answer{font-size:16px;color:var(--text);line-height:1.7;}
+.card-explication{margin-top:14px;font-size:13px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;}
+
+/* ÉVAL */
+.eval-zone{width:100%;display:none;}
+.eval-zone.show{display:block;}
+.eval-title{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:center;margin-bottom:14px;}
+.eval-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ev-btn{padding:14px 10px;border-radius:var(--r);border:1px solid;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;transition:all 0.2s;text-align:center;}
+.ev-again{color:var(--coral);border-color:rgba(240,122,90,0.3);background:rgba(240,122,90,0.07);}
+.ev-again:hover{background:rgba(240,122,90,0.15);transform:translateY(-1px);}
+.ev-good{color:var(--gold);border-color:rgba(232,200,122,0.3);background:rgba(232,200,122,0.07);}
+.ev-good:hover{background:rgba(232,200,122,0.15);transform:translateY(-1px);}
+.ev-easy{color:var(--green);border-color:rgba(126,207,138,0.3);background:rgba(126,207,138,0.07);}
+.ev-easy:hover{background:rgba(126,207,138,0.15);transform:translateY(-1px);}
+.ev-sub{font-size:10px;font-family:'DM Mono',monospace;opacity:0.7;margin-top:4px;font-weight:400;}
+
+.flip-hint{text-align:center;font-size:12px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:20px;}
+
+/* RÉSULTATS */
+#screen-results{display:none;padding:40px 24px;max-width:600px;margin:0 auto;}
+.res-title{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;text-align:center;margin-bottom:6px;}
+.res-sub{text-align:center;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:32px;}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.res-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;}
+.rs-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;line-height:1;}
+.rs-lbl{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.8px;margin-top:4px;}
+.prochaine-section{margin-bottom:28px;}
+.ps-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;}
+.prochaine-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px;}
+.pi-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);min-width:70px;}
+.pi-notion{font-size:13px;color:var(--text);}
+.pi-mat{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.res-actions{display:flex;gap:12px;}
+.btn-retry{flex:1;background:linear-gradient(135deg,var(--teal),#3aad8a);border:none;border-radius:var(--r);padding:13px;color:#060f0a;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;transition:all 0.2s;}
+.btn-home{flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:13px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:background 0.15s;}
+.btn-retry:hover{transform:translateY(-1px);}
+.btn-home:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.save-badge{text-align:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-top:12px;}
+
+@keyframes flipIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:none}}
+.flip-in{animation:flipIn 0.3s ease forwards;}
+
+@media(max-width:480px){.mat-grid{grid-template-columns:repeat(2,1fr);}.eval-btns{grid-template-columns:1fr;}.info-row{flex-wrap:wrap;}.res-stats{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div id="screen-home">
+  <div class="badge">🗂 Répétition espacée — J+1·J+3·J+7</div>
+  <h1 class="home-title">Flash<span>cards</span></h1>
+  <p class="home-sub">Révise les notions clés du Brevet. 3 niveaux de maîtrise — la carte revient dans 1, 3 ou 7 jours selon ta réponse.</p>
+
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Choisir les matières</div>
+  <div class="mat-grid">
+    <div class="mat-chip on" data-mat="maths"   onclick="togMat(this)"><span class="mat-ico">📐</span><span class="mat-name">Maths</span></div>
+    <div class="mat-chip on" data-mat="francais" onclick="togMat(this)"><span class="mat-ico">📖</span><span class="mat-name">Français</span></div>
+    <div class="mat-chip on" data-mat="histgeo"  onclick="togMat(this)"><span class="mat-ico">🌍</span><span class="mat-name">Hist-Géo</span></div>
+    <div class="mat-chip on" data-mat="svt"      onclick="togMat(this)"><span class="mat-ico">🔬</span><span class="mat-name">SVT</span></div>
+    <div class="mat-chip on" data-mat="physchim" onclick="togMat(this)"><span class="mat-ico">⚗️</span><span class="mat-name">Phys-Chimie</span></div>
+    <div class="mat-chip on" data-mat="emc"      onclick="togMat(this)"><span class="mat-ico">⚖️</span><span class="mat-name">EMC</span></div>
+  </div>
+
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+
+  <button class="go-btn" id="go-btn" onclick="startSession()" disabled>Commencer la révision 🗂</button>
+
+  <div class="info-row">
+    <div class="info-card"><div class="info-num" id="tot-cards">80</div><div class="info-lbl">Cartes total</div></div>
+    <div class="info-card"><div class="info-num" style="color:var(--coral)" id="due-cards">0</div><div class="info-lbl">À réviser</div></div>
+    <div class="info-card"><div class="info-num" style="color:var(--green)" id="done-cards">0</div><div class="info-lbl">Maîtrisées</div></div>
+  </div>
+</div>
+
+<!-- SESSION -->
+<div id="screen-session">
+  <div class="session-header">
+    <div>
+      <div class="sess-logo">🗂 Flashcards</div>
+      <div class="sess-info" id="sess-who">—</div>
+    </div>
+    <div class="sess-prog" id="sess-prog">1 / 10</div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+  <div class="card-zone">
+    <div class="flip-hint" id="flip-hint">👆 Clique sur la carte pour voir la réponse</div>
+    <div class="flashcard-wrap" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="card-face card-front">
+          <span class="card-mat-tag" id="card-mat-tag" style="color:var(--teal);border-color:rgba(94,207,177,0.3);background:rgba(94,207,177,0.07)">—</span>
+          <div class="card-question" id="card-question">—</div>
+          <div class="card-hint">Réfléchis, puis clique pour voir la réponse</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-answer-label">Réponse</div>
+          <div class="card-answer" id="card-answer">—</div>
+          <div class="card-explication" id="card-explication"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eval-zone" id="eval-zone">
+      <div class="eval-title">Comment tu t'en es sorti ?</div>
+      <div class="eval-btns">
+        <button class="ev-btn ev-again" onclick="evalCard('again')">✗ À revoir<div class="ev-sub">Revient demain</div></button>
+        <button class="ev-btn ev-good"  onclick="evalCard('good')">~ Moyen<div class="ev-sub">Revient dans 3j</div></button>
+        <button class="ev-btn ev-easy" onclick="evalCard('easy')">✓ Maîtrisé<div class="ev-sub">Revient dans 7j</div></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RÉSULTATS -->
+<div id="screen-results">
+  <div class="res-title">Session terminée 🎉</div>
+  <div class="res-sub" id="res-sub">—</div>
+  <div class="res-stats">
+    <div class="res-stat"><div class="rs-num" style="color:var(--green)" id="r-easy">0</div><div class="rs-lbl">Maîtrisées</div></div>
+    <div class="res-stat"><div class="rs-num" style="color:var(--gold)"  id="r-good">0</div><div class="rs-lbl">À consolider</div></div>
+    <div class="res-stat"><div class="rs-num" style="color:var(--coral)" id="r-again">0</div><div class="rs-lbl">À retravailler</div></div>
+  </div>
+  <div class="prochaine-section">
+    <div class="ps-title">— Prochaines révisions</div>
+    <div id="prochaines-list"></div>
+  </div>
+  <div class="res-actions">
+    <button class="btn-retry" onclick="restartSession()">↺ Nouvelle session</button>
+    <button class="btn-home" onclick="goHome()">🏠 Accueil</button>
+  </div>
+  <div class="save-badge" id="save-badge">Sauvegarde en cours...</div>
+</div>
+
+<script>
+const SHEETS={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+
+// ══ BANQUE DE CARTES ════════════════════════════════════════
+const BANQUE=[
+// ── MATHS ─────────────────────────────────────────────────
+{id:'m1',mat:'maths',q:'Énonce le théorème de Pythagore.',a:'Dans un triangle rectangle, le carré de l\'hypoténuse est égal à la somme des carrés des deux autres côtés : c² = a² + b²',e:'L\'hypoténuse est le côté opposé à l\'angle droit — toujours le plus long.'},
+{id:'m2',mat:'maths',q:'Quelle est la formule de l\'aire d\'un disque ?',a:'A = π × r² (π fois le rayon au carré)',e:'Le rayon r = moitié du diamètre. π ≈ 3,14'},
+{id:'m3',mat:'maths',q:'Comment calculer la probabilité d\'un événement ?',a:'P(A) = nombre de cas favorables / nombre de cas possibles',e:'Ex : lancer un dé, P(pair) = 3/6 = 1/2'},
+{id:'m4',mat:'maths',q:'Qu\'est-ce qu\'une fonction linéaire ?',a:'f(x) = ax — une droite passant par l\'origine. Le coefficient a est le taux de variation.',e:'Ex : f(x) = 3x. f(2) = 6. Représentée par une droite passant par (0,0).'},
+{id:'m5',mat:'maths',q:'Qu\'est-ce qu\'une fonction affine ?',a:'f(x) = ax + b — une droite. a = pente (directeur), b = ordonnée à l\'origine',e:'Si b=0, c\'est une fonction linéaire. La droite coupe l\'axe des ordonnées en b.'},
+{id:'m6',mat:'maths',q:'Comment développer (a+b)² ?',a:'(a+b)² = a² + 2ab + b²',e:'Identité remarquable à connaître absolument. Ex : (x+3)² = x² + 6x + 9'},
+{id:'m7',mat:'maths',q:'Que signifie "PGCD" et comment le calculer ?',a:'Plus Grand Commun Diviseur — le plus grand nombre qui divise exactement deux entiers. Méthode : divisions euclidiennes successives.',e:'Ex : PGCD(12,8) = 4. Utile pour simplifier les fractions.'},
+{id:'m8',mat:'maths',q:'Comment calculer la moyenne d\'une série statistique ?',a:'Moyenne = somme de toutes les valeurs ÷ nombre de valeurs',e:'Ex : 4, 6, 8, 10 → (4+6+8+10)/4 = 28/4 = 7'},
+{id:'m9',mat:'maths',q:'Quelle est la formule du volume d\'un cube de côté a ?',a:'V = a³ (a au cube)',e:'Ex : cube de côté 3 cm → V = 27 cm³. Surface totale = 6a².'},
+{id:'m10',mat:'maths',q:'Qu\'est-ce que la médiane d\'une série statistique ?',a:'La valeur centrale quand les données sont rangées en ordre croissant. Si nombre pair de données, moyenne des deux valeurs centrales.',e:'Ex : 2, 4, 6, 8, 10 → médiane = 6 (valeur centrale)'},
+{id:'m11',mat:'maths',q:'Comment résoudre une équation du 1er degré ax + b = 0 ?',a:'x = -b/a (quand a ≠ 0)',e:'Ex : 2x + 6 = 0 → 2x = -6 → x = -3. Toujours vérifier en remplaçant.'},
+{id:'m12',mat:'maths',q:'Qu\'est-ce qu\'un nombre premier ?',a:'Un entier > 1 qui n\'est divisible que par 1 et lui-même.',e:'Exemples : 2, 3, 5, 7, 11, 13, 17, 19, 23... Le seul nombre pair premier est 2.'},
+{id:'m13',mat:'maths',q:'Comment passer d\'un pourcentage à un coefficient multiplicateur ?',a:'p% d\'augmentation → multiplier par (1 + p/100). p% de réduction → multiplier par (1 - p/100)',e:'Ex : +20% → ×1,2. -15% → ×0,85'},
+{id:'m14',mat:'maths',q:'Quelle est la formule du périmètre d\'un cercle ?',a:'P = 2πr = πd (d = diamètre)',e:'π ≈ 3,14. Ex : cercle rayon 5 cm → P = 2×π×5 ≈ 31,4 cm'},
+
+// ── FRANÇAIS ──────────────────────────────────────────────
+{id:'f1',mat:'francais',q:'Qu\'est-ce qu\'une métaphore ?',a:'Une comparaison sans outil comparatif (sans "comme", "tel que"). Elle affirme directement qu\'une chose en est une autre.',e:'Ex : "La vie est un long fleuve tranquille." ≠ comparaison qui dirait "La vie EST COMME un fleuve..."'},
+{id:'f2',mat:'francais',q:'Quelle est la différence entre comparaison et métaphore ?',a:'Comparaison : utilise "comme", "tel que", "semblable à". Métaphore : pas d\'outil comparatif, assimilation directe.',e:'Comparaison : "il pleure comme une fontaine". Métaphore : "il est une fontaine de larmes".'},
+{id:'f3',mat:'francais',q:'Qu\'est-ce qu\'une hyperbole ?',a:'Figure d\'exaggeration pour renforcer l\'expression. On dit plus que la réalité pour frapper l\'esprit.',e:'Ex : "Je meurs de faim !" "J\'ai attendu une éternité !" On n\'est pas vraiment en train de mourir.'},
+{id:'f4',mat:'francais',q:'Qu\'est-ce qu\'une litote ?',a:'Figure d\'atténuation : dire moins pour suggérer plus. "Ce n\'est pas mal" = c\'est très bien.',e:'Ex classique : "Va, je ne te hais point." (Corneille) = "Je t\'aime."'},
+{id:'f5',mat:'francais',q:'Conjugue "être" à l\'imparfait de l\'indicatif.',a:'j\'étais, tu étais, il/elle était, nous étions, vous étiez, ils/elles étaient',e:'Imparfait = actions habituelles ou en cours dans le passé. Terminaisons : -ais, -ais, -ait, -ions, -iez, -aient'},
+{id:'f6',mat:'francais',q:'Qu\'est-ce qu\'un COD ? Donne un exemple.',a:'Complément d\'Objet Direct — répond à la question "quoi ?" ou "qui ?" après le verbe, sans préposition.',e:'Ex : "Il mange une pomme." → "une pomme" est COD (Il mange quoi ? une pomme). Pas de "à" ou "de" devant.'},
+{id:'f7',mat:'francais',q:'Qu\'est-ce qu\'un alexandrin ?',a:'Vers de 12 syllabes, coupé par une césure à la 6ème syllabe. Vers classique français par excellence.',e:'Ex : "Je le vis, je rougis, je pâlis à sa vue" (Racine) = 12 syllabes.'},
+{id:'f8',mat:'francais',q:'Qu\'est-ce qu\'une anaphore ?',a:'Répétition d\'un même mot ou groupe de mots au début de phrases ou vers successifs, pour créer un effet de rythme.',e:'Ex : "Je t\'apporte l\'enfant d\'une nuit d\'Idumée..." Discours de MLK : "I have a dream..." répété.'},
+{id:'f9',mat:'francais',q:'Quelle est la différence entre nom propre et nom commun ?',a:'Nom propre : désigne une personne, un lieu, un groupe unique — prend une majuscule. Nom commun : désigne un être ou une chose en général.',e:'Ex : "Paris" (propre), "ville" (commun). "Marie" (propre), "fille" (commun).'},
+{id:'f10',mat:'francais',q:'Qu\'est-ce que le subjonctif ? Quand l\'utilise-t-on ?',a:'Mode verbal exprimant le doute, le souhait, la nécessité, l\'hypothèse. S\'emploie souvent après "que".',e:'Ex : "Il faut que tu sois là." "Je veux qu\'il parte." "Bien qu\'il soit fatigué..."'},
+{id:'f11',mat:'francais',q:'Comment reconnaître un adverbe ?',a:'Mot invariable qui modifie un verbe, un adjectif ou un autre adverbe. Souvent formé en ajoutant -ment à l\'adjectif féminin.',e:'Ex : "rapidement", "vraiment", "très", "bien". Il ne s\'accorde jamais.'},
+{id:'f12',mat:'francais',q:'Qu\'est-ce qu\'un sonnet ?',a:'Poème de 14 vers composé de 2 quatrains (4 vers) + 2 tercets (3 vers).',e:'Structure : ABBA ABBA CCD EDE (ou variantes). Ex : Baudelaire, Ronsard, Du Bellay.'},
+
+// ── HISTOIRE-GÉO ──────────────────────────────────────────
+{id:'h1',mat:'histgeo',q:'Qu\'est-ce que la mondialisation ?',a:'Processus d\'intégration mondiale des échanges économiques, culturels, humains et financiers entre les pays.',e:'Accélérée depuis les années 1990 avec internet, conteneurs, libéralisation des échanges.'},
+{id:'h2',mat:'histgeo',q:'Qu\'est-ce que le PIB ?',a:'Produit Intérieur Brut — valeur totale des richesses produites dans un pays en un an. Indicateur de la richesse économique.',e:'PIB par habitant = PIB total ÷ population. Ne mesure pas le bonheur ou les inégalités.'},
+{id:'h3',mat:'histgeo',q:'Quelles sont les deux guerres mondiales ? Dates clés.',a:'1ère Guerre Mondiale : 1914-1918. 2ème Guerre Mondiale : 1939-1945.',e:'WWI : tranchées, Verdun, gaz. WWII : Shoah, bombes atomiques, 70-85 millions de morts.'},
+{id:'h4',mat:'histgeo',q:'Qu\'est-ce que la décolonisation ?',a:'Processus par lequel les pays colonisés ont obtenu leur indépendance, principalement entre 1945 et 1975.',e:'Afrique : années 1960 (Bandung 1955). Inde : 1947. Algérie : 1962 (guerre 1954-1962).'},
+{id:'h5',mat:'histgeo',q:'Qu\'est-ce que la Guerre Froide ?',a:'Période de tension entre les États-Unis (bloc occidental) et l\'URSS (bloc soviétique) de 1947 à 1991, sans conflit armé direct.',e:'Caractérisée par la course aux armements, la conquête spatiale, les crises (Cuba 1962). Fin : chute URSS 1991.'},
+{id:'h6',mat:'histgeo',q:'Qu\'est-ce que le développement durable ?',a:'Développement qui répond aux besoins du présent sans compromettre la capacité des générations futures à répondre aux leurs. (Brundtland, 1987)',e:'3 piliers : économique + social + environnemental. ODD de l\'ONU : 17 Objectifs de Développement Durable.'},
+{id:'h7',mat:'histgeo',q:'Qu\'est-ce que la citoyenneté ?',a:'Appartenance à une communauté politique (État) conférant des droits (voter, se déplacer...) et des devoirs (payer impôts, respecter lois).',e:'En France, la citoyenneté donne le droit de vote à 18 ans, d\'être élu, de bénéficier de services publics.'},
+{id:'h8',mat:'histgeo',q:'Qu\'est-ce que la Shoah ?',a:'Génocide des Juifs d\'Europe par le régime nazi pendant la 2ème Guerre Mondiale. 6 millions de Juifs exterminés.',e:'Terme hébreu = "catastrophe". Camps d\'extermination : Auschwitz, Treblinka... Conférence de Wannsee (1942) = "solution finale".'},
+{id:'h9',mat:'histgeo',q:'Qu\'est-ce que l\'ONU et quand a-t-elle été créée ?',a:'Organisation des Nations Unies — créée en 1945 après la WWII pour maintenir la paix et la sécurité internationale.',e:'193 pays membres. Siège à New York. Principaux organes : Assemblée générale, Conseil de sécurité (5 membres permanents).'},
+{id:'h10',mat:'histgeo',q:'Quelle est la différence entre immigration et émigration ?',a:'Émigration : quitter son pays. Immigration : arriver dans un nouveau pays. Le migrant est à la fois émigrant (de son pays) et immigrant (dans le pays d\'accueil).',e:'Réfugié = personne fuyant une persécution (définition ONU 1951). Migrant économique = fuit la pauvreté.'},
+{id:'h11',mat:'histgeo',q:'Qu\'est-ce que la DUDH et quand a-t-elle été adoptée ?',a:'Déclaration Universelle des Droits de l\'Homme — adoptée par l\'ONU le 10 décembre 1948. 30 articles définissant les droits fondamentaux de tout être humain.',e:'Article 1 : "Tous les êtres humains naissent libres et égaux." Article 26 : droit à l\'éducation.'},
+{id:'h12',mat:'histgeo',q:'Quelles sont les grandes métropoles mondiales (mégapoles) ?',a:'Tokyo, Delhi, Shanghai, São Paulo, Mexico, Le Caire, Mumbai, Pékin, Dhaka — toutes dépassent 20 millions d\'habitants.',e:'Une mégapole = ville de plus de 10 millions d\'habitants. Tokyo est la plus peuplée (~37M).'},
+
+// ── SVT ───────────────────────────────────────────────────
+{id:'s1',mat:'svt',q:'Qu\'est-ce qu\'un gène ?',a:'Portion d\'ADN portant l\'information nécessaire à la fabrication d\'une protéine. Chaque gène occupe une position précise (locus) sur un chromosome.',e:'Le génome humain contient ~20 000 gènes. Un allèle = une version d\'un gène.'},
+{id:'s2',mat:'svt',q:'Quelle est la différence entre ADN et ARN ?',a:'ADN (double brin) = support de l\'information génétique, dans le noyau. ARN (simple brin) = copie temporaire d\'un gène, permet la fabrication de protéines.',e:'La transcription copie l\'ADN en ARNm. La traduction fabrique la protéine à partir de l\'ARNm.'},
+{id:'s3',mat:'svt',q:'Qu\'est-ce que la mitose ?',a:'Division cellulaire produisant 2 cellules filles identiques à la cellule mère (même nombre de chromosomes). Permet la croissance et le renouvellement.',e:'À distinguer de la méiose (division pour former les gamètes = cellules sexuelles).'},
+{id:'s4',mat:'svt',q:'Qu\'est-ce que la photosynthèse ?',a:'Processus par lequel les plantes fabriquent leur matière organique à partir de CO₂, d\'eau et de lumière, en libérant de l\'O₂.',e:'6CO₂ + 6H₂O + lumière → C₆H₁₂O₆ + 6O₂. Se déroule dans les chloroplastes (chlorophylle).'},
+{id:'s5',mat:'svt',q:'Qu\'est-ce que la sélection naturelle (Darwin) ?',a:'Mécanisme de l\'évolution : les individus les mieux adaptés à leur environnement survivent et se reproduisent davantage, transmettant leurs caractères.',e:'Darwin (1859, L\'Origine des espèces). Variation + hérédité + sélection = évolution des espèces.'},
+{id:'s6',mat:'svt',q:'Qu\'est-ce qu\'un écosystème ?',a:'Ensemble formé par une communauté d\'êtres vivants (biocénose) et son environnement non vivant (biotope) en interaction.',e:'Ex : forêt = arbres + animaux + champignons + sol + eau + air. La biodiversité = variété du vivant.'},
+{id:'s7',mat:'svt',q:'Qu\'est-ce que l\'immunité innée ?',a:'Première ligne de défense de l\'organisme, immédiate et non spécifique : peau, mucus, inflammation, phagocytose.',e:'À distinguer de l\'immunité adaptative (spécifique, plus lente, avec anticorps et lymphocytes T/B).'},
+{id:'s8',mat:'svt',q:'Qu\'est-ce qu\'une mutation génétique ?',a:'Modification de la séquence d\'ADN d\'un gène. Peut être spontanée ou provoquée (UV, tabac, radiations).',e:'Peut être neutre, bénéfique (évolution) ou nocive (cancer). Seules les mutations des cellules reproductrices sont héréditaires.'},
+
+// ── PHYSIQUE-CHIMIE ────────────────────────────────────────
+{id:'p1',mat:'physchim',q:'Quelle est la loi d\'Ohm ?',a:'U = R × I (Tension = Résistance × Intensité). Unités : U en Volts (V), R en Ohms (Ω), I en Ampères (A).',e:'Ex : R=10Ω, I=2A → U=20V. En circuit série : même intensité partout.'},
+{id:'p2',mat:'physchim',q:'Qu\'est-ce qu\'un atome ?',a:'Plus petite particule d\'un élément chimique, composée d\'un noyau (protons + neutrons) entouré d\'électrons.',e:'Numéro atomique Z = nombre de protons. Masse atomique A = protons + neutrons.'},
+{id:'p3',mat:'physchim',q:'Quelle est la vitesse de la lumière dans le vide ?',a:'c = 3 × 10⁸ m/s (environ 300 000 km/s)',e:'Rien ne va plus vite que la lumière. Un an-lumière = distance parcourue par la lumière en 1 an.'},
+{id:'p4',mat:'physchim',q:'Qu\'est-ce que la masse volumique ?',a:'ρ = m/V (masse divisée par volume). Unité : kg/m³ ou g/cm³.',e:'Eau : ρ = 1 g/cm³ = 1000 kg/m³. Un objet flotte si sa masse volumique < celle du liquide.'},
+{id:'p5',mat:'physchim',q:'Qu\'est-ce qu\'une réaction chimique ?',a:'Transformation de molécules : les réactifs se transforment en produits. La masse se conserve (loi de Lavoisier).',e:'"Rien ne se perd, rien ne se crée, tout se transforme" — Lavoisier. Les atomes se réarrangent.'},
+{id:'p6',mat:'physchim',q:'Qu\'est-ce que l\'énergie cinétique ?',a:'Énergie d\'un objet due à son mouvement : Ec = ½ × m × v². Plus un objet est lourd et rapide, plus son Ec est grande.',e:'Unité : Joule (J). Si v double, Ec quadruple (×4). Explique les dégâts lors d\'accidents.'},
+{id:'p7',mat:'physchim',q:'Qu\'est-ce qu\'un acide et une base selon Brønsted ?',a:'Acide : donne un proton H⁺. Base : accepte un proton H⁺. pH<7 = acide, pH=7 = neutre, pH>7 = basique.',e:'Ex : HCl (acide chlorhydrique), NaOH (soude = base). Échelle pH : 0 (très acide) à 14 (très basique).'},
+{id:'p8',mat:'physchim',q:'Qu\'est-ce que la fréquence d\'une onde ?',a:'Nombre de vibrations (cycles) par seconde. Unité : Hertz (Hz). f = 1/T (T = période en secondes).',e:'Son audible : 20 Hz à 20 000 Hz. Lumière visible : fréquences très élevées. Plus la fréquence est haute, plus l\'onde est énergétique.'},
+
+// ── EMC ───────────────────────────────────────────────────
+{id:'e1',mat:'emc',q:'Quels sont les trois principes de la République française ?',a:'Liberté, Égalité, Fraternité — devise de la République française depuis 1880.',e:'Liberté = droits fondamentaux. Égalité = devant la loi. Fraternité = solidarité nationale.'},
+{id:'e2',mat:'emc',q:'Qu\'est-ce que la laïcité en France ?',a:'Principe de séparation des Églises et de l\'État (loi de 1905). L\'État est neutre vis-à-vis des religions.',e:'À l\'école : pas de signes religieux ostensibles depuis 2004. Garantit la liberté de conscience de tous.'},
+{id:'e3',mat:'emc',q:'Qu\'est-ce que la démocratie représentative ?',a:'Régime politique où les citoyens élisent des représentants qui prennent les décisions en leur nom.',e:'En France : élection du Président (5 ans), de l\'Assemblée nationale, du Sénat. Suffrage universel depuis 1944.'},
+{id:'e4',mat:'emc',q:'Quelle est la différence entre droit et devoir ?',a:'Droit : ce à quoi on a droit (liberté, éducation, santé...). Devoir : obligation légale ou morale (payer impôts, respecter autrui...).',e:'Les droits et devoirs sont liés : les droits des uns créent des devoirs pour les autres.'},
+{id:'e5',mat:'emc',q:'Qu\'est-ce que la justice sociale ?',a:'Idéal de société où les inégalités sont réduites et où chacun a accès aux mêmes opportunités.',e:'Instruments : redistribution (impôts, aides sociales), discrimination positive, services publics.'},
+{id:'e6',mat:'emc',q:'Qu\'est-ce que le racisme et comment le combattre ?',a:'Racisme : discrimination basée sur l\'origine, la couleur de peau ou l\'ethnicité. Illégal en France (loi Pleven 1972).',e:'Combattre : éducation, lois, associations, dénonciation. Le racisme est une construction sociale — il n\'existe pas de "races" humaines biologiques.'},
+];
+
+// ══ ÉTAT ════════════════════════════════════════════════════
+let who=null, selMats=new Set(['maths','francais','histgeo','svt','physchim','emc']);
+let deck=[], current=0, isFlipped=false;
+let results={easy:0,good:0,again:0}, sessionResults=[];
+
+const MAT_STYLE={
+  maths:    {color:'var(--blue)',  bg:'rgba(106,180,245,0.07)',  border:'rgba(106,180,245,0.3)',  label:'📐 Maths'},
+  francais: {color:'var(--teal)', bg:'rgba(94,207,177,0.07)',   border:'rgba(94,207,177,0.3)',   label:'📖 Français'},
+  histgeo:  {color:'var(--coral)',bg:'rgba(240,122,90,0.07)',   border:'rgba(240,122,90,0.3)',   label:'🌍 Hist-Géo'},
+  svt:      {color:'var(--green)',bg:'rgba(126,207,138,0.07)',  border:'rgba(126,207,138,0.3)',  label:'🔬 SVT'},
+  physchim: {color:'var(--purple)',bg:'rgba(169,138,245,0.07)', border:'rgba(169,138,245,0.3)', label:'⚗️ Phys-Chimie'},
+  emc:      {color:'var(--gold)', bg:'rgba(232,200,122,0.07)',  border:'rgba(232,200,122,0.3)', label:'⚖️ EMC'},
+};
+
+// STORAGE
+function getStore(){try{return JSON.parse(localStorage.getItem('fc_'+who)||'{}');}catch(e){return {};}}
+function setStore(d){try{localStorage.setItem('fc_'+who,JSON.stringify(d));}catch(e){}}
+
+// HOME
+function togMat(el){const m=el.dataset.mat;if(selMats.has(m)){if(selMats.size<=1)return;selMats.delete(m);el.classList.remove('on');}else{selMats.add(m);el.classList.add('on');}updateHomeStats();}
+function selWho(w){who=w;document.getElementById('wb-w').className='who-btn'+(w==='W'?' aw':'');document.getElementById('wb-n').className='who-btn'+(w==='N'?' an':'');document.getElementById('go-btn').disabled=false;updateHomeStats();}
+function updateHomeStats(){const pool=BANQUE.filter(c=>selMats.has(c.mat));document.getElementById('tot-cards').textContent=pool.length;if(who){const store=getStore();const due=pool.filter(c=>{const s=store[c.id];if(!s)return true;return new Date(s.next)<=new Date();});document.getElementById('due-cards').textContent=due.length;document.getElementById('done-cards').textContent=pool.filter(c=>{const s=store[c.id];return s&&s.level>=3;}).length;}}
+
+// SESSION
+function startSession(){
+  const store=getStore();
+  const pool=BANQUE.filter(c=>selMats.has(c.mat));
+  const today=new Date();
+  today.setHours(0,0,0,0);
+  // Cartes dues aujourd'hui
+  let due=pool.filter(c=>{const s=store[c.id];if(!s)return true;const next=new Date(s.next);next.setHours(0,0,0,0);return next<=today;});
+  // Limiter à 20 max, mélanger
+  due=shuffle(due).slice(0,20);
+  if(due.length===0){alert('Aucune carte à réviser aujourd\'hui ! Reviens demain. 🎉');return;}
+  deck=due;current=0;results={easy:0,good:0,again:0};sessionResults=[];
+  document.getElementById('screen-home').style.display='none';
+  document.getElementById('screen-session').style.display='block';
+  document.getElementById('sess-who').textContent=who==='W'?'Wassil':'Nawal';
+  renderCard();
+}
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function renderCard(){
+  isFlipped=false;
+  const c=deck[current];
+  const ms=MAT_STYLE[c.mat];
+  document.getElementById('sess-prog').textContent=(current+1)+' / '+deck.length;
+  document.getElementById('prog-fill').style.width=((current/deck.length)*100)+'%';
+  // Reset card
+  const fc=document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  fc.classList.add('flip-in');
+  setTimeout(()=>fc.classList.remove('flip-in'),300);
+  // Tag
+  const tag=document.getElementById('card-mat-tag');
+  tag.textContent=ms.label;
+  tag.style.color=ms.color;
+  tag.style.background=ms.bg;
+  tag.style.borderColor=ms.border;
+  // Content
+  document.getElementById('card-question').textContent=c.q;
+  document.getElementById('card-answer').textContent=c.a;
+  document.getElementById('card-explication').textContent=c.e||'';
+  document.getElementById('eval-zone').classList.remove('show');
+  document.getElementById('flip-hint').style.display='block';
+}
+
+function flipCard(){
+  if(isFlipped)return;
+  isFlipped=true;
+  document.getElementById('flashcard').classList.add('flipped');
+  document.getElementById('eval-zone').classList.add('show');
+  document.getElementById('flip-hint').style.display='none';
+}
+
+function evalCard(lv){
+  const c=deck[current];
+  const store=getStore();
+  const today=new Date();
+  const days=lv==='again'?1:lv==='good'?3:7;
+  const next=new Date(today);
+  next.setDate(next.getDate()+days);
+  const prev=store[c.id]||{level:0};
+  store[c.id]={level:lv==='easy'?Math.min((prev.level||0)+1,5):lv==='good'?prev.level||0:0,next:next.toISOString(),lastReview:today.toISOString()};
+  setStore(store);
+  results[lv]++;
+  sessionResults.push({card:c,level:lv,next:next});
+  current++;
+  if(current>=deck.length){showResults();return;}
+  renderCard();
+}
+
+function showResults(){
+  document.getElementById('screen-session').style.display='none';
+  document.getElementById('screen-results').style.display='block';
+  document.getElementById('r-easy').textContent=results.easy;
+  document.getElementById('r-good').textContent=results.good;
+  document.getElementById('r-again').textContent=results.again;
+  document.getElementById('res-sub').textContent=(who==='W'?'Wassil':'Nawal')+' — '+deck.length+' cartes révisées';
+  // Prochaines révisions
+  const list=document.getElementById('prochaines-list');
+  list.innerHTML='';
+  const upcoming=sessionResults.filter(r=>r.level!=='easy').slice(0,5);
+  if(upcoming.length===0){list.innerHTML='<div style="font-size:13px;color:var(--green);padding:10px 14px;background:rgba(126,207,138,0.07);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm)">🏆 Toutes les cartes sont maîtrisées !</div>';return;}
+  upcoming.forEach(r=>{
+    const d=document.createElement('div');
+    d.className='prochaine-item';
+    const ms=MAT_STYLE[r.card.mat];
+    const dateStr=r.next.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+    d.innerHTML=`<span class="pi-date">${dateStr}</span><div><div class="pi-notion">${r.card.q.substring(0,50)}...</div><div class="pi-mat" style="color:${ms.color}">${ms.label}</div></div>`;
+    list.appendChild(d);
+  });
+  // Save
+  saveSession();
+}
+
+async function saveSession(){
+  const badge=document.getElementById('save-badge');
+  const url=SHEETS[who];
+  try{
+    const res=await fetch(url,{method:'POST',mode:'cors',body:JSON.stringify({action:'logSession',matiere:'Flashcards',activite:'Révision spacée — '+[...selMats].join(', '),duree:Math.round(deck.length*1.5),score:Math.round(results.easy/deck.length*20),notes:`${results.easy} maîtrisées, ${results.good} à consolider, ${results.again} à retravailler`})});
+    if(res.ok){badge.style.color='var(--teal)';badge.textContent='✓ Session sauvegardée dans le Sheet';}
+    else throw 0;
+  }catch(e){badge.textContent='⚠ Sauvegarde impossible';}
+}
+
+function restartSession(){document.getElementById('screen-results').style.display='none';document.getElementById('screen-home').style.display='flex';updateHomeStats();}
+function goHome(){document.getElementById('screen-results').style.display='none';document.getElementById('screen-session').style.display='none';document.getElementById('screen-home').style.display='flex';updateHomeStats();}
+
+// Init
+window.addEventListener('DOMContentLoaded',()=>{updateHomeStats();});
+</script>
+</body>
+</html>
