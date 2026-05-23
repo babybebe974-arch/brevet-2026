@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌍 Sujets Blancs Hist-Géo — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--teal:#5ecfb1;--blue:#6ab4f5;--purple:#a98af5;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(240,122,90,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--coral);border:1px solid rgba(240,122,90,0.3);background:rgba(240,122,90,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 span{color:var(--coral);}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:620px;width:100%;margin-bottom:24px;}
+.sc{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:16px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sc:hover{border-color:rgba(240,122,90,0.4);transform:translateY(-2px);}
+.sc-n{font-family:'DM Mono',monospace;font-size:10px;color:var(--coral);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.sc-t{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:3px;}
+.sc-i{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-d{position:absolute;top:10px;right:10px;width:16px;height:16px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:8px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.wb{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.wb.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.wb.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sp{display:none;max-width:780px;margin:0 auto;}
+.sh{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.sl{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--coral);}
+.sm{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.bk{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;}
+.bk:hover{background:rgba(255,255,255,0.04);}
+.cb{background:rgba(240,122,90,0.06);border-bottom:1px solid rgba(240,122,90,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.ct{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--coral);}
+.ct.urg{color:var(--red);animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.cbtns{display:flex;gap:8px;}
+.cbtn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(240,122,90,0.3);background:rgba(240,122,90,0.07);color:var(--coral);cursor:pointer;font-family:'DM Mono',monospace;}
+.sb{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.ph{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.pl{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--coral);}
+.pp{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.pt{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.pb{padding:20px;}
+.doc-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:14px;font-size:13px;line-height:1.7;color:var(--muted);border-left:2px solid var(--coral);}
+.doc-box strong{color:var(--text);}
+.doc-box .src{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:8px;text-align:right;}
+.qb{margin-bottom:14px;}
+.ql{display:flex;align-items:flex-start;gap:10px;margin-bottom:7px;}
+.qn{font-family:'DM Mono',monospace;font-size:11px;color:var(--coral);font-weight:700;min-width:24px;margin-top:2px;}
+.qt{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.qp{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.ata{width:100%;min-height:70px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
+.ata:focus{border-color:rgba(240,122,90,0.4);}
+.ata-lg{min-height:200px;}
+.cb2{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.cb2:hover{background:rgba(94,207,177,0.12);}
+.cbox{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.cbox.show{display:block;}
+.cbox strong{color:var(--text);}
+.ae{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.aet{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:14px;}
+.aer{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ael{font-size:13px;flex:1;}
+.aei{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
+.aem{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.aetot{background:linear-gradient(135deg,rgba(240,122,90,0.1),rgba(240,122,90,0.05));border:1px solid rgba(240,122,90,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.aetn{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--coral);}
+.aetl{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.svbtn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.svbtn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nvbtns{display:flex;gap:10px;margin-top:10px;}
+.nvbtn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
+.nvbtn:hover{background:rgba(255,255,255,0.04);}
+.nvbtn.pr{background:linear-gradient(135deg,var(--coral),#d45a3a);border:none;color:#fff;font-weight:700;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="home">
+  <div class="badge">🌍 Sujets blancs complets — Histoire-Géographie</div>
+  <h1>Brevet Blanc <span>Hist-Géo</span></h1>
+  <p class="sub">10 sujets complets format DNB. Étude de documents + questions de cours + croquis/schéma. Corrections intégrales.</p>
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="wb" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="wb" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+  <div class="sujets-grid" id="sg"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
+</div>
+
+<div id="sp">
+  <div class="sh"><div><div class="sl">🌍 Brevet Blanc Hist-Géo</div><div class="sm" id="sm">—</div></div><button class="bk" onclick="goHome()">← Retour</button></div>
+  <div class="cb"><span style="font-size:11px;color:var(--coral);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chrono</span><div class="ct" id="chrono">2:15:00</div><div class="cbtns"><button class="cbtn" onclick="startC()">▶ Start</button><button class="cbtn" onclick="resetC()">↺ Reset</button></div></div>
+  <div class="sb" id="sb"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEETS={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+
+const SUJETS=[
+{id:1,titre:'La Première Guerre Mondiale',themes:['1914-1918','Tranchées','Traité Versailles'],
+docs:[
+  {titre:'Document 1 — Témoignage d\'un soldat (1916)',texte:`"Nous vivons dans des trous creusés à la hâte, dans la boue, sous un feu incessant. La nuit, les rats courent sur nos visages endormis. Le jour, nous attendons l\'ordre d\'attaque qui ne vient pas — ou qui vient, et alors c\'est pire. J\'ai vu des camarades tomber à mes côtés. Je n\'arrive plus à compter les morts." Journal d\'un soldat français, Verdun, 1916.`,src:'Source : Archives nationales, fonds 1914-1918'},
+  {titre:'Document 2 — Données chiffrées',texte:`• 8 à 10 millions de soldats tués (1914-1918)\n• 20 millions de blessés\n• Bataille de Verdun (1916) : 700 000 morts en 10 mois\n• Bataille de la Somme : 1 060 000 victimes en 4 mois\n• France : 1,4 million de morts, 3 millions de mutilés`,src:'Source : Bilan humain WWI, Mémorial de Verdun'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, décrivez les conditions de vie des soldats dans les tranchées. Citez le document.',c:'Conditions inhumaines : "trous creusés à la hâte", "boue", "feu incessant", "rats". Attente psychologique insupportable. Mort omniprésente : "J\'ai vu des camarades tomber".'},
+  {n:'2',pts:4,q:'D\'après les documents 1 et 2, montrez que la Grande Guerre est une guerre totale et industrielle.',c:'Guerre totale : ampleur sans précédent (10 millions de morts, doc.2). Industrielle : "feu incessant" = artillerie lourde. Batailles-boucheries : Verdun 700 000 morts en 10 mois.'},
+  {n:'3',pts:6,q:'Répondez en vous appuyant sur vos connaissances : Quelles sont les causes de la Première Guerre Mondiale ?',c:'4 causes : 1. Nationalisme (rivalités franco-allemandes, pangermanisme). 2. Système d\'alliances (Triple Entente vs Triple Alliance). 3. Impérialisme colonial (rivalités en Afrique et Asie). 4. Assassinat de François-Ferdinand à Sarajevo (28 juin 1914) = élément déclencheur.'},
+  {n:'4',pts:6,q:'Quelles sont les conséquences du traité de Versailles (1919) pour l\'Allemagne et pour la paix mondiale ?',c:'Conséquences immédiates : pertes territoriales (Alsace-Lorraine), réparations financières, limitation armée, clause de culpabilité (article 231). Conséquences à long terme : humiliation nationale allemande → terreau de la montée du nazisme → WWII.'},
+  {n:'5',pts:5,q:'Réalisez un schéma ou croquis légendé montrant le front occidental en 1916 (pays impliqués, ligne de front, batailles principales).',c:'Schéma attendu : ligne de front du nord de la France (Belgique → Alsace). Mentionner : front français côté Alliés, front allemand côté Empires centraux. Verdun (est), Somme (nord). Légende avec couleurs ou symboles.'},
+],
+bareme:[{pts:'4',desc:'Analyse doc.1 avec citations'},{pts:'4',desc:'Croisement docs 1 et 2'},{pts:'6',desc:'Causes WWI — 4 causes attendues'},{pts:'6',desc:'Conséquences Versailles court et long terme'},{pts:'5',desc:'Croquis légendé'}]},
+
+{id:2,titre:'La Deuxième Guerre Mondiale et la Shoah',themes:['1939-1945','Génocide','Résistance'],
+docs:[
+  {titre:'Document 1 — Témoignage de Simone Veil (1974)',texte:`"À Auschwitz, nous n\'étions plus des êtres humains. Nous n\'avions plus de nom, juste un numéro tatoué sur le bras. La faim, le froid, les humiliations quotidiennes, la mort de ma mère — tout cela, je l\'ai vu de mes yeux. Je dois témoigner pour ceux qui ne peuvent plus parler." Simone Veil, ancienne déportée, discours à l\'Assemblée nationale.`,src:'Source : Discours de Simone Veil, 1974'},
+  {titre:'Document 2 — Conférence de Wannsee (20 janvier 1942)',texte:`La conférence de Wannsee, réunissant 15 hauts responsables nazis, planifie la "Solution finale de la question juive". L\'objectif : exterminer systématiquement tous les Juifs d\'Europe. 11 millions de personnes sont visées. Des centres d\'extermination sont créés (Auschwitz-Birkenau, Treblinka, Sobibor...).`,src:'Source : Procès de Nuremberg, archives 1946'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, comment Simone Veil décrit-elle sa vie dans les camps ? Citez.',c:'"Plus des êtres humains", "juste un numéro tatoué", "faim, froid, humiliations", "mort de ma mère". Déshumanisation totale. Elle témoigne pour les victimes disparues.'},
+  {n:'2',pts:4,q:'D\'après le document 2, expliquez ce qu\'est la "Solution finale". Qui l\'a décidée et quand ?',c:'Solution finale = plan d\'extermination systématique des Juifs d\'Europe (11 millions visés). Décidée par 15 hauts responsables nazis le 20 janvier 1942 à Wannsee. Mise en œuvre via les camps d\'extermination.'},
+  {n:'3',pts:6,q:'Définissez le mot "génocide" et expliquez pourquoi la Shoah en est l\'exemple le plus documenté de l\'Histoire.',c:'Génocide = destruction délibérée et systématique d\'un groupe humain en raison de son origine, religion ou appartenance. La Shoah : 6 millions de Juifs exterminés, organisation industrielle, documentation (procès Nuremberg, témoignages, archives). Terme créé par Raphael Lemkin en 1944.'},
+  {n:'4',pts:6,q:'Quelles sont les formes de résistance française pendant l\'Occupation (1940-1944) ?',c:'Résistance intérieure : maquis, sabotages, filières d\'évasion, presse clandestine. Résistance extérieure : de Gaulle à Londres, Forces françaises libres. Appel du 18 juin 1940. Réseau de Jean Moulin (coordonnateur CNR). Libération de Paris : août 1944.'},
+  {n:'5',pts:5,q:'Montrez l\'importance du procès de Nuremberg (1945-1946) pour la justice internationale.',c:'Premier tribunal international jugeant des crimes contre l\'humanité. 24 dirigeants nazis jugés. Condamnations à mort (Göring, Ribbentrop...). Naissance du droit international pénal. Définition des crimes contre l\'humanité. Fondement de la CPI actuelle.'},
+],
+bareme:[{pts:'4',desc:'Analyse doc.1 avec citations précises'},{pts:'4',desc:'Explication Solution finale'},{pts:'6',desc:'Définition génocide + spécificité Shoah'},{pts:'6',desc:'4 formes de résistance'},{pts:'5',desc:'Portée procès Nuremberg'}]},
+
+{id:3,titre:'La mondialisation',themes:['Échanges mondiaux','FTN','Inégalités'],
+docs:[
+  {titre:'Document 1 — Le commerce mondial',texte:`En 2023, le commerce mondial de marchandises représente 23 000 milliards de dollars. Les 10 premiers pays exportateurs sont : Chine (14%), États-Unis (9%), Allemagne (7%), Pays-Bas, Japon, Corée du Sud, France, Italie, Belgique, Mexique. L\'Afrique représente moins de 3% des échanges mondiaux.`,src:'Source : OMC, Rapport annuel 2023'},
+  {titre:'Document 2 — Une firme transnationale : Apple',texte:`Apple est fondée aux États-Unis (siège à Cupertino, Californie). Les composants sont produits en Corée du Sud, Japon, Taiwan. L\'assemblage final a lieu en Chine (usines Foxconn). Les brevets sont déposés en Irlande (optimisation fiscale). La vente se fait dans 175 pays. En 2023, Apple réalise 383 milliards $ de chiffre d\'affaires.`,src:'Source : Rapport annuel Apple, 2023'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, quels pays dominent le commerce mondial ? Quels pays en sont exclus ?',c:'Dominant : Chine (1ère), États-Unis, Allemagne, pays d\'Europe occidentale, Japon, Corée du Sud. Exclu : Afrique (moins de 3%). Asymétrie Nord/Sud flagrante.'},
+  {n:'2',pts:4,q:'D\'après le document 2, expliquez comment Apple illustre la mondialisation.',c:'Apple = FTN parfaite. Siège USA. Production éclatée : composants Asie (Corée, Japon, Taiwan), assemblage Chine. Optimisation fiscale Irlande. Vente mondiale (175 pays). La valeur est créée partout mais captée aux USA.'},
+  {n:'3',pts:6,q:'Définissez la mondialisation et expliquez ses facteurs d\'accélération depuis les années 1990.',c:'Mondialisation = intégration mondiale des échanges économiques, humains, culturels. Facteurs : révolution numérique (internet, 1991), libéralisation OMC (1995), conteneurisation maritime, chute des coûts de transport, déréglementation financière.'},
+  {n:'4',pts:6,q:'Quelles sont les inégalités créées ou renforcées par la mondialisation ?',c:'Inégalités : Nord/Sud (doc.1 : Afrique 3%), dumping social (salaires bas dans pays émergents), dumping fiscal (paradis fiscaux), environnemental (production polluante délocalisée), culturel (américanisation). Mais certains pays émergents profitent (Chine, Brésil, Inde).'},
+  {n:'5',pts:5,q:'Réalisez un schéma légendé montrant les flux majeurs de la mondialisation (flux commerciaux, humains, financiers).',c:'Schéma attendu : 3 types de flèches (marchandises, migrations, capitaux). Axes : Amérique du Nord ↔ Europe ↔ Asie (Triade). Flux Sud→Nord pour les migrations. Capitaux en circuit mondial. Légende claire avec 3 types de flux.'},
+],
+bareme:[{pts:'4',desc:'Analyse doc.1 — hiérarchies'},{pts:'4',desc:'Apple et mondialisation'},{pts:'6',desc:'Définition + 4 facteurs'},{pts:'6',desc:'4 types d\'inégalités'},{pts:'5',desc:'Schéma des flux légendé'}]},
+
+{id:4,titre:'La Guerre Froide',themes:['USA/URSS','Course aux armements','Décolonisation'],
+docs:[
+  {titre:'Document 1 — Discours de Churchill (1946)',texte:`"De Stettin dans la Baltique à Trieste dans l\'Adriatique, un rideau de fer est descendu à travers le continent européen. Derrière cette ligne se trouvent toutes les capitales des anciens États d\'Europe centrale et orientale. Toutes ces villes célèbres et leurs populations se trouvent dans ce que j\'appellerais la sphère soviétique." Churchill, Fulton, 5 mars 1946.`,src:'Source : Discours de Fulton, 1946'},
+  {titre:'Document 2 — La crise de Cuba (1962)',texte:`En octobre 1962, des avions espions américains U-2 photographient des missiles soviétiques sur l\'île de Cuba, à 150 km des côtes américaines. Pendant 13 jours, le monde retient son souffle. Kennedy impose un blocus naval. Khrouchtchev accepte finalement de retirer les missiles contre la promesse américaine de ne pas envahir Cuba.`,src:'Source : Archives Kennedy Presidential Library, 1962'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, expliquez la métaphore du "rideau de fer". Que révèle-t-elle sur l\'Europe en 1946 ?',c:'"Rideau de fer" = ligne imaginaire séparant l\'Europe en deux blocs : occidental (libéral, USA) et oriental (communiste, URSS). Révèle la division de l\'Europe dès 1946, avant même la formalisation de la Guerre Froide. Churchill décrit la sphère d\'influence soviétique.'},
+  {n:'2',pts:4,q:'D\'après le document 2, pourquoi la crise de Cuba (1962) est-elle le moment le plus dangereux de la Guerre Froide ?',c:'Missiles soviétiques à 150 km des USA = menace directe. 13 jours de tension extrême. Risque réel de guerre nucléaire mondiale. Résolution diplomatique (compromis Kennedy/Khrouchtchev) évite le pire. Jamais aussi près d\'un conflit direct.'},
+  {n:'3',pts:6,q:'Décrivez les deux blocs qui s\'affrontent pendant la Guerre Froide (1947-1991).',c:'Bloc occidental : USA, OTAN (1949), capitalisme, démocratie libérale. Plan Marshall. Bloc oriental : URSS, Pacte de Varsovie (1955), communisme, économie planifiée. COMECON. Armes atomiques des deux côtés. Propagande mutuelle. Pas de conflit direct.'},
+  {n:'4',pts:6,q:'Expliquez comment la Guerre Froide se manifeste en dehors de l\'Europe (guerres par procuration, décolonisation).',c:'Guerres de Corée (1950-53), Vietnam (1955-75), Afghanistan (1979-89). Décolonisation instrumentalisée : chaque bloc soutient des régimes favorables. Cuba, Angola, Mozambique, Algérie. Guerre froide = mondiale, pas seulement européenne.'},
+  {n:'5',pts:5,q:'Comment et pourquoi la Guerre Froide se termine-t-elle en 1991 ?',c:'Causes : difficultés économiques de l\'URSS, réformes Gorbatchev (glasnost, perestroïka), chute Mur de Berlin (9 nov. 1989), révolutions en Europe de l\'Est. Dissolution URSS le 25 décembre 1991. Fin de Gorbatchev. 15 républiques indépendantes. Triomphe apparent du modèle américain.'},
+],
+bareme:[{pts:'4',desc:'Rideau de fer — métaphore et sens'},{pts:'4',desc:'Analyse crise Cuba'},{pts:'6',desc:'Description des 2 blocs'},{pts:'6',desc:'Guerre Froide hors Europe'},{pts:'5',desc:'Fin Guerre Froide — causes et conséquences'}]},
+
+{id:5,titre:'La France de la Ve République',themes:['Institutions','Droits civiques','Démocratie'],
+docs:[
+  {titre:'Document 1 — Article 3 de la Constitution (1958)',texte:`"La souveraineté nationale appartient au peuple qui l\'exerce par ses représentants et par la voie du référendum. Aucune section du peuple ni aucun individu ne peut s\'en attribuer l\'exercice. Le suffrage peut être direct ou indirect dans les conditions prévues par la Constitution. Il est toujours universel, égal et secret."`,src:'Source : Constitution de la Ve République, 4 octobre 1958'},
+  {titre:'Document 2 — L\'abstention en France',texte:`Taux d\'abstention aux élections législatives en France :\n• 1978 : 16,8%\n• 1988 : 34%\n• 2002 : 35,6%\n• 2012 : 42,8%\n• 2017 : 51,3%\n• 2022 : 53,8%\nAux élections présidentielles 2022 (2e tour) : 28% d\'abstention.`,src:'Source : Ministère de l\'Intérieur, données électorales 2022'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, qui détient la souveraineté en France ? Comment s\'exerce-t-elle ?',c:'La souveraineté appartient au "peuple". Elle s\'exerce de deux façons : par les représentants élus et par référendum. Le suffrage est universel (tout citoyen majeur), égal (1 voix = 1 voix), secret (intimité du vote).'},
+  {n:'2',pts:4,q:'D\'après le document 2, décrivez l\'évolution de l\'abstention. Quelles en sont les conséquences pour la démocratie ?',c:'Hausse continue : 16,8% en 1978 → 53,8% en 2022 (x3 en 44 ans). Seuil critique dépassé 50%. Conséquences : légitimité des élus fragilisée, représentativité en question, démocratie en crise. Seule présidentielle reste plus mobilisatrice (28%).'},
+  {n:'3',pts:6,q:'Décrivez les institutions de la Ve République française (Président, gouvernement, Parlement).',c:'Président : élu au suffrage universel direct (2 tours), mandat 5 ans (quinquennat depuis 2000). Chef des armées, nomme le Premier ministre. Gouvernement : Premier ministre + ministres, responsable devant l\'Assemblée. Parlement : Assemblée nationale (577 députés, 5 ans) + Sénat (348 sénateurs, 6 ans). Bicamérisme inégalitaire (AN prime).'},
+  {n:'4',pts:6,q:'Quels sont les droits et devoirs du citoyen français ?',c:'Droits : vote (18 ans), liberté d\'expression, association, manifestation, enseignement. Droits sociaux : santé, éducation, logement. Devoirs : respect des lois, paiement des impôts, défense nationale (service civique). Jury d\'assises. La citoyenneté = droits + responsabilités.'},
+  {n:'5',pts:5,q:'Réalisez un schéma des institutions de la Ve République.',c:'Schéma : au centre, le peuple (souverain). Flèches vers : Président (élection directe), Assemblée nationale (élection directe). Président → nomme Premier ministre → forme gouvernement. Gouvernement responsable devant AN. Sénat (élection indirecte). Conseil constitutionnel (9 membres).'},
+],
+bareme:[{pts:'4',desc:'Lecture doc.1 — souveraineté'},{pts:'4',desc:'Analyse abstention + conséquences'},{pts:'6',desc:'3 institutions clés'},{pts:'6',desc:'4 droits + 3 devoirs'},{pts:'5',desc:'Schéma institutions'}]},
+
+{id:6,titre:'La décolonisation et les indépendances',themes:['Afrique','Asie','Néocolonialisme'],
+docs:[
+  {titre:'Document 1 — Discours de Kwame Nkrumah (1957)',texte:`"Le Ghana est libre pour toujours ! [...] Nos ancêtres seraient fiers de nous ce soir. Nous montrons au monde entier que le Noir peut gouverner lui-même. [...] La libération du Ghana n\'est rien si elle ne s\'inscrit pas dans la libération totale du continent africain." Kwame Nkrumah, premier ministre ghanéen, 6 mars 1957, lors de l\'indépendance du Ghana.`,src:'Source : Discours de Kwame Nkrumah, Accra, 1957'},
+  {titre:'Document 2 — Tableau : Indépendances africaines',texte:`• 1956 : Maroc, Tunisie, Soudan\n• 1957 : Ghana (1er pays d\'Afrique subsaharienne)\n• 1958 : Guinée (seul pays à voter "Non" au référendum de Gaulle)\n• 1960 : "Année de l\'Afrique" — 17 pays accèdent à l\'indépendance\n• 1962 : Algérie (après 8 ans de guerre, 1954-1962)\n• 1975 : Angola, Mozambique (décolonisation portugaise)\n• 1980 : Zimbabwe (dernière colonie britannique d\'Afrique)`,src:'Source : Atlas historique de la décolonisation, UNESCO'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, quelle est la signification de l\'indépendance du Ghana pour Nkrumah ? Citez.',c:'Double signification : nationale ("Ghana est libre pour toujours") ET continentale ("libération du Ghana n\'est rien si elle ne s\'inscrit pas dans la libération totale du continent africain"). Nkrumah se voit comme leader panafricain, pas seulement ghanéen.'},
+  {n:'2',pts:4,q:'D\'après les documents, décrivez le processus de décolonisation africaine (chronologie, rapidité, modalités).',c:'Processus rapide : 1956-1980 en 24 ans. Chronologie : Maghreb d\'abord (1956), puis Afrique subsaharienne (1957-1960). "Année de l\'Afrique" (1960) = 17 indépendances en 1 an. Modalités variables : négociées (Ghana) ou après guerre (Algérie, Angola).'},
+  {n:'3',pts:6,q:'Expliquez les causes de la décolonisation après 1945.',c:'Causes : 1. Affaiblissement des métropoles (WWII). 2. Idéaux ONU (1945) : droit des peuples à l\'autodétermination. 3. Guerre froide (USA anti-colonialisme, URSS soutient mouvements de libération). 4. Montée des nationalismes (Bandung 1955). 5. Élites locales formées en Europe.'},
+  {n:'4',pts:6,q:'Qu\'est-ce que le néocolonialisme ? Montrez que les anciens pays colonisés restent dépendants.',c:'Néocolonialisme = domination économique et culturelle sans occupation militaire. Formes : dépendance commerciale (matières premières exportées brutes), dette (FMI, Banque Mondiale), zone franc, bases militaires françaises en Afrique, multinationales qui rapatrient les profits.'},
+  {n:'5',pts:5,q:'Comparez les décolonisations de l\'Inde (1947) et de l\'Algérie (1962). Points communs et différences.',c:'Points communs : résistance locale, pression internationale, fin d\'une domination européenne. Différences : Inde = pacifique (Gandhi, non-violence, négociation) mais partition traumatique. Algérie = guerre longue (1954-1962), 1 million de morts, exode 1 million de pieds-noirs. Contexte très différent.'},
+],
+bareme:[{pts:'4',desc:'Nkrumah — double dimension'},{pts:'4',desc:'Chronologie et modalités'},{pts:'6',desc:'5 causes décolonisation'},{pts:'6',desc:'Néocolonialisme — définition + exemples'},{pts:'5',desc:'Comparaison Inde/Algérie'}]},
+
+{id:7,titre:'Le développement durable et les enjeux environnementaux',themes:['Climat','Ressources','ODD'],
+docs:[
+  {titre:'Document 1 — GIEC, 6ème rapport (2021)',texte:`"Il est incontestable que l\'influence humaine a réchauffé l\'atmosphère, les océans et les terres. Des changements rapides et généralisés se sont produits dans l\'atmosphère, les océans, la cryosphère et la biosphère. La température mondiale de surface a augmenté plus vite depuis 1970 que lors de tout autre période de 50 ans au cours des 2000 dernières années." GIEC, Rapport AR6, août 2021.`,src:'Source : GIEC (Groupe d\'experts intergouvernemental sur l\'évolution du climat), 2021'},
+  {titre:'Document 2 — Les Objectifs de Développement Durable (ODD)',texte:`En 2015, l\'ONU adopte l\'Agenda 2030 avec 17 Objectifs de Développement Durable. Quelques exemples :\nODD 1 : Pas de pauvreté\nODD 2 : Faim "zéro"\nODD 3 : Bonne santé\nODD 7 : Énergie propre\nODD 13 : Mesures relatives à la lutte contre les changements climatiques\nODD 16 : Paix, justice, institutions efficaces`,src:'Source : ONU, Agenda 2030, 2015'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, quelles conclusions tire le GIEC sur le changement climatique ? Qui en est responsable ?',c:'"Incontestable" que l\'influence humaine cause le réchauffement. Réchauffement le plus rapide depuis 2000 ans. Responsabilité humaine clairement établie (industrie, transports, agriculture, déforestation). Le GIEC est l\'autorité scientifique mondiale sur le sujet.'},
+  {n:'2',pts:4,q:'D\'après le document 2, comment l\'ONU définit-elle le développement durable à travers les ODD ?',c:'17 objectifs couvrant 3 piliers : social (santé, éducation, égalité), économique (croissance, emploi, énergie propre), environnemental (climat, biodiversité, eau). Approche globale et intégrée. Horizon 2030 pour y parvenir.'},
+  {n:'3',pts:6,q:'Définissez le développement durable et expliquez ses trois piliers.',c:'Développement durable (Brundtland, 1987) = "répondre aux besoins du présent sans compromettre la capacité des générations futures". 3 piliers : économique (croissance), social (équité), environnemental (préservation). Ils doivent être équilibrés — pas de croissance au détriment de l\'environnement.'},
+  {n:'4',pts:6,q:'Quelles sont les conséquences du réchauffement climatique sur les populations humaines ?',c:'Montée des océans (côtes menacées, Maldives, Bangladesh). Événements extrêmes (cyclones, sécheresses, inondations). Migrations climatiques (200 millions de "réfugiés climatiques" estimés en 2050). Insécurité alimentaire. Disparition de certaines espèces. Conflits pour l\'eau.'},
+  {n:'5',pts:5,q:'Réalisez un schéma des trois piliers du développement durable et leurs interactions.',c:'Schéma à 3 cercles qui se croisent (diagramme de Venn) : Économie / Social / Environnement. Zone centrale = développement durable. Intersections : Éco+Social = équitable, Éco+Envt = viable, Social+Envt = vivable. Chaque pilier avec 2-3 exemples.'},
+],
+bareme:[{pts:'4',desc:'Analyse GIEC — conclusions et responsabilités'},{pts:'4',desc:'ODD — 3 piliers'},{pts:'6',desc:'Définition DD + 3 piliers détaillés'},{pts:'6',desc:'4 conséquences réchauffement'},{pts:'5',desc:'Schéma 3 piliers avec exemples'}]},
+
+{id:8,titre:'Les migrations dans le monde',themes:['Réfugiés','Migrations économiques','Intégration'],
+docs:[
+  {titre:'Document 1 — Données sur les migrations mondiales (2023)',texte:`En 2023, le monde compte :\n• 281 millions de migrants internationaux (3,6% de la population mondiale)\n• 108 millions de personnes déplacées de force (record)\n• 35 millions de réfugiés\n• Principaux pays d\'accueil : USA (51M), Allemagne (16M), Arabie Saoudite (13M)\n• Principales origines : Inde (18M émigrés), Mexique (11M), Russie (11M)`,src:'Source : OIM (Organisation Internationale pour les Migrations), 2023'},
+  {titre:'Document 2 — Convention de Genève (1951)',texte:`Article 1 : "Le terme réfugié s\'applique à toute personne qui, craignant avec raison d\'être persécutée du fait de sa race, de sa religion, de sa nationalité, de son appartenance à un certain groupe social ou de ses opinions politiques, se trouve hors du pays dont elle a la nationalité et qui ne peut ou ne veut se réclamer de la protection de ce pays."`,src:'Source : Convention de Genève relative au statut des réfugiés, 1951'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, décrivez les migrations mondiales aujourd\'hui (ampleur, origines, destinations).',c:'281 millions de migrants (3,6% humanité). 108 millions de déplacés forcés (record). USA 1er pays d\'accueil. Inde 1er pays d\'émigration. Flux Sud→Nord dominants mais aussi Sud→Sud. Phénomène en croissance.'},
+  {n:'2',pts:4,q:'D\'après le document 2, quelle différence y a-t-il entre un réfugié et un migrant économique ?',c:'Réfugié (Convention 1951) : fuit une persécution (race, religion, nationalité, politique) → protection internationale obligatoire. Migrant économique : fuit la pauvreté → pas de protection légale internationale spécifique. Distinction cruciale en droit international.'},
+  {n:'3',pts:6,q:'Expliquez les causes des migrations internationales (économiques, politiques, environnementales).',c:'Causes économiques : pauvreté, chômage, inégalités (migrations Sud→Nord). Causes politiques : guerres, persécutions, dictatures (réfugiés syriens, afghans). Causes environnementales : sécheresses, inondations (migration climatique). Causes familiales : regroupement. Souvent plusieurs causes se combinent.'},
+  {n:'4',pts:6,q:'Quels sont les enjeux de l\'intégration des migrants dans les pays d\'accueil ?',c:'Enjeux économiques : contribution (cotisations, entrepreneuriat, emplois) vs coûts perçus. Enjeux sociaux : logement, éducation, santé. Enjeux culturels : enrichissement vs tensions identitaires. Enjeux politiques : montée des partis anti-immigration. Enjeux humanitaires : droits fondamentaux des migrants.'},
+  {n:'5',pts:5,q:'Réalisez un schéma montrant les principaux flux migratoires dans le monde.',c:'Schéma : carte simplifiée. Flèches épaisses : Amérique latine → USA, Afrique/Moyen-Orient → Europe, Asie du Sud → Golfe persique. Flèches internes : migrations internes à l\'Asie. Couleurs selon type (économique = bleu, réfugiés = rouge). Légende obligatoire.'},
+],
+bareme:[{pts:'4',desc:'Analyse doc.1 — ampleur et flux'},{pts:'4',desc:'Distinction réfugié/migrant'},{pts:'6',desc:'3 types de causes'},{pts:'6',desc:'4 enjeux intégration'},{pts:'5',desc:'Schéma flux migratoires'}]},
+
+{id:9,titre:'La citoyenneté et les droits de l\'Homme',themes:['DUDH','Droits civiques','EMC'],
+docs:[
+  {titre:'Document 1 — Déclaration Universelle des Droits de l\'Homme (1948)',texte:`Article 1 : "Tous les êtres humains naissent libres et égaux en dignité et en droits."\nArticle 3 : "Tout individu a droit à la vie, à la liberté et à la sûreté de sa personne."\nArticle 26 : "Toute personne a droit à l\'éducation. [...] L\'éducation doit viser au plein épanouissement de la personnalité humaine."\nArticle 19 : "Tout individu a droit à la liberté d\'opinion et d\'expression."`,src:'Source : ONU, Déclaration Universelle des Droits de l\'Homme, 10 décembre 1948'},
+  {titre:'Document 2 — Les droits dans le monde en 2023',texte:`Selon Amnesty International (2023) :\n• 55 pays pratiquent la torture\n• 106 pays ont des lois discriminant les femmes\n• 2,8 milliards de personnes vivent dans des pays où la liberté de la presse est sévèrement restreinte\n• 57 pays criminalisent l\'homosexualité\n• La peine de mort existe dans 55 pays`,src:'Source : Amnesty International, Rapport 2022-2023'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, quels sont les droits fondamentaux proclamés par la DUDH ? Citez 4 articles.',c:'Art.1 : égalité en dignité et droits. Art.3 : droit à la vie et à la liberté. Art.26 : droit à l\'éducation. Art.19 : liberté d\'opinion et d\'expression. Ces droits sont universels (tous les êtres humains) et inaliénables.'},
+  {n:'2',pts:4,q:'D\'après le document 2, montrez que les droits de l\'Homme sont encore loin d\'être respectés universellement.',c:'55 pays pratiquent la torture (violation art.5 DUDH). 106 pays discriminent les femmes (violation art.2). 2,8 milliards sans liberté de presse (violation art.19). 57 pays criminalisent l\'homosexualité. Peine de mort dans 55 pays.'},
+  {n:'3',pts:6,q:'Expliquez le contexte de création de la DUDH (1948). Pourquoi était-elle nécessaire ?',c:'Contexte : fin WWII, Shoah, bombes atomiques. Nécessité de protéger les droits humains après les atrocités. Fondation ONU (1945). Eleanor Roosevelt préside la commission. Adoptée le 10 décembre 1948 (Journée internationale des DH). Valeur morale universelle (non contraignante juridiquement initialement).'},
+  {n:'4',pts:6,q:'Quelles institutions et organisations défendent les droits de l\'Homme dans le monde ?',c:'ONU : Cour internationale de Justice, Haut-Commissariat aux DH. Conseil de l\'Europe : Cour européenne des droits de l\'Homme (CEDH). ONG : Amnesty International, Human Rights Watch, Médecins sans frontières. CPI (Cour pénale internationale, 2002) : crimes de guerre et contre l\'humanité.'},
+  {n:'5',pts:5,q:'Comment un citoyen français peut-il s\'engager pour les droits de l\'Homme ?',c:'Actions individuelles : voter, pétitions, manifestations, consommation responsable. Associations : rejoindre Amnesty, LDH (Ligue des droits de l\'Homme). Actions numériques : réseaux sociaux, sensibilisation. Choix professionnels : droit, journalisme, ONG. Service civique. Engagement politique.'},
+],
+bareme:[{pts:'4',desc:'4 articles DUDH cités et expliqués'},{pts:'4',desc:'Croisement doc.2 avec la DUDH'},{pts:'6',desc:'Contexte 1948 — causes et acteurs'},{pts:'6',desc:'4 institutions de défense des DH'},{pts:'5',desc:'Engagement citoyen — 4 formes'}]},
+
+{id:10,titre:'Sujet de synthèse — La France et l\'Europe',themes:['Union Européenne','Identité','Mondialisation'],
+docs:[
+  {titre:'Document 1 — La construction européenne',texte:`1951 : CECA (Charbon et Acier) — 6 pays fondateurs\n1957 : Traité de Rome — Communauté Économique Européenne\n1979 : 1ères élections européennes au suffrage universel\n1992 : Traité de Maastricht — naissance de l\'Union Européenne\n1995 : Espace Schengen (libre circulation)\n1999/2002 : Euro (monnaie unique, 12 puis 27 pays)\n2004 : Élargissement à l\'Est (10 nouveaux membres)\n2020 : Brexit — sortie du Royaume-Uni`,src:'Source : Parlement européen, chronologie de l\'UE'},
+  {titre:'Document 2 — L\'Europe en chiffres (2023)',texte:`• 27 États membres\n• 447 millions d\'habitants\n• 2ème puissance économique mondiale (PIB : 16 000 milliards €)\n• 24 langues officielles\n• Institutions : Parlement européen (705 eurodéputés), Commission européenne, Conseil de l\'UE\n• Budget annuel : environ 170 milliards €\n• 4 libertés fondamentales : personnes, biens, services, capitaux`,src:'Source : Commission européenne, données 2023'},
+],
+questions:[
+  {n:'1',pts:4,q:'D\'après le document 1, retracez les grandes étapes de la construction européenne.',c:'1951 : CECA (réconciliation franco-allemande). 1957 : CEE (marché commun). 1979 : démocratisation (élections). 1992 : Maastricht (UE, citoyenneté européenne). 1995 : Schengen. 1999/2002 : Euro. 2004 : élargissement à l\'Est. 2020 : Brexit (premier retrait).'},
+  {n:'2',pts:4,q:'D\'après le document 2, quelles sont les forces et les limites de l\'Union Européenne ?',c:'Forces : 2ème économie mondiale, 447M habitants, libre circulation, monnaie unique, paix depuis 1945. Limites : 24 langues (complexité), décisions lentes (unanimité), budget limité (170Mds€ pour 447M), légitimité démocratique questionnée, Brexit montre la fragilité.'},
+  {n:'3',pts:6,q:'Quel est le rôle des institutions européennes (Parlement, Commission, Conseil) ?',c:'Parlement européen : élu au suffrage universel (705 eurodéputés), co-législateur, contrôle la Commission. Commission européenne : "gouvernement" de l\'UE, propose les lois, gardienne des traités, 27 commissaires. Conseil de l\'UE : représente les gouvernements nationaux, vote les lois avec le Parlement. Triangle institutionnel.'},
+  {n:'4',pts:6,q:'Quelle est la place de la France dans l\'Union Européenne ?',c:'Place centrale : membre fondateur (1951), 2ème économie de l\'UE, siège du PE à Strasbourg, membre permanent Conseil de Sécurité ONU (fait valoir sa position européenne). Mais tensions : souveraineté vs intégration, Brexit a renforcé l\'importance française. Rôle moteur franco-allemand.'},
+  {n:'5',pts:5,q:'Réalisez un croquis simplifié de l\'Union Européenne (États membres, institutions, symboles).',c:'Croquis : carte Europe avec 27 États membres colorés différemment des non-membres. Capitales : Bruxelles (Commission, Conseil), Strasbourg (Parlement), Luxembourg (Cour de Justice). Symboles : étoiles, drapeau bleu. Zone Euro délimitée. Espace Schengen délimité (légèrement différent).'},
+],
+bareme:[{pts:'4',desc:'6 étapes clés chronologie'},{pts:'4',desc:'Forces ET limites UE'},{pts:'6',desc:'3 institutions avec rôles'},{pts:'6',desc:'France dans l\'UE — 4 aspects'},{pts:'5',desc:'Croquis légendé UE'}]},
+];
+
+let who=null,ci=0,cs=8100,ri=false,chr=null;
+function selWho(w){who=w;document.getElementById('wb-w').className='wb'+(w==='W'?' aw':'');document.getElementById('wb-n').className='wb'+(w==='N'?' an':'');renderHome();}
+function renderHome(){const g=document.getElementById('sg');g.innerHTML='';const dn=JSON.parse(localStorage.getItem('hg_done_'+(who||'X'))||'[]');SUJETS.forEach((s,i)=>{const d=document.createElement('div');d.className='sc';d.onclick=()=>open(i);const id=dn.includes(s.id);d.innerHTML=`<div class="sc-n">Sujet ${s.id}/10</div><div class="sc-t">${s.titre}</div><div class="sc-i">${s.themes.join(' · ')}</div><div class="sc-d" style="display:${id?'flex':'none'}">✓</div>`;g.appendChild(d);});}
+function open(idx){ci=idx;const s=SUJETS[idx];document.getElementById('home').style.display='none';document.getElementById('sp').style.display='block';document.getElementById('sm').textContent='Sujet '+s.id+'/10 — '+(who==='W'?'Wassil':'Nawal');render(s);cs=8100;ri=false;clearInterval(chr);upC();window.scrollTo(0,0);}
+function goHome(){document.getElementById('sp').style.display='none';document.getElementById('home').style.display='flex';clearInterval(chr);}
+function render(s){
+  let h='';
+  // DOCS
+  h+=`<div class="partie"><div class="ph"><span class="pl">ÉTUDE DE DOCUMENTS</span><span class="pt">1h</span><span class="pp">25 pts</span></div><div class="pb">`;
+  s.docs.forEach(d=>{h+=`<div class="doc-box"><strong>${d.titre}</strong><br><br>${d.texte.replace(/\n/g,'<br>')}<div class="src">${d.src}</div></div>`;});
+  s.questions.slice(0,2).forEach((q,i)=>{
+    h+=`<div class="qb"><div class="ql"><span class="qn">${q.n}.</span><span class="qt">${q.q}</span><span class="qp">${q.pts}pts</span></div><textarea class="ata" id="q${i}" placeholder="Ta réponse..."></textarea><button class="cb2" onclick="tog('c${i}')">Correction</button><div class="cbox" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h+=`</div></div>`;
+  // QUESTIONS DE COURS
+  h+=`<div class="partie"><div class="ph"><span class="pl">QUESTIONS DE COURS</span><span class="pt">45 min</span><span class="pp">24 pts</span></div><div class="pb">`;
+  s.questions.slice(2,4).forEach((q,i)=>{
+    h+=`<div class="qb"><div class="ql"><span class="qn">${q.n}.</span><span class="qt">${q.q}</span><span class="qp">${q.pts}pts</span></div><textarea class="ata" id="q${i+2}" placeholder="Développe ta réponse..."></textarea><button class="cb2" onclick="tog('c${i+2}')">Correction</button><div class="cbox" id="c${i+2}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h+=`</div></div>`;
+  // CROQUIS
+  h+=`<div class="partie"><div class="ph"><span class="pl">CROQUIS / SCHÉMA</span><span class="pt">30 min</span><span class="pp">5 pts</span></div><div class="pb">`;
+  const q4=s.questions[4];
+  h+=`<div class="qb"><div class="ql"><span class="qn">${q4.n}.</span><span class="qt">${q4.q}</span><span class="qp">${q4.pts}pts</span></div>
+  <div style="background:var(--bg);border:2px dashed var(--border2);border-radius:var(--r-sm);height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;color:var(--muted2);font-size:12px;font-family:'DM Mono',monospace;">Zone de croquis — réalise sur papier et décris ici</div>
+  <textarea class="ata" id="q4" placeholder="Décris ton croquis/schéma ici..."></textarea><button class="cb2" onclick="tog('c4')">Correction</button><div class="cbox" id="c4"><strong>✓</strong> ${q4.c}</div></div>`;
+  if(s.bareme){h+=`<div style="margin-top:16px;padding:14px;background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border)"><div style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px">Barème</div>`;s.bareme.forEach(b=>{h+=`<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px"><span style="font-family:'DM Mono',monospace;color:var(--gold);min-width:36px">${b.pts}pts</span><span style="color:var(--muted)">${b.desc}</span></div>`;});h+=`</div>`;}
+  h+=`</div></div>`;
+  // AUTO-EVAL
+  h+=`<div class="ae"><div class="aet">— Auto-évaluation</div>
+  <div class="aer"><span class="ael">Étude de documents</span><input type="number" class="aei" id="ae1" min="0" max="8" value="0" oninput="upT()"><span class="aem">/ 8</span></div>
+  <div class="aer"><span class="ael">Questions de cours</span><input type="number" class="aei" id="ae2" min="0" max="12" value="0" oninput="upT()"><span class="aem">/ 12</span></div>
+  <div class="aer"><span class="ael">Croquis / Schéma</span><input type="number" class="aei" id="ae3" min="0" max="5" value="0" oninput="upT()"><span class="aem">/ 5</span></div>
+  <div class="aetot"><div class="aetl">Note totale</div><div class="aetn" id="aetn">0/25</div></div></div>`;
+  h+=`<div class="nvbtns">
+  ${ci>0?`<button class="nvbtn" onclick="open(${ci-1})">← Précédent</button>`:''}
+  <button class="svbtn" onclick="save()">💾 Sauvegarder</button>
+  ${ci<SUJETS.length-1?`<button class="nvbtn pr" onclick="open(${ci+1})">Sujet suivant →</button>`:`<button class="nvbtn pr" onclick="goHome()">🏠 Accueil</button>`}
+  </div>`;
+  document.getElementById('sb').innerHTML=h;
+}
+function tog(id){document.getElementById(id).classList.toggle('show');}
+function upT(){const a=parseInt(document.getElementById('ae1').value)||0;const b=parseInt(document.getElementById('ae2').value)||0;const c=parseInt(document.getElementById('ae3').value)||0;const t=Math.min(a,8)+Math.min(b,12)+Math.min(c,5);const el=document.getElementById('aetn');el.textContent=t+'/25';el.style.color=t>=20?'var(--green)':t>=15?'var(--gold)':t>=10?'var(--coral)':'var(--red)';}
+async function save(){const s=SUJETS[ci];const a=parseInt(document.getElementById('ae1').value)||0;const b=parseInt(document.getElementById('ae2').value)||0;const c=parseInt(document.getElementById('ae3').value)||0;const t=Math.min(a,8)+Math.min(b,12)+Math.min(c,5);const dn=JSON.parse(localStorage.getItem('hg_done_'+(who||'X'))||'[]');if(!dn.includes(s.id)){dn.push(s.id);localStorage.setItem('hg_done_'+(who||'X'),JSON.stringify(dn));}const url=SHEETS[who];try{const res=await fetch(url,{method:'POST',mode:'cors',body:JSON.stringify({action:'logAnnale',matiere:'Histoire-Géographie',annee:'Sujet blanc '+s.id,exercice:s.titre,score:Math.round(t/25*20),pointsPerdus:'Docs:'+a+'/8 Cours:'+b+'/12 Croquis:'+c+'/5',bloque:'',aRetravailler:''})});if(res.ok)showT('✓ Note sauvegardée','ok');else throw 0;}catch(e){showT('⚠ Impossible','err');}}
+function startC(){if(ri)return;ri=true;chr=setInterval(()=>{if(cs<=0){clearInterval(chr);ri=false;showT('⏱ Temps écoulé !','err');return;}cs--;upC();},1000);}
+function resetC(){clearInterval(chr);ri=false;cs=8100;upC();}
+function upC(){const h=Math.floor(cs/3600);const m=Math.floor((cs%3600)/60);const s=cs%60;const el=document.getElementById('chrono');el.textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;el.className='ct'+(cs<600?' urg':'');}
+function showT(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+t;setTimeout(()=>el.className='toast',3500);}
+window.addEventListener('DOMContentLoaded',()=>renderHome());
+</script>
+</body>
+</html>
