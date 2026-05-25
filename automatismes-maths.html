@@ -3,360 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Automatismes Maths — Brevet 2026</title>
+<title>⚡ Automatismes Maths – Brevet 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #08080f; --bg2: #10101a; --bg3: #181824;
-  --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
-  --text: #f0efe8; --muted: rgba(240,239,232,0.45); --muted2: rgba(240,239,232,0.2);
-  --gold: #e8c87a; --gold2: #f5dfa0;
-  --purple: #a98af5; --purple2: #c4aeff;
-  --teal: #5ecfb1; --coral: #f07a5a;
-  --green: #7ecf8a; --red: #f55a5a; --blue: #6ab4f5;
-  --r: 12px; --r-sm: 8px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-
-/* ÉCRAN ACCUEIL */
-#screen-home {
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 32px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(169,138,245,0.12) 0%, transparent 60%);
-}
-
-.home-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
-  color: var(--purple); border: 1px solid rgba(169,138,245,0.3);
-  background: rgba(169,138,245,0.07);
-  padding: 5px 14px; border-radius: 999px; margin-bottom: 24px;
-}
-
-.home-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(32px, 6vw, 56px);
-  font-weight: 800; text-align: center; line-height: 1.1;
-  letter-spacing: -1px; margin-bottom: 12px;
-}
-.home-title span { color: var(--purple2); }
-
-.home-sub {
-  color: var(--muted); font-size: 15px; text-align: center;
-  max-width: 480px; line-height: 1.7; margin-bottom: 40px;
-}
-
-.home-cards {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 14px; max-width: 640px; width: 100%; margin-bottom: 40px;
-}
-
-.home-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 18px; text-align: center;
-}
-.home-card-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--purple2); line-height: 1; }
-.home-card-lbl { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 6px; }
-
-/* Sélecteur élève */
-.who-selector { display: flex; gap: 12px; margin-bottom: 32px; }
-.who-btn {
-  padding: 10px 28px; border-radius: 999px; border: 1px solid var(--border2);
-  background: var(--bg2); color: var(--muted); cursor: pointer;
-  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
-  transition: all 0.2s;
-}
-.who-btn.active-w { border-color: #7eb8f5; background: rgba(126,184,245,0.1); color: #7eb8f5; }
-.who-btn.active-n { border-color: #f59eb8; background: rgba(245,158,184,0.1); color: #f59eb8; }
-.who-btn:hover { border-color: var(--border2); background: rgba(255,255,255,0.04); }
-
-.start-btn {
-  background: linear-gradient(135deg, var(--purple), #7b5af0);
-  border: none; border-radius: var(--r); padding: 16px 48px;
-  color: white; font-family: 'Syne', sans-serif; font-weight: 800;
-  font-size: 16px; cursor: pointer; letter-spacing: 0.5px;
-  transition: all 0.2s; box-shadow: 0 8px 32px rgba(169,138,245,0.3);
-}
-.start-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(169,138,245,0.4); }
-.start-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-/* ÉCRAN QUIZ */
-#screen-quiz { display: none; min-height: 100vh; padding: 0; }
-
-.quiz-header {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(8,8,15,0.9); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
-  display: flex; align-items: center; gap: 16px;
-}
-
-.quiz-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; color: var(--purple2); }
-.quiz-who { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-.chrono-wrap { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.chrono-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; }
-.chrono {
-  font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500;
-  color: var(--gold); min-width: 54px; text-align: right;
-  transition: color 0.3s;
-}
-.chrono.urgent { color: var(--red); animation: blink 0.8s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-.progress-bar-wrap { height: 3px; background: var(--border); position: relative; }
-.progress-bar-fill {
-  height: 100%; background: linear-gradient(90deg, var(--purple), var(--blue));
-  transition: width 0.3s ease;
-}
-
-.quiz-body { padding: 32px 24px; max-width: 640px; margin: 0 auto; }
-
-.q-counter {
-  font-family: 'DM Mono', monospace; font-size: 11px;
-  color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.q-text {
-  font-family: 'Syne', sans-serif; font-size: clamp(20px, 4vw, 28px);
-  font-weight: 700; line-height: 1.3; margin-bottom: 10px;
-  min-height: 80px;
-}
-
-.q-context {
-  font-size: 13px; color: var(--muted); margin-bottom: 28px;
-  font-family: 'DM Mono', monospace; padding: 10px 14px;
-  background: var(--bg3); border-radius: var(--r-sm);
-  border-left: 2px solid var(--purple);
-  display: none;
-}
-
-/* Options QCM */
-.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.opt-btn {
-  background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: var(--r); padding: 16px 18px;
-  color: var(--text); cursor: pointer; text-align: left;
-  font-family: 'DM Sans', sans-serif; font-size: 15px;
-  transition: all 0.18s; position: relative; overflow: hidden;
-}
-.opt-btn:hover:not(:disabled) { border-color: var(--purple); background: rgba(169,138,245,0.08); }
-.opt-btn.selected { border-color: var(--purple); background: rgba(169,138,245,0.12); }
-.opt-btn.correct { border-color: var(--green) !important; background: rgba(126,207,138,0.12) !important; color: var(--green); }
-.opt-btn.wrong   { border-color: var(--red)   !important; background: rgba(245,85,85,0.12)   !important; color: var(--red); }
-.opt-btn:disabled { cursor: default; }
-.opt-letter {
-  display: inline-block; width: 22px; height: 22px;
-  border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2);
-  font-size: 11px; font-family: 'DM Mono', monospace;
-  text-align: center; line-height: 22px; margin-right: 10px;
-  font-weight: 700; flex-shrink: 0;
-}
-
-/* Vrai/Faux */
-.vf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-.vf-btn {
-  background: var(--bg2); border: 2px solid var(--border2);
-  border-radius: var(--r); padding: 20px;
-  color: var(--text); cursor: pointer; text-align: center;
-  font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800;
-  transition: all 0.18s;
-}
-.vf-btn:hover:not(:disabled) { transform: scale(1.02); }
-.vf-btn.vrai:hover:not(:disabled) { border-color: var(--green); background: rgba(126,207,138,0.08); }
-.vf-btn.faux:hover:not(:disabled) { border-color: var(--red); background: rgba(245,85,85,0.08); }
-.vf-btn.correct { border-color: var(--green) !important; background: rgba(126,207,138,0.15) !important; color: var(--green); }
-.vf-btn.wrong   { border-color: var(--red)   !important; background: rgba(245,85,85,0.15)   !important; color: var(--red); }
-.vf-btn:disabled { cursor: default; }
-
-/* Réponse directe */
-.direct-wrap { margin-bottom: 24px; }
-.direct-input {
-  width: 100%; background: var(--bg2); border: 2px solid var(--border2);
-  border-radius: var(--r); padding: 18px 20px;
-  color: var(--text); font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 700; outline: none;
-  transition: border-color 0.2s; text-align: center;
-}
-.direct-input:focus { border-color: var(--purple); }
-.direct-input.correct { border-color: var(--green); color: var(--green); }
-.direct-input.wrong   { border-color: var(--red);   color: var(--red); }
-
-/* Feedback */
-.feedback {
-  padding: 14px 18px; border-radius: var(--r-sm);
-  font-size: 14px; margin-bottom: 20px; display: none;
-  line-height: 1.6;
-}
-.feedback.ok  { background: rgba(126,207,138,0.1); border: 1px solid rgba(126,207,138,0.3); color: var(--green); }
-.feedback.ko  { background: rgba(245,85,85,0.1);   border: 1px solid rgba(245,85,85,0.3);   color: var(--red); }
-
-.next-btn {
-  width: 100%; background: linear-gradient(135deg, rgba(169,138,245,0.15), rgba(169,138,245,0.08));
-  border: 1px solid rgba(169,138,245,0.3); border-radius: var(--r);
-  padding: 14px; color: var(--purple2); cursor: pointer;
-  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
-  transition: all 0.2s; display: none;
-}
-.next-btn:hover { background: linear-gradient(135deg, rgba(169,138,245,0.25), rgba(169,138,245,0.15)); transform: translateY(-1px); }
-
-.submit-btn {
-  width: 100%; background: linear-gradient(135deg, var(--purple), #7b5af0);
-  border: none; border-radius: var(--r); padding: 14px;
-  color: white; cursor: pointer; font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 15px; transition: all 0.2s;
-  display: none; box-shadow: 0 4px 20px rgba(169,138,245,0.3);
-}
-.submit-btn:hover { transform: translateY(-1px); }
-
-/* ÉCRAN RÉSULTATS */
-#screen-results { display: none; min-height: 100vh; padding: 40px 24px; max-width: 640px; margin: 0 auto; }
-
-.result-header { text-align: center; margin-bottom: 40px; }
-.result-score {
-  font-family: 'Syne', sans-serif; font-size: 80px; font-weight: 800;
-  line-height: 1; margin-bottom: 8px;
-}
-.result-label { font-size: 14px; color: var(--muted); font-family: 'DM Mono', monospace; }
-.result-msg { font-size: 18px; font-weight: 600; margin-top: 16px; font-family: 'Syne', sans-serif; }
-
-.result-bar-wrap { background: var(--bg3); border-radius: 999px; height: 10px; margin: 20px 0; overflow: hidden; }
-.result-bar-fill { height: 100%; border-radius: 999px; transition: width 1.2s ease; }
-
-.recap-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
-.recap-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 14px 16px; border-radius: var(--r-sm);
-  border: 1px solid var(--border);
-  background: var(--bg2);
-}
-.recap-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-.recap-q { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
-.recap-a { font-size: 14px; font-weight: 600; }
-.recap-correct { color: var(--green); }
-.recap-wrong   { color: var(--red); }
-
-.result-actions { display: flex; gap: 12px; }
-.btn-retry {
-  flex: 1; background: linear-gradient(135deg, var(--purple), #7b5af0);
-  border: none; border-radius: var(--r); padding: 14px;
-  color: white; cursor: pointer; font-family: 'Syne', sans-serif;
-  font-weight: 800; font-size: 14px; transition: all 0.2s;
-}
-.btn-hub {
-  flex: 1; background: var(--bg2); border: 1px solid var(--border2);
-  border-radius: var(--r); padding: 14px; color: var(--muted);
-  cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 14px;
-  transition: background 0.15s; text-decoration: none; display: flex;
-  align-items: center; justify-content: center;
-}
-.btn-retry:hover { transform: translateY(-1px); }
-.btn-hub:hover { background: rgba(255,255,255,0.05); }
-
-.saving-badge {
-  text-align: center; font-size: 12px; font-family: 'DM Mono', monospace;
-  color: var(--muted); margin-top: 16px;
-}
-
-@keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
-.fade-in { animation: fadeIn 0.35s ease forwards; }
-
-@media(max-width:480px) {
-  .options-grid { grid-template-columns: 1fr; }
-  .home-cards { grid-template-columns: 1fr; }
-  .who-selector { flex-direction: column; }
-}
+  :root {
+    --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a26;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+    --text: #f0efe8; --muted: rgba(240,239,232,0.45); --muted2: rgba(240,239,232,0.25);
+    --gold: #e8c87a; --gold2: #f5dfa0; --teal: #5ecfb1; --coral: #f07a5a;
+    --blue: #6ab4f5; --purple: #a98af5; --green: #7ecf8a; --red: #f55a5a;
+    --w: #7eb8f5; --n: #f59eb8; --radius: 14px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+  #screen-home { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; background: radial-gradient(ellipse at 50% -10%, rgba(106,180,245,0.1) 0%, transparent 55%); }
+  .home-badge { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--blue); border: 1px solid rgba(106,180,245,0.3); background: rgba(106,180,245,0.07); padding: 5px 14px; border-radius: 999px; margin-bottom: 24px; }
+  .home-title { font-family: 'Syne', sans-serif; font-size: clamp(36px, 7vw, 64px); font-weight: 800; text-align: center; line-height: 1.1; margin-bottom: 12px; }
+  .home-title em { color: var(--blue); font-style: italic; }
+  .home-sub { color: var(--muted); font-size: 15px; text-align: center; max-width: 480px; line-height: 1.7; margin-bottom: 36px; }
+  .cats-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+  .who-selector { display: flex; gap: 12px; margin-bottom: 28px; }
+  .who-btn { padding: 10px 28px; border-radius: 999px; border: 1px solid var(--border2); background: var(--bg2); color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
+  .who-btn.active-w { border-color: #7eb8f5; background: rgba(126,184,245,0.1); color: #7eb8f5; }
+  .who-btn.active-n { border-color: #f59eb8; background: rgba(245,158,184,0.1); color: #f59eb8; }
+  .start-btn { background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 16px 48px; color: #060f0a; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 32px rgba(106,180,245,0.25); }
+  .start-btn:hover { transform: translateY(-2px); }
+  .start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .home-stats { display: flex; gap: 24px; margin-top: 24px; }
+  .home-stat { text-align: center; }
+  .home-stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--blue); }
+  .home-stat-lbl { font-size: 10px; color: var(--muted2); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+  #screen-quiz { display: none; min-height: 100vh; }
+  .quiz-header { position: sticky; top: 0; z-index: 10; background: rgba(10,15,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
+  .quiz-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--blue); }
+  .quiz-cat { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .quiz-who-badge { margin-left: auto; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); color: var(--muted); }
+  .prog-wrap { height: 3px; background: var(--border); }
+  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal)); transition: width 0.4s ease; }
+  .quiz-body { padding: 32px 24px; max-width: 620px; margin: 0 auto; }
+  .q-cat-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(106,180,245,0.3); color: var(--blue); background: rgba(106,180,245,0.07); margin-bottom: 12px; }
+  .q-counter { font-size: 11px; color: var(--muted2); font-family: 'DM Mono', monospace; margin-bottom: 8px; }
+  .q-text { font-family: 'Syne', sans-serif; font-size: clamp(19px, 3.5vw, 26px); font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+  .direct-wrap { margin-bottom: 20px; }
+  .direct-input { width: 100%; background: var(--bg2); border: 2px solid var(--border2); border-radius: var(--radius); padding: 16px 20px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; outline: none; text-align: center; }
+  .direct-input:focus { border-color: var(--blue); }
+  .direct-input.correct { border-color: var(--green); color: var(--green); }
+  .direct-input.wrong { border-color: var(--red); color: var(--red); }
+  .valider-btn { width: 100%; margin-top: 10px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 11px; color: var(--muted); cursor: pointer; }
+  .valider-btn:hover { background: rgba(255,255,255,0.04); }
+  .feedback { padding: 14px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 18px; display: none; line-height: 1.6; }
+  .feedback.ok { background: rgba(126,207,138,0.08); border: 1px solid rgba(126,207,138,0.3); color: var(--green); }
+  .feedback.ko { background: rgba(245,85,85,0.08); border: 1px solid rgba(245,85,85,0.3); color: var(--red); }
+  .next-btn { width: 100%; background: rgba(106,180,245,0.1); border: 1px solid rgba(106,180,245,0.3); border-radius: var(--radius); padding: 13px; color: var(--blue); cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; display: none; }
+  .next-btn:hover { background: rgba(106,180,245,0.18); transform: translateY(-1px); }
+  .submit-btn { width: 100%; background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 14px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 15px; transition: all 0.2s; display: none; }
+  .submit-btn:hover { transform: translateY(-1px); }
+  #screen-results { display: none; padding: 40px 24px; max-width: 620px; margin: 0 auto; }
+  .result-crown { text-align: center; font-size: 48px; margin-bottom: 12px; }
+  .result-score { font-family: 'Syne', sans-serif; font-size: 72px; font-weight: 800; text-align: center; line-height: 1; margin-bottom: 6px; }
+  .result-sub { text-align: center; color: var(--muted); font-size: 13px; font-family: 'DM Mono', monospace; margin-bottom: 16px; }
+  .result-bar-wrap { background: var(--bg3); border-radius: 999px; height: 8px; margin-bottom: 12px; overflow: hidden; }
+  .result-bar-fill { height: 100%; border-radius: 999px; transition: width 1.2s ease; }
+  .result-msg { text-align: center; font-size: 17px; font-weight: 600; margin-bottom: 32px; font-family: 'Syne', sans-serif; }
+  .recap-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .recap-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); }
+  .recap-icon { font-size: 14px; flex-shrink: 0; margin-top: 3px; }
+  .recap-q { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+  .recap-a { font-size: 13px; font-weight: 600; }
+  .recap-correct { color: var(--green); }
+  .recap-wrong { color: var(--red); }
+  .recap-points { font-size: 11px; color: var(--gold); margin-top: 4px; font-family: 'DM Mono', monospace; }
+  .result-actions { display: flex; gap: 12px; }
+  .btn-retry { flex: 1; background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 13px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; }
+  .btn-hub { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); padding: 13px; color: var(--muted); cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  .btn-retry:hover, .btn-hub:hover { transform: translateY(-1px); background: rgba(255,255,255,0.05); }
+  .saving-badge { text-align: center; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); margin-top: 14px; }
+  @media(max-width:480px) { .direct-input { font-size: 16px; } }
 </style>
 </head>
 <body>
 
-<!-- ══ ACCUEIL ═══════════════════════════════════════════════ -->
 <div id="screen-home">
-  <div class="home-badge">⚡ Partie 1 DNB — Sans calculatrice</div>
-  <h1 class="home-title">Automatismes<br><span>Mathématiques</span></h1>
-  <p class="home-sub">20 questions · 20 minutes · format exact du Brevet.<br>Réflexes purs — pas de calcul compliqué, de la rapidité.</p>
-
-  <div class="home-cards">
-    <div class="home-card">
-      <div class="home-card-num">20</div>
-      <div class="home-card-lbl">Questions</div>
-    </div>
-    <div class="home-card">
-      <div class="home-card-num">20<span style="font-size:16px">min</span></div>
-      <div class="home-card-lbl">Chronomètre</div>
-    </div>
-    <div class="home-card">
-      <div class="home-card-num">6</div>
-      <div class="home-card-lbl">Points DNB</div>
-    </div>
+  <div class="home-badge">⚡ Automatismes — Maths Brevet 2026</div>
+  <h1 class="home-title">Maths<br><em>Automatismes</em></h1>
+  <p class="home-sub">20 questions · 20 min · niveau Brevet · calculs, fractions, équations, conversions</p>
+  <div class="cats-grid">
+    <span style="font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;">Toutes les notions du programme</span>
   </div>
-
-  <div style="margin-bottom:12px;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px">Qui fait la série ?</div>
   <div class="who-selector">
     <button class="who-btn" id="btn-w" onclick="selectWho('W')">Wassil</button>
     <button class="who-btn" id="btn-n" onclick="selectWho('N')">Nawal</button>
   </div>
-
-  <button class="start-btn" id="start-btn" onclick="startQuiz()" disabled>
-    Commencer la série ⚡
-  </button>
-
-  <div style="margin-top:20px;font-size:12px;color:var(--muted2);font-family:'DM Mono',monospace;text-align:center">
-    Les résultats sont sauvegardés dans ton Sheet Google
+  <button class="start-btn" id="start-btn" onclick="startQuiz()" disabled>Commencer la révision ⚡</button>
+  <div class="home-stats">
+    <div class="home-stat"><div class="home-stat-num">20</div><div class="home-stat-lbl">Questions</div></div>
+    <div class="home-stat"><div class="home-stat-num">20<span style="font-size:14px">min</span></div><div class="home-stat-lbl">Durée</div></div>
   </div>
 </div>
 
-<!-- ══ QUIZ ══════════════════════════════════════════════════ -->
 <div id="screen-quiz">
   <div class="quiz-header">
-    <div>
-      <div class="quiz-logo">⚡ Automatismes</div>
-      <div class="quiz-who" id="quiz-who-label">—</div>
-    </div>
-    <div class="chrono-wrap">
-      <div class="chrono-label">Temps</div>
-      <div class="chrono" id="chrono">20:00</div>
-    </div>
+    <div><div class="quiz-logo">Automatismes Maths</div><div class="quiz-cat">Brevet 2026</div></div>
+    <div class="quiz-who-badge" id="quiz-who-badge">—</div>
   </div>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
-  </div>
-
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   <div class="quiz-body">
+    <div class="q-cat-tag">⚡ Calcul direct</div>
     <div class="q-counter" id="q-counter">Question 1 / 20</div>
-    <div class="q-text fade-in" id="q-text">Chargement...</div>
-    <div class="q-context" id="q-context"></div>
-
-    <div id="zone-qcm" class="options-grid"></div>
-    <div id="zone-vf" class="vf-grid" style="display:none">
-      <button class="vf-btn vrai" onclick="answerVF('Vrai')">✓ Vrai</button>
-      <button class="vf-btn faux" onclick="answerVF('Faux')">✗ Faux</button>
+    <div class="q-text" id="q-text">Chargement...</div>
+    <div id="zone-direct" class="direct-wrap">
+      <input class="direct-input" id="direct-input" type="text" placeholder="Ta réponse (sans unité)" autocomplete="off" />
+      <button class="valider-btn" id="valider-btn" onclick="answerDirect()">Valider (Entrée)</button>
     </div>
-    <div id="zone-direct" class="direct-wrap" style="display:none">
-      <input class="direct-input" id="direct-input" type="text" placeholder="Ta réponse..." autocomplete="off" />
-    </div>
-
     <div class="feedback" id="feedback"></div>
     <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question suivante →</button>
-    <button class="submit-btn" id="submit-btn" onclick="showResults()">Voir mes résultats 🎯</button>
+    <button class="submit-btn" id="submit-btn" onclick="showResults()">Voir mon bilan 📊</button>
   </div>
 </div>
 
-<!-- ══ RÉSULTATS ═════════════════════════════════════════════ -->
 <div id="screen-results">
-  <div class="result-header">
-    <div class="result-score" id="result-score">0/6</div>
-    <div class="result-label">Score DNB — Partie automatismes</div>
-    <div class="result-bar-wrap"><div class="result-bar-fill" id="result-bar" style="width:0%"></div></div>
-    <div class="result-msg" id="result-msg">—</div>
-  </div>
-
-  <div style="font-family:'Syne',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px">— Récapitulatif</div>
+  <div class="result-crown" id="result-crown">⚡</div>
+  <div class="result-score" id="result-score">0/20</div>
+  <div class="result-sub">Score — Maths automatismes</div>
+  <div class="result-bar-wrap"><div class="result-bar-fill" id="result-bar" style="width:0%"></div></div>
+  <div class="result-msg" id="result-msg">—</div>
   <div class="recap-list" id="recap-list"></div>
-
   <div class="result-actions">
     <button class="btn-retry" onclick="restartQuiz()">↺ Nouvelle série</button>
     <a class="btn-hub" href="https://babybebe974-arch.github.io/brevet-2026/" target="_blank">🏠 Hub Central</a>
@@ -365,217 +136,114 @@ body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-s
 </div>
 
 <script>
-// ══ CONFIG SHEETS ════════════════════════════════════════════
+// ========== CONFIGURATION DES SHEETS ==========
 const SHEETS = {
-  W: 'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',
-  N: 'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec',
+  W: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec',
+  N: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec'
 };
 
-// ══ BANQUE DE QUESTIONS ══════════════════════════════════════
-// Format : { id, type:'qcm'|'vf'|'direct', question, context?, options?[], answer, pts, notion, explication }
+// ========== BANQUE DE 40 QUESTIONS (niveau 3ème, difficulté augmentée) ==========
 const BANQUE = [
-  // ── CALCUL MENTAL ──
-  { id:1, type:'direct', question:'Quel est le tiers de 18 ?', answer:'6', pts:0.5, notion:'Fractions et calcul', explication:'18 ÷ 3 = 6' },
-  { id:2, type:'direct', question:'Calcule : 15 × 4', answer:'60', pts:0.5, notion:'Multiplication', explication:'15 × 4 = 60' },
-  { id:3, type:'direct', question:'Quel est le quart de 100 ?', answer:'25', pts:0.5, notion:'Fractions', explication:'100 ÷ 4 = 25' },
-  { id:4, type:'direct', question:'Combien font 3² + 4² ?', answer:'25', pts:0.5, notion:'Puissances', explication:'9 + 16 = 25' },
-  { id:5, type:'direct', question:'Calcule 12 × 12', answer:'144', pts:0.5, notion:'Tables de multiplication', explication:'12 × 12 = 144' },
-  { id:6, type:'direct', question:'Un film dure 240 minutes. Quelle est sa durée en heures ?', answer:'4', pts:0.5, notion:'Conversions durée', explication:'240 ÷ 60 = 4 heures' },
-
-  // ── GÉOMÉTRIE ──
-  { id:7, type:'direct', question:'Quelle est la mesure en degrés d\'un angle droit ?', answer:'90', pts:0.5, notion:'Angles', explication:'Un angle droit mesure 90°' },
-  { id:8, type:'qcm', question:'Quel est le périmètre d\'un carré de côté 5 cm ?', options:['10 cm','20 cm','25 cm','15 cm'], answer:'20 cm', pts:0.5, notion:'Périmètres', explication:'4 × 5 = 20 cm' },
-  { id:9, type:'vf', question:'Le triangle ayant pour côtés 3, 4 et 5 est rectangle.', answer:'Vrai', pts:0.5, notion:'Pythagore', explication:'3² + 4² = 9 + 16 = 25 = 5². Oui, il est rectangle.' },
-  { id:10, type:'qcm', question:'L\'aire d\'un rectangle de longueur 8 cm et largeur 3 cm est :', options:['22 cm²','24 cm²','11 cm²','24 cm'], answer:'24 cm²', pts:0.5, notion:'Aires', explication:'Aire = 8 × 3 = 24 cm²' },
-
-  // ── PROPORTIONNALITÉ ──
-  { id:11, type:'direct', question:'Si 3 stylos coûtent 6 €, combien coûte 1 stylo ?', answer:'2', pts:0.5, notion:'Proportionnalité', explication:'6 ÷ 3 = 2 €' },
-  { id:12, type:'qcm', question:'Un pull coûte 40 €. Après une remise de 25%, son prix est :', options:['30 €','10 €','35 €','32 €'], answer:'30 €', pts:0.5, notion:'Pourcentages', explication:'25% de 40 = 10. Prix : 40 - 10 = 30 €' },
-
-  // ── PROBABILITÉS & STATS ──
-  { id:13, type:'qcm', question:'On lance un dé équilibré à 6 faces. Quelle est la probabilité d\'obtenir un nombre pair ?', options:['1/6','1/3','1/2','2/3'], answer:'1/2', pts:0.5, notion:'Probabilités', explication:'Nombres pairs : 2, 4, 6 → 3 issues sur 6 → P = 1/2' },
-  { id:14, type:'direct', question:'La moyenne de 4, 6, 8 et 10 est :', answer:'7', pts:0.5, notion:'Statistiques — moyenne', explication:'(4+6+8+10) ÷ 4 = 28 ÷ 4 = 7' },
-
-  // ── ALGÈBRE ──
-  { id:15, type:'direct', question:'Si x + 5 = 12, alors x = ?', answer:'7', pts:0.5, notion:'Équations', explication:'x = 12 - 5 = 7' },
-  { id:16, type:'vf', question:'L\'expression 2(x + 3) est équivalente à 2x + 6.', answer:'Vrai', pts:0.5, notion:'Distributivité', explication:'2(x+3) = 2×x + 2×3 = 2x + 6. Vrai.' },
-  { id:17, type:'qcm', question:'Quel est le développement de (x + 2)² ?', options:['x² + 4','x² + 2x + 4','x² + 4x + 4','x² + 2'], answer:'x² + 4x + 4', pts:0.5, notion:'Identités remarquables', explication:'(a+b)² = a² + 2ab + b² → x² + 4x + 4' },
-
-  // ── NOMBRES & CONVERSIONS ──
-  { id:18, type:'direct', question:'Écris 0,75 sous forme de fraction simplifiée :', answer:'3/4', pts:0.5, notion:'Fractions décimales', explication:'0,75 = 75/100 = 3/4' },
-  { id:19, type:'qcm', question:'Parmi ces nombres, lequel est premier ?', options:['9','15','17','21'], answer:'17', pts:0.5, notion:'Nombres premiers', explication:'17 n\'est divisible que par 1 et lui-même.' },
-  { id:20, type:'vf', question:'√144 = 12', answer:'Vrai', pts:0.5, notion:'Racines carrées', explication:'12 × 12 = 144, donc √144 = 12. Vrai.' },
-
-  // ── QUESTIONS SUPPLÉMENTAIRES (pour variation) ──
-  { id:21, type:'direct', question:'Quel est le double de 37 ?', answer:'74', pts:0.5, notion:'Calcul mental', explication:'2 × 37 = 74' },
-  { id:22, type:'qcm', question:'1 km = ?', options:['10 m','100 m','1 000 m','10 000 m'], answer:'1 000 m', pts:0.5, notion:'Conversions longueur', explication:'1 km = 1 000 m' },
-  { id:23, type:'vf', question:'Un nombre divisible par 9 est aussi divisible par 3.', answer:'Vrai', pts:0.5, notion:'Divisibilité', explication:'9 = 3×3, donc tout multiple de 9 est multiple de 3.' },
-  { id:24, type:'direct', question:'Quel est le PGCD de 12 et 18 ?', answer:'6', pts:0.5, notion:'PGCD', explication:'Diviseurs de 12 : 1,2,3,4,6,12. Diviseurs de 18 : 1,2,3,6,9,18. PGCD = 6.' },
-  { id:25, type:'qcm', question:'Dans un triangle, la somme des angles est :', options:['90°','180°','270°','360°'], answer:'180°', pts:0.5, notion:'Angles d\'un triangle', explication:'La somme des angles d\'un triangle est toujours 180°.' },
-  { id:26, type:'direct', question:'Calcule : 2³', answer:'8', pts:0.5, notion:'Puissances', explication:'2³ = 2×2×2 = 8' },
-  { id:27, type:'vf', question:'-3 × -4 = -12', answer:'Faux', pts:0.5, notion:'Calcul relatif', explication:'(-3) × (-4) = +12. Deux négatifs → positif.' },
-  { id:28, type:'qcm', question:'Quelle est la valeur de x si 2x = 14 ?', options:['5','6','7','8'], answer:'7', pts:0.5, notion:'Équations', explication:'x = 14 ÷ 2 = 7' },
-  { id:29, type:'direct', question:'Quel pourcentage représente 3 sur 12 ?', answer:'25', pts:0.5, notion:'Pourcentages', explication:'3/12 = 1/4 = 25%' },
-  { id:30, type:'vf', question:'Un quadrilatère a exactement 4 côtés.', answer:'Vrai', pts:0.5, notion:'Vocabulaire géométrie', explication:'Quadri = 4, latère = côtés. Vrai.' },
+  { question: "Calculer 2,5 × 1,4", answer: "3.5", explication: "2,5 × 1,4 = 3,5" },
+  { question: "Simplifier la fraction 18/24", answer: "3/4", explication: "18/24 = 3/4" },
+  { question: "Racine carrée de 64", answer: "8", explication: "√64 = 8" },
+  { question: "15% de 120", answer: "18", explication: "0,15 × 120 = 18" },
+  { question: "Résoudre 3x = 21", answer: "7", explication: "x = 21/3 = 7" },
+  { question: "2,5 heures en minutes", answer: "150", explication: "2,5 × 60 = 150" },
+  { question: "Périmètre d'un carré de côté 7 cm", answer: "28", explication: "4 × 7 = 28 (unité cm, ne pas écrire)" },
+  { question: "Aire d'un rectangle de 9 m sur 4 m", answer: "36", explication: "9 × 4 = 36 (m²)" },
+  { question: "Écriture décimale de 3/5", answer: "0.6", explication: "3/5 = 0,6" },
+  { question: "(-3) × (-5)", answer: "15", explication: "Produit de deux négatifs = positif" },
+  { question: "Développer (x+4)²", answer: "x²+8x+16", explication: "(a+b)² = a²+2ab+b²" },
+  { question: "2x + 3 = 11 → x = ?", answer: "4", explication: "2x = 8 → x=4" },
+  { question: "10⁴ = ?", answer: "10000", explication: "10⁴ = 10 000" },
+  { question: "Médiane de 3, 7, 9, 11, 15", answer: "9", explication: "Valeur centrale" },
+  { question: "80 € − 20% = ?", answer: "64", explication: "80 × 0,8 = 64" },
+  { question: "4/5 ÷ 2/3", answer: "6/5", explication: "4/5 × 3/2 = 12/10 = 6/5" },
+  { question: "f(x)=x²-1, image de -3", answer: "8", explication: "(-3)²-1 = 9-1 = 8" },
+  { question: "5x - 8 > 2 → solution", answer: "x>2", explication: "5x > 10 → x>2" },
+  { question: "Distance A(0,0) et B(3,4)", answer: "5", explication: "√(3²+4²)=5" },
+  { question: "PGCD de 24 et 36", answer: "12", explication: "24=12×2, 36=12×3" },
+  { question: "Volume d'un cube de côté 3 cm", answer: "27", explication: "3³ = 27 (cm³)" },
+  { question: "1250 mL en L", answer: "1.25", explication: "1250 ÷ 1000 = 1,25 L" },
+  { question: "1,2 h en minutes", answer: "72", explication: "1,2 × 60 = 72 min" },
+  { question: "3/4 + 1/2", answer: "5/4", explication: "3/4 + 2/4 = 5/4" },
+  { question: "0,25 × 0,4", answer: "0.1", explication: "0,25 × 0,4 = 0,1" },
+  { question: "Factoriser 4x + 12", answer: "4(x+3)", explication: "4x+12 = 4(x+3)" },
+  { question: "Résoudre x² = 49", answer: "7", explication: "x = 7 ou x = -7 (accepter 7)" },
+  { question: "2/3 de 90", answer: "60", explication: "90 × 2/3 = 60" },
+  { question: "Périmètre d'un cercle de rayon 5 cm (π≈3,14)", answer: "31.4", explication: "2π×5 ≈ 31,4" },
+  { question: "Aire d'un disque de rayon 3 cm (π≈3,14)", answer: "28.26", explication: "π×3² ≈ 28,26" },
+  { question: "Résoudre 2(x+3) = 10", answer: "2", explication: "2x+6=10 → 2x=4 → x=2" },
+  { question: "Calculer 3² + 4²", answer: "25", explication: "9+16=25" },
+  { question: "Convertir 3,5 km en m", answer: "3500", explication: "3,5 × 1000 = 3500" },
+  { question: "Calculer 5! (factorielle 5)", answer: "120", explication: "5×4×3×2×1=120" },
+  { question: "Résoudre x/4 = 7", answer: "28", explication: "x = 7×4 = 28" },
+  { question: "Donner l'écriture scientifique de 45000", answer: "4.5e4", explication: "4,5 × 10⁴" }
 ];
 
-// ══ ÉTAT ════════════════════════════════════════════════════
 let who = null;
 let questions = [];
 let current = 0;
 let score = 0;
 let answers = [];
-let timerInterval = null;
-let secondsLeft = 1200; // 20 min
 let answered = false;
 
-// ══ SÉLECTION ══════════════════════════════════════════════
-function selectWho(w) {
-  who = w;
-  document.getElementById('btn-w').className = 'who-btn' + (w==='W'?' active-w':'');
-  document.getElementById('btn-n').className = 'who-btn' + (w==='N'?' active-n':'');
-  document.getElementById('start-btn').disabled = false;
-}
-
-// ══ DÉMARRAGE ══════════════════════════════════════════════
-function startQuiz() {
-  // Mélanger et prendre 20 questions
-  questions = shuffle([...BANQUE]).slice(0, 20);
-  current = 0; score = 0; answers = []; secondsLeft = 1200; answered = false;
-
-  document.getElementById('screen-home').style.display = 'none';
-  document.getElementById('screen-quiz').style.display = 'block';
-  document.getElementById('quiz-who-label').textContent = who === 'W' ? 'Wassil' : 'Nawal';
-
-  startTimer();
-  renderQuestion();
+// Normalisation des réponses (supprime unités, espaces, convertit virgule)
+function normalize(s) {
+  if (!s) return "";
+  return s.toString().toLowerCase().trim()
+    .replace(/[^0-9.,\-/x²+]/g, '')
+    .replace(',', '.')
+    .replace(/^0+/, '');
 }
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
+    const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
 }
 
-// ══ CHRONO ═════════════════════════════════════════════════
-function startTimer() {
-  timerInterval = setInterval(() => {
-    secondsLeft--;
-    const m = Math.floor(secondsLeft / 60);
-    const s = secondsLeft % 60;
-    const el = document.getElementById('chrono');
-    el.textContent = `${m}:${String(s).padStart(2,'0')}`;
-    if (secondsLeft <= 120) el.classList.add('urgent');
-    if (secondsLeft <= 0) { clearInterval(timerInterval); showResults(); }
-  }, 1000);
+function selectWho(w) {
+  who = w;
+  document.getElementById('btn-w').className = 'who-btn' + (w === 'W' ? ' active-w' : '');
+  document.getElementById('btn-n').className = 'who-btn' + (w === 'N' ? ' active-n' : '');
+  document.getElementById('start-btn').disabled = false;
 }
 
-// ══ QUESTION ══════════════════════════════════════════════
+function startQuiz() {
+  const pool = shuffle([...BANQUE]);
+  questions = pool.slice(0, 20);
+  current = 0;
+  score = 0;
+  answers = [];
+  answered = false;
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  document.getElementById('quiz-who-badge').textContent = who === 'W' ? 'Wassil' : 'Nawal';
+  renderQuestion();
+}
+
 function renderQuestion() {
   answered = false;
   const q = questions[current];
-  const total = questions.length;
-
-  document.getElementById('q-counter').textContent = `Question ${current+1} / ${total}`;
-  document.getElementById('progress-bar').style.width = `${(current/total)*100}%`;
-
-  const qtEl = document.getElementById('q-text');
-  qtEl.className = 'q-text fade-in';
-  qtEl.textContent = q.question;
-
-  const ctxEl = document.getElementById('q-context');
-  if (q.context) { ctxEl.textContent = q.context; ctxEl.style.display = 'block'; }
-  else ctxEl.style.display = 'none';
-
-  document.getElementById('feedback').style.display = 'none';
+  document.getElementById('q-counter').textContent = `Question ${current+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width = `${((current) / questions.length) * 100}%`;
+  document.getElementById('q-text').textContent = q.question;
+  const fb = document.getElementById('feedback');
+  fb.style.display = 'none';
+  fb.className = 'feedback';
   document.getElementById('next-btn').style.display = 'none';
   document.getElementById('submit-btn').style.display = 'none';
-
-  // Zones
-  const zQcm = document.getElementById('zone-qcm');
-  const zVf  = document.getElementById('zone-vf');
-  const zDir = document.getElementById('zone-direct');
-  zQcm.innerHTML = ''; zVf.style.display = 'none'; zDir.style.display = 'none';
-
-  if (q.type === 'qcm') {
-    zQcm.style.display = 'grid';
-    const letters = ['A','B','C','D'];
-    shuffle([...q.options]).forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'opt-btn';
-      btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt}`;
-      btn.dataset.val = opt;
-      btn.onclick = () => answerQCM(opt, btn);
-      zQcm.appendChild(btn);
-    });
-  } else if (q.type === 'vf') {
-    zVf.style.display = 'grid';
-    zVf.querySelectorAll('.vf-btn').forEach(b => {
-      b.disabled = false;
-      b.className = 'vf-btn ' + (b.textContent.includes('Vrai') ? 'vrai' : 'faux');
-    });
-  } else {
-    zDir.style.display = 'block';
-    const inp = document.getElementById('direct-input');
-    inp.value = ''; inp.disabled = false;
-    inp.className = 'direct-input';
-    inp.focus();
-    inp.onkeydown = (e) => { if (e.key === 'Enter' && !answered) answerDirect(); };
-    // Bouton valider
-    let valBtn = document.getElementById('valider-btn');
-    if (!valBtn) {
-      valBtn = document.createElement('button');
-      valBtn.id = 'valider-btn';
-      valBtn.style.cssText = 'width:100%;margin-top:12px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;color:var(--muted);cursor:pointer;font-family:"DM Sans",sans-serif;font-size:14px;transition:background 0.15s;';
-      valBtn.textContent = 'Valider (Entrée)';
-      valBtn.onmouseenter = () => valBtn.style.background = 'rgba(255,255,255,0.05)';
-      valBtn.onmouseleave = () => valBtn.style.background = 'var(--bg2)';
-      zDir.appendChild(valBtn);
-    }
-    valBtn.onclick = () => { if (!answered) answerDirect(); };
-  }
-}
-
-// ══ RÉPONSES ══════════════════════════════════════════════
-function answerQCM(val, btn) {
-  if (answered) return;
-  answered = true;
-  const q = questions[current];
-  const correct = val === q.answer;
-  if (correct) score += q.pts;
-
-  // Colorier
-  document.querySelectorAll('.opt-btn').forEach(b => {
-    b.disabled = true;
-    if (b.dataset.val === q.answer) b.classList.add('correct');
-    else if (b === btn && !correct) b.classList.add('wrong');
-  });
-
-  showFeedback(correct, q);
-  answers.push({ question: q.question, yourAnswer: val, correct: q.answer, ok: correct, notion: q.notion });
-  showNext();
-}
-
-function answerVF(val) {
-  if (answered) return;
-  answered = true;
-  const q = questions[current];
-  const correct = val === q.answer;
-  if (correct) score += q.pts;
-
-  document.querySelectorAll('.vf-btn').forEach(b => {
-    b.disabled = true;
-    const isVrai = b.classList.contains('vrai');
-    const bVal   = isVrai ? 'Vrai' : 'Faux';
-    if (bVal === q.answer) b.classList.add('correct');
-    else if (bVal === val && !correct) b.classList.add('wrong');
-  });
-
-  showFeedback(correct, q);
-  answers.push({ question: q.question, yourAnswer: val, correct: q.answer, ok: correct, notion: q.notion });
-  showNext();
+  const inp = document.getElementById('direct-input');
+  inp.value = '';
+  inp.disabled = false;
+  inp.className = 'direct-input';
+  inp.focus();
+  document.getElementById('valider-btn').disabled = false;
+  inp.onkeydown = (e) => { if (e.key === 'Enter' && !answered) answerDirect(); };
 }
 
 function answerDirect() {
@@ -585,32 +253,27 @@ function answerDirect() {
   if (!val) return;
   answered = true;
   const q = questions[current];
-
-  // Comparaison souple (espaces, majuscules, virgule/point)
-  const normalize = s => s.toLowerCase().replace(/\s/g,'').replace(',','.');
-  const correct = normalize(val) === normalize(q.answer);
-  if (correct) score += q.pts;
-
+  const userNorm = normalize(val);
+  const correctNorm = normalize(q.answer);
+  const isCorrect = (userNorm === correctNorm);
+  if (isCorrect) score++;
   inp.disabled = true;
-  inp.className = 'direct-input ' + (correct ? 'correct' : 'wrong');
-
-  showFeedback(correct, q);
-  answers.push({ question: q.question, yourAnswer: val, correct: q.answer, ok: correct, notion: q.notion });
-  showNext();
-}
-
-function showFeedback(correct, q) {
+  inp.className = 'direct-input ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('valider-btn').disabled = true;
   const fb = document.getElementById('feedback');
-  fb.className = 'feedback ' + (correct ? 'ok' : 'ko');
-  fb.innerHTML = correct
-    ? `✓ Correct ! ${q.explication}`
-    : `✗ Pas tout à fait. Réponse : <strong>${q.answer}</strong>. ${q.explication}`;
+  fb.className = 'feedback ' + (isCorrect ? 'ok' : 'ko');
+  let pointsMsg = isCorrect ? `✓ Bonne réponse ! +1 point` : `✗ Mauvaise réponse. +0 point`;
+  fb.innerHTML = `${pointsMsg}<br>${q.explication}<br><span style="font-size:12px;">Bonne réponse attendue : ${q.answer}</span>`;
   fb.style.display = 'block';
-}
-
-function showNext() {
+  answers.push({
+    question: q.question,
+    yourAnswer: val,
+    correct: q.answer,
+    isCorrect: isCorrect,
+    points: isCorrect ? 1 : 0
+  });
   const isLast = current === questions.length - 1;
-  document.getElementById('next-btn').style.display   = isLast ? 'none'  : 'block';
+  document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
   document.getElementById('submit-btn').style.display = isLast ? 'block' : 'none';
 }
 
@@ -619,94 +282,82 @@ function nextQuestion() {
   renderQuestion();
 }
 
-// ══ RÉSULTATS ═════════════════════════════════════════════
-function showResults() {
-  clearInterval(timerInterval);
-  document.getElementById('screen-quiz').style.display   = 'none';
+async function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
   document.getElementById('screen-results').style.display = 'block';
-
-  const scoreSur6  = Math.round(score * 10) / 10;
-  const scoreSur20 = Math.round(scoreSur6 / 6 * 20 * 10) / 10;
-  const pct        = (score / 6) * 100;
-
-  document.getElementById('result-score').textContent = `${scoreSur6}/6`;
-
-  const bar = document.getElementById('result-bar');
-  bar.style.background = pct >= 80 ? 'linear-gradient(90deg,var(--green),var(--teal))'
-    : pct >= 50 ? 'linear-gradient(90deg,var(--gold),var(--coral))'
-    : 'linear-gradient(90deg,var(--red),var(--coral))';
-  setTimeout(() => { bar.style.width = pct + '%'; }, 100);
-
+  const total = questions.length;
+  const percent = (score / total) * 100;
+  document.getElementById('result-score').textContent = `${score}/${total}`;
+  document.getElementById('result-crown').textContent = percent >= 80 ? '🏆' : (percent >= 60 ? '✅' : '💪');
+  setTimeout(() => {
+    const bar = document.getElementById('result-bar');
+    bar.style.background = 'linear-gradient(90deg, var(--green), var(--blue))';
+    bar.style.width = percent + '%';
+  }, 100);
   const msgs = [
-    [5, '🏆 Excellent ! Tu maîtrises les automatismes.'],
-    [4, '✅ Très bien ! Encore quelques réflexes à affûter.'],
-    [3, '🔄 Bien. Continue à t\'entraîner quotidiennement.'],
-    [0, '💪 Courage ! Les automatismes ça s\'acquiert avec la répétition.'],
+    [16, 'Excellent ! Tu maîtrises les automatismes.'],
+    [12, 'Très bien, quelques révisions encore.'],
+    [8, 'En progrès, continue les automatismes.'],
+    [0, 'Courage, révise les règles et réessaie.']
   ];
-  const msg = msgs.find(([min]) => scoreSur6 >= min);
-  document.getElementById('result-msg').textContent = msg[1];
-
-  // Récap
-  const list = document.getElementById('recap-list');
-  list.innerHTML = '';
+  document.getElementById('result-msg').textContent = msgs.find(([m]) => score >= m)[1];
+  const recapList = document.getElementById('recap-list');
+  recapList.innerHTML = '';
   answers.forEach((a, i) => {
     const div = document.createElement('div');
     div.className = 'recap-item';
     div.innerHTML = `
-      <span class="recap-icon">${a.ok ? '✓' : '✗'}</span>
+      <span class="recap-icon">${a.isCorrect ? '✓' : '✗'}</span>
       <div>
         <div class="recap-q">${i+1}. ${a.question}</div>
-        <div class="recap-a ${a.ok ? 'recap-correct' : 'recap-wrong'}">
-          ${a.ok ? `Correct : ${a.correct}` : `Ta réponse : ${a.yourAnswer} — Attendu : ${a.correct}`}
+        <div class="recap-a ${a.isCorrect ? 'recap-correct' : 'recap-wrong'}">
+          Ta réponse : "${a.yourAnswer}" — Attendu : "${a.correct}"
         </div>
-        <div style="font-size:11px;color:var(--muted2);margin-top:2px;font-family:'DM Mono',monospace">${a.notion}</div>
-      </div>`;
-    list.appendChild(div);
+        <div class="recap-points">${a.isCorrect ? '+1 point' : '0 point'}</div>
+      </div>
+    `;
+    recapList.appendChild(div);
   });
-
-  // Notions ratées
-  const ratees = [...new Set(answers.filter(a => !a.ok).map(a => a.notion))];
-
-  // Sauvegarder dans Sheet
-  saveToSheet(scoreSur6, scoreSur20, ratees);
+  await saveToSheet(score, total);
 }
 
-async function saveToSheet(scoreSur6, scoreSur20, ratees) {
+async function saveToSheet(score, total) {
   const badge = document.getElementById('saving-badge');
-  const url   = SHEETS[who];
+  const url = SHEETS[who];
   if (!url) { badge.textContent = '⚠ Sheet non configuré'; return; }
-
   try {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         action: 'logAutomatismes',
         matiere: 'Mathématiques',
-        serie: `Série automatismes J-${getDaysLeft()}`,
-        score: scoreSur6,
-        nbQuestions: 20,
-        notionsReussies: answers.filter(a=>a.ok).map(a=>a.notion).filter((v,i,s)=>s.indexOf(v)===i).join(', '),
-        notionsRatees: ratees.join(', '),
-      }),
+        serie: 'Automatismes Brevet',
+        nbQuestions: total,
+        score: score,
+        notionsReussies: answers.filter(a => a.isCorrect).map(a => a.question).join(', '),
+        notionsRatees: answers.filter(a => !a.isCorrect).map(a => a.question).join(', ')
+      })
     });
-    if (res.ok) {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result = await response.json();
+    if (result.success) {
       badge.style.color = 'var(--teal)';
       badge.textContent = '✓ Résultats sauvegardés dans ton Sheet Google';
-    } else throw new Error();
-  } catch(e) {
-    badge.style.color = 'var(--muted)';
-    badge.textContent = '⚠ Sauvegarde impossible — vérifie la connexion';
+    } else {
+      throw new Error(result.error || 'Erreur inconnue');
+    }
+  } catch (e) {
+    console.error(e);
+    badge.style.color = 'var(--red)';
+    badge.textContent = `⚠ Sauvegarde impossible : ${e.message}`;
   }
-}
-
-function getDaysLeft() {
-  return Math.ceil((new Date('2026-06-30') - new Date()) / 86400000);
 }
 
 function restartQuiz() {
   document.getElementById('screen-results').style.display = 'none';
-  document.getElementById('screen-home').style.display    = 'flex';
+  document.getElementById('screen-home').style.display = 'flex';
 }
 </script>
 </body>
