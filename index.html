@@ -27,6 +27,10 @@
   .countdown-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
   .exam-date { font-size: 11px; color: var(--muted2); margin-top: 6px; font-family: 'DM Mono', monospace; }
 
+  .nav-bar { display: flex; gap: 16px; margin: 20px 32px 0; flex-wrap: wrap; }
+  .nav-link { background: var(--bg2); border: 1px solid var(--border2); border-radius: 40px; padding: 8px 20px; color: var(--muted); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 12px; transition: all 0.15s; }
+  .nav-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(232,200,122,0.05); }
+
   .main { padding: 24px 32px 32px; display: grid; gap: 20px; }
   .jumeaux-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .jumeau-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
@@ -41,7 +45,6 @@
   .jumeau-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
   .jumeau-oral { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
 
-  /* Indicateur connexion */
   .connexion-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-family: 'DM Mono', monospace; padding: 3px 8px; border-radius: 999px; border: 1px solid; margin-left: auto; }
   .badge-ok   { color: var(--teal); border-color: rgba(94,207,177,0.3); background: rgba(94,207,177,0.07); }
   .badge-wait { color: var(--gold); border-color: rgba(232,200,122,0.3); background: rgba(232,200,122,0.07); }
@@ -105,26 +108,20 @@
   .session-btn:hover { background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1)); transform: translateY(-1px); }
   .session-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-  /* Log session modal */
+  /* Modal */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s; backdrop-filter: blur(4px); }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
   .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; padding: 28px; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.2s; }
   .modal-overlay.open .modal { transform: scale(1); }
   .modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
-  .modal-body { color: var(--muted); font-size: 13px; line-height: 1.7; }
-
   .form-group { margin-bottom: 14px; }
   .form-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 6px; }
-  .form-select, .form-input, .form-textarea {
-    width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm);
-    padding: 10px 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
-    outline: none; transition: border-color 0.15s;
-  }
+  .form-select, .form-input, .form-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; transition: border-color 0.15s; }
   .form-select:focus, .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
-  .form-textarea { min-height: 70px; resize: vertical; }
-
+  .radio-group { display: flex; gap: 20px; margin-top: 5px; }
+  .radio-group label { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
   .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-primary { flex: 1; background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1)); border: 1px solid rgba(232,200,122,0.4); border-radius: var(--radius-sm); padding: 10px; color: var(--gold2); cursor: pointer; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; transition: all 0.2s; }
+  .btn-primary { flex: 1; background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1)); border: 1px solid rgba(232,200,122,0.4); border-radius: var(--radius-sm); padding: 10px; color: var(--gold2); cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.2s; }
   .btn-secondary { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 20px; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; transition: background 0.15s; }
   .btn-primary:hover { background: linear-gradient(135deg, rgba(232,200,122,0.3), rgba(232,200,122,0.15)); }
   .btn-secondary:hover { background: rgba(255,255,255,0.05); }
@@ -145,6 +142,7 @@
 
   @media (max-width: 768px) {
     .header { flex-direction: column; padding: 20px 16px 0; }
+    .nav-bar { margin: 16px; }
     .jumeaux-row { grid-template-columns: 1fr; }
     .agents-grid { grid-template-columns: repeat(2, 1fr); }
     .stats-row { grid-template-columns: repeat(2, 1fr); }
@@ -175,50 +173,33 @@
   </div>
 </div>
 
+<!-- BARRE DE NAVIGATION AVEC LIEN VERS LE SUIVI PARENT -->
+<div class="nav-bar">
+  <a href="suivi-parent.html" class="nav-link">📊 Suivi Parental</a>
+  <a href="https://docs.google.com/spreadsheets/d/18QVZbRY7M8cNpnx7H4TkoTGMf-JvIAkzS1ScOfrDtHU" target="_blank" class="nav-link">📎 Sheet Wassil</a>
+  <a href="https://docs.google.com/spreadsheets/d/17IvW07JgkvvBhrxSRo0XaI9xapmF1ZhxAF5tQZmXrCI" target="_blank" class="nav-link">📎 Sheet Nawal</a>
+</div>
+
 <div class="main">
 
   <!-- STATS -->
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--teal)" id="stat-sessions-w">—</div>
-      <div class="stat-label">Sessions Wassil</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--n)" id="stat-sessions-n">—</div>
-      <div class="stat-label">Sessions Nawal</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--gold)" id="stat-jours">—</div>
-      <div class="stat-label">Jours restants</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--purple)" id="stat-flashcards">—</div>
-      <div class="stat-label">Flashcards à réviser</div>
-    </div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--teal)" id="stat-sessions-w">—</div><div class="stat-label">Sessions Wassil</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--n)" id="stat-sessions-n">—</div><div class="stat-label">Sessions Nawal</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--gold)" id="stat-jours">—</div><div class="stat-label">Jours restants</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--purple)" id="stat-flashcards">—</div><div class="stat-label">Flashcards à réviser</div></div>
   </div>
 
   <!-- JUMEAUX -->
   <div class="jumeaux-row">
-
     <!-- WASSIL -->
     <div class="jumeau-card wassil">
       <div class="jumeau-header">
         <div class="avatar w">W</div>
-        <div>
-          <div class="jumeau-name">Wassil</div>
-          <div class="jumeau-oral">Oral : L'invention du zéro</div>
-        </div>
-        <div class="connexion-badge badge-wait" id="badge-w">
-          <span class="dot-pulse"></span> Connexion...
-        </div>
+        <div><div class="jumeau-name">Wassil</div><div class="jumeau-oral">Oral : L'invention du zéro</div></div>
+        <div class="connexion-badge badge-wait" id="badge-w"><span class="dot-pulse"></span> Connexion...</div>
       </div>
-      <div class="progress-section" id="prog-w">
-        <div class="prog-row"><span class="prog-label">Maths</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-maths" style="width:0%"></div></div><span class="prog-pct" id="w-maths-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Français</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-fr" style="width:0%"></div></div><span class="prog-pct" id="w-fr-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Hist-Géo</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-hg" style="width:0%"></div></div><span class="prog-pct" id="w-hg-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Sciences</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-sc" style="width:0%"></div></div><span class="prog-pct" id="w-sc-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Oral</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-oral" style="width:0%"></div></div><span class="prog-pct" id="w-oral-pct">—</span></div>
-      </div>
+      <div class="progress-section" id="prog-w">...</div>
       <div class="matieres-grid">
         <a class="matiere-btn" href="automatismes-maths.html"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
         <a class="matiere-btn" href="automatismes-francais.html"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
@@ -227,26 +208,14 @@
         <a class="matiere-btn" href="agent-oral.html"><span class="matiere-icon">🎤</span><span class="matiere-name">Oral</span></a>
       </div>
     </div>
-
     <!-- NAWAL -->
     <div class="jumeau-card nawal">
       <div class="jumeau-header">
         <div class="avatar n">N</div>
-        <div>
-          <div class="jumeau-name">Nawal</div>
-          <div class="jumeau-oral">Oral : Féminisme et Malala</div>
-        </div>
-        <div class="connexion-badge badge-wait" id="badge-n">
-          <span class="dot-pulse"></span> Connexion...
-        </div>
+        <div><div class="jumeau-name">Nawal</div><div class="jumeau-oral">Oral : Féminisme et Malala</div></div>
+        <div class="connexion-badge badge-wait" id="badge-n"><span class="dot-pulse"></span> Connexion...</div>
       </div>
-      <div class="progress-section" id="prog-n">
-        <div class="prog-row"><span class="prog-label">Maths</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-maths" style="width:0%"></div></div><span class="prog-pct" id="n-maths-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Français</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-fr" style="width:0%"></div></div><span class="prog-pct" id="n-fr-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Hist-Géo</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-hg" style="width:0%"></div></div><span class="prog-pct" id="n-hg-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Sciences</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-sc" style="width:0%"></div></div><span class="prog-pct" id="n-sc-pct">—</span></div>
-        <div class="prog-row"><span class="prog-label">Oral</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-oral" style="width:0%"></div></div><span class="prog-pct" id="n-oral-pct">—</span></div>
-      </div>
+      <div class="progress-section" id="prog-n">...</div>
       <div class="matieres-grid">
         <a class="matiere-btn" href="automatismes-maths.html"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
         <a class="matiere-btn" href="automatismes-francais.html"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
@@ -258,28 +227,24 @@
   </div>
 
   <!-- SUJETS BLANCS -->
-  <div>
-    <div class="section-title">— Sujets blancs complets (10 par matière)</div>
+  <div><div class="section-title">— Sujets blancs complets (10 par matière)</div>
     <div class="agents-grid">
-      <div class="agent-card" onclick="location.href='sujets-maths.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">📐</span><div class="agent-name">10 Sujets Maths</div><div class="agent-desc">Parties 1+2 complètes. Chrono 2h. Corrections intégrales.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='sujets-francais.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">10 Sujets Français</div><div class="agent-desc">Texte + compréhension + grammaire + rédaction. Chrono 2h30.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='sujets-histgeo.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">🌍</span><div class="agent-name">10 Sujets Hist-Géo</div><div class="agent-desc">Documents + questions + paragraphe argumenté. Chrono 2h.</div><span class="agent-tag tag-hg">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='sujets-sciences.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">🔬</span><div class="agent-name">10 Sujets Sciences</div><div class="agent-desc">5 SVT + 5 Phys-Chimie. Démarche scientifique complète.</div><span class="agent-tag tag-sc">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-maths.html'"><div class="dot dot-ready"></div><span class="agent-icon">📐</span><div class="agent-name">10 Sujets Maths</div><div class="agent-desc">Parties 1+2 complètes. Chrono 2h.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-francais.html'"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">10 Sujets Français</div><div class="agent-desc">Texte + grammaire + rédaction. Chrono 2h30.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-histgeo.html'"><div class="dot dot-ready"></div><span class="agent-icon">🌍</span><div class="agent-name">10 Sujets Hist-Géo</div><div class="agent-desc">Documents + paragraphe argumenté. Chrono 2h.</div><span class="agent-tag tag-hg">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-sciences.html'"><div class="dot dot-ready"></div><span class="agent-icon">🔬</span><div class="agent-name">10 Sujets Sciences</div><div class="agent-desc">5 SVT + 5 Phys-Chimie.</div><span class="agent-tag tag-sc">✓ En ligne</span></div>
     </div>
   </div>
 
   <!-- AGENTS -->
-  <div>
-    <div class="section-title">— Agents spécialisés</div>
+  <div><div class="section-title">— Agents spécialisés</div>
     <div class="agents-grid">
-      <div class="agent-card" onclick="location.href='automatismes-maths.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">⚡</span><div class="agent-name">Automatismes Maths</div><div class="agent-desc">20 questions · 20 min · sans calculatrice · format DNB exact.</div><span class="agent-tag tag-auto">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='automatismes-francais.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">Automatismes Français</div><div class="agent-desc">10 min · conjugaison, grammaire, orthographe, figures de style.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='flashcards.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">🗂</span><div class="agent-name">Flashcards</div><div class="agent-desc">80 cartes · répétition espacée J+1·3·7 · 6 matières.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='annales.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">📋</span><div class="agent-name">Annales DNB</div><div class="agent-desc">14 exercices · sujets 2021–2025 · corrections + barèmes.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
-      <div class="agent-card" onclick="location.href='agent-oral.html'" style="cursor:pointer"><div class="dot dot-ready"></div><span class="agent-icon">🎤</span><div class="agent-name">Agent Oral</div><div class="agent-desc">Wassil & Nawal · fiche · grille barème · 20 questions jury.</div><span class="agent-tag tag-oral">✓ En ligne</span></div>
-      <div class="agent-card"><div class="dot dot-build"></div><span class="agent-icon">🔍</span><div class="agent-name">Éval. diagnostique</div><div class="agent-desc">QCM de positionnement. Lacunes. Plan de rattrapage perso.</div><span class="agent-tag tag-sc">Bientôt</span></div>
-      <div class="agent-card"><div class="dot dot-build"></div><span class="agent-icon">🌱</span><div class="agent-name">Coaching</div><div class="agent-desc">Citation d'ouverture. Feedback perso. Tu t'améliores.</div><span class="agent-tag tag-coach">Bientôt</span></div>
-      <div class="agent-card"><div class="dot dot-build"></div><span class="agent-icon">⚗️</span><div class="agent-name">Phys-Chimie</div><div class="agent-desc">Notions clés cycle 4. Exercices types. Barème DNB.</div><span class="agent-tag tag-sc">En construction</span></div>
+      <div class="agent-card" onclick="location.href='automatismes-maths.html'"><div class="dot dot-ready"></div><span class="agent-icon">⚡</span><div class="agent-name">Automatismes Maths</div><div class="agent-desc">20 questions · 20 min · format DNB.</div><span class="agent-tag tag-auto">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='automatismes-francais.html'"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">Automatismes Français</div><div class="agent-desc">10 min · conjugaison, grammaire, orthographe.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='flashcards.html'"><div class="dot dot-ready"></div><span class="agent-icon">🗂</span><div class="agent-name">Flashcards</div><div class="agent-desc">80 cartes · répétition espacée J+1·3·7.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='annales.html'"><div class="dot dot-ready"></div><span class="agent-icon">📋</span><div class="agent-name">Annales DNB</div><div class="agent-desc">14 exercices type brevet.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='agent-oral.html'"><div class="dot dot-ready"></div><span class="agent-icon">🎤</span><div class="agent-name">Agent Oral</div><div class="agent-desc">Grille d'évaluation · 20 questions jury.</div><span class="agent-tag tag-oral">✓ En ligne</span></div>
+      <div class="agent-card"><div class="dot dot-build"></div><span class="agent-icon">🔍</span><div class="agent-name">Éval. diagnostique</div><div class="agent-desc">Bientôt</div><span class="agent-tag tag-sc">Bientôt</span></div>
     </div>
   </div>
 
@@ -288,32 +253,35 @@
     <div class="panel">
       <div class="section-title">— Calendrier J-30</div>
       <div class="cal-grid" id="cal-grid"></div>
-      <button class="session-btn" id="session-btn" onclick="openSessionModal()">
-        ✓ Enregistrer une session
-      </button>
+      <button class="session-btn" id="session-btn" onclick="openSessionModal()">✓ Enregistrer une session</button>
     </div>
     <div class="panel">
       <div class="section-title">— Citation du jour</div>
       <div class="citation" id="citation-text"></div>
       <div style="margin-top:16px">
         <div class="section-title">— Tâches du jour</div>
-        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>⚡</span><span style="font-size:12px;color:var(--muted)">Automatismes — 10 min sans calculatrice</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>⚡</span><span style="font-size:12px;color:var(--muted)">Automatismes — 10 min</span></div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>📐</span><span style="font-size:12px;color:var(--muted)">Maths — 1 exercice type DNB</span></div>
           <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>🗂</span><span id="flash-today" style="font-size:12px;color:var(--muted)">Flashcards — chargement...</span></div>
-          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>🎤</span><span style="font-size:12px;color:var(--muted)">Oral — 15 min de préparation</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>🎤</span><span style="font-size:12px;color:var(--muted)">Oral — 15 min</span></div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- MODAL LOG SESSION -->
+<!-- MODAL LOG SESSION (avec choix de l'élève) -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
   <div class="modal">
     <div class="modal-title" id="modal-title">Enregistrer une session</div>
-    <input type="hidden" id="modal-who">
+    <div class="form-group">
+      <label class="form-label">👤 Pour qui ?</label>
+      <div class="radio-group" id="eleve-selector">
+        <label><input type="radio" name="eleve" value="W" checked> Wassil</label>
+        <label><input type="radio" name="eleve" value="N"> Nawal</label>
+      </div>
+    </div>
     <div class="form-group">
       <label class="form-label">Matière</label>
       <select class="form-select" id="f-matiere">
@@ -324,16 +292,16 @@
     </div>
     <div class="form-group">
       <label class="form-label">Activité</label>
-      <input class="form-input" id="f-activite" placeholder="Ex: Exercices automatismes série A..." />
+      <input class="form-input" id="f-activite" placeholder="Ex: Exercices automatismes série A...">
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="form-group">
         <label class="form-label">Durée (min)</label>
-        <input class="form-input" id="f-duree" type="number" placeholder="30" />
+        <input class="form-input" id="f-duree" type="number" placeholder="30">
       </div>
       <div class="form-group">
         <label class="form-label">Score /20</label>
-        <input class="form-input" id="f-score" type="number" placeholder="15" step="0.5" />
+        <input class="form-input" id="f-score" type="number" step="0.5" placeholder="15">
       </div>
     </div>
     <div class="form-group">
@@ -347,18 +315,13 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ══ CONFIG ═══════════════════════════════════════════════════
-// Les URLs sont lues depuis le bloc <script> en haut du fichier
-// ════════════════════════════════════════════════════════════
-
 const EXAM_DATE  = new Date('2026-06-30T09:00:00');
 const START_DATE = new Date('2026-05-20T00:00:00');
 
-// ── INIT ─────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   buildCalendar();
@@ -374,126 +337,97 @@ function updateCountdown() {
   const j    = Math.max(0, diff);
   document.getElementById('jours-restants').textContent = j;
   document.getElementById('stat-jours').textContent = j;
-
   const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
   const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  document.getElementById('date-display').textContent =
-    `${jours[now.getDay()]} ${now.getDate()} ${mois[now.getMonth()]} ${now.getFullYear()}`;
+  document.getElementById('date-display').textContent = `${jours[now.getDay()]} ${now.getDate()} ${mois[now.getMonth()]} ${now.getFullYear()}`;
 }
 
-// ── FETCH SHEET (JSONP via no-cors proxy) ─────────────────────
+// ── FETCH SHEET ─────────────────────────────────────────────
 async function fetchSheet(who, action, params = '') {
   const url = who === 'W' ? SHEET_WASSIL : SHEET_NAWAL;
   if (!url || url.includes('COLLE_URL')) return null;
-
   try {
-    const res = await fetch(`${url}?action=${action}${params}`, {
-      method: 'GET',
-      mode: 'cors',
-    });
+    const res = await fetch(`${url}?action=${action}${params}`, { method: 'GET', mode: 'cors' });
     if (!res.ok) return null;
     return await res.json();
-  } catch(e) {
-    return null;
-  }
+  } catch(e) { return null; }
 }
 
 async function postSheet(who, body) {
   const url = who === 'W' ? SHEET_WASSIL : SHEET_NAWAL;
   if (!url || url.includes('COLLE_URL')) return null;
-
   try {
-    const res = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(body),
-    });
+    const res = await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify(body) });
     if (!res.ok) return null;
     return await res.json();
-  } catch(e) {
-    return null;
-  }
+  } catch(e) { return null; }
 }
 
-// ── LOAD PROGRESSION FROM SHEET ──────────────────────────────
+// ── LOAD PROGRESSION ────────────────────────────────────────
 async function loadSheetData(who) {
   const badge = document.getElementById(`badge-${who.toLowerCase()}`);
   const data  = await fetchSheet(who, 'getProgression');
-
   if (!data || data.error) {
     badge.className = 'connexion-badge badge-err';
     badge.innerHTML = '✕ Non connecté';
-
-    // Fallback valeurs locales
     fillProgress(who, {
       'Mathématiques': {pctNotions:0}, 'Français': {pctNotions:0},
       'Histoire-Géographie': {pctNotions:0}, 'SVT': {pctNotions:0}, 'Oral': {pctNotions:0}
     });
     return;
   }
-
   badge.className = 'connexion-badge badge-ok';
   badge.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span> Connecté';
-
-  // Sessions
   const sesKey = `stat-sessions-${who.toLowerCase()}`;
   document.getElementById(sesKey).textContent = data.nbSessionsTotal || 0;
-
-  // Progression
   fillProgress(who, data.matieres || {});
-
-  // Flashcards
   const fc = await fetchSheet(who, 'getFlashcardsAujourdHui');
   if (fc && fc.total !== undefined) {
     const cur = parseInt(document.getElementById('stat-flashcards').textContent) || 0;
     document.getElementById('stat-flashcards').textContent = cur + fc.total;
-    document.getElementById('flash-today').textContent =
-      `Flashcards — ${fc.total} carte${fc.total > 1 ? 's' : ''} à réviser aujourd'hui`;
+    document.getElementById('flash-today').textContent = `Flashcards — ${fc.total} carte${fc.total > 1 ? 's' : ''} à réviser aujourd'hui`;
   }
 }
 
 function fillProgress(who, matieres) {
   const map = {
-    'Mathématiques':       `${who.toLowerCase()}-maths`,
-    'Français':            `${who.toLowerCase()}-fr`,
+    'Mathématiques': `${who.toLowerCase()}-maths`,
+    'Français': `${who.toLowerCase()}-fr`,
     'Histoire-Géographie': `${who.toLowerCase()}-hg`,
-    'SVT':                 `${who.toLowerCase()}-sc`,
-    'Physique-Chimie':     `${who.toLowerCase()}-sc`,
-    'Oral':                `${who.toLowerCase()}-oral`,
+    'SVT': `${who.toLowerCase()}-sc`,
+    'Physique-Chimie': `${who.toLowerCase()}-sc`,
+    'Oral': `${who.toLowerCase()}-oral`,
   };
   Object.entries(matieres).forEach(([mat, val]) => {
-    const id  = map[mat];
+    const id = map[mat];
     if (!id) return;
     const pct = Math.round((val.pctNotions || 0) * 100);
     const bar = document.getElementById(id);
     const lbl = document.getElementById(id + '-pct');
-    if (bar) setTimeout(() => { bar.style.width = pct + '%'; }, 400);
+    if (bar) setTimeout(() => bar.style.width = pct + '%', 400);
     if (lbl) lbl.textContent = pct + '%';
   });
 }
 
 // ── CALENDAR ─────────────────────────────────────────────────
 function buildCalendar() {
-  const grid  = document.getElementById('cal-grid');
-  const now   = new Date();
+  const grid = document.getElementById('cal-grid');
+  const now = new Date();
   const total = Math.ceil((EXAM_DATE - START_DATE) / 86400000);
-
   grid.innerHTML = '';
   for (let i = 0; i < Math.min(total, 42); i++) {
-    const d   = new Date(START_DATE);
+    const d = new Date(START_DATE);
     d.setDate(d.getDate() + i);
     const key = d.toISOString().split('T')[0];
-    const el  = document.createElement('div');
+    const el = document.createElement('div');
     el.className = 'cal-day';
     el.textContent = d.getDate();
     el.title = key;
-
     const todayKey = now.toISOString().split('T')[0];
-    if (key === '2026-06-30')    el.classList.add('exam');
-    else if (key === todayKey)   el.classList.add('today');
-    else if (d < now)            el.classList.add('done');
-    else                         el.classList.add('future');
-
+    if (key === '2026-06-30') el.classList.add('exam');
+    else if (key === todayKey) el.classList.add('today');
+    else if (d < now) el.classList.add('done');
+    else el.classList.add('future');
     grid.appendChild(el);
   }
 }
@@ -508,37 +442,32 @@ const CITATIONS = [
   { text: "Chaque expert a d'abord été un débutant.", author: "Robin Sharma" },
   { text: "La connaissance est la seule richesse qui ne diminue pas quand on la partage.", author: "Proverbe" },
 ];
-
 function setCitation() {
   const c = CITATIONS[new Date().getDate() % CITATIONS.length];
-  document.getElementById('citation-text').innerHTML =
-    `"${c.text}"<div class="citation-author">— ${c.author}</div>`;
+  document.getElementById('citation-text').innerHTML = `"${c.text}"<div class="citation-author">— ${c.author}</div>`;
 }
 
-// ── MODAL SESSION ────────────────────────────────────────────
-let currentWho = 'W';
+// ── MODAL SESSION (avec choix élève) ────────────────────────
+let currentSelectedEleve = 'W'; // 'W' ou 'N'
 
 function openSessionModal() {
   document.getElementById('modal-title').textContent = 'Enregistrer une session';
-  document.getElementById('modal-who').value = '';
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function logSessionModal(who, matiere) {
-  currentWho = who;
-  document.getElementById('modal-title').textContent =
-    `Session ${who === 'W' ? 'Wassil' : 'Nawal'} — ${matiere}`;
-  document.getElementById('f-matiere').value = matiere;
+  document.getElementById('f-activite').value = '';
+  document.getElementById('f-duree').value = '';
+  document.getElementById('f-score').value = '';
+  document.getElementById('f-notes').value = '';
   document.getElementById('modal-overlay').classList.add('open');
 }
 
 async function submitSession() {
-  const who      = currentWho;
-  const matiere  = document.getElementById('f-matiere').value;
+  // Récupérer l'élève sélectionné
+  const eleveRadio = document.querySelector('input[name="eleve"]:checked');
+  const who = eleveRadio ? eleveRadio.value : 'W';
+  const matiere = document.getElementById('f-matiere').value;
   const activite = document.getElementById('f-activite').value;
-  const duree    = document.getElementById('f-duree').value;
-  const score    = document.getElementById('f-score').value;
-  const notes    = document.getElementById('f-notes').value;
+  const duree = document.getElementById('f-duree').value;
+  const score = document.getElementById('f-score').value;
+  const notes = document.getElementById('f-notes').value;
 
   const btn = document.querySelector('.btn-primary');
   btn.textContent = 'Enregistrement...';
@@ -553,40 +482,26 @@ async function submitSession() {
   btn.disabled = false;
 
   if (result && result.success) {
-    showToast('✓ Session enregistrée dans le Sheet', 'success');
+    showToast(`✓ Session enregistrée pour ${who === 'W' ? 'Wassil' : 'Nawal'}`, 'success');
     closeModal();
-    // Mettre à jour le compteur
+    // Mettre à jour le compteur de sessions
     const key = `stat-sessions-${who.toLowerCase()}`;
     const cur = parseInt(document.getElementById(key).textContent) || 0;
     document.getElementById(key).textContent = cur + 1;
   } else {
-    const url = who === 'W' ? SHEET_WASSIL : SHEET_NAWAL;
-    if (!url || url.includes('COLLE_URL')) {
-      showToast('⚠ Configure les URLs des Sheets d\'abord', 'error');
-    } else {
-      showToast('✗ Erreur — vérifie la connexion au Sheet', 'error');
-    }
+    showToast('✗ Erreur — vérifie la connexion au Sheet', 'error');
     closeModal();
   }
-
-  // Reset form
-  document.getElementById('f-activite').value = '';
-  document.getElementById('f-duree').value    = '';
-  document.getElementById('f-score').value    = '';
-  document.getElementById('f-notes').value    = '';
 }
 
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
 }
-
 function closeModalOutside(e) {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
-
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// ── TOAST ────────────────────────────────────────────────────
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
