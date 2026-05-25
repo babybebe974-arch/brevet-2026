@@ -281,17 +281,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 <div class="toast" id="toast"></div>
 
 <script>
-// ============================================================
-// ⚠️ REMPLACE LES DEUX URLs CI-DESSOUS PAR TES NOUVELLES URLS
-// (celles qui répondent {"status":"ok"})
-// ============================================================
+// ========== NOUVELLES URLS (Wassil et Nawal) ==========
 const SHEETS = {
-  // ↓ Remplace par l'URL du script de Wassil
-  W: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec',
-  // ↓ Remplace par l'URL du script de Nawal (si différente)
-  N: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec'
+  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
+  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec'
 };
-// ============================================================
+// ======================================================
 
 const EXAM_DATE  = new Date('2026-06-30T09:00:00');
 const START_DATE = new Date('2026-05-20T00:00:00');
@@ -498,9 +493,11 @@ function generateAlerts() {
   const now = new Date();
   const j = Math.ceil((EXAM_DATE - now) / 86400000);
 
+  // Jours restants
   if (j <= 7)  alerts.push({type:'danger', icon:'🚨', title:`J-${j} — Dernière ligne droite !`, msg:'Prioriser les révisions des points faibles et les simulations complètes.'});
   else if (j <= 14) alerts.push({type:'warn', icon:'⚠️', title:`J-${j} — Phase intensive`, msg:'Faire 2 sujets blancs par jour. Revoir les notions mal maîtrisées.'});
 
+  // Sessions
   const sessW = parseInt(document.getElementById('s-sess-w').textContent) || 0;
   const sessN = parseInt(document.getElementById('s-sess-n').textContent) || 0;
 
@@ -520,6 +517,7 @@ function generateAlerts() {
     alerts.push({type:'good', icon:'🎉', title:'Excellent démarrage !', msg:`Wassil : ${sessW} sessions · Nawal : ${sessN} sessions. Continuez comme ça !`});
   }
 
+  // Connexion
   if (!dataW || !dataN) {
     alerts.push({type:'warn', icon:'🔌', title:'Connexion Sheets partielle', msg:'Vérifiez que les Apps Scripts sont bien déployés sur les deux Sheets Google.'});
   }
@@ -534,6 +532,7 @@ function generateAlerts() {
 
 // ── MOYENNES ──────────────────────────────────────────────
 function calcMoyennes() {
+  // On calcule depuis les sessions disponibles
   const calcMoy = (sessions) => {
     const scored = sessions.filter(s => parseFloat(s.score) > 0);
     if (!scored.length) return '—';
