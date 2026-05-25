@@ -59,7 +59,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ctx-title{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
 .ctx-body{font-size:12px;color:var(--muted);line-height:1.6;}
 .ctx-body li{margin-left:14px;margin-bottom:3px;}
-.oral-ta{width:100%;min-height:280px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.8;outline:none;resize:vertical;transition:border-color 0.2s;margin-bottom:8px;}
+.oral-ta{width:100%;min-height:280px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.8;outline:none;resize:vertical;margin-bottom:8px;}
 .oral-ta:focus{border-color:rgba(232,200,122,0.4);}
 .wcount{text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:14px;}
 .action-btn{width:100%;background:linear-gradient(135deg,rgba(232,200,122,0.15),rgba(232,200,122,0.08));border:1px solid rgba(232,200,122,0.35);border-radius:var(--r);padding:13px;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:17px;cursor:pointer;transition:all 0.2s;}
@@ -217,7 +217,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 <div class="toast" id="toast"></div>
 
 <script>
-const SH={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+// ========== CONFIGURATION DES SHEETS (URLs mises à jour) ==========
+const SH = {
+  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
+  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec'
+};
+// ==========================================================
+
 const D={
 W:{nom:'Wassil',titre:"L'invention du zéro",avc:'av-w',avl:'W',
 ctx:[
@@ -257,7 +263,7 @@ ctx:[
 {t:'💡 Chiffres clés',i:["130 millions de filles non scolarisées","12 millions de mariages forcés par an","2/3 des analphabètes dans le monde = femmes","Pakistan 2014 : 22M d'enfants hors école"]},
 {t:'🌍 Interdisciplinaire',i:["Histoire : luttes pour les droits civiques","Géographie : inégalités Nord/Sud","EMC : droits humains, DUDH article 26","Français : discours engagé, argumentation"]},
 {t:"⚠️ Pièges du jury",i:["'Le féminisme est-il universel ou culturel ?'","'Malala est-elle instrumentalisée par l'Occident ?'","'Qu'est-ce qui a changé depuis le Nobel ?'","'Quelles limites à son combat ?'"]},
-{t:'✅ Ce que le jury valorise',i:["Définir féminisme précisément","Citer des chiffres concrets (130M, 12M...)",  "Regard critique (progrès ET limites)","Lien DUDH article 26 droit à l'éducation"]}
+{t:'✅ Ce que le jury valorise',i:["Définir féminisme précisément","Citer des chiffres concrets (130M, 12M...)","Regard critique (progrès ET limites)","Lien DUDH article 26 droit à l'éducation"]}
 ],
 qs:[
 {q:"Qui est Malala Yousafzai ? Donne trois informations essentielles.",p:"Née le 12 juillet 1997 à Mingora (Pakistan). Militante pour le droit à l'éducation des filles. Prix Nobel de la Paix 2014, plus jeune lauréate à 17 ans.",m:["Pakistan","Nobel 2014","17 ans"]},
