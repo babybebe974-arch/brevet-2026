@@ -1,198 +1,517 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>⚡ Commando CM2 — Évaluations nationales</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background: #0a0a0f;
-            color: #f0ede8;
-            font-family: 'DM Sans', sans-serif;
-            line-height: 1.5;
-            font-size: 18px;
-        }
-        .hero {
-            background: linear-gradient(145deg, #0b1120 0%, #0a0f1c 100%);
-            text-align: center;
-            padding: 3rem 1.5rem 2rem;
-            border-bottom: 1px solid rgba(94, 207, 177, 0.2);
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(94, 207, 177, 0.1);
-            border: 1px solid rgba(94, 207, 177, 0.3);
-            border-radius: 60px;
-            padding: 0.3rem 1rem;
-            font-size: 0.8rem;
-            font-family: 'DM Mono', monospace;
-            letter-spacing: 1px;
-            color: #5ecfb1;
-            margin-bottom: 1rem;
-        }
-        h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-        .gold {
-            color: #e8c87a;
-        }
-        .sub {
-            color: #9aaec9;
-            max-width: 650px;
-            margin: 1rem auto 0;
-            font-size: 1.1rem;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-        .card {
-            background: #111118;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.5rem;
-            padding: 1.8rem;
-            transition: 0.2s ease;
-            cursor: pointer;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(94, 207, 177, 0.4);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        }
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-        .card-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .card-desc {
-            font-size: 0.95rem;
-            color: #aaa;
-            line-height: 1.5;
-        }
-        .card-tag {
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            font-family: 'DM Mono', monospace;
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            background: rgba(94, 207, 177, 0.1);
-            border: 1px solid rgba(94, 207, 177, 0.3);
-            color: #5ecfb1;
-        }
-        hr {
-            border: none;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 2rem 0;
-        }
-        .footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: #0a0a0f;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.8rem;
-            color: #5e6c8c;
-        }
-        @media (max-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brevet J-30 — Hub Central</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a26;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
+    --text: #f0efe8; --muted: rgba(240,239,232,0.45); --muted2: rgba(240,239,232,0.25);
+    --gold: #e8c87a; --gold2: #f5dfa0; --teal: #5ecfb1; --coral: #f07a5a;
+    --blue: #6ab4f5; --purple: #a98af5; --green: #7ecf8a; --red: #f55a5a;
+    --w: #7eb8f5; --n: #f59eb8; --radius: 14px; --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; font-size: 14px; line-height: 1.6; }
+
+  .header { padding: 32px 32px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .header-left h1 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+  .header-left h1 span { color: var(--gold); }
+  .header-left p { color: var(--muted); font-size: 13px; margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+  .countdown-block { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); padding: 16px 24px; text-align: center; min-width: 160px; }
+  .countdown-number { font-family: 'Syne', sans-serif; font-size: 52px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .countdown-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+  .exam-date { font-size: 11px; color: var(--muted2); margin-top: 6px; font-family: 'DM Mono', monospace; }
+
+  .nav-bar { display: flex; gap: 16px; margin: 20px 32px 0; flex-wrap: wrap; }
+  .nav-link { background: var(--bg2); border: 1px solid var(--border2); border-radius: 40px; padding: 8px 20px; color: var(--muted); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 12px; transition: all 0.15s; }
+  .nav-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(232,200,122,0.05); }
+
+  .main { padding: 24px 32px 32px; display: grid; gap: 20px; }
+  .jumeaux-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .jumeau-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; position: relative; overflow: hidden; }
+  .jumeau-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .jumeau-card.wassil::before { background: linear-gradient(90deg, var(--w), #4a9fe0); }
+  .jumeau-card.nawal::before { background: linear-gradient(90deg, var(--n), #e07a9f); }
+
+  .jumeau-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; }
+  .avatar.w { background: rgba(126,184,245,0.15); color: var(--w); border: 1px solid rgba(126,184,245,0.25); }
+  .avatar.n { background: rgba(245,158,184,0.15); color: var(--n); border: 1px solid rgba(245,158,184,0.25); }
+  .jumeau-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
+  .jumeau-oral { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  .connexion-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-family: 'DM Mono', monospace; padding: 3px 8px; border-radius: 999px; border: 1px solid; margin-left: auto; }
+  .badge-ok   { color: var(--teal); border-color: rgba(94,207,177,0.3); background: rgba(94,207,177,0.07); }
+  .badge-wait { color: var(--gold); border-color: rgba(232,200,122,0.3); background: rgba(232,200,122,0.07); }
+  .badge-err  { color: var(--red);  border-color: rgba(245,90,90,0.3);   background: rgba(245,90,90,0.07); }
+  .dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+  .progress-section { margin-top: 14px; }
+  .prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .prog-label { font-size: 11px; color: var(--muted); width: 68px; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .prog-bar { flex: 1; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+  .prog-pct { font-size: 11px; color: var(--muted2); width: 30px; text-align: right; font-family: 'DM Mono', monospace; }
+  .fill-w { background: linear-gradient(90deg, var(--w), #4a9fe0); }
+  .fill-n { background: linear-gradient(90deg, var(--n), #e07a9f); }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 12px; }
+
+  .agents-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .agent-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .agent-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .agent-card .dot { width: 8px; height: 8px; border-radius: 50%; position: absolute; top: 14px; right: 14px; }
+  .dot-ready { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-build { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+  .agent-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+  .agent-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .agent-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .agent-tag { display: inline-block; margin-top: 10px; font-size: 10px; font-family: 'DM Mono', monospace; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+  .tag-maths { color: var(--blue); border-color: rgba(106,180,245,0.3); background: rgba(106,180,245,0.07); }
+  .tag-fr { color: var(--teal); border-color: rgba(94,207,177,0.3); background: rgba(94,207,177,0.07); }
+  .tag-oral { color: var(--gold); border-color: rgba(232,200,122,0.3); background: rgba(232,200,122,0.07); }
+  .tag-auto { color: var(--purple); border-color: rgba(169,138,245,0.3); background: rgba(169,138,245,0.07); }
+  .tag-sc { color: var(--green); border-color: rgba(126,207,138,0.3); background: rgba(126,207,138,0.07); }
+  .tag-coach { color: var(--n); border-color: rgba(245,158,184,0.3); background: rgba(245,158,184,0.07); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; text-align: center; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
+  .stat-label { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 6px; }
+
+  .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+
+  .matieres-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+  .matiere-btn { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 6px; cursor: pointer; text-align: center; transition: all 0.18s; display: block; }
+  .matiere-btn:hover { border-color: var(--border2); background: rgba(255,255,255,0.04); transform: translateY(-1px); }
+  .matiere-icon { font-size: 18px; display: block; margin-bottom: 4px; }
+  .matiere-name { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; }
+
+  .cal-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 14px; }
+  .cal-day { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-family: 'DM Mono', monospace; cursor: pointer; transition: all 0.15s; border: 1px solid transparent; }
+  .cal-day.done  { background: rgba(94,207,177,0.12); color: var(--teal); border-color: rgba(94,207,177,0.2); }
+  .cal-day.today { background: rgba(232,200,122,0.15); color: var(--gold); border-color: rgba(232,200,122,0.4); font-weight: 700; }
+  .cal-day.future { background: var(--bg3); color: var(--muted2); border-color: var(--border); }
+  .cal-day.exam  { background: rgba(240,122,90,0.15); color: var(--coral); border-color: rgba(240,122,90,0.4); font-weight: 700; }
+
+  .citation { border-left: 2px solid var(--gold); padding: 10px 16px; margin-top: 14px; font-style: italic; color: var(--muted); font-size: 13px; line-height: 1.7; background: rgba(232,200,122,0.04); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .citation-author { font-style: normal; font-size: 11px; color: var(--gold); font-family: 'DM Mono', monospace; margin-top: 8px; }
+
+  .session-btn { width: 100%; margin-top: 16px; background: linear-gradient(135deg, rgba(232,200,122,0.12), rgba(232,200,122,0.06)); border: 1px solid rgba(232,200,122,0.3); border-radius: var(--radius-sm); padding: 12px 20px; color: var(--gold2); cursor: pointer; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; transition: all 0.2s; text-align: center; }
+  .session-btn:hover { background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1)); transform: translateY(-1px); }
+  .session-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s; backdrop-filter: blur(4px); }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; padding: 28px; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.2s; }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 6px; }
+  .form-select, .form-input, .form-textarea { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 12px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; transition: border-color 0.15s; }
+  .form-select:focus, .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+  .radio-group { display: flex; gap: 20px; margin-top: 5px; }
+  .radio-group label { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-primary { flex: 1; background: linear-gradient(135deg, rgba(232,200,122,0.2), rgba(232,200,122,0.1)); border: 1px solid rgba(232,200,122,0.4); border-radius: var(--radius-sm); padding: 10px; color: var(--gold2); cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.2s; }
+  .btn-secondary { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 20px; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; transition: background 0.15s; }
+  .btn-primary:hover { background: linear-gradient(135deg, rgba(232,200,122,0.3), rgba(232,200,122,0.15)); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 20px; font-size: 13px; z-index: 200; opacity: 0; transform: translateY(10px); transition: all 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.success { border-color: rgba(94,207,177,0.4); color: var(--teal); }
+  .toast.error { border-color: rgba(245,90,90,0.4); color: var(--red); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .main > * { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+  .main > *:nth-child(1) { animation-delay: 0.05s; }
+  .main > *:nth-child(2) { animation-delay: 0.12s; }
+  .main > *:nth-child(3) { animation-delay: 0.19s; }
+  .main > *:nth-child(4) { animation-delay: 0.26s; }
+  .main > *:nth-child(5) { animation-delay: 0.33s; }
+  .main > *:nth-child(6) { animation-delay: 0.40s; }
+
+  @media (max-width: 768px) {
+    .header { flex-direction: column; padding: 20px 16px 0; }
+    .nav-bar { margin: 16px; }
+    .jumeaux-row { grid-template-columns: 1fr; }
+    .agents-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .bottom-row { grid-template-columns: 1fr; }
+    .matieres-grid { grid-template-columns: repeat(3, 1fr); }
+    .main { padding: 16px; }
+  }
+</style>
 </head>
 <body>
 
-<div class="hero">
-    <div class="hero-badge">⚡ Prépare-toi aux évaluations nationales</div>
-    <h1>Commando <span class="gold">CM2</span></h1>
-    <div class="sub">Diagnostic · Entraînement ciblé · Flashcards · Suivi enseignant</div>
+<!-- ══ CONFIGURATION — NOUVELLES URLS ═══════════════════ -->
+<script>
+  const SHEET_WASSIL = 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec';
+  const SHEET_NAWAL  = 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec';
+</script>
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="header">
+  <div class="header-left">
+    <h1>Brevet <span>2026</span> — Hub Central</h1>
+    <p id="date-display">Chargement...</p>
+  </div>
+  <div class="countdown-block">
+    <div class="countdown-number" id="jours-restants">—</div>
+    <div class="countdown-label">jours restants</div>
+    <div class="exam-date">DNB — 30 juin 2026</div>
+  </div>
 </div>
 
-<div class="container">
-    <div class="grid">
-        <div class="card" onclick="location.href='diag.html'">
-            <span class="card-icon">📋</span>
-            <div class="card-title">Diagnostic initial</div>
-            <div class="card-desc">30 questions aléatoires (français + maths) pour identifier tes points forts et tes lacunes.</div>
-            <span class="card-tag">10‑15 min</span>
-        </div>
+<!-- BARRE DE NAVIGATION -->
+<div class="nav-bar">
+  <a href="suivi-parent.html" class="nav-link">📊 Suivi Parental</a>
+  <a href="https://docs.google.com/spreadsheets/d/18QVZbRY7M8cNpnx7H4TkoTGMf-JvIAkzS1ScOfrDtHU" target="_blank" class="nav-link">📎 Sheet Wassil</a>
+  <a href="https://docs.google.com/spreadsheets/d/17IvW07JgkvvBhrxSRo0XaI9xapmF1ZhxAF5tQZmXrCI" target="_blank" class="nav-link">📎 Sheet Nawal</a>
+</div>
 
-        <div class="card" onclick="location.href='entrainement-fr.html'">
-            <span class="card-icon">📖</span>
-            <div class="card-title">Entraînement Français</div>
-            <div class="card-desc">Exercices adaptés à ton niveau. Double dose sur les notions difficiles.</div>
-            <span class="card-tag">400 exercices</span>
-        </div>
+<div class="main">
 
-        <div class="card" onclick="location.href='entrainement-maths.html'">
-            <span class="card-icon">🧮</span>
-            <div class="card-title">Entraînement Maths</div>
-            <div class="card-desc">Nombres, calculs, géométrie, problèmes. Progression automatique.</div>
-            <span class="card-tag">400 exercices</span>
-        </div>
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" style="color:var(--teal)" id="stat-sessions-w">—</div><div class="stat-label">Sessions Wassil</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--n)" id="stat-sessions-n">—</div><div class="stat-label">Sessions Nawal</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--gold)" id="stat-jours">—</div><div class="stat-label">Jours restants</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--purple)" id="stat-flashcards">—</div><div class="stat-label">Flashcards à réviser</div></div>
+  </div>
 
-        <div class="card" onclick="location.href='flashcards.html'">
-            <span class="card-icon">🗂️</span>
-            <div class="card-title">Flashcards</div>
-            <div class="card-desc">Règles et exemples. Révision espacée (J+1, J+3, J+7).</div>
-            <span class="card-tag">Mémorisation active</span>
-        </div>
-
-        <div class="card" onclick="location.href='suivi-enseignant.html'">
-            <span class="card-icon">📊</span>
-            <div class="card-title">Tableau de bord enseignant</div>
-            <div class="card-desc">Suivi des progrès par élève, alertes, export des résultats.</div>
-            <span class="card-tag">Accès protégé</span>
-        </div>
-
-        <div class="card" onclick="location.href='guide-commando-cm2.html'">
-            <span class="card-icon">📘</span>
-            <div class="card-title">Guide pédagogique</div>
-            <div class="card-desc">Pourquoi ce système ? Comment l’utiliser ? Fondements scientifiques.</div>
-            <span class="card-tag">Pour les collègues</span>
-        </div>
+  <!-- JUMEAUX -->
+  <div class="jumeaux-row">
+    <!-- WASSIL -->
+    <div class="jumeau-card wassil">
+      <div class="jumeau-header">
+        <div class="avatar w">W</div>
+        <div><div class="jumeau-name">Wassil</div><div class="jumeau-oral">Oral : L'invention du zéro</div></div>
+        <div class="connexion-badge badge-wait" id="badge-w"><span class="dot-pulse"></span> Connexion...</div>
+      </div>
+      <div class="progress-section" id="prog-w">
+        <div class="prog-row"><span class="prog-label">Maths</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-maths" style="width:0%"></div></div><span class="prog-pct" id="w-maths-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Français</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-fr" style="width:0%"></div></div><span class="prog-pct" id="w-fr-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Hist-Géo</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-hg" style="width:0%"></div></div><span class="prog-pct" id="w-hg-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Sciences</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-sc" style="width:0%"></div></div><span class="prog-pct" id="w-sc-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Oral</span><div class="prog-bar"><div class="prog-fill fill-w" id="w-oral" style="width:0%"></div></div><span class="prog-pct" id="w-oral-pct">—</span></div>
+      </div>
+      <div class="matieres-grid">
+        <a class="matiere-btn" href="automatismes-maths.html"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
+        <a class="matiere-btn" href="automatismes-francais.html"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
+        <a class="matiere-btn" href="annales.html"><span class="matiere-icon">🌍</span><span class="matiere-name">Annales</span></a>
+        <a class="matiere-btn" href="flashcards.html"><span class="matiere-icon">🗂</span><span class="matiere-name">Flashcards</span></a>
+        <a class="matiere-btn" href="agent-oral.html"><span class="matiere-icon">🎤</span><span class="matiere-name">Oral</span></a>
+      </div>
     </div>
-
-    <hr>
-
-    <div style="text-align: center;">
-        <p style="color:#9aaec9; font-size:0.9rem;">⚡ Chaque session est enregistrée dans ton Google Sheet. <br>Tu peux reprendre ton travail où tu l’as laissé.</p>
+    <!-- NAWAL -->
+    <div class="jumeau-card nawal">
+      <div class="jumeau-header">
+        <div class="avatar n">N</div>
+        <div><div class="jumeau-name">Nawal</div><div class="jumeau-oral">Oral : Féminisme et Malala</div></div>
+        <div class="connexion-badge badge-wait" id="badge-n"><span class="dot-pulse"></span> Connexion...</div>
+      </div>
+      <div class="progress-section" id="prog-n">
+        <div class="prog-row"><span class="prog-label">Maths</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-maths" style="width:0%"></div></div><span class="prog-pct" id="n-maths-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Français</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-fr" style="width:0%"></div></div><span class="prog-pct" id="n-fr-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Hist-Géo</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-hg" style="width:0%"></div></div><span class="prog-pct" id="n-hg-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Sciences</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-sc" style="width:0%"></div></div><span class="prog-pct" id="n-sc-pct">—</span></div>
+        <div class="prog-row"><span class="prog-label">Oral</span><div class="prog-bar"><div class="prog-fill fill-n" id="n-oral" style="width:0%"></div></div><span class="prog-pct" id="n-oral-pct">—</span></div>
+      </div>
+      <div class="matieres-grid">
+        <a class="matiere-btn" href="automatismes-maths.html"><span class="matiere-icon">📐</span><span class="matiere-name">Maths</span></a>
+        <a class="matiere-btn" href="automatismes-francais.html"><span class="matiere-icon">📖</span><span class="matiere-name">Français</span></a>
+        <a class="matiere-btn" href="annales.html"><span class="matiere-icon">🌍</span><span class="matiere-name">Annales</span></a>
+        <a class="matiere-btn" href="flashcards.html"><span class="matiere-icon">🗂</span><span class="matiere-name">Flashcards</span></a>
+        <a class="matiere-btn" href="agent-oral.html"><span class="matiere-icon">🎤</span><span class="matiere-name">Oral</span></a>
+      </div>
     </div>
+  </div>
+
+  <!-- SUJETS BLANCS -->
+  <div><div class="section-title">— Sujets blancs complets (10 par matière)</div>
+    <div class="agents-grid">
+      <div class="agent-card" onclick="location.href='sujets-maths.html'"><div class="dot dot-ready"></div><span class="agent-icon">📐</span><div class="agent-name">10 Sujets Maths</div><div class="agent-desc">Parties 1+2 complètes. Chrono 2h.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-francais.html'"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">10 Sujets Français</div><div class="agent-desc">Texte + grammaire + rédaction. Chrono 2h30.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-histgeo.html'"><div class="dot dot-ready"></div><span class="agent-icon">🌍</span><div class="agent-name">10 Sujets Hist-Géo</div><div class="agent-desc">Documents + paragraphe argumenté. Chrono 2h.</div><span class="agent-tag tag-hg">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='sujets-sciences.html'"><div class="dot dot-ready"></div><span class="agent-icon">🔬</span><div class="agent-name">10 Sujets Sciences</div><div class="agent-desc">5 SVT + 5 Phys-Chimie.</div><span class="agent-tag tag-sc">✓ En ligne</span></div>
+    </div>
+  </div>
+
+  <!-- AGENTS -->
+  <div><div class="section-title">— Agents spécialisés</div>
+    <div class="agents-grid">
+      <div class="agent-card" onclick="location.href='automatismes-maths.html'"><div class="dot dot-ready"></div><span class="agent-icon">⚡</span><div class="agent-name">Automatismes Maths</div><div class="agent-desc">20 questions · 20 min · format DNB.</div><span class="agent-tag tag-auto">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='automatismes-francais.html'"><div class="dot dot-ready"></div><span class="agent-icon">📖</span><div class="agent-name">Automatismes Français</div><div class="agent-desc">10 min · conjugaison, grammaire, orthographe.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='flashcards.html'"><div class="dot dot-ready"></div><span class="agent-icon">🗂</span><div class="agent-name">Flashcards</div><div class="agent-desc">80 cartes · répétition espacée J+1·3·7.</div><span class="agent-tag tag-fr">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='annales.html'"><div class="dot dot-ready"></div><span class="agent-icon">📋</span><div class="agent-name">Annales DNB</div><div class="agent-desc">14 exercices type brevet.</div><span class="agent-tag tag-maths">✓ En ligne</span></div>
+      <div class="agent-card" onclick="location.href='agent-oral.html'"><div class="dot dot-ready"></div><span class="agent-icon">🎤</span><div class="agent-name">Agent Oral</div><div class="agent-desc">Grille d'évaluation · 20 questions jury.</div><span class="agent-tag tag-oral">✓ En ligne</span></div>
+      <div class="agent-card"><div class="dot dot-build"></div><span class="agent-icon">🔍</span><div class="agent-name">Éval. diagnostique</div><div class="agent-desc">Bientôt</div><span class="agent-tag tag-sc">Bientôt</span></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom-row">
+    <div class="panel">
+      <div class="section-title">— Calendrier J-30</div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <button class="session-btn" id="session-btn" onclick="openSessionModal()">✓ Enregistrer une session</button>
+    </div>
+    <div class="panel">
+      <div class="section-title">— Citation du jour</div>
+      <div class="citation" id="citation-text"></div>
+      <div style="margin-top:16px">
+        <div class="section-title">— Tâches du jour</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>⚡</span><span style="font-size:12px;color:var(--muted)">Automatismes — 10 min</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>📐</span><span style="font-size:12px;color:var(--muted)">Maths — 1 exercice type DNB</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>🗂</span><span id="flash-today" style="font-size:12px;color:var(--muted)">Flashcards — chargement...</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)"><span>🎤</span><span style="font-size:12px;color:var(--muted)">Oral — 30 min de préparation (jusqu'au 3 juin)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="footer">
-    Commando CM2 — Évaluations nationales 2026 · Basé sur les rapports DEPP et « Bonjour les enfants »
+<!-- MODAL LOG SESSION (sans champ score) -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Enregistrer une session</div>
+    <div class="form-group">
+      <label class="form-label">👤 Pour qui ?</label>
+      <div class="radio-group" id="eleve-selector">
+        <label><input type="radio" name="eleve" value="W" checked> Wassil</label>
+        <label><input type="radio" name="eleve" value="N"> Nawal</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Matière</label>
+      <select class="form-select" id="f-matiere">
+        <option>Mathématiques</option><option>Français</option>
+        <option>Histoire-Géographie</option><option>SVT</option>
+        <option>Physique-Chimie</option><option>Oral</option><option>Automatismes</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Activité</label>
+      <input class="form-input" id="f-activite" placeholder="Ex: Exercices automatismes série A...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Durée (min)</label>
+      <input class="form-input" id="f-duree" type="number" placeholder="30">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes personnelles</label>
+      <textarea class="form-textarea" id="f-notes" placeholder="Ce que j'ai trouvé difficile, ce que j'ai réussi..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="closeModal()">Annuler</button>
+      <button class="btn-primary" onclick="submitSession()">✓ Enregistrer dans mon Sheet</button>
+    </div>
+  </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDgu0ErJHRYBC8Glo4GXB7UbizWmsvFgaRh8lHUzqTEf7znlrb35l_DNiXYd9lTakq/exec';
-    console.log('Commando CM2 – Script prêt');
+// ══ CONFIG ═══════════════════════════════════════════════════
+const EXAM_DATE  = new Date('2026-06-30T09:00:00');
+const START_DATE = new Date('2026-05-20T00:00:00');
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateCountdown();
+  buildCalendar();
+  setCitation();
+  loadSheetData('W');
+  loadSheetData('N');
+});
+
+// ── COUNTDOWN ────────────────────────────────────────────────
+function updateCountdown() {
+  const now  = new Date();
+  const diff = Math.ceil((EXAM_DATE - now) / 86400000);
+  const j    = Math.max(0, diff);
+  document.getElementById('jours-restants').textContent = j;
+  document.getElementById('stat-jours').textContent = j;
+  const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  document.getElementById('date-display').textContent = `${jours[now.getDay()]} ${now.getDate()} ${mois[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+// ── FETCH SHEET ─────────────────────────────────────────────
+async function fetchSheet(who, action, params = '') {
+  const url = who === 'W' ? SHEET_WASSIL : SHEET_NAWAL;
+  if (!url || url.includes('COLLE_URL')) return null;
+  try {
+    const res = await fetch(`${url}?action=${action}${params}`, { method: 'GET', mode: 'cors' });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+async function postSheet(who, body) {
+  const url = who === 'W' ? SHEET_WASSIL : SHEET_NAWAL;
+  if (!url || url.includes('COLLE_URL')) return null;
+  try {
+    const res = await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify(body) });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch(e) { return null; }
+}
+
+// ── LOAD PROGRESSION ────────────────────────────────────────
+async function loadSheetData(who) {
+  const badge = document.getElementById(`badge-${who.toLowerCase()}`);
+  const data  = await fetchSheet(who, 'getProgression');
+  if (!data || data.error) {
+    badge.className = 'connexion-badge badge-err';
+    badge.innerHTML = '✕ Non connecté';
+    fillProgress(who, {
+      'Mathématiques': {pctNotions:0}, 'Français': {pctNotions:0},
+      'Histoire-Géographie': {pctNotions:0}, 'SVT': {pctNotions:0}, 'Oral': {pctNotions:0}
+    });
+    return;
+  }
+  badge.className = 'connexion-badge badge-ok';
+  badge.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span> Connecté';
+  const sesKey = `stat-sessions-${who.toLowerCase()}`;
+  document.getElementById(sesKey).textContent = data.nbSessionsTotal || 0;
+  fillProgress(who, data.matieres || {});
+  const fc = await fetchSheet(who, 'getFlashcardsAujourdHui');
+  if (fc && fc.total !== undefined) {
+    const cur = parseInt(document.getElementById('stat-flashcards').textContent) || 0;
+    document.getElementById('stat-flashcards').textContent = cur + fc.total;
+    document.getElementById('flash-today').textContent = `Flashcards — ${fc.total} carte${fc.total > 1 ? 's' : ''} à réviser aujourd'hui`;
+  }
+}
+
+function fillProgress(who, matieres) {
+  const map = {
+    'Mathématiques': `${who.toLowerCase()}-maths`,
+    'Français': `${who.toLowerCase()}-fr`,
+    'Histoire-Géographie': `${who.toLowerCase()}-hg`,
+    'SVT': `${who.toLowerCase()}-sc`,
+    'Physique-Chimie': `${who.toLowerCase()}-sc`,
+    'Oral': `${who.toLowerCase()}-oral`,
+  };
+  Object.entries(matieres).forEach(([mat, val]) => {
+    const id = map[mat];
+    if (!id) return;
+    const pct = Math.round((val.pctNotions || 0) * 100);
+    const bar = document.getElementById(id);
+    const lbl = document.getElementById(id + '-pct');
+    if (bar) setTimeout(() => bar.style.width = pct + '%', 400);
+    if (lbl) lbl.textContent = pct + '%';
+  });
+}
+
+// ── CALENDAR ─────────────────────────────────────────────────
+function buildCalendar() {
+  const grid = document.getElementById('cal-grid');
+  const now = new Date();
+  const total = Math.ceil((EXAM_DATE - START_DATE) / 86400000);
+  grid.innerHTML = '';
+  for (let i = 0; i < Math.min(total, 42); i++) {
+    const d = new Date(START_DATE);
+    d.setDate(d.getDate() + i);
+    const key = d.toISOString().split('T')[0];
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    el.textContent = d.getDate();
+    el.title = key;
+    const todayKey = now.toISOString().split('T')[0];
+    if (key === '2026-06-30') el.classList.add('exam');
+    else if (key === todayKey) el.classList.add('today');
+    else if (d < now) el.classList.add('done');
+    else el.classList.add('future');
+    grid.appendChild(el);
+  }
+}
+
+// ── CITATION ─────────────────────────────────────────────────
+const CITATIONS = [
+  { text: "La réussite appartient à ceux qui ne cessent jamais d'apprendre.", author: "Confucius" },
+  { text: "Ce que tu fais aujourd'hui peut améliorer tous tes lendemains.", author: "Ralph Marston" },
+  { text: "Il ne s'agit pas d'être le meilleur. Il s'agit d'être meilleur qu'hier.", author: "Inconnue" },
+  { text: "L'éducation est l'arme la plus puissante que tu puisses utiliser pour changer le monde.", author: "Nelson Mandela" },
+  { text: "Les difficultés préparent des gens ordinaires à des destins extraordinaires.", author: "C.S. Lewis" },
+  { text: "Chaque expert a d'abord été un débutant.", author: "Robin Sharma" },
+  { text: "La connaissance est la seule richesse qui ne diminue pas quand on la partage.", author: "Proverbe" },
+];
+function setCitation() {
+  const c = CITATIONS[new Date().getDate() % CITATIONS.length];
+  document.getElementById('citation-text').innerHTML = `"${c.text}"<div class="citation-author">— ${c.author}</div>`;
+}
+
+// ── MODAL SESSION (sans score) ─────────────────────────────
+function openSessionModal() {
+  document.getElementById('modal-title').textContent = 'Enregistrer une session';
+  document.getElementById('f-activite').value = '';
+  document.getElementById('f-duree').value = '';
+  document.getElementById('f-notes').value = '';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+async function submitSession() {
+  const eleveRadio = document.querySelector('input[name="eleve"]:checked');
+  const who = eleveRadio ? eleveRadio.value : 'W';
+  const matiere = document.getElementById('f-matiere').value;
+  const activite = document.getElementById('f-activite').value;
+  const duree = document.getElementById('f-duree').value;
+  const notes = document.getElementById('f-notes').value;
+
+  const btn = document.querySelector('.btn-primary');
+  btn.textContent = 'Enregistrement...';
+  btn.disabled = true;
+
+  const result = await postSheet(who, {
+    action: 'logSession',
+    matiere,
+    activite,
+    duree,
+    score: null,
+    notes
+  });
+
+  btn.textContent = '✓ Enregistrer dans mon Sheet';
+  btn.disabled = false;
+
+  if (result && result.success) {
+    showToast(`✓ Session enregistrée pour ${who === 'W' ? 'Wassil' : 'Nawal'}`, 'success');
+    closeModal();
+    const key = `stat-sessions-${who.toLowerCase()}`;
+    const cur = parseInt(document.getElementById(key).textContent) || 0;
+    document.getElementById(key).textContent = cur + 1;
+  } else {
+    showToast('✗ Erreur — vérifie la connexion au Sheet', 'error');
+    closeModal();
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => { t.className = 'toast'; }, 3500);
+}
 </script>
 </body>
 </html>
