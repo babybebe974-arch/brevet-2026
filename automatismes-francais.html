@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Automatismes Français – Brevet 2026</title>
+<title>📖 Automatismes Français — Brevet 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ===== MÊMES STYLES QUE POUR LES MATHS (copier depuis le fichier maths) ===== */
   :root {
     --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a26;
     --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
@@ -87,7 +86,7 @@
 <div id="screen-home">
   <div class="home-badge">📖 Automatismes — Français Brevet 2026</div>
   <h1 class="home-title">Français<br><em>Automatismes</em></h1>
-  <p class="home-sub">20 questions · 20 min · niveau Brevet · grammaire, conjugaison, orthographe, figures de style</p>
+  <p class="home-sub">20 questions · 20 min · conjugaison, grammaire, orthographe, figures de style</p>
   <div class="cats-grid">
     <span style="font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;">Toutes les notions du programme</span>
   </div>
@@ -131,16 +130,16 @@
   <div class="recap-list" id="recap-list"></div>
   <div class="result-actions">
     <button class="btn-retry" onclick="restartQuiz()">↺ Nouvelle série</button>
-    <a class="btn-hub" href="https://babybebe974-arch.github.io/brevet-2026/" target="_blank">🏠 Hub Central</a>
+    <a class="btn-hub" href="index.html" target="_blank">🏠 Hub Central</a>
   </div>
   <div class="saving-badge" id="saving-badge">Sauvegarde en cours...</div>
 </div>
 
 <script>
-// ========== CONFIGURATION DES SHEETS ==========
+// ========== CONFIGURATION DES SHEETS (URLs mises à jour) ==========
 const SHEETS = {
-  W: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec',
-  N: 'https://script.google.com/macros/s/AKfycbx90iPbAHUK9jXZCIIsjGevOymRVsNO06Wnl8UnvjHqHoN0OaKwGOZmfeWT0z3uu1Os/exec'
+  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
+  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec'
 };
 
 // ========== BANQUE DE 40 QUESTIONS (niveau 3ème) ==========
@@ -164,7 +163,12 @@ const BANQUE = [
   { question: "Dans quelle phrase y a-t-il une proposition subordonnée relative ? (parmi 4)", answer: "Le livre que tu lis est bon", explication: "'que tu lis' relative" },
   { question: "Accorde : 'Elle s'est ___ les mains' (laver)", answer: "lavé", explication: "COD après → pas d'accord" },
   { question: "Choisir la bonne forme : 'quand même' ou 'quand-même' ?", answer: "quand même", explication: "Deux mots sans trait d'union" },
-  { question: "Complète : 'Les élèves ___ contents' (être)", answer: "sont", explication: "3ème personne pluriel" }
+  { question: "Complète : 'Les élèves ___ contents' (être)", answer: "sont", explication: "3ème personne pluriel" },
+  { question: "Conjugue 'prendre' au présent, 3ème personne du singulier", answer: "prend", explication: "Il prend" },
+  { question: "Donne le participe passé de 'vouloir'", answer: "voulu", explication: "J'ai voulu" },
+  { question: "Quel est le pluriel de 'cheval' ?", answer: "chevaux", explication: "Exception : cheval → chevaux" },
+  { question: "Quelle est la fonction de 'à la plage' dans 'Il va à la plage' ?", answer: "COI", explication: "Complément d'objet indirect" },
+  { question: "Transforme à la forme négative : 'Il mange une pomme'", answer: "Il ne mange pas de pomme", explication: "Ne ... pas" }
 ];
 
 let who = null;
