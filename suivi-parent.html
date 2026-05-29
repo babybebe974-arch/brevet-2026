@@ -408,11 +408,26 @@ async function loadAll() {
 
 async function fetchSheet(who, action) {
   const url = SHEETS[who];
-  try {
-    const res = await fetch(`${url}?action=${action}`, { method:'GET', mode:'cors' });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch(e) { return null; }
+  // JSONP pour contourner CORS depuis GitHub Pages vers Apps Script
+  return new Promise((resolve) => {
+    const cbName = 'cb_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    let done = false;
+    const timer = setTimeout(() => {
+      if (!done) { done = true; cleanup(); resolve(null); }
+    }, 8000);
+    window[cbName] = (data) => {
+      if (!done) { done = true; cleanup(); resolve(data); }
+    };
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    script.onerror = () => { if (!done) { done = true; cleanup(); resolve(null); } };
+    script.src = url + '?action=' + action + '&callback=' + cbName;
+    document.head.appendChild(script);
+  });
 }
 
 function setConn(who, ok) {
