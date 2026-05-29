@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✍️ Correcteur IA — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--blue:#6ab4f5;--purple:#a98af5;--w:#7eb8f5;--n:#f59eb8;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.page{max-width:820px;margin:0 auto;padding:32px 24px 60px;}
+
+/* HEADER */
+.header{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.header h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px;}
+.header h1 span{color:var(--gold);}
+.header p{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-bottom:16px;transition:color 0.15s;}
+.back-link:hover{color:var(--gold);}
+
+/* SÉLECTEURS */
+.selectors{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;}
+.sel-group label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);display:block;margin-bottom:8px;}
+.sel-group select,.sel-group input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;}
+.sel-group select:focus,.sel-group input:focus{border-color:rgba(232,200,122,0.4);}
+
+/* WHO */
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:var(--w);background:rgba(126,184,245,0.1);color:var(--w);}
+.who-btn.an{border-color:var(--n);background:rgba(245,158,184,0.1);color:var(--n);}
+
+/* TYPE CORRECTION */
+.type-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.type-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all 0.2s;}
+.type-card:hover{border-color:var(--border2);}
+.type-card.selected{border-color:rgba(232,200,122,0.45);background:rgba(232,200,122,0.04);}
+.type-icon{font-size:24px;margin-bottom:8px;display:block;}
+.type-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:4px;}
+.type-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.type-tag{display:inline-block;margin-top:8px;font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:999px;border:1px solid;}
+
+/* ZONE TEXTE */
+.zone-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px;display:block;}
+.question-ta{width:100%;min-height:80px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:12px;transition:border-color 0.2s;}
+.question-ta:focus{border-color:rgba(232,200,122,0.3);}
+.reponse-ta{width:100%;min-height:200px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.8;outline:none;resize:vertical;margin-bottom:8px;transition:border-color 0.2s;}
+.reponse-ta:focus{border-color:rgba(232,200,122,0.3);}
+.wcount{text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:16px;}
+
+/* BOUTON CORRIGER */
+.corriger-btn{width:100%;background:linear-gradient(135deg,var(--gold),#d4a840);border:none;border-radius:var(--r);padding:16px;color:#080600;font-family:'Syne',sans-serif;font-weight:800;font-size:17px;cursor:pointer;transition:all 0.2s;margin-bottom:24px;}
+.corriger-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,200,122,0.3);}
+.corriger-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+/* LOADING */
+.loading{display:none;text-align:center;padding:40px;margin-bottom:24px;}
+.spinner{width:36px;height:36px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;}
+.loading-text span{color:var(--gold);}
+
+/* RÉSULTAT CORRECTION */
+.correction-result{display:none;margin-bottom:24px;}
+
+/* NOTE GLOBALE */
+.note-block{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:22px;margin-bottom:20px;display:flex;align-items:center;gap:24px;}
+.note-num{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;line-height:1;flex-shrink:0;}
+.note-details{flex:1;}
+.note-bar-bg{height:8px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:10px;}
+.note-bar-fill{height:100%;border-radius:999px;transition:width 1.2s ease;}
+.note-sous-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.note-sous{background:var(--bg3);border-radius:var(--r-sm);padding:10px 12px;text-align:center;}
+.note-sous-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.note-sous-lbl{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.8px;margin-top:3px;}
+
+/* ANNOTATIONS */
+.annot-section{margin-bottom:20px;}
+.annot-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:12px;}
+.texte-annote{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;font-size:14px;line-height:2;margin-bottom:16px;}
+.annot-rouge{background:rgba(245,85,85,0.15);border-bottom:2px solid var(--red);color:var(--text);cursor:pointer;position:relative;}
+.annot-vert{background:rgba(126,207,138,0.12);border-bottom:2px solid var(--green);color:var(--text);}
+.annot-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:0;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 14px;font-size:12px;color:var(--text);line-height:1.5;z-index:10;min-width:220px;max-width:340px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.annot-rouge:hover .annot-tooltip{display:block;}
+
+/* FEEDBACK SECTIONS */
+.feedback-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.feedback-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.feedback-card-body{font-size:13px;color:var(--muted);line-height:1.7;}
+.feedback-card-body ul{margin-left:16px;margin-top:6px;}
+.feedback-card-body li{margin-bottom:4px;}
+.feedback-card-body strong{color:var(--text);}
+.card-rouge{border-color:rgba(245,85,85,0.25);background:rgba(245,85,85,0.04);}
+.card-vert{border-color:rgba(126,207,138,0.25);background:rgba(126,207,138,0.04);}
+.card-methode{border-color:rgba(232,200,122,0.25);background:rgba(232,200,122,0.04);}
+.card-conseil{border-color:rgba(169,138,245,0.25);background:rgba(169,138,245,0.04);}
+
+/* ACTIONS */
+.result-actions{display:flex;gap:12px;margin-top:8px;}
+.save-btn{flex:1;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-size:13px;transition:all 0.15s;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.retry-btn{flex:1;background:linear-gradient(135deg,rgba(232,200,122,0.15),rgba(232,200,122,0.08));border:1px solid rgba(232,200,122,0.3);border-radius:var(--r);padding:12px;color:var(--gold2);cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;transition:all 0.2s;}
+.retry-btn:hover{background:linear-gradient(135deg,rgba(232,200,122,0.25),rgba(232,200,122,0.15));}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+
+@media(max-width:560px){.selectors,.type-cards,.note-sous-grid{grid-template-columns:1fr;}.note-block{flex-direction:column;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a href="index.html" class="back-link">← Hub Central</a>
+
+  <div class="header">
+    <h1>Correcteur <span>IA</span></h1>
+    <p>Correction détaillée · Annotations rouge/vert · Méthodologie · Note officielle DNB</p>
+  </div>
+
+  <!-- QUI -->
+  <div style="margin-bottom:6px"><span class="zone-label">Qui travaille ?</span></div>
+  <div class="who-row">
+    <button class="who-btn" id="btn-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="btn-n" onclick="selWho('N')">Nawal</button>
+  </div>
+
+  <!-- TYPE DE CORRECTION -->
+  <span class="zone-label">Type d'exercice</span>
+  <div class="type-cards">
+    <div class="type-card selected" id="type-redac" onclick="selType('redac')">
+      <span class="type-icon">✍️</span>
+      <div class="type-name">Rédaction</div>
+      <div class="type-desc">Texte narratif ou argumentatif. Correction fond + forme + orthographe. Annotations rouge/vert.</div>
+      <span class="type-tag" style="color:var(--teal);border-color:rgba(94,207,177,0.3)">Français · 20 pts</span>
+    </div>
+    <div class="type-card" id="type-science" onclick="selType('science')">
+      <span class="type-icon">🔬</span>
+      <div class="type-name">Question scientifique</div>
+      <div class="type-desc">Réponse courte (&lt;100 mots). Cheminement logique, mots-clés, raisonnement scientifique.</div>
+      <span class="type-tag" style="color:var(--green);border-color:rgba(126,207,138,0.3)">SVT · Phys-Chimie</span>
+    </div>
+    <div class="type-card" id="type-histgeo" onclick="selType('histgeo')">
+      <span class="type-icon">🌍</span>
+      <div class="type-name">Paragraphe Hist-Géo</div>
+      <div class="type-desc">Paragraphe argumenté. Plan, connecteurs, exemples précis, chiffres, dates.</div>
+      <span class="type-tag" style="color:var(--coral);border-color:rgba(240,122,90,0.3)">Hist-Géo · 20 pts</span>
+    </div>
+    <div class="type-card" id="type-maths" onclick="selType('maths')">
+      <span class="type-icon">📐</span>
+      <div class="type-name">Problème ouvert Maths</div>
+      <div class="type-desc">Démarche, calculs, présentation. Logique de résolution et rédaction mathématique.</div>
+      <span class="type-tag" style="color:var(--blue);border-color:rgba(106,180,245,0.3)">Maths · 14 pts</span>
+    </div>
+  </div>
+
+  <!-- MATIÈRE / SUJET -->
+  <div class="selectors">
+    <div class="sel-group">
+      <label>Matière / Thème</label>
+      <input type="text" id="matiere-input" placeholder="Ex: SVT — génétique" />
+    </div>
+    <div class="sel-group">
+      <label>Points de l'exercice</label>
+      <select id="pts-select">
+        <option value="4">4 points</option>
+        <option value="5">5 points</option>
+        <option value="8">8 points</option>
+        <option value="10">10 points</option>
+        <option value="20" selected>20 points</option>
+      </select>
+    </div>
+    <div class="sel-group">
+      <label>Niveau d'exigence</label>
+      <select id="niveau-select">
+        <option value="standard" selected>Standard DNB</option>
+        <option value="exigeant">Exigeant</option>
+        <option value="bienveillant">Bienveillant</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- QUESTION (optionnelle) -->
+  <span class="zone-label">Question / Consigne (optionnel)</span>
+  <textarea class="question-ta" id="question-ta" placeholder="Colle ici la question ou consigne de l'exercice..."></textarea>
+
+  <!-- RÉPONSE ÉLÈVE -->
+  <span class="zone-label" id="reponse-label">Réponse / Rédaction de l'élève</span>
+  <textarea class="reponse-ta" id="reponse-ta" placeholder="Colle ici le texte écrit par l'élève..." oninput="updateWC()"></textarea>
+  <div class="wcount" id="wcount">0 mot</div>
+
+  <!-- BOUTON -->
+  <button class="corriger-btn" id="corriger-btn" onclick="corriger()">
+    ✦ Corriger avec l'IA
+  </button>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Correction en cours...<br><span id="loading-msg">Lecture du texte</span></div>
+  </div>
+
+  <!-- RÉSULTAT -->
+  <div class="correction-result" id="correction-result">
+
+    <div class="note-block" id="note-block">
+      <div class="note-num" id="note-num">—</div>
+      <div class="note-details">
+        <div class="note-bar-bg"><div class="note-bar-fill" id="note-bar" style="width:0%"></div></div>
+        <div class="note-sous-grid" id="note-sous-grid"></div>
+      </div>
+    </div>
+
+    <!-- TEXTE ANNOTÉ -->
+    <div class="annot-section">
+      <div class="annot-title">— Texte annoté (🔴 à corriger · 🟢 points forts)</div>
+      <div class="texte-annote" id="texte-annote"></div>
+    </div>
+
+    <!-- FEEDBACK CARDS -->
+    <div id="feedback-cards"></div>
+
+    <div class="result-actions">
+      <button class="retry-btn" onclick="resetForm()">↺ Nouvelle correction</button>
+      <button class="save-btn" id="save-btn" onclick="saveCorrection()">💾 Sauvegarder dans le Sheet</button>
+    </div>
+
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ CONFIGURATION ════════════════════════════════════════
+// COLLE TA CLÉ API ICI (entre les guillemets)
+const API_KEY = 'COLLE_TA_CLE_API_ICI';
+
+const SHEETS = {
+  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
+  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec',
+};
+// ═════════════════════════════════════════════════════════
+
+let who = null, typeCorr = 'redac', lastResult = null;
+
+// ── SÉLECTIONS ───────────────────────────────────────────
+function selWho(w) {
+  who = w;
+  document.getElementById('btn-w').className = 'who-btn' + (w==='W' ? ' aw' : '');
+  document.getElementById('btn-n').className = 'who-btn' + (w==='N' ? ' an' : '');
+}
+
+function selType(t) {
+  typeCorr = t;
+  ['redac','science','histgeo','maths'].forEach(x => {
+    document.getElementById('type-'+x).classList.toggle('selected', x===t);
+  });
+  const labels = {
+    redac: 'Rédaction de l\'élève (colle le texte complet)',
+    science: 'Réponse scientifique de l\'élève (< 100 mots)',
+    histgeo: 'Paragraphe argumenté de l\'élève',
+    maths: 'Démarche et calculs de l\'élève',
+  };
+  document.getElementById('reponse-label').textContent = labels[t];
+  const pts = {redac:'20',science:'5',histgeo:'20',maths:'14'};
+  document.getElementById('pts-select').value = pts[t];
+}
+
+// ── WORD COUNT ───────────────────────────────────────────
+function updateWC() {
+  const t = document.getElementById('reponse-ta').value.trim();
+  const n = t ? t.split(/\s+/).length : 0;
+  document.getElementById('wcount').textContent = n + ' mot' + (n>1?'s':'');
+}
+
+// ── PROMPTS PAR TYPE ─────────────────────────────────────
+function buildSystemPrompt() {
+  const pts   = document.getElementById('pts-select').value;
+  const niveau= document.getElementById('niveau-select').value;
+  const niveauStr = niveau==='exigeant' ? 'Sois exigeant comme un correcteur sévère du DNB.' : niveau==='bienveillant' ? 'Sois bienveillant et encourageant tout en restant honnête.' : 'Sois juste et précis comme un correcteur DNB standard.';
+
+  const base = `Tu es un correcteur expert du DNB 2026 (Diplôme National du Brevet, France). ${niveauStr}
+RÈGLE ABSOLUE : Ne jamais comparer les deux élèves entre eux.
+Réponds UNIQUEMENT en JSON valide, sans markdown, sans backticks.`;
+
+  if (typeCorr === 'redac') {
+    return base + `
+Tu corriges une RÉDACTION (texte narratif ou argumentatif) sur ${pts} points.
+Barème DNB Français rédaction :
+- Fond (pertinence, richesse des idées, respect du sujet) : ${Math.round(pts*0.35)} pts
+- Forme (structure intro/dév/conclu, connecteurs, style, vocabulaire) : ${Math.round(pts*0.35)} pts
+- Orthographe et grammaire : ${Math.round(pts*0.3)} pts
+
+JSON attendu :
+{
+  "noteFond": X,
+  "maxFond": Y,
+  "noteForme": X,
+  "maxForme": Y,
+  "noteOrtho": X,
+  "maxOrtho": Y,
+  "noteTotal": X,
+  "maxTotal": ${pts},
+  "annotations": [
+    {"texte": "extrait exact du texte élève (10-20 mots)", "type": "rouge", "commentaire": "pourquoi c'est faible"},
+    {"texte": "extrait exact", "type": "vert", "commentaire": "pourquoi c'est bien"}
+  ],
+  "pointsForts": ["...", "...", "..."],
+  "pointsFaibles": ["...", "...", "..."],
+  "methodologie": "Texte HTML avec <p> et <ul><li> expliquant ce qui manque structurellement : introduction, plan, connecteurs, exemples...",
+  "conseilPrioritaire": "Un seul conseil concret et actionnable pour la prochaine rédaction.",
+  "versionAméliorée": "Réécriture courte (2-3 phrases) montrant comment améliorer le passage le plus faible."
+}`;
+  }
+
+  if (typeCorr === 'science') {
+    return base + `
+Tu corriges une RÉPONSE SCIENTIFIQUE COURTE sur ${pts} points.
+Critères DNB Sciences :
+- Mots-clés scientifiques présents et corrects : ${Math.round(pts*0.3)} pts
+- Cheminement logique (observation→hypothèse→résultat→conclusion) : ${Math.round(pts*0.4)} pts
+- Exactitude scientifique (formules, unités, définitions) : ${Math.round(pts*0.3)} pts
+
+JSON attendu :
+{
+  "noteMotsCles": X,
+  "maxMotsCles": Y,
+  "noteLogique": X,
+  "maxLogique": Y,
+  "noteExactitude": X,
+  "maxExactitude": Y,
+  "noteTotal": X,
+  "maxTotal": ${pts},
+  "annotations": [
+    {"texte": "extrait exact", "type": "rouge", "commentaire": "erreur ou imprécision scientifique"},
+    {"texte": "extrait exact", "type": "vert", "commentaire": "bon raisonnement ou bon terme"}
+  ],
+  "motsClesManquants": ["terme 1", "terme 2"],
+  "erreurLogique": "Description du défaut de raisonnement ou null si correct",
+  "methodologie": "Texte HTML expliquant le cheminement logique attendu pour ce type de question",
+  "conseilPrioritaire": "Un conseil précis pour améliorer la rigueur scientifique."
+}`;
+  }
+
+  if (typeCorr === 'histgeo') {
+    return base + `
+Tu corriges un PARAGRAPHE ARGUMENTÉ Histoire-Géographie sur ${pts} points.
+Critères DNB Hist-Géo :
+- Introduction avec annonce du plan : ${Math.round(pts*0.15)} pts
+- Arguments développés avec exemples et dates/chiffres précis : ${Math.round(pts*0.4)} pts
+- Connecteurs logiques et structure : ${Math.round(pts*0.2)} pts
+- Conclusion et prise de recul : ${Math.round(pts*0.15)} pts
+- Vocabulaire historique/géographique : ${Math.round(pts*0.1)} pts
+
+JSON attendu :
+{
+  "noteIntro": X, "maxIntro": Y,
+  "noteArguments": X, "maxArguments": Y,
+  "noteConnecteurs": X, "maxConnecteurs": Y,
+  "noteConclusion": X, "maxConclusion": Y,
+  "noteVocabulaire": X, "maxVocabulaire": Y,
+  "noteTotal": X, "maxTotal": ${pts},
+  "annotations": [
+    {"texte": "extrait exact", "type": "rouge", "commentaire": "problème"},
+    {"texte": "extrait exact", "type": "vert", "commentaire": "point fort"}
+  ],
+  "exemplesManquants": ["exemple historique manquant", "chiffre ou date absente"],
+  "methodologie": "Texte HTML expliquant la structure attendue d'un paragraphe argumenté DNB",
+  "conseilPrioritaire": "Un conseil concret et actionnable."
+}`;
+  }
+
+  if (typeCorr === 'maths') {
+    return base + `
+Tu corriges une DÉMARCHE MATHÉMATIQUE sur ${pts} points.
+Critères DNB Maths Partie 2 :
+- Compréhension du problème et mise en place : ${Math.round(pts*0.2)} pts
+- Démarche et calculs corrects : ${Math.round(pts*0.5)} pts
+- Présentation et rédaction mathématique : ${Math.round(pts*0.15)} pts
+- Résultat correct avec unité : ${Math.round(pts*0.15)} pts
+
+JSON attendu :
+{
+  "noteComprehension": X, "maxComprehension": Y,
+  "noteDemarche": X, "maxDemarche": Y,
+  "notePresentation": X, "maxPresentation": Y,
+  "noteResultat": X, "maxResultat": Y,
+  "noteTotal": X, "maxTotal": ${pts},
+  "annotations": [
+    {"texte": "extrait exact", "type": "rouge", "commentaire": "erreur de calcul ou de raisonnement"},
+    {"texte": "extrait exact", "type": "vert", "commentaire": "bonne démarche"}
+  ],
+  "erreursPrincipales": ["erreur 1", "erreur 2"],
+  "methodologie": "Texte HTML expliquant comment présenter une démarche mathématique complète au DNB",
+  "conseilPrioritaire": "Un conseil pour la présentation ou la démarche."
+}`;
+  }
+}
+
+// ── CORRECTION ───────────────────────────────────────────
+async function corriger() {
+  const reponse  = document.getElementById('reponse-ta').value.trim();
+  const question = document.getElementById('question-ta').value.trim();
+  const matiere  = document.getElementById('matiere-input').value.trim();
+
+  if (!reponse || reponse.length < 20) { showToast('⚠ Colle le texte de l\'élève d\'abord', 'err'); return; }
+  if (!who) { showToast('⚠ Choisis Wassil ou Nawal', 'err'); return; }
+
+  if (!API_KEY || API_KEY === 'COLLE_TA_CLE_API_ICI') {
+    showToast('⚠ Configure d\'abord la clé API dans le fichier', 'err');
+    return;
+  }
+
+  const btn = document.getElementById('corriger-btn');
+  btn.disabled = true;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('correction-result').style.display = 'none';
+
+  const msgs = ['Lecture du texte...', 'Application du barème DNB...', 'Annotation des passages...', 'Rédaction du feedback...', 'Finalisation...'];
+  let mi = 0;
+  const loadInt = setInterval(() => {
+    document.getElementById('loading-msg').textContent = msgs[Math.min(mi++, msgs.length-1)];
+  }, 1500);
+
+  try {
+    const userContent = `${question ? 'Consigne : ' + question + '\n\n' : ''}${matiere ? 'Matière/Thème : ' + matiere + '\n\n' : ''}Texte de l'élève (${who === 'W' ? 'Wassil' : 'Nawal'}) :\n\n${reponse}\n\nCorrige ce texte et réponds en JSON valide uniquement.`;
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2000,
+        system: buildSystemPrompt(),
+        messages: [{ role: 'user', content: userContent }]
+      })
+    });
+
+    clearInterval(loadInt);
+    document.getElementById('loading').style.display = 'none';
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'Erreur API');
+    }
+
+    const data = await res.json();
+    const raw  = data.content[0].text;
+    const json = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    lastResult = { ...json, reponse, question, matiere, typeCorr, who };
+    renderResult(json);
+
+  } catch(e) {
+    clearInterval(loadInt);
+    document.getElementById('loading').style.display = 'none';
+    showToast('✗ Erreur : ' + e.message, 'err');
+    btn.disabled = false;
+  }
+
+  btn.disabled = false;
+}
+
+// ── RENDU RÉSULTAT ───────────────────────────────────────
+function renderResult(j) {
+  document.getElementById('correction-result').style.display = 'block';
+
+  const total = j.noteTotal;
+  const max   = j.maxTotal;
+  const pct   = Math.round((total/max)*100);
+
+  // Note
+  const noteEl = document.getElementById('note-num');
+  noteEl.textContent = total + '/' + max;
+  noteEl.style.color = pct >= 75 ? 'var(--green)' : pct >= 55 ? 'var(--gold)' : 'var(--coral)';
+
+  const bar = document.getElementById('note-bar');
+  bar.style.background = pct >= 75 ? 'linear-gradient(90deg,var(--green),var(--teal))'
+    : pct >= 55 ? 'linear-gradient(90deg,var(--gold),var(--coral))'
+    : 'linear-gradient(90deg,var(--red),var(--coral))';
+  setTimeout(() => bar.style.width = pct + '%', 100);
+
+  // Sous-notes
+  const sousGrid = document.getElementById('note-sous-grid');
+  sousGrid.innerHTML = '';
+  const sousKeys = Object.keys(j).filter(k => k.startsWith('note') && k !== 'noteTotal');
+  sousKeys.forEach(k => {
+    const maxK = 'max' + k.slice(4);
+    if (!j[maxK]) return;
+    const label = k.replace('note','').replace(/([A-Z])/g,' $1').trim();
+    const spct  = Math.round(j[k]/j[maxK]*100);
+    const div   = document.createElement('div');
+    div.className = 'note-sous';
+    div.innerHTML = `<div class="note-sous-num" style="color:${spct>=70?'var(--green)':spct>=50?'var(--gold)':'var(--coral)'}">${j[k]}/${j[maxK]}</div><div class="note-sous-lbl">${label}</div>`;
+    sousGrid.appendChild(div);
+  });
+
+  // Texte annoté
+  renderAnnotations(j);
+
+  // Feedback cards
+  const cards = document.getElementById('feedback-cards');
+  cards.innerHTML = '';
+
+  if (j.pointsForts?.length) {
+    cards.innerHTML += `<div class="feedback-card card-vert"><div class="feedback-card-title"><span>🟢</span> Points forts</div><div class="feedback-card-body"><ul>${j.pointsForts.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>`;
+  }
+  if (j.pointsFaibles?.length) {
+    cards.innerHTML += `<div class="feedback-card card-rouge"><div class="feedback-card-title"><span>🔴</span> Points à améliorer</div><div class="feedback-card-body"><ul>${j.pointsFaibles.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>`;
+  }
+  if (j.erreursPrincipales?.length) {
+    cards.innerHTML += `<div class="feedback-card card-rouge"><div class="feedback-card-title"><span>🔴</span> Erreurs principales</div><div class="feedback-card-body"><ul>${j.erreursPrincipales.map(p=>`<li>${p}</li>`).join('')}</ul></div></div>`;
+  }
+  if (j.motsClesManquants?.length) {
+    cards.innerHTML += `<div class="feedback-card card-rouge"><div class="feedback-card-title"><span>🔴</span> Mots-clés manquants</div><div class="feedback-card-body">${j.motsClesManquants.map(m=>`<span style="display:inline-block;margin:3px 4px;padding:3px 10px;border-radius:999px;border:1px solid rgba(245,85,85,0.3);background:rgba(245,85,85,0.07);font-size:12px;color:var(--coral)">${m}</span>`).join('')}</div></div>`;
+  }
+  if (j.erreurLogique) {
+    cards.innerHTML += `<div class="feedback-card card-rouge"><div class="feedback-card-title"><span>⚠️</span> Défaut de cheminement logique</div><div class="feedback-card-body">${j.erreurLogique}</div></div>`;
+  }
+  if (j.methodologie) {
+    cards.innerHTML += `<div class="feedback-card card-methode"><div class="feedback-card-title"><span>📐</span> Méthodologie attendue</div><div class="feedback-card-body">${j.methodologie}</div></div>`;
+  }
+  if (j.exemplesManquants?.length) {
+    cards.innerHTML += `<div class="feedback-card card-methode"><div class="feedback-card-title"><span>📌</span> Exemples / données manquants</div><div class="feedback-card-body"><ul>${j.exemplesManquants.map(e=>`<li>${e}</li>`).join('')}</ul></div></div>`;
+  }
+  if (j.versionAméliorée) {
+    cards.innerHTML += `<div class="feedback-card card-vert"><div class="feedback-card-title"><span>✨</span> Passage amélioré (exemple)</div><div class="feedback-card-body" style="font-style:italic">${j.versionAméliorée}</div></div>`;
+  }
+  if (j.conseilPrioritaire) {
+    cards.innerHTML += `<div class="feedback-card card-conseil"><div class="feedback-card-title"><span>💡</span> Conseil prioritaire pour la prochaine fois</div><div class="feedback-card-body"><strong>${j.conseilPrioritaire}</strong></div></div>`;
+  }
+
+  document.getElementById('correction-result').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderAnnotations(j) {
+  const reponse = document.getElementById('reponse-ta').value;
+  const annotations = j.annotations || [];
+  const container = document.getElementById('texte-annote');
+
+  let html = reponse;
+
+  // Applique les annotations rouge d'abord puis vert
+  ['rouge', 'vert'].forEach(type => {
+    annotations.filter(a => a.type === type).forEach(a => {
+      if (!a.texte || a.texte.length < 5) return;
+      const escaped = a.texte.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      try {
+        const cls   = type === 'rouge' ? 'annot-rouge' : 'annot-vert';
+        const tooltip = type === 'rouge' ? `<span class="annot-tooltip">🔴 ${a.commentaire}</span>` : '';
+        html = html.replace(new RegExp(escaped, 'g'),
+          `<span class="${cls}">${a.texte}${tooltip}</span>`);
+      } catch(e) {}
+    });
+  });
+
+  container.innerHTML = html.replace(/\n/g, '<br>');
+}
+
+// ── SAUVEGARDE ───────────────────────────────────────────
+async function saveCorrection() {
+  if (!lastResult) return;
+  const url = SHEETS[lastResult.who];
+  try {
+    const res = await fetch(url, {
+      method: 'POST', mode: 'cors',
+      body: JSON.stringify({
+        action: 'logAnnale',
+        matiere: lastResult.matiere || lastResult.typeCorr,
+        annee: 'Correction IA',
+        exercice: lastResult.question?.substring(0,50) || 'Exercice libre',
+        score: lastResult.noteTotal,
+        pointsPerdus: (lastResult.maxTotal - lastResult.noteTotal) + ' pts perdus',
+        bloque: (lastResult.pointsFaibles || lastResult.erreursPrincipales || []).join(', '),
+        aRetravailler: lastResult.conseilPrioritaire || '',
+      })
+    });
+    if (res.ok) showToast('✓ Note sauvegardée dans le Sheet', 'ok');
+    else throw new Error();
+  } catch(e) { showToast('⚠ Sauvegarde impossible', 'err'); }
+}
+
+function resetForm() {
+  document.getElementById('reponse-ta').value = '';
+  document.getElementById('question-ta').value = '';
+  document.getElementById('correction-result').style.display = 'none';
+  document.getElementById('wcount').textContent = '0 mot';
+  window.scrollTo(0, 0);
+}
+
+function showToast(msg, t) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${t}`;
+  setTimeout(() => el.className = 'toast', 3500);
+}
+</script>
+</body>
+</html>
