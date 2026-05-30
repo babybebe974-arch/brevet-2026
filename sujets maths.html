@@ -2,171 +2,236 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🧮 Mathématiques — Brevet 2026</title>
+<title>Mathématiques - 10 sujets blancs DNB</title>
 <script src="config.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--math:#f5a97f;--r:14px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(245,169,127,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--math);border:1px solid rgba(245,169,127,0.3);background:rgba(245,169,127,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--math);font-style:italic;}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
-.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
-.sujet-card:hover{border-color:rgba(245,169,127,0.4);transform:translateY(-2px);}
-.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--math);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
-.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
-.who-row{display:flex;gap:10px;margin-bottom:20px;}
-.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;}
-.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
-.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
-#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
-.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
-.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--math);}
-.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:8px;padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;}
-.chrono-bar{background:rgba(245,169,127,0.06);border-bottom:1px solid rgba(245,169,127,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--math);}
-.chrono-btns{display:flex;gap:8px;}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(245,169,127,0.3);background:rgba(245,169,127,0.07);color:var(--math);cursor:pointer;}
-.s-body{padding:24px;}
-.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;margin-bottom:20px;}
-.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--math);}
-.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
-.partie-body{padding:20px;}
-.q-block{margin-bottom:16px;}
-.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--math);font-weight:700;min-width:24px;margin-top:2px;}
-.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
-.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;}
-.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;margin-bottom:6px;}
-.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(245,169,127,0.25);background:rgba(245,169,127,0.06);color:var(--math);cursor:pointer;}
-.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:8px;font-size:13px;color:var(--muted);}
-.corr-box.show{display:block;}
-.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:20px;margin-top:20px;}
-.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
-.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.ae-label{font-size:13px;flex:1;}
-.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;text-align:center;}
-.ae-total{background:linear-gradient(135deg,rgba(245,169,127,0.1),rgba(245,169,127,0.05));border:1px solid rgba(245,169,127,0.25);border-radius:8px;padding:14px;text-align:center;margin-top:14px;}
-.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--math);}
-.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:12px;color:var(--muted);cursor:pointer;margin-top:12px;}
-.nav-btns{display:flex;gap:10px;margin-top:12px;}
-.nav-btn{flex:1;padding:12px;border-radius:14px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;}
-.nav-btn.primary{background:linear-gradient(135deg,var(--math),#e8895a);border:none;color:#060f0a;font-weight:700;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;}
-.toast.show{opacity:1;transform:translateY(0);}
-.ai-btn{width:100%;margin-top:8px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:8px;padding:12px;color:#080600;font-weight:800;font-size:14px;cursor:pointer;}
-.ai-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.ai-loading{display:none;text-align:center;padding:16px;background:rgba(232,200,122,0.04);border:1px solid rgba(232,200,122,0.12);border-radius:8px;margin-top:8px;}
-.ai-spin{width:24px;height:24px;border:2px solid rgba(232,200,122,0.2);border-top-color:#e8c87a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ai-result{display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
-.ai-score-bar{padding:14px 18px;display:flex;align-items:center;gap:14px;}
-.ai-score-num{font-size:38px;font-weight:800;line-height:1;}
-.ai-score-info{flex:1;font-size:11px;}
-.ai-pbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:5px;}
-.ai-pbar-fill{height:100%;border-radius:999px;transition:width 1s ease;}
-.ai-body{padding:14px 18px;background:rgba(0,0,0,0.2);font-size:12px;}
-.ai-sec{margin-bottom:10px;}
-.ai-sec-t{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);}
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .sujet { background: #111118; border-left: 5px solid #f5a97f; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
+  .partie1 { background: #0a2a1a; border-left: 3px solid #7ecf8a; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+  .partie2 { background: #0a1a2a; border-left: 3px solid #5a9cf0; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
+  .exercice { background: #0a0a12; padding: 0.8rem; margin: 0.8rem 0; border-radius: 8px; white-space: pre-wrap; }
+  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
+  button { background: #f5a97f; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; }
+  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
+  hr { border-color: #2a2a35; margin: 1rem 0; }
+  h3 { color: #f5a97f; }
+  .badge { display: inline-block; background: #f5a97f20; color: #f5a97f; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
 </style>
 </head>
 <body>
-<div id="home">
-  <div class="badge">🧮 Sujets blancs complets — Mathématiques</div>
-  <h1>Brevet Blanc <em>Mathématiques</em></h1>
-  <p class="sub">10 sujets complets format DNB. Calculs, algèbre, géométrie, probabilités, scratch.</p>
-  <div class="who-row"><button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button><button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button></div>
-  <div class="sujets-grid" id="sujets-grid"></div>
-  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;">← Hub Central</a>
+<div class="container">
+  <h1>Mathématiques - 10 sujets blancs (DNB)</h1>
+  <div id="sujets"></div>
 </div>
-<div id="sujet-page"><div class="s-header"><div><div class="s-logo">🧮 Brevet Blanc Maths</div><div class="s-meta" id="s-meta">—</div></div><button class="back" onclick="goHome()">← Retour</button></div><div class="chrono-bar"><span>⏱ Chronomètre</span><div class="chrono-time" id="chrono">2:00:00</div><div class="chrono-btns"><button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button><button class="chrono-btn" onclick="resetChrono()">↺ Reset</button></div></div><div class="s-body" id="s-body"></div></div>
-<div class="toast" id="toast"></div>
 <script>
+// ==================== SUJETS AVEC AUTOMATISMES SPÉCIFIQUES ====================
 const SUJETS = [
-  {id:1,titre:"Calcul littéral et équations",questions:[{n:"1",pts:3,q:"Développe et réduis : 3(2x - 5) - 2(4x + 1)",c:"6x - 15 - 8x - 2 = -2x - 17"},{n:"2",pts:3,q:"Factorise : (x+3)² - 25",c:"(x+3-5)(x+3+5) = (x-2)(x+8)"},{n:"3",pts:4,q:"Résous : 5x - 3 = 2x + 12",c:"5x - 2x = 12 + 3 → 3x = 15 → x = 5"}]},
-  {id:2,titre:"Théorème de Pythagore",questions:[{n:"1",pts:2,q:"Rappelle le théorème de Pythagore.",c:"Dans triangle rectangle, carré hypoténuse = somme carrés des 2 autres côtés."},{n:"2",pts:4,q:"ABC rectangle en B, AB=6cm, BC=8cm. Calcule AC.",c:"AC² = AB² + BC² = 36+64=100 → AC=10cm"},{n:"3",pts:4,q:"DEF rectangle en E, DE=5cm, DF=13cm. Calcule EF.",c:"EF² = DF² - DE² = 169-25=144 → EF=12cm"}]},
-  {id:3,titre:"Fonctions et images",questions:[{n:"1",pts:3,q:"f(x)=3x-5. Calcule f(2) et f(-4).",c:"f(2)=6-5=1, f(-4)=-12-5=-17"},{n:"2",pts:3,q:"Trouve l'antécédent de 7 par f.",c:"3x-5=7 → 3x=12 → x=4"},{n:"3",pts:4,q:"La fonction est-elle affine ? Linéaire ?",c:"Affine (de forme ax+b avec b≠0). Non linéaire."}]},
-  {id:4,titre:"Probabilités",questions:[{n:"1",pts:2,q:"Définition d'un événement certain.",c:"Événement qui se réalise toujours, probabilité 1."},{n:"2",pts:4,q:"On lance dé équilibré. Probabilité d'avoir un nombre pair.",c:"Nombres pairs : 2,4,6 → 3/6 = 1/2 = 0,5"},{n:"3",pts:4,q:"Probabilité d'avoir un nombre > 4.",c:"5 et 6 → 2/6 = 1/3 ≈ 0,333"}]},
-  {id:5,titre:"Trigonométrie",questions:[{n:"1",pts:2,q:"Formule du cosinus dans triangle rectangle.",c:"cos(angle) = adjacent / hypoténuse"},{n:"2",pts:4,q:"ABC rect en B, AB=5, BC=12. Calcule cos(Â).",c:"AC=13, cos(Â)=AB/AC=5/13≈0,3846"},{n:"3",pts:4,q:"Calcule la longueur du côté adjacent à angle 30° si hypoténuse=10.",c:"adjacent = 10×cos(30°) = 10×0,866 = 8,66"}]},
-  {id:6,titre:"Statistiques",questions:[{n:"1",pts:2,q:"Définition de la médiane.",c:"Valeur qui partage la série ordonnée en deux parts égales."},{n:"2",pts:4,q:"Série : 5,8,12,15,20. Calcule moyenne et médiane.",c:"Moyenne=(5+8+12+15+20)/5=12. Médiane=12."},{n:"3",pts:4,q:"Ajoute 25. Nouvelle moyenne ?",c:"(60+25)/6=85/6≈14,17"}]},
-  {id:7,titre:"Thalès",questions:[{n:"1",pts:3,q:"Rappelle le théorème de Thalès.",c:"Dans triangle, droite parallèle à un côté, les rapports sont égaux."},{n:"2",pts:4,q:"ABC, M sur AB, N sur AC, MN//BC. AM=3, AB=9, AN=4. Calcule AC.",c:"AM/AB=AN/AC → 3/9=4/AC → AC=12"},{n:"3",pts:3,q:"Calcule MN si BC=15.",c:"MN/BC=AM/AB=1/3 → MN=5"}]},
-  {id:8,titre:"Algorithmique (Scratch)",questions:[{n:"1",pts:2,q:"Que fait : 'répéter 5 fois → avancer de 100, tourner de 72 degrés' ?",c:"Pentagone régulier (somme angles = 360/5=72°)"},{n:"2",pts:4,q:"Programme : demander x, mettre y à x², dire y. Quelle fonction ?",c:"Fonction carré : affiche le carré du nombre entré."},{n:"3",pts:4,q:"Modifie pour afficher x²+2x-3.",c:"Mettre y à (x*x)+2*x-3."}]},
-  {id:9,titre:"Puissances et notation scientifique",questions:[{n:"1",pts:3,q:"Calcule 10³ × 10⁻⁵.",c:"10^(3-5)=10⁻²=0,01"},{n:"2",pts:3,q:"Écris 4500×10⁶ en notation scientifique.",c:"4,5×10³×10⁶ = 4,5×10⁹"},{n:"3",pts:4,q:"Calcule (3×10⁴)².",c:"9×10⁸"}]},
-  {id:10,titre:"Géométrie dans l'espace",questions:[{n:"1",pts:2,q:"Volume d'un cube d'arête 5 cm.",c:"125 cm³"},{n:"2",pts:4,q:"Volume d'un cylindre rayon 3cm, hauteur 10cm (π=3,14).",c:"π×3²×10 = 3,14×90 = 282,6 cm³"},{n:"3",pts:4,q:"Combien de litres (1L=1000cm³) ?",c:"0,2826 L"}]}
+  { id: 1, titre: "Nombres et calculs", annee: "Métropole 2025",
+    automatismes: [
+      { q: "1. Calculer A = 3 + 2 × 5 - 4 ÷ 2", pts: 1, rep: "11" },
+      { q: "2. Simplifier la fraction 48/60", pts: 1, rep: "4/5" },
+      { q: "3. 25 % de 240 ?", pts: 1, rep: "60" },
+      { q: "4. Résoudre 2x - 7 = 5x + 2", pts: 1, rep: "x = -3" },
+      { q: "5. Triangle rectangle : hypoténuse 10, côté 6. L'autre côté ?", pts: 1, rep: "8" },
+      { q: "6. Écrire 0,00056 en notation scientifique.", pts: 1, rep: "5,6 × 10⁻⁴" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Programme (4 pts)\nChoisir un nombre → ajouter 3 → multiplier par 2 → soustraire 5.\na) Appliquer avec 4 (2 pts)\nb) Expression en fonction de x (2 pts)", pts: 4, rep: "a) 4+3=7, 7×2=14, 14-5=9\nb) 2x+1" },
+      { q: "Exercice 2 – Pythagore (5 pts)\nABC rectangle en B : AB=6, BC=8. Calculer AC.", pts: 5, rep: "AC = 10 cm" },
+      { q: "Exercice 3 – Probabilités (5 pts)\nDé équilibré.\na) Nombre pair ?\nb) Nombre >4 ?", pts: 5, rep: "a) 1/2\nb) 1/3" }
+    ]},
+  { id: 2, titre: "Géométrie et mesures", annee: "Métropole 2024",
+    automatismes: [
+      { q: "1. Volume d'un cube d'arête 5 cm", pts: 1, rep: "125 cm³" },
+      { q: "2. Aire d'un rectangle de 8 m sur 3 m", pts: 1, rep: "24 m²" },
+      { q: "3. Convertir 3,5 m en cm", pts: 1, rep: "350 cm" },
+      { q: "4. Périmètre d'un carré de côté 6 cm", pts: 1, rep: "24 cm" },
+      { q: "5. Aire d'un disque de rayon 2 cm (π=3,14)", pts: 1, rep: "12,56 cm²" },
+      { q: "6. Convertir 2 h 30 min en minutes", pts: 1, rep: "150 min" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Cylindre (4 pts)\nRayon 4 cm, hauteur 10 cm. Volume ? (π=3,14)", pts: 4, rep: "502,4 cm³" },
+      { q: "Exercice 2 – Trigonométrie (5 pts)\nHypoténuse 10 cm, angle 30°. Côté adjacent ?", pts: 5, rep: "8,66 cm" },
+      { q: "Exercice 3 – Vitesse (5 pts)\n25 km/h → 75 km en combien de temps ?", pts: 5, rep: "3 heures" }
+    ]},
+  { id: 3, titre: "Fonctions et proportionnalité", annee: "Amérique du Nord 2024",
+    automatismes: [
+      { q: "1. f(x)=3x-5 → f(2) ?", pts: 1, rep: "1" },
+      { q: "2. Antécédent de 7 par f", pts: 1, rep: "4" },
+      { q: "3. 3 kg de pommes coûtent 6 €. Prix de 5 kg ?", pts: 1, rep: "10 €" },
+      { q: "4. Coefficient multiplicateur pour +15 %", pts: 1, rep: "1,15" },
+      { q: "5. Coefficient multiplicateur pour -20 %", pts: 1, rep: "0,8" },
+      { q: "6. 80 € augmenté de 10 % → nouveau prix ?", pts: 1, rep: "88 €" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Fonction affine (4 pts)\nf(x)=2x+3.\na) f(0) et f(5) (2 pts)\nb) x tel que f(x)=7 (2 pts)", pts: 4, rep: "a) 3 et 13\nb) 2" },
+      { q: "Exercice 2 – Proportionnalité (5 pts)\n12 L en 3 min → débit ? volume en 5 min ?", pts: 5, rep: "4 L/min, 20 L" },
+      { q: "Exercice 3 – Pourcentages (5 pts)\n200 € → -30 % puis -20 % → prix final ?", pts: 5, rep: "112 €" }
+    ]},
+  { id: 4, titre: "Statistiques et probabilités", annee: "Polynésie 2023",
+    automatismes: [
+      { q: "1. Moyenne de 12, 15, 18", pts: 1, rep: "15" },
+      { q: "2. Médiane de 5,8,12,15,20", pts: 1, rep: "12" },
+      { q: "3. Probabilité d'obtenir 6 avec un dé", pts: 1, rep: "1/6" },
+      { q: "4. Contraire de « tirer un roi »", pts: 1, rep: "ne pas tirer un roi" },
+      { q: "5. 18 réussites sur 24 → pourcentage", pts: 1, rep: "75 %" },
+      { q: "6. Étendue de 5,8,12,15,20", pts: 1, rep: "15" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Moyenne/médiane (4 pts)\nSérie : 8,12,15,20,25", pts: 4, rep: "16 et 15" },
+      { q: "Exercice 2 – Probabilités (5 pts)\nJeu de 32 cartes.\na) As ?\nb) Cœur ?", pts: 5, rep: "a) 1/8\nb) 1/4" },
+      { q: "Exercice 3 – Diagramme circulaire (5 pts)\nSport 40%, musique 30%, lecture 30%. Angles ?", pts: 5, rep: "144°,108°,108°" }
+    ]},
+  { id: 5, titre: "Algorithmique (Scratch)", annee: "Métropole 2022",
+    automatismes: [
+      { q: "1. Que dessine 'répéter 4 fois { avancer 100, tourner 90° }' ?", pts: 1, rep: "un carré" },
+      { q: "2. Programme : demander x, mettre y à x², dire y. Quelle fonction ?", pts: 1, rep: "carré" },
+      { q: "3. Modifier pour afficher x²+2x-3", pts: 1, rep: "(x*x)+2*x-3" },
+      { q: "4. Pour x=5, (x*x)-2*x = ?", pts: 1, rep: "15" },
+      { q: "5. 'répéter 3 fois { avancer 50, tourner 120° }' → figure ?", pts: 1, rep: "triangle équilatéral" },
+      { q: "6. Variable contenant la réponse utilisateur", pts: 1, rep: "réponse" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Programme (5 pts)\nDemander x, afficher 2x+3.", pts: 5, rep: "demander x, mettre y à (2*x)+3, dire y" },
+      { q: "Exercice 2 – Boucle (5 pts)\nQue fait 'répéter 5 fois { avancer 100, tourner 72° }' ?", pts: 5, rep: "pentagone régulier" },
+      { q: "Exercice 3 – Condition (4 pts)\nTest « pair »", pts: 4, rep: "si (x%2)=0 alors dire pair" }
+    ]},
+  { id: 6, titre: "Puissances et notation scientifique", annee: "Amérique du Nord 2022",
+    automatismes: [
+      { q: "1. 10³ × 10⁻⁵", pts: 1, rep: "10⁻² = 0,01" },
+      { q: "2. 4500 × 10⁶ en notation scientifique", pts: 1, rep: "4,5 × 10⁹" },
+      { q: "3. (3×10⁴)²", pts: 1, rep: "9 × 10⁸" },
+      { q: "4. 2³ × 2⁴", pts: 1, rep: "128" },
+      { q: "5. (2³)²", pts: 1, rep: "64" },
+      { q: "6. 10⁵ ÷ 10²", pts: 1, rep: "1000" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Puissance (5 pts)\nDistance Terre-Lune = 3,84×10⁵ km → en mètres.", pts: 5, rep: "3,84×10⁸ m" },
+      { q: "Exercice 2 – Notation (5 pts)\n0,00000000015 m → notation scientifique", pts: 5, rep: "1,5×10⁻¹⁰ m" },
+      { q: "Exercice 3 – Calcul (4 pts)\n(2×10³)×(3×10⁴)", pts: 4, rep: "6×10⁷" }
+    ]},
+  { id: 7, titre: "Équations et inéquations", annee: "Métropole 2021",
+    automatismes: [
+      { q: "1. 2x-5=9 → x = ?", pts: 1, rep: "7" },
+      { q: "2. 5x+3=2x+12 → x = ?", pts: 1, rep: "3" },
+      { q: "3. x-3 > 0 → x ?", pts: 1, rep: "x > 3" },
+      { q: "4. Développer 3(x+2)", pts: 1, rep: "3x+6" },
+      { q: "5. Factoriser 4x-8", pts: 1, rep: "4(x-2)" },
+      { q: "6. 2x+3=7 → x = ?", pts: 1, rep: "2" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Périmètre (5 pts)\nLargeur = x, longueur = 2x+3, P=30 cm. Trouver x.", pts: 5, rep: "x = 4 cm" },
+      { q: "Exercice 2 – Inéquation (5 pts)\n3x-5 ≤ 7", pts: 5, rep: "x ≤ 4" },
+      { q: "Exercice 3 – Consécutifs (4 pts)\nDeux entiers consécutifs de somme 45.", pts: 4, rep: "22 et 23" }
+    ]},
+  { id: 8, titre: "Théorème de Thalès", annee: "Polynésie 2021",
+    automatismes: [
+      { q: "1. Énoncer Thalès", pts: 1, rep: "Si deux droites parallèles, alors rapports égaux." },
+      { q: "2. AM=3, AB=9, AN=4 → AC = ?", pts: 1, rep: "12" },
+      { q: "3. BC=15, MN = ? (AM/AB=1/3)", pts: 1, rep: "5" },
+      { q: "4. 5 kg de pommes → 10 €. Prix de 3 kg ?", pts: 1, rep: "6 €" },
+      { q: "5. 200 km en 2h30 → vitesse", pts: 1, rep: "80 km/h" },
+      { q: "6. 3 ouvriers → 6 h. 1 ouvrier → ? h", pts: 1, rep: "18 h" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Calcul (5 pts)\nAM=4, AB=10, AN=6, BC=15, MN//BC. Trouver AC et MN.", pts: 5, rep: "AC=15, MN=6" },
+      { q: "Exercice 2 – Agrandissement (5 pts)\nRectangle 3×5 agrandi coeff 2 → nouvelles dimensions ?", pts: 5, rep: "6 cm et 10 cm" },
+      { q: "Exercice 3 – Réduction (4 pts)\nPyramide h=12 cm, coeff 0,5 → nouvelle hauteur ?", pts: 4, rep: "6 cm" }
+    ]},
+  { id: 9, titre: "PGCD et fractions", annee: "Métropole 2020",
+    automatismes: [
+      { q: "1. PGCD de 24 et 36", pts: 1, rep: "12" },
+      { q: "2. 18/24 simplifiée", pts: 1, rep: "3/4" },
+      { q: "3. 2/3 + 1/4", pts: 1, rep: "11/12" },
+      { q: "4. 3/4 × 2/5", pts: 1, rep: "3/10" },
+      { q: "5. 12/20 simplifiée", pts: 1, rep: "3/5" },
+      { q: "6. 5/8 + 1/8", pts: 1, rep: "3/4" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – PGCD (5 pts)\n84 et 120. PGCD ? simplifier 84/120.", pts: 5, rep: "PGCD=12, 7/10" },
+      { q: "Exercice 2 – Partage (5 pts)\n120 bonbons : 1/3, 2/5, reste. Répartition ?", pts: 5, rep: "40, 48, 32" },
+      { q: "Exercice 3 – Fraction (4 pts)\n3/4 de 240 élèves → demi-pensionnaires ?", pts: 4, rep: "180" }
+    ]},
+  { id: 10, titre: "Synthèse DNB", annee: "Sujet zéro 2026",
+    automatismes: [
+      { q: "1. 3 + 2 × 5 = ?", pts: 1, rep: "13" },
+      { q: "2. Développer 2x(3x-4)", pts: 1, rep: "6x²-8x" },
+      { q: "3. Factoriser 9x²-4", pts: 1, rep: "(3x-2)(3x+2)" },
+      { q: "4. Résoudre 4x-7=13", pts: 1, rep: "5" },
+      { q: "5. Aire d'un carré de côté 2√3", pts: 1, rep: "12" },
+      { q: "6. Probabilité d'un événement certain", pts: 1, rep: "1" }
+    ],
+    exercices: [
+      { q: "Exercice 1 – Triangle rectangle (5 pts)\nCôtés 5 et 12 → hypoténuse ?", pts: 5, rep: "13" },
+      { q: "Exercice 2 – Statistiques (5 pts)\nSérie : 10,15,20,25,30 → moyenne, médiane", pts: 5, rep: "20 et 20" },
+      { q: "Exercice 3 – Programme (4 pts)\nx → ajouter 2 → ×3 → -6 → montrer que résultat = 3x", pts: 4, rep: "3(x+2)-6 = 3x" }
+    ]}
 ];
 
-let who = null, currentIdx = 0, chronoSecs = 7200, running = false, chronoInterval = null;
-
-function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
-function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('maths_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); d.innerHTML = `<div class="sc-num">Sujet ${s.id}/10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Exercices</div><div class="sc-done" style="display:${done.includes(s.id) ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
-function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 7200; running = false; clearInterval(chronoInterval); updateChrono(); }
-function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
-
-function renderSujet(s) {
-  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Exercices</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
-  s.questions.forEach((q, i) => {
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${i+1}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="q${i}" placeholder="Ta réponse..."></textarea><button class="ai-btn" id="ai-q${i}" onclick="corrigerIA('ai-q${i}','q${i}','${q.q.replace(/'/g, "\\'")}','maths',${q.pts},'Maths')">🧮 Corriger avec l'IA</button><div class="ai-loading" id="ai-q${i}_load"><div class="ai-spin"></div></div><div class="ai-result" id="ai-q${i}_result"></div><button class="corr-btn" onclick="tog('c${i}')">Voir correction</button><div class="corr-box" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
+function afficherSujets() {
+  const container = document.getElementById('sujets');
+  container.innerHTML = '';
+  SUJETS.forEach((s, idx) => {
+    const num = idx + 1;
+    const div = document.createElement('div');
+    div.className = 'sujet';
+    div.innerHTML = `<h3>Sujet ${num} – ${s.titre} <span class="badge">${s.annee}</span></h3>`;
+    
+    // Partie 1 - Automatismes propres au sujet
+    div.innerHTML += `<div class="partie1"><strong>⚡ Partie 1 – Automatismes (20 min, calculatrice interdite, 6 points)</strong>`;
+    s.automatismes.forEach((auto, j) => {
+      div.innerHTML += `<div class="exercice">${auto.q}</div>`;
+      div.innerHTML += `<textarea id="auto-${num}-${j}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      div.innerHTML += `<button onclick="corrigerExo('auto-${num}-${j}', '${auto.rep.replace(/'/g, "\\'")}', ${auto.pts})">Corriger avec IA</button>`;
+      div.innerHTML += `<button onclick="afficherCorrection('corr-auto-${num}-${j}')">Voir correction</button>`;
+      div.innerHTML += `<div id="corr-auto-${num}-${j}" class="correction">${auto.rep}</div>`;
+    });
+    div.innerHTML += `</div>`;
+    
+    // Partie 2 - Exercices
+    div.innerHTML += `<div class="partie2"><strong>📐 Partie 2 – Exercices (1h40, calculatrice autorisée, 14 points)</strong>`;
+    s.exercices.forEach((ex, k) => {
+      div.innerHTML += `<div class="exercice">${ex.q}</div>`;
+      div.innerHTML += `<textarea id="exo-${num}-${k}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      div.innerHTML += `<button onclick="corrigerExo('exo-${num}-${k}', '${ex.rep.replace(/'/g, "\\'")}', ${ex.pts})">Corriger avec IA</button>`;
+      div.innerHTML += `<button onclick="afficherCorrection('corr-exo-${num}-${k}')">Voir correction</button>`;
+      div.innerHTML += `<div id="corr-exo-${num}-${k}" class="correction">${ex.rep}</div>`;
+    });
+    div.innerHTML += `</div>`;
+    div.innerHTML += `<hr>`;
+    container.appendChild(div);
   });
-  h += `</div></div><div class="auto-eval"><div class="ae-title">Auto-évaluation</div><div class="ae-row"><span class="ae-label">Note sur 20</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div><div class="ae-total"><div class="ae-total-lbl">Note</div><div class="ae-total-num" id="ae-total">0/20</div></div></div><div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
-  document.getElementById('s-body').innerHTML = h;
 }
 
-function tog(id) { document.getElementById(id).classList.toggle('show'); }
-function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; document.getElementById('ae-total').textContent = Math.min(a, 20) + '/20'; }
-async function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; } const s = SUJETS[currentIdx]; const note = Math.min(parseInt(document.getElementById('ae1').value) || 0, 20); const done = JSON.parse(localStorage.getItem('maths_done_' + who) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('maths_done_' + who, JSON.stringify(done)); } if (window.CONFIG && window.CONFIG.SHEETS) { const url = window.CONFIG.SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Mathématiques', annee: 'Sujet blanc ' + s.id, exercice: s.titre, score: note, pointsPerdus: 'Note:' + note + '/20', bloque: '', aRetravailler: '' }) }); showToast('✓ Note sauvegardée', 'ok'); } catch(e) { showToast('⚠ Sauvegarde impossible', 'err'); } } else { showToast('Config non chargée, sauvegarde locale uniquement', 'err'); } }
-function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
-function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 7200; updateChrono(); }
-function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; document.getElementById('chrono').textContent = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
-function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
-window.addEventListener('DOMContentLoaded', () => renderHome());
-
-async function corrigerIA(btnId, taId, question, typeExo, pts, matiere) {
-  const texte = document.getElementById(taId).value.trim();
-  if (!texte) { alert('Écris ta réponse.'); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY) { alert('Clé API non configurée (fichier config.js absent ou secret non injecté).'); return; }
-  const btn = document.getElementById(btnId);
-  const loadEl = document.getElementById(btnId + '_load');
-  const resEl = document.getElementById(btnId + '_result');
-  btn.disabled = true;
-  if (loadEl) loadEl.style.display = 'block';
-  if (resEl) resEl.style.display = 'none';
-  const prompt = `Tu es correcteur DNB Maths. Corrige sur ${pts} pts. Critères: démarche, calculs, résultat. JSON: {"noteTotal":X,"maxTotal":${pts},"sousNotes":"Démarche X, Calculs X, Résultat X","annotations":[],"erreurs":["..."],"methodologie":"<p>Attendu</p>","conseil":"Conseil"}`;
+async function corrigerExo(idTextarea, reponseAttendue, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
+    alert("Clé API non configurée. Vérifie les secrets GitHub.");
+    return;
+  }
+  const prompt = `Corrige cet exercice de maths. Réponse attendue : "${reponseAttendue}". Réponse élève : "${texte}". Note sur ${pts}. Réponds uniquement en JSON : {"note": nombre, "commentaire": "explication courte"}`;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': window.CONFIG.AI_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1200, system: prompt, messages: [{ role: 'user', content: 'Question: ' + question + '\n\nRéponse élève:\n\n' + texte + '\n\nJSON uniquement.' }] })
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: prompt, messages: [{ role: "user", content: prompt }] })
     });
     const data = await res.json();
-    const json = JSON.parse(data.content[0].text.replace(/```json|```/g, '').trim());
-    renderAIRes(resEl, json);
-  } catch(e) { alert('Erreur: ' + e.message); }
-  if (loadEl) loadEl.style.display = 'none';
-  btn.disabled = false;
+    const json = JSON.parse(data.content[0].text);
+    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
+  } catch(e) { alert("Erreur IA : " + e.message); }
 }
 
-function renderAIRes(el, j) {
-  const pct = Math.round(j.noteTotal / j.maxTotal * 100);
-  const col = pct >= 75 ? '#7ecf8a' : pct >= 55 ? '#e8c87a' : '#f55a5a';
-  const bg = pct >= 75 ? 'rgba(126,207,138,0.08)' : pct >= 55 ? 'rgba(232,200,122,0.08)' : 'rgba(245,85,85,0.08)';
-  const barCol = pct >= 75 ? 'linear-gradient(90deg,#7ecf8a,#5ecfb1)' : pct >= 55 ? 'linear-gradient(90deg,#e8c87a,#f07a5a)' : 'linear-gradient(90deg,#f55a5a,#f07a5a)';
-  let html = `<div class="ai-score-bar" style="background:${bg}"><div class="ai-score-num" style="color:${col}">${j.noteTotal}/${j.maxTotal}</div><div class="ai-score-info"><div>${pct >= 75 ? 'Excellent' : pct >= 55 ? 'À améliorer' : 'Insuffisant'}</div><div class="ai-pbar-bg"><div class="ai-pbar-fill" id="${el.id}_pb" style="width:0%;background:${barCol}"></div></div></div></div><div class="ai-body">`;
-  if (j.erreurs && j.erreurs.length) html += `<div class="ai-sec"><div class="ai-sec-t">Erreurs</div><div class="ai-sec-b"><ul>${j.erreurs.map(e => '<li>' + e + '</li>').join('')}</ul></div></div>`;
-  if (j.methodologie) html += `<div class="ai-sec"><div class="ai-sec-t">Méthodologie</div><div class="ai-sec-b">${j.methodologie}</div></div>`;
-  if (j.conseil) html += `<div class="ai-sec"><div class="ai-sec-t">Conseil</div><div class="ai-sec-b"><strong>${j.conseil}</strong></div></div>`;
-  html += `</div>`;
-  el.innerHTML = html;
-  el.style.display = 'block';
-  setTimeout(() => { const b = document.getElementById(el.id + '_pb'); if (b) b.style.width = pct + '%'; }, 100);
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
+
+afficherSujets();
 </script>
 </body>
 </html>
