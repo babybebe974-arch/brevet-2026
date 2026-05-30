@@ -2,176 +2,235 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎤 Oral Blanc — Brevet 2026</title>
+<title>Agent Oral - Brevet 2026</title>
 <script src="config.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--oral:#f0a3a3;--r:14px;--r-sm:8px;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(240,163,163,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--oral);border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--oral);font-style:italic;}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
-.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
-.sujet-card:hover{border-color:rgba(240,163,163,0.4);transform:translateY(-2px);}
-.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--oral);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
-.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
-.who-row{display:flex;gap:10px;margin-bottom:20px;}
-.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
-.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
-.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
-#sujet-page{display:none;max-width:800px;margin:0 auto;padding:0;}
-.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
-.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--oral);}
-.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
-.back:hover{background:rgba(255,255,255,0.04);}
-.chrono-bar{background:rgba(240,163,163,0.06);border-bottom:1px solid rgba(240,163,163,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--oral);}
-.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.chrono-btns{display:flex;gap:8px;}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.07);color:var(--oral);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
-.s-body{padding:24px;}
-.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
-.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--oral);}
-.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
-.partie-body{padding:20px;}
-.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--oral);}
-.q-block{margin-bottom:20px;}
-.q-label{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--oral);margin-bottom:12px;}
-.q-text{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:16px;}
-.answer-ta{width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:12px;}
-.answer-ta:focus{border-color:rgba(240,163,163,0.4);}
-.corr-btn{font-size:11px;padding:6px 14px;border-radius:999px;border:1px solid rgba(240,163,163,0.25);background:rgba(240,163,163,0.06);color:var(--oral);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;margin-right:10px;}
-.corr-btn:hover{background:rgba(240,163,163,0.12);}
-.corr-box{display:none;margin-top:12px;padding:14px 16px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
-.corr-box.show{display:block;}
-.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
-.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
-.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.ae-label{font-size:13px;flex:1;}
-.ae-input{width:65px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
-.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
-.ae-total{background:linear-gradient(135deg,rgba(240,163,163,0.1),rgba(240,163,163,0.05));border:1px solid rgba(240,163,163,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
-.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--oral);}
-.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
-.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btns{display:flex;gap:10px;margin-top:12px;}
-.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
-.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btn.primary{background:linear-gradient(135deg,var(--oral),#e08282);border:none;color:#060f0a;font-weight:700;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
-.toast.show{opacity:1;transform:translateY(0);}
-.toast.ok{border-color:rgba(126,207,138,0.4);color:var(--green);}
-.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
-@media(max-width:480px){.sujets-grid{grid-template-columns:1fr);}
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .card { background: #111118; border-radius: 20px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.08); }
+  .sujet { background: #0a0a12; border-left: 4px solid #f5a97f; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
+  .doc { background: #0a1a1a; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 3px solid #5ecfb1; white-space: pre-wrap; }
+  select, textarea, input { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; }
+  button { background: #5ecfb1; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; margin: 0.5rem 0.5rem 0 0; font-size: 0.9rem; font-weight: bold; }
+  .questions-box { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+  .question-item { margin: 0.5rem 0; padding: 0.5rem; background: #111118; border-radius: 6px; }
+  .correction { background: #0a1a2a; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
+  .badge { display: inline-block; background: #5ecfb1; color: #09090f; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
+  hr { border-color: #2a2a35; margin: 1.5rem 0; }
 </style>
 </head>
 <body>
-<div id="home">
-  <div class="badge">🎤 Préparation à l'épreuve orale</div>
-  <h1>Brevet Blanc <em>Oral</em></h1>
-  <p class="sub">10 sujets types pour l'épreuve orale du DNB. Préparez votre exposé (5 min) et vos réponses aux questions (10 min).</p>
-  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui passe l'oral ?</div>
-  <div class="who-row">
-    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
-    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
-  </div>
-  <div class="sujets-grid" id="sujets-grid"></div>
-  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
-</div>
+<div class="container">
+  <h1>🎤 Agent Oral – Brevet 2026</h1>
+  <p>4 passages obligatoires. À chaque session : exposé + 10 questions IA (5 sur le sujet + 5 sur les mots-clés) + correction notée sur 20 avec conseils.</p>
 
-<div id="sujet-page">
-  <div class="s-header">
-    <div><div class="s-logo">🎤 Brevet Blanc Oral</div><div class="s-meta" id="s-meta">—</div></div>
-    <button class="back" onclick="goHome()">← Retour</button>
+  <div class="card">
+    <h3>👤 Candidat</h3>
+    <select id="candidat">
+      <option value="Nawal">Nawal</option>
+      <option value="Wassil">Wassil</option>
+    </select>
+
+    <h3>📖 Sujet</h3>
+    <select id="sujetSelect">
+      <option value="feminisme">Féminisme</option>
+      <option value="malala">Malala – Droit à l'éducation des filles</option>
+    </select>
+
+    <h3>🔁 Session (1 à 4)</h3>
+    <input type="number" id="session" min="1" max="4" value="1" step="1">
+
+    <button id="genererQuestionsBtn">1. Générer les 10 questions IA</button>
   </div>
-  <div class="chrono-bar">
-    <span style="font-size:11px;color:var(--oral);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre (exposé)</span>
-    <div class="chrono-time" id="chrono">5:00</div>
-    <div class="chrono-btns">
-      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
-      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
-    </div>
+
+  <div id="questionsDisplay" class="card" style="display:none;">
+    <h3>📝 Questions du jury (5 questions sur le sujet)</h3>
+    <div id="questionsSujet" class="questions-box"></div>
+    <h3>📚 Questions sur les mots-clés (5 questions)</h3>
+    <div id="questionsMots" class="questions-box"></div>
   </div>
-  <div class="s-body" id="s-body"></div>
+
+  <div class="card">
+    <h3>✍️ Exposé (5 minutes)</h3>
+    <textarea id="expose" rows="12" placeholder="Préparez ou écrivez votre exposé ici..."></textarea>
+    <button id="corrigerExposeBtn">2. Corriger l'exposé avec IA (note + conseils)</button>
+  </div>
+
+  <div id="correctionDisplay" class="card" style="display:none;">
+    <h3>📊 Correction et note (sur 20)</h3>
+    <div id="correctionTexte" class="correction"></div>
+  </div>
+
+  <div class="card">
+    <h3>📁 Sauvegarde</h3>
+    <button id="sauvegarderBtn">Sauvegarder la note de cette session</button>
+    <button id="telechargerSujetBtn">📎 Télécharger le sujet (PDF)</button>
+    <div id="sauvegardeMessage" style="margin-top:1rem;"></div>
+  </div>
+
+  <hr>
+  <h3>📋 Historique des notes (4 sessions)</h3>
+  <div id="historique"></div>
 </div>
-<div class="toast" id="toast"></div>
 
 <script>
-const SUJETS = [
-  {id:1,titre:"Présentation d'un projet personnel ou d'une œuvre",enonce:"Présentez un projet que vous avez réalisé (exposition, voyage, engagement associatif, création artistique) ou une œuvre (livre, film, tableau, chanson) qui vous a marqué(e).",conseils:"Expliquez pourquoi vous avez choisi ce projet/cette œuvre, décrivez votre démarche ou votre ressenti, et montrez ce que cela vous a apporté."},
-  {id:2,titre:"Engagement citoyen",enonce:"Présentez une action citoyenne à laquelle vous avez participé ou que vous souhaiteriez mener (développement durable, solidarité, lutte contre les discriminations, bénévolat).",conseils:"Décrivez l'action, expliquez ses objectifs, montrez en quoi elle correspond à des valeurs citoyennes et quel impact elle peut avoir."},
-  {id:3,titre:"Parcours Avenir",enonce:"Présentez votre projet d'orientation après la 3e (voie générale, technologique, professionnelle) et les métiers qui vous attirent.",conseils:"Expliquez vos motivations, vos atouts, les formations envisagées et le métier que vous souhaiteriez exercer plus tard."},
-  {id:4,titre:"Analyse d'une œuvre d'art engagée",enonce:"Choisissez une œuvre d'art (peinture, affiche, chanson, film) qui porte un message engagé (paix, liberté, droits de l'Homme, environnement).",conseils:"Présentez l'œuvre, son contexte historique, analysez le message qu'elle transmet et expliquez pourquoi elle vous touche."},
-  {id:5,titre:"Les valeurs de la République",enonce:"Présentez les valeurs de la République française (liberté, égalité, fraternité, laïcité) en vous appuyant sur des exemples concrets.",conseils:"Définissez chaque valeur, donnez des exemples historiques ou actuels, et montrez pourquoi elles sont importantes dans la vie quotidienne."},
-  {id:6,titre:"Défense et mémoire",enonce:"Présentez un lieu de mémoire (Verdun, Oradour-sur-Glane, camp de concentration, musée) ou une commémoration liée aux guerres du XXe siècle.",conseils:"Décrivez le lieu ou l'événement, expliquez son importance historique et pourquoi il est essentiel de transmettre cette mémoire."},
-  {id:7,titre:"Laïcité à l'école",enonce:"Présentez le principe de laïcité et son application dans le cadre scolaire.",conseils:"Définissez la laïcité, expliquez la loi de 2004 et la charte de la laïcité, montrez comment ce principe permet le vivre-ensemble."},
-  {id:8,titre:"Transition écologique",enonce:"Présentez une action concrète pour lutter contre le changement climatique ou préserver la biodiversité (dans votre établissement, votre commune ou à titre personnel).",conseils:"Décrivez l'action, ses objectifs, les acteurs impliqués et son impact environnemental."},
-  {id:9,titre:"L'Europe et nous",enonce:"Présentez les avantages de l'Union européenne pour les jeunes (mobilité, études, Erasmus+, valeurs communes, citoyenneté européenne).",conseils:"Citez des programmes ou droits concrets, expliquez en quoi l'Europe est utile au quotidien."},
-  {id:10,titre:"Présentation d'une EPI",enonce:"Présentez un EPI (Enseignement Pratique Interdisciplinaire) que vous avez réalisé au cours du cycle 4.",conseils:"Expliquez le sujet, les matières impliquées, votre travail personnel et ce que vous avez appris."}
-];
+  // Sujets et mots-clés associés
+  const sujets = {
+    feminisme: {
+      titre: "Le féminisme",
+      doc: "Le féminisme est un mouvement social et politique qui lutte pour l'égalité des droits entre les femmes et les hommes. Il a connu plusieurs vagues : le droit de vote (1944 en France), l'égalité professionnelle, la lutte contre les violences sexuelles, etc. Aujourd'hui, les inégalités persistent (salaires, plafond de verre, charge mentale).",
+      motsCles: ["égalité", "parité", "discrimination", "sexisme", "suffrage universel", "patriarcat", "MeToo", "plafond de verre", "charge mentale", "droit des femmes"]
+    },
+    malala: {
+      titre: "Malala – Le droit à l'éducation des filles",
+      doc: "Malala Yousafzai est une militante pakistanaise. À 11 ans, elle témoignait sur la vie sous le régime taliban. En 2012, elle a survécu à une tentative d'assassinat. Depuis, elle milite pour le droit des filles à l'éducation. Prix Nobel de la paix en 2014 à 17 ans.",
+      motsCles: ["éducation", "taliban", "Pakistan", "droit des filles", "Nobel", "militantisme", "discrimination", "instruction", "liberté", "engagement"]
+    },
+    zero: {
+      titre: "L'invention du zéro",
+      doc: "Le zéro a été inventé par les mathématiciens indiens au 5ème siècle. Il a révolutionné les mathématiques en permettant le système décimal et les calculs complexes. Les Mayas l'utilisaient aussi, mais c'est en Inde qu'il a acquis le statut de nombre à part entière.",
+      motsCles: ["zéro", "Inde", "mathématiques", "système décimal", "nombre", "Brahmasphutasiddhanta", "Brahmagupta", "vide", "algèbre", "numération"]
+    }
+  };
 
-let who = null, currentIdx = 0, chronoSecs = 300, running = false, chronoInterval = null;
+  let dernieresQuestions = { sujet: [], mots: [] };
 
-function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
-function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('oral_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); const isDone = done.includes(s.id); d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Préparation orale · 5 min d'exposé</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
-function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 300; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0, 0); }
-function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
+  document.getElementById('candidat').addEventListener('change', function() {
+    const selectSujet = document.getElementById('sujetSelect');
+    if (this.value === 'Nawal') {
+      selectSujet.innerHTML = '<option value="feminisme">Féminisme</option><option value="malala">Malala – Droit à l\'éducation des filles</option>';
+    } else {
+      selectSujet.innerHTML = '<option value="zero">L\'invention du zéro</option>';
+    }
+  });
 
-function renderSujet(s) {
-  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Sujet d'oral blanc</span><span class="partie-pts">100 pts</span></div><div class="partie-body"><div class="texte-box"><strong>Énoncé :</strong><br><br>${s.enonce}<br><br><strong>Conseils de préparation :</strong><br><br>${s.conseils}</div>`;
-  h += `<div class="q-block"><div class="q-label">📝 Préparez votre exposé (5 minutes)</div><textarea class="answer-ta" id="expose" placeholder="Écrivez ici le plan détaillé ou le texte de votre exposé...&#10;&#10;Structure recommandée :&#10;1. Introduction (accroche, présentation du sujet, annonce du plan)&#10;2. Développement (2-3 parties avec arguments et exemples)&#10;3. Conclusion (bilan, ouverture)"></textarea><div id="wc-expose" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mots</div>`;
-  h += `<button class="corr-btn" onclick="tog('exposeCorr')">Voir grille d'évaluation officielle</button><div class="corr-box" id="exposeCorr"><strong>📋 Grille d'évaluation de l'oral du DNB (100 pts)</strong><br><br>• Maîtrise du sujet (25 pts) : connaissances, compréhension, pertinence<br>• Capacité à s'exprimer (25 pts) : clarté, débit, aisance, vocabulaire<br>• Organisation du discours (25 pts) : structure, cohérence, articulation des idées<br>• Interaction avec le jury (25 pts) : écoute, réponses aux questions, argumentation</div>`;
-  h += `</div></div>`;
-  h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation (après l'oral)</div>
-    <div class="ae-row"><span class="ae-label">Maîtrise du sujet (connaissances, pertinence)</span><input type="number" class="ae-input" id="ae1" min="0" max="25" value="0" oninput="updateTotal()"><span class="ae-max">/ 25</span></div>
-    <div class="ae-row"><span class="ae-label">Capacité à s'exprimer (clarté, aisance)</span><input type="number" class="ae-input" id="ae2" min="0" max="25" value="0" oninput="updateTotal()"><span class="ae-max">/ 25</span></div>
-    <div class="ae-row"><span class="ae-label">Organisation du discours (structure, cohérence)</span><input type="number" class="ae-input" id="ae3" min="0" max="25" value="0" oninput="updateTotal()"><span class="ae-max">/ 25</span></div>
-    <div class="ae-row"><span class="ae-label">Interaction avec le jury (réponses aux questions)</span><input type="number" class="ae-input" id="ae4" min="0" max="25" value="0" oninput="updateTotal()"><span class="ae-max">/ 25</span></div>
-    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/100</div></div>
-  </div>`;
-  h += `<div class="nav-btns">
-    ${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Sujet précédent</button>` : ''}
-    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder ma préparation</button>
-    ${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}
-  </div>`;
-  document.getElementById('s-body').innerHTML = h;
-  const exposeTextarea = document.getElementById('expose');
-  if (exposeTextarea) {
-    exposeTextarea.addEventListener('input', function() { const n = this.value.trim() ? this.value.trim().split(/\s+/).length : 0; document.getElementById('wc-expose').textContent = n + ' mot' + (n > 1 ? 's' : ''); });
-    const saved = localStorage.getItem('oral_prepa_' + who + '_' + currentIdx);
-    if (saved) exposeTextarea.value = saved;
-    exposeTextarea.addEventListener('input', function() { localStorage.setItem('oral_prepa_' + who + '_' + currentIdx, this.value); });
+  document.getElementById('genererQuestionsBtn').addEventListener('click', async function() {
+    const candidat = document.getElementById('candidat').value;
+    const sujetKey = document.getElementById('sujetSelect').value;
+    const session = document.getElementById('session').value;
+    const sujet = sujets[sujetKey];
+    if (!sujet) return;
+
+    document.getElementById('questionsDisplay').style.display = 'block';
+    document.getElementById('questionsSujet').innerHTML = '<div class="ai-loading">Génération des questions en cours...</div>';
+    document.getElementById('questionsMots').innerHTML = '<div class="ai-loading">Génération des questions en cours...</div>';
+
+    // Générer 5 questions sur le sujet
+    const promptSujet = `Génère 5 questions que le jury pourrait poser à l'oral du brevet sur le thème : "${sujet.titre}". Voici le sujet : "${sujet.doc}". Chaque question doit être différente et précise. Réponds uniquement avec une liste numérotée de 1 à 5.`;
+    // Générer 5 questions sur les mots-clés
+    const promptMots = `Génère 5 questions sur les mots-clés suivants : ${sujet.motsCles.join(', ')}. Chaque question doit porter sur un mot-clé différent et amener l'élève à définir, expliquer ou illustrer le terme. Réponds uniquement avec une liste numérotée de 1 à 5.`;
+
+    try {
+      if (window.CONFIG && window.CONFIG.AI_API_KEY && window.CONFIG.AI_API_KEY !== "__API_KEY__") {
+        const [resSujet, resMots] = await Promise.all([
+          fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+            body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: promptSujet, messages: [{ role: "user", content: promptSujet }] })
+          }),
+          fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+            body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: promptMots, messages: [{ role: "user", content: promptMots }] })
+          })
+        ]);
+        const dataSujet = await resSujet.json();
+        const dataMots = await resMots.json();
+        const questionsSujet = dataSujet.content[0].text.split('\n').filter(l => l.match(/^\d+\./));
+        const questionsMots = dataMots.content[0].text.split('\n').filter(l => l.match(/^\d+\./));
+        dernieresQuestions.sujet = questionsSujet;
+        dernieresQuestions.mots = questionsMots;
+      } else {
+        // Fallback local
+        dernieresQuestions.sujet = [
+          "1. Qu'est-ce que le féminisme ?",
+          "2. Cite une grande figure du féminisme et explique son combat.",
+          "3. Quelles inégalités persistent entre hommes et femmes aujourd'hui ?",
+          "4. En quoi le droit de vote des femmes a-t-il été une avancée ?",
+          "5. Comment lutter contre le sexisme au quotidien ?"
+        ];
+        dernieresQuestions.mots = [
+          "1. Définis le mot 'égalité'.",
+          "2. Qu'est-ce que la parité ?",
+          "3. Explique le terme 'discrimination'.",
+          "4. Que signifie 'sexisme' ?",
+          "5. Qu'est-ce que le 'suffrage universel' ?"
+        ];
+      }
+      afficherQuestions();
+    } catch(e) { alert("Erreur IA: " + e.message); }
+  });
+
+  function afficherQuestions() {
+    const containerSujet = document.getElementById('questionsSujet');
+    const containerMots = document.getElementById('questionsMots');
+    containerSujet.innerHTML = dernieresQuestions.sujet.map(q => `<div class="question-item">${q}</div>`).join('');
+    containerMots.innerHTML = dernieresQuestions.mots.map(q => `<div class="question-item">${q}</div>`).join('');
   }
-  const savedScores = localStorage.getItem('oral_scores_' + who + '_' + currentIdx);
-  if (savedScores) {
-    const scores = JSON.parse(savedScores);
-    document.getElementById('ae1').value = scores.ae1 || 0;
-    document.getElementById('ae2').value = scores.ae2 || 0;
-    document.getElementById('ae3').value = scores.ae3 || 0;
-    document.getElementById('ae4').value = scores.ae4 || 0;
-    updateTotal();
+
+  document.getElementById('corrigerExposeBtn').addEventListener('click', async function() {
+    const expose = document.getElementById('expose').value.trim();
+    if (!expose) { alert("Écris ton exposé avant de le corriger."); return; }
+    if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
+      alert("Clé API non configurée.");
+      return;
+    }
+    const candidat = document.getElementById('candidat').value;
+    const sujetKey = document.getElementById('sujetSelect').value;
+    const sujet = sujets[sujetKey];
+    const session = document.getElementById('session').value;
+
+    const prompt = `Tu es examinateur du DNB. Évalue cet exposé oral sur le thème "${sujet.titre}". Utilise la grille officielle : maîtrise du sujet (5 pts), capacité à s'exprimer (5 pts), organisation du discours (5 pts), interaction avec le jury (5 pts). Donne une note totale sur 20, puis un commentaire détaillé avec les points forts, les axes d'amélioration, et des conseils concrets. Réponds en JSON : {"note": nombre, "commentaire": "texte détaillé", "conseils": "conseils spécifiques"}`;
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 800, system: prompt, messages: [{ role: "user", content: "Exposé:\n" + expose }] })
+      });
+      const data = await res.json();
+      const json = JSON.parse(data.content[0].text);
+      const correctionHtml = `<strong>Note : ${json.note}/20</strong><br><br><strong>Commentaire :</strong><br>${json.commentaire}<br><br><strong>Conseils :</strong><br>${json.conseils}`;
+      document.getElementById('correctionTexte').innerHTML = correctionHtml;
+      document.getElementById('correctionDisplay').style.display = 'block';
+      window.derniereNote = { session: session, candidat: candidat, sujet: sujet.titre, note: json.note, commentaire: json.commentaire };
+    } catch(e) { alert("Erreur IA: " + e.message); }
+  });
+
+  document.getElementById('sauvegarderBtn').addEventListener('click', function() {
+    if (!window.derniereNote) { alert("Corrige d'abord l'exposé."); return; }
+    const historique = JSON.parse(localStorage.getItem('agent_oral_notes') || '[]');
+    historique.push(window.derniereNote);
+    localStorage.setItem('agent_oral_notes', JSON.stringify(historique));
+    afficherHistorique();
+    document.getElementById('sauvegardeMessage').innerHTML = '<span style="color:#7ecf8a;">✓ Note sauvegardée</span>';
+    setTimeout(() => document.getElementById('sauvegardeMessage').innerHTML = '', 2000);
+  });
+
+  function afficherHistorique() {
+    const historique = JSON.parse(localStorage.getItem('agent_oral_notes') || '[]');
+    const container = document.getElementById('historique');
+    if (historique.length === 0) { container.innerHTML = '<p>Aucune note sauvegardée.</p>'; return; }
+    container.innerHTML = historique.map((h, i) => `<div><strong>Session ${h.session}</strong> – ${h.candidat} – ${h.sujet}<br>Note : ${h.note}/20<br>${h.commentaire.substring(0, 150)}...<br><hr></div>`).join('');
   }
-}
 
-function tog(id) { document.getElementById(id).classList.toggle('show'); }
-function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const d = parseInt(document.getElementById('ae4').value) || 0; const t = Math.min(a, 25) + Math.min(b, 25) + Math.min(c, 25) + Math.min(d, 25); const el = document.getElementById('ae-total'); el.textContent = t + '/100'; el.style.color = t >= 80 ? 'var(--green)' : t >= 60 ? 'var(--gold)' : t >= 40 ? 'var(--coral)' : 'var(--red)'; }
+  document.getElementById('telechargerSujetBtn').addEventListener('click', function() {
+    const candidat = document.getElementById('candidat').value;
+    const sujetKey = document.getElementById('sujetSelect').value;
+    const sujet = sujets[sujetKey];
+    const session = document.getElementById('session').value;
+    const contenu = `Session ${session} – ${candidat}\nSujet : ${sujet.titre}\n\nDocument :\n${sujet.doc}\n\nMots-clés : ${sujet.motsCles.join(', ')}\n\nQuestions du jury (exemple) :\n${dernieresQuestions.sujet.join('\n')}\n\nQuestions sur les mots-clés :\n${dernieresQuestions.mots.join('\n')}`;
+    const blob = new Blob([contenu], { type: 'text/plain' });
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = `sujet_oral_${candidat}_session${session}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
 
-async function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; } const s = SUJETS[currentIdx]; const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const d = parseInt(document.getElementById('ae4').value) || 0; const t = Math.min(a,25)+Math.min(b,25)+Math.min(c,25)+Math.min(d,25); const done = JSON.parse(localStorage.getItem('oral_done_' + who) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('oral_done_' + who, JSON.stringify(done)); } const scores = { ae1: a, ae2: b, ae3: c, ae4: d }; localStorage.setItem('oral_scores_' + who + '_' + currentIdx, JSON.stringify(scores)); if (window.CONFIG && window.CONFIG.SHEETS) { const url = window.CONFIG.SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Oral Brevet', annee: 'Sujet ' + s.id, exercice: s.titre, score: Math.round(t / 100 * 20), pointsPerdus: 'Comp:'+a+'/25 Express:'+b+'/25 Org:'+c+'/25 Inter:'+d+'/25', bloque: '', aRetravailler: '' }) }); showToast('✓ Notes sauvegardées', 'ok'); } catch(e) { showToast('⚠ Sauvegarde impossible', 'err'); } } else { showToast('Config non chargée, sauvegarde locale uniquement', 'err'); } }
-function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps de l\'exposé écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
-function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 300; updateChrono(); }
-function updateChrono() { const m = Math.floor(chronoSecs / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${m}:${String(s).padStart(2, '0')}`; el.className = 'chrono-time' + (chronoSecs < 60 ? ' urgent' : ''); }
-function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
-window.addEventListener('DOMContentLoaded', () => renderHome());
+  afficherHistorique();
 </script>
 </body>
 </html>
