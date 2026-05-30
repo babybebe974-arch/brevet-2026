@@ -1,8 +1,9 @@
-// config.js - Configuration finale
+// config.js - Template with placeholders for GitHub Secrets injection
+// ⚠️ Do not put real API keys here. They will be injected via GitHub Actions.
 window.CONFIG = {
-  AI_API_KEY: 'sk-ant-api03-ICI_TA_VRAIE_CLE_API',
+  AI_API_KEY: '__API_KEY__',
   SHEETS: {
-    W: 'https://script.google.com/macros/s/AKfycbw_18QVZbRY7M8cNpnx7H4TkoTGMf-JvIAkzS1ScOfrDtHU/exec',
-    N: 'https://script.google.com/macros/s/AKfycbw_17IvW07JgkvvBhrxSRo0XaI9xapmF1ZhxAF5tQZmXrCI/exec'
+    W: '__SHEET_W__',
+    N: '__SHEET_N__'
   }
 };
