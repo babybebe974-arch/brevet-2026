@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌍 Histoire-Géo & EMC — Brevet 2026</title>
+<script src="config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--blue:#5a9cf0;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(90,156,240,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--blue);border:1px solid rgba(90,156,240,0.3);background:rgba(90,156,240,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--blue);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sujet-card:hover{border-color:rgba(90,156,240,0.4);transform:translateY(-2px);}
+.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
+.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--blue);}
+.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
+.back:hover{background:rgba(255,255,255,0.04);}
+.chrono-bar{background:rgba(90,156,240,0.06);border-bottom:1px solid rgba(90,156,240,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--blue);}
+.chrono-btns{display:flex;gap:8px;}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(90,156,240,0.3);background:rgba(90,156,240,0.07);color:var(--blue);cursor:pointer;font-family:'DM Mono',monospace;}
+.s-body{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--blue);}
+.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.partie-body{padding:20px;}
+.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--blue);}
+.q-block{margin-bottom:16px;}
+.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);font-weight:700;min-width:24px;margin-top:2px;}
+.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:6px;}
+.answer-ta:focus{border-color:rgba(90,156,240,0.4);}
+.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(90,156,240,0.25);background:rgba(90,156,240,0.06);color:var(--blue);cursor:pointer;font-family:'DM Mono',monospace;}
+.corr-btn:hover{background:rgba(90,156,240,0.12);}
+.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.corr-box.show{display:block;}
+.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
+.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ae-label{font-size:13px;flex:1;}
+.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;}
+.ae-max{font-size:12px;color:var(--muted);}
+.ae-total{background:linear-gradient(135deg,rgba(90,156,240,0.1),rgba(90,156,240,0.05));border:1px solid rgba(90,156,240,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--blue);}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btns{display:flex;gap:10px;margin-top:12px;}
+.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:13px;}
+.nav-btn.primary{background:linear-gradient(135deg,var(--blue),#3a7ccf);border:none;color:#fff;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.ai-btn{width:100%;margin-top:8px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:8px;padding:12px;color:#080600;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.2s;}
+.ai-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
+.ai-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.ai-loading{display:none;text-align:center;padding:16px;background:rgba(232,200,122,0.04);border:1px solid rgba(232,200,122,0.12);border-radius:8px;margin-top:8px;}
+.ai-spin{width:24px;height:24px;border:2px solid rgba(232,200,122,0.2);border-top-color:#e8c87a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-result{display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
+.ai-score-bar{padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.ai-score-num{font-size:38px;font-weight:800;line-height:1;flex-shrink:0;}
+.ai-score-info{flex:1;font-size:11px;}
+.ai-pbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:5px;}
+.ai-pbar-fill{height:100%;border-radius:999px;transition:width 1s ease;}
+.ai-body{padding:14px 18px;background:rgba(0,0,0,0.2);font-size:12px;}
+.ai-sec{margin-bottom:10px;}
+.ai-sec-t{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.ai-r .ai-sec-t{color:#f55a5a;}.ai-v .ai-sec-t{color:#7ecf8a;}.ai-g .ai-sec-t{color:#e8c87a;}.ai-p .ai-sec-t{color:#a98af5;}
+</style>
+</head>
+<body>
+<div id="home">
+  <div class="badge">🌍 Sujets blancs complets — Histoire-Géographie & EMC</div>
+  <h1>Brevet Blanc <em>Histoire-Géo & EMC</em></h1>
+  <p class="sub">10 sujets complets format DNB. Analyse de documents, paragraphe argumenté et exercices EMC.</p>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+  <div class="sujets-grid" id="sujets-grid"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
+</div>
+
+<div id="sujet-page">
+  <div class="s-header"><div><div class="s-logo">🌍 Brevet Blanc HGG</div><div class="s-meta" id="s-meta">—</div></div><button class="back" onclick="goHome()">← Retour</button></div>
+  <div class="chrono-bar"><span style="font-size:11px;color:var(--blue);font-family:'DM Mono',monospace;">⏱ Chronomètre</span><div class="chrono-time" id="chrono">2:00:00</div><div class="chrono-btns"><button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button><button class="chrono-btn" onclick="resetChrono()">↺ Reset</button></div></div>
+  <div class="s-body" id="s-body"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SUJETS = [
+  {id:1,titre:"La Première Guerre mondiale",doc:"Document : extrait d'une lettre de poilu (1916). '...Nous vivons dans la boue, les rats nous mangent vivants. Chaque jour, des camarades tombent...'",questions:[{n:"1",pts:3,q:"Décrivez les conditions de vie des soldats dans les tranchées.",c:"Vie dans la boue, froid, rats, peur constante, bruit des obus, mort quotidienne des camarades."},{n:"2",pts:4,q:"Qu'est-ce que 'l'Union sacrée' ? A-t-elle duré toute la guerre ?",c:"Union sacrée = trêve politique entre partis français au début de la guerre (1914). Elle s'estompe à partir de 1917 avec les mutineries."},{n:"3",pts:3,q:"Pourquoi peut-on parler de 'guerre totale' ?",c:"Mobilisation économique (industrie d'armement), sociale (femmes aux usines), culturelle (propagande) et humaine (massacres)."}]},
+  {id:2,titre:"Les aires urbaines en France",doc:"Document : carte des aires urbaines françaises. Paris (12M), Lyon (2,3M), Marseille (1,8M)...",questions:[{n:"1",pts:3,q:"Qu'est-ce qu'une aire urbaine ?",c:"Ensemble de communes formé par un pôle urbain (ville-centre + banlieue) et sa couronne périurbaine."},{n:"2",pts:3,q:"Citez trois métropoles françaises et leurs fonctions principales.",c:"Paris (décision politique/économie), Lyon (industrie/pharma), Marseille (logistique/port), Toulouse (aéronautique)."},{n:"3",pts:4,q:"Expliquez le concept de 'périurbanisation' et ses conséquences.",c:"Étalement urbain vers campagnes. Conséquences : dépendance auto, consommation d'espaces naturels, allongement trajets domicile-travail."}]},
+  {id:3,titre:"La Ve République",doc:"Document : article 5 de la Constitution de 1958. 'Le Président veille au respect de la Constitution...'",questions:[{n:"1",pts:3,q:"Quels sont les pouvoirs du Président selon l'article 5 ?",c:"Veille au respect Constitution, assure fonctionnement pouvoirs publics, continuité État, arbitre institutions."},{n:"2",pts:4,q:"Comparez le rôle du Président et du Premier ministre sous la Ve République.",c:"Président : chef de l'État (défense, diplomatie, référendum). Premier ministre : chef du gouvernement (direction politique nationale, exécution lois). Cohabitation possible."},{n:"3",pts:3,q:"Qu'est-ce que le 'fait majoritaire' ?",c:"Situation où le Président dispose d'une majorité parlementaire fidèle, lui permettant de gouverner efficacement."}]},
+  {id:4,titre:"Le développement durable",doc:"Document : graphique sur l'empreinte écologique mondiale (1970-2020).",questions:[{n:"1",pts:3,q:"Définissez 'empreinte écologique'.",c:"Surface de terre et d'eau nécessaire pour produire ressources consommées et absorber déchets."},{n:"2",pts:3,q:"Quels sont les 3 piliers du développement durable ?",c:"Pilier environnemental, social, économique."},{n:"3",pts:4,q:"Proposez deux actions concrètes pour réduire l'empreinte écologique.",c:"Réduire consommation viande, privilégier transports en commun, isoler logement, recyclage."}]},
+  {id:5,titre:"La guerre froide",doc:"Document : discours de Churchill (1946) – 'rideau de fer'.",questions:[{n:"1",pts:3,q:"Que signifie l'expression 'rideau de fer' ?",c:"Frontière idéologique et physique entre démocraties libérales (Ouest) et régimes communistes (Est) en Europe."},{n:"2",pts:4,q:"Citez deux crises de la guerre froide.",c:"Crise de Berlin (1948-49), crise de Cuba (1962), guerre de Corée (1950-53), guerre du Vietnam."},{n:"3",pts:3,q:"Qu'est-ce que la 'coexistence pacifique' (années 1960) ?",c:"Stratégie de détente entre USA et URSS : éviter affrontement direct, limiter course aux armements."}]},
+  {id:6,titre:"Les inégalités dans le monde",doc:"Document : carte de l'IDH (Indice de Développement Humain) par pays.",questions:[{n:"1",pts:3,q:"Quels sont les trois critères de l'IDH ?",c:"Espérance de vie (santé), niveau d'éducation (durée scolarisation), PIB par habitant (niveau de vie)."},{n:"2",pts:3,q:"Quelles régions du monde ont le plus faible IDH ?",c:"Afrique subsaharienne, certaines parties de l'Asie du Sud (Afghanistan, Yémen)."},{n:"3",pts:4,q:"Expliquez pourquoi les inégalités persistent malgré la croissance économique mondiale.",c:"Inégalités d'accès à éducation/soins, endettement, guerres, changement climatique, spéculation financière."}]},
+  {id:7,titre:"La citoyenneté et la laïcité (EMC)",doc:"Document : article 1 de la Constitution : 'La France est une République indivisible, laïque, démocratique et sociale.'",questions:[{n:"1",pts:3,q:"Que signifie 'laïcité' en France ?",c:"Neutralité de l'État, liberté de conscience, égalité des citoyens quelle que soit leur religion, séparation Églises/État."},{n:"2",pts:3,q:"Citez un droit et un devoir du citoyen français.",c:"Droit : voter, se présenter élections. Devoir : payer impôts, respecter lois, défendre la nation (Journée Défense Citoyenneté)."},{n:"3",pts:4,q:"Comment l'école applique-t-elle le principe de laïcité ?",c:"Neutralité personnels, absence signes religieux ostensibles, enseignement du fait religieux, respect de tous."}]},
+  {id:8,titre:"L'Union européenne",doc:"Document : carte de l'UE en 2024 (27 membres).",questions:[{n:"1",pts:3,q:"Citez 5 pays fondateurs de l'UE (CEE en 1957).",c:"France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg."},{n:"2",pts:4,q:"Quels sont les grands symboles de l'UE ?",c:"Drapeau (12 étoiles), hymne (Ode à la Joie), devise 'Unie dans la diversité', euro (monnaie), journée de l'Europe (9 mai)."},{n:"3",pts:3,q:"Expliquez la libre circulation des personnes dans l'espace Schengen.",c:"Suppression des contrôles aux frontières intérieures, possibilité de circuler/vivre/travailler dans pays Schengen."}]},
+  {id:9,titre:"La colonisation et la décolonisation",doc:"Document : discours de Brazzaville (1944) – 'Les réformes nécessaires...'",questions:[{n:"1",pts:3,q:"Qu'est-ce que l'empire colonial français ? Citez deux colonies.",c:"Ensemble des territoires sous domination française. Algérie, Indochine, Afrique-Occidentale française, Madagascar."},{n:"2",pts:4,q:"Quelles sont les causes des décolonisations après 1945 ?",c:"Affaiblissement Europe (guerre), montée mouvements indépendantistes, ONU favorable droit peuples, exemples (Inde 1947)."},{n:"3",pts:3,q:"Décrivez brièvement la guerre d'Algérie (1954-1962).",c:"Conflit entre FLN (indépendance) et France. Événements : guerre, manifestations (8 mai 1945), accords d'Évian (1962)."}]},
+  {id:10,titre:"Les régimes totalitaires",doc:"Document : photo de défilé militaire nazi (1937).",questions:[{n:"1",pts:3,q:"Quelles sont les caractéristiques d'un régime totalitaire ?",c:"Parti unique, culte du chef, police politique, propagande, contrôle économie et société, absence libertés."},{n:"2",pts:4,q:"Comparez le nazisme et le stalinisme.",c:"Points communs : terreur de masse, camps, propagande. Différence : idéologie raciale (nazisme) vs lutte de classes (stalinisme)."},{n:"3",pts:3,q:"Pourquoi parle-t-on de 'culte de la personnalité' ?",c:"Mise en scène omniprésente du dictateur, présenté comme guide infaillible, faisant l'objet d'une vénération forcée."}]}
+];
+
+let who = null, currentIdx = 0, chronoSecs = 7200, running = false, chronoInterval = null;
+
+function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
+function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('histgeo_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); d.innerHTML = `<div class="sc-num">Sujet ${s.id}/10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Analyse document + paragraphe</div><div class="sc-done" style="display:${done.includes(s.id) ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
+function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 7200; running = false; clearInterval(chronoInterval); updateChrono(); }
+function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
+
+function renderSujet(s) {
+  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Document(s)</span><span class="partie-pts">20 pts</span></div><div class="partie-body"><div class="texte-box">${s.doc}</div>`;
+  s.questions.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="q${i}" placeholder="Ta réponse..."></textarea><button class="ai-btn" id="ai-q${i}" onclick="corrigerIA('ai-q${i}','q${i}','${q.q.replace(/'/g, "\\'")}','histgeo',${q.pts},'HistoireGeo')">📝 Corriger avec l'IA</button><div class="ai-loading" id="ai-q${i}_load"><div class="ai-spin"></div></div><div class="ai-result" id="ai-q${i}_result"></div><button class="corr-btn" onclick="tog('c${i}')">Voir correction</button><div class="corr-box" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h += `</div></div><div class="auto-eval"><div class="ae-title">Auto-évaluation</div><div class="ae-row"><span class="ae-label">Note sur 20</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div><div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/20</div></div></div><div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
+  document.getElementById('s-body').innerHTML = h;
+}
+
+function tog(id) { document.getElementById(id).classList.toggle('show'); }
+function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const t = Math.min(a, 20); document.getElementById('ae-total').textContent = t + '/20'; }
+async function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; } const s = SUJETS[currentIdx]; const note = Math.min(parseInt(document.getElementById('ae1').value) || 0, 20); const done = JSON.parse(localStorage.getItem('histgeo_done_' + who) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('histgeo_done_' + who, JSON.stringify(done)); } if (window.CONFIG && window.CONFIG.SHEETS) { const url = window.CONFIG.SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Histoire-Géographie & EMC', annee: 'Sujet blanc ' + s.id, exercice: s.titre, score: note, pointsPerdus: 'Note:' + note + '/20', bloque: '', aRetravailler: '' }) }); showToast('✓ Note sauvegardée', 'ok'); } catch(e) { showToast('⚠ Sauvegarde impossible', 'err'); } } else { showToast('Config non chargée, sauvegarde locale uniquement', 'err'); } }
+function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
+function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 7200; updateChrono(); }
+function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; document.getElementById('chrono').textContent = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
+function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
+window.addEventListener('DOMContentLoaded', () => renderHome());
+
+async function corrigerIA(btnId, taId, question, typeExo, pts, matiere) {
+  const texte = document.getElementById(taId).value.trim();
+  if (!texte || texte.length < 15) { alert('Écris ta réponse avant de corriger !'); return; }
+  if (!window.CONFIG || !window.CONFIG.AI_API_KEY) { alert('Clé API non configurée (fichier config.js absent ou secret non injecté).'); return; }
+  const btn = document.getElementById(btnId);
+  const loadEl = document.getElementById(btnId + '_load');
+  const resEl = document.getElementById(btnId + '_result');
+  btn.disabled = true;
+  if (loadEl) loadEl.style.display = 'block';
+  if (resEl) resEl.style.display = 'none';
+  const prompt = `Tu es correcteur DNB 2026 ${matiere}. Corrige ce paragraphe argumenté sur ${pts} pts. Critères: intro, arguments+exemples, connecteurs logiques, conclusion. JSON: {"noteTotal":X,"maxTotal":${pts},"sousNotes":"Intro X, Arguments X, Connecteurs X, Conclusion X","annotations":[],"exemplesManquants":["..."],"pointsForts":["..."],"aAmeliorer":["..."],"methodologie":"<p>Structure attendue...</p>","conseil":"Conseil"}`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': window.CONFIG.AI_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1200, system: prompt, messages: [{ role: 'user', content: 'Question: ' + question + '\n\nRéponse élève:\n\n' + texte + '\n\nJSON uniquement.' }] })
+    });
+    const data = await res.json();
+    const json = JSON.parse(data.content[0].text.replace(/```json|```/g, '').trim());
+    renderAIRes(resEl, json);
+  } catch(e) { alert('Erreur: ' + e.message); }
+  if (loadEl) loadEl.style.display = 'none';
+  btn.disabled = false;
+}
+
+function renderAIRes(el, j) {
+  const pct = Math.round(j.noteTotal / j.maxTotal * 100);
+  const col = pct >= 75 ? '#7ecf8a' : pct >= 55 ? '#e8c87a' : '#f55a5a';
+  const bg = pct >= 75 ? 'rgba(126,207,138,0.08)' : pct >= 55 ? 'rgba(232,200,122,0.08)' : 'rgba(245,85,85,0.08)';
+  const barCol = pct >= 75 ? 'linear-gradient(90deg,#7ecf8a,#5ecfb1)' : pct >= 55 ? 'linear-gradient(90deg,#e8c87a,#f07a5a)' : 'linear-gradient(90deg,#f55a5a,#f07a5a)';
+  let html = `<div class="ai-score-bar" style="background:${bg}"><div class="ai-score-num" style="color:${col}">${j.noteTotal}/${j.maxTotal}</div><div class="ai-score-info"><div>${pct >= 75 ? 'Excellent' : pct >= 55 ? 'À améliorer' : 'Insuffisant'}</div><div class="ai-pbar-bg"><div class="ai-pbar-fill" id="${el.id}_pb" style="width:0%;background:${barCol}"></div></div></div></div><div class="ai-body">`;
+  if (j.pointsForts && j.pointsForts.length) html += `<div class="ai-sec ai-v"><div class="ai-sec-t">Points forts</div><div class="ai-sec-b"><ul>${j.pointsForts.map(p => '<li>' + p + '</li>').join('')}</ul></div></div>`;
+  if (j.aAmeliorer && j.aAmeliorer.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">À améliorer</div><div class="ai-sec-b"><ul>${j.aAmeliorer.map(p => '<li>' + p + '</li>').join('')}</ul></div></div>`;
+  if (j.exemplesManquants && j.exemplesManquants.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Exemples manquants</div><div class="ai-sec-b">${j.exemplesManquants.map(m => '<span style="display:inline-block;margin:2px;padding:2px 8px;border-radius:999px;border:1px solid rgba(245,85,85,0.3);background:rgba(245,85,85,0.07);font-size:11px;color:#f55a5a">' + m + '</span>').join('')}</div></div>`;
+  if (j.methodologie) html += `<div class="ai-sec ai-g"><div class="ai-sec-t">Méthodologie</div><div class="ai-sec-b">${j.methodologie}</div></div>`;
+  if (j.conseil) html += `<div class="ai-sec ai-p"><div class="ai-sec-t">Conseil</div><div class="ai-sec-b"><strong>${j.conseil}</strong></div></div>`;
+  html += `</div>`;
+  el.innerHTML = html;
+  el.style.display = 'block';
+  setTimeout(() => { const b = document.getElementById(el.id + '_pb'); if (b) b.style.width = pct + '%'; }, 100);
+}
+</script>
+</body>
+</html>
