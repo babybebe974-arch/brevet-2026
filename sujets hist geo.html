@@ -2,190 +2,414 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌍 Histoire-Géo & EMC — Brevet 2026</title>
+<title>Histoire-Géographie & EMC - 10 sujets blancs DNB</title>
 <script src="config.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--blue:#5a9cf0;--r:14px;--r-sm:8px;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(90,156,240,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--blue);border:1px solid rgba(90,156,240,0.3);background:rgba(90,156,240,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--blue);font-style:italic;}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
-.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
-.sujet-card:hover{border-color:rgba(90,156,240,0.4);transform:translateY(-2px);}
-.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
-.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
-.who-row{display:flex;gap:10px;margin-bottom:20px;}
-.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;transition:all 0.18s;}
-.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
-.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
-#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
-.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
-.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--blue);}
-.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
-.back:hover{background:rgba(255,255,255,0.04);}
-.chrono-bar{background:rgba(90,156,240,0.06);border-bottom:1px solid rgba(90,156,240,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--blue);}
-.chrono-btns{display:flex;gap:8px;}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(90,156,240,0.3);background:rgba(90,156,240,0.07);color:var(--blue);cursor:pointer;font-family:'DM Mono',monospace;}
-.s-body{padding:24px;}
-.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
-.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--blue);}
-.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
-.partie-body{padding:20px;}
-.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--blue);}
-.q-block{margin-bottom:16px;}
-.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);font-weight:700;min-width:24px;margin-top:2px;}
-.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
-.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
-.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:vertical;margin-bottom:6px;}
-.answer-ta:focus{border-color:rgba(90,156,240,0.4);}
-.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(90,156,240,0.25);background:rgba(90,156,240,0.06);color:var(--blue);cursor:pointer;font-family:'DM Mono',monospace;}
-.corr-btn:hover{background:rgba(90,156,240,0.12);}
-.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
-.corr-box.show{display:block;}
-.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
-.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
-.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.ae-label{font-size:13px;flex:1;}
-.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;}
-.ae-max{font-size:12px;color:var(--muted);}
-.ae-total{background:linear-gradient(135deg,rgba(90,156,240,0.1),rgba(90,156,240,0.05));border:1px solid rgba(90,156,240,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
-.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--blue);}
-.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-size:13px;transition:all 0.15s;margin-top:12px;}
-.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btns{display:flex;gap:10px;margin-top:12px;}
-.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:13px;}
-.nav-btn.primary{background:linear-gradient(135deg,var(--blue),#3a7ccf);border:none;color:#fff;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
-.toast.show{opacity:1;transform:translateY(0);}
-.ai-btn{width:100%;margin-top:8px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:8px;padding:12px;color:#080600;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.2s;}
-.ai-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
-.ai-btn:disabled{opacity:0.4;cursor:not-allowed;}
-.ai-loading{display:none;text-align:center;padding:16px;background:rgba(232,200,122,0.04);border:1px solid rgba(232,200,122,0.12);border-radius:8px;margin-top:8px;}
-.ai-spin{width:24px;height:24px;border:2px solid rgba(232,200,122,0.2);border-top-color:#e8c87a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 8px;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ai-result{display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
-.ai-score-bar{padding:14px 18px;display:flex;align-items:center;gap:14px;}
-.ai-score-num{font-size:38px;font-weight:800;line-height:1;flex-shrink:0;}
-.ai-score-info{flex:1;font-size:11px;}
-.ai-pbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:5px;}
-.ai-pbar-fill{height:100%;border-radius:999px;transition:width 1s ease;}
-.ai-body{padding:14px 18px;background:rgba(0,0,0,0.2);font-size:12px;}
-.ai-sec{margin-bottom:10px;}
-.ai-sec-t{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.ai-r .ai-sec-t{color:#f55a5a;}.ai-v .ai-sec-t{color:#7ecf8a;}.ai-g .ai-sec-t{color:#e8c87a;}.ai-p .ai-sec-t{color:#a98af5;}
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .sujet { background: #111118; border-left: 5px solid #5a9cf0; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
+  .exercice { background: #0a0a12; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  .document { background: #0a1a2a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; font-style: normal; border-left: 3px solid #5a9cf0; white-space: pre-wrap; }
+  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
+  button { background: #5a9cf0; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; }
+  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
+  hr { border-color: #2a2a35; margin: 1rem 0; }
+  h3 { color: #5a9cf0; }
+  .badge { display: inline-block; background: #5a9cf020; color: #5a9cf0; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
+  .question { margin-top: 1rem; }
 </style>
 </head>
 <body>
-<div id="home">
-  <div class="badge">🌍 Sujets blancs complets — Histoire-Géographie & EMC</div>
-  <h1>Brevet Blanc <em>Histoire-Géo & EMC</em></h1>
-  <p class="sub">10 sujets complets format DNB. Analyse de documents, paragraphe argumenté et exercices EMC.</p>
-  <div class="who-row">
-    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
-    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
-  </div>
-  <div class="sujets-grid" id="sujets-grid"></div>
-  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
+<div class="container">
+  <h1>Histoire-Géographie & EMC - 10 sujets blancs (DNB)</h1>
+  <div id="sujets"></div>
 </div>
-
-<div id="sujet-page">
-  <div class="s-header"><div><div class="s-logo">🌍 Brevet Blanc HGG</div><div class="s-meta" id="s-meta">—</div></div><button class="back" onclick="goHome()">← Retour</button></div>
-  <div class="chrono-bar"><span style="font-size:11px;color:var(--blue);font-family:'DM Mono',monospace;">⏱ Chronomètre</span><div class="chrono-time" id="chrono">2:00:00</div><div class="chrono-btns"><button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button><button class="chrono-btn" onclick="resetChrono()">↺ Reset</button></div></div>
-  <div class="s-body" id="s-body"></div>
-</div>
-<div class="toast" id="toast"></div>
-
 <script>
+// ==================== LES 10 SUJETS OFFICIELS AVEC DOCUMENTS COMPLETS ====================
 const SUJETS = [
-  {id:1,titre:"La Première Guerre mondiale",doc:"Document : extrait d'une lettre de poilu (1916). '...Nous vivons dans la boue, les rats nous mangent vivants. Chaque jour, des camarades tombent...'",questions:[{n:"1",pts:3,q:"Décrivez les conditions de vie des soldats dans les tranchées.",c:"Vie dans la boue, froid, rats, peur constante, bruit des obus, mort quotidienne des camarades."},{n:"2",pts:4,q:"Qu'est-ce que 'l'Union sacrée' ? A-t-elle duré toute la guerre ?",c:"Union sacrée = trêve politique entre partis français au début de la guerre (1914). Elle s'estompe à partir de 1917 avec les mutineries."},{n:"3",pts:3,q:"Pourquoi peut-on parler de 'guerre totale' ?",c:"Mobilisation économique (industrie d'armement), sociale (femmes aux usines), culturelle (propagande) et humaine (massacres)."}]},
-  {id:2,titre:"Les aires urbaines en France",doc:"Document : carte des aires urbaines françaises. Paris (12M), Lyon (2,3M), Marseille (1,8M)...",questions:[{n:"1",pts:3,q:"Qu'est-ce qu'une aire urbaine ?",c:"Ensemble de communes formé par un pôle urbain (ville-centre + banlieue) et sa couronne périurbaine."},{n:"2",pts:3,q:"Citez trois métropoles françaises et leurs fonctions principales.",c:"Paris (décision politique/économie), Lyon (industrie/pharma), Marseille (logistique/port), Toulouse (aéronautique)."},{n:"3",pts:4,q:"Expliquez le concept de 'périurbanisation' et ses conséquences.",c:"Étalement urbain vers campagnes. Conséquences : dépendance auto, consommation d'espaces naturels, allongement trajets domicile-travail."}]},
-  {id:3,titre:"La Ve République",doc:"Document : article 5 de la Constitution de 1958. 'Le Président veille au respect de la Constitution...'",questions:[{n:"1",pts:3,q:"Quels sont les pouvoirs du Président selon l'article 5 ?",c:"Veille au respect Constitution, assure fonctionnement pouvoirs publics, continuité État, arbitre institutions."},{n:"2",pts:4,q:"Comparez le rôle du Président et du Premier ministre sous la Ve République.",c:"Président : chef de l'État (défense, diplomatie, référendum). Premier ministre : chef du gouvernement (direction politique nationale, exécution lois). Cohabitation possible."},{n:"3",pts:3,q:"Qu'est-ce que le 'fait majoritaire' ?",c:"Situation où le Président dispose d'une majorité parlementaire fidèle, lui permettant de gouverner efficacement."}]},
-  {id:4,titre:"Le développement durable",doc:"Document : graphique sur l'empreinte écologique mondiale (1970-2020).",questions:[{n:"1",pts:3,q:"Définissez 'empreinte écologique'.",c:"Surface de terre et d'eau nécessaire pour produire ressources consommées et absorber déchets."},{n:"2",pts:3,q:"Quels sont les 3 piliers du développement durable ?",c:"Pilier environnemental, social, économique."},{n:"3",pts:4,q:"Proposez deux actions concrètes pour réduire l'empreinte écologique.",c:"Réduire consommation viande, privilégier transports en commun, isoler logement, recyclage."}]},
-  {id:5,titre:"La guerre froide",doc:"Document : discours de Churchill (1946) – 'rideau de fer'.",questions:[{n:"1",pts:3,q:"Que signifie l'expression 'rideau de fer' ?",c:"Frontière idéologique et physique entre démocraties libérales (Ouest) et régimes communistes (Est) en Europe."},{n:"2",pts:4,q:"Citez deux crises de la guerre froide.",c:"Crise de Berlin (1948-49), crise de Cuba (1962), guerre de Corée (1950-53), guerre du Vietnam."},{n:"3",pts:3,q:"Qu'est-ce que la 'coexistence pacifique' (années 1960) ?",c:"Stratégie de détente entre USA et URSS : éviter affrontement direct, limiter course aux armements."}]},
-  {id:6,titre:"Les inégalités dans le monde",doc:"Document : carte de l'IDH (Indice de Développement Humain) par pays.",questions:[{n:"1",pts:3,q:"Quels sont les trois critères de l'IDH ?",c:"Espérance de vie (santé), niveau d'éducation (durée scolarisation), PIB par habitant (niveau de vie)."},{n:"2",pts:3,q:"Quelles régions du monde ont le plus faible IDH ?",c:"Afrique subsaharienne, certaines parties de l'Asie du Sud (Afghanistan, Yémen)."},{n:"3",pts:4,q:"Expliquez pourquoi les inégalités persistent malgré la croissance économique mondiale.",c:"Inégalités d'accès à éducation/soins, endettement, guerres, changement climatique, spéculation financière."}]},
-  {id:7,titre:"La citoyenneté et la laïcité (EMC)",doc:"Document : article 1 de la Constitution : 'La France est une République indivisible, laïque, démocratique et sociale.'",questions:[{n:"1",pts:3,q:"Que signifie 'laïcité' en France ?",c:"Neutralité de l'État, liberté de conscience, égalité des citoyens quelle que soit leur religion, séparation Églises/État."},{n:"2",pts:3,q:"Citez un droit et un devoir du citoyen français.",c:"Droit : voter, se présenter élections. Devoir : payer impôts, respecter lois, défendre la nation (Journée Défense Citoyenneté)."},{n:"3",pts:4,q:"Comment l'école applique-t-elle le principe de laïcité ?",c:"Neutralité personnels, absence signes religieux ostensibles, enseignement du fait religieux, respect de tous."}]},
-  {id:8,titre:"L'Union européenne",doc:"Document : carte de l'UE en 2024 (27 membres).",questions:[{n:"1",pts:3,q:"Citez 5 pays fondateurs de l'UE (CEE en 1957).",c:"France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg."},{n:"2",pts:4,q:"Quels sont les grands symboles de l'UE ?",c:"Drapeau (12 étoiles), hymne (Ode à la Joie), devise 'Unie dans la diversité', euro (monnaie), journée de l'Europe (9 mai)."},{n:"3",pts:3,q:"Expliquez la libre circulation des personnes dans l'espace Schengen.",c:"Suppression des contrôles aux frontières intérieures, possibilité de circuler/vivre/travailler dans pays Schengen."}]},
-  {id:9,titre:"La colonisation et la décolonisation",doc:"Document : discours de Brazzaville (1944) – 'Les réformes nécessaires...'",questions:[{n:"1",pts:3,q:"Qu'est-ce que l'empire colonial français ? Citez deux colonies.",c:"Ensemble des territoires sous domination française. Algérie, Indochine, Afrique-Occidentale française, Madagascar."},{n:"2",pts:4,q:"Quelles sont les causes des décolonisations après 1945 ?",c:"Affaiblissement Europe (guerre), montée mouvements indépendantistes, ONU favorable droit peuples, exemples (Inde 1947)."},{n:"3",pts:3,q:"Décrivez brièvement la guerre d'Algérie (1954-1962).",c:"Conflit entre FLN (indépendance) et France. Événements : guerre, manifestations (8 mai 1945), accords d'Évian (1962)."}]},
-  {id:10,titre:"Les régimes totalitaires",doc:"Document : photo de défilé militaire nazi (1937).",questions:[{n:"1",pts:3,q:"Quelles sont les caractéristiques d'un régime totalitaire ?",c:"Parti unique, culte du chef, police politique, propagande, contrôle économie et société, absence libertés."},{n:"2",pts:4,q:"Comparez le nazisme et le stalinisme.",c:"Points communs : terreur de masse, camps, propagande. Différence : idéologie raciale (nazisme) vs lutte de classes (stalinisme)."},{n:"3",pts:3,q:"Pourquoi parle-t-on de 'culte de la personnalité' ?",c:"Mise en scène omniprésente du dictateur, présenté comme guide infaillible, faisant l'objet d'une vénération forcée."}]}
+  // SUJET 1 - DNB 2025 Métropole (juin)
+  { id: 1, annee: "2025", session: "Métropole (juin)", 
+    histoire: {
+      titre: "L'Europe, un théâtre majeur des guerres totales (1914-1945)",
+      documents: [
+        { doc: "Document 1 : Témoignage d'un poilu de la Première Guerre mondiale (lettre de 1916)\n\n« Nous vivons dans la boue, les rats nous mangent vivants. Chaque jour, des camarades tombent. Les obus tombent sans cesse. Je ne sais pas si je reverrai ma famille. Ce qui me tient debout, c'est l'espoir de rentrer à la maison. Mais chaque nuit, je vois mes amis mourir autour de moi. »" },
+        { doc: "Document 2 : Photographie des ruines de la ville de Verdun après la bataille de 1916\n\nDescription : La photo montre un paysage lunaire : plus un arbre, plus une maison intacte. Des trous d'obus recouvrent le sol. On distingue les restes d'un village totalement détruit. Au premier plan, un soldat marche seul entre les ruines." }
+      ],
+      questions: [
+        { q: "1. Identifiez la nature et l'auteur du document 1.", pts: 3, rep: "C'est une lettre écrite par un soldat français (un poilu) pendant la Première Guerre mondiale. C'est un témoignage direct." },
+        { q: "2. Relevez deux éléments dans le document 1 qui montrent la violence subie par les soldats.", pts: 4, rep: "'Nous vivons dans la boue, les rats nous mangent vivants' (conditions de vie) ; 'Les obus tombent sans cesse' (violence des bombardements)." },
+        { q: "3. Expliquez pourquoi on parle de 'guerre totale' à propos de la Première Guerre mondiale.", pts: 5, rep: "La guerre totale mobilise toutes les ressources de la société : économiques (industries d'armement), humaines (mobilisation des soldats mais aussi des femmes dans les usines), culturelles (propagande). Les civils sont touchés (bombardements, rationnement)." },
+        { q: "4. À partir du document 2, décrivez les conséquences des bombardements sur le paysage et les populations.", pts: 5, rep: "Le paysage est ravagé (trous d'obus, arbres détruits, villages anéantis). Les populations civiles sont déplacées, les soldats vivent dans des conditions extrêmes. Les destructions sont massives." }
+      ]},
+    geo: {
+      titre: "La France et l'Union européenne",
+      questions: [
+        { q: "1. Citez trois pays membres de l'Union européenne et trois métropoles européennes.", pts: 3, rep: "Pays : Allemagne, Belgique, Espagne. Métropoles : Paris, Berlin, Madrid." },
+        { q: "2. Développement construit (environ 20 lignes) : montrez la place et l'influence de la France et de l'Europe dans le monde (culturelle, géopolitique, économique).", pts: 12, rep: "Réponse attendue : organisation en trois parties (influence culturelle, économique, géopolitique) avec exemples concrets (langue française, UE premier marché mondial, tourisme, soft power, etc.)." }
+      ]},
+    emc: {
+      titre: "Engagement citoyen",
+      documents: [
+        { doc: "Document 1 : Témoignage de Bastien, 21 ans, volontaire en Service Civique\n\n« À 21 ans, je me suis engagé dans une mission de protection de l'environnement. Je vais à la rencontre des usagers des parcs pour les sensibiliser au respect de la propreté. Cela m'a permis de découvrir un métier et de me sentir utile. »" }
+      ],
+      questions: [
+        { q: "1. Qu'est-ce que le Service Civique ?", pts: 3, rep: "Un engagement volontaire pour une mission d'intérêt général (environnement, solidarité, éducation, etc.) d'une durée de 6 à 12 mois, indemnisé et ouvert aux jeunes de 16 à 25 ans." },
+        { q: "2. À quelle valeur de la République l'engagement de Bastien est-il associé ?", pts: 3, rep: "La fraternité (ou la solidarité)." },
+        { q: "3. Présentez une action que vous aimeriez mener dans le cadre du Service Civique.", pts: 4, rep: "Réponse personnelle (aide aux devoirs, aide aux personnes âgées, protection de l'environnement, etc.)." }
+      ]}
+  },
+  // SUJET 2 - DNB 2025 Métropole (septembre)
+  { id: 2, annee: "2025", session: "Métropole (septembre)", 
+    histoire: {
+      titre: "L'Europe, un théâtre majeur des guerres totales (1914-1945)",
+      documents: [
+        { doc: "Document 1 : Extrait du traité de Versailles (28 juin 1919)\n\n« Article 231 : L'Allemagne accepte la responsabilité de la guerre et des dommages causés. Elle s'engage à payer des réparations aux pays alliés. »" },
+        { doc: "Document 2 : Carte de l'Europe après les traités de paix de 1919\n\nDescription : La carte montre les nouvelles frontières : l'Allemagne perd l'Alsace-Lorraine (rendue à la France) et des territoires à l'Est (Pologne). L'Autriche-Hongrie et l'Empire ottoman sont démantelés. De nouveaux pays apparaissent : Tchécoslovaquie, Yougoslavie, Pologne." }
+      ],
+      questions: [
+        { q: "1. Que dit l'article 231 du traité de Versailles (clause de culpabilité) ?", pts: 4, rep: "L'Allemagne est déclarée responsable de la guerre et doit payer des réparations." },
+        { q: "2. Quelles sont les conséquences du traité de Versailles pour l'Allemagne ?", pts: 5, rep: "Pertes territoriales (Alsace-Lorraine, territoires à l'Est), limitation de l'armée (100 000 hommes), interdiction d'avoir une aviation ou des chars, humiliation nationale et difficultés économiques dues aux réparations." },
+        { q: "3. En quoi le traité de Versailles a-t-il préparé la Seconde Guerre mondiale ?", pts: 6, rep: "L'humiliation nationale et les difficultés économiques ont favorisé la montée du nazisme. Hitler a promis de rétablir la puissance allemande et de réviser le traité. La crise de 1929 a aggravé la situation." }
+      ]},
+    geo: {
+      titre: "Aménager le territoire français",
+      questions: [
+        { q: "1. Citez deux types d'espaces productifs en France.", pts: 4, rep: "Espaces agricoles (céréales, élevage), espaces industriels (automobile, aéronautique), espaces tertiaires (services, tourisme, numérique)." },
+        { q: "2. Développement construit (environ 20 lignes) : expliquez pourquoi et comment on aménage le territoire en France.", pts: 11, rep: "Réponse attendue : rééquilibrer les territoires face à la métropolisation et la désertification rurale, exemples d'aménagements (LGV, autoroutes, services publics, zones de revitalisation rurale)." }
+      ]},
+    emc: {
+      titre: "Violences sexistes",
+      documents: [
+        { doc: "Document 1 : Chiffres sur les violences faites aux femmes en France (2023)\n\n- 94 000 femmes victimes de violences conjugales par an\n- 1 femme meurt tous les 3 jours sous les coups de son conjoint\n- 86% des victimes de harcèlement sexuel sont des femmes" }
+      ],
+      questions: [
+        { q: "1. Définissez la notion de violences sexistes.", pts: 4, rep: "Violences fondées sur le genre (physiques, morales, professionnelles, sexuelles) touchant majoritairement les femmes. Elles reposent sur des stéréotypes et des inégalités entre hommes et femmes." },
+        { q: "2. Citez deux actions pour lutter contre ces violences.", pts: 3, rep: "Campagnes de sensibilisation dans les écoles, numéro d'urgence 3919, dépôt de plainte facilité, associations d'aide aux victimes, lois renforçant les peines." },
+        { q: "3. Rédigez une affiche de sensibilisation contre le harcèlement de rue.", pts: 5, rep: "Réponse personnelle : doit contenir un slogan accrocheur, des messages clairs (« Non, c'est non »), un numéro d'aide (3919), une illustration décrite." }
+      ]}
+  },
+  // SUJET 3 - DNB 2024 Métropole (juin)
+  { id: 3, annee: "2024", session: "Métropole (juin)", 
+    histoire: {
+      titre: "La Seconde Guerre mondiale, une guerre d'anéantissement",
+      documents: [
+        { doc: "Document 1 : Témoignage de Ginette Kolinka, rescapée d'Auschwitz-Birkenau (extrait de son livre 'Retour à Birkenau')\n\n« Le soir, pour rejoindre nos baraques, nous défilons devant une rangée d'officiers. Si l'une d'entre nous défaille, elle est frappée. Le passage en revue terminé, nous pouvons à nouveau nous traîner jusqu'aux baraques pour l'appel du soir, le pire de la journée. Il faut compter tout le monde. Prenez un pain de mie, coupez-le en cinq, cela suffit pour les cinq jours de la semaine. Nous n'avions plus du tout faim, c'est l'estomac qui devient tout petit, tout petit. »" },
+        { doc: "Document 2 : Photographie de l'arrivée des Juifs de Hongrie au camp d'Auschwitz-Birkenau (mai-juin 1944)\n\nDescription : La photo a été prise par un officier SS. Elle montre une foule de Juifs venant de descendre des wagons à bestiaux. Des SS en tenue gris-vert les trient : les hommes valides (en âge de travailler) sont envoyés à gauche, tandis que les femmes, les enfants et les personnes âgées sont dirigés à droite, puis directement vers les chambres à gaz. Au premier plan, une vieille femme tient la main d'un enfant." }
+      ],
+      questions: [
+        { q: "1. Identifiez la nature et l'auteur du document 1.", pts: 3, rep: "C'est un témoignage direct (mémoire) de Ginette Kolinka, rescapée de la Shoah. Elle raconte son expérience personnelle du camp d'Auschwitz-Birkenau." },
+        { q: "2. Relevez trois passages dans le document 1 qui montrent différentes formes de violence.", pts: 5, rep: "1. 'Nous défilons devant une rangée d'officiers' (violence psychologique, humiliation). 2. 'Si l'une d'entre nous défaille, elle est frappée' (violence physique). 3. 'Prenez un pain de mie, coupez-le en cinq pour cinq jours' (famine, violence par la privation)." },
+        { q: "3. Décrivez le processus de sélection des déportés à leur arrivée à Auschwitz (document 2).", pts: 5, rep: "Les SS séparent les hommes valides (aptes au travail) à gauche des femmes, enfants et personnes âgées à droite. Ces derniers sont envoyés directement vers les chambres à gaz. C'est une sélection immédiate entre la vie (provisoire) et la mort." },
+        { q: "4. Expliquez pourquoi les Juifs sont victimes d'un génocide pendant la Seconde Guerre mondiale.", pts: 5, rep: "Les nazis ont mis en place une politique d'extermination systématique de tous les Juifs d'Europe (solution finale). Industrialisation de la mort (chambres à gaz, fours crématoires, camps d'extermination comme Auschwitz-Birkenau). 6 millions de Juifs sont assassinés." }
+      ]},
+    geo: {
+      titre: "La France et l'Union européenne",
+      questions: [
+        { q: "1. Nommez trois pays membres de l'Union européenne et trois métropoles européennes.", pts: 5, rep: "Pays : Allemagne, Belgique, Espagne, Italie, Pologne, Portugal. Métropoles : Paris, Berlin, Madrid, Milan, Londres (hors UE), Varsovie." },
+        { q: "2. Situez une métropole siège d'une institution européenne (ex: Bruxelles pour la Commission).", pts: 3, rep: "Bruxelles (Belgique) : Commission européenne, Parlement européen (siège secondaire). Strasbourg (France) : Parlement européen (siège officiel). Luxembourg : Cour de justice de l'UE." },
+        { q: "3. Développement construit (environ 20 lignes) : montrez l'importance de l'Union européenne dans le monde.", pts: 10, rep: "Réponse attendue : puissance économique (1er marché mondial, zone euro), influence politique (soft power, commerce équitable), culturelle (programme Erasmus, langue française, tourisme, normes européennes), diplomatique (rôle dans les accords de Paris sur le climat)." }
+      ]},
+    emc: {
+      titre: "Engagement dans le Service Civique",
+      documents: [
+        { doc: "Document 1 : Page d'accueil du site du Service Civique (extrait)\n\n« Le Service Civique permet aux jeunes de 16 à 25 ans de s'engager bénévolement pour une mission d'intérêt général de 6 à 12 mois. Indemnisé, il permet d'acquérir de l'expérience et de développer des compétences. »" },
+        { doc: "Document 2 : Témoignage de Bastien (suite)\n\n« J'ai tout de suite été séduit par la démarche d'utilité publique. J'ai choisi une mission sur l'environnement. Avant cela, j'étais bénévole aux Restos du Cœur. »" }
+      ],
+      questions: [
+        { q: "1. Relevez deux avantages du Service Civique d'après le document 1.", pts: 3, rep: "Il est indemnisé, il permet d'acquérir de l'expérience et des compétences, il est accessible aux 16-25 ans." },
+        { q: "2. Identifiez les expériences d'engagement de Bastien (document 2).", pts: 3, rep: "Bénévole aux Restos du Cœur, puis Service Civique dans le domaine de l'environnement." },
+        { q: "3. À quelle valeur de la République son engagement est-il associé ?", pts: 2, rep: "La fraternité (ou la solidarité)." },
+        { q: "4. Présentez une action que vous aimeriez mener dans le cadre du Service Civique.", pts: 4, rep: "Réponse personnelle (aider les personnes âgées, protection de l'environnement, aide aux devoirs, etc.)." }
+      ]}
+  },
+  // SUJET 4 - DNB 2023 Métropole
+  { id: 4, annee: "2023", session: "Métropole (juin)", 
+    histoire: {
+      titre: "L'Europe, un théâtre majeur des guerres totales (1914-1945)",
+      documents: [
+        { doc: "Document 1 : Carte des zones de destruction en France après la Première Guerre mondiale\n\nDescription : La carte montre que les régions les plus touchées sont le Nord et l'Est de la France : le Pas-de-Calais, la Somme, l'Aisne, la Marne, la Meuse (Verdun), la Moselle. Des zones de destruction totale sont indiquées (villages détruits, terres agricoles ravagées)." },
+        { doc: "Document 2 : Photographie des ruines du village de Fleury-devant-Douaumont (près de Verdun) après la bataille de 1916\n\nDescription : La photo montre un paysage lunaire : plus aucun bâtiment debout, plus un arbre. Des trous d'obus recouvrent tout le sol. On distingue les restes des fondations des maisons. Le village n'existe plus." }
+      ],
+      questions: [
+        { q: "1. Identifiez les régions françaises les plus touchées par les destructions (document 1).", pts: 4, rep: "Le Nord (Pas-de-Calais), l'Est (Somme, Aisne, Marne, Meuse avec Verdun, Moselle)." },
+        { q: "2. Quelles sont les conséquences humaines et matérielles de la guerre d'après les documents ?", pts: 5, rep: "Humaines : plus d'un million de morts côté français, des millions de blessés (gueules cassées). Matérielles : villages détruits, terres agricoles dévastées, sols pollués par les obus." },
+        { q: "3. Expliquez le concept de 'guerre totale' en vous appuyant sur les documents.", pts: 6, rep: "La guerre totale mobilise toutes les ressources : les soldats sont sacrifiés en masse (violence), l'économie est entièrement tournée vers la guerre (production d'obus), les populations civiles sont touchées (destruction des villages). Les documents montrent les conséquences extrêmes de cette violence." }
+      ]},
+    geo: {
+      titre: "La France et l'Union européenne",
+      questions: [
+        { q: "1. Citez les grandes institutions de l'Union européenne.", pts: 4, rep: "Parlement européen (élu au suffrage universel direct), Commission européenne (pouvoir exécutif), Conseil de l'UE (représente les États), Conseil européen (chefs d'État), Cour de justice de l'UE." },
+        { q: "2. Développement construit (environ 20 lignes) : montrez l'influence culturelle et politique de l'Europe dans le monde.", pts: 11, rep: "Réponse attendue : exemples de soft power (cinéma français, Erasmus+, tourisme), normes environnementales et commerciales (RGPD), rôle diplomatique (négociations internationales), valeurs démocratiques." }
+      ]},
+    emc: {
+      titre: "Droits des femmes (8 mars)",
+      documents: [
+        { doc: "Document 1 : Graphique sur les inégalités salariales entre hommes et femmes en France (2023)\n\nDescription : Le graphique montre que, à poste égal, les femmes gagnent en moyenne 15% de moins que les hommes. L'écart est plus important dans les postes à responsabilité (20%)." }
+      ],
+      questions: [
+        { q: "1. Définissez la parité.", pts: 3, rep: "Égal accès des femmes et des hommes aux responsabilités politiques et professionnelles. Exemple : loi sur la parité en politique (2000)." },
+        { q: "2. Citez deux actions pour lutter contre les inégalités femmes-hommes.", pts: 3, rep: "Lois sur la parité, campagnes de sensibilisation dans les écoles, éducation à l'égalité, congés parentaux partagés, sanctions contre les écarts salariaux injustifiés." },
+        { q: "3. Rédigez un message pour la journée internationale des droits des femmes (8 mars) à afficher dans un collège.", pts: 5, rep: "Réponse personnelle (doit contenir un slogan, une dénonciation des inégalités, un appel à l'action, éventuellement un hashtag)." }
+      ]}
+  },
+  // SUJET 5 - DNB 2023 Antilles-Guyane
+  { id: 5, annee: "2023", session: "Antilles-Guyane", 
+    histoire: {
+      titre: "Françaises et Français dans une République repensée",
+      documents: [
+        { doc: "Document 1 : Affiche de propagande pour le droit de vote des femmes (1944)\n\nDescription : L'affiche représente une femme drapée dans le drapeau français. Elle tient un bulletin de vote. Le texte dit : « La République, c'est aussi votre affaire. Le droit de vote est accordé aux femmes. »" }
+      ],
+      questions: [
+        { q: "1. Quelle grande réforme est évoquée dans ce document ?", pts: 4, rep: "L'ordonnance du 21 avril 1944 accordant le droit de vote et l'éligibilité aux femmes." },
+        { q: "2. Quels sont les autres progrès de la République après 1945 ?", pts: 5, rep: "Création de la Sécurité sociale (1945), reconnaissance du droit de grève (1946), nationalisations (charbon, gaz, électricité, banques)." },
+        { q: "3. Expliquez ce qu'est une 'République repensée' après la Libération.", pts: 6, rep: "Renouveau institutionnel et social après la Seconde Guerre mondiale : retour à la démocratie (fin de Vichy), élargissement des droits (femmes, Sécurité sociale), reconstruction du pays." }
+      ]},
+    geo: {
+      titre: "La France et l'Union européenne",
+      questions: [
+        { q: "1. Définissez la mégalopole européenne.", pts: 4, rep: "Zone urbaine continue très peuplée et très urbanisée qui s'étend de Londres à Milan en passant par Paris, la Belgique et les Pays-Bas. Elle concentre les métropoles, les flux économiques et les fonctions de commandement." },
+        { q: "2. Développement construit (environ 20 lignes) : montrez l'importance économique de l'Union européenne.", pts: 11, rep: "Réponse attendue : premier marché mondial (import/export), zone euro (monnaie unique), politique commerciale commune (normes, accords), puissance industrielle et technologique (Airbus, nucléaire, automobile), pôle financier (Bourse de Londres, Francfort, Paris)." }
+      ]},
+    emc: {
+      titre: "S'engager en situation de crise",
+      documents: [
+        { doc: "Document 1 : Témoignage de Christophe, pompier volontaire lors des incendies de Gironde (été 2022)\n\n« J'ai quitté mon travail pour partir en urgence avec mon casque et ma tenue. Pendant quinze jours, j'ai lutté contre les flammes. On dormait deux heures par nuit. Mais on ne pouvait pas abandonner. Les gens comptaient sur nous. »" }
+      ],
+      questions: [
+        { q: "1. Qu'est-ce qu'un engagement volontaire en situation de crise ?", pts: 4, rep: "S'engager bénévolement pour aider la population lors de catastrophes (incendies, inondations, pandémie, attentats). Exemples : sapeurs-pompiers volontaires, bénévoles de la Croix-Rouge." },
+        { q: "2. Quelles valeurs sont mises en avant par cet engagement ?", pts: 3, rep: "Solidarité, fraternité, devoir de mémoire, civisme, courage, sacrifice." },
+        { q: "3. Présentez un engagement que vous pourriez prendre pour aider en cas de crise (dans ou hors de l'école).", pts: 5, rep: "Réponse personnelle : apprenti pompier volontaire, aide aux personnes âgées confinées, collecte de fonds pour les sinistrés, etc." }
+      ]}
+  },
+  // SUJET 6 - DNB 2022 Métropole (juin)
+  { id: 6, annee: "2022", session: "Métropole (juin)", 
+    histoire: {
+      titre: "Le monde depuis 1945",
+      documents: [
+        { doc: "Document 1 : Discours de Winston Churchill à Fulton (États-Unis), 5 mars 1946 (extrait)\n\n« De Stettin sur la Baltique à Trieste sur l'Adriatique, un rideau de fer est descendu à travers le continent européen. Derrière cette ligne se trouvent toutes les capitales des anciens États de l'Europe centrale et orientale. […] Ce sont des États soumis à une influence soviétique. »" }
+      ],
+      questions: [
+        { q: "1. Que signifie l'expression 'rideau de fer' ?", pts: 4, rep: "Frontière idéologique et physique entre les démocraties libérales (Europe de l'Ouest) et les régimes communistes (Europe de l'Est) pendant la Guerre Froide." },
+        { q: "2. Quels sont les deux blocs qui s'opposent pendant la Guerre Froide ?", pts: 4, rep: "Bloc occidental (États-Unis, OTAN, démocraties) / Bloc de l'Est (URSS, Pacte de Varsovie, régimes communistes)." },
+        { q: "3. Citez deux crises de la Guerre Froide.", pts: 5, rep: "Crise de Berlin (blocus de 1948-49), crise de Cuba (1962), guerre de Corée (1950-53), guerre du Vietnam (1955-1975)." }
+      ]},
+    geo: {
+      titre: "Aménager le territoire français",
+      questions: [
+        { q: "1. Qu'est-ce qu'une métropole ?", pts: 3, rep: "Ville qui concentre les fonctions de commandement (économie, politique, culture, recherche, transport). Ex : Paris, Lyon, Marseille, Toulouse." },
+        { q: "2. Développement construit (environ 20 lignes) : pourquoi aménager le territoire en France ?", pts: 12, rep: "Réponse attendue : corriger les inégalités (désertification médicale, transports, emploi), désenclaver les zones rurales, favoriser l'accès aux services publics, exemples (LGV, zones d'activité, espaces naturels protégés)." }
+      ]},
+    emc: {
+      titre: "OPEX (Opérations extérieures de l'armée française)",
+      documents: [
+        { doc: "Document 1 : Témoignage d'un soldat français en mission au Sahel (2022)\n\n« On part pour quatre mois. Le but est d'aider les armées locales à lutter contre les groupes terroristes. On vit sous la tente, la chaleur est étouffante, mais on sait pourquoi on est là : protéger les populations et défendre les intérêts de la France. »" }
+      ],
+      questions: [
+        { q: "1. Qu'est-ce qu'une OPEX ?", pts: 4, rep: "Opérations extérieures de l'armée française sur des théâtres hors du territoire national (ex: Sahel, Liban, Afghanistan)." },
+        { q: "2. Quels sont les objectifs de la France au Sahel (document 1) ?", pts: 3, rep: "Lutter contre le terrorisme, former les armées locales, stabiliser la région (Mali, Burkina Faso, Niger)." },
+        { q: "3. Expliquez le concept de 'devoir de mémoire' en lien avec les soldats morts pour la France.", pts: 5, rep: "Transmettre le souvenir des combattants morts lors des conflits (guerres, OPEX). Cela passe par les commémorations (11 novembre, 8 mai), la transmission dans les écoles, les noms sur les monuments aux morts." }
+      ]}
+  },
+  // SUJET 7 - DNB 2022 Métropole (septembre)
+  { id: 7, annee: "2022", session: "Métropole (septembre)", 
+    histoire: {
+      titre: "Le monde depuis 1945",
+      documents: [
+        { doc: "Document 1 : Photographie du mur de Berlin le 9 novembre 1989\n\nDescription : La photo montre des Berlinois en train de danser sur le mur, en train de le casser à coups de marteau. D'autres personnes sont debout sur le mur, les bras levés. Le ciel est sombre, mais le mur est illuminé par des lampes. Une ambiance de fête se dégage." }
+      ],
+      questions: [
+        { q: "1. Que symbolise le mur de Berlin (construit en 1961) ?", pts: 4, rep: "Symbole de la division de l'Allemagne et de l'Europe entre Est (communiste) et Ouest (capitaliste), symbole de la Guerre Froide." },
+        { q: "2. Pourquoi le mur tombe-t-il en 1989 ?", pts: 5, rep: "Mouvements populaires en Allemagne de l'Est (manifestations), faiblesse du régime soviétique (Gorbatchev, perestroïka), ouverture de la frontière autrichienne et hongroise." },
+        { q: "3. Quelles sont les conséquences de la chute du mur ?", pts: 6, rep: "Réunification allemande (3 octobre 1990), éclatement de l'URSS (1991), fin de la Guerre Froide, élargissement de l'Union européenne." }
+      ]},
+    geo: {
+      titre: "Aménager le territoire français",
+      questions: [
+        { q: "1. Citez deux types d'aménagements du territoire.", pts: 4, rep: "Transports (LGV, autoroutes), services publics (hôpitaux, collèges), zones d'activité économique (technopôles, parcs d'activités), protection de l'environnement (parcs naturels)." },
+        { q: "2. Développement construit (environ 20 lignes) : comment aménage-t-on le territoire français ? Donnez des exemples.", pts: 11, rep: "Réponse attendue : exemples d'aménagements (LGV Est européenne, schéma directeur des régions, construction de collèges, numérique en zone rurale), acteurs (État, régions, communes), débats (centralisation vs décentralisation)." }
+      ]},
+    emc: {
+      titre: "Conseil municipal des jeunes",
+      documents: [
+        { doc: "Document 1 : Article de journal sur le conseil municipal des jeunes de la ville de Poitiers (2023)\n\n« Les jeunes élus du CMJ ont proposé la création d'un espace de jeux couvert dans un quartier populaire. Leur projet a été adopté par la mairie et sera réalisé en 2024. Ils participent à la vie de leur ville. »" }
+      ],
+      questions: [
+        { q: "1. Qu'est-ce qu'un conseil municipal des jeunes (CMJ) ?", pts: 4, rep: "Instance qui permet aux jeunes (souvent lycéens) de proposer des projets pour leur ville (création de skateparks, actions solidaires, écologie). Ils sont élus par leurs pairs pour 1 à 2 ans." },
+        { q: "2. Comment peut-on s'engager au collège ?", pts: 3, rep: "Éco-délégué, conseil de la vie collégienne (CVC), représentant des parents d'élèves, associations sportives ou culturelles, aide aux devoirs." },
+        { q: "3. Présentez une action que vous aimeriez proposer au conseil municipal des jeunes.", pts: 5, rep: "Réponse personnelle (ex : boîte à livres, composteur au collège, collecte de jouets pour les enfants défavorisés)." }
+      ]}
+  },
+  // SUJET 8 - DNB 2021 Métropole
+  { id: 8, annee: "2021", session: "Métropole (juin)", 
+    histoire: {
+      titre: "L'Europe, un théâtre majeur des guerres totales (1914-1945)",
+      documents: [
+        { doc: "Document 1 : Photographie des ruines du Havre après les bombardements de septembre 1944\n\nDescription : La photo montre un champ de ruines : les immeubles sont effondrés, plus une seule fenêtre n'est intacte. Des tas de gravats bloquent les rues. Quelques pans de murs tiennent encore debout. La ville est détruite à 80%. On voit un habitant qui marche seul parmi les décombres." }
+      ],
+      questions: [
+        { q: "1. Où et quand a eu lieu ce bombardement ?", pts: 3, rep: "Au Havre (Normandie), en septembre 1944, pendant la Seconde Guerre mondiale." },
+        { q: "2. Pourquoi les Alliés ont-ils bombardé les villes comme Le Havre ?", pts: 5, rep: "Affaiblir l'armée allemande, détruire les infrastructures (ports, gares, usines), préparer les débarquements (Normandie, Provence) et la libération du territoire." },
+        { q: "3. Quelle différence avec les violences de la Première Guerre mondiale ?", pts: 7, rep: "Première guerre : violence dans les tranchées (soldats). Seconde guerre : bombardements massifs sur les civils (villes détruites, morts de civils). La guerre devient 'totale' pour les populations civiles." }
+      ]},
+    geo: {
+      titre: "Dynamiques territoriales de la France",
+      questions: [
+        { q: "1. Qu'est-ce que la périurbanisation ?", pts: 4, rep: "Étalement urbain vers les campagnes autour des grandes villes. Cela entraîne une dépendance à la voiture, une consommation d'espaces naturels, un allongement des trajets domicile-travail." },
+        { q: "2. Développement construit (environ 20 lignes) : montrez les dynamiques territoriales de la France (métropolisation, périurbanisation, désertification).", pts: 11, rep: "Réponse attendue : métropolisation (concentration dans les grandes villes), périurbanisation (étalement urbain), désertification de certaines zones rurales ('diagonale du vide'), exemples concrets (Paris, Creuse, Vendée)." }
+      ]},
+    emc: {
+      titre: "Égalité hommes-femmes",
+      documents: [
+        { doc: "Document 1 : Graphique sur l'évolution de la place des femmes dans les postes à responsabilité (2010-2023)\n\nDescription : Le graphique montre que le pourcentage de femmes cadres supérieures a augmenté (de 25% à 35%) mais reste encore très inférieur à celui des hommes (65%). L'écart se réduit lentement." }
+      ],
+      questions: [
+        { q: "1. Comment évolue la place des femmes dans la société française (d'après le graphique) ?", pts: 4, rep: "La place des femmes s'améliore (plus de femmes cadres), mais les inégalités persistent (écart avec les hommes)." },
+        { q: "2. Quelles sont les causes des inégalités hommes-femmes (stéréotypes, partage des tâches, etc.) ?", pts: 3, rep: "Stéréotypes de genre (carrières dites masculines/féminines), partage inégal des tâches domestiques (charge mentale), plafond de verre (freins à la promotion professionnelle)." },
+        { q: "3. Proposez deux solutions pour lutter contre ces inégalités.", pts: 5, rep: "Éducation à l'égalité dès l'école, lois sur la parité (en politique, dans les conseils d'administration), congés parentaux partagés, campagnes de sensibilisation." }
+      ]}
+  },
+  // SUJET 9 - DNB 2024 Amérique du Nord
+  { id: 9, annee: "2024", session: "Amérique du Nord", 
+    histoire: {
+      titre: "La Seconde Guerre mondiale, une guerre d'anéantissement",
+      documents: [
+        { doc: "Document 1 : Témoignage du soldat américain James Martin (6 juin 1944)\n\n« À Omaha Beach, c'était l'enfer. On a débarqué sous le feu des mitrailleuses allemandes. La mer était rouge de sang. Autour de moi, des camarades tombaient, touchés. J'ai rampé dans l'eau glacée, un mort devant moi me protégeait des balles. Je n'oublierai jamais cette journée. »" }
+      ],
+      questions: [
+        { q: "1. Que s'est-il passé le 6 juin 1944 ?", pts: 4, rep: "Le Débarquement allié en Normandie (opération Overlord) : les forces américaines, britanniques, canadiennes et françaises débarquent sur les plages pour libérer l'Europe occupée par les nazis." },
+        { q: "2. Pourquoi les Alliés ont-ils débarqué en Normandie ?", pts: 5, rep: "Ouvrir un nouveau front à l'Ouest pour affaiblir l'Allemagne nazie, libérer la France, préparer l'invasion de l'Allemagne." },
+        { q: "3. Quelles sont les conséquences de ce débarquement ?", pts: 6, rep: "Libération de la France (Paris libéré en août 1944), offensive alliée vers l'Allemagne, reddition de Berlin en mai 1945." }
+      ]},
+    geo: {
+      titre: "La France et l'Union européenne",
+      questions: [
+        { q: "1. Quels sont les symboles de l'Union européenne ?", pts: 4, rep: "Drapeau (12 étoiles), hymne (Ode à la joie), devise ('Unie dans la diversité'), euro (monnaie), journée de l'Europe (9 mai)." },
+        { q: "2. Développement construit (environ 20 lignes) : montrez l'importance de l'Union européenne pour les jeunes.", pts: 11, rep: "Réponse attendue : programmes de mobilité (Erasmus+, Service Volontaire International, SVI), libre circulation des personnes, apprentissage des langues, avantages culturels et professionnels, citoyenneté européenne (droit de vote à 18 ans aux élections européennes)." }
+      ]},
+    emc: {
+      titre: "Engagement citoyen",
+      documents: [],
+      questions: [
+        { q: "1. Quels sont les devoirs du citoyen français ?", pts: 4, rep: "Respecter les lois, payer les impôts, défendre la nation (Journée Défense et Citoyenneté, service civique, appel sous les drapeaux en cas de besoin), voter." },
+        { q: "2. Quels sont les droits du citoyen ?", pts: 3, rep: "Droit de vote, droit de se présenter aux élections, liberté d'expression, d'association, de manifestation, droit à l'éducation, à la santé." },
+        { q: "3. Rédigez un discours de quelques lignes pour convaincre les jeunes de voter à 18 ans.", pts: 5, rep: "Réponse personnelle (doit contenir : importance du vote dans une démocratie, défendre ses idées, ne pas laisser les autres décider à sa place, devoir citoyen)." }
+      ]}
+  },
+  // SUJET 10 - Sujet zéro 2026 (nouveau format)
+  { id: 10, annee: "2026", session: "Sujet zéro (nouveau format)", 
+    histoire: {
+      titre: "Les espaces de faible densité en France (diagonale du vide)",
+      documents: [
+        { doc: "Document 1 : Carte des espaces de faible densité en France (diagonale du vide)\n\nDescription : La carte de France montre une diagonale du Nord-Est au Sud-Ouest (des Ardennes aux Pyrénées) où la densité de population est très faible. Les couleurs vont du rouge (densité élevée) au blanc (densité très faible). Cette diagonale traverse la Creuse, la Lozère, l'Aveyron, la Corrèze. À côté, les grandes métropoles (Paris, Lyon, Marseille, Bordeaux, Lille) sont en rouge." },
+        { doc: "Document 2 : Photographie d'un village déserté dans la Creuse\n\nDescription : La photo montre une rue vide, avec des maisons en pierre fermées et abandonnées. Aucun passant, aucun commerce. Le panneau 'À vendre' est visible sur plusieurs maisons. Le clocher de l'église domine un village endormi." }
+      ],
+      questions: [
+        { q: "1. Qu'est-ce que la 'diagonale du vide' ?", pts: 4, rep: "Zone de très faible densité de population qui traverse la France du Nord-Est (Ardennes) au Sud-Ouest (Pyrénées). Exemples : Creuse, Lozère, Aveyron." },
+        { q: "2. Quelles sont les causes de cette faible densité (document 2) ?", pts: 5, rep: "Exode rural (les jeunes partent en ville), vieillissement de la population, manque de services (médecins, écoles, commerces), manque d'emplois, enclavement." },
+        { q: "3. Proposez des solutions pour revitaliser ces territoires.", pts: 6, rep: "Télétravail, développement de services mobiles (médecins itinérants, bibliobus), aides financières pour les commerces et les artisans, développement du numérique, promotion du tourisme vert, création de zones d'activités." }
+      ]},
+    geo: {
+      titre: "L'Europe, un théâtre majeur des guerres totales (1914-1945)",
+      questions: [
+        { q: "1. Construisez une frise chronologique des deux guerres mondiales (dates clés).", pts: 5, rep: "1914 : début de la Première Guerre mondiale\n1918 : armistice\n1939 : début de la Seconde Guerre mondiale\n1945 : fin de la Seconde Guerre mondiale." },
+        { q: "2. Développement construit (environ 20 lignes) : expliquez pourquoi l'Europe a été un théâtre majeur des guerres totales.", pts: 10, rep: "Réponse attendue : nouvelles armes (chars, avions, obus, bombardements, gaz), mobilisation totale (économie, femmes, propagande), génocide (Shoah), violence sur les civils (bombardements des villes), 40 millions de morts." }
+      ]},
+    emc: {
+      titre: "Égalité et lutte contre les discriminations",
+      documents: [],
+      questions: [
+        { q: "1. Qu'est-ce qu'une discrimination ?", pts: 3, rep: "Traitement inégal fondé sur l'origine, le sexe, la religion, le handicap, l'orientation sexuelle, l'apparence physique, etc. C'est interdit par la loi." },
+        { q: "2. Citez deux lois contre les discriminations en France.", pts: 3, rep: "Loi Pleven (1972) contre le racisme, loi sur la parité (2000), loi Taubira (2001) reconnaissant la traite négrière comme crime contre l'humanité, loi de 2004 sur les signes religieux à l'école." },
+        { q: "3. Rédigez un message de sensibilisation contre le racisme à afficher dans un collège.", pts: 4, rep: "Réponse personnelle (doit contenir : dénonciation du racisme, appel à la tolérance et au respect, slogan fort)." }
+      ]}
+  }
 ];
 
-let who = null, currentIdx = 0, chronoSecs = 7200, running = false, chronoInterval = null;
-
-function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
-function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('histgeo_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); d.innerHTML = `<div class="sc-num">Sujet ${s.id}/10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Analyse document + paragraphe</div><div class="sc-done" style="display:${done.includes(s.id) ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
-function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 7200; running = false; clearInterval(chronoInterval); updateChrono(); }
-function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
-
-function renderSujet(s) {
-  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Document(s)</span><span class="partie-pts">20 pts</span></div><div class="partie-body"><div class="texte-box">${s.doc}</div>`;
-  s.questions.forEach((q, i) => {
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="q${i}" placeholder="Ta réponse..."></textarea><button class="ai-btn" id="ai-q${i}" onclick="corrigerIA('ai-q${i}','q${i}','${q.q.replace(/'/g, "\\'")}','histgeo',${q.pts},'HistoireGeo')">📝 Corriger avec l'IA</button><div class="ai-loading" id="ai-q${i}_load"><div class="ai-spin"></div></div><div class="ai-result" id="ai-q${i}_result"></div><button class="corr-btn" onclick="tog('c${i}')">Voir correction</button><div class="corr-box" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
+function afficherSujets() {
+  const container = document.getElementById('sujets');
+  container.innerHTML = '';
+  SUJETS.forEach((s, idx) => {
+    const num = idx + 1;
+    const div = document.createElement('div');
+    div.className = 'sujet';
+    
+    let html = `<h3>Sujet ${num} – Session ${s.annee} (${s.session})</h3>`;
+    
+    // HISTOIRE
+    html += `<div class="exercice"><strong>📜 Exercice 1 – Histoire</strong><br><strong>Thème : ${s.histoire.titre}</strong>`;
+    s.histoire.documents.forEach((doc, i) => {
+      html += `<div class="document">${doc.doc}</div>`;
+    });
+    s.histoire.questions.forEach((q, i) => {
+      html += `<div class="question"><strong>Question ${i+1}</strong> (${q.pts} points)<br>${q.q}</div>`;
+      html += `<textarea id="hist-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      html += `<button onclick="corrigerExo('hist-${num}-${i}', '${q.rep.replace(/'/g, "\\'")}', ${q.pts})">Corriger avec IA</button>`;
+      html += `<button onclick="afficherCorrection('corr-hist-${num}-${i}')">Voir correction</button>`;
+      html += `<div id="corr-hist-${num}-${i}" class="correction">${q.rep}</div>`;
+    });
+    html += `</div>`;
+    
+    // GÉOGRAPHIE
+    html += `<div class="exercice"><strong>🌍 Exercice 2 – Géographie</strong><br><strong>Thème : ${s.geo.titre}</strong>`;
+    s.geo.questions.forEach((q, i) => {
+      html += `<div class="question"><strong>Question ${i+1}</strong> (${q.pts} points)<br>${q.q}</div>`;
+      html += `<textarea id="geo-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      html += `<button onclick="corrigerExo('geo-${num}-${i}', '${q.rep.replace(/'/g, "\\'")}', ${q.pts})">Corriger avec IA</button>`;
+      html += `<button onclick="afficherCorrection('corr-geo-${num}-${i}')">Voir correction</button>`;
+      html += `<div id="corr-geo-${num}-${i}" class="correction">${q.rep}</div>`;
+    });
+    html += `</div>`;
+    
+    // EMC
+    html += `<div class="exercice"><strong>⚖️ Exercice 3 – Enseignement Moral et Civique</strong><br><strong>Thème : ${s.emc.titre}</strong>`;
+    if (s.emc.documents && s.emc.documents.length > 0) {
+      s.emc.documents.forEach((doc, i) => {
+        html += `<div class="document">${doc.doc}</div>`;
+      });
+    }
+    s.emc.questions.forEach((q, i) => {
+      html += `<div class="question"><strong>Question ${i+1}</strong> (${q.pts} points)<br>${q.q}</div>`;
+      html += `<textarea id="emc-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      html += `<button onclick="corrigerExo('emc-${num}-${i}', '${q.rep.replace(/'/g, "\\'")}', ${q.pts})">Corriger avec IA</button>`;
+      html += `<button onclick="afficherCorrection('corr-emc-${num}-${i}')">Voir correction</button>`;
+      html += `<div id="corr-emc-${num}-${i}" class="correction">${q.rep}</div>`;
+    });
+    html += `</div>`;
+    
+    html += `<hr>`;
+    div.innerHTML = html;
+    container.appendChild(div);
   });
-  h += `</div></div><div class="auto-eval"><div class="ae-title">Auto-évaluation</div><div class="ae-row"><span class="ae-label">Note sur 20</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div><div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/20</div></div></div><div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
-  document.getElementById('s-body').innerHTML = h;
 }
 
-function tog(id) { document.getElementById(id).classList.toggle('show'); }
-function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const t = Math.min(a, 20); document.getElementById('ae-total').textContent = t + '/20'; }
-async function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; } const s = SUJETS[currentIdx]; const note = Math.min(parseInt(document.getElementById('ae1').value) || 0, 20); const done = JSON.parse(localStorage.getItem('histgeo_done_' + who) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('histgeo_done_' + who, JSON.stringify(done)); } if (window.CONFIG && window.CONFIG.SHEETS) { const url = window.CONFIG.SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Histoire-Géographie & EMC', annee: 'Sujet blanc ' + s.id, exercice: s.titre, score: note, pointsPerdus: 'Note:' + note + '/20', bloque: '', aRetravailler: '' }) }); showToast('✓ Note sauvegardée', 'ok'); } catch(e) { showToast('⚠ Sauvegarde impossible', 'err'); } } else { showToast('Config non chargée, sauvegarde locale uniquement', 'err'); } }
-function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
-function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 7200; updateChrono(); }
-function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; document.getElementById('chrono').textContent = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
-function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
-window.addEventListener('DOMContentLoaded', () => renderHome());
-
-async function corrigerIA(btnId, taId, question, typeExo, pts, matiere) {
-  const texte = document.getElementById(taId).value.trim();
-  if (!texte || texte.length < 15) { alert('Écris ta réponse avant de corriger !'); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY) { alert('Clé API non configurée (fichier config.js absent ou secret non injecté).'); return; }
-  const btn = document.getElementById(btnId);
-  const loadEl = document.getElementById(btnId + '_load');
-  const resEl = document.getElementById(btnId + '_result');
-  btn.disabled = true;
-  if (loadEl) loadEl.style.display = 'block';
-  if (resEl) resEl.style.display = 'none';
-  const prompt = `Tu es correcteur DNB 2026 ${matiere}. Corrige ce paragraphe argumenté sur ${pts} pts. Critères: intro, arguments+exemples, connecteurs logiques, conclusion. JSON: {"noteTotal":X,"maxTotal":${pts},"sousNotes":"Intro X, Arguments X, Connecteurs X, Conclusion X","annotations":[],"exemplesManquants":["..."],"pointsForts":["..."],"aAmeliorer":["..."],"methodologie":"<p>Structure attendue...</p>","conseil":"Conseil"}`;
+async function corrigerExo(idTextarea, reponseAttendue, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
+    alert("Clé API non configurée. Vérifie les secrets GitHub.");
+    return;
+  }
+  const prompt = `Corrige cette réponse d'élève (histoire-géo-EMC). Réponse attendue : "${reponseAttendue}". Réponse élève : "${texte}". Note sur ${pts}. Réponds en JSON : {"note": nombre, "commentaire": "explication courte"}`;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': window.CONFIG.AI_API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1200, system: prompt, messages: [{ role: 'user', content: 'Question: ' + question + '\n\nRéponse élève:\n\n' + texte + '\n\nJSON uniquement.' }] })
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: prompt, messages: [{ role: "user", content: prompt }] })
     });
     const data = await res.json();
-    const json = JSON.parse(data.content[0].text.replace(/```json|```/g, '').trim());
-    renderAIRes(resEl, json);
-  } catch(e) { alert('Erreur: ' + e.message); }
-  if (loadEl) loadEl.style.display = 'none';
-  btn.disabled = false;
+    const json = JSON.parse(data.content[0].text);
+    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
+  } catch(e) { alert("Erreur IA : " + e.message); }
 }
 
-function renderAIRes(el, j) {
-  const pct = Math.round(j.noteTotal / j.maxTotal * 100);
-  const col = pct >= 75 ? '#7ecf8a' : pct >= 55 ? '#e8c87a' : '#f55a5a';
-  const bg = pct >= 75 ? 'rgba(126,207,138,0.08)' : pct >= 55 ? 'rgba(232,200,122,0.08)' : 'rgba(245,85,85,0.08)';
-  const barCol = pct >= 75 ? 'linear-gradient(90deg,#7ecf8a,#5ecfb1)' : pct >= 55 ? 'linear-gradient(90deg,#e8c87a,#f07a5a)' : 'linear-gradient(90deg,#f55a5a,#f07a5a)';
-  let html = `<div class="ai-score-bar" style="background:${bg}"><div class="ai-score-num" style="color:${col}">${j.noteTotal}/${j.maxTotal}</div><div class="ai-score-info"><div>${pct >= 75 ? 'Excellent' : pct >= 55 ? 'À améliorer' : 'Insuffisant'}</div><div class="ai-pbar-bg"><div class="ai-pbar-fill" id="${el.id}_pb" style="width:0%;background:${barCol}"></div></div></div></div><div class="ai-body">`;
-  if (j.pointsForts && j.pointsForts.length) html += `<div class="ai-sec ai-v"><div class="ai-sec-t">Points forts</div><div class="ai-sec-b"><ul>${j.pointsForts.map(p => '<li>' + p + '</li>').join('')}</ul></div></div>`;
-  if (j.aAmeliorer && j.aAmeliorer.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">À améliorer</div><div class="ai-sec-b"><ul>${j.aAmeliorer.map(p => '<li>' + p + '</li>').join('')}</ul></div></div>`;
-  if (j.exemplesManquants && j.exemplesManquants.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Exemples manquants</div><div class="ai-sec-b">${j.exemplesManquants.map(m => '<span style="display:inline-block;margin:2px;padding:2px 8px;border-radius:999px;border:1px solid rgba(245,85,85,0.3);background:rgba(245,85,85,0.07);font-size:11px;color:#f55a5a">' + m + '</span>').join('')}</div></div>`;
-  if (j.methodologie) html += `<div class="ai-sec ai-g"><div class="ai-sec-t">Méthodologie</div><div class="ai-sec-b">${j.methodologie}</div></div>`;
-  if (j.conseil) html += `<div class="ai-sec ai-p"><div class="ai-sec-t">Conseil</div><div class="ai-sec-b"><strong>${j.conseil}</strong></div></div>`;
-  html += `</div>`;
-  el.innerHTML = html;
-  el.style.display = 'block';
-  setTimeout(() => { const b = document.getElementById(el.id + '_pb'); if (b) b.style.width = pct + '%'; }, 100);
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
+
+afficherSujets();
 </script>
 </body>
 </html>
