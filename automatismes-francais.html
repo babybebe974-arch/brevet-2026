@@ -4,87 +4,84 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatismes Français - Brevet 2026</title>
+<title>Automatismes – Français</title>
 <script src="config.js"></script>
 <style>
-  body { font-family: 'DM Sans', sans-serif; background: #09090f; color: #f0ede8; padding: 2rem; }
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
   .container { max-width: 800px; margin: 0 auto; }
-  .question { background: #111118; border-left: 4px solid #5ecfb1; padding: 1rem; margin: 1rem 0; }
+  .question { background: #111118; border-left: 4px solid #5ecfb1; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; border-radius: 6px; }
+  button { background: #5ecfb1; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-top: 0.5rem; }
   .feedback { margin-top: 0.5rem; font-size: 0.9rem; }
-  button { background: #5ecfb1; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
-  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; }
+  .score { position: sticky; top: 0; background: #09090f; padding: 1rem; border-bottom: 1px solid #2a2a35; text-align: right; font-size: 1.2rem; }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Automatismes Français</h1>
+  <h1>⚡ Automatismes – Français</h1>
+  <div class="score">✅ <span id="score">0</span> / <span id="total">30</span></div>
   <div id="quiz"></div>
 </div>
 <script>
-  const questions = [
-    {q: "Quelle est la nature de 'silencieuse' dans 'La forêt était silencieuse' ?", r: "adjectif qualificatif"},
-    {q: "Conjuguez 'parler' à l'imparfait, 3e personne du singulier.", r: "il parlait"},
-    {q: "Donnez l'infinitif du verbe 'coururent'.", r: "courir"},
-    {q: "Quel est le mode du verbe dans 'Il faut que tu viennes' ?", r: "subjonctif"},
-    {q: "Transformez 'Il mange une pomme' à la voix passive.", r: "Une pomme est mangée par lui"},
-    {q: "Donnez un synonyme de 'rapidement'.", r: "vite"},
-    {q: "Qu'est-ce qu'un complément d'objet direct (COD) ?", r: "Répond à 'quoi' ou 'qui' après un verbe sans préposition."},
-    {q: "Analysez 'grand' dans 'un grand arbre' : nature et fonction.", r: "adjectif épithète"},
-    {q: "Accordez le participe passé : 'Les fleurs que j'ai (cueillir)'.", r: "cueillies"},
-    {q: "Remplacez 'Marie' par un pronom : 'Je parle à Marie'.", r: "Je lui parle"},
-    {q: "Quelle est la fonction de 'le livre' dans 'Je lis le livre' ?", r: "COD"},
-    {q: "Donnez le contraire de 'joyeux'.", r: "triste"},
-    {q: "Conjuguez 'être' au futur simple, 2e personne du pluriel.", r: "vous serez"},
-    {q: "Qu'est-ce qu'une proposition subordonnée relative ?", r: "Introduite par un pronom relatif (qui, que, dont...)"},
-    {q: "Réécrivez au discours indirect : 'Il dit : \"Je viens demain\"'.", r: "Il dit qu'il vient le lendemain."},
-    {q: "Donnez un exemple de métaphore.", r: "Ses yeux sont des étoiles."},
-    {q: "Quel est le temps de 'avait mangé' ?", r: "plus-que-parfait"},
-    {q: "Transformez la phrase négative : 'Il vient toujours.'", r: "Il ne vient jamais."},
-    {q: "Donnez la fonction de 'à Paris' dans 'Je vais à Paris'.", r: "complément circonstanciel de lieu"},
-    {q: "Quel est le sujet dans 'Il pleut' ?", r: "sujet apparent 'il'"},
-    {q: "Accordez : 'Elle s'est (laver) les mains'.", r: "lavé (pas d'accord car COD après)"},
-    {q: "Qu'est-ce qu'une phrase impersonnelle ?", r: "Construite avec 'il' sans vrai sujet (ex: il faut)"},
-    {q: "Conjuguez 'finir' au présent de l'indicatif, 1re personne du pluriel.", r: "nous finissons"},
-    {q: "Donnez un adverbe de manière.", r: "doucement"},
-    {q: "Quelle est la différence entre 'et' et 'est' ?", r: "et = conjonction, est = verbe être"},
-    {q: "Analysez 'malgré la pluie' : nature et fonction.", r: "groupe prépositionnel, CC d'opposition"},
-    {q: "Réécrivez au passé simple : 'Il chante'", r: "Il chanta"},
-    {q: "Donnez un exemple d'hyperbole.", r: "Je meurs de faim."},
-    {q: "Qu'est-ce qu'un attribut du sujet ?", r: "Mot qui donne une qualité au sujet (il est content)"},
-    {q: "Conjuguez 'aller' au conditionnel présent, 3e personne du singulier.", r: "il irait"}
-  ];
+  let questions = [];
+  let reponsesUtilisateur = [];
   let done = JSON.parse(localStorage.getItem('automatismes_francais') || '[]');
 
-  function render() {
+  async function chargerQuestions() {
+    const res = await fetch('data/francais.json');
+    const data = await res.json();
+    const toutes = data.cartes || [];
+    // Mélanger et prendre 30
+    for (let i = toutes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [toutes[i], toutes[j]] = [toutes[j], toutes[i]];
+    }
+    questions = toutes.slice(0, 30);
+    reponsesUtilisateur = new Array(30).fill('');
+    document.getElementById('total').innerText = questions.length;
+    afficherQuiz();
+    mettreAJourScore();
+  }
+
+  function afficherQuiz() {
     const div = document.getElementById('quiz');
     div.innerHTML = '';
     questions.forEach((q, i) => {
       const block = document.createElement('div');
       block.className = 'question';
-      block.innerHTML = `<strong>${i+1}. ${q.q}</strong><br>
-        <input type="text" id="input-${i}" placeholder="Votre réponse" autocomplete="off">
+      block.innerHTML = `<strong>${i+1}. ${q.question}</strong><br>
+        <input type="text" id="input-${i}" value="${reponsesUtilisateur[i]}" placeholder="Votre réponse..." autocomplete="off">
         <div id="fb-${i}" class="feedback"></div>
-        <button onclick="check(${i})">Vérifier</button>`;
+        <button onclick="verifier(${i})">Vérifier</button>`;
       div.appendChild(block);
+      if (done.includes(i)) {
+        document.getElementById(`fb-${i}`).innerHTML = '✅ Déjà réussi !';
+        document.getElementById(`fb-${i}`).style.color = '#7ecf8a';
+      }
     });
   }
 
-  window.check = function(idx) {
+  window.verifier = function(idx) {
     const user = document.getElementById(`input-${idx}`).value.trim().toLowerCase();
-    const expected = questions[idx].r.toLowerCase();
+    const expected = questions[idx].reponse.toLowerCase();
     const fb = document.getElementById(`fb-${idx}`);
     if (user === expected) {
-      fb.innerHTML = '✅ Correct';
+      fb.innerHTML = '✅ Correct !';
       fb.style.color = '#7ecf8a';
       if (!done.includes(idx)) done.push(idx);
+      localStorage.setItem('automatismes_francais', JSON.stringify(done));
     } else {
-      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].r}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
+      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].reponse}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
       fb.style.color = '#f55a5a';
     }
-    localStorage.setItem('automatismes_francais', JSON.stringify(done));
+    mettreAJourScore();
   };
 
-  render();
+  function mettreAJourScore() {
+    document.getElementById('score').innerText = done.length;
+  }
+
+  chargerQuestions();
 </script>
 </body>
 </html>
