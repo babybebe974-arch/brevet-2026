@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sciences - 10 sujets blancs DNB</title>
+<script src="config.js"></script>
+<style>
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .sujet { background: #111118; border-left: 5px solid #a98af5; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
+  .exercice { background: #0a0a12; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border-left: 3px solid #a98af5; white-space: pre-wrap; }
+  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
+  button { background: #a98af5; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; }
+  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
+  hr { border-color: #2a2a35; margin: 1rem 0; }
+  h3 { color: #a98af5; }
+  .badge { display: inline-block; background: #a98af520; color: #a98af5; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Sciences - 10 sujets blancs (DNB)</h1>
+  <div id="sujets"></div>
+</div>
+<script>
+// ==================== 10 SUJETS OFFICIELS DNB SCIENCES ====================
+const SUJETS = [
+  { id: 1, annee: "2025", session: "Métropole", titre: "Physique : Circuits électriques / SVT : Reproduction humaine",
+    physique: [
+      { q: "Exercice 1 – Circuit série (4 pts)\nOn réalise un circuit série avec une pile, une lampe et un moteur.\na) Dans un circuit série, l'intensité est-elle la même partout ? (1 pt)\nb) Que se passe-t-il si la lampe grille ? (1 pt)\nc) On ajoute une deuxième lampe en série. La luminosité de la première lampe augmente-t-elle, diminue-t-elle ou reste-t-elle la même ? Justifier. (2 pts)", 
+        pts: 4, rep: "a) Oui, l'intensité est la même en tout point du circuit série.\nb) Le circuit est ouvert, plus aucun appareil ne fonctionne.\nc) La luminosité diminue. La résistance totale augmente, l'intensité diminue." },
+      { q: "Exercice 2 – Loi d'Ohm (4 pts)\nUn conducteur ohmique de résistance 220 Ω est traversé par un courant de 0,5 A.\na) Rappeler la loi d'Ohm (1 pt)\nb) Calculer la tension à ses bornes (3 pts)", 
+        pts: 4, rep: "a) U = R × I\nb) U = 220 × 0,5 = 110 V" }
+    ],
+    svt: [
+      { q: "Exercice 3 – Reproduction humaine (5 pts)\nDécrire le trajet des spermatozoïdes depuis leur production jusqu'à la fécondation.", 
+        pts: 5, rep: "Testicules (production) → épididyme (maturation) → canal déférent → urètre → vagin → utérus → trompe de Fallope (rencontre avec l'ovule)." },
+      { q: "Exercice 4 – Fécondation et grossesse (5 pts)\na) Où a lieu la fécondation ? (1 pt)\nb) Combien de chromosomes possède l'œuf ? (1 pt)\nc) Qu'est-ce que la nidation ? (3 pts)", 
+        pts: 5, rep: "a) Dans la trompe de Fallope.\nb) 46 chromosomes (23 de chaque parent).\nc) C'est l'implantation de l'œuf dans la paroi de l'utérus." }
+    ]},
+  { id: 2, annee: "2025", session: "Amérique du Nord", titre: "Physique : Vitesse / SVT : Photosynthèse",
+    physique: [
+      { q: "Exercice 1 – Vitesse moyenne (5 pts)\nUn cycliste parcourt 30 km en 1h15.\na) Convertir 1h15 en heures décimales (1 pt)\nb) Calculer sa vitesse moyenne en km/h (2 pts)\nc) Exprimer cette vitesse en m/s (2 pts)", 
+        pts: 5, rep: "a) 1,25 h\nb) v = d/t = 30/1,25 = 24 km/h\nc) 24 ÷ 3,6 = 6,67 m/s" },
+      { q: "Exercice 2 – Mouvement (3 pts)\nUn véhicule roule à vitesse constante sur une ligne droite.\na) Quel est le type de mouvement ? (1 pt)\nb) Que peut-on dire des forces qui s'exercent sur lui ? (2 pts)", 
+        pts: 3, rep: "a) Mouvement rectiligne uniforme.\nb) Les forces se compensent (principe d'inertie)." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Photosynthèse (6 pts)\nLes plantes vertes produisent leur matière organique à partir de la lumière, de l'eau et du dioxyde de carbone.\na) Écrire l'équation bilan de la photosynthèse (3 pts)\nb) Où se déroule la photosynthèse dans la plante ? (1 pt)\nc) Quel est le rôle de la chlorophylle ? (2 pts)", 
+        pts: 6, rep: "a) 6 CO₂ + 6 H₂O → (lumière, chlorophylle) → C₆H₁₂O₆ + 6 O₂\nb) Dans les chloroplastes des cellules des feuilles.\nc) La chlorophylle capte l'énergie lumineuse nécessaire à la réaction." },
+      { q: "Exercice 4 – Respiration vs photosynthèse (4 pts)\nExpliquer la complémentarité entre la respiration des animaux et la photosynthèse des végétaux.", 
+        pts: 4, rep: "Les animaux respirent en rejetant du CO₂ que les plantes utilisent pour la photosynthèse. Les plantes rejettent de l'O₂ que les animaux respirent." }
+    ]},
+  { id: 3, annee: "2024", session: "Métropole", titre: "Physique : Électricité / SVT : Séismes",
+    physique: [
+      { q: "Exercice 1 – Puissance électrique (5 pts)\nUne lampe de 60 W est allumée pendant 2 heures.\na) Rappeler la formule reliant puissance, énergie et temps (1 pt)\nb) Calculer l'énergie consommée en Wh (2 pts)\nc) Convertir en joules (1 Wh = 3600 J) (2 pts)", 
+        pts: 5, rep: "a) E = P × t\nb) E = 60 × 2 = 120 Wh\nc) 120 × 3600 = 432 000 J" },
+      { q: "Exercice 2 – Prix de l'électricité (3 pts)\nLe kWh est facturé 0,20 €. Quel est le coût de fonctionnement de cette lampe ?", 
+        pts: 3, rep: "120 Wh = 0,120 kWh → 0,120 × 0,20 = 0,024 € (2,4 centimes)" }
+    ],
+    svt: [
+      { q: "Exercice 3 – Séismes (5 pts)\nLors d'un séisme, on enregistre les ondes P et S.\na) Quelles sont les vitesses respectives des ondes P et S dans la croûte terrestre ? (2 pts)\nb) Quelle est la nature de chaque onde ? (2 pts)\nc) Pourquoi les ondes S ne traversent-elles pas le noyau externe ? (1 pt)", 
+        pts: 5, rep: "a) Ondes P ≈ 6 km/s, ondes S ≈ 3,5 km/s.\nb) Ondes P : ondes de compression (longitudinales) ; ondes S : ondes de cisaillement (transversales).\nc) Les ondes S ne se propagent pas dans les liquides. Le noyau externe est liquide." },
+      { q: "Exercice 4 – Localisation d'un séisme (5 pts)\nExpliquer comment on détermine l'épicentre d'un séisme à l'aide des stations sismiques.", 
+        pts: 5, rep: "On mesure le temps d'arrivée des ondes P et S dans plusieurs stations. La différence de temps donne la distance. On trace des cercles autour de chaque station. L'épicentre est à l'intersection des cercles." }
+    ]},
+  { id: 4, annee: "2024", session: "Amérique du Nord", titre: "Physique : Circuit en série/dérivation / SVT : Digestion",
+    physique: [
+      { q: "Exercice 1 – Circuit mixte (5 pts)\nDeux lampes de résistances 100 Ω et 200 Ω sont branchées en série sur une pile de 6 V.\na) Calculer la résistance équivalente (2 pts)\nb) Calculer l'intensité du courant (3 pts)", 
+        pts: 5, rep: "a) Req = 100 + 200 = 300 Ω\nb) I = U / Req = 6 / 300 = 0,02 A = 20 mA" },
+      { q: "Exercice 2 – Dérivation (3 pts)\nSi on branche les deux lampes en dérivation, la nouvelle résistance équivalente vaut 66,7 Ω. L'intensité totale augmentera-t-elle ou diminuera-t-elle ? Justifier.", 
+        pts: 3, rep: "L'intensité totale augmentera car la résistance équivalente est plus faible (I = U/R)." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Digestion des glucides (6 pts)\nL'amidon est une macromolécule complexe.\na) Quelle enzyme digère l'amidon ? Où est-elle produite ? (2 pts)\nb) Quels sont les produits finaux de la digestion de l'amidon ? (2 pts)\nc) À quel moment du tube digestif se fait l'absorption du glucose ? (2 pts)", 
+        pts: 6, rep: "a) L'amylase (ptyaline). Produite par les glandes salivaires (bouche) et le pancréas (amylase pancréatique).\nb) L'amidon est digéré en maltose, puis en glucose.\nc) L'absorption du glucose se fait dans l'intestin grêle (villosités intestinales)." },
+      { q: "Exercice 4 – Rôle du foie (4 pts)\nQuel est le rôle du foie dans la régulation de la glycémie ?", 
+        pts: 4, rep: "Le foie stocke le glucose sous forme de glycogène lorsque le taux est trop élevé, et libère du glucose lorsque le taux est trop bas." }
+    ]},
+  { id: 5, annee: "2023", session: "Métropole", titre: "Physique : Énergie / SVT : Reproduction des plantes",
+    physique: [
+      { q: "Exercice 1 – Énergie cinétique (5 pts)\nUn véhicule de masse 1000 kg roule à 20 m/s.\na) Rappeler la formule de l'énergie cinétique (1 pt)\nb) Calculer son énergie cinétique (2 pts)\nc) Si la vitesse double, que devient l'énergie cinétique ? (2 pts)", 
+        pts: 5, rep: "a) Ec = ½ × m × v²\nb) Ec = 0,5 × 1000 × (20)² = 0,5 × 1000 × 400 = 200 000 J\nc) L'énergie cinétique est multipliée par 4 (car v²)." },
+      { q: "Exercice 2 – Conversion d'énergie (3 pts)\nLors d'un freinage, que devient l'énergie cinétique du véhicule ?", 
+        pts: 3, rep: "L'énergie cinétique est convertie en chaleur (par frottements) ou en électricité (véhicule électrique)." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Reproduction des plantes à fleurs (6 pts)\nDécrire le trajet du pollen jusqu'à l'ovule.", 
+        pts: 6, rep: "Le pollen est produit par les étamines. Il est transporté par le vent ou les insectes jusqu'au stigmate. Il germe et forme un tube pollinique qui traverse le style jusqu'à l'ovule. La fécondation a lieu dans l'ovule." },
+      { q: "Exercice 4 – Dissémination des graines (4 pts)\nCitez deux modes de dissémination des graines et donnez un exemple pour chacun.", 
+        pts: 4, rep: "Par le vent (pissenlit), par les animaux (bardane), par l'eau (noix de coco), par explosion (balsamine)." }
+    ]},
+  { id: 6, annee: "2023", session: "Polynésie", titre: "Physique : Poids et masse / SVT : Classification du vivant",
+    physique: [
+      { q: "Exercice 1 – Poids et masse (5 pts)\nUn objet a une masse de 10 kg sur Terre (g = 9,8 N/kg).\na) Quelle est la différence entre masse et poids ? (2 pts)\nb) Calculer le poids de l'objet sur Terre (2 pts)\nc) Ce même objet sur la Lune (g = 1,6 N/kg). Calculer son poids sur la Lune. (1 pt)", 
+        pts: 5, rep: "a) La masse (kg) est invariable ; le poids (N) dépend de l'intensité de la pesanteur g.\nb) P = m × g = 10 × 9,8 = 98 N\nc) P = 10 × 1,6 = 16 N" },
+      { q: "Exercice 2 – Représentation du poids (3 pts)\nReprésenter graphiquement le poids d'un objet posé sur une table (direction, sens, point d'application).", 
+        pts: 3, rep: "Direction : verticale ; sens : vers le bas ; point d'application : centre de gravité de l'objet." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Classification du vivant (6 pts)\nClassez les êtres vivants suivants dans des groupes emboîtés : Homme, Chat, Pin, Champignon, Bactérie.\nJustifier les regroupements.", 
+        pts: 6, rep: "Bactérie (procaryote) → Champignon (eucaryote) → Pin (végétal) → Homme et Chat (animaux, vertébrés, mammifères)." },
+      { q: "Exercice 4 – Parenté entre espèces (4 pts)\nQuels attributs partagent l'Homme et le Chat ? Justifier.", 
+        pts: 4, rep: "Ce sont des eucaryotes pluricellulaires, animaux, vertébrés, mammifères." }
+    ]},
+  { id: 7, annee: "2022", session: "Métropole", titre: "Physique : Combustion / SVT : Risque infectieux",
+    physique: [
+      { q: "Exercice 1 – Combustion du carbone (5 pts)\nOn brûle 12 g de carbone dans 32 g de dioxygène.\na) Écrire l'équation de la combustion du carbone (2 pts)\nb) Quelle masse de CO₂ obtient-on ? Justifier (3 pts)", 
+        pts: 5, rep: "a) C + O₂ → CO₂\nb) Masse totale avant = 12 + 32 = 44 g. La masse se conserve, donc masse de CO₂ = 44 g." },
+      { q: "Exercice 2 – Réactif limitant (3 pts)\nSi on brûle 24 g de carbone avec 32 g de dioxygène, lequel est en excès ? Quelle masse de CO₂ se forme ?", 
+        pts: 3, rep: "Pour 24 g C, il faudrait 64 g O₂. O₂ est le réactif limitant. Masse C consommé = 12 g. Masse CO₂ = 12 + 32 = 44 g. Il reste 12 g de carbone non brûlé." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Risque infectieux (6 pts)\nExpliquez comment se transmet la grippe et quels sont les moyens de prévention.", 
+        pts: 6, rep: "Transmission par voie aérienne (postillons, toux) ou par contact. Prévention : vaccination, lavage des mains, port du masque, isolement des personnes malades." },
+      { q: "Exercice 4 – Antibiotiques (4 pts)\nLes antibiotiques sont-ils efficaces contre la grippe ? Pourquoi ?", 
+        pts: 4, rep: "Non, les antibiotiques agissent contre les bactéries, pas contre les virus. La grippe est due à un virus." }
+    ]},
+  { id: 8, annee: "2022", session: "Amérique du Nord", titre: "Physique : Atome et ions / SVT : Volcanisme",
+    physique: [
+      { q: "Exercice 1 – Structure de l'atome (5 pts)\na) Quelles sont les particules qui constituent un atome ? Leurs charges ? (2 pts)\nb) Qu'est-ce qu'un ion ? (1 pt)\nc) Un atome de sodium (Na) perd un électron. Comment se nomme l'ion obtenu ? (2 pts)", 
+        pts: 5, rep: "a) Noyau (protons +) et électrons (-).\nb) Un ion est un atome ou une molécule qui a perdu ou gagné un ou plusieurs électrons.\nc) Ion sodium Na⁺ (cation)." },
+      { q: "Exercice 2 – Ion chlorure (3 pts)\nUn atome de chlore (Cl) gagne un électron. Quel ion obtient-on ?", 
+        pts: 3, rep: "L'ion chlorure Cl⁻ (anion)." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Volcanisme (6 pts)\nDistinguer éruption effusive et éruption explosive. Donner un exemple pour chaque.", 
+        pts: 6, rep: "Éruption effusive : lave fluide, coulées (Hawaï). Éruption explosive : lave visqueuse, nuées ardentes (Vésuve, Mont Saint Helens)." },
+      { q: "Exercice 4 – Risques volcaniques (4 pts)\nCitez trois risques liés aux éruptions volcaniques.", 
+        pts: 4, rep: "Coulées de lave, nuées ardentes, retombées de cendres, gaz toxiques, tsunamis." }
+    ]},
+  { id: 9, annee: "2021", session: "Métropole", titre: "Physique : Réfraction / SVT : Développement durable",
+    physique: [
+      { q: "Exercice 1 – Réfraction de la lumière (5 pts)\nUn rayon lumineux passe de l'air à l'eau.\na) Que se passe-t-il à la surface de séparation ? (2 pts)\nb) L'angle d'incidence est de 30°. L'angle de réfraction est de 22°. Le rayon se rapproche-t-il ou s'éloigne-t-il de la normale ? (3 pts)", 
+        pts: 5, rep: "a) Le rayon change de direction (réfraction).\nb) L'angle de réfraction (22°) est plus petit que l'angle d'incidence (30°). Le rayon se rapproche de la normale." },
+      { q: "Exercice 2 – Indice de réfraction (3 pts)\nL'indice de l'eau est n = 1,33. Que signifie cette valeur ?", 
+        pts: 3, rep: "La lumière se propage 1,33 fois moins vite dans l'eau que dans le vide." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Développement durable (6 pts)\nDéfinir le développement durable et ses trois piliers.", 
+        pts: 6, rep: "Le développement durable répond aux besoins du présent sans compromettre la capacité des générations futures à répondre aux leurs. Piliers : économie viable, social équitable, environnement vivable." },
+      { q: "Exercice 4 – Empreinte écologique (4 pts)\nQu'est-ce que l'empreinte écologique ? Donner un exemple.", 
+        pts: 4, rep: "Surface de terre et d'eau nécessaire pour produire les ressources consommées et absorber les déchets. Ex : empreinte carbone, eau virtuelle." }
+    ]},
+  { id: 10, annee: "2026", session: "Sujet zéro", titre: "Physique : Signal sonore / SVT : Transmission génétique",
+    physique: [
+      { q: "Exercice 1 – Vitesse du son (5 pts)\nLe son se propage à 340 m/s dans l'air.\na) Quelle distance parcourt le son en 2 secondes ? (2 pts)\nb) Un orage éclate à 3,4 km. Combien de temps après l'éclair entends-tu le tonnerre ? (3 pts)", 
+        pts: 5, rep: "a) d = v × t = 340 × 2 = 680 m\nb) t = d / v = 3400 / 340 = 10 s" },
+      { q: "Exercice 2 – Niveau sonore (3 pts)\nQu'est-ce qu'un décibel (dB) ? Pourquoi ne faut-il pas exposer les oreilles à des sons trop forts ?", 
+        pts: 3, rep: "Le décibel est l'unité de mesure du niveau sonore. Des sons trop forts peuvent endommager l'oreille interne (surdité)." }
+    ],
+    svt: [
+      { q: "Exercice 3 – Transmission génétique (6 pts)\nExpliquez pourquoi un enfant peut avoir les yeux bleus alors que ses deux parents ont les yeux marrons.", 
+        pts: 6, rep: "Le gène des yeux bleus est récessif. Si les deux parents sont porteurs hétérozygotes (B/b), ils ont les yeux marrons (B dominant) mais peuvent transmettre le allèle b à leur enfant, qui aura alors les yeux bleus (b/b)." },
+      { q: "Exercice 4 – ADN (4 pts)\nQu'est-ce que l'ADN ? Où se trouve-t-il dans la cellule ?", 
+        pts: 4, rep: "L'ADN est la molécule support de l'information génétique. Il se trouve dans le noyau des cellules eucaryotes." }
+    ]}
+];
+
+function afficherSujets() {
+  const container = document.getElementById('sujets');
+  container.innerHTML = '';
+  SUJETS.forEach((s, idx) => {
+    const num = idx + 1;
+    const div = document.createElement('div');
+    div.className = 'sujet';
+    
+    let html = `<h3>Sujet ${num} – ${s.annee} (${s.session}) <span class="badge">${s.titre}</span></h3>`;
+    
+    // PHYSIQUE-CHIMIE
+    html += `<div><strong>⚡ PARTIE 1 – PHYSIQUE-CHIMIE</strong></div>`;
+    s.physique.forEach((ex, i) => {
+      html += `<div class="exercice"><strong>${ex.q}</strong></div>`;
+      html += `<textarea id="physique-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      html += `<button onclick="corrigerExo('physique-${num}-${i}', \`${ex.rep.replace(/`/g, '\\`')}\`, ${ex.pts})">Corriger avec IA</button>`;
+      html += `<button onclick="afficherCorrection('corr-physique-${num}-${i}')">Voir correction</button>`;
+      html += `<div id="corr-physique-${num}-${i}" class="correction">${ex.rep}</div>`;
+    });
+    
+    // SVT
+    html += `<div><strong>🌿 PARTIE 2 – SCIENCES DE LA VIE ET DE LA TERRE</strong></div>`;
+    s.svt.forEach((ex, i) => {
+      html += `<div class="exercice"><strong>${ex.q}</strong></div>`;
+      html += `<textarea id="svt-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
+      html += `<button onclick="corrigerExo('svt-${num}-${i}', \`${ex.rep.replace(/`/g, '\\`')}\`, ${ex.pts})">Corriger avec IA</button>`;
+      html += `<button onclick="afficherCorrection('corr-svt-${num}-${i}')">Voir correction</button>`;
+      html += `<div id="corr-svt-${num}-${i}" class="correction">${ex.rep}</div>`;
+    });
+    
+    html += `<hr>`;
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+async function corrigerExo(idTextarea, reponseAttendue, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
+    alert("Clé API non configurée. Vérifie les secrets GitHub.");
+    return;
+  }
+  const prompt = `Corrige cette réponse d'élève en sciences (physique ou SVT). Réponse attendue : "${reponseAttendue}". Réponse élève : "${texte}". Note sur ${pts}. Réponds en JSON : {"note": nombre, "commentaire": "explication courte"}`;
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: prompt, messages: [{ role: "user", content: prompt }] })
+    });
+    const data = await res.json();
+    const json = JSON.parse(data.content[0].text);
+    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
+  } catch(e) { alert("Erreur IA : " + e.message); }
+}
+
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+afficherSujets();
+</script>
+</body>
+</html>
