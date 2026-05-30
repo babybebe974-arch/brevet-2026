@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatismes – Histoire-Géo & EMC</title>
+<script src="config.js"></script>
+<style>
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 800px; margin: 0 auto; }
+  .question { background: #111118; border-left: 4px solid #5a9cf0; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; border-radius: 6px; }
+  button { background: #5a9cf0; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-top: 0.5rem; }
+  .feedback { margin-top: 0.5rem; font-size: 0.9rem; }
+  .score { position: sticky; top: 0; background: #09090f; padding: 1rem; border-bottom: 1px solid #2a2a35; text-align: right; font-size: 1.2rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>⚡ Automatismes – Histoire-Géo & EMC</h1>
+  <div class="score">✅ <span id="score">0</span> / <span id="total">30</span></div>
+  <div id="quiz"></div>
+</div>
+<script>
+  let questions = [];
+  let done = JSON.parse(localStorage.getItem('automatismes_histgeo') || '[]');
+
+  async function chargerQuestions() {
+    const res = await fetch('data/histgeo-emc.json');
+    const data = await res.json();
+    let toutes = data.cartes || [];
+    for (let i = toutes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [toutes[i], toutes[j]] = [toutes[j], toutes[i]];
+    }
+    questions = toutes.slice(0, 30);
+    document.getElementById('total').innerText = questions.length;
+    afficherQuiz();
+    mettreAJourScore();
+  }
+
+  function afficherQuiz() {
+    const div = document.getElementById('quiz');
+    div.innerHTML = '';
+    questions.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'question';
+      block.innerHTML = `<strong>${i+1}. ${q.question}</strong><br>
+        <input type="text" id="input-${i}" placeholder="Votre réponse..." autocomplete="off">
+        <div id="fb-${i}" class="feedback"></div>
+        <button onclick="verifier(${i})">Vérifier</button>`;
+      div.appendChild(block);
+      if (done.includes(i)) {
+        document.getElementById(`fb-${i}`).innerHTML = '✅ Déjà réussi !';
+        document.getElementById(`fb-${i}`).style.color = '#7ecf8a';
+      }
+    });
+  }
+
+  window.verifier = function(idx) {
+    const user = document.getElementById(`input-${idx}`).value.trim().toLowerCase();
+    const expected = questions[idx].reponse.toLowerCase();
+    const fb = document.getElementById(`fb-${idx}`);
+    if (user === expected) {
+      fb.innerHTML = '✅ Correct !';
+      fb.style.color = '#7ecf8a';
+      if (!done.includes(idx)) done.push(idx);
+      localStorage.setItem('automatismes_histgeo', JSON.stringify(done));
+    } else {
+      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].reponse}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
+      fb.style.color = '#f55a5a';
+    }
+    mettreAJourScore();
+  };
+
+  function mettreAJourScore() {
+    document.getElementById('score').innerText = done.length;
+  }
+
+  chargerQuestions();
+</script>
+</body>
+</html>
