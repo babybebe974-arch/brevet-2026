@@ -2,350 +2,89 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📖 Automatismes Français — Brevet 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Automatismes Français - Brevet 2026</title>
+<script src="config.js"></script>
 <style>
-  :root {
-    --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a26;
-    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
-    --text: #f0efe8; --muted: rgba(240,239,232,0.45); --muted2: rgba(240,239,232,0.25);
-    --gold: #e8c87a; --gold2: #f5dfa0; --teal: #5ecfb1; --coral: #f07a5a;
-    --blue: #6ab4f5; --purple: #a98af5; --green: #7ecf8a; --red: #f55a5a;
-    --w: #7eb8f5; --n: #f59eb8; --radius: 14px; --radius-sm: 8px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-  #screen-home { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; background: radial-gradient(ellipse at 50% -10%, rgba(94,207,177,0.1) 0%, transparent 55%); }
-  .home-badge { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--teal); border: 1px solid rgba(94,207,177,0.3); background: rgba(94,207,177,0.07); padding: 5px 14px; border-radius: 999px; margin-bottom: 24px; }
-  .home-title { font-family: 'Syne', sans-serif; font-size: clamp(36px, 7vw, 64px); font-weight: 800; text-align: center; line-height: 1.1; margin-bottom: 12px; }
-  .home-title em { color: var(--teal); font-style: italic; }
-  .home-sub { color: var(--muted); font-size: 15px; text-align: center; max-width: 480px; line-height: 1.7; margin-bottom: 36px; }
-  .cats-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
-  .who-selector { display: flex; gap: 12px; margin-bottom: 28px; }
-  .who-btn { padding: 10px 28px; border-radius: 999px; border: 1px solid var(--border2); background: var(--bg2); color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
-  .who-btn.active-w { border-color: #7eb8f5; background: rgba(126,184,245,0.1); color: #7eb8f5; }
-  .who-btn.active-n { border-color: #f59eb8; background: rgba(245,158,184,0.1); color: #f59eb8; }
-  .start-btn { background: linear-gradient(135deg, var(--teal), #3aad8a); border: none; border-radius: var(--radius); padding: 16px 48px; color: #060f0a; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 32px rgba(94,207,177,0.25); }
-  .start-btn:hover { transform: translateY(-2px); }
-  .start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .home-stats { display: flex; gap: 24px; margin-top: 24px; }
-  .home-stat { text-align: center; }
-  .home-stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--teal); }
-  .home-stat-lbl { font-size: 10px; color: var(--muted2); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
-  #screen-quiz { display: none; min-height: 100vh; }
-  .quiz-header { position: sticky; top: 0; z-index: 10; background: rgba(10,15,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
-  .quiz-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--teal); }
-  .quiz-cat { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
-  .quiz-who-badge { margin-left: auto; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); color: var(--muted); }
-  .prog-wrap { height: 3px; background: var(--border); }
-  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--green)); transition: width 0.4s ease; }
-  .quiz-body { padding: 32px 24px; max-width: 620px; margin: 0 auto; }
-  .q-cat-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(94,207,177,0.3); color: var(--teal); background: rgba(94,207,177,0.07); margin-bottom: 12px; }
-  .q-counter { font-size: 11px; color: var(--muted2); font-family: 'DM Mono', monospace; margin-bottom: 8px; }
-  .q-text { font-family: 'Syne', sans-serif; font-size: clamp(19px, 3.5vw, 26px); font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
-  .direct-wrap { margin-bottom: 20px; }
-  .direct-input { width: 100%; background: var(--bg2); border: 2px solid var(--border2); border-radius: var(--radius); padding: 16px 20px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; outline: none; text-align: center; }
-  .direct-input:focus { border-color: var(--teal); }
-  .direct-input.correct { border-color: var(--green); color: var(--green); }
-  .direct-input.wrong { border-color: var(--red); color: var(--red); }
-  .valider-btn { width: 100%; margin-top: 10px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 11px; color: var(--muted); cursor: pointer; }
-  .valider-btn:hover { background: rgba(255,255,255,0.04); }
-  .feedback { padding: 14px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 18px; display: none; line-height: 1.6; }
-  .feedback.ok { background: rgba(126,207,138,0.08); border: 1px solid rgba(126,207,138,0.3); color: var(--green); }
-  .feedback.ko { background: rgba(245,85,85,0.08); border: 1px solid rgba(245,85,85,0.3); color: var(--red); }
-  .next-btn { width: 100%; background: rgba(94,207,177,0.1); border: 1px solid rgba(94,207,177,0.3); border-radius: var(--radius); padding: 13px; color: var(--teal); cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; display: none; }
-  .next-btn:hover { background: rgba(94,207,177,0.18); transform: translateY(-1px); }
-  .submit-btn { width: 100%; background: linear-gradient(135deg, var(--teal), #3aad8a); border: none; border-radius: var(--radius); padding: 14px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 15px; transition: all 0.2s; display: none; }
-  .submit-btn:hover { transform: translateY(-1px); }
-  #screen-results { display: none; padding: 40px 24px; max-width: 620px; margin: 0 auto; }
-  .result-crown { text-align: center; font-size: 48px; margin-bottom: 12px; }
-  .result-score { font-family: 'Syne', sans-serif; font-size: 72px; font-weight: 800; text-align: center; line-height: 1; margin-bottom: 6px; }
-  .result-sub { text-align: center; color: var(--muted); font-size: 13px; font-family: 'DM Mono', monospace; margin-bottom: 16px; }
-  .result-bar-wrap { background: var(--bg3); border-radius: 999px; height: 8px; margin-bottom: 12px; overflow: hidden; }
-  .result-bar-fill { height: 100%; border-radius: 999px; transition: width 1.2s ease; }
-  .result-msg { text-align: center; font-size: 17px; font-weight: 600; margin-bottom: 32px; font-family: 'Syne', sans-serif; }
-  .recap-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
-  .recap-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); }
-  .recap-icon { font-size: 14px; flex-shrink: 0; margin-top: 3px; }
-  .recap-q { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
-  .recap-a { font-size: 13px; font-weight: 600; }
-  .recap-correct { color: var(--green); }
-  .recap-wrong { color: var(--red); }
-  .recap-points { font-size: 11px; color: var(--gold); margin-top: 4px; font-family: 'DM Mono', monospace; }
-  .result-actions { display: flex; gap: 12px; }
-  .btn-retry { flex: 1; background: linear-gradient(135deg, var(--teal), #3aad8a); border: none; border-radius: var(--radius); padding: 13px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; }
-  .btn-hub { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); padding: 13px; color: var(--muted); cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
-  .btn-retry:hover, .btn-hub:hover { transform: translateY(-1px); background: rgba(255,255,255,0.05); }
-  .saving-badge { text-align: center; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); margin-top: 14px; }
-  @media(max-width:480px) { .direct-input { font-size: 16px; } }
+  body { font-family: 'DM Sans', sans-serif; background: #09090f; color: #f0ede8; padding: 2rem; }
+  .container { max-width: 800px; margin: 0 auto; }
+  .question { background: #111118; border-left: 4px solid #5ecfb1; padding: 1rem; margin: 1rem 0; }
+  .feedback { margin-top: 0.5rem; font-size: 0.9rem; }
+  button { background: #5ecfb1; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; }
 </style>
 </head>
 <body>
-
-<div id="screen-home">
-  <div class="home-badge">📖 Automatismes — Français Brevet 2026</div>
-  <h1 class="home-title">Français<br><em>Automatismes</em></h1>
-  <p class="home-sub">20 questions · 20 min · conjugaison, grammaire, orthographe, figures de style</p>
-  <div class="cats-grid">
-    <span style="font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;">Toutes les notions du programme</span>
-  </div>
-  <div class="who-selector">
-    <button class="who-btn" id="btn-w" onclick="selectWho('W')">Wassil</button>
-    <button class="who-btn" id="btn-n" onclick="selectWho('N')">Nawal</button>
-  </div>
-  <button class="start-btn" id="start-btn" onclick="startQuiz()" disabled>Commencer la révision 📖</button>
-  <div class="home-stats">
-    <div class="home-stat"><div class="home-stat-num">20</div><div class="home-stat-lbl">Questions</div></div>
-    <div class="home-stat"><div class="home-stat-num">20<span style="font-size:14px">min</span></div><div class="home-stat-lbl">Durée</div></div>
-  </div>
+<div class="container">
+  <h1>Automatismes Français</h1>
+  <div id="quiz"></div>
 </div>
-
-<div id="screen-quiz">
-  <div class="quiz-header">
-    <div><div class="quiz-logo">Automatismes Français</div><div class="quiz-cat">Brevet 2026</div></div>
-    <div class="quiz-who-badge" id="quiz-who-badge">—</div>
-  </div>
-  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-  <div class="quiz-body">
-    <div class="q-cat-tag">📖 Orthographe & grammaire</div>
-    <div class="q-counter" id="q-counter">Question 1 / 20</div>
-    <div class="q-text" id="q-text">Chargement...</div>
-    <div id="zone-direct" class="direct-wrap">
-      <input class="direct-input" id="direct-input" type="text" placeholder="Ta réponse (texte)" autocomplete="off" />
-      <button class="valider-btn" id="valider-btn" onclick="answerDirect()">Valider (Entrée)</button>
-    </div>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question suivante →</button>
-    <button class="submit-btn" id="submit-btn" onclick="showResults()">Voir mon bilan 📊</button>
-  </div>
-</div>
-
-<div id="screen-results">
-  <div class="result-crown" id="result-crown">📖</div>
-  <div class="result-score" id="result-score">0/20</div>
-  <div class="result-sub">Score — Français automatismes</div>
-  <div class="result-bar-wrap"><div class="result-bar-fill" id="result-bar" style="width:0%"></div></div>
-  <div class="result-msg" id="result-msg">—</div>
-  <div class="recap-list" id="recap-list"></div>
-  <div class="result-actions">
-    <button class="btn-retry" onclick="restartQuiz()">↺ Nouvelle série</button>
-    <a class="btn-hub" href="index.html" target="_blank">🏠 Hub Central</a>
-  </div>
-  <div class="saving-badge" id="saving-badge">Sauvegarde en cours...</div>
-</div>
-
 <script>
-// ========== CONFIGURATION DES SHEETS (URLs mises à jour) ==========
-const SHEETS = {
-  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
-  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec'
-};
-
-// ========== BANQUE DE 40 QUESTIONS (niveau 3ème) ==========
-const BANQUE = [
-  { question: "Conjugue 'aller' au futur simple, 1ère personne du singulier", answer: "j'irai", explication: "Aller au futur : j'irai" },
-  { question: "Quel temps est utilisé : 'Il aurait mangé' ?", answer: "conditionnel passé", explication: "Auxiliaire au conditionnel présent + participe passé" },
-  { question: "Conjugue 'finir' à l'imparfait, 3ème personne du pluriel", answer: "ils finissaient", explication: "imparfait : je finissais, tu finissais, il finissait, nous finissions, vous finissiez, ils finissaient" },
-  { question: "'Que tu sois venu' — quel mode ?", answer: "subjonctif", explication: "Subjonctif après 'que' pour exprimer le doute ou le souhait" },
-  { question: "Quelle est la nature de 'rapidement' dans 'Il court rapidement' ?", answer: "adverbe", explication: "Adverbe modifiant le verbe" },
-  { question: "Donne la fonction de 'une pomme rouge' dans 'Il mange une pomme rouge'", answer: "COD", explication: "Répond à 'quoi ?'" },
-  { question: "'La maison dont je parle est belle' — 'dont' est ?", answer: "pronom relatif", explication: "Introduit une proposition relative" },
-  { question: "Quelle est l'orthographe correcte : 'il a cueilli' ou 'il a cueillit' ?", answer: "il a cueilli", explication: "Participe passé de cueillir" },
-  { question: "Synonyme de 'intrépide'", answer: "courageux", explication: "Intrépide = qui n'a pas peur" },
-  { question: "Antonyme de 'bénévole'", answer: "rémunéré", explication: "Bénévole = non payé → rémunéré" },
-  { question: "Que signifie le préfixe 'anti-' ?", answer: "contre", explication: "Anti- = contre" },
-  { question: "Donne un mot de la même famille que 'lumière'", answer: "lumineux", explication: "Famille : lumière, lumineux, illuminer" },
-  { question: "Figure de style : 'La vie est un long fleuve tranquille'", answer: "métaphore", explication: "Comparaison sans outil comparatif" },
-  { question: "Un alexandrin compte combien de syllabes ?", answer: "12", explication: "Vers classique de 12 syllabes" },
-  { question: "Une strophe de 4 vers s'appelle ?", answer: "quatrain", explication: "2=distique, 3=tercet, 4=quatrain" },
-  { question: "Donne la nature du mot 'que' dans 'Je pense que tu as raison'", answer: "conjonction de subordination", explication: "Introduit une proposition subordonnée" },
-  { question: "Dans quelle phrase y a-t-il une proposition subordonnée relative ? (parmi 4)", answer: "Le livre que tu lis est bon", explication: "'que tu lis' relative" },
-  { question: "Accorde : 'Elle s'est ___ les mains' (laver)", answer: "lavé", explication: "COD après → pas d'accord" },
-  { question: "Choisir la bonne forme : 'quand même' ou 'quand-même' ?", answer: "quand même", explication: "Deux mots sans trait d'union" },
-  { question: "Complète : 'Les élèves ___ contents' (être)", answer: "sont", explication: "3ème personne pluriel" },
-  { question: "Conjugue 'prendre' au présent, 3ème personne du singulier", answer: "prend", explication: "Il prend" },
-  { question: "Donne le participe passé de 'vouloir'", answer: "voulu", explication: "J'ai voulu" },
-  { question: "Quel est le pluriel de 'cheval' ?", answer: "chevaux", explication: "Exception : cheval → chevaux" },
-  { question: "Quelle est la fonction de 'à la plage' dans 'Il va à la plage' ?", answer: "COI", explication: "Complément d'objet indirect" },
-  { question: "Transforme à la forme négative : 'Il mange une pomme'", answer: "Il ne mange pas de pomme", explication: "Ne ... pas" }
-];
-
-let who = null;
-let questions = [];
-let current = 0;
-let score = 0;
-let answers = [];
-let answered = false;
-
-function normalize(s) {
-  if (!s) return "";
-  return s.toString().toLowerCase().trim()
-    .replace(/[^a-zàâçéèêëîïôûùüÿÿæœ']/g, '')
-    .replace(/^ +| +$/g, '');
-}
-
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function selectWho(w) {
-  who = w;
-  document.getElementById('btn-w').className = 'who-btn' + (w === 'W' ? ' active-w' : '');
-  document.getElementById('btn-n').className = 'who-btn' + (w === 'N' ? ' active-n' : '');
-  document.getElementById('start-btn').disabled = false;
-}
-
-function startQuiz() {
-  const pool = shuffle([...BANQUE]);
-  questions = pool.slice(0, 20);
-  current = 0;
-  score = 0;
-  answers = [];
-  answered = false;
-  document.getElementById('screen-home').style.display = 'none';
-  document.getElementById('screen-quiz').style.display = 'block';
-  document.getElementById('quiz-who-badge').textContent = who === 'W' ? 'Wassil' : 'Nawal';
-  renderQuestion();
-}
-
-function renderQuestion() {
-  answered = false;
-  const q = questions[current];
-  document.getElementById('q-counter').textContent = `Question ${current+1} / ${questions.length}`;
-  document.getElementById('prog-fill').style.width = `${((current) / questions.length) * 100}%`;
-  document.getElementById('q-text').textContent = q.question;
-  const fb = document.getElementById('feedback');
-  fb.style.display = 'none';
-  fb.className = 'feedback';
-  document.getElementById('next-btn').style.display = 'none';
-  document.getElementById('submit-btn').style.display = 'none';
-  const inp = document.getElementById('direct-input');
-  inp.value = '';
-  inp.disabled = false;
-  inp.className = 'direct-input';
-  inp.focus();
-  document.getElementById('valider-btn').disabled = false;
-  inp.onkeydown = (e) => { if (e.key === 'Enter' && !answered) answerDirect(); };
-}
-
-function answerDirect() {
-  if (answered) return;
-  const inp = document.getElementById('direct-input');
-  const val = inp.value.trim();
-  if (!val) return;
-  answered = true;
-  const q = questions[current];
-  const userNorm = normalize(val);
-  const correctNorm = normalize(q.answer);
-  const isCorrect = (userNorm === correctNorm);
-  if (isCorrect) score++;
-  inp.disabled = true;
-  inp.className = 'direct-input ' + (isCorrect ? 'correct' : 'wrong');
-  document.getElementById('valider-btn').disabled = true;
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback ' + (isCorrect ? 'ok' : 'ko');
-  let pointsMsg = isCorrect ? `✓ Bonne réponse ! +1 point` : `✗ Mauvaise réponse. +0 point`;
-  fb.innerHTML = `${pointsMsg}<br>${q.explication}<br><span style="font-size:12px;">Bonne réponse attendue : ${q.answer}</span>`;
-  fb.style.display = 'block';
-  answers.push({
-    question: q.question,
-    yourAnswer: val,
-    correct: q.answer,
-    isCorrect: isCorrect,
-    points: isCorrect ? 1 : 0
-  });
-  const isLast = current === questions.length - 1;
-  document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
-  document.getElementById('submit-btn').style.display = isLast ? 'block' : 'none';
-}
-
-function nextQuestion() {
-  current++;
-  renderQuestion();
-}
-
-async function showResults() {
-  document.getElementById('screen-quiz').style.display = 'none';
-  document.getElementById('screen-results').style.display = 'block';
-  const total = questions.length;
-  const percent = (score / total) * 100;
-  document.getElementById('result-score').textContent = `${score}/${total}`;
-  document.getElementById('result-crown').textContent = percent >= 80 ? '🏆' : (percent >= 60 ? '✅' : '💪');
-  setTimeout(() => {
-    const bar = document.getElementById('result-bar');
-    bar.style.background = 'linear-gradient(90deg, var(--green), var(--teal))';
-    bar.style.width = percent + '%';
-  }, 100);
-  const msgs = [
-    [16, 'Excellent ! Tu maîtrises les automatismes.'],
-    [12, 'Très bien, quelques révisions encore.'],
-    [8, 'En progrès, continue les automatismes.'],
-    [0, 'Courage, révise les règles et réessaie.']
+  const questions = [
+    {q: "Quelle est la nature de 'silencieuse' dans 'La forêt était silencieuse' ?", r: "adjectif qualificatif"},
+    {q: "Conjuguez 'parler' à l'imparfait, 3e personne du singulier.", r: "il parlait"},
+    {q: "Donnez l'infinitif du verbe 'coururent'.", r: "courir"},
+    {q: "Quel est le mode du verbe dans 'Il faut que tu viennes' ?", r: "subjonctif"},
+    {q: "Transformez 'Il mange une pomme' à la voix passive.", r: "Une pomme est mangée par lui"},
+    {q: "Donnez un synonyme de 'rapidement'.", r: "vite"},
+    {q: "Qu'est-ce qu'un complément d'objet direct (COD) ?", r: "Répond à 'quoi' ou 'qui' après un verbe sans préposition."},
+    {q: "Analysez 'grand' dans 'un grand arbre' : nature et fonction.", r: "adjectif épithète"},
+    {q: "Accordez le participe passé : 'Les fleurs que j'ai (cueillir)'.", r: "cueillies"},
+    {q: "Remplacez 'Marie' par un pronom : 'Je parle à Marie'.", r: "Je lui parle"},
+    {q: "Quelle est la fonction de 'le livre' dans 'Je lis le livre' ?", r: "COD"},
+    {q: "Donnez le contraire de 'joyeux'.", r: "triste"},
+    {q: "Conjuguez 'être' au futur simple, 2e personne du pluriel.", r: "vous serez"},
+    {q: "Qu'est-ce qu'une proposition subordonnée relative ?", r: "Introduite par un pronom relatif (qui, que, dont...)"},
+    {q: "Réécrivez au discours indirect : 'Il dit : \"Je viens demain\"'.", r: "Il dit qu'il vient le lendemain."},
+    {q: "Donnez un exemple de métaphore.", r: "Ses yeux sont des étoiles."},
+    {q: "Quel est le temps de 'avait mangé' ?", r: "plus-que-parfait"},
+    {q: "Transformez la phrase négative : 'Il vient toujours.'", r: "Il ne vient jamais."},
+    {q: "Donnez la fonction de 'à Paris' dans 'Je vais à Paris'.", r: "complément circonstanciel de lieu"},
+    {q: "Quel est le sujet dans 'Il pleut' ?", r: "sujet apparent 'il'"},
+    {q: "Accordez : 'Elle s'est (laver) les mains'.", r: "lavé (pas d'accord car COD après)"},
+    {q: "Qu'est-ce qu'une phrase impersonnelle ?", r: "Construite avec 'il' sans vrai sujet (ex: il faut)"},
+    {q: "Conjuguez 'finir' au présent de l'indicatif, 1re personne du pluriel.", r: "nous finissons"},
+    {q: "Donnez un adverbe de manière.", r: "doucement"},
+    {q: "Quelle est la différence entre 'et' et 'est' ?", r: "et = conjonction, est = verbe être"},
+    {q: "Analysez 'malgré la pluie' : nature et fonction.", r: "groupe prépositionnel, CC d'opposition"},
+    {q: "Réécrivez au passé simple : 'Il chante'", r: "Il chanta"},
+    {q: "Donnez un exemple d'hyperbole.", r: "Je meurs de faim."},
+    {q: "Qu'est-ce qu'un attribut du sujet ?", r: "Mot qui donne une qualité au sujet (il est content)"},
+    {q: "Conjuguez 'aller' au conditionnel présent, 3e personne du singulier.", r: "il irait"}
   ];
-  document.getElementById('result-msg').textContent = msgs.find(([m]) => score >= m)[1];
-  const recapList = document.getElementById('recap-list');
-  recapList.innerHTML = '';
-  answers.forEach((a, i) => {
-    const div = document.createElement('div');
-    div.className = 'recap-item';
-    div.innerHTML = `
-      <span class="recap-icon">${a.isCorrect ? '✓' : '✗'}</span>
-      <div>
-        <div class="recap-q">${i+1}. ${a.question}</div>
-        <div class="recap-a ${a.isCorrect ? 'recap-correct' : 'recap-wrong'}">
-          Ta réponse : "${a.yourAnswer}" — Attendu : "${a.correct}"
-        </div>
-        <div class="recap-points">${a.isCorrect ? '+1 point' : '0 point'}</div>
-      </div>
-    `;
-    recapList.appendChild(div);
-  });
-  await saveToSheet(score, total);
-}
+  let done = JSON.parse(localStorage.getItem('automatismes_francais') || '[]');
 
-async function saveToSheet(score, total) {
-  const badge = document.getElementById('saving-badge');
-  const url = SHEETS[who];
-  if (!url) { badge.textContent = '⚠ Sheet non configuré'; return; }
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'logAutomatismes',
-        matiere: 'Français',
-        serie: 'Automatismes Brevet',
-        nbQuestions: total,
-        score: score,
-        notionsReussies: answers.filter(a => a.isCorrect).map(a => a.question).join(', '),
-        notionsRatees: answers.filter(a => !a.isCorrect).map(a => a.question).join(', ')
-      })
+  function render() {
+    const div = document.getElementById('quiz');
+    div.innerHTML = '';
+    questions.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'question';
+      block.innerHTML = `<strong>${i+1}. ${q.q}</strong><br>
+        <input type="text" id="input-${i}" placeholder="Votre réponse" autocomplete="off">
+        <div id="fb-${i}" class="feedback"></div>
+        <button onclick="check(${i})">Vérifier</button>`;
+      div.appendChild(block);
     });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const result = await response.json();
-    if (result.success) {
-      badge.style.color = 'var(--teal)';
-      badge.textContent = '✓ Résultats sauvegardés dans ton Sheet Google';
-    } else {
-      throw new Error(result.error || 'Erreur inconnue');
-    }
-  } catch (e) {
-    console.error(e);
-    badge.style.color = 'var(--red)';
-    badge.textContent = `⚠ Sauvegarde impossible : ${e.message}`;
   }
-}
 
-function restartQuiz() {
-  document.getElementById('screen-results').style.display = 'none';
-  document.getElementById('screen-home').style.display = 'flex';
-}
+  window.check = function(idx) {
+    const user = document.getElementById(`input-${idx}`).value.trim().toLowerCase();
+    const expected = questions[idx].r.toLowerCase();
+    const fb = document.getElementById(`fb-${idx}`);
+    if (user === expected) {
+      fb.innerHTML = '✅ Correct';
+      fb.style.color = '#7ecf8a';
+      if (!done.includes(idx)) done.push(idx);
+    } else {
+      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].r}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
+      fb.style.color = '#f55a5a';
+    }
+    localStorage.setItem('automatismes_francais', JSON.stringify(done));
+  };
+
+  render();
 </script>
 </body>
 </html>
