@@ -2,363 +2,83 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ Automatismes Maths – Brevet 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Automatismes – Mathématiques</title>
+<script src="config.js"></script>
 <style>
-  :root {
-    --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a26;
-    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
-    --text: #f0efe8; --muted: rgba(240,239,232,0.45); --muted2: rgba(240,239,232,0.25);
-    --gold: #e8c87a; --gold2: #f5dfa0; --teal: #5ecfb1; --coral: #f07a5a;
-    --blue: #6ab4f5; --purple: #a98af5; --green: #7ecf8a; --red: #f55a5a;
-    --w: #7eb8f5; --n: #f59eb8; --radius: 14px; --radius-sm: 8px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-  #screen-home { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; background: radial-gradient(ellipse at 50% -10%, rgba(106,180,245,0.1) 0%, transparent 55%); }
-  .home-badge { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--blue); border: 1px solid rgba(106,180,245,0.3); background: rgba(106,180,245,0.07); padding: 5px 14px; border-radius: 999px; margin-bottom: 24px; }
-  .home-title { font-family: 'Syne', sans-serif; font-size: clamp(36px, 7vw, 64px); font-weight: 800; text-align: center; line-height: 1.1; margin-bottom: 12px; }
-  .home-title em { color: var(--blue); font-style: italic; }
-  .home-sub { color: var(--muted); font-size: 15px; text-align: center; max-width: 480px; line-height: 1.7; margin-bottom: 36px; }
-  .cats-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
-  .who-selector { display: flex; gap: 12px; margin-bottom: 28px; }
-  .who-btn { padding: 10px 28px; border-radius: 999px; border: 1px solid var(--border2); background: var(--bg2); color: var(--muted); cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
-  .who-btn.active-w { border-color: #7eb8f5; background: rgba(126,184,245,0.1); color: #7eb8f5; }
-  .who-btn.active-n { border-color: #f59eb8; background: rgba(245,158,184,0.1); color: #f59eb8; }
-  .start-btn { background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 16px 48px; color: #060f0a; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 32px rgba(106,180,245,0.25); }
-  .start-btn:hover { transform: translateY(-2px); }
-  .start-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .home-stats { display: flex; gap: 24px; margin-top: 24px; }
-  .home-stat { text-align: center; }
-  .home-stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; color: var(--blue); }
-  .home-stat-lbl { font-size: 10px; color: var(--muted2); font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
-  #screen-quiz { display: none; min-height: 100vh; }
-  .quiz-header { position: sticky; top: 0; z-index: 10; background: rgba(10,15,10,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 16px; }
-  .quiz-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: var(--blue); }
-  .quiz-cat { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
-  .quiz-who-badge { margin-left: auto; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border2); color: var(--muted); }
-  .prog-wrap { height: 3px; background: var(--border); }
-  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal)); transition: width 0.4s ease; }
-  .quiz-body { padding: 32px 24px; max-width: 620px; margin: 0 auto; }
-  .q-cat-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(106,180,245,0.3); color: var(--blue); background: rgba(106,180,245,0.07); margin-bottom: 12px; }
-  .q-counter { font-size: 11px; color: var(--muted2); font-family: 'DM Mono', monospace; margin-bottom: 8px; }
-  .q-text { font-family: 'Syne', sans-serif; font-size: clamp(19px, 3.5vw, 26px); font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
-  .direct-wrap { margin-bottom: 20px; }
-  .direct-input { width: 100%; background: var(--bg2); border: 2px solid var(--border2); border-radius: var(--radius); padding: 16px 20px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 700; outline: none; text-align: center; }
-  .direct-input:focus { border-color: var(--blue); }
-  .direct-input.correct { border-color: var(--green); color: var(--green); }
-  .direct-input.wrong { border-color: var(--red); color: var(--red); }
-  .valider-btn { width: 100%; margin-top: 10px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 11px; color: var(--muted); cursor: pointer; }
-  .valider-btn:hover { background: rgba(255,255,255,0.04); }
-  .feedback { padding: 14px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 18px; display: none; line-height: 1.6; }
-  .feedback.ok { background: rgba(126,207,138,0.08); border: 1px solid rgba(126,207,138,0.3); color: var(--green); }
-  .feedback.ko { background: rgba(245,85,85,0.08); border: 1px solid rgba(245,85,85,0.3); color: var(--red); }
-  .next-btn { width: 100%; background: rgba(106,180,245,0.1); border: 1px solid rgba(106,180,245,0.3); border-radius: var(--radius); padding: 13px; color: var(--blue); cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; display: none; }
-  .next-btn:hover { background: rgba(106,180,245,0.18); transform: translateY(-1px); }
-  .submit-btn { width: 100%; background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 14px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 15px; transition: all 0.2s; display: none; }
-  .submit-btn:hover { transform: translateY(-1px); }
-  #screen-results { display: none; padding: 40px 24px; max-width: 620px; margin: 0 auto; }
-  .result-crown { text-align: center; font-size: 48px; margin-bottom: 12px; }
-  .result-score { font-family: 'Syne', sans-serif; font-size: 72px; font-weight: 800; text-align: center; line-height: 1; margin-bottom: 6px; }
-  .result-sub { text-align: center; color: var(--muted); font-size: 13px; font-family: 'DM Mono', monospace; margin-bottom: 16px; }
-  .result-bar-wrap { background: var(--bg3); border-radius: 999px; height: 8px; margin-bottom: 12px; overflow: hidden; }
-  .result-bar-fill { height: 100%; border-radius: 999px; transition: width 1.2s ease; }
-  .result-msg { text-align: center; font-size: 17px; font-weight: 600; margin-bottom: 32px; font-family: 'Syne', sans-serif; }
-  .recap-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
-  .recap-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg2); }
-  .recap-icon { font-size: 14px; flex-shrink: 0; margin-top: 3px; }
-  .recap-q { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
-  .recap-a { font-size: 13px; font-weight: 600; }
-  .recap-correct { color: var(--green); }
-  .recap-wrong { color: var(--red); }
-  .recap-points { font-size: 11px; color: var(--gold); margin-top: 4px; font-family: 'DM Mono', monospace; }
-  .result-actions { display: flex; gap: 12px; }
-  .btn-retry { flex: 1; background: linear-gradient(135deg, var(--blue), #4a8fd4); border: none; border-radius: var(--radius); padding: 13px; color: #060f0a; cursor: pointer; font-weight: 700; font-size: 14px; transition: all 0.2s; }
-  .btn-hub { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); padding: 13px; color: var(--muted); cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
-  .btn-retry:hover, .btn-hub:hover { transform: translateY(-1px); background: rgba(255,255,255,0.05); }
-  .saving-badge { text-align: center; font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); margin-top: 14px; }
-  @media(max-width:480px) { .direct-input { font-size: 16px; } }
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 800px; margin: 0 auto; }
+  .question { background: #111118; border-left: 4px solid #f5a97f; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; border-radius: 6px; }
+  button { background: #f5a97f; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-top: 0.5rem; }
+  .feedback { margin-top: 0.5rem; font-size: 0.9rem; }
+  .score { position: sticky; top: 0; background: #09090f; padding: 1rem; border-bottom: 1px solid #2a2a35; text-align: right; font-size: 1.2rem; }
 </style>
 </head>
 <body>
-
-<div id="screen-home">
-  <div class="home-badge">⚡ Automatismes — Maths Brevet 2026</div>
-  <h1 class="home-title">Maths<br><em>Automatismes</em></h1>
-  <p class="home-sub">20 questions · 20 min · niveau Brevet · calculs, fractions, équations, conversions</p>
-  <div class="cats-grid">
-    <span style="font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;">Toutes les notions du programme</span>
-  </div>
-  <div class="who-selector">
-    <button class="who-btn" id="btn-w" onclick="selectWho('W')">Wassil</button>
-    <button class="who-btn" id="btn-n" onclick="selectWho('N')">Nawal</button>
-  </div>
-  <button class="start-btn" id="start-btn" onclick="startQuiz()" disabled>Commencer la révision ⚡</button>
-  <div class="home-stats">
-    <div class="home-stat"><div class="home-stat-num">20</div><div class="home-stat-lbl">Questions</div></div>
-    <div class="home-stat"><div class="home-stat-num">20<span style="font-size:14px">min</span></div><div class="home-stat-lbl">Durée</div></div>
-  </div>
+<div class="container">
+  <h1>⚡ Automatismes – Mathématiques</h1>
+  <div class="score">✅ <span id="score">0</span> / <span id="total">30</span></div>
+  <div id="quiz"></div>
 </div>
-
-<div id="screen-quiz">
-  <div class="quiz-header">
-    <div><div class="quiz-logo">Automatismes Maths</div><div class="quiz-cat">Brevet 2026</div></div>
-    <div class="quiz-who-badge" id="quiz-who-badge">—</div>
-  </div>
-  <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-  <div class="quiz-body">
-    <div class="q-cat-tag">⚡ Calcul direct</div>
-    <div class="q-counter" id="q-counter">Question 1 / 20</div>
-    <div class="q-text" id="q-text">Chargement...</div>
-    <div id="zone-direct" class="direct-wrap">
-      <input class="direct-input" id="direct-input" type="text" placeholder="Ta réponse (sans unité)" autocomplete="off" />
-      <button class="valider-btn" id="valider-btn" onclick="answerDirect()">Valider (Entrée)</button>
-    </div>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question suivante →</button>
-    <button class="submit-btn" id="submit-btn" onclick="showResults()">Voir mon bilan 📊</button>
-  </div>
-</div>
-
-<div id="screen-results">
-  <div class="result-crown" id="result-crown">⚡</div>
-  <div class="result-score" id="result-score">0/20</div>
-  <div class="result-sub">Score — Maths automatismes</div>
-  <div class="result-bar-wrap"><div class="result-bar-fill" id="result-bar" style="width:0%"></div></div>
-  <div class="result-msg" id="result-msg">—</div>
-  <div class="recap-list" id="recap-list"></div>
-  <div class="result-actions">
-    <button class="btn-retry" onclick="restartQuiz()">↺ Nouvelle série</button>
-    <a class="btn-hub" href="index.html" target="_blank">🏠 Hub Central</a>
-  </div>
-  <div class="saving-badge" id="saving-badge">Sauvegarde en cours...</div>
-</div>
-
 <script>
-// ========== CONFIGURATION DES SHEETS (URLs mises à jour) ==========
-const SHEETS = {
-  W: 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec',
-  N: 'https://script.google.com/macros/s/AKfycbwIxpEneIPYpVYWYfid7MBV472VhKJd2e3ahKuMFTBwg-3rRkmpBJA9QhOzrBZyQpN3/exec'
-};
+  let questions = [];
+  let done = JSON.parse(localStorage.getItem('automatismes_maths') || '[]');
 
-// ========== BANQUE DE 40 QUESTIONS (niveau 3ème, difficulté augmentée) ==========
-const BANQUE = [
-  { question: "Calculer 2,5 × 1,4", answer: "3.5", explication: "2,5 × 1,4 = 3,5" },
-  { question: "Simplifier la fraction 18/24", answer: "3/4", explication: "18/24 = 3/4" },
-  { question: "Racine carrée de 64", answer: "8", explication: "√64 = 8" },
-  { question: "15% de 120", answer: "18", explication: "0,15 × 120 = 18" },
-  { question: "Résoudre 3x = 21", answer: "7", explication: "x = 21/3 = 7" },
-  { question: "2,5 heures en minutes", answer: "150", explication: "2,5 × 60 = 150" },
-  { question: "Périmètre d'un carré de côté 7 cm", answer: "28", explication: "4 × 7 = 28 (unité cm, ne pas écrire)" },
-  { question: "Aire d'un rectangle de 9 m sur 4 m", answer: "36", explication: "9 × 4 = 36 (m²)" },
-  { question: "Écriture décimale de 3/5", answer: "0.6", explication: "3/5 = 0,6" },
-  { question: "(-3) × (-5)", answer: "15", explication: "Produit de deux négatifs = positif" },
-  { question: "Développer (x+4)²", answer: "x²+8x+16", explication: "(a+b)² = a²+2ab+b²" },
-  { question: "2x + 3 = 11 → x = ?", answer: "4", explication: "2x = 8 → x=4" },
-  { question: "10⁴ = ?", answer: "10000", explication: "10⁴ = 10 000" },
-  { question: "Médiane de 3, 7, 9, 11, 15", answer: "9", explication: "Valeur centrale" },
-  { question: "80 € − 20% = ?", answer: "64", explication: "80 × 0,8 = 64" },
-  { question: "4/5 ÷ 2/3", answer: "6/5", explication: "4/5 × 3/2 = 12/10 = 6/5" },
-  { question: "f(x)=x²-1, image de -3", answer: "8", explication: "(-3)²-1 = 9-1 = 8" },
-  { question: "5x - 8 > 2 → solution", answer: "x>2", explication: "5x > 10 → x>2" },
-  { question: "Distance A(0,0) et B(3,4)", answer: "5", explication: "√(3²+4²)=5" },
-  { question: "PGCD de 24 et 36", answer: "12", explication: "24=12×2, 36=12×3" },
-  { question: "Volume d'un cube de côté 3 cm", answer: "27", explication: "3³ = 27 (cm³)" },
-  { question: "1250 mL en L", answer: "1.25", explication: "1250 ÷ 1000 = 1,25 L" },
-  { question: "1,2 h en minutes", answer: "72", explication: "1,2 × 60 = 72 min" },
-  { question: "3/4 + 1/2", answer: "5/4", explication: "3/4 + 2/4 = 5/4" },
-  { question: "0,25 × 0,4", answer: "0.1", explication: "0,25 × 0,4 = 0,1" },
-  { question: "Factoriser 4x + 12", answer: "4(x+3)", explication: "4x+12 = 4(x+3)" },
-  { question: "Résoudre x² = 49", answer: "7", explication: "x = 7 ou x = -7 (accepter 7)" },
-  { question: "2/3 de 90", answer: "60", explication: "90 × 2/3 = 60" },
-  { question: "Périmètre d'un cercle de rayon 5 cm (π≈3,14)", answer: "31.4", explication: "2π×5 ≈ 31,4" },
-  { question: "Aire d'un disque de rayon 3 cm (π≈3,14)", answer: "28.26", explication: "π×3² ≈ 28,26" },
-  { question: "Résoudre 2(x+3) = 10", answer: "2", explication: "2x+6=10 → 2x=4 → x=2" },
-  { question: "Calculer 3² + 4²", answer: "25", explication: "9+16=25" },
-  { question: "Convertir 3,5 km en m", answer: "3500", explication: "3,5 × 1000 = 3500" },
-  { question: "Calculer 5! (factorielle 5)", answer: "120", explication: "5×4×3×2×1=120" },
-  { question: "Résoudre x/4 = 7", answer: "28", explication: "x = 7×4 = 28" },
-  { question: "Donner l'écriture scientifique de 45000", answer: "4.5e4", explication: "4,5 × 10⁴" }
-];
-
-let who = null;
-let questions = [];
-let current = 0;
-let score = 0;
-let answers = [];
-let answered = false;
-
-// Normalisation des réponses (supprime unités, espaces, convertit virgule)
-function normalize(s) {
-  if (!s) return "";
-  return s.toString().toLowerCase().trim()
-    .replace(/[^0-9.,\-/x²+]/g, '')
-    .replace(',', '.')
-    .replace(/^0+/, '');
-}
-
-function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function selectWho(w) {
-  who = w;
-  document.getElementById('btn-w').className = 'who-btn' + (w === 'W' ? ' active-w' : '');
-  document.getElementById('btn-n').className = 'who-btn' + (w === 'N' ? ' active-n' : '');
-  document.getElementById('start-btn').disabled = false;
-}
-
-function startQuiz() {
-  const pool = shuffle([...BANQUE]);
-  questions = pool.slice(0, 20);
-  current = 0;
-  score = 0;
-  answers = [];
-  answered = false;
-  document.getElementById('screen-home').style.display = 'none';
-  document.getElementById('screen-quiz').style.display = 'block';
-  document.getElementById('quiz-who-badge').textContent = who === 'W' ? 'Wassil' : 'Nawal';
-  renderQuestion();
-}
-
-function renderQuestion() {
-  answered = false;
-  const q = questions[current];
-  document.getElementById('q-counter').textContent = `Question ${current+1} / ${questions.length}`;
-  document.getElementById('prog-fill').style.width = `${((current) / questions.length) * 100}%`;
-  document.getElementById('q-text').textContent = q.question;
-  const fb = document.getElementById('feedback');
-  fb.style.display = 'none';
-  fb.className = 'feedback';
-  document.getElementById('next-btn').style.display = 'none';
-  document.getElementById('submit-btn').style.display = 'none';
-  const inp = document.getElementById('direct-input');
-  inp.value = '';
-  inp.disabled = false;
-  inp.className = 'direct-input';
-  inp.focus();
-  document.getElementById('valider-btn').disabled = false;
-  inp.onkeydown = (e) => { if (e.key === 'Enter' && !answered) answerDirect(); };
-}
-
-function answerDirect() {
-  if (answered) return;
-  const inp = document.getElementById('direct-input');
-  const val = inp.value.trim();
-  if (!val) return;
-  answered = true;
-  const q = questions[current];
-  const userNorm = normalize(val);
-  const correctNorm = normalize(q.answer);
-  const isCorrect = (userNorm === correctNorm);
-  if (isCorrect) score++;
-  inp.disabled = true;
-  inp.className = 'direct-input ' + (isCorrect ? 'correct' : 'wrong');
-  document.getElementById('valider-btn').disabled = true;
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback ' + (isCorrect ? 'ok' : 'ko');
-  let pointsMsg = isCorrect ? `✓ Bonne réponse ! +1 point` : `✗ Mauvaise réponse. +0 point`;
-  fb.innerHTML = `${pointsMsg}<br>${q.explication}<br><span style="font-size:12px;">Bonne réponse attendue : ${q.answer}</span>`;
-  fb.style.display = 'block';
-  answers.push({
-    question: q.question,
-    yourAnswer: val,
-    correct: q.answer,
-    isCorrect: isCorrect,
-    points: isCorrect ? 1 : 0
-  });
-  const isLast = current === questions.length - 1;
-  document.getElementById('next-btn').style.display = isLast ? 'none' : 'block';
-  document.getElementById('submit-btn').style.display = isLast ? 'block' : 'none';
-}
-
-function nextQuestion() {
-  current++;
-  renderQuestion();
-}
-
-async function showResults() {
-  document.getElementById('screen-quiz').style.display = 'none';
-  document.getElementById('screen-results').style.display = 'block';
-  const total = questions.length;
-  const percent = (score / total) * 100;
-  document.getElementById('result-score').textContent = `${score}/${total}`;
-  document.getElementById('result-crown').textContent = percent >= 80 ? '🏆' : (percent >= 60 ? '✅' : '💪');
-  setTimeout(() => {
-    const bar = document.getElementById('result-bar');
-    bar.style.background = 'linear-gradient(90deg, var(--green), var(--blue))';
-    bar.style.width = percent + '%';
-  }, 100);
-  const msgs = [
-    [16, 'Excellent ! Tu maîtrises les automatismes.'],
-    [12, 'Très bien, quelques révisions encore.'],
-    [8, 'En progrès, continue les automatismes.'],
-    [0, 'Courage, révise les règles et réessaie.']
-  ];
-  document.getElementById('result-msg').textContent = msgs.find(([m]) => score >= m)[1];
-  const recapList = document.getElementById('recap-list');
-  recapList.innerHTML = '';
-  answers.forEach((a, i) => {
-    const div = document.createElement('div');
-    div.className = 'recap-item';
-    div.innerHTML = `
-      <span class="recap-icon">${a.isCorrect ? '✓' : '✗'}</span>
-      <div>
-        <div class="recap-q">${i+1}. ${a.question}</div>
-        <div class="recap-a ${a.isCorrect ? 'recap-correct' : 'recap-wrong'}">
-          Ta réponse : "${a.yourAnswer}" — Attendu : "${a.correct}"
-        </div>
-        <div class="recap-points">${a.isCorrect ? '+1 point' : '0 point'}</div>
-      </div>
-    `;
-    recapList.appendChild(div);
-  });
-  await saveToSheet(score, total);
-}
-
-async function saveToSheet(score, total) {
-  const badge = document.getElementById('saving-badge');
-  const url = SHEETS[who];
-  if (!url) { badge.textContent = '⚠ Sheet non configuré'; return; }
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'logAutomatismes',
-        matiere: 'Mathématiques',
-        serie: 'Automatismes Brevet',
-        nbQuestions: total,
-        score: score,
-        notionsReussies: answers.filter(a => a.isCorrect).map(a => a.question).join(', '),
-        notionsRatees: answers.filter(a => !a.isCorrect).map(a => a.question).join(', ')
-      })
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const result = await response.json();
-    if (result.success) {
-      badge.style.color = 'var(--teal)';
-      badge.textContent = '✓ Résultats sauvegardés dans ton Sheet Google';
-    } else {
-      throw new Error(result.error || 'Erreur inconnue');
+  async function chargerQuestions() {
+    const res = await fetch('data/maths.json');
+    const data = await res.json();
+    let toutes = data.cartes || [];
+    for (let i = toutes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [toutes[i], toutes[j]] = [toutes[j], toutes[i]];
     }
-  } catch (e) {
-    console.error(e);
-    badge.style.color = 'var(--red)';
-    badge.textContent = `⚠ Sauvegarde impossible : ${e.message}`;
+    questions = toutes.slice(0, 30);
+    document.getElementById('total').innerText = questions.length;
+    afficherQuiz();
+    mettreAJourScore();
   }
-}
 
-function restartQuiz() {
-  document.getElementById('screen-results').style.display = 'none';
-  document.getElementById('screen-home').style.display = 'flex';
-}
+  function afficherQuiz() {
+    const div = document.getElementById('quiz');
+    div.innerHTML = '';
+    questions.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'question';
+      block.innerHTML = `<strong>${i+1}. ${q.question}</strong><br>
+        <input type="text" id="input-${i}" placeholder="Votre réponse..." autocomplete="off">
+        <div id="fb-${i}" class="feedback"></div>
+        <button onclick="verifier(${i})">Vérifier</button>`;
+      div.appendChild(block);
+      if (done.includes(i)) {
+        document.getElementById(`fb-${i}`).innerHTML = '✅ Déjà réussi !';
+        document.getElementById(`fb-${i}`).style.color = '#7ecf8a';
+      }
+    });
+  }
+
+  window.verifier = function(idx) {
+    const user = document.getElementById(`input-${idx}`).value.trim().toLowerCase();
+    const expected = questions[idx].reponse.toLowerCase();
+    const fb = document.getElementById(`fb-${idx}`);
+    if (user === expected) {
+      fb.innerHTML = '✅ Correct !';
+      fb.style.color = '#7ecf8a';
+      if (!done.includes(idx)) done.push(idx);
+      localStorage.setItem('automatismes_maths', JSON.stringify(done));
+    } else {
+      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].reponse}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
+      fb.style.color = '#f55a5a';
+    }
+    mettreAJourScore();
+  };
+
+  function mettreAJourScore() {
+    document.getElementById('score').innerText = done.length;
+  }
+
+  chargerQuestions();
 </script>
 </body>
 </html>
