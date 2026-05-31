@@ -1,150 +1,100 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>📖 Fiches de révision – Brevet 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
-        .container { max-width: 1100px; margin: 0 auto; background: #111118; border-radius: 2rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
-        h1 { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.25rem; }
-        .math-color { color: #5ecfb1; }
-        .sub { color: #9aaec9; margin-bottom: 2rem; font-size: 0.9rem; border-left: 3px solid #5ecfb1; padding-left: 1rem; }
-        .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 1px solid #2a3452; padding-bottom: 0.5rem; }
-        .tab-btn { background: none; border: none; padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: 600; color: #9aaec9; cursor: pointer; border-radius: 40px; transition: 0.2s; }
-        .tab-btn.active { background: #1e2a3e; color: #5ecfb1; border: 1px solid #5ecfb1; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .matiere-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; color: #e8c87a; margin-bottom: 1.5rem; }
-        .chapitre-card { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.2rem; margin-bottom: 1.5rem; overflow: hidden; }
-        .chapitre-header { background: #0a0a0f; padding: 1rem 1.2rem; border-bottom: 1px solid #2a3452; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .chapitre-nom { font-weight: 700; font-size: 1.1rem; color: #5ecfb1; }
-        .chapitre-toggle { color: #5ecfb1; font-size: 0.8rem; }
-        .chapitre-body { padding: 1.2rem; display: none; border-top: 1px solid #2a3452; }
-        .chapitre-body.open { display: block; }
-        .section { margin-bottom: 1.5rem; }
-        .section-title { font-weight: 600; color: #e8c87a; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-        .notion { color: #e74c3c; font-weight: 600; background: rgba(231, 76, 60, 0.15); padding: 0.1rem 0.3rem; border-radius: 4px; }
-        .keyword-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-        .keyword-badge { background: #1e2a3e; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: #5ecfb1; }
-        .footer { margin-top: 2rem; text-align: center; font-size: 0.7rem; color: #555; border-top: 1px solid #2a3452; padding-top: 1.5rem; }
-        hr { border-color: #2a3452; margin: 1rem 0; }
-        .chargement { text-align: center; padding: 2rem; color: #aaa; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📖 Fiches de révision – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#09090f;color:#f0ede8;font-family:'DM Sans',sans-serif;padding:1rem;}
+    .container{max-width:1100px;margin:0 auto;background:#111118;border-radius:2rem;padding:2rem;border:1px solid rgba(94,207,177,0.2);}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:0.25rem;color:#f39c12;}
+    .sub{color:#9aaec9;margin-bottom:2rem;border-left:3px solid #f39c12;padding-left:1rem;}
+    .tabs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;border-bottom:1px solid #2a3452;padding-bottom:0.5rem;}
+    .tab-btn{background:none;border:none;padding:0.5rem 1.2rem;font-size:1rem;font-weight:600;color:#9aaec9;cursor:pointer;border-radius:40px;}
+    .tab-btn.active{background:#1e2a3e;color:#f39c12;border:1px solid #f39c12;}
+    .tab-content{display:none;}
+    .tab-content.active{display:block;}
+    .matiere-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:#e8c87a;margin-bottom:1.5rem;}
+    .chapitre-card{background:#0c1222;border:1px solid #2a3452;border-radius:1.2rem;margin-bottom:1.5rem;overflow:hidden;}
+    .chapitre-header{background:#0a0a0f;padding:1rem 1.2rem;border-bottom:1px solid #2a3452;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+    .chapitre-nom{font-weight:700;font-size:1.1rem;color:#5ecfb1;}
+    .chapitre-body{padding:1.2rem;display:none;border-top:1px solid #2a3452;}
+    .chapitre-body.open{display:block;}
+    .section{margin-bottom:1.5rem;}
+    .section-title{font-weight:600;color:#e8c87a;margin-bottom:0.5rem;font-size:0.9rem;text-transform:uppercase;}
+    .notion{color:#e74c3c;font-weight:600;background:rgba(231,76,60,0.15);padding:0.1rem 0.3rem;border-radius:4px;}
+    .keyword-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;}
+    .keyword-badge{background:#1e2a3e;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;color:#5ecfb1;}
+    .footer{margin-top:2rem;text-align:center;font-size:0.7rem;color:#555;border-top:1px solid #2a3452;padding-top:1.5rem;}
+  </style>
 </head>
 <body>
 <div class="container">
-    <h1>📖 Fiches de révision <span class="math-color">Brevet 2026</span></h1>
-    <div class="sub">Résumés de cours par chapitre – Notions clés en rouge</div>
+  <h1>📖 Fiches de révision</h1>
+  <div class="sub">Brevet 2026 – Résumés de cours par chapitre – Notions clés en rouge</div>
 
-    <div class="tabs">
-        <button class="tab-btn active" data-matiere="francais">🇫🇷 Français</button>
-        <button class="tab-btn" data-matiere="maths">📐 Maths</button>
-        <button class="tab-btn" data-matiere="histoire">🌍 Histoire-Géo & EMC</button>
-        <button class="tab-btn" data-matiere="sciences">🔬 Sciences</button>
-    </div>
+  <div class="tabs">
+    <button class="tab-btn active" data-matiere="francais">🇫🇷 Français</button>
+    <button class="tab-btn" data-matiere="maths">📐 Maths</button>
+    <button class="tab-btn" data-matiere="histoire">🌍 Histoire-Géo & EMC</button>
+    <button class="tab-btn" data-matiere="sciences">🔬 Sciences</button>
+  </div>
 
-    <div id="tab-francais" class="tab-content active">
-        <div class="matiere-title">Français</div>
-        <div id="fiches-francais" class="chargement">⏳ Chargement des fiches...</div>
-    </div>
-    <div id="tab-maths" class="tab-content">
-        <div class="matiere-title">Mathématiques</div>
-        <div id="fiches-maths" class="chargement">⏳ Chargement...</div>
-    </div>
-    <div id="tab-histoire" class="tab-content">
-        <div class="matiere-title">Histoire-Géographie & EMC</div>
-        <div id="fiches-histoire" class="chargement">⏳ Chargement...</div>
-    </div>
-    <div id="tab-sciences" class="tab-content">
-        <div class="matiere-title">Sciences (SVT + Physique-Chimie)</div>
-        <div id="fiches-sciences" class="chargement">⏳ Chargement...</div>
-    </div>
+  <div id="tab-francais" class="tab-content active"><div id="fiches-francais"></div></div>
+  <div id="tab-maths" class="tab-content"><div id="fiches-maths"></div></div>
+  <div id="tab-histoire" class="tab-content"><div id="fiches-histoire"></div></div>
+  <div id="tab-sciences" class="tab-content"><div id="fiches-sciences"></div></div>
 
-    <div class="footer">
-        📌 Les notions en <span class="notion">rouge</span> sont à mémoriser (flashcards).
-    </div>
+  <div class="footer">📌 Les notions en <span class="notion">rouge</span> sont à mémoriser.</div>
 </div>
 
 <script>
-    const fichesConfig = {
-        francais: { file: "fiches-francais.json", container: "fiches-francais" },
-        maths: { file: "fiches-maths.json", container: "fiches-maths" },
-        histoire: { file: "fiches-histoire-geo-emc.json", container: "fiches-histoire" },
-        sciences: { file: "fiches-sciences.json", container: "fiches-sciences" }
-    };
+  // Données intégrées (extrait représentatif – à compléter avec tous les chapitres)
+  const fichesData = {
+    francais: { themes: [{ nom: "Grammaire", chapitres: [{ nom: "Les classes grammaticales", contenu: "Les <span class='notion'>9 classes grammaticales</span> : nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection.", mots_cles: ["nom","verbe","adjectif"] }] }] },
+    maths: { themes: [{ nom: "Nombres", chapitres: [{ nom: "Nombres premiers", contenu: "Un <span class='notion'>nombre premier</span> a exactement deux diviseurs : 1 et lui-même.", mots_cles: ["nombre premier","diviseur"] }] }] },
+    histoire: { themes: [{ nom: "Histoire", chapitres: [{ nom: "Lumières", contenu: "Mouvement intellectuel <span class='notion'>XVIIIe siècle</span>. Idées : <span class='notion'>liberté, égalité, raison</span>.", mots_cles: ["Lumières","Voltaire","Montesquieu"] }] }] },
+    sciences: { themes: [{ nom: "SVT", chapitres: [{ nom: "Cellule", contenu: "La <span class='notion'>cellule</span> est l'unité du vivant. <span class='notion'>Membrane, cytoplasme, noyau</span>.", mots_cles: ["cellule","noyau","membrane"] }] }] }
+  };
+  // Pour la démo, je mets juste un extrait. En réel, il faut intégrer tous les chapitres (les mêmes que dans les JSON).
+  // Tu peux copier ici tout le contenu des fichiers fiches-*.json que tu as générés.
 
-    async function chargerFiches(matiere) {
-        const config = fichesConfig[matiere];
-        if (!config) return;
-        const container = document.getElementById(config.container);
-        try {
-            const response = await fetch(config.file);
-            if (!response.ok) throw new Error(`Fichier ${config.file} introuvable`);
-            const data = await response.json();
-            afficherFiches(container, data);
-        } catch (err) {
-            container.innerHTML = `<div class="chargement" style="color:#ff8888;">❌ ${err.message}</div>`;
-        }
+  function afficherFiches(matiere, containerId) {
+    const data = fichesData[matiere];
+    const container = document.getElementById(containerId);
+    if (!data) { container.innerHTML = "<div>Fichier non trouvé</div>"; return; }
+    let html = "";
+    for (const theme of data.themes) {
+      for (const ch of theme.chapitres) {
+        html += `<div class="chapitre-card">
+          <div class="chapitre-header" onclick="this.nextElementSibling.classList.toggle('open')">
+            <span class="chapitre-nom">${ch.nom}</span><span>▼</span>
+          </div>
+          <div class="chapitre-body">
+            <div class="section"><div class="section-title">📌 Contenu</div><div>${ch.contenu}</div></div>
+            <div class="section"><div class="section-title">🔑 Mots-clés</div><div class="keyword-list">${ch.mots_cles.map(m => `<span class="keyword-badge">${m}</span>`).join('')}</div></div>
+          </div>
+        </div>`;
+      }
     }
-
-    function afficherFiches(container, data) {
-        let html = "";
-        for (const theme of data.themes) {
-            for (const chapitre of theme.chapitres) {
-                html += `
-                    <div class="chapitre-card">
-                        <div class="chapitre-header" onclick="toggleChapitre(this)">
-                            <span class="chapitre-nom">${chapitre.nom}</span>
-                            <span class="chapitre-toggle">▼</span>
-                        </div>
-                        <div class="chapitre-body">
-                            <div class="section">
-                                <div class="section-title">📌 Contenu</div>
-                                <div>${chapitre.contenu || "—"}</div>
-                            </div>
-                            ${chapitre.mots_cles ? `
-                            <div class="section">
-                                <div class="section-title">🔑 Mots-clés</div>
-                                <div class="keyword-list">
-                                    ${chapitre.mots_cles.map(mot => `<span class="keyword-badge">${mot}</span>`).join('')}
-                                </div>
-                            </div>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }
-        }
-        container.innerHTML = html;
-    }
-
-    function toggleChapitre(header) {
-        const body = header.nextElementSibling;
-        const isOpen = body.classList.contains("open");
-        body.classList.toggle("open");
-        header.querySelector(".chapitre-toggle").textContent = isOpen ? "▼" : "▲";
-    }
-
-    // Gestion des onglets
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const matiere = btn.dataset.matiere;
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            tabContents.forEach(content => content.classList.remove('active'));
-            document.getElementById(`tab-${matiere}`).classList.add('active');
-            // Charger les fiches si pas déjà fait (ou à chaque fois)
-            chargerFiches(matiere);
-        });
+    container.innerHTML = html;
+  }
+  // Au chargement, afficher français par défaut
+  afficherFiches("francais", "fiches-francais");
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+      const m = btn.dataset.matiere;
+      document.getElementById(`tab-${m}`).classList.add("active");
+      if(m==="francais") afficherFiches("francais","fiches-francais");
+      if(m==="maths") afficherFiches("maths","fiches-maths");
+      if(m==="histoire") afficherFiches("histoire","fiches-histoire");
+      if(m==="sciences") afficherFiches("sciences","fiches-sciences");
     });
-
-    // Charger la première matière par défaut
-    chargerFiches('francais');
+  });
 </script>
 </body>
 </html>
