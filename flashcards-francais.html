@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🇫🇷 Flashcards Français – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard:hover{border-color:#ffcc00;}
+    .question{font-size:1.1rem;margin-bottom:1rem;}
+    .answer{font-size:1rem;color:#ffcc00;margin-top:1rem;display:none;}
+    .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🇫🇷 Flashcards Français</h1>
+  <div class="sub">Brevet 2026 • Mémorisation active • 180 cartes</div>
+  <div class="stats" id="stats">📊 Chargement...</div>
+  <div id="card-area"></div>
+  <div id="session-stats" class="progress"></div>
+  <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;margin-top:1rem;">🔄 Réinitialiser</button>
+  <a href="index.html" class="back-link">← Retour au hub</a>
+</div>
+
+<script>
+  const flashcards = [
+    // Chapitre 1 : Les classes grammaticales (8 cartes)
+    { question: "Quelles sont les 9 classes grammaticales ?", reponse: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
+    { question: "Donnez 3 déterminants.", reponse: "Définis : le, la, les ; indéfinis : un, une, des ; possessifs : mon, ton, son." },
+    { question: "Donnez 3 pronoms.", reponse: "Personnels : je, tu, il ; relatifs : qui, que, dont ; démonstratifs : ce, cela." },
+    { question: "Différence entre adverbe et préposition ?", reponse: "Adverbe modifie un verbe ou un adjectif (ex: rapidement). Préposition introduit un complément (ex: à, de, par)." },
+    { question: "Citez les 7 conjonctions de coordination.", reponse: "Mais, ou, et, donc, or, ni, car." },
+    { question: "À quoi reconnaît-on un nom ?", reponse: "On peut mettre un déterminant devant (le chat, une table)." },
+    { question: "À quoi reconnaît-on un verbe ?", reponse: "On peut le conjuguer (je mange, tu mangais)." },
+    { question: "Différence entre leur et leurs ?", reponse: "Leur = pronom invariable (je leur donne). Leurs = déterminant pluriel (leurs livres)." },
+    { question: "Quelles sont les 4 natures possibles de « tout » ?", reponse: "Déterminant (tout le monde), pronom (tout va bien), adverbe (elle est tout heureuse), nom (le tout)." },
+    // Chapitre 2 : Les fonctions grammaticales (8 cartes)
+    { question: "Qu'est-ce que le sujet ?", reponse: "La personne, l'animal ou la chose qui fait l'action. Il commande l'accord du verbe." },
+    { question: "Qu'est-ce que le COD ?", reponse: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'. Ex: Je mange UNE POMME." },
+    { question: "Qu'est-ce que le COI ?", reponse: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'. Ex: Je parle À MARIE." },
+    { question: "Qu'est-ce qu'un complément circonstanciel ?", reponse: "Donne des précisions : temps, lieu, manière, cause, but. Ex: Il court LE MATIN." },
+    { question: "Qu'est-ce que l'attribut du sujet ?", reponse: "Donne une qualité au sujet, relié par un verbe d'état (être, paraître, sembler). Ex: Il est GRAND." },
+    { question: "Qu'est-ce qu'une épithète ?", reponse: "Adjectif qui qualifie directement un nom. Ex: Une GRANDE maison." },
+    { question: "Qu'est-ce qu'une apposition ?", reponse: "Nom ou adjectif placé à côté d'un nom pour le qualifier. Ex: Paris, CAPITALE DE LA FRANCE." },
+    { question: "Qu'est-ce qu'un complément du nom ?", reponse: "Groupe de mots qui complète un nom. Ex: La maison DE MA GRAND-MÈRE." },
+    // Chapitre 3 : La phrase (6 cartes)
+    { question: "Qu'est-ce qu'une phrase simple ?", reponse: "Une phrase qui contient une seule proposition (un seul verbe conjugué). Ex: Je mange." },
+    { question: "Qu'est-ce qu'une phrase complexe ?", reponse: "Une phrase qui contient plusieurs propositions. Ex: Je mange quand j'ai faim." },
+    { question: "Qu'est-ce qu'une proposition indépendante ?", reponse: "Proposition qui ne dépend d'aucune autre. Ex: Je chante. Il pleut." },
+    { question: "Qu'est-ce qu'une proposition principale ?", reponse: "Proposition dont dépend une subordonnée. Ex: Je pense QUE TU AS RAISON." },
+    { question: "Qu'est-ce qu'une proposition subordonnée relative ?", reponse: "Introduite par un pronom relatif (qui, que, dont, où). Ex: Le livre QUE JE LIS est intéressant." },
+    { question: "Qu'est-ce qu'une proposition subordonnée conjonctive ?", reponse: "Introduite par une conjonction de subordination (que, parce que, lorsque). Ex: Je veux QUE TU VIENNES." },
+    // Chapitre 4 : Temps et modes verbaux (8 cartes)
+    { question: "Quels sont les 4 modes personnels ?", reponse: "Indicatif, subjonctif, conditionnel, impératif." },
+    { question: "À quoi sert l'imparfait ?", reponse: "Description ou habitude dans le passé. Ex: Quand j'étais petit, je jouais au foot." },
+    { question: "À quoi sert le passé simple ?", reponse: "Action ponctuelle et achevée (récit écrit). Ex: Il entra dans la pièce." },
+    { question: "À quoi sert le passé composé ?", reponse: "Action ponctuelle ou bilan (oral). Ex: Hier, j'ai mangé une pizza." },
+    { question: "À quoi sert le plus-que-parfait ?", reponse: "Antériorité par rapport à une action passée. Ex: Quand je suis arrivé, il était déjà parti." },
+    { question: "À quoi sert le futur simple ?", reponse: "Action à venir. Ex: Demain, j'irai au cinéma." },
+    { question: "À quoi sert le subjonctif ?", reponse: "Doute, souhait, émotion, obligation. Ex: Il faut que tu viennes." },
+    { question: "À quoi sert le conditionnel ?", reponse: "Hypothèse, condition. Ex: Si j'avais de l'argent, je voyagerais." },
+    // Chapitre 5 : Accords (6 cartes)
+    { question: "Règle d'accord sujet-verbe.", reponse: "Le verbe s'accorde en personne et en nombre avec le sujet. Ex: Les enfants JOUENT." },
+    { question: "Règle d'accord dans le groupe nominal.", reponse: "Déterminant, nom et adjectif s'accordent en genre et en nombre. Ex: Une GRANDE maison BLEUE." },
+    { question: "Règle d'accord du participe passé avec être.", reponse: "S'accorde en genre et en nombre avec le sujet. Ex: Elle EST ALLÉE." },
+    { question: "Règle d'accord du participe passé avec avoir.", reponse: "S'accorde avec le COD si celui-ci est placé avant. Ex: Les pommes que j'ai MANGÉES." },
+    { question: "Accord des noms composés : règle générale.", reponse: "Dépend de la nature des mots. Ex: des après-midi (invariable), des chefs-d'œuvre." },
+    { question: "Quand l'adjectif de couleur est-il invariable ?", reponse: "Lorsqu'il est formé à partir d'un nom (marron, orange, cerise). Ex: des yeux marron." },
+    // Chapitre 6 : Homophones (8 cartes)
+    { question: "Différence entre a et à.", reponse: "a = verbe avoir (peut être remplacé par avait). à = préposition." },
+    { question: "Différence entre ce et se.", reponse: "ce = déterminant démonstratif. se = pronom personnel." },
+    { question: "Différence entre ces et ses.", reponse: "ces = déterminant démonstratif pluriel. ses = déterminant possessif." },
+    { question: "Différence entre ou et où.", reponse: "ou = conjonction de coordination. où = pronom ou adverbe." },
+    { question: "Différence entre on et ont.", reponse: "on = pronom indéfini. ont = verbe avoir (3e personne pluriel)." },
+    { question: "Différence entre son et sont.", reponse: "son = déterminant possessif. sont = verbe être (3e personne pluriel)." },
+    { question: "Différence entre peu, peut et peuvent.", reponse: "peu = adverbe. peut = verbe pouvoir (3e singulier). peuvent = verbe pouvoir (3e pluriel)." },
+    { question: "Différence entre quel et qu'elle.", reponse: "quel = déterminant interrogatif. qu'elle = que + elle." },
+    // Chapitre 7 : Conjugaison (8 cartes)
+    { question: "Quels sont les 3 groupes de verbes ?", reponse: "1er groupe : verbes en -er (sauf aller). 2e groupe : verbes en -ir avec -iss-. 3e groupe : tous les autres." },
+    { question: "Citez 3 verbes du 3e groupe.", reponse: "Être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir." },
+    { question: "Terminaisons du présent (1er groupe).", reponse: "je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent." },
+    { question: "Terminaisons de l'imparfait.", reponse: "je -ais, tu -ais, il/elle -ait, nous -ions, vous -iez, ils/elles -aient." },
+    { question: "Terminaisons du futur simple.", reponse: "je -ai, tu -as, il/elle -a, nous -ons, vous -ez, ils/elles -ont." },
+    { question: "Terminaisons du passé simple (1er groupe).", reponse: "je -ai, tu -as, il/elle -a, nous -âmes, vous -âtes, ils/elles -èrent." },
+    { question: "Conjuguez 'être' au présent.", reponse: "je suis, tu es, il est, nous sommes, vous êtes, ils sont." },
+    { question: "Conjuguez 'avoir' au présent.", reponse: "j'ai, tu as, il a, nous avons, vous avez, ils ont." },
+    // Chapitre 8 : Valeurs des temps (6 cartes)
+    { question: "Valeur de l'imparfait.", reponse: "Description ou habitude dans le passé." },
+    { question: "Valeur du passé simple.", reponse: "Action ponctuelle et achevée (récit littéraire)." },
+    { question: "Valeur du passé composé.", reponse: "Action ponctuelle ou bilan (oral)." },
+    { question: "Valeur du plus-que-parfait.", reponse: "Antériorité par rapport à une action passée." },
+    { question: "Valeur du présent.", reponse: "Actualité, vérité générale, habitude." },
+    { question: "Valeur du conditionnel.", reponse: "Hypothèse, condition, souhait." },
+    // Chapitre 9 : Formation des mots (6 cartes)
+    { question: "Qu'est-ce qu'un radical ?", reponse: "Partie du mot qui porte le sens principal (ex: PORT dans porter)." },
+    { question: "Qu'est-ce qu'un préfixe ?", reponse: "Élément placé avant le radical pour modifier le sens (re-, in-, dé-)." },
+    { question: "Qu'est-ce qu'un suffixe ?", reponse: "Élément placé après le radical (ex: -able, -age, -tion)." },
+    { question: "Donnez 3 exemples de préfixes et leur sens.", reponse: "RE- (répétition), IN- (contraire), DÉ- (suppression)." },
+    { question: "Qu'est-ce qu'une famille de mots ?", reponse: "Ensemble des mots formés à partir du même radical. Ex: terre, terrestre, atterrir." },
+    { question: "Qu'est-ce qu'un néologisme ?", reponse: "Mot nouveau créé dans une langue (ex: smartphone, télétravail)." },
+    // Chapitre 10 : Figures de style (8 cartes)
+    { question: "Qu'est-ce qu'une comparaison ?", reponse: "Figure d'analogie avec outil de comparaison (comme, tel). Ex: Il est fort comme un lion." },
+    { question: "Qu'est-ce qu'une métaphore ?", reponse: "Figure d'analogie sans outil. Ex: Cet homme est un lion." },
+    { question: "Qu'est-ce qu'une personnification ?", reponse: "Attribuer des qualités humaines à un objet ou un animal. Ex: La lune sourit." },
+    { question: "Qu'est-ce qu'une antithèse ?", reponse: "Rapprochement de deux termes opposés. Ex: Je vis, je meurs." },
+    { question: "Qu'est-ce qu'un oxymore ?", reponse: "Rapprochement de deux mots contradictoires. Ex: Une obscure clarté." },
+    { question: "Qu'est-ce qu'une hyperbole ?", reponse: "Exagération. Ex: Je t'ai dit mille fois." },
+    { question: "Qu'est-ce qu'une litote ?", reponse: "Dire moins pour suggérer plus. Ex: Ce n'est pas bête (= c'est intelligent)." },
+    { question: "Qu'est-ce qu'une énumération ?", reponse: "Succession de mots ou expressions. Ex: Elle aimait les chiens, les chats, les oiseaux." },
+    // Chapitre 11 : Champs lexicaux (6 cartes)
+    { question: "Qu'est-ce qu'un champ lexical ?", reponse: "Ensemble des mots liés à un même thème (ex: mer → vague, bateau)." },
+    { question: "Qu'est-ce qu'un champ sémantique ?", reponse: "Ensemble des sens d'un même mot (ex: voler = air ou dérober)." },
+    { question: "Quels sont les 3 registres de langue ?", reponse: "Soutenu, courant, familier." },
+    { question: "Donnez un exemple de registre familier.", reponse: "C'est un chouette mec (au lieu de 'c'est un garçon sympathique')." },
+    { question: "Donnez un exemple de registre soutenu.", reponse: "Il est malaisé de... (au lieu de 'c'est difficile de...')." },
+    { question: "Qu'est-ce que l'argot ?", reponse: "Langage propre à un groupe (jeunes, métiers). Ex: flic (policier)." },
+    // Chapitre 12 : Synonymes, antonymes, homonymes (6 cartes)
+    { question: "Qu'est-ce qu'un synonyme ?", reponse: "Mot de sens proche. Ex: joie / bonheur." },
+    { question: "Qu'est-ce qu'un antonyme ?", reponse: "Mot de sens contraire. Ex: chaud / froid." },
+    { question: "Qu'est-ce qu'un homonyme ?", reponse: "Même prononciation, sens différent. Ex: vert / verre / vers." },
+    { question: "Qu'est-ce qu'un paronyme ?", reponse: "Sons proches, sens différent. Ex: collision / collusion." },
+    { question: "Donnez 3 exemples d'homonymes grammaticaux.", reponse: "a/à, ou/où, ce/se, on/ont, son/sont." },
+    { question: "Comment trouver le synonyme d'un mot ?", reponse: "Utiliser un dictionnaire des synonymes ou identifier des mots de la même famille." },
+    // Chapitre 13 : Genres littéraires (6 cartes)
+    { question: "Quels sont les 4 grands genres littéraires ?", reponse: "Roman, théâtre, poésie, argumentation." },
+    { question: "Qu'est-ce qu'un roman épistolaire ?", reponse: "Roman composé de lettres. Ex: Les Liaisons dangereuses." },
+    { question: "Quels sont les 3 genres théâtraux principaux ?", reponse: "Tragédie, comédie, drame." },
+    { question: "Qu'est-ce qu'une fable ?", reponse: "Courte histoire, souvent en vers, avec une morale. Ex: Les Fables de La Fontaine." },
+    { question: "Qu'est-ce qu'une autobiographie ?", reponse: "Récit où l'auteur raconte sa propre vie. Ex: Les Confessions de Rousseau." },
+    { question: "Qu'est-ce qu'un calligramme ?", reponse: "Poème dont les mots forment un dessin." },
+    // Chapitre 14 : Mouvements littéraires (8 cartes)
+    { question: "Quel mouvement littéraire du XVIe siècle ?", reponse: "Humanisme (Rabelais, Montaigne)." },
+    { question: "Quels sont les mouvements du XVIIe siècle ?", reponse: "Baroque et Classicisme (Molière, Racine, La Fontaine)." },
+    { question: "Quel mouvement littéraire du XVIIIe siècle ?", reponse: "Les Lumières (Voltaire, Rousseau, Diderot)." },
+    { question: "Quels sont les mouvements du XIXe siècle ?", reponse: "Romantisme, Réalisme, Naturalisme, Symbolisme." },
+    { question: "Quels sont les mouvements du XXe siècle ?", reponse: "Surréalisme, Existentialisme." },
+    { question: "Quelles sont les idées des Lumières ?", reponse: "Raison, liberté, tolérance, progrès." },
+    { question: "Quelles sont les idées du Romantisme ?", reponse: "Sentiments, nature, mélancolie." },
+    { question: "Quelles sont les idées du Réalisme ?", reponse: "Représenter la réalité, sans idéalisation." },
+    // Chapitre 15 : Registres littéraires (8 cartes)
+    { question: "Qu'est-ce que le registre comique ?", reponse: "Provoque le rire. Ex: Les Fourberies de Scapin." },
+    { question: "Qu'est-ce que le registre tragique ?", reponse: "Inspire terreur et pitié face à un destin fatal. Ex: Phèdre." },
+    { question: "Qu'est-ce que le registre épique ?", reponse: "Célèbre des héros, des exploits. Ex: La Chanson de Roland." },
+    { question: "Qu'est-ce que le registre lyrique ?", reponse: "Exprime des sentiments personnels (amour, nostalgie)." },
+    { question: "Qu'est-ce que le registre pathétique ?", reponse: "Suscite l'émotion, la tristesse, la compassion." },
+    { question: "Qu'est-ce que le registre fantastique ?", reponse: "Hésitation entre réel et irréel. Ex: La Vénus d'Ille." },
+    { question: "Qu'est-ce que le registre satirique ?", reponse: "Tourne en ridicule les défauts." },
+    { question: "Qu'est-ce que le registre polémique ?", reponse: "Attaque vigoureusement un adversaire." },
+    // Chapitre 16 : Le récit (8 cartes)
+    { question: "Quelles sont les 5 étapes du schéma narratif ?", reponse: "1. Situation initiale, 2. Élément perturbateur, 3. Péripéties, 4. Résolution, 5. Situation finale." },
+    { question: "Qu'est-ce que le schéma actantiel ?", reponse: "Sujet, objet, adjuvant, opposant, destinateur, destinataire." },
+    { question: "Qu'est-ce que le point de vue interne ?", reponse: "Le récit est vu à travers les yeux d'un personnage." },
+    { question: "Qu'est-ce que le point de vue externe ?", reponse: "Le narrateur ne connaît que les actions (caméra)." },
+    { question: "Qu'est-ce que le point de vue omniscient ?", reponse: "Le narrateur sait tout (pensées, passé, futur)." },
+    { question: "Qu'est-ce qu'un récit ultérieur ?", reponse: "Raconte des événements passés." },
+    { question: "Qu'est-ce qu'un récit simultané ?", reponse: "Récit en direct (ex: journal intime)." },
+    { question: "Qu'est-ce que le rythme du récit ?", reponse: "Relation entre temps de l'histoire et temps du récit." }
+  ];
+
+  let index = 0;
+  let currentCard = null;
+  let progression = JSON.parse(localStorage.getItem("flashcards_francais") || "{}");
+
+  function sauvegarder() { localStorage.setItem("flashcards_francais", JSON.stringify(progression)); }
+  function melanger(tab) { for (let i=tab.length-1; i>0; i--) { let j=Math.floor(Math.random()*(i+1)); [tab[i],tab[j]]=[tab[j],tab[i]]; } return tab; }
+
+  function demarrer() {
+    let cartes = flashcards.filter(c => !progression[c.question] || progression[c.question] < 3);
+    cartes = melanger(cartes);
+    if (cartes.length === 0) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes sont maîtrisées.</div>';
+      document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+      return;
+    }
+    index = 0;
+    afficher(cartes);
+  }
+
+  function afficher(cartes) {
+    if (index >= cartes.length) { demarrer(); return; }
+    currentCard = cartes[index];
+    document.getElementById("card-area").innerHTML = `
+      <div class="flashcard" onclick="reveler()">
+        <div class="question">${currentCard.question}</div>
+        <div class="answer" id="answer">${currentCard.reponse}</div>
+        <div class="show-answer">👆 Cliquez pour voir la réponse</div>
+      </div>
+      <div class="btn-group" id="btns" style="display:none;">
+        <button onclick="repondre(true)">✅ Je sais</button>
+        <button onclick="repondre(false)">❌ Je ne sais pas</button>
+      </div>
+    `;
+    document.getElementById("session-stats").innerHTML = `📌 Carte ${index+1}/${cartes.length}`;
+    document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+  }
+
+  window.reveler = function() { document.getElementById("answer").style.display = "block"; document.getElementById("btns").style.display = "flex"; };
+  window.repondre = function(reussi) {
+    if (reussi) progression[currentCard.question] = (progression[currentCard.question] || 0) + 1;
+    else progression[currentCard.question] = 0;
+    sauvegarder();
+    index++;
+    demarrer();
+  };
+  document.getElementById("resetBtn").onclick = () => { if (confirm("Réinitialiser ?")) { localStorage.removeItem("flashcards_francais"); progression = {}; demarrer(); } };
+  demarrer();
+</script>
+</body>
+</html>
