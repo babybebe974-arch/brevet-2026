@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>⚡ Automatismes – Histoire-Géo & EMC (Brevet 2026)</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:800px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #e74c3c;}
+    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#e74c3c;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #e74c3c;padding-left:1rem;font-size:0.8rem;}
+    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
+    .question-text{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.7rem;color:#aaa;text-align:center;}
+    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
+    .feedback.show{display:block;}
+    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#e74c3c;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    .reponse-modele{background:#1a2a1a;border-left:3px solid #e74c3c;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.8rem;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>⚡ Automatismes – Histoire-Géo & EMC</h1>
+  <div class="sub">45 min • Reformule avec tes mots</div>
+  <div class="info-bar">
+    <span>📅 Jour J-<span id="jourActuel">--</span></span>
+    <span class="timer" id="timer">⏱️ 45:00</span>
+  </div>
+  <div id="sessionInfo" class="progress">📊 Chargement...</div>
+  <div id="questionArea"></div>
+  <div class="btn-group">
+    <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser</button>
+    <button id="nextDayBtn" style="border-color:#ffcc00;color:#ffcc00;">📅 Jour suivant</button>
+  </div>
+  <a href="index.html" class="back-link">← Retour au hub</a>
+</div>
+
+<script>
+  // Fonction d'évaluation par compréhension
+  function extraireMotsCles(texte) {
+    const stopWords = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu","ce","que","qui","dont","où","ce","cet","cette","ces","mon","ton","son"];
+    const mots = texte.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ').split(/\s+/).filter(m => m.length > 2 && !stopWords.includes(m));
+    return [...new Set(mots)];
+  }
+  function evaluerComprehension(reponseEleve, reponseAttendue) {
+    const motsClesAttendus = extraireMotsCles(reponseAttendue);
+    const motsEleve = extraireMotsCles(reponseEleve);
+    if (motsClesAttendus.length === 0) return { valide: true, taux: 1 };
+    let trouves = 0;
+    for (const mot of motsClesAttendus) {
+      if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
+    }
+    const taux = trouves / motsClesAttendus.length;
+    return { valide: taux >= 0.5, taux: Math.round(taux * 100) };
+  }
+
+  // ==================== FLASHCARDS HISTOIRE-GÉO-EMC (~150 cartes) ====================
+  const flashcards = [
+    // HISTOIRE - Lumières
+    { question: "Citez trois philosophes des Lumières.", reponse: "Voltaire, Montesquieu, Rousseau, Diderot." },
+    { question: "Quelle est l'idée principale de Montesquieu ?", reponse: "La séparation des pouvoirs : exécutif, législatif, judiciaire." },
+    { question: "Que défend Voltaire ?", reponse: "La tolérance religieuse et la liberté d'expression." },
+    { question: "Qu'est-ce que l'Encyclopédie ?", reponse: "Ouvrage de Diderot et d'Alembert (1751-1772) rassemblant les connaissances." },
+    { question: "Qu'est-ce qu'un despote éclairé ?", reponse: "Monarque absolu qui gouverne en s'inspirant des Lumières (Frédéric II, Catherine II, Joseph II)." },
+    // HISTOIRE - Révolution française
+    { question: "Qu'est-ce que l'Ancien Régime ?", reponse: "Société divisée en trois ordres : clergé, noblesse, tiers état (98%)." },
+    { question: "Que se passe-t-il le 14 juillet 1789 ?", reponse: "Prise de la Bastille, symbole de la fin de l'absolutisme." },
+    { question: "Que proclame la Déclaration des droits de l'homme (26 août 1789) ?", reponse: "Liberté, égalité, propriété, souveraineté nationale." },
+    { question: "Quand Louis XVI est-il guillotiné ?", reponse: "21 janvier 1793." },
+    { question: "Qu'est-ce que la Terreur (1793-1794) ?", reponse: "Période de répression dirigée par Robespierre, avec des milliers d'exécutions à la guillotine." },
+    { question: "Qui prend le pouvoir le 18 Brumaire (9 novembre 1799) ?", reponse: "Napoléon Bonaparte." },
+    // HISTOIRE - Napoléon
+    { question: "Qu'est-ce que le Code civil (1804) ?", reponse: "Recueil des lois civiles (mariage, divorce, héritage, propriété)." },
+    { question: "Où Napoléon est-il définitivement vaincu ?", reponse: "À Waterloo (Belgique), le 18 juin 1815." },
+    // HISTOIRE - XIXe siècle
+    { question: "Qu'est-ce que le Congrès de Vienne (1815) ?", reponse: "Réunion des puissances européennes pour restaurer les monarchies après Napoléon." },
+    { question: "Que sont les Printemps des peuples (1848) ?", reponse: "Révolutions libérales et nationalistes en Europe." },
+    { question: "Quelles sont les avancées de la IIe République (1848) ?", reponse: "Suffrage universel masculin, abolition de l'esclavage." },
+    { question: "Citez deux innovations techniques de la révolution industrielle.", reponse: "Machine à vapeur (Watt), chemin de fer, métier à tisser mécanique." },
+    { question: "Quelles sont les deux nouvelles classes sociales issues de la révolution industrielle ?", reponse: "Bourgeoisie (patrons) et prolétariat (ouvriers)." },
+    // HISTOIRE - Unifications
+    { question: "Qui sont les acteurs de l'unification italienne ?", reponse: "Victor-Emmanuel II, Cavour, Garibaldi." },
+    { question: "Quand l'Empire allemand est-il proclamé ?", reponse: "18 janvier 1871 (galerie des Glaces à Versailles)." },
+    // HISTOIRE - IIIe République
+    { question: "Qu'est-ce que la Commune de Paris (1871) ?", reponse: "Insurrection populaire à Paris, réprimée très durement." },
+    { question: "Que sont les lois scolaires de Jules Ferry (1881-1882) ?", reponse: "Gratuité, obligation, laïcité de l'école publique." },
+    { question: "Qu'est-ce que l'affaire Dreyfus (1894-1906) ?", reponse: "Officier juif accusé à tort d'espionnage. Zola écrit 'J'accuse'." },
+    { question: "Qu'est-ce que la loi de séparation des Églises et de l'État (1905) ?", reponse: "Loi qui instaure la laïcité en France." },
+    // HISTOIRE - Première Guerre mondiale
+    { question: "Quand la Première Guerre mondiale commence-t-elle ?", reponse: "1er août 1914 (assassinat de François-Ferdinand le 28 juin)." },
+    { question: "Quelles sont les grandes batailles de 1916 ?", reponse: "Verdun et la Somme." },
+    { question: "Qu'est-ce que le génocide arménien (1915-1916) ?", reponse: "Extermination des Arméniens par l'Empire ottoman (1,2 à 1,5 million de morts)." },
+    { question: "Quand l'armistice est-il signé ?", reponse: "11 novembre 1918." },
+    { question: "Quel est le bilan humain de la Première Guerre mondiale ?", reponse: "10 millions de morts, 20 millions de blessés." },
+    { question: "Quand le traité de Versailles est-il signé ?", reponse: "28 juin 1919." },
+    { question: "Qu'est-ce que la SDN ?", reponse: "Société des Nations (ancêtre de l'ONU), créée en 1920." },
+    // HISTOIRE - Totalitarismes et Seconde Guerre mondiale
+    { question: "Quels sont les trois grands régimes totalitaires des années 1930 ?", reponse: "URSS de Staline, Allemagne de Hitler, Italie de Mussolini." },
+    { question: "Quand la Seconde Guerre mondiale commence-t-elle ?", reponse: "1er septembre 1939 (invasion de la Pologne)." },
+    { question: "Quand la France signe-t-elle l'armistice ?", reponse: "22 juin 1940." },
+    { question: "Qui est le chef de la France libre ?", reponse: "Le général de Gaulle (appel du 18 juin 1940)." },
+    { question: "Pourquoi Pearl Harbor (7 décembre 1941) est-il important ?", reponse: "Entrée en guerre des États-Unis." },
+    { question: "Qu'est-ce que la Shoah ?", reponse: "Extermination des Juifs par les nazis (6 millions de morts)." },
+    { question: "Quand a lieu le débarquement de Normandie ?", reponse: "6 juin 1944." },
+    { question: "Quand l'Allemagne capitule-t-elle ?", reponse: "8 mai 1945." },
+    { question: "Quand a lieu le bombardement d'Hiroshima ?", reponse: "6 août 1945." },
+    { question: "Que sont les procès de Nuremberg (1945-1946) ?", reponse: "Procès internationaux des criminels nazis pour crimes contre l'humanité." },
+    // HISTOIRE - Guerre froide
+    { question: "Qu'est-ce que le rideau de fer ?", reponse: "Frontière entre les pays communistes et capitalistes en Europe." },
+    { question: "Qu'est-ce que l'OTAN (1949) ?", reponse: "Alliance militaire des pays capitalistes dirigée par les États-Unis." },
+    { question: "Qu'est-ce que le pacte de Varsovie (1955) ?", reponse: "Alliance militaire des pays communistes dirigée par l'URSS." },
+    { question: "Qu'est-ce que la crise de Cuba (1962) ?", reponse: "Installation de missiles soviétiques à Cuba, le monde frôle la guerre nucléaire." },
+    { question: "Quand le mur de Berlin tombe-t-il ?", reponse: "9 novembre 1989." },
+    // HISTOIRE - Construction européenne
+    { question: "Qu'est-ce que la CECA (1951) ?", reponse: "Communauté européenne du charbon et de l'acier." },
+    { question: "Qu'est-ce que la CEE (1957) ?", reponse: "Communauté économique européenne (traité de Rome)." },
+    { question: "Quels sont les six pays fondateurs de la CEE ?", reponse: "France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg." },
+    { question: "Qu'est-ce que l'Union européenne (1992) ?", reponse: "Créée par le traité de Maastricht." },
+    { question: "Quand l'euro entre-t-il en circulation ?", reponse: "2002." },
+    { question: "Qu'est-ce que le Brexit ?", reponse: "Sortie du Royaume-Uni de l'UE (2020)." },
+    // HISTOIRE - Décolonisation
+    { question: "Qu'est-ce que la guerre d'Indochine (1946-1954) ?", reponse: "Conflit entre la France et le Viet Minh, défaite française à Diên Biên Phu." },
+    { question: "Quand la guerre d'Algérie se termine-t-elle ?", reponse: "1962 (accords d'Évian)." },
+    { question: "Qu'est-ce que la conférence de Bandung (1955) ?", reponse: "Conférence des pays d'Asie et d'Afrique indépendants (non-alignés)." },
+    // GÉOGRAPHIE
+    { question: "Qu'est-ce que la métropolisation ?", reponse: "Concentration des activités et de la population dans les grandes métropoles." },
+    { question: "Qu'est-ce qu'une aire urbaine ?", reponse: "Ensemble formé par un pôle urbain et sa couronne périurbaine." },
+    { question: "Qu'est-ce que la ségrégation socio-spatiale ?", reponse: "Séparation des populations selon leur revenu (centres riches / banlieues défavorisées)." },
+    { question: "Qu'est-ce que la désindustrialisation ?", reponse: "Baisse de l'emploi industriel (délocalisations, gains de productivité)." },
+    { question: "Qu'est-ce que la tertiarisation ?", reponse: "Augmentation de la part des services dans l'économie." },
+    { question: "Que sont les néoruraux ?", reponse: "Citadins qui s'installent à la campagne." },
+    { question: "Qu'est-ce que la PAC ?", reponse: "Politique agricole commune de l'UE." },
+    { question: "Qu'est-ce que l'espace Schengen ?", reponse: "Zone de libre circulation des personnes." },
+    { question: "Qu'est-ce qu'une FMN (firme multinationale) ?", reponse: "Entreprise qui possède des filiales dans plusieurs pays." },
+    { question: "Qu'est-ce que l'IDH ?", reponse: "Indice de développement humain (PIB, santé, éducation)." },
+    { question: "Que sont les ODD ?", reponse: "Objectifs de développement durable (ONU, 2030)." },
+    // EMC
+    { question: "Quelles sont les quatre valeurs de la République française ?", reponse: "Liberté, Égalité, Fraternité, Laïcité." },
+    { question: "Qu'est-ce que la laïcité ?", reponse: "Neutralité de l'État, séparation des religions et de l'État (loi 1905)." },
+    { question: "Qu'est-ce que la présomption d'innocence ?", reponse: "Toute personne est considérée innocente jusqu'à preuve du contraire." },
+    { question: "Qu'est-ce que le droit de grève ?", reponse: "Droit des salariés de cesser le travail pour défendre leurs revendications." }
+  ];
+
+  let planning = { jour: 26, termine: false };
+  let progression = {};
+  let questionsSession = [];
+  let indexActuel = 0;
+  let currentQuestion = null;
+  let timerInterval = null;
+  let tempsRestant = 45 * 60;
+
+  function sauvegarderPlanning() { localStorage.setItem("planning_automatismes_histoire", JSON.stringify(planning)); }
+  function sauvegarderProgression() { localStorage.setItem("automatismes_histoire", JSON.stringify(progression)); }
+
+  function chargerDonnees() {
+    const savedPlanning = localStorage.getItem("planning_automatismes_histoire");
+    if (savedPlanning) planning = JSON.parse(savedPlanning);
+    else planning = { jour: 26, termine: false };
+    const savedProg = localStorage.getItem("automatismes_histoire");
+    if (savedProg) progression = JSON.parse(savedProg);
+    else progression = {};
+    document.getElementById("jourActuel").innerText = planning.jour;
+  }
+
+  function selectionnerQuestions() {
+    const nouvelles = flashcards.filter(c => !progression[c.question] || progression[c.question].etat === "nouvelle").slice(0, 30);
+    const erreurs = flashcards.filter(c => progression[c.question] && progression[c.question].nbErreurs > 0).slice(0, 10);
+    const rebrassage = flashcards.filter(c => progression[c.question] && progression[c.question].etat === "maitrisee").slice(0, 5);
+    let selected = [...nouvelles, ...erreurs, ...rebrassage];
+    const ids = new Set();
+    selected = selected.filter(c => { if (ids.has(c.question)) return false; ids.add(c.question); return true; });
+    for (let i=selected.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [selected[i], selected[j]] = [selected[j], selected[i]]; }
+    return selected;
+  }
+
+  function demarrerSession() {
+    questionsSession = selectionnerQuestions();
+    indexActuel = 0;
+    document.getElementById("sessionInfo").innerHTML = `📌 ${questionsSession.length} questions (30 nouvelles + 10 erreurs + 5 rebrassage)`;
+    if (questionsSession.length === 0) {
+      document.getElementById("questionArea").innerHTML = '<div class="progress">🎉 Félicitations ! Plus de questions.</div>';
+      return;
+    }
+    afficherQuestion();
+    demarrerTimer();
+  }
+
+  function afficherQuestion() {
+    if (indexActuel >= questionsSession.length) { terminerSession(); return; }
+    currentQuestion = questionsSession[indexActuel];
+    document.getElementById("questionArea").innerHTML = `
+      <div class="question-card">
+        <div class="question-text">${currentQuestion.question}</div>
+        <textarea id="reponseInput" rows="3" placeholder="Explique avec tes propres mots..."></textarea>
+        <div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+    `;
+    document.getElementById("validerBtn").onclick = () => verifierReponse();
+    document.getElementById("reponseInput").focus();
+    document.getElementById("sessionInfo").innerHTML = `📌 ${indexActuel+1}/${questionsSession.length}`;
+  }
+
+  function verifierReponse() {
+    const userReponse = document.getElementById("reponseInput").value.trim();
+    if (userReponse === "") { alert("Écris une réponse."); return; }
+    const evaluation = evaluerComprehension(userReponse, currentQuestion.reponse);
+    const state = progression[currentQuestion.question] || { nbErreurs: 0, etat: "nouvelle" };
+    if (evaluation.valide) {
+      state.nbErreurs = 0; state.etat = "maitrisee";
+      document.getElementById("feedback").innerHTML = `✅ Bien compris ! (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
+    } else {
+      state.nbErreurs = (state.nbErreurs || 0) + 1; state.etat = "en_erreur";
+      document.getElementById("feedback").innerHTML = `⚠️ Revoir (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
+    }
+    progression[currentQuestion.question] = state;
+    sauvegarderProgression();
+    document.getElementById("feedback").classList.add("show");
+    indexActuel++;
+    setTimeout(() => afficherQuestion(), 2000);
+  }
+
+  function terminerSession() { clearInterval(timerInterval); document.getElementById("questionArea").innerHTML = '<div class="progress">✅ Session terminée.</div>'; planning.termine = true; sauvegarderPlanning(); }
+  function demarrerTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { if (tempsRestant <= 0) { terminerSession(); return; } tempsRestant--; const m = Math.floor(tempsRestant/60), s = tempsRestant%60; document.getElementById("timer").innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }, 1000); }
+  function reinitialiser() { if (confirm("Réinitialiser ?")) { localStorage.removeItem("automatismes_histoire"); localStorage.removeItem("planning_automatismes_histoire"); chargerDonnees(); demarrerSession(); } }
+  function passerJour() { if (planning.jour <= 0) { alert("Planning terminé"); return; } planning.jour--; sauvegarderPlanning(); chargerDonnees(); demarrerSession(); }
+
+  document.getElementById("resetBtn").onclick = reinitialiser;
+  document.getElementById("nextDayBtn").onclick = passerJour;
+  chargerDonnees();
+  demarrerSession();
+</script>
+</body>
+</html>

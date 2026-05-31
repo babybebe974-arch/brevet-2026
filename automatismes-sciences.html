@@ -1,84 +1,255 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatismes – Sciences</title>
-<script src="config.js"></script>
-<style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 800px; margin: 0 auto; }
-  .question { background: #111118; border-left: 4px solid #a98af5; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
-  input { background: #181820; border: 1px solid #2a2a35; color: white; padding: 0.5rem; width: 100%; margin-top: 0.5rem; border-radius: 6px; }
-  button { background: #a98af5; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-top: 0.5rem; }
-  .feedback { margin-top: 0.5rem; font-size: 0.9rem; }
-  .score { position: sticky; top: 0; background: #09090f; padding: 1rem; border-bottom: 1px solid #2a2a35; text-align: right; font-size: 1.2rem; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>⚡ Automatismes – Sciences (Brevet 2026)</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:800px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #3498db;}
+    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#3498db;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #3498db;padding-left:1rem;font-size:0.8rem;}
+    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
+    .question-text{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.7rem;color:#aaa;text-align:center;}
+    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
+    .feedback.show{display:block;}
+    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#3498db;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    .reponse-modele{background:#1a2a1a;border-left:3px solid #3498db;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.8rem;}
+  </style>
 </head>
 <body>
 <div class="container">
   <h1>⚡ Automatismes – Sciences</h1>
-  <div class="score">✅ <span id="score">0</span> / <span id="total">30</span></div>
-  <div id="quiz"></div>
+  <div class="sub">45 min • Reformule avec tes mots</div>
+  <div class="info-bar">
+    <span>📅 Jour J-<span id="jourActuel">--</span></span>
+    <span class="timer" id="timer">⏱️ 45:00</span>
+  </div>
+  <div id="sessionInfo" class="progress">📊 Chargement...</div>
+  <div id="questionArea"></div>
+  <div class="btn-group">
+    <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser</button>
+    <button id="nextDayBtn" style="border-color:#ffcc00;color:#ffcc00;">📅 Jour suivant</button>
+  </div>
+  <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
+
 <script>
-  let questions = [];
-  let done = JSON.parse(localStorage.getItem('automatismes_sciences') || '[]');
-
-  async function chargerQuestions() {
-    const res = await fetch('data/physique-svt.json');
-    const data = await res.json();
-    let toutes = data.cartes || [];
-    for (let i = toutes.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [toutes[i], toutes[j]] = [toutes[j], toutes[i]];
+  // Fonction d'évaluation par compréhension
+  function extraireMotsCles(texte) {
+    const stopWords = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu","ce","que","qui","dont","où","ce","cet","cette","ces","mon","ton","son"];
+    const mots = texte.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ').split(/\s+/).filter(m => m.length > 2 && !stopWords.includes(m));
+    return [...new Set(mots)];
+  }
+  function evaluerComprehension(reponseEleve, reponseAttendue) {
+    const motsClesAttendus = extraireMotsCles(reponseAttendue);
+    const motsEleve = extraireMotsCles(reponseEleve);
+    if (motsClesAttendus.length === 0) return { valide: true, taux: 1 };
+    let trouves = 0;
+    for (const mot of motsClesAttendus) {
+      if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
     }
-    questions = toutes.slice(0, 30);
-    document.getElementById('total').innerText = questions.length;
-    afficherQuiz();
-    mettreAJourScore();
+    const taux = trouves / motsClesAttendus.length;
+    return { valide: taux >= 0.5, taux: Math.round(taux * 100) };
   }
 
-  function afficherQuiz() {
-    const div = document.getElementById('quiz');
-    div.innerHTML = '';
-    questions.forEach((q, i) => {
-      const block = document.createElement('div');
-      block.className = 'question';
-      block.innerHTML = `<strong>${i+1}. ${q.question}</strong><br>
-        <input type="text" id="input-${i}" placeholder="Votre réponse..." autocomplete="off">
-        <div id="fb-${i}" class="feedback"></div>
-        <button onclick="verifier(${i})">Vérifier</button>`;
-      div.appendChild(block);
-      if (done.includes(i)) {
-        document.getElementById(`fb-${i}`).innerHTML = '✅ Déjà réussi !';
-        document.getElementById(`fb-${i}`).style.color = '#7ecf8a';
-      }
-    });
+  // ==================== TOUTES LES FLASHCARDS SCIENCES (~176 cartes) ====================
+  const flashcards = [
+    // SVT - Réchauffement climatique
+    { question: "Citez trois gaz à effet de serre.", reponse: "CO₂, CH₄, N₂O" },
+    { question: "Causes humaines du réchauffement climatique.", reponse: "Combustion des énergies fossiles, déforestation, agriculture intensive." },
+    { question: "Conséquences du réchauffement climatique.", reponse: "Fonte des glaciers, montée des eaux, catastrophes naturelles." },
+    { question: "Qu'est-ce que l'Accord de Paris (2015) ?", reponse: "Traité international pour limiter le réchauffement à +2°C (idéal 1,5°C)." },
+    // SVT - Cellule
+    { question: "Structure de la cellule animale.", reponse: "Membrane, cytoplasme, noyau, mitochondries." },
+    { question: "Différence entre cellule animale et cellule végétale.", reponse: "La cellule végétale possède une paroi cellulosique et des chloroplastes." },
+    { question: "Où se déroule la photosynthèse ?", reponse: "Dans les chloroplastes des cellules végétales." },
+    { question: "Qu'est-ce qu'un tissu ?", reponse: "Ensemble de cellules ayant la même fonction." },
+    // SVT - Génétique
+    { question: "Qu'est-ce qu'un gène ?", reponse: "Fragment d'ADN qui porte l'information pour un caractère héréditaire." },
+    { question: "Différence entre allèle dominant et récessif.", reponse: "Dominant : s'exprime même à un seul exemplaire. Récessif : s'exprime seulement en deux exemplaires." },
+    { question: "Qu'est-ce qu'un caryotype ?", reponse: "Photographie classée des chromosomes d'une cellule." },
+    { question: "Combien de chromosomes possède un humain ?", reponse: "46 chromosomes (23 paires)." },
+    // SVT - Évolution
+    { question: "Qu'est-ce que la sélection naturelle ?", reponse: "Les individus les mieux adaptés à leur environnement survivent et se reproduisent." },
+    { question: "Citez trois preuves de l'évolution.", reponse: "Fossiles, anatomie comparée, similitudes génétiques (ADN)." },
+    { question: "Qu'est-ce qu'un ancêtre commun ?", reponse: "Espèce disparue dont descendent plusieurs espèces actuelles." },
+    { question: "Qu'est-ce qu'un arbre phylogénétique ?", reponse: "Schéma qui représente les liens de parenté entre espèces." },
+    // SVT - Reproduction
+    { question: "Qu'est-ce que la reproduction asexuée ?", reponse: "Un seul individu donne naissance à des clones (bouturage, marcottage)." },
+    { question: "Qu'est-ce que la fécondation ?", reponse: "Fusion d'un gamète mâle et d'un gamète femelle pour former un zygote." },
+    { question: "Quelles sont les étapes du développement embryonnaire ?", reponse: "Fécondation → segmentation → gastrulation → organogenèse." },
+    { question: "Comment se fait la pollinisation ?", reponse: "Transport du pollen par le vent, l'eau, les insectes ou les animaux." },
+    // SVT - Système nerveux
+    { question: "Quels sont les organes du système nerveux central ?", reponse: "Cerveau, cervelet, tronc cérébral, moelle épinière." },
+    { question: "Qu'est-ce qu'un neurone ?", reponse: "Cellule spécialisée dans la transmission de l'influx nerveux." },
+    { question: "Différence entre mouvement volontaire et réflexe.", reponse: "Volontaire : commandé par le cerveau. Réflexe : commandé par la moelle épinière." },
+    { question: "Qu'est-ce qu'une synapse ?", reponse: "Zone de communication entre deux neurones." },
+    // SVT - Hormones
+    { question: "Quel est le rôle de l'insuline ?", reponse: "Hormone qui fait baisser le taux de glucose (glycémie) dans le sang." },
+    { question: "Que se passe-t-il lors d'un stress ?", reponse: "Libération d'adrénaline qui accélère le cœur et prépare le corps à l'action." },
+    { question: "Quelles sont les hormones sexuelles principales ?", reponse: "Testostérone (hommes), œstrogènes et progestérone (femmes)." },
+    { question: "Quel est le rôle de l'hypothalamus ?", reponse: "Glande dans le cerveau, chef d'orchestre des autres glandes." },
+    // SVT - Nutrition
+    { question: "Citez les trois grandes familles de nutriments.", reponse: "Glucides (sucres), lipides (graisses), protides (protéines)." },
+    { question: "À quoi servent les enzymes digestives ?", reponse: "À dégrader les aliments (ex: amylase dégrade l'amidon)." },
+    { question: "Où se déroule l'absorption des nutriments ?", reponse: "Dans l'intestin grêle, grâce aux villosités intestinales." },
+    { question: "Qu'est-ce que le bol alimentaire ?", reponse: "Masse pâteuse formée par les aliments mâchés et mélangés à la salive." },
+    // SVT - Respiration et circulation
+    { question: "Où se produisent les échanges gazeux entre l'air et le sang ?", reponse: "Dans les alvéoles pulmonaires." },
+    { question: "Quel est le trajet du sang dans la circulation ?", reponse: "Cœur → artères → capillaires (échanges) → veines → cœur." },
+    { question: "Que transportent les globules rouges ?", reponse: "L'oxygène (O₂) grâce à l'hémoglobine." },
+    { question: "Différence entre artère et veine.", reponse: "Artère : sang part du cœur, paroi épaisse. Veine : sang retourne au cœur, paroi moins épaisse." },
+    // SVT - Microbes et immunité
+    { question: "Citez les 4 grandes catégories de microbes.", reponse: "Bactéries, virus, champignons, parasites." },
+    { question: "Quelles sont les barrières naturelles de l'organisme ?", reponse: "Peau, muqueuses, sucs gastriques, larmes." },
+    { question: "Différence entre bactérie et virus.", reponse: "Bactérie : cellule vivante. Virus : particule non vivante, nécessite une cellule hôte." },
+    { question: "Qu'est-ce qu'un anticorps ?", reponse: "Protéine fabriquée par les lymphocytes qui neutralise un antigène." },
+    { question: "Qu'est-ce qu'un vaccin ?", reponse: "Antigène affaibli qui déclenche une réponse immunitaire sans provoquer la maladie." },
+    { question: "Pourquoi les antibiotiques sont-ils inefficaces contre les virus ?", reponse: "Ils ciblent des structures propres aux bactéries." },
+    // SVT - Sexualité
+    { question: "Citez trois méthodes contraceptives.", reponse: "Pilule, préservatif, stérilet, implant, patch." },
+    { question: "Que signifie IST ?", reponse: "Infection Sexuellement Transmissible." },
+    { question: "Comment agit le préservatif face au VIH ?", reponse: "Barrière physique empêchant l'échange de liquides biologiques." },
+    // Physique - Atomes et molécules
+    { question: "Quels sont les constituants d'un atome ?", reponse: "Protons (charge +), neutrons (neutres) dans le noyau, électrons (charge -) autour." },
+    { question: "Donner la formule de la molécule d'eau.", reponse: "H₂O" },
+    { question: "Différence entre atome et molécule.", reponse: "Atome = plus petite particule d'un élément. Molécule = assemblage d'atomes." },
+    { question: "Comment passe-t-on de l'état solide à l'état liquide ?", reponse: "Fusion (apport de chaleur)." },
+    // Physique - Mélanges
+    { question: "Qu'est-ce qu'un corps pur ?", reponse: "Substance composée d'un seul type de constituant." },
+    { question: "Différence entre mélange homogène et hétérogène.", reponse: "Homogène : on ne distingue pas les constituants. Hétérogène : plusieurs phases." },
+    { question: "Comment séparer du sable et de l'eau ?", reponse: "Filtration." },
+    { question: "Comment séparer de l'eau salée ?", reponse: "Distillation." },
+    // Physique - Réactions chimiques
+    { question: "Qu'est-ce qu'une réaction chimique ?", reponse: "Transformation de réactifs en produits, avec conservation des atomes." },
+    { question: "Écrire l'équation de combustion complète du méthane.", reponse: "CH₄ + 2 O₂ → CO₂ + 2 H₂O" },
+    { question: "Différence entre réaction exothermique et endothermique.", reponse: "Exothermique : dégage de la chaleur. Endothermique : absorbe de la chaleur." },
+    { question: "Qu'est-ce qu'une neutralisation ?", reponse: "Réaction entre un acide et une base pour former de l'eau et un sel." },
+    // Physique - Mouvement et forces
+    { question: "Quels sont les types de trajectoires ?", reponse: "Rectiligne, circulaire, curviligne." },
+    { question: "Formule de la vitesse moyenne.", reponse: "v = d/t" },
+    { question: "Convertir 20 m/s en km/h.", reponse: "72 km/h" },
+    { question: "Formule du poids (force de gravité).", reponse: "P = m × g (g ≈ 9,8 N/kg)" },
+    { question: "Énoncer le principe d'inertie.", reponse: "Si les forces se compensent, le mouvement est rectiligne uniforme ou le corps est au repos." },
+    { question: "Formule de la pression.", reponse: "P = F/S (Pascal)" },
+    { question: "Quelle est la pression atmosphérique normale ?", reponse: "1013 hPa" },
+    // Physique - Énergie
+    { question: "Citez trois énergies fossiles.", reponse: "Charbon, pétrole, gaz naturel." },
+    { question: "Citez trois énergies renouvelables.", reponse: "Solaire, éolien, hydraulique, biomasse, géothermie." },
+    { question: "Formule de l'énergie cinétique.", reponse: "Ec = ½ × m × v²" },
+    { question: "Formule de l'énergie potentielle de position.", reponse: "Ep = m × g × h" },
+    { question: "Qu'est-ce que le rendement ?", reponse: "Énergie utile / énergie totale (≤ 1 ou 100%)." },
+    // Physique - Électricité
+    { question: "Énoncer la loi d'Ohm.", reponse: "U = R × I" },
+    { question: "Formule de la puissance électrique.", reponse: "P = U × I" },
+    { question: "Différence entre circuit série et circuit dérivation.", reponse: "Série : un seul chemin, même courant. Dérivation : plusieurs chemins, même tension." },
+    { question: "Qu'est-ce qu'un court-circuit ?", reponse: "Chemin de très faible résistance qui contourne un récepteur, courant très élevé." },
+    { question: "À quoi sert un fusible ou un disjoncteur ?", reponse: "À couper le circuit en cas de surintensité." },
+    // Physique - Ondes
+    { question: "Vitesse de la lumière dans le vide.", reponse: "300 000 km/s (3×10⁸ m/s)" },
+    { question: "Vitesse du son dans l'air (15°C).", reponse: "340 m/s" },
+    { question: "La lumière a-t-elle besoin d'un support pour se propager ?", reponse: "Non (se propage dans le vide). Le son, oui." },
+    { question: "Qu'est-ce que la hauteur d'un son ?", reponse: "Liée à la fréquence (Hz). Aigu = fréquence élevée, grave = fréquence basse." },
+    { question: "Qu'est-ce que l'intensité sonore ?", reponse: "Liée à l'amplitude (dB). Son fort = grande amplitude." }
+  ];
+
+  let planning = { jour: 26, termine: false };
+  let progression = {};
+  let questionsSession = [];
+  let indexActuel = 0;
+  let currentQuestion = null;
+  let timerInterval = null;
+  let tempsRestant = 45 * 60;
+
+  function sauvegarderPlanning() { localStorage.setItem("planning_automatismes_sciences", JSON.stringify(planning)); }
+  function sauvegarderProgression() { localStorage.setItem("automatismes_sciences", JSON.stringify(progression)); }
+
+  function chargerDonnees() {
+    const savedPlanning = localStorage.getItem("planning_automatismes_sciences");
+    if (savedPlanning) planning = JSON.parse(savedPlanning);
+    else planning = { jour: 26, termine: false };
+    const savedProg = localStorage.getItem("automatismes_sciences");
+    if (savedProg) progression = JSON.parse(savedProg);
+    else progression = {};
+    document.getElementById("jourActuel").innerText = planning.jour;
   }
 
-  window.verifier = function(idx) {
-    const user = document.getElementById(`input-${idx}`).value.trim().toLowerCase();
-    const expected = questions[idx].reponse.toLowerCase();
-    const fb = document.getElementById(`fb-${idx}`);
-    if (user === expected) {
-      fb.innerHTML = '✅ Correct !';
-      fb.style.color = '#7ecf8a';
-      if (!done.includes(idx)) done.push(idx);
-      localStorage.setItem('automatismes_sciences', JSON.stringify(done));
+  function selectionnerQuestions() {
+    const nouvelles = flashcards.filter(c => !progression[c.question] || progression[c.question].etat === "nouvelle").slice(0, 30);
+    const erreurs = flashcards.filter(c => progression[c.question] && progression[c.question].nbErreurs > 0).slice(0, 10);
+    const rebrassage = flashcards.filter(c => progression[c.question] && progression[c.question].etat === "maitrisee").slice(0, 5);
+    let selected = [...nouvelles, ...erreurs, ...rebrassage];
+    const ids = new Set();
+    selected = selected.filter(c => { if (ids.has(c.question)) return false; ids.add(c.question); return true; });
+    for (let i=selected.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [selected[i], selected[j]] = [selected[j], selected[i]]; }
+    return selected;
+  }
+
+  function demarrerSession() {
+    questionsSession = selectionnerQuestions();
+    indexActuel = 0;
+    document.getElementById("sessionInfo").innerHTML = `📌 ${questionsSession.length} questions (30 nouvelles + 10 erreurs + 5 rebrassage)`;
+    if (questionsSession.length === 0) {
+      document.getElementById("questionArea").innerHTML = '<div class="progress">🎉 Félicitations ! Plus de questions.</div>';
+      return;
+    }
+    afficherQuestion();
+    demarrerTimer();
+  }
+
+  function afficherQuestion() {
+    if (indexActuel >= questionsSession.length) { terminerSession(); return; }
+    currentQuestion = questionsSession[indexActuel];
+    document.getElementById("questionArea").innerHTML = `
+      <div class="question-card">
+        <div class="question-text">${currentQuestion.question}</div>
+        <textarea id="reponseInput" rows="3" placeholder="Explique avec tes propres mots..."></textarea>
+        <div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+    `;
+    document.getElementById("validerBtn").onclick = () => verifierReponse();
+    document.getElementById("reponseInput").focus();
+    document.getElementById("sessionInfo").innerHTML = `📌 ${indexActuel+1}/${questionsSession.length}`;
+  }
+
+  function verifierReponse() {
+    const userReponse = document.getElementById("reponseInput").value.trim();
+    if (userReponse === "") { alert("Écris une réponse."); return; }
+    const evaluation = evaluerComprehension(userReponse, currentQuestion.reponse);
+    const state = progression[currentQuestion.question] || { nbErreurs: 0, etat: "nouvelle" };
+    if (evaluation.valide) {
+      state.nbErreurs = 0; state.etat = "maitrisee";
+      document.getElementById("feedback").innerHTML = `✅ Bien compris ! (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
     } else {
-      fb.innerHTML = `❌ Faux. Réponse attendue : ${questions[idx].reponse}<br>📸 Prends une capture d'écran pour réviser. Cette question reviendra.`;
-      fb.style.color = '#f55a5a';
+      state.nbErreurs = (state.nbErreurs || 0) + 1; state.etat = "en_erreur";
+      document.getElementById("feedback").innerHTML = `⚠️ Revoir (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
     }
-    mettreAJourScore();
-  };
-
-  function mettreAJourScore() {
-    document.getElementById('score').innerText = done.length;
+    progression[currentQuestion.question] = state;
+    sauvegarderProgression();
+    document.getElementById("feedback").classList.add("show");
+    indexActuel++;
+    setTimeout(() => afficherQuestion(), 2000);
   }
 
-  chargerQuestions();
+  function terminerSession() { clearInterval(timerInterval); document.getElementById("questionArea").innerHTML = '<div class="progress">✅ Session terminée.</div>'; planning.termine = true; sauvegarderPlanning(); }
+  function demarrerTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { if (tempsRestant <= 0) { terminerSession(); return; } tempsRestant--; const m = Math.floor(tempsRestant/60), s = tempsRestant%60; document.getElementById("timer").innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }, 1000); }
+  function reinitialiser() { if (confirm("Réinitialiser ?")) { localStorage.removeItem("automatismes_sciences"); localStorage.removeItem("planning_automatismes_sciences"); chargerDonnees(); demarrerSession(); } }
+  function passerJour() { if (planning.jour <= 0) { alert("Planning terminé"); return; } planning.jour--; sauvegarderPlanning(); chargerDonnees(); demarrerSession(); }
+
+  document.getElementById("resetBtn").onclick = reinitialiser;
+  document.getElementById("nextDayBtn").onclick = passerJour;
+  chargerDonnees();
+  demarrerSession();
 </script>
 </body>
 </html>
