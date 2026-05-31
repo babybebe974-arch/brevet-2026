@@ -2,99 +2,167 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>📖 Fiches de révision – Brevet 2026</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#09090f;color:#f0ede8;font-family:'DM Sans',sans-serif;padding:1rem;}
-    .container{max-width:1100px;margin:0 auto;background:#111118;border-radius:2rem;padding:2rem;border:1px solid rgba(94,207,177,0.2);}
-    h1{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:0.25rem;color:#f39c12;}
-    .sub{color:#9aaec9;margin-bottom:2rem;border-left:3px solid #f39c12;padding-left:1rem;}
-    .tabs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2rem;border-bottom:1px solid #2a3452;padding-bottom:0.5rem;}
-    .tab-btn{background:none;border:none;padding:0.5rem 1.2rem;font-size:1rem;font-weight:600;color:#9aaec9;cursor:pointer;border-radius:40px;}
-    .tab-btn.active{background:#1e2a3e;color:#f39c12;border:1px solid #f39c12;}
-    .tab-content{display:none;}
-    .tab-content.active{display:block;}
-    .matiere-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:#e8c87a;margin-bottom:1.5rem;}
-    .chapitre-card{background:#0c1222;border:1px solid #2a3452;border-radius:1.2rem;margin-bottom:1.5rem;overflow:hidden;}
-    .chapitre-header{background:#0a0a0f;padding:1rem 1.2rem;border-bottom:1px solid #2a3452;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
-    .chapitre-nom{font-weight:700;font-size:1.1rem;color:#5ecfb1;}
-    .chapitre-body{padding:1.2rem;display:none;border-top:1px solid #2a3452;}
-    .chapitre-body.open{display:block;}
-    .section{margin-bottom:1.5rem;}
-    .section-title{font-weight:600;color:#e8c87a;margin-bottom:0.5rem;font-size:0.9rem;text-transform:uppercase;}
-    .notion{color:#e74c3c;font-weight:600;background:rgba(231,76,60,0.15);padding:0.1rem 0.3rem;border-radius:4px;}
-    .keyword-list{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;}
-    .keyword-badge{background:#1e2a3e;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;color:#5ecfb1;}
-    .footer{margin-top:2rem;text-align:center;font-size:0.7rem;color:#555;border-top:1px solid #2a3452;padding-top:1.5rem;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:1100px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+    
+    /* Navigation */
+    .nav-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;align-items:flex-end;}
+    .nav-group{flex:1;min-width:180px;}
+    .nav-group label{display:block;font-size:0.7rem;color:#aaa;margin-bottom:0.2rem;}
+    select{width:100%;background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.6rem 1rem;color:#ffffff;font-size:0.9rem;cursor:pointer;}
+    select:focus{outline:none;border-color:#ffcc00;}
+    
+    /* Contenu fiche */
+    .fiche-content{background:#1a1a1a;border-radius:1rem;padding:1.2rem;border:1px solid #333;}
+    .objectif{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin-bottom:1rem;border-left:4px solid #ffcc00;}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem;}
+    th,td{border:1px solid #333;padding:0.6rem;vertical-align:top;text-align:left;color:#ffffff;}
+    th{background:#2a2a2a;color:#ffcc00;}
+    tr:nth-child(even) td{background:#222;}
+    .notion{color:#ff3b3b;font-weight:600;background:rgba(255,59,59,0.15);padding:0.1rem 0.2rem;border-radius:4px;display:inline-block;}
+    .pieges,.exemple,.flashcards{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin:1rem 0;}
+    .flashcards{border-left:3px solid #ff3b3b;}
+    hr{border-color:#333;margin:1rem 0;}
+    .footer{font-size:0.7rem;color:#aaa;text-align:center;margin-top:1rem;}
+    strong{color:#ffcc00;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>📖 Fiches de révision</h1>
-  <div class="sub">Brevet 2026 – Résumés de cours par chapitre – Notions clés en rouge</div>
+  <div class="sub">Brevet 2026 – Choisis ta matière et ton chapitre</div>
 
-  <div class="tabs">
-    <button class="tab-btn active" data-matiere="francais">🇫🇷 Français</button>
-    <button class="tab-btn" data-matiere="maths">📐 Maths</button>
-    <button class="tab-btn" data-matiere="histoire">🌍 Histoire-Géo & EMC</button>
-    <button class="tab-btn" data-matiere="sciences">🔬 Sciences</button>
+  <div class="nav-row">
+    <div class="nav-group">
+      <label>📚 Matière</label>
+      <select id="matiereSelect">
+        <option value="francais">🇫🇷 Français</option>
+        <option value="maths">📐 Mathématiques</option>
+        <option value="histoire">🌍 Histoire-Géo & EMC</option>
+        <option value="sciences">🔬 Sciences</option>
+      </select>
+    </div>
+    <div class="nav-group">
+      <label>📖 Chapitre</label>
+      <select id="chapitreSelect"></select>
+    </div>
   </div>
 
-  <div id="tab-francais" class="tab-content active"><div id="fiches-francais"></div></div>
-  <div id="tab-maths" class="tab-content"><div id="fiches-maths"></div></div>
-  <div id="tab-histoire" class="tab-content"><div id="fiches-histoire"></div></div>
-  <div id="tab-sciences" class="tab-content"><div id="fiches-sciences"></div></div>
+  <div id="ficheContainer" class="fiche-content">
+    <!-- Le contenu de la fiche s'affichera ici dynamiquement -->
+  </div>
 
-  <div class="footer">📌 Les notions en <span class="notion">rouge</span> sont à mémoriser.</div>
+  <div class="footer">📌 Notions en <span class="notion">rouge</span> = flashcards à maîtriser.</div>
 </div>
 
 <script>
-  // Données intégrées (extrait représentatif – à compléter avec tous les chapitres)
+  // ==================== DONNÉES DES FICHES (structure compacte) ====================
   const fichesData = {
-    francais: { themes: [{ nom: "Grammaire", chapitres: [{ nom: "Les classes grammaticales", contenu: "Les <span class='notion'>9 classes grammaticales</span> : nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection.", mots_cles: ["nom","verbe","adjectif"] }] }] },
-    maths: { themes: [{ nom: "Nombres", chapitres: [{ nom: "Nombres premiers", contenu: "Un <span class='notion'>nombre premier</span> a exactement deux diviseurs : 1 et lui-même.", mots_cles: ["nombre premier","diviseur"] }] }] },
-    histoire: { themes: [{ nom: "Histoire", chapitres: [{ nom: "Lumières", contenu: "Mouvement intellectuel <span class='notion'>XVIIIe siècle</span>. Idées : <span class='notion'>liberté, égalité, raison</span>.", mots_cles: ["Lumières","Voltaire","Montesquieu"] }] }] },
-    sciences: { themes: [{ nom: "SVT", chapitres: [{ nom: "Cellule", contenu: "La <span class='notion'>cellule</span> est l'unité du vivant. <span class='notion'>Membrane, cytoplasme, noyau</span>.", mots_cles: ["cellule","noyau","membrane"] }] }] }
+    francais: {
+      chapitres: [
+        { numero: 1, titre: "Les classes grammaticales", objectif: "Identifier la nature (classe grammaticale) de n'importe quel mot.", tableau: [
+          ["Nom", "Être, chose, idée. On peut mettre « le » devant.", "chat, table, liberté"],
+          ["Déterminant", "Précède le nom, indique genre/nombre.", "le, la, un, ce, mon"],
+          ["Adjectif", "Qualifie le nom (accorde en genre/nombre).", "grand, belle"],
+          ["Verbe", "Action ou état. Se conjugue.", "manger, être"],
+          ["Adverbe", "Modifie verbe/adjectif. Invariable.", "rapidement, très"],
+          ["Préposition", "Introduit un complément. Invariable.", "à, de, pour, dans"],
+          ["Conjonction", "Relie mots ou propositions.", "mais, ou, et, donc, or, ni, car"],
+          ["Interjection", "Mot-phrase exprimant une émotion.", "Ah ! Bravo !"]
+        ], pieges: "<span class='notion'>Leur / leurs</span> : leur = pronom invariable (je leur donne) ; leurs = déterminant pluriel (leurs livres).<br>⚠️ <span class='notion'>Tout</span> : déterminant, pronom, adverbe ou nom.", exemple: "« <span class='notion'>L'immense</span> forêt <span class='notion'>s'étendait</span> <span class='notion'>silencieusement</span> » → L'=déterminant, immense=adjectif, forêt=nom, s'étendait=verbe, silencieusement=adverbe.", flashcards: "<span class='notion'>9 classes grammaticales</span> – <span class='notion'>leur/leurs</span> – <span class='notion'>tout</span> – <span class='notion'>7 conjonctions de coordination</span>" },
+        { numero: 2, titre: "Les fonctions grammaticales", objectif: "Identifier la fonction d'un mot dans la phrase (sujet, COD, COI, CC...).", tableau: [
+          ["Sujet", "qui ? quoi ?", "Le chat dort."],
+          ["COD", "qui ? quoi ? (après le verbe)", "Je mange une pomme."],
+          ["COI", "à qui ? à quoi ?", "Je parle à Marie."],
+          ["CC de temps", "quand ?", "Il court le matin."],
+          ["Attribut du sujet", "verbe d'état (être, paraître, sembler)", "Il est grand."]
+        ], pieges: "Ne pas confondre <span class='notion'>nature</span> (ce qu'est un mot) et <span class='notion'>fonction</span> (ce qu'il fait dans la phrase).", exemple: "« Marie <span class='notion'>mange</span> <span class='notion'>une pomme</span> <span class='notion'>dans la cuisine</span>. » → Marie=sujet, mange=verbe, une pomme=COD, dans la cuisine=CC de lieu.", flashcards: "<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>complément circonstanciel</span> – <span class='notion'>attribut du sujet</span>" }
+        // Ajouter ici les 25 autres chapitres de français (même structure)
+      ] },
+    maths: {
+      chapitres: [
+        { numero: 1, titre: "Nombres premiers et PGCD", objectif: "Savoir décomposer un nombre en facteurs premiers et calculer le PGCD.", tableau: [
+          ["Nombre premier", "Divisible uniquement par 1 et lui-même.", "2, 3, 5, 7, 11, 13…"],
+          ["Décomposition", "Diviser par les nombres premiers successifs.", "72 = 2³ × 3²"],
+          ["PGCD", "Plus Grand Diviseur Commun.", "PGCD(12,18) = 6"]
+        ], pieges: "1 n'est pas premier. 2 est le seul nombre pair premier.", exemple: "84 = 2 × 42 = 2 × 2 × 21 = 2² × 3 × 7.", flashcards: "<span class='notion'>nombre premier</span> – <span class='notion'>décomposition</span> – <span class='notion'>PGCD</span> – <span class='notion'>algorithme d'Euclide</span>" }
+        // Ajouter les 21 autres chapitres de maths
+      ] },
+    histoire: {
+      chapitres: [
+        { numero: 1, titre: "L'Europe des Lumières", objectif: "Connaître les idées et les acteurs des Lumières.", tableau: [
+          ["Philosophes", "Voltaire (tolérance), Montesquieu (séparation des pouvoirs), Rousseau (contrat social)", "Idées : liberté, égalité, raison"],
+          ["Diffusion", "Encyclopédie, salons, Franc-maçonnerie", "Despotes éclairés : Frédéric II, Catherine II, Joseph II"]
+        ], pieges: "Ne pas confondre les 3 philosophes (Voltaire, Montesquieu, Rousseau).", exemple: "Voltaire défend la liberté d'expression : « Je ne suis pas d'accord avec ce que vous dites, mais je me battrai pour que vous puissiez le dire. »", flashcards: "<span class='notion'>Voltaire</span> – <span class='notion'>Montesquieu</span> – <span class='notion'>Rousseau</span> – <span class='notion'>Encyclopédie</span> – <span class='notion'>despotes éclairés</span>" }
+        // Ajouter les 29 autres chapitres d'histoire
+      ] },
+    sciences: {
+      chapitres: [
+        { numero: 1, titre: "Le réchauffement climatique", objectif: "Comprendre les causes et conséquences du réchauffement climatique.", tableau: [
+          ["Gaz à effet de serre (GES)", "CO₂, CH₄, N₂O", "Combustion fossile, déforestation"],
+          ["Conséquences", "Fonte des glaciers, montée des eaux", "Catastrophes naturelles"]
+        ], pieges: "Ne pas confondre effet de serre (naturel) et réchauffement climatique (aggravé par l'homme).", exemple: "L'Accord de Paris (2015) vise à limiter le réchauffement à +2°C.", flashcards: "<span class='notion'>GES</span> – <span class='notion'>CO₂</span> – <span class='notion'>fonte des glaces</span> – <span class='notion'>Accord de Paris</span>" }
+        // Ajouter les 29 autres chapitres de sciences
+      ] }
   };
-  // Pour la démo, je mets juste un extrait. En réel, il faut intégrer tous les chapitres (les mêmes que dans les JSON).
-  // Tu peux copier ici tout le contenu des fichiers fiches-*.json que tu as générés.
 
-  function afficherFiches(matiere, containerId) {
-    const data = fichesData[matiere];
-    const container = document.getElementById(containerId);
-    if (!data) { container.innerHTML = "<div>Fichier non trouvé</div>"; return; }
-    let html = "";
-    for (const theme of data.themes) {
-      for (const ch of theme.chapitres) {
-        html += `<div class="chapitre-card">
-          <div class="chapitre-header" onclick="this.nextElementSibling.classList.toggle('open')">
-            <span class="chapitre-nom">${ch.nom}</span><span>▼</span>
-          </div>
-          <div class="chapitre-body">
-            <div class="section"><div class="section-title">📌 Contenu</div><div>${ch.contenu}</div></div>
-            <div class="section"><div class="section-title">🔑 Mots-clés</div><div class="keyword-list">${ch.mots_cles.map(m => `<span class="keyword-badge">${m}</span>`).join('')}</div></div>
-          </div>
-        </div>`;
-      }
-    }
-    container.innerHTML = html;
-  }
-  // Au chargement, afficher français par défaut
-  afficherFiches("francais", "fiches-francais");
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-      const m = btn.dataset.matiere;
-      document.getElementById(`tab-${m}`).classList.add("active");
-      if(m==="francais") afficherFiches("francais","fiches-francais");
-      if(m==="maths") afficherFiches("maths","fiches-maths");
-      if(m==="histoire") afficherFiches("histoire","fiches-histoire");
-      if(m==="sciences") afficherFiches("sciences","fiches-sciences");
+  // Mise à jour du sélecteur de chapitre
+  function updateChapitreSelect() {
+    const matiere = document.getElementById('matiereSelect').value;
+    const chapitres = fichesData[matiere].chapitres;
+    const select = document.getElementById('chapitreSelect');
+    select.innerHTML = '';
+    chapitres.forEach(ch => {
+      const option = document.createElement('option');
+      option.value = ch.numero;
+      option.textContent = `Chapitre ${ch.numero} : ${ch.titre}`;
+      select.appendChild(option);
     });
+    afficherFiche();
+  }
+
+  // Affichage de la fiche sélectionnée
+  function afficherFiche() {
+    const matiere = document.getElementById('matiereSelect').value;
+    const chapitreNum = parseInt(document.getElementById('chapitreSelect').value);
+    const chapitre = fichesData[matiere].chapitres.find(c => c.numero === chapitreNum);
+    if (!chapitre) return;
+
+    let tableauHtml = '';
+    if (chapitre.tableau) {
+      tableauHtml = '<table><thead><tr><th>Notion</th><th>Astuce / Définition</th><th>Exemples</th></tr></thead><tbody>';
+      for (const row of chapitre.tableau) {
+        tableauHtml += `<tr><td><span class="notion">${row[0]}</span></td><td>${row[1]}</td><td>${row[2]}</td></tr>`;
+      }
+      tableauHtml += '</tbody></table>';
+    }
+
+    const html = `
+      <div class="objectif">🎯 ${chapitre.objectif}</div>
+      ${tableauHtml}
+      <div class="pieges">⚠️ ${chapitre.pieges}</div>
+      <div class="exemple">✍️ ${chapitre.exemple}</div>
+      <div class="flashcards">🃏 Flashcards : ${chapitre.flashcards}</div>
+    `;
+    document.getElementById('ficheContainer').innerHTML = html;
+  }
+
+  // Événements
+  document.getElementById('matiereSelect').addEventListener('change', () => {
+    updateChapitreSelect();
   });
+  document.getElementById('chapitreSelect').addEventListener('change', () => {
+    afficherFiche();
+  });
+
+  // Initialisation
+  updateChapitreSelect();
 </script>
 </body>
 </html>
