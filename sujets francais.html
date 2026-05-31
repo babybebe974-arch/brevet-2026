@@ -2,179 +2,191 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sujets blancs Français - Brevet 2026</title>
-<script src="config.js"></script>
+<title>📖 Sujets Blancs Français — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 1000px; margin: 0 auto; }
-  .sujet { background: #111118; border-left: 5px solid #5ecfb1; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
-  .texte { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
-  .texte-dictee { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; font-family: monospace; font-size: 0.85rem; line-height: 1.4; color: #aaa; }
-  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
-  textarea.dictee { min-height: 200px; }
-  textarea.redaction { min-height: 250px; }
-  textarea.reponse { min-height: 90px; }
-  button { background: #5ecfb1; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.5rem; }
-  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
-  hr { border-color: #2a2a35; margin: 1.5rem 0; }
-  h3 { color: #5ecfb1; }
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--teal);border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--teal);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sujet-card:hover{border-color:rgba(94,207,177,0.4);transform:translateY(-2px);}
+.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
+.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--teal);}
+.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
+.back:hover{background:rgba(255,255,255,0.04);}
+.chrono-bar{background:rgba(94,207,177,0.06);border-bottom:1px solid rgba(94,207,177,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--teal);}
+.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chrono-btns{display:flex;gap:8px;}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.07);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.s-body{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--teal);}
+.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.partie-body{padding:20px;}
+.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--teal);}
+.texte-box .auteur{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:12px;text-align:right;}
+.q-block{margin-bottom:16px;}
+.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);font-weight:700;min-width:24px;margin-top:2px;}
+.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
+.answer-ta:focus{border-color:rgba(94,207,177,0.4);}
+.redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
+.btn-correction{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;text-decoration:none;display:inline-block;margin-top:8px;}
+.btn-correction:hover{background:rgba(94,207,177,0.12);}
+.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.corr-btn:hover{background:rgba(94,207,177,0.12);}
+.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.corr-box.show{display:block;}
+.corr-box strong{color:var(--text);}
+.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
+.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ae-label{font-size:13px;flex:1;}
+.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
+.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ae-total{background:linear-gradient(135deg,rgba(94,207,177,0.1),rgba(94,207,177,0.05));border:1px solid rgba(94,207,177,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--teal);}
+.ae-total-lbl{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btns{display:flex;gap:10px;margin-top:12px;}
+.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
+.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btn.primary{background:linear-gradient(135deg,var(--teal),#3aad8a);border:none;color:#060f0a;font-weight:700;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+.ai-link{display:inline-block;margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;color:#080600;font-weight:700;font-size:12px;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.ai-link:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
+@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Français - 10 sujets blancs (DNB)</h1>
-  <div id="sujets"></div>
+<div id="home">
+  <div class="badge">📖 Sujets blancs complets — Français</div>
+  <h1>Brevet Blanc <em>Français</em></h1>
+  <p class="sub">10 sujets complets format DNB. Texte + compréhension + grammaire + rédaction. Corrections détaillées avec barèmes.</p>
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+  <div class="sujets-grid" id="sujets-grid"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
 </div>
-<script>
-// ==================== TEXTES OFFICIELS DES DICTÉES ====================
-const DICTEES = {
-  1: { titre: "Dictée n°1 – Simone de Beauvoir, La Force de l'âge (1960) – Année 2025", texte: "Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière." },
-  2: { titre: "Dictée n°2 – Marc Dugain, La Chambre des officiers (1998) – Année 2024", texte: "Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables. Marguerite souriait, hochait la tête, et parfois elle nous surprenait par une repartie pleine d'humour." },
-  3: { titre: "Dictée n°3 – George Sand, Histoire de ma vie (1855) – Année 2023", texte: "Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine. La vie continuait, mais quelque chose s'était brisé." },
-  4: { titre: "Dictée n°4 – Jean-Jacques Rousseau, Les Confessions (1782) – Année 2022", texte: "Le voyage à Paris dura une quinzaine de jours, que je peux compter parmi les plus heureux de ma vie. J'étais jeune, je me portais bien, j'avais assez d'argent, beaucoup d'espérance, et je voyageais, à pied et seul. Mes douces illusions me tenaient compagnie, et jamais la chaleur de mon imagination n'en enfanta de plus magnifiques. Quand on m'offrait quelque place vide dans une voiture, je répugnais à voir renverser le château des rêveries que je bâtissais en marchant. Cette fois mes idées étaient militaires. Je croyais déjà me voir en habit d'officier avec un beau plumet blanc. Mon cœur s'enflait à cette noble idée." },
-  5: { titre: "Dictée n°5 – Chateaubriand, Mémoires d'outre-tombe (1848) – Année 2021", texte: "Je fus élevé dans la solitude. Mes premiers maîtres furent la nature et mes propres pensées. Je passais des journées entières à errer dans les bois, à écouter le bruit du vent dans les feuilles, à regarder couler les rivières. Cette vie sauvage développa en moi un amour de la liberté qui ne m'a jamais quitté. Je n'aimais pas l'école, ni les livres que l'on nous forçait à lire. Je préférais courir dans les champs, grimper aux arbres, dormir sous les étoiles. Mon père me punissait souvent, mais ma mère me comprenait. Elle me disait : « Laisse-le rêver, il deviendra quelqu'un. »" },
-  6: { titre: "Dictée n°6 – Albert Camus, Le Premier Homme (1994) – Année 2019", texte: "La mer était calme ce jour-là. Mon père, que je n'avais pas connu, reposait au cimetière. Je marchais sur la plage avec ma mère. Elle ne disait rien, mais je sentais sa main trembler dans la mienne. Le soleil brillait sur l'eau. J'ai pensé que la vie était belle malgré la tristesse, et que je devais être fort pour elle. Nous nous sommes assis sur un rocher. Elle a sorti une photo de mon père, jeune et souriant. Elle l'a regardée longtemps, puis elle l'a rangée sans un mot. Le vent soufflait doucement. La mer était calme." },
-  7: { titre: "Dictée n°7 – Marcel Aymé, Uranus (1948) – Année 2018", texte: "Dans la petite ville de province, les passions étaient vives. Chacun défendait son opinion avec colère. On se querellait dans les cafés, on se fâchait dans les familles. Moi, je restais tranquille, assis sur un banc, à regarder passer les nuages. Je pensais que les hommes étaient fous de se battre pour des idées. Mais je n'osais pas le dire. Un jour, pourtant, j'ai parlé. J'ai dit que la paix valait mieux que la guerre. On s'est moqué de moi. Mais je ne regrette rien. J'avais dit ce que je pensais. C'est l'essentiel." },
-  8: { titre: "Dictée n°8 – Jean Giono, Les Vraies Richesses (1936) – Année 2017", texte: "Je vivais seul dans la montagne. Mon unique compagnon était un vieux chien boiteux. Nous passions nos journées à marcher sur les chemins pierreux. L'hiver, la neige nous enfermait dans la cabane. Je lisais les livres de mon père, le soir, à la lumière d'une bougie. Le chien dormait à mes pieds. C'était une vie heureuse. Le printemps revenu, je descendais à la ville pour vendre mes peaux de bêtes. Je n'aimais pas la ville. Trop de bruit, trop de monde. Je repartais vite vers ma montagne, où l'air était pur et le silence reposant." },
-  9: { titre: "Dictée n°9 – Voltaire, Candide (1759) – Année 2016", texte: "Il y avait en Westphalie, dans le château de monsieur le baron de Thunder-ten-tronckh, un jeune garçon à qui la nature avait donné les mœurs les plus douces. Sa physionomie annonçait son âme. Il avait le jugement assez droit avec l'esprit le plus simple. C'est, je crois, pour cette raison qu'on le nommait Candide. Les vieux domestiques du château soupçonnaient qu'il était fils de la sœur de monsieur le baron. Cette sœur n'avait jamais voulu se marier parce que son amoureux avait été tué à la guerre. Elle vivait seule, dans l'aile nord du château." },
-  10: { titre: "Dictée n°10 – Victor Hugo, Les Misérables (1862) – Année 2026", texte: "Gavroche était un enfant joyeux. Il n'avait pas de gîte, pas de pain, pas de feu, pas d'amour, mais il était libre. Le jour, il courait les rues. La nuit, il dormait sous les arches du pont. Il se moquait des sergents de ville. Il chantait à tue-tête. Les gamins le suivaient. C'était le roi de la rue. Personne ne savait d'où il venait, personne ne savait où il allait. Il vivait au jour le jour, se nourrissant de ce que la ville lui offrait. Il avait le cœur sur la main et la moquerie aux lèvres. Gavroche, c'était Paris." }
-};
 
-// ==================== SUJETS (extraits officiels DNB) ====================
+<div id="sujet-page">
+  <div class="s-header">
+    <div><div class="s-logo">📖 Brevet Blanc Français</div><div class="s-meta" id="s-meta">—</div></div>
+    <button class="back" onclick="goHome()">← Retour</button>
+  </div>
+  <div class="chrono-bar">
+    <span style="font-size:11px;color:var(--teal);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre</span>
+    <div class="chrono-time" id="chrono">2:30:00</div>
+    <div class="chrono-btns">
+      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
+      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="s-body" id="s-body"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
 const SUJETS = [
-  { id:1, annee:2025, titre:"Simone de Beauvoir – La Force de l'âge", texte:"Je n'avais pas de métier. J'enseignais, mais je ne me sentais pas professeur. J'écrivais, mais je ne me sentais pas écrivain. Je vivais, et je ne me sentais pas vivante. J'attendais quelque chose. Quoi ? Je ne savais pas. Une rencontre, un événement, un déclic. La province m'étouffait. Paris m'attirait. J'avais vingt ans. Je voulais tout, tout de suite. La patience n'était pas ma vertu. Je lisais beaucoup, je sortais peu. Mes amis me trouvaient bizarre. Peut-être avais-je raison contre eux. Je ne cherchais pas à plaire. Je cherchais la vérité. La mienne.", auteur:"Simone de Beauvoir, La Force de l'âge", questions:[{q:"1. Quel est le sentiment dominant du narrateur dans ce texte ?", pts:3, rep:"Un sentiment d'attente, d'insatisfaction, d'impatience."},{q:"2. Que cherche le narrateur ?", pts:3, rep:"Il cherche quelque chose qu'il ne sait pas nommer : une rencontre, un déclic, la vérité."}], grammaire:[{q:"Analysez la phrase 'Je vivais, et je ne me sentais pas vivante.'", pts:3, rep:"Proposition juxtaposée + coordonnée. Opposition entre 'vivre' et 'se sentir vivant'."}], redaction:{ sujet1:"Racontez un moment où vous avez attendu quelque chose d'important.", sujet2:"Faut-il être patient pour réussir ?", pts:20 } },
-  { id:2, annee:2024, titre:"Marc Dugain – La Chambre des officiers", texte:"Ce matin-là, je me suis réveillé sans visage. La guerre m'avait emporté la moitié du visage. Je ne pouvais plus manger, plus boire, plus parler. Les infirmières me regardaient avec pitié. Mes compagnons d'infortune détournaient les yeux. Je suis resté des mois sans regarder un miroir. Un jour, une jeune fille est entrée dans ma chambre. Elle ne m'a pas regardé. Elle s'est assise près de moi. Elle a pris ma main. Elle est restée silencieuse. Je l'ai remerciée sans ouvrir la bouche. Elle a compris.", auteur:"Marc Dugain, La Chambre des officiers", questions:[{q:"1. Qu'est-il arrivé au narrateur ?", pts:3, rep:"Il a été défiguré par la guerre."},{q:"2. Quel geste la jeune fille fait-elle ? Pourquoi est-il important ?", pts:4, rep:"Elle prend sa main et reste silencieuse. Ce geste montre de l'humanité et du respect."}], grammaire:[{q:"Relevez les verbes à l'imparfait. Quel est leur effet ?", pts:3, rep:"'me regardaient, détournaient, restait' : description des habitudes, durée."}], redaction:{ sujet1:"Racontez un moment où un geste simple vous a touché.", sujet2:"La guerre est-elle toujours une absurdité ?", pts:20 } },
-  { id:3, annee:2023, titre:"George Sand – Histoire de ma vie", texte:"Mon père était un homme doux et rêveur. Ma mère, plus autoritaire, tenait la maison d'une main ferme. Ils ne se disputaient jamais. Mais je sentais entre eux une différence, une distance que je ne savais pas nommer. Mon père lisait des romans, ma mère rangeait les armoires. Lui parlait de voyages, elle parlait de provisions. Je les aimais tous les deux, mais je préférais le silence de mon père à l'agitation de ma mère. Peut-être parce que j'étais comme lui.", auteur:"George Sand, Histoire de ma vie", questions:[{q:"1. Décrivez les caractères du père et de la mère.", pts:3, rep:"Le père est doux, rêveur, silencieux. La mère est autoritaire, active, pratique."},{q:"2. Pourquoi le narrateur préfère-t-il son père ?", pts:3, rep:"Parce qu'il se reconnaît en lui. Il est comme son père."}], grammaire:[{q:"Analysez 'ils ne se disputaient jamais' (négation, sens).", pts:3, rep:"Négation totale. L'absence de dispute cache peut-être une incompréhension."}], redaction:{ sujet1:"Décrivez une personne de votre famille qui vous ressemble.", sujet2:"L'enfance est-elle toujours un âge heureux ?", pts:20 } },
-  { id:4, annee:2022, titre:"Alain-René Lesage – Gil Blas", texte:"Le cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : 'Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde.' Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.", auteur:"Alain-René Lesage, Gil Blas, 1715", questions:[{q:"1. Quels éloges le cavalier fait-il de Gil Blas ?", pts:3, rep:"'Ornement d'Oviedo, flambeau de la philosophie, huitième merveille du monde'."},{q:"2. Quelle est la véritable intention du cavalier ?", pts:4, rep:"Profiter de Gil Blas pour manger gratuitement."}], grammaire:[{q:"Relevez une hyperbole. Justifiez.", pts:3, rep:"'la huitième merveille du monde' : exagération élogieuse."}], redaction:{ sujet1:"Racontez l'histoire d'un flatteur.", sujet2:"Faut-il toujours se méfier des compliments ?", pts:20 } },
-  { id:5, annee:2021, titre:"Guy de Maupassant – La Parure", texte:"C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.", auteur:"Guy de Maupassant, La Parure", questions:[{q:"1. Pourquoi cette fille est-elle malheureuse ?", pts:3, rep:"Elle est née dans une famille pauvre mais se sent faite pour la richesse."},{q:"2. Que veulent dire les dernières phrases ?", pts:4, rep:"Pour les femmes, la beauté et le charme sont plus importants que la naissance."}], grammaire:[{q:"Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts:3, rep:"Gradation ascendante. Le mariage est le but ultime."}], redaction:{ sujet1:"Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2:"L'apparence est-elle plus importante que l'origine sociale ?", pts:20 } },
-  { id:6, annee:2019, titre:"Victor Hugo – Les Misérables", texte:"Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.", auteur:"Victor Hugo, Les Misérables", questions:[{q:"1. Décrivez l'état d'esprit du personnage.", pts:3, rep:"Il est fatigué, seul, triste, sans espoir."},{q:"2. Pourquoi personne ne lui ouvre-t-il ?", pts:3, rep:"Il est pauvre, les gens se méfient."}], grammaire:[{q:"Relevez les adjectifs qualificatifs dans le texte.", pts:3, rep:"lentement (adv), pauvre, fatigué, sombres, désertes, froid, épuisé."}], redaction:{ sujet1:"Racontez une nuit difficile.", sujet2:"Pourquoi la pauvreté fait-elle peur ?", pts:20 } },
-  { id:7, annee:2018, titre:"Jacques Prévert – Paroles", texte:"Il est étendu sur l'herbe, il dort. Il est dix heures. Il est beau. On entend la mer. Les mouettes pleurent. L'herbe est douce. Il sourit dans son sommeil. Je n'ose pas l'appeler. Je n'ose pas l'éveiller. Je reste là, immobile, à le regarder. Parfois, il remue les lèvres. Il dit des mots que je ne comprends pas. Que rêve-t-il ? Je ne saurai jamais. C'est son secret. Je pars sur la pointe des pieds.", auteur:"Jacques Prévert, Paroles", questions:[{q:"1. Que fait le personnage ?", pts:3, rep:"Il dort."},{q:"2. Quelle est l'attitude du narrateur ?", pts:3, rep:"Il est respectueux, discret, admiratif."}], grammaire:[{q:"Analysez 'il est beau' (nature, fonction).", pts:3, rep:"'beau' : adjectif attribut du sujet 'il'."}], redaction:{ sujet1:"Décrivez une personne endormie.", sujet2:"Pourquoi respecter le sommeil des autres ?", pts:20 } },
-  { id:8, annee:2017, titre:"Émile Zola – Germinal", texte:"Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.", auteur:"Émile Zola, Germinal", questions:[{q:"1. Où se passe cette scène ?", pts:3, rep:"Dans une plaine déserte, de nuit."},{q:"2. Quelle impression domine ?", pts:3, rep:"La solitude, l'abandon, la tristesse."}], grammaire:[{q:"Relevez les négations. Quel est leur effet ?", pts:3, rep:"'Pas une maison, pas un arbre, ne voyait rien, ne connaissait personne' : insistance sur le vide absolu."}], redaction:{ sujet1:"Racontez un voyage solitaire.", sujet2:"La solitude est-elle une chance ou une punition ?", pts:20 } },
-  { id:9, annee:2016, titre:"Voltaire – Candide", texte:"Il y avait en Westphalie, dans le château de monsieur le baron de Thunder-ten-tronckh, un jeune garçon à qui la nature avait donné les mœurs les plus douces. Sa physionomie annonçait son âme. Il avait le jugement assez droit avec l'esprit le plus simple. C'est, je crois, pour cette raison qu'on le nommait Candide. Les vieux domestiques soupçonnaient qu'il était fils de la sœur de monsieur le baron. Cette sœur n'avait jamais voulu se marier.", auteur:"Voltaire, Candide", questions:[{q:"1. Pourquoi appelle-t-on le garçon Candide ?", pts:3, rep:"Parce qu'il a l'esprit simple et le jugement droit."},{q:"2. Que soupçonne-t-on sur ses origines ?", pts:3, rep:"Il serait le fils de la sœur du baron."}], grammaire:[{q:"Analysez 'la nature avait donné les mœurs les plus douces' (sujet, verbe, COD).", pts:3, rep:"Sujet : 'la nature' ; verbe : 'avait donné' ; COD : 'les mœurs les plus douces'."}], redaction:{ sujet1:"Racontez l'histoire d'un enfant simple et gentil.", sujet2:"La simplicité d'esprit est-elle une faiblesse ?", pts:20 } },
-  { id:10, annee:2026, titre:"Jules Verne – Vingt Mille Lieues sous les mers", texte:"Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.", auteur:"Jules Verne, Vingt Mille Lieues sous les mers", questions:[{q:"1. Que se passe-t-il ?", pts:3, rep:"On se prépare à pêcher un monstre marin."},{q:"2. Quelle est la réaction des marins ?", pts:3, rep:"Ils s'élancent aux engins, prêts à agir."}], grammaire:[{q:"Relevez les verbes d'action dans le texte.", pts:3, rep:"'ranger, prononça, s'élancèrent, jaillit, émergea'."}], redaction:{ sujet1:"Racontez la chasse à un monstre marin.", sujet2:"L'aventure est-elle nécessaire à l'homme ?", pts:20 } }
+  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.\n\nIci, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.\n\nIl posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},{n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},{n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants). 3. "silence épais et vivant" → oxymore ou personnification.'},{n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},{n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans, les notifications, le bruit constant" est une proposition participiale (gérondif/participe présent).'},{n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité, montre le lien affectif de Thomas avec l\'arbre.'}],redaction:{pts:20,sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation en vous appuyant sur des exemples précis. (Minimum 300 mots)',criteres:'Critères d\'évaluation (20 pts) :\n• Compréhension du sujet et pertinence (4 pts)\n• Organisation et structure (intro/dév/conclu) (4 pts)\n• Richesse des arguments ou du récit (4 pts)\n• Qualité de la langue — vocabulaire, style (4 pts)\n• Orthographe et grammaire (4 pts)'}},
+  {id:2,titre:'La mémoire et le temps qui passe',texte:`Grand-mère avait quatre-vingt-deux ans et une mémoire extraordinaire. Non pas pour les événements récents — ceux-là, elle les oubliait aussi vite qu'ils arrivaient — mais pour les souvenirs anciens, ceux d'avant, quand le monde était différent.\n\nElle pouvait décrire avec une précision stupéfiante la robe qu'elle portait le jour de son premier bal, en 1958. Elle se souvenait de l'odeur exacte du pain frais que sa mère sortait du four chaque dimanche matin. Elle revoyait encore, les yeux fermés, le visage de son frère disparu à la guerre, un frère qu'elle n'avait plus vu depuis soixante ans.\n\n"Le passé est plus réel que le présent", disait-elle parfois avec un sourire mélancolique. Sa petite-fille Camille, assise en face d'elle, l'écoutait avec un mélange d'admiration et d'inquiétude. Ces souvenirs la tenaient en vie, c'était évident. Mais ils l'empêchaient aussi, peut-être, de vivre vraiment dans le présent.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Quelle particularité a la mémoire de la grand-mère ? Expliquez avec vos propres mots.',c:'Elle a une excellente mémoire du passé lointain mais oublie facilement les événements récents. Elle se souvient avec précision de détails d\'il y a 60 ans mais pas de ce qui vient de se passer.'},{n:'2',pts:3,q:'Relevez trois exemples de souvenirs précis de la grand-mère.',c:'1. La robe du premier bal en 1958. 2. L\'odeur du pain frais de sa mère le dimanche. 3. Le visage de son frère disparu à la guerre.'},{n:'3',pts:3,q:'Comment Camille voit-elle les souvenirs de sa grand-mère ? Est-ce uniquement positif ?',c:'Camille ressent un "mélange d\'admiration et d\'inquiétude". Positif : les souvenirs la "tenaient en vie". Négatif : ils l\'empêchaient "de vivre vraiment dans le présent". Vision nuancée.'},{n:'4',pts:2,q:'Expliquez la phrase : "Le passé est plus réel que le présent."',c:'Pour la grand-mère, ses souvenirs anciens sont si précis et vivants qu\'ils semblent plus concrets que la réalité immédiate qu\'elle oublie. Le passé est sa vraie vie.'}],grammaire:[{n:'1',pts:2,q:'Analysez le groupe nominal "sa petite-fille Camille" : donnez la nature de chaque mot.',c:'"sa" = déterminant possessif. "petite-fille" = nom commun (noyau du GN). "Camille" = nom propre (apposition).'},{n:'2',pts:2,q:'Conjuguez "disparaître" au plus-que-parfait de l\'indicatif, 3ème personne du singulier.',c:'"il/elle avait disparu"'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Mais ils l\'empêchaient aussi, peut-être, de vivre vraiment dans le présent."',c:'"de vivre vraiment dans le présent" est une proposition subordonnée infinitive complément du verbe "empêchaient".'},{n:'4',pts:2,q:'Réécrivez au discours indirect : Elle disait : "Le passé est plus réel que le présent."',c:'Elle disait que le passé était plus réel que le présent.'}],redaction:{pts:20,sujet1:'Vous souvenez-vous d\'une personne âgée qui vous a transmis quelque chose d\'important ? Racontez cette rencontre et ce qu\'elle vous a apporté. (Min. 300 mots)',sujet2:'La mémoire fait-elle partie de l\'identité d\'une personne ? Développez votre réflexion en vous appuyant sur des exemples. (Min. 300 mots)',criteres:'Critères DNB (20 pts) :\n• Pertinence et richesse des idées (4 pts)\n• Structure (introduction, développement, conclusion) (4 pts)\n• Qualité narrative ou argumentative (4 pts)\n• Vocabulaire et style (4 pts)\n• Orthographe et grammaire (4 pts)'}}
 ];
 
-function afficherSujets() {
-  const container = document.getElementById('sujets');
-  container.innerHTML = '';
-  SUJETS.forEach((s, i) => {
-    const num = i+1;
-    const dictee = DICTEES[num];
-    const div = document.createElement('div');
-    div.className = 'sujet';
-    div.innerHTML = `<h3>Sujet ${num} – ${s.annee} : ${s.titre}</h3>
-      <div class="texte"><strong>Texte :</strong><br>${s.texte}<br><em>${s.auteur}</em></div>`;
-    
-    // DICTÉE
-    if (dictee) {
-      div.innerHTML += `<div><strong>Dictée (10 points)</strong><br>${dictee.titre}</div>`;
-      div.innerHTML += `<textarea id="dictee-${num}" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>`;
-      div.innerHTML += `<button onclick="corrigerDictee('dictee-${num}', DICTEES[${num}].texte, ${num})">Corriger la dictée avec IA</button>`;
-      div.innerHTML += `<div id="correction-dictee-${num}" class="correction"></div>`;
-    }
-    
-    // COMPRÉHENSION
-    div.innerHTML += `<div><strong>Compréhension (${s.questions.reduce((a,q)=>a+q.pts,0)} points)</strong></div>`;
-    s.questions.forEach((q, j) => {
-      div.innerHTML += `<div>${q.q}</div><textarea id="comp-${num}-${j}" class="reponse" placeholder="Votre réponse..."></textarea>`;
-      div.innerHTML += `<button onclick="corrigerReponse('comp-${num}-${j}', '${q.rep.replace(/'/g, "\\'")}', ${q.pts})">Corriger avec IA</button>`;
-      div.innerHTML += `<button onclick="afficherCorrection('corr-comp-${num}-${j}')">Voir correction</button>`;
-      div.innerHTML += `<div id="corr-comp-${num}-${j}" class="correction">${q.rep}</div>`;
-    });
-    
-    // GRAMMAIRE
-    div.innerHTML += `<div><strong>Grammaire (${s.grammaire.reduce((a,g)=>a+g.pts,0)} points)</strong></div>`;
-    s.grammaire.forEach((g, k) => {
-      div.innerHTML += `<div>${g.q}</div><textarea id="gram-${num}-${k}" class="reponse" placeholder="Votre réponse..."></textarea>`;
-      div.innerHTML += `<button onclick="corrigerReponse('gram-${num}-${k}', '${g.rep.replace(/'/g, "\\'")}', ${g.pts})">Corriger avec IA</button>`;
-      div.innerHTML += `<button onclick="afficherCorrection('corr-gram-${num}-${k}')">Voir correction</button>`;
-      div.innerHTML += `<div id="corr-gram-${num}-${k}" class="correction">${g.rep}</div>`;
-    });
-    
-    // RÉDACTION
-    div.innerHTML += `<div><strong>Rédaction (${s.redaction.pts} points)</strong><br>`;
-    div.innerHTML += `Choix A : ${s.redaction.sujet1}<br>`;
-    div.innerHTML += `Choix B : ${s.redaction.sujet2}<br>`;
-    div.innerHTML += `<textarea id="redac-${num}" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>`;
-    div.innerHTML += `<button onclick="corrigerRedaction('redac-${num}', ${s.redaction.pts})">Corriger la rédaction avec IA</button>`;
-    div.innerHTML += `<hr>`;
-    container.appendChild(div);
+let who = null, currentIdx = 0, chronoSecs = 9000, running = false, chronoInterval = null;
+
+function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
+function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('fr_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); const isDone = done.includes(s.id); d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Compréhension · Grammaire · Rédaction</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
+function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 9000; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0,0); }
+function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
+
+function renderSujet(s) {
+  let h = '';
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h += `<div class="texte-box">${s.texte.replace(/\n\n/g, '</p><p style="margin-top:14px">').replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
+  s.comprehension.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
+  h += `</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
+  s.grammaire.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h += `</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h += `<p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Choisissez UN sujet parmi les deux proposés. Minimum 300 mots.</p>`;
+  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px;border-left:2px solid var(--gold)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet A — Texte narratif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet1}</div></div>`;
+  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border-left:2px solid var(--purple)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet B — Texte argumentatif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet2}</div></div>`;
+  h += `<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
+  h += `<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
+  h += `<a href="correcteur-ia.html" target="_blank" class="ai-link">🤖 Faire corriger ma rédaction avec l'IA</a>`;
+  h += `<button class="corr-btn" onclick="tog('rc')">📖 Voir les critères de correction</button><div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
+  h += `</div></div>`;
+  h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
+    <div class="ae-row"><span class="ae-label">Compréhension</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-row"><span class="ae-label">Grammaire</span><input type="number" class="ae-input" id="ae2" min="0" max="16" value="0" oninput="updateTotal()"><span class="ae-max">/ 16</span></div>
+    <div class="ae-row"><span class="ae-label">Rédaction</span><input type="number" class="ae-input" id="ae3" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/56</div></div>
+  </div>`;
+  h += `<div class="nav-btns">
+    ${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}
+    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>
+    ${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}
+  </div>`;
+  document.getElementById('s-body').innerHTML = h;
+  const redac = document.getElementById('redac');
+  if(redac) redac.addEventListener('input', function() { const n = this.value.trim() ? this.value.trim().split(/\s+/).length : 0; document.getElementById('wc-redac').textContent = n + ' mot' + (n > 1 ? 's' : ''); });
 }
 
-// Correction dictée
-async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
-  const texteEleve = document.getElementById(idTextarea).value.trim();
-  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
-    alert("Clé API non configurée. Vérifie les secrets GitHub.");
-    return;
-  }
-  const prompt = `Compare la dictée de l'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds uniquement en JSON : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 600, system: prompt, messages: [{ role: "user", content: `Texte officiel : "${texteOfficiel}"\nDictée élève : "${texteEleve}"` }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    const correctionDiv = document.getElementById(`correction-dictee-${numSujet}`);
-    correctionDiv.innerHTML = `<strong>Note : ${json.note}/10</strong><br><br>${json.commentaire}<br><br><strong>Conseil :</strong> ${json.conseil}`;
-    correctionDiv.style.display = 'block';
-  } catch(e) { alert("Erreur IA : " + e.message); }
+function tog(id) { document.getElementById(id).classList.toggle('show'); }
+function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20); const el = document.getElementById('ae-total'); el.textContent = t + '/56'; el.style.color = t >= 45 ? 'var(--green)' : t >= 36 ? 'var(--gold)' : t >= 28 ? 'var(--coral)' : 'var(--red)'; }
+
+async function saveSujet() {
+  if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; }
+  const s = SUJETS[currentIdx];
+  const a = parseInt(document.getElementById('ae1').value) || 0;
+  const b = parseInt(document.getElementById('ae2').value) || 0;
+  const c = parseInt(document.getElementById('ae3').value) || 0;
+  const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20);
+  const done = JSON.parse(localStorage.getItem('fr_done_' + who) || '[]');
+  if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('fr_done_' + who, JSON.stringify(done)); }
+  showToast('✓ Progression sauvegardée', 'ok');
 }
 
-// Correction réponse (compréhension / grammaire)
-async function corrigerReponse(idTextarea, reponseAttendue, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") { alert("Clé API non configurée."); return; }
-  const prompt = `Corrige cette réponse d'élève. Réponse attendue : "${reponseAttendue}". Réponse élève : "${texte}". Note sur ${pts}. JSON : {"note": nombre, "commentaire": "..."}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 300, system: prompt, messages: [{ role: "user", content: prompt }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
-  } catch(e) { alert("Erreur IA : " + e.message); }
-}
-
-// Correction rédaction
-async function corrigerRedaction(idTextarea, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") { alert("Clé API non configurée."); return; }
-  const prompt = `Corrige cette rédaction (DNB). Note sur ${pts} points. JSON : {"note": nombre, "commentaire": "détail"}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 600, system: prompt, messages: [{ role: "user", content: "Rédaction:\n" + texte }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
-  } catch(e) { alert("Erreur IA : " + e.message); }
-}
-
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
-}
-
-window.DICTEES = DICTEES;
-window.corrigerDictee = corrigerDictee;
-window.corrigerReponse = corrigerReponse;
-window.corrigerRedaction = corrigerRedaction;
-window.afficherCorrection = afficherCorrection;
-
-afficherSujets();
+function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
+function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 9000; updateChrono(); }
+function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; el.className = 'chrono-time' + (chronoSecs < 600 ? ' urgent' : ''); }
+function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
+window.addEventListener('DOMContentLoaded', () => renderHome());
 </script>
 </body>
 </html>
