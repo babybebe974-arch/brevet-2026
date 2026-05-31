@@ -1,122 +1,295 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flashcards – Brevet 2026</title>
-<script src="config.js"></script>
-<style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 1200px; margin: 0 auto; }
-  .matiere-selector { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-  .matiere-btn { background: #111118; border: 1px solid rgba(255,255,255,0.1); padding: 0.6rem 1.2rem; border-radius: 40px; cursor: pointer; transition: all 0.2s; }
-  .matiere-btn.active { background: #5ecfb1; color: #09090f; border-color: #5ecfb1; }
-  .flashcard { background: #181820; border-radius: 24px; padding: 2rem; margin: 1rem 0; cursor: pointer; transition: all 0.2s; min-height: 250px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
-  .flashcard:hover { transform: scale(1.01); background: #1f1f2a; }
-  .question { font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem; }
-  .reponse { font-size: 1.2rem; color: #aaa; margin-top: 1rem; display: none; }
-  .explication { font-size: 0.9rem; color: #5ecfb1; margin-top: 0.5rem; display: none; }
-  .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
-  button { background: #5ecfb1; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
-  .counter { font-family: monospace; font-size: 0.9rem; }
-  hr { border-color: #2a2a35; margin: 2rem 0; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🃏 Flashcards intelligentes – Brevet 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
+        .container { max-width: 900px; margin: 0 auto; background: #111118; border-radius: 2rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
+        h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .math-color { color: #5ecfb1; }
+        .sub { color: #9aaec9; margin-bottom: 1.5rem; font-size: 0.85rem; }
+        .stats { background: #0c1222; border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem; }
+        .card-container { perspective: 1000px; margin-bottom: 1.5rem; }
+        .flashcard { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.5rem; padding: 2rem; text-align: center; cursor: pointer; transition: 0.2s; min-height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .flashcard:hover { border-color: #5ecfb1; }
+        .question { font-size: 1.3rem; font-weight: 500; margin-bottom: 1rem; }
+        .answer { font-size: 1rem; color: #5ecfb1; margin-top: 1rem; display: none; }
+        .show-answer { color: #e8c87a; font-size: 0.8rem; margin-top: 1rem; }
+        .btn-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        button { background: #1e2a3e; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.5rem 1.2rem; font-size: 0.8rem; color: #5ecfb1; cursor: pointer; transition: 0.1s; }
+        button:hover { background: #2a3652; }
+        .progress { background: #0a0a0f; border-radius: 1rem; padding: 0.8rem; margin-top: 1rem; font-size: 0.75rem; color: #aaa; text-align: center; }
+        .jour-selector { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+        .jour-selector select, .jour-selector input { background: #0c1222; border: 1px solid #2a3452; border-radius: 40px; padding: 0.4rem 0.8rem; color: white; }
+        .back-link { display: inline-block; margin-top: 1rem; text-decoration: none; color: #5ecfb1; font-size: 0.8rem; }
+        hr { border-color: #2a3452; margin: 1rem 0; }
+        .matiere-tag { background: #1e2a3e; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: #e8c87a; display: inline-block; margin-bottom: 0.5rem; }
+    </style>
 </head>
 <body>
 <div class="container">
-  <h1>📇 Flashcards – Brevet 2026</h1>
-  <div class="matiere-selector" id="matiereSelector"></div>
-  <div id="flashcardContainer"></div>
-  <div class="nav">
-    <button id="prevBtn">◀ Précédent</button>
-    <span class="counter" id="counter">0 / 0</span>
-    <button id="nextBtn">Suivant ▶</button>
-  </div>
+    <h1>🃏 Flashcards <span class="math-color">intelligentes</span></h1>
+    <div class="sub">Planning • Sauvegarde locale • Révision espacée</div>
+
+    <div class="jour-selector">
+        <label>📅 Jour (J-26 à J-0) : </label>
+        <input type="number" id="jourInput" min="0" max="26" value="26">
+        <button id="setJourBtn">Appliquer</button>
+        <button id="resetProgresBtn" style="border-color:#e8c87a; color:#e8c87a;">🔄 Réinitialiser progression</button>
+    </div>
+
+    <div id="stats" class="stats">📊 Chargement...</div>
+
+    <div id="matiere-container">
+        <!-- Maths, Français, Histoire, Sciences seront affichés ici -->
+    </div>
+
+    <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
+
 <script>
-  const matieres = [
-    { id: 'francais', nom: 'Français', fichier: 'data/francais.json' },
-    { id: 'maths', nom: 'Mathématiques', fichier: 'data/maths.json' },
-    { id: 'sciences', nom: 'Sciences', fichier: 'data/physique-svt.json' },
-    { id: 'histgeo', nom: 'Histoire-Géo & EMC', fichier: 'data/histgeo-emc.json' }
-  ];
-  let cartes = [];
-  let currentIndex = 0;
-  let currentMatiere = 'francais';
-  let afficherReponse = false;
+    // Configuration des matières et fichiers JSON
+    const matieres = [
+        { nom: "Maths", fichier: "donnees-maths.json", couleur: "#5ecfb1" },
+        { nom: "Français", fichier: "donnees-francais.json", couleur: "#e8c87a" },
+        { nom: "Histoire-Géo-EMC", fichier: "donnees-histoire-geo-emc.json", couleur: "#f0ede8" },
+        { nom: "Sciences", fichier: "donnees-sciences.json", couleur: "#7eb8f5" }
+    ];
 
-  async function chargerCartes(matiereId) {
-    const matiere = matieres.find(m => m.id === matiereId);
-    if (!matiere) return;
-    const response = await fetch(matiere.fichier);
-    const data = await response.json();
-    cartes = data.cartes || [];
-    currentIndex = 0;
-    afficherReponse = false;
-    afficherCarte();
-    document.getElementById('counter').innerText = `0 / ${cartes.length}`;
-  }
+    // Structure de sauvegarde
+    let progression = {
+        jour: 26,
+        cartes: {}  // { "Maths_1": { compteurReussites: 0, nbErreurs: 0, derniereRevision: null, etat: "nouvelle" } }
+    };
 
-  function afficherCarte() {
-    if (!cartes.length) {
-      document.getElementById('flashcardContainer').innerHTML = '<div class="flashcard">Aucune carte pour cette matière.</div>';
-      return;
+    let cartesParMatiere = {}; // Stockage des cartes chargées
+
+    // Fonctions de sauvegarde
+    function sauvegarderProgression() {
+        localStorage.setItem("flashcards_progression", JSON.stringify(progression));
     }
-    const carte = cartes[currentIndex];
-    document.getElementById('flashcardContainer').innerHTML = `
-      <div class="flashcard" onclick="toggleReponse()">
-        <div class="question">${carte.question}</div>
-        <div class="reponse" id="reponse">${carte.reponse}</div>
-        <div class="explication" id="explication">${carte.explication || ''}</div>
-      </div>
-    `;
-    document.getElementById('counter').innerText = `${currentIndex+1} / ${cartes.length}`;
-    if (!afficherReponse) {
-      document.getElementById('reponse').style.display = 'none';
-      document.getElementById('explication').style.display = 'none';
-    } else {
-      document.getElementById('reponse').style.display = 'block';
-      if (document.getElementById('explication').innerText.trim()) 
-        document.getElementById('explication').style.display = 'block';
+
+    function chargerProgression() {
+        const saved = localStorage.getItem("flashcards_progression");
+        if (saved) {
+            progression = JSON.parse(saved);
+        } else {
+            progression = { jour: 26, cartes: {} };
+        }
+        document.getElementById("jourInput").value = progression.jour;
     }
-  }
 
-  window.toggleReponse = function() {
-    afficherReponse = !afficherReponse;
-    afficherCarte();
-  };
+    // Charger un fichier JSON
+    async function chargerJSON(fichier) {
+        try {
+            const response = await fetch(fichier);
+            if (!response.ok) throw new Error(`Fichier ${fichier} introuvable`);
+            return await response.json();
+        } catch(e) {
+            console.error(e);
+            return null;
+        }
+    }
 
-  function nextCard() {
-    if (cartes.length === 0) return;
-    currentIndex = (currentIndex + 1) % cartes.length;
-    afficherReponse = false;
-    afficherCarte();
-  }
+    // Extraire toutes les flashcards d'un JSON
+    function extraireFlashcards(data, matiereNom) {
+        const cartes = [];
+        let id = 1;
+        for (const theme of data.themes || []) {
+            for (const chapitre of theme.chapitres || []) {
+                for (const flash of chapitre.flashcards || []) {
+                    cartes.push({
+                        id: `${matiereNom}_${id++}`,
+                        matiere: matiereNom,
+                        chapitre: chapitre.nom,
+                        question: flash.recto,
+                        reponse: flash.verso
+                    });
+                }
+            }
+        }
+        return cartes;
+    }
 
-  function prevCard() {
-    if (cartes.length === 0) return;
-    currentIndex = (currentIndex - 1 + cartes.length) % cartes.length;
-    afficherReponse = false;
-    afficherCarte();
-  }
+    // Sélectionner les cartes du jour selon planning
+    function selectionnerCartesDuJour(matiereNom, cartes) {
+        const cartesData = progression.cartes;
+        const jour = progression.jour;
+        
+        // 30 nouvelles (ou moins s'il n'y a pas assez de cartes)
+        const nouvelles = cartes.filter(c => !cartesData[c.id] || cartesData[c.id].etat === "nouvelle").slice(0, 30);
+        
+        // 10 erreurs des jours précédents
+        const erreurs = cartes.filter(c => cartesData[c.id] && cartesData[c.id].nbErreurs > 0).slice(0, 10);
+        
+        // 5 rebrassage (anciennes cartes maîtrisées ou vues)
+        const rebrassage = cartes.filter(c => cartesData[c.id] && cartesData[c.id].etat !== "nouvelle" && cartesData[c.id].nbErreurs === 0).slice(0, 5);
+        
+        // Fusion et dédoublonnage
+        const selected = [...nouvelles, ...erreurs, ...rebrassage];
+        const unique = [];
+        const ids = new Set();
+        for (const c of selected) {
+            if (!ids.has(c.id)) {
+                ids.add(c.id);
+                unique.push(c);
+            }
+        }
+        return unique;
+    }
 
-  function init() {
-    const selector = document.getElementById('matiereSelector');
-    selector.innerHTML = matieres.map(m => `<div class="matiere-btn ${m.id === currentMatiere ? 'active' : ''}" data-matiere="${m.id}">${m.nom}</div>`).join('');
-    document.querySelectorAll('.matiere-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.matiere-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentMatiere = btn.dataset.matiere;
-        chargerCartes(currentMatiere);
-      });
+    // Générer le HTML pour une matière
+    function afficherMatiere(matiereNom, cartes, couleur) {
+        const container = document.getElementById(`container-${matiereNom.replace(/[^a-z]/gi, '')}`);
+        if (!container) return;
+        
+        const cartesDuJour = selectionnerCartesDuJour(matiereNom, cartes);
+        if (cartesDuJour.length === 0) {
+            container.innerHTML = `<div class="progress">✅ Toutes les cartes maîtrisées ! Félicitations.</div>`;
+            return;
+        }
+        
+        let html = `<div style="margin-bottom: 2rem; border-left: 3px solid ${couleur}; padding-left: 1rem;">
+            <h3 style="color: ${couleur};">${matiereNom}</h3>
+            <div>📊 ${cartesDuJour.length} cartes à réviser aujourd'hui (${cartesa afficher})</div>
+        </div>`;
+        
+        for (let i = 0; i < cartesDuJour.length; i++) {
+            const c = cartesDuJour[i];
+            const state = progression.cartes[c.id] || { compteurReussites: 0, nbErreurs: 0, etat: "nouvelle" };
+            html += `
+                <div class="card-container" id="card-${c.id.replace(/[^a-z0-9]/gi, '_')}">
+                    <div class="flashcard" onclick="revelerReponse('${c.id.replace(/[^a-z0-9]/gi, '_')}')">
+                        <div class="matiere-tag">${matiereNom} • ${c.chapitre}</div>
+                        <div class="question">${c.question}</div>
+                        <div class="answer" id="answer-${c.id.replace(/[^a-z0-9]/gi, '_')}">${c.reponse}</div>
+                        <div class="show-answer">👆 Cliquez pour voir la réponse</div>
+                    </div>
+                    <div class="btn-group" id="btns-${c.id.replace(/[^a-z0-9]/gi, '_')}" style="display: none;">
+                        <button onclick="repondre('${c.id}', true)">✅ Je sais (réussi)</button>
+                        <button onclick="repondre('${c.id}', false)">❌ Je ne sais pas (erreur)</button>
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+        
+        // Mettre à jour les stats
+        mettreAJourStats();
+    }
+    
+    function revelerReponse(cardId) {
+        const answerDiv = document.getElementById(`answer-${cardId}`);
+        const btnsDiv = document.getElementById(`btns-${cardId}`);
+        if (answerDiv) answerDiv.style.display = "block";
+        if (btnsDiv) btnsDiv.style.display = "flex";
+    }
+    
+    function repondre(carteId, reussi) {
+        const dataCarte = progression.cartes[carteId] || { compteurReussites: 0, nbErreurs: 0, etat: "nouvelle" };
+        if (reussi) {
+            dataCarte.compteurReussites++;
+            dataCarte.nbErreurs = 0;
+            if (dataCarte.compteurReussites >= 3) {
+                dataCarte.etat = "maitrisee";
+            } else {
+                dataCarte.etat = "en_cours";
+            }
+        } else {
+            dataCarte.compteurReussites = 0;
+            dataCarte.nbErreurs++;
+            dataCarte.etat = "en_erreur";
+        }
+        dataCarte.derniereRevision = new Date().toISOString();
+        progression.cartes[carteId] = dataCarte;
+        sauvegarderProgression();
+        
+        // Recharger la matière
+        rechargerToutesMatieres();
+    }
+    
+    function rechargerToutesMatieres() {
+        for (const mat of matieres) {
+            const cartes = cartesParMatiere[mat.nom];
+            if (cartes) {
+                afficherMatiere(mat.nom, cartes, mat.couleur);
+            }
+        }
+        mettreAJourStats();
+    }
+    
+    function mettreAJourStats() {
+        let totalCartes = 0;
+        let maitrisees = 0;
+        let enErreur = 0;
+        for (const [id, data] of Object.entries(progression.cartes)) {
+            totalCartes++;
+            if (data.etat === "maitrisee") maitrisees++;
+            if (data.nbErreurs > 0) enErreur++;
+        }
+        document.getElementById("stats").innerHTML = `
+            📅 Jour J-${progression.jour} &nbsp;|&nbsp;
+            🃏 Cartes vues : ${totalCartes} &nbsp;|&nbsp;
+            ✅ Maîtrisées : ${maitrisees} &nbsp;|&nbsp;
+            ❌ En erreur : ${enErreur}
+        `;
+    }
+    
+    async function chargerToutesMatieres() {
+        for (const mat of matieres) {
+            const data = await chargerJSON(mat.fichier);
+            if (data) {
+                const cartes = extraireFlashcards(data, mat.nom);
+                cartesParMatiere[mat.nom] = cartes;
+                // Initialiser les cartes non existantes dans progression
+                for (const c of cartes) {
+                    if (!progression.cartes[c.id]) {
+                        progression.cartes[c.id] = { compteurReussites: 0, nbErreurs: 0, etat: "nouvelle" };
+                    }
+                }
+                sauvegarderProgression();
+            } else {
+                cartesParMatiere[mat.nom] = [];
+            }
+        }
+        // Créer les conteneurs
+        const container = document.getElementById("matiere-container");
+        container.innerHTML = "";
+        for (const mat of matieres) {
+            const div = document.createElement("div");
+            div.id = `container-${mat.nom.replace(/[^a-z]/gi, '')}`;
+            container.appendChild(div);
+        }
+        rechargerToutesMatieres();
+    }
+    
+    // Événements
+    document.getElementById("setJourBtn").addEventListener("click", () => {
+        const newJour = parseInt(document.getElementById("jourInput").value);
+        if (!isNaN(newJour) && newJour >= 0 && newJour <= 26) {
+            progression.jour = newJour;
+            sauvegarderProgression();
+            rechargerToutesMatieres();
+        } else {
+            alert("Jour invalide (0 à 26)");
+        }
     });
-    document.getElementById('prevBtn').addEventListener('click', prevCard);
-    document.getElementById('nextBtn').addEventListener('click', nextCard);
-    chargerCartes(currentMatiere);
-  }
-  init();
+    
+    document.getElementById("resetProgresBtn").addEventListener("click", () => {
+        if (confirm("⚠️ Réinitialiser toute votre progression ? Cette action est irréversible.")) {
+            localStorage.removeItem("flashcards_progression");
+            chargerProgression();
+            chargerToutesMatieres();
+        }
+    });
+    
+    // Initialisation
+    chargerProgression();
+    chargerToutesMatieres();
 </script>
 </body>
 </html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>📅 Planning personnalisé – Brevet 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
+        .container { max-width: 1100px; margin: 0 auto; background: #111118; border-radius: 2rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
+        h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .math-color { color: #5ecfb1; }
+        .sub { color: #9aaec9; margin-bottom: 1.5rem; font-size: 0.85rem; }
+        .info { background: #0c1222; border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #5ecfb1; }
+        .config-panel { background: #0c1222; border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .config-group { margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+        .config-group label { width: 180px; font-weight: 600; color: #e8c87a; }
+        .config-group input, .config-group select { background: #0a0a0f; border: 1px solid #2a3452; border-radius: 40px; padding: 0.5rem 1rem; color: white; flex: 1; min-width: 200px; }
+        button { background: #1e2a3e; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: #5ecfb1; cursor: pointer; transition: 0.1s; margin-top: 0.5rem; }
+        button:hover { background: #2a3652; }
+        .jours-container { margin-top: 1.5rem; }
+        .jour-card { background: #0c1222; border: 1px solid #2a3452; border-radius: 1rem; margin-bottom: 1rem; overflow: hidden; }
+        .jour-header { background: #0a0a0f; padding: 0.8rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .jour-nom { font-weight: 700; color: #5ecfb1; }
+        .jour-contenu { padding: 1rem; display: none; border-top: 1px solid #2a3452; }
+        .jour-contenu.open { display: block; }
+        .matiere-plan { margin-bottom: 1rem; padding: 0.5rem; background: #0a0a0f; border-radius: 0.5rem; }
+        .matiere-plan strong { color: #e8c87a; }
+        .badge { background: #1e2a3e; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
+        .footer { margin-top: 2rem; text-align: center; font-size: 0.7rem; color: #555; border-top: 1px solid #2a3452; padding-top: 1.5rem; }
+        .back-link { display: inline-block; margin-top: 1rem; text-decoration: none; color: #5ecfb1; font-size: 0.8rem; }
+        hr { border-color: #2a3452; margin: 1rem 0; }
+        .success { color: #5ecfb1; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📅 Planning <span class="math-color">personnalisé</span></h1>
+    <div class="sub">Définissez votre programme de révisions sur 26 jours</div>
+
+    <div class="info">
+        📌 <strong>Règle de révision :</strong> 30 nouvelles flashcards + 10 erreurs J-1 + 5 rebrassage par matière.<br>
+        🔁 Les flashcards et automatismes s'adapteront automatiquement à ce planning.
+    </div>
+
+    <div class="config-panel">
+        <div class="config-group">
+            <label>📅 Date du brevet :</label>
+            <input type="date" id="dateBrevet" value="2026-06-26">
+        </div>
+        <div class="config-group">
+            <label>⚙️ Type de planning :</label>
+            <select id="typePlanning">
+                <option value="standard">Standard (26 jours, 4 matières en parallèle)</option>
+                <option value="intensif">Intensif (1 matière par jour)</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label>📚 Ordre des chapitres (glisser-déposer non implémenté, à configurer manuellement)</label>
+            <div style="flex:1; font-size:0.8rem; color:#aaa;">Pour modifier l'ordre, éditez le fichier planning.json ou utilisez les boutons ci-dessous.</div>
+        </div>
+        <button id="genererBtn">📋 Générer le planning</button>
+        <button id="sauvegarderBtn">💾 Sauvegarder le planning</button>
+        <button id="resetBtn">🔄 Réinitialiser</button>
+    </div>
+
+    <div id="joursContainer" class="jours-container">
+        <div style="text-align: center; padding: 2rem; color: #aaa;">Cliquez sur "Générer le planning" pour commencer.</div>
+    </div>
+
+    <a href="index.html" class="back-link">← Retour au hub</a>
+    <div class="footer">
+        ✅ Le planning est sauvegardé dans votre navigateur (localStorage).<br>
+        🃏 Les flashcards et automatismes liront automatiquement ce planning.
+    </div>
+</div>
+
+<script>
+    // Liste des chapitres par matière (à adapter selon tes JSON)
+    const chapitresParMatiere = {
+        "Maths": ["Nombres entiers", "Nombres relatifs", "Fractions", "Puissances", "Calcul littéral", "Équations", "Proportionnalité", "Statistiques", "Probabilités", "Fonctions", "Pythagore", "Thalès", "Trigonométrie", "Volumes", "Scratch"],
+        "Français": ["Classes grammaticales", "Fonctions grammaticales", "La phrase", "Temps verbaux", "Accords", "Homophones", "Conjugaison", "Valeurs des temps", "Formation des mots", "Figures de style", "Champs lexicaux", "Genres littéraires", "Mouvements littéraires", "Registres", "Rédaction"],
+        "Histoire-Géo-EMC": ["Lumières", "Révolution", "Napoléon", "Industrialisation", "Nationalismes", "IIIe République", "WW1", "WW2", "Guerre froide", "Construction européenne", "Décolonisation", "Mondialisation", "Développement durable", "Valeurs République", "Citoyenneté", "Justice"],
+        "Sciences": ["Réchauffement", "Ressources", "Risques", "Cellule", "Génétique", "Évolution", "Reproduction", "Système nerveux", "Hormones", "Nutrition", "Respiration", "Microbes", "Vaccination", "Atomes", "Mélanges", "Réactions", "Mouvement", "Forces", "Énergie", "Circuits"]
+    };
+
+    let planning = { jours: [], dateBrevet: "2026-06-26", typePlanning: "standard" };
+
+    // Charger planning depuis localStorage
+    function chargerPlanning() {
+        const saved = localStorage.getItem("planning_brevet");
+        if (saved) {
+            planning = JSON.parse(saved);
+            document.getElementById("dateBrevet").value = planning.dateBrevet || "2026-06-26";
+            document.getElementById("typePlanning").value = planning.typePlanning || "standard";
+        } else {
+            planning = { jours: [], dateBrevet: "2026-06-26", typePlanning: "standard" };
+        }
+    }
+
+    // Sauvegarder planning dans localStorage
+    function sauvegarderPlanning() {
+        localStorage.setItem("planning_brevet", JSON.stringify(planning));
+        alert("✅ Planning sauvegardé !");
+    }
+
+    // Générer le planning (26 jours)
+    function genererPlanning() {
+        const dateBrevet = new Date(document.getElementById("dateBrevet").value);
+        const typePlanning = document.getElementById("typePlanning").value;
+        planning.dateBrevet = dateBrevet.toISOString().split('T')[0];
+        planning.typePlanning = typePlanning;
+        planning.jours = [];
+
+        const matieres = Object.keys(chapitresParMatiere);
+        
+        for (let i = 26; i >= 1; i--) {
+            const jourDate = new Date(dateBrevet);
+            jourDate.setDate(dateBrevet.getDate() - i);
+            
+            const jour = {
+                numero: i,
+                date: jourDate.toISOString().split('T')[0],
+                matieres: {}
+            };
+            
+            if (typePlanning === "standard") {
+                // 4 matières en parallèle : on prend le chapitre correspondant (rotation)
+                for (const matiere of matieres) {
+                    const chapitres = chapitresParMatiere[matiere];
+                    const chapitreIndex = (26 - i) % chapitres.length;
+                    jour.matieres[matiere] = {
+                        chapitre: chapitres[chapitreIndex],
+                        nouvelles: 30,
+                        erreurs: i === 26 ? 0 : 10,
+                        rebrassage: i === 26 ? 0 : 5
+                    };
+                }
+            } else {
+                // Mode intensif : une matière par jour
+                const matiereIndex = (26 - i) % matieres.length;
+                const matiere = matieres[matiereIndex];
+                const chapitres = chapitresParMatiere[matiere];
+                const chapitreIndex = Math.floor((26 - i) / matieres.length) % chapitres.length;
+                jour.matieres[matiere] = {
+                    chapitre: chapitres[chapitreIndex],
+                    nouvelles: 120, // toutes les nouvelles flashcards de la matière ce jour-là
+                    erreurs: i === 26 ? 0 : 40,
+                    rebrassage: i === 26 ? 0 : 20
+                };
+                // Les autres matières n'ont rien ce jour
+                for (const autre of matieres) {
+                    if (autre !== matiere) {
+                        jour.matieres[autre] = null;
+                    }
+                }
+            }
+            planning.jours.push(jour);
+        }
+        
+        afficherPlanning();
+        sauvegarderPlanning();
+    }
+
+    // Afficher le planning
+    function afficherPlanning() {
+        const container = document.getElementById("joursContainer");
+        if (!planning.jours.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #aaa;">Aucun planning généré. Cliquez sur "Générer le planning".</div>';
+            return;
+        }
+        
+        let html = '<div class="info" style="margin-bottom: 1rem;">📅 <strong>Votre planning personnalisé</strong> – Cliquez sur un jour pour voir le détail.</div>';
+        
+        for (const jour of planning.jours) {
+            const jourDate = new Date(jour.date);
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            const dateStr = jourDate.toLocaleDateString('fr-FR', options);
+            
+            html += `
+                <div class="jour-card">
+                    <div class="jour-header" onclick="toggleJour(this)">
+                        <span class="jour-nom">📆 Jour J-${jour.numero} – ${dateStr}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="jour-contenu">
+            `;
+            
+            for (const [matiere, contenu] of Object.entries(jour.matieres)) {
+                if (contenu) {
+                    html += `
+                        <div class="matiere-plan">
+                            <strong>${matiere}</strong><br>
+                            📖 Chapitre : ${contenu.chapitre}<br>
+                            🃏 Nouvelles flashcards : ${contenu.nouvelles}<br>
+                            ❌ Erreurs J-1 : ${contenu.erreurs}<br>
+                            🔄 Rebrassage : ${contenu.rebrassage}
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="matiere-plan"><strong>${matiere}</strong> : ⏸️ Pas de révision prévue ce jour</div>`;
+                }
+            }
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+        container.innerHTML = html;
+    }
+
+    function toggleJour(header) {
+        const body = header.nextElementSibling;
+        body.classList.toggle("open");
+    }
+
+    function resetPlanning() {
+        if (confirm("⚠️ Réinitialiser tout le planning ? Cette action effacera votre progression.")) {
+            localStorage.removeItem("planning_brevet");
+            localStorage.removeItem("flashcards_progression");
+            localStorage.removeItem("automatismes_progression");
+            chargerPlanning();
+            genererPlanning();
+        }
+    }
+
+    // Événements
+    document.getElementById("genererBtn").addEventListener("click", genererPlanning);
+    document.getElementById("sauvegarderBtn").addEventListener("click", sauvegarderPlanning);
+    document.getElementById("resetBtn").addEventListener("click", resetPlanning);
+
+    // Initialisation
+    chargerPlanning();
+    if (planning.jours.length === 0) {
+        genererPlanning();
+    } else {
+        afficherPlanning();
+    }
+    
+    window.toggleJour = toggleJour;
+</script>
+</body>
+</html>

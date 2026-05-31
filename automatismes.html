@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>⚡ Automatismes intelligents – Brevet 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
+        .container { max-width: 900px; margin: 0 auto; background: #111118; border-radius: 2rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
+        h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem; }
+        .math-color { color: #5ecfb1; }
+        .sub { color: #9aaec9; margin-bottom: 1.5rem; font-size: 0.85rem; }
+        .timer { background: #0c1222; border-radius: 1rem; padding: 0.5rem 1rem; display: inline-block; font-family: 'DM Mono', monospace; font-size: 1.2rem; margin-bottom: 1rem; }
+        .stats { background: #0c1222; border-radius: 1rem; padding: 0.8rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem; }
+        .question-container { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.5rem; padding: 2rem; margin-bottom: 1.5rem; }
+        .question-text { font-size: 1.2rem; margin-bottom: 1rem; text-align: center; }
+        .reponse-input { width: 100%; padding: 0.8rem; background: #0a0a0f; border: 1px solid #2a3452; border-radius: 1rem; color: white; font-size: 1rem; margin: 0.5rem 0; }
+        .feedback { margin-top: 0.5rem; font-size: 0.85rem; }
+        .feedback.correct { color: #5ecfb1; }
+        .feedback.incorrect { color: #e8c87a; }
+        .btn-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        button { background: #1e2a3e; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.5rem 1.2rem; font-size: 0.8rem; color: #5ecfb1; cursor: pointer; transition: 0.1s; }
+        button:hover { background: #2a3652; }
+        .progress-bar { background: #0a0a0f; border-radius: 1rem; height: 8px; margin-top: 0.5rem; overflow: hidden; }
+        .progress-fill { background: #5ecfb1; height: 100%; width: 0%; transition: width 0.3s; }
+        .jour-selector { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+        .jour-selector select, .jour-selector input { background: #0c1222; border: 1px solid #2a3452; border-radius: 40px; padding: 0.4rem 0.8rem; color: white; }
+        .back-link { display: inline-block; margin-top: 1rem; text-decoration: none; color: #5ecfb1; font-size: 0.8rem; }
+        hr { border-color: #2a3452; margin: 1rem 0; }
+        .matiere-tag { background: #1e2a3e; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: #e8c87a; display: inline-block; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚡ Automatismes <span class="math-color">intelligents</span></h1>
+    <div class="sub">Une question par flashcard • Planning • Sauvegarde locale</div>
+
+    <div class="jour-selector">
+        <label>📅 Jour (J-26 à J-0) : </label>
+        <input type="number" id="jourInput" min="0" max="26" value="26">
+        <button id="setJourBtn">Appliquer</button>
+        <button id="resetProgresBtn" style="border-color:#e8c87a; color:#e8c87a;">🔄 Réinitialiser progression</button>
+    </div>
+
+    <div class="timer" id="timer">⏱️ 20:00</div>
+    <div id="stats" class="stats">📊 Chargement...</div>
+
+    <div id="question-area">
+        <div class="question-container">
+            <div class="question-text" id="questionText">Chargement des questions...</div>
+            <input type="text" id="reponseInput" class="reponse-input" placeholder="Ta réponse...">
+            <div id="feedback" class="feedback"></div>
+            <div class="btn-group">
+                <button id="validerBtn">✔️ Vérifier</button>
+                <button id="suivantBtn" disabled>⏭️ Question suivante</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div id="sessionStats" style="margin-top: 0.5rem; font-size: 0.75rem; color: #aaa; text-align: center;"></div>
+
+    <a href="index.html" class="back-link">← Retour au hub</a>
+</div>
+
+<script>
+    // Configuration des matières et fichiers JSON
+    const matieres = [
+        { nom: "Maths", fichier: "donnees-maths.json", couleur: "#5ecfb1" },
+        { nom: "Français", fichier: "donnees-francais.json", couleur: "#e8c87a" },
+        { nom: "Histoire-Géo-EMC", fichier: "donnees-histoire-geo-emc.json", couleur: "#f0ede8" },
+        { nom: "Sciences", fichier: "donnees-sciences.json", couleur: "#7eb8f5" }
+    ];
+
+    // Structure de sauvegarde (même que flashcards)
+    let progression = {
+        jour: 26,
+        automatismes: {}  // { "Maths_1": { compteurReussites: 0, nbErreurs: 0, derniereRevision: null, etat: "nouvelle" } }
+    };
+
+    let toutesQuestions = []; // [{ id, matiere, chapitre, question, reponse, etat, compteurReussites, nbErreurs }]
+    let questionsSession = []; // Questions à traiter dans cette session
+    let indexActuel = 0;
+    let reponseEnCours = null;
+    let timerInterval = null;
+    let tempsRestant = 20 * 60; // 20 minutes en secondes
+    let sessionStats = { total: 0, reussies: 0, erreurs: 0 };
+
+    // Fonctions de sauvegarde
+    function sauvegarderProgression() {
+        localStorage.setItem("automatismes_progression", JSON.stringify(progression));
+    }
+
+    function chargerProgression() {
+        const saved = localStorage.getItem("automatismes_progression");
+        if (saved) {
+            progression = JSON.parse(saved);
+        } else {
+            progression = { jour: 26, automatismes: {} };
+        }
+        document.getElementById("jourInput").value = progression.jour;
+    }
+
+    // Charger un fichier JSON
+    async function chargerJSON(fichier) {
+        try {
+            const response = await fetch(fichier);
+            if (!response.ok) throw new Error(`Fichier ${fichier} introuvable`);
+            return await response.json();
+        } catch(e) {
+            console.error(e);
+            return null;
+        }
+    }
+
+    // Extraire toutes les questions (une par flashcard)
+    function extraireQuestions(data, matiereNom) {
+        const questions = [];
+        let id = 1;
+        for (const theme of data.themes || []) {
+            for (const chapitre of theme.chapitres || []) {
+                for (const flash of chapitre.flashcards || []) {
+                    questions.push({
+                        id: `${matiereNom}_${id++}`,
+                        matiere: matiereNom,
+                        chapitre: chapitre.nom,
+                        question: flash.recto,
+                        reponse: flash.verso
+                    });
+                }
+            }
+        }
+        return questions;
+    }
+
+    // Sélectionner les questions du jour selon planning (30 nouvelles + 10 erreurs + 5 rebrassage)
+    function selectionnerQuestionsDuJour(questions) {
+        const autoData = progression.automatismes;
+        const jour = progression.jour;
+        
+        // 30 nouvelles (ou moins s'il n'y a pas assez de questions)
+        const nouvelles = questions.filter(q => !autoData[q.id] || autoData[q.id].etat === "nouvelle").slice(0, 30);
+        
+        // 10 erreurs des jours précédents
+        const erreurs = questions.filter(q => autoData[q.id] && autoData[q.id].nbErreurs > 0).slice(0, 10);
+        
+        // 5 rebrassage (anciennes questions maîtrisées ou vues)
+        const rebrassage = questions.filter(q => autoData[q.id] && autoData[q.id].etat !== "nouvelle" && autoData[q.id].nbErreurs === 0).slice(0, 5);
+        
+        // Fusion et dédoublonnage
+        const selected = [...nouvelles, ...erreurs, ...rebrassage];
+        const unique = [];
+        const ids = new Set();
+        for (const q of selected) {
+            if (!ids.has(q.id)) {
+                ids.add(q.id);
+                unique.push(q);
+            }
+        }
+        return unique;
+    }
+
+    // Mélanger un tableau (Fisher-Yates)
+    function melanger(tableau) {
+        for (let i = tableau.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [tableau[i], tableau[j]] = [tableau[j], tableau[i]];
+        }
+        return tableau;
+    }
+
+    // Démarrer une session
+    async function demarrerSession() {
+        // Charger toutes les questions depuis les JSON
+        toutesQuestions = [];
+        for (const mat of matieres) {
+            const data = await chargerJSON(mat.fichier);
+            if (data) {
+                const questions = extraireQuestions(data, mat.nom);
+                toutesQuestions.push(...questions);
+                // Initialiser les questions non existantes dans progression
+                for (const q of questions) {
+                    if (!progression.automatismes[q.id]) {
+                        progression.automatismes[q.id] = { compteurReussites: 0, nbErreurs: 0, etat: "nouvelle" };
+                    }
+                }
+            }
+        }
+        sauvegarderProgression();
+        
+        // Sélectionner les questions du jour
+        questionsSession = selectionnerQuestionsDuJour(toutesQuestions);
+        questionsSession = melanger(questionsSession);
+        indexActuel = 0;
+        sessionStats = { total: questionsSession.length, reussies: 0, erreurs: 0 };
+        
+        // Mettre à jour l'affichage
+        document.getElementById("stats").innerHTML = `
+            📅 Jour J-${progression.jour} &nbsp;|&nbsp;
+            🃏 Questions aujourd'hui : ${questionsSession.length} &nbsp;|&nbsp;
+            ✅ Réussies : 0 &nbsp;|&nbsp;
+            ❌ Erreurs : 0
+        `;
+        
+        if (questionsSession.length === 0) {
+            document.getElementById("questionText").innerHTML = "🎉 Félicitations ! Toutes les questions sont maîtrisées.";
+            document.getElementById("reponseInput").disabled = true;
+            document.getElementById("validerBtn").disabled = true;
+            return;
+        }
+        
+        afficherQuestion();
+    }
+    
+    function afficherQuestion() {
+        if (indexActuel >= questionsSession.length) {
+            terminerSession();
+            return;
+        }
+        
+        const q = questionsSession[indexActuel];
+        document.getElementById("questionText").innerHTML = `
+            <div class="matiere-tag">${q.matiere} • ${q.chapitre}</div>
+            ${q.question}
+        `;
+        document.getElementById("reponseInput").value = "";
+        document.getElementById("reponseInput").disabled = false;
+        document.getElementById("validerBtn").disabled = false;
+        document.getElementById("suivantBtn").disabled = true;
+        document.getElementById("feedback").innerHTML = "";
+        document.getElementById("feedback").className = "feedback";
+        reponseEnCours = q;
+        
+        // Mettre à jour la barre de progression
+        const progress = (indexActuel / questionsSession.length) * 100;
+        document.getElementById("progressFill").style.width = `${progress}%`;
+        document.getElementById("sessionStats").innerHTML = `Question ${indexActuel + 1}/${questionsSession.length}`;
+    }
+    
+    function verifierReponse() {
+        const userReponse = document.getElementById("reponseInput").value.trim().toLowerCase();
+        const bonneReponse = reponseEnCours.reponse.toLowerCase();
+        
+        // Comparaison simplifiée (on pourrait améliorer)
+        const estCorrect = userReponse === bonneReponse || 
+                          (bonneReponse.includes(userReponse) && userReponse.length > 3) ||
+                          (userReponse.includes(bonneReponse) && bonneReponse.length > 3);
+        
+        const feedbackDiv = document.getElementById("feedback");
+        const autoData = progression.automatismes[reponseEnCours.id];
+        
+        if (estCorrect) {
+            autoData.compteurReussites++;
+            autoData.nbErreurs = 0;
+            if (autoData.compteurReussites >= 3) {
+                autoData.etat = "maitrisee";
+                feedbackDiv.innerHTML = "✅ Parfait ! Cette question est maîtrisée.";
+            } else {
+                autoData.etat = "en_cours";
+                feedbackDiv.innerHTML = "✅ Bonne réponse ! Continuez comme ça.";
+            }
+            feedbackDiv.classList.add("correct");
+            feedbackDiv.classList.remove("incorrect");
+            sessionStats.reussies++;
+        } else {
+            autoData.compteurReussites = 0;
+            autoData.nbErreurs++;
+            autoData.etat = "en_erreur";
+            feedbackDiv.innerHTML = `❌ La réponse correcte était : "${bonneReponse}". Réessayez plus tard.`;
+            feedbackDiv.classList.add("incorrect");
+            feedbackDiv.classList.remove("correct");
+            sessionStats.erreurs++;
+        }
+        autoData.derniereRevision = new Date().toISOString();
+        progression.automatismes[reponseEnCours.id] = autoData;
+        sauvegarderProgression();
+        
+        document.getElementById("stats").innerHTML = `
+            📅 Jour J-${progression.jour} &nbsp;|&nbsp;
+            🃏 Questions aujourd'hui : ${questionsSession.length} &nbsp;|&nbsp;
+            ✅ Réussies : ${sessionStats.reussies} &nbsp;|&nbsp;
+            ❌ Erreurs : ${sessionStats.erreurs}
+        `;
+        
+        document.getElementById("reponseInput").disabled = true;
+        document.getElementById("validerBtn").disabled = true;
+        document.getElementById("suivantBtn").disabled = false;
+    }
+    
+    function questionSuivante() {
+        indexActuel++;
+        afficherQuestion();
+    }
+    
+    function terminerSession() {
+        clearInterval(timerInterval);
+        document.getElementById("questionText").innerHTML = "🎉 Session terminée !";
+        document.getElementById("reponseInput").disabled = true;
+        document.getElementById("validerBtn").disabled = true;
+        document.getElementById("suivantBtn").disabled = true;
+        document.getElementById("sessionStats").innerHTML = `✅ ${sessionStats.reussies} réussies • ❌ ${sessionStats.erreurs} erreurs`;
+        document.getElementById("progressFill").style.width = "100%";
+    }
+    
+    // Timer
+    function demarrerTimer() {
+        timerInterval = setInterval(() => {
+            if (tempsRestant <= 0) {
+                clearInterval(timerInterval);
+                terminerSession();
+                return;
+            }
+            tempsRestant--;
+            const minutes = Math.floor(tempsRestant / 60);
+            const secondes = tempsRestant % 60;
+            document.getElementById("timer").innerHTML = `⏱️ ${minutes.toString().padStart(2, '0')}:${secondes.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+    
+    // Événements
+    document.getElementById("setJourBtn").addEventListener("click", () => {
+        const newJour = parseInt(document.getElementById("jourInput").value);
+        if (!isNaN(newJour) && newJour >= 0 && newJour <= 26) {
+            progression.jour = newJour;
+            sauvegarderProgression();
+            demarrerSession();
+        } else {
+            alert("Jour invalide (0 à 26)");
+        }
+    });
+    
+    document.getElementById("resetProgresBtn").addEventListener("click", () => {
+        if (confirm("⚠️ Réinitialiser toute votre progression ? Cette action est irréversible.")) {
+            localStorage.removeItem("automatismes_progression");
+            chargerProgression();
+            demarrerSession();
+        }
+    });
+    
+    document.getElementById("validerBtn").addEventListener("click", verifierReponse);
+    document.getElementById("suivantBtn").addEventListener("click", questionSuivante);
+    document.getElementById("reponseInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && document.getElementById("validerBtn").disabled === false) {
+            verifierReponse();
+        }
+    });
+    
+    // Initialisation
+    chargerProgression();
+    demarrerSession();
+    demarrerTimer();
+</script>
+</body>
+</html>
