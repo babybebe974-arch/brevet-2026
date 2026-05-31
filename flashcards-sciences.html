@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🔬 Flashcards Sciences – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #3498db;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#3498db;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #3498db;padding-left:1rem;}
+    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard:hover{border-color:#3498db;}
+    .question{font-size:1.1rem;margin-bottom:1rem;}
+    .answer{font-size:1rem;color:#3498db;margin-top:1rem;display:none;}
+    .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🔬 Flashcards Sciences</h1>
+  <div class="sub">Brevet 2026 • Mémorisation active • 176 cartes</div>
+  <div class="stats" id="stats">📊 Chargement...</div>
+  <div id="card-area"></div>
+  <div id="session-stats" class="progress"></div>
+  <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;margin-top:1rem;">🔄 Réinitialiser</button>
+  <a href="index.html" class="back-link">← Retour au hub</a>
+</div>
+
+<script>
+  const flashcards = [
+    // SVT + Physique-Chimie (15+15 chapitres × 8 = 240 cartes, on concentre sur l'essentiel du brevet)
+    { question: "Citez trois gaz à effet de serre.", reponse: "CO₂, CH₄, N₂O" },
+    { question: "Causes humaines du réchauffement.", reponse: "Combustion fossile, déforestation, agriculture intensive." },
+    { question: "Conséquences du réchauffement.", reponse: "Fonte des glaciers, montée des eaux, catastrophes." },
+    { question: "Accord de Paris (2015).", reponse: "Limiter le réchauffement à +2°C." },
+    { question: "Structure cellule animale.", reponse: "Membrane, cytoplasme, noyau." },
+    { question: "Différence cellule végétale.", reponse: "Paroi cellulosique, chloroplastes." },
+    { question: "Qu'est-ce qu'un gène ?", reponse: "Fragment d'ADN pour un caractère." },
+    { question: "Allèle dominant/récessif.", reponse: "Dominant s'exprime seul ; récessif en double." },
+    { question: "Sélection naturelle.", reponse: "Les mieux adaptés survivent (Darwin)." },
+    { question: "Preuves de l'évolution.", reponse: "Fossiles, anatomie comparée, ADN." },
+    { question: "Reproduction asexuée.", reponse: "Un seul individu donne des clones (bouturage)." },
+    { question: "Fécondation.", reponse: "Fusion d'un gamète mâle et femelle." },
+    { question: "Système nerveux central.", reponse: "Cerveau, moelle épinière." },
+    { question: "Neurone.", reponse: "Cellule qui transmet l'influx nerveux." },
+    { question: "Rôle de l'insuline.", reponse: "Baisse la glycémie." },
+    { question: "Rôle de l'adrénaline.", reponse: "Accélère le cœur (stress)." },
+    { question: "Nutriments.", reponse: "Glucides, lipides, protides, vitamines, minéraux." },
+    { question: "Enzymes digestives.", reponse: "Dégradent les aliments (amylase, pepsine)." },
+    { question: "Absorption des nutriments.", reponse: "Intestin grêle (villosités)." },
+    { question: "Échanges gazeux.", reponse: "Alvéoles pulmonaires (O₂, CO₂)." },
+    { question: "Globules rouges.", reponse: "Transportent l'O₂ (hémoglobine)." },
+    { question: "Différence artère/veine.", reponse: "Artère : sang part du cœur ; veine : sang retourne." },
+    { question: "Barrières naturelles.", reponse: "Peau, muqueuses, sucs gastriques." },
+    { question: "Anticorps.", reponse: "Protéine qui neutralise les microbes." },
+    { question: "Vaccin.", reponse: "Antigène affaibli → mémoire immunitaire." },
+    { question: "Antibiotiques.", reponse: "Efficaces sur les bactéries (pas les virus)." },
+    { question: "Contraception.", reponse: "Pilule, préservatif, stérilet." },
+    { question: "IST.", reponse: "Infection Sexuellement Transmissible." },
+    { question: "VIH.", reponse: "Virus qui affaiblit le système immunitaire." },
+    { question: "Lymphocytes.", reponse: "Globules blancs (B = anticorps, T = destruction)." },
+    { question: "Immunité innée.", reponse: "Immédiate, non spécifique (peau, phagocytes)." },
+    { question: "Immunité acquise.", reponse: "Lente, spécifique (anticorps, mémoire)." },
+    { question: "Atome.", reponse: "Noyau (protons+, neutrons) + électrons-." },
+    { question: "Molécule d'eau.", reponse: "H₂O." },
+    { question: "Corps pur.", reponse: "Un seul constituant (eau distillée)." },
+    { question: "Mélange homogène/hétérogène.", reponse: "Homogène : on distingue pas ; hétérogène : plusieurs phases." },
+    { question: "Filtration.", reponse: "Sépare solide/liquide." },
+    { question: "Distillation.", reponse: "Sépare liquides (ébullition)." },
+    { question: "Réaction chimique.", reponse: "Réactifs → produits, conservation atomes." },
+    { question: "Combustion du méthane.", reponse: "CH₄ + 2 O₂ → CO₂ + 2 H₂O." },
+    { question: "Exothermique / endothermique.", reponse: "Exo : dégage chaleur ; endo : absorbe chaleur." },
+    { question: "Neutralisation.", reponse: "Acide + base → eau + sel." },
+    { question: "Concentration massique.", reponse: "C = m/V (g/L)." },
+    { question: "pH acide / neutre / basique.", reponse: "Acide <7, neutre =7, basique >7." },
+    { question: "Trajectoires.", reponse: "Rectiligne, circulaire, curviligne." },
+    { question: "Vitesse moyenne.", reponse: "v = d/t." },
+    { question: "Conversion m/s en km/h.", reponse: "×3,6." },
+    { question: "Poids.", reponse: "P = m × g (vertical vers bas)." },
+    { question: "Principe d'inertie.", reponse: "Si forces se compensent, mouvement rectiligne uniforme ou repos." },
+    { question: "Pression.", reponse: "P = F/S (Pa)." },
+    { question: "Pression atmosphérique normale.", reponse: "1013 hPa." },
+    { question: "Énergies fossiles.", reponse: "Charbon, pétrole, gaz." },
+    { question: "Énergies renouvelables.", reponse: "Solaire, éolien, hydraulique." },
+    { question: "Énergie cinétique.", reponse: "Ec = ½ × m × v²." },
+    { question: "Énergie potentielle.", reponse: "Ep = m × g × h." },
+    { question: "Loi d'Ohm.", reponse: "U = R × I." },
+    { question: "Puissance électrique.", reponse: "P = U × I." },
+    { question: "Circuit série.", reponse: "Un seul chemin, même courant." },
+    { question: "Circuit dérivation.", reponse: "Plusieurs chemins, même tension." },
+    { question: "Court-circuit.", reponse: "Chemin de faible résistance, courant élevé." },
+    { question: "Fusible / disjoncteur.", reponse: "Coupe le circuit en cas de surintensité." },
+    { question: "Prise de terre.", reponse: "Évacue le courant de fuite." },
+    { question: "Vitesse de la lumière.", reponse: "300 000 km/s." },
+    { question: "Vitesse du son.", reponse: "340 m/s." },
+    { question: "Hauteur d'un son.", reponse: "Fréquence (Hz) : aigu = fréquence élevée." },
+    { question: "Intensité sonore.", reponse: "Amplitude (dB)." }
+  ];
+
+  let index = 0;
+  let currentCard = null;
+  let progression = JSON.parse(localStorage.getItem("flashcards_sciences") || "{}");
+
+  function sauvegarder() { localStorage.setItem("flashcards_sciences", JSON.stringify(progression)); }
+  function melanger(tab) { for (let i=tab.length-1; i>0; i--) { let j=Math.floor(Math.random()*(i+1)); [tab[i],tab[j]]=[tab[j],tab[i]]; } return tab; }
+
+  function demarrer() {
+    let cartes = flashcards.filter(c => !progression[c.question] || progression[c.question] < 3);
+    cartes = melanger(cartes);
+    if (cartes.length === 0) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes sont maîtrisées.</div>';
+      document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+      return;
+    }
+    index = 0;
+    afficher(cartes);
+  }
+
+  function afficher(cartes) {
+    if (index >= cartes.length) { demarrer(); return; }
+    currentCard = cartes[index];
+    document.getElementById("card-area").innerHTML = `
+      <div class="flashcard" onclick="reveler()">
+        <div class="question">${currentCard.question}</div>
+        <div class="answer" id="answer">${currentCard.reponse}</div>
+        <div class="show-answer">👆 Cliquez pour voir la réponse</div>
+      </div>
+      <div class="btn-group" id="btns" style="display:none;">
+        <button onclick="repondre(true)">✅ Je sais</button>
+        <button onclick="repondre(false)">❌ Je ne sais pas</button>
+      </div>
+    `;
+    document.getElementById("session-stats").innerHTML = `📌 Carte ${index+1}/${cartes.length}`;
+    document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+  }
+
+  window.reveler = function() { document.getElementById("answer").style.display = "block"; document.getElementById("btns").style.display = "flex"; };
+  window.repondre = function(reussi) {
+    if (reussi) progression[currentCard.question] = (progression[currentCard.question] || 0) + 1;
+    else progression[currentCard.question] = 0;
+    sauvegarder();
+    index++;
+    demarrer();
+  };
+  document.getElementById("resetBtn").onclick = () => { if (confirm("Réinitialiser ?")) { localStorage.removeItem("flashcards_sciences"); progression = {}; demarrer(); } };
+  demarrer();
+</script>
+</body>
+</html>

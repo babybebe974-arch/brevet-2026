@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>🌍 Flashcards Histoire-Géo & EMC – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #e74c3c;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#e74c3c;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #e74c3c;padding-left:1rem;}
+    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard:hover{border-color:#e74c3c;}
+    .question{font-size:1.1rem;margin-bottom:1rem;}
+    .answer{font-size:1rem;color:#e74c3c;margin-top:1rem;display:none;}
+    .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🌍 Flashcards Histoire-Géo & EMC</h1>
+  <div class="sub">Brevet 2026 • Mémorisation active • 176 cartes</div>
+  <div class="stats" id="stats">📊 Chargement...</div>
+  <div id="card-area"></div>
+  <div id="session-stats" class="progress"></div>
+  <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;margin-top:1rem;">🔄 Réinitialiser</button>
+  <a href="index.html" class="back-link">← Retour au hub</a>
+</div>
+
+<script>
+  const flashcards = [
+    { question: "Citez trois philosophes des Lumières.", reponse: "Voltaire, Montesquieu, Rousseau, Diderot." },
+    { question: "Idée de Montesquieu.", reponse: "Séparation des pouvoirs." },
+    { question: "Que défend Voltaire ?", reponse: "Tolérance et liberté d'expression." },
+    { question: "Qu'est-ce que l'Encyclopédie ?", reponse: "Ouvrage de Diderot et d'Alembert." },
+    { question: "Despote éclairé ?", reponse: "Monarque inspiré des Lumières." },
+    { question: "Ancien Régime.", reponse: "3 ordres : clergé, noblesse, tiers état." },
+    { question: "Prise de la Bastille.", reponse: "14 juillet 1789." },
+    { question: "Déclaration des droits de l'homme.", reponse: "26 août 1789." },
+    { question: "Exécution de Louis XVI.", reponse: "21 janvier 1793." },
+    { question: "Prise du pouvoir par Napoléon.", reponse: "18 Brumaire (9 novembre 1799)." },
+    { question: "Code civil.", reponse: "1804, unité juridique." },
+    { question: "Défaite de Waterloo.", reponse: "18 juin 1815." },
+    { question: "Congrès de Vienne.", reponse: "1815, restauration des monarchies." },
+    { question: "Printemps des peuples.", reponse: "Révolutions de 1848." },
+    { question: "IIe République.", reponse: "Suffrage universel masculin, abolition esclavage (1848)." },
+    { question: "Révolution industrielle : innovations.", reponse: "Machine à vapeur, chemin de fer." },
+    { question: "Nouvelles classes sociales.", reponse: "Bourgeoisie et prolétariat." },
+    { question: "Unité italienne.", reponse: "1861 (Cavour, Garibaldi)." },
+    { question: "Unité allemande.", reponse: "1871 (Bismarck)." },
+    { question: "IIIe République : lois Ferry.", reponse: "1881-1882 : gratuité, obligation, laïcité." },
+    { question: "Affaire Dreyfus.", reponse: "1894-1906, Zola 'J'accuse'." },
+    { question: "Loi de séparation (1905).", reponse: "Séparation des Églises et de l'État." },
+    { question: "Début Première Guerre mondiale.", reponse: "1er août 1914." },
+    { question: "Armistice 1918.", reponse: "11 novembre 1918." },
+    { question: "Génocide arménien.", reponse: "1915-1916, 1,2 million de morts." },
+    { question: "Traité de Versailles.", reponse: "1919, culpabilité allemande." },
+    { question: "SDN.", reponse: "Société des Nations (ancêtre ONU)." },
+    { question: "Totalitarismes.", reponse: "URSS (Staline), Allemagne (Hitler), Italie (Mussolini)." },
+    { question: "Début Seconde Guerre mondiale.", reponse: "1er septembre 1939." },
+    { question: "Armistice 1940.", reponse: "22 juin 1940." },
+    { question: "Appel du 18 juin.", reponse: "de Gaulle." },
+    { question: "Pearl Harbor.", reponse: "7 décembre 1941, entrée en guerre des États-Unis." },
+    { question: "Shoah.", reponse: "Extermination des Juifs (6 millions)." },
+    { question: "Débarquement de Normandie.", reponse: "6 juin 1944." },
+    { question: "Capitulation allemande.", reponse: "8 mai 1945." },
+    { question: "Hiroshima et Nagasaki.", reponse: "6 et 9 août 1945." },
+    { question: "Procès de Nuremberg.", reponse: "1945-1946, crimes contre l'humanité." },
+    { question: "ONU.", reponse: "Organisation des Nations unies (1945)." },
+    { question: "Rideau de fer.", reponse: "Frontière entre blocs (guerre froide)." },
+    { question: "Plan Marshall.", reponse: "Aide américaine à l'Europe (1947)." },
+    { question: "OTAN / pacte de Varsovie.", reponse: "Alliances militaires (1949 / 1955)." },
+    { question: "Crise de Cuba.", reponse: "1962, missiles soviétiques." },
+    { question: "Chute du mur de Berlin.", reponse: "9 novembre 1989." },
+    { question: "CECA (1951).", reponse: "Communauté européenne du charbon et de l'acier." },
+    { question: "CEE (1957).", reponse: "Traité de Rome." },
+    { question: "Union européenne (1992).", reponse: "Traité de Maastricht." },
+    { question: "Euro (2002).", reponse: "Monnaie unique." },
+    { question: "Brexit.", reponse: "Sortie du Royaume-Uni (2020)." },
+    { question: "Guerre d'Indochine.", reponse: "1946-1954, défaite française à Diên Biên Phu." },
+    { question: "Guerre d'Algérie.", reponse: "1954-1962, accords d'Évian." },
+    { question: "Conférence de Bandung.", reponse: "1955, non-alignés." },
+    { question: "Métropolisation.", reponse: "Concentration dans les grandes villes." },
+    { question: "Aire urbaine.", reponse: "Pôle + couronne." },
+    { question: "Ségrégation socio-spatiale.", reponse: "Séparation selon les revenus." },
+    { question: "Désindustrialisation.", reponse: "Baisse de l'emploi industriel." },
+    { question: "Tertiarisation.", reponse: "Augmentation des services." },
+    { question: "Néoruraux.", reponse: "Citadins s'installant à la campagne." },
+    { question: "PAC.", reponse: "Politique agricole commune." },
+    { question: "Espace Schengen.", reponse: "Libre circulation des personnes." },
+    { question: "FMN.", reponse: "Firme multinationale." },
+    { question: "IDH.", reponse: "Indice de développement humain." },
+    { question: "ODD.", reponse: "Objectifs de développement durable (2030)." },
+    { question: "Valeurs de la République.", reponse: "Liberté, Égalité, Fraternité, Laïcité." },
+    { question: "Laïcité.", reponse: "Loi de 1905, neutralité de l'État." },
+    { question: "Présomption d'innocence.", reponse: "Innocent tant que non prouvé coupable." },
+    { question: "Droit de grève.", reponse: "Droit des salariés de cesser le travail." }
+  ];
+
+  let index = 0;
+  let currentCard = null;
+  let progression = JSON.parse(localStorage.getItem("flashcards_histoire") || "{}");
+
+  function sauvegarder() { localStorage.setItem("flashcards_histoire", JSON.stringify(progression)); }
+  function melanger(tab) { for (let i=tab.length-1; i>0; i--) { let j=Math.floor(Math.random()*(i+1)); [tab[i],tab[j]]=[tab[j],tab[i]]; } return tab; }
+
+  function demarrer() {
+    let cartes = flashcards.filter(c => !progression[c.question] || progression[c.question] < 3);
+    cartes = melanger(cartes);
+    if (cartes.length === 0) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes sont maîtrisées.</div>';
+      document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+      return;
+    }
+    index = 0;
+    afficher(cartes);
+  }
+
+  function afficher(cartes) {
+    if (index >= cartes.length) { demarrer(); return; }
+    currentCard = cartes[index];
+    document.getElementById("card-area").innerHTML = `
+      <div class="flashcard" onclick="reveler()">
+        <div class="question">${currentCard.question}</div>
+        <div class="answer" id="answer">${currentCard.reponse}</div>
+        <div class="show-answer">👆 Cliquez pour voir la réponse</div>
+      </div>
+      <div class="btn-group" id="btns" style="display:none;">
+        <button onclick="repondre(true)">✅ Je sais</button>
+        <button onclick="repondre(false)">❌ Je ne sais pas</button>
+      </div>
+    `;
+    document.getElementById("session-stats").innerHTML = `📌 Carte ${index+1}/${cartes.length}`;
+    document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+  }
+
+  window.reveler = function() { document.getElementById("answer").style.display = "block"; document.getElementById("btns").style.display = "flex"; };
+  window.repondre = function(reussi) {
+    if (reussi) progression[currentCard.question] = (progression[currentCard.question] || 0) + 1;
+    else progression[currentCard.question] = 0;
+    sauvegarder();
+    index++;
+    demarrer();
+  };
+  document.getElementById("resetBtn").onclick = () => { if (confirm("Réinitialiser ?")) { localStorage.removeItem("flashcards_histoire"); progression = {}; demarrer(); } };
+  demarrer();
+</script>
+</body>
+</html>
