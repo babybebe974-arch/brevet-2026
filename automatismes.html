@@ -1,356 +1,244 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>⚡ Automatismes intelligents – Brevet 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
-        .container { max-width: 900px; margin: 0 auto; background: #111118; border-radius: 2rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
-        h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.25rem; }
-        .math-color { color: #5ecfb1; }
-        .sub { color: #9aaec9; margin-bottom: 1.5rem; font-size: 0.85rem; }
-        .timer { background: #0c1222; border-radius: 1rem; padding: 0.5rem 1rem; display: inline-block; font-family: 'DM Mono', monospace; font-size: 1.2rem; margin-bottom: 1rem; }
-        .stats { background: #0c1222; border-radius: 1rem; padding: 0.8rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem; }
-        .question-container { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.5rem; padding: 2rem; margin-bottom: 1.5rem; }
-        .question-text { font-size: 1.2rem; margin-bottom: 1rem; text-align: center; }
-        .reponse-input { width: 100%; padding: 0.8rem; background: #0a0a0f; border: 1px solid #2a3452; border-radius: 1rem; color: white; font-size: 1rem; margin: 0.5rem 0; }
-        .feedback { margin-top: 0.5rem; font-size: 0.85rem; }
-        .feedback.correct { color: #5ecfb1; }
-        .feedback.incorrect { color: #e8c87a; }
-        .btn-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
-        button { background: #1e2a3e; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.5rem 1.2rem; font-size: 0.8rem; color: #5ecfb1; cursor: pointer; transition: 0.1s; }
-        button:hover { background: #2a3652; }
-        .progress-bar { background: #0a0a0f; border-radius: 1rem; height: 8px; margin-top: 0.5rem; overflow: hidden; }
-        .progress-fill { background: #5ecfb1; height: 100%; width: 0%; transition: width 0.3s; }
-        .jour-selector { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-        .jour-selector select, .jour-selector input { background: #0c1222; border: 1px solid #2a3452; border-radius: 40px; padding: 0.4rem 0.8rem; color: white; }
-        .back-link { display: inline-block; margin-top: 1rem; text-decoration: none; color: #5ecfb1; font-size: 0.8rem; }
-        hr { border-color: #2a3452; margin: 1rem 0; }
-        .matiere-tag { background: #1e2a3e; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.7rem; color: #e8c87a; display: inline-block; margin-bottom: 0.5rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>⚡ Automatismes – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:800px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
+    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;font-size:0.8rem;}
+    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
+    .question-text{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .progress{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.7rem;color:#aaa;text-align:center;}
+    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
+    .feedback.show{display:block;}
+    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
+    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.4rem 0.8rem;color:white;margin:0 0.5rem;}
+    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    hr{border-color:#333;margin:0.5rem 0;}
+    .reponse-modele{background:#1a2a1a;border-left:3px solid #5ecfb1;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.8rem;}
+  </style>
 </head>
 <body>
 <div class="container">
-    <h1>⚡ Automatismes <span class="math-color">intelligents</span></h1>
-    <div class="sub">Une question par flashcard • Planning • Sauvegarde locale</div>
+  <h1>⚡ Automatismes</h1>
+  <div class="sub">45 min • Reformule avec tes mots • La compréhension compte, pas le par cœur</div>
 
-    <div class="jour-selector">
-        <label>📅 Jour (J-26 à J-0) : </label>
-        <input type="number" id="jourInput" min="0" max="26" value="26">
-        <button id="setJourBtn">Appliquer</button>
-        <button id="resetProgresBtn" style="border-color:#e8c87a; color:#e8c87a;">🔄 Réinitialiser progression</button>
-    </div>
+  <div class="info-bar">
+    <span>📅 Jour J-<span id="jourActuel">--</span></span>
+    <span>📚 Matière : 
+      <select id="matiereSelect">
+        <option value="francais">Français</option>
+        <option value="maths">Mathématiques</option>
+        <option value="histoire">Histoire-Géo & EMC</option>
+        <option value="sciences">Sciences</option>
+      </select>
+      <button id="changerMatiereBtn">OK</button>
+    </span>
+    <span class="timer" id="timer">⏱️ 45:00</span>
+  </div>
 
-    <div class="timer" id="timer">⏱️ 20:00</div>
-    <div id="stats" class="stats">📊 Chargement...</div>
+  <div id="sessionInfo" class="progress">📊 Chargement...</div>
+  <div id="questionArea"></div>
 
-    <div id="question-area">
-        <div class="question-container">
-            <div class="question-text" id="questionText">Chargement des questions...</div>
-            <input type="text" id="reponseInput" class="reponse-input" placeholder="Ta réponse...">
-            <div id="feedback" class="feedback"></div>
-            <div class="btn-group">
-                <button id="validerBtn">✔️ Vérifier</button>
-                <button id="suivantBtn" disabled>⏭️ Question suivante</button>
-            </div>
-        </div>
-    </div>
+  <div class="btn-group">
+    <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser progression</button>
+    <button id="nextDayBtn" style="border-color:#ffcc00;color:#ffcc00;">📅 Passer au jour suivant</button>
+  </div>
 
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div id="sessionStats" style="margin-top: 0.5rem; font-size: 0.75rem; color: #aaa; text-align: center;"></div>
-
-    <a href="index.html" class="back-link">← Retour au hub</a>
+  <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-    // Configuration des matières et fichiers JSON
-    const matieres = [
-        { nom: "Maths", fichier: "donnees-maths.json", couleur: "#5ecfb1" },
-        { nom: "Français", fichier: "donnees-francais.json", couleur: "#e8c87a" },
-        { nom: "Histoire-Géo-EMC", fichier: "donnees-histoire-geo-emc.json", couleur: "#f0ede8" },
-        { nom: "Sciences", fichier: "donnees-sciences.json", couleur: "#7eb8f5" }
-    ];
+  // ==================== EXTRAIRE LES MOTS-CLÉS D'UNE RÉPONSE ====================
+  function extraireMotsCles(texte) {
+    const stopWords = ["le", "la", "les", "un", "une", "des", "et", "ou", "donc", "or", "ni", "car", "de", "du", "des", "à", "dans", "par", "pour", "avec", "sans", "sur", "sous", "chez", "est", "sont", "ce", "cet", "cette", "ces", "il", "elle", "ils", "elles", "on", "nous", "vous", "je", "tu", "ce", "que", "qui", "dont", "où", "un", "une", "des", "du", "de", "la", "le"];
+    const mots = texte.toLowerCase()
+      .replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ')
+      .split(/\s+/)
+      .filter(m => m.length > 2 && !stopWords.includes(m));
+    return [...new Set(mots)];
+  }
 
-    // Structure de sauvegarde (même que flashcards)
-    let progression = {
-        jour: 26,
-        automatismes: {}  // { "Maths_1": { compteurReussites: 0, nbErreurs: 0, derniereRevision: null, etat: "nouvelle" } }
-    };
+  function evaluerComprehension(reponseEleve, reponseAttendue) {
+    const motsClesAttendus = extraireMotsCles(reponseAttendue);
+    const motsEleve = extraireMotsCles(reponseEleve);
+    if (motsClesAttendus.length === 0) return { valide: true, taux: 1 };
+    let trouves = 0;
+    for (const mot of motsClesAttendus) {
+      if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
+    }
+    const taux = trouves / motsClesAttendus.length;
+    return { valide: taux >= 0.5, taux: Math.round(taux * 100) };
+  }
 
-    let toutesQuestions = []; // [{ id, matiere, chapitre, question, reponse, etat, compteurReussites, nbErreurs }]
-    let questionsSession = []; // Questions à traiter dans cette session
-    let indexActuel = 0;
-    let reponseEnCours = null;
-    let timerInterval = null;
-    let tempsRestant = 20 * 60; // 20 minutes en secondes
-    let sessionStats = { total: 0, reussies: 0, erreurs: 0 };
+  // ==================== DONNÉES EXEMPLES (à remplacer par les vraies flashcards) ====================
+  const cartesParMatiere = {
+    francais: Array.from({length: 200}, (_,i) => ({question: `Question français ${i+1}`, reponse: `Réponse détaillée pour la question ${i+1} : il faut comprendre le sens et pas réciter mot à mot.`})),
+    maths: Array.from({length: 200}, (_,i) => ({question: `Question maths ${i+1}`, reponse: `Réponse maths ${i+1} : explique avec tes propres mots.`})),
+    histoire: Array.from({length: 200}, (_,i) => ({question: `Question histoire ${i+1}`, reponse: `Réponse histoire ${i+1} : reformule librement.`})),
+    sciences: Array.from({length: 200}, (_,i) => ({question: `Question sciences ${i+1}`, reponse: `Réponse sciences ${i+1} : l'important est d'avoir compris le mécanisme.`}))
+  };
 
-    // Fonctions de sauvegarde
-    function sauvegarderProgression() {
-        localStorage.setItem("automatismes_progression", JSON.stringify(progression));
-    }
+  let currentMatiere = "francais";
+  let planning = { jour: 26, termine: false };
+  let progression = {};
+  let questionsSession = [];
+  let indexActuel = 0;
+  let currentQuestion = null;
+  let timerInterval = null;
+  let tempsRestant = 45 * 60;
 
-    function chargerProgression() {
-        const saved = localStorage.getItem("automatismes_progression");
-        if (saved) {
-            progression = JSON.parse(saved);
-        } else {
-            progression = { jour: 26, automatismes: {} };
-        }
-        document.getElementById("jourInput").value = progression.jour;
-    }
+  function sauvegarderPlanning() { localStorage.setItem("planning_automatismes", JSON.stringify(planning)); }
+  function sauvegarderProgression() { localStorage.setItem(`automatismes_${currentMatiere}`, JSON.stringify(progression)); }
 
-    // Charger un fichier JSON
-    async function chargerJSON(fichier) {
-        try {
-            const response = await fetch(fichier);
-            if (!response.ok) throw new Error(`Fichier ${fichier} introuvable`);
-            return await response.json();
-        } catch(e) {
-            console.error(e);
-            return null;
-        }
-    }
+  function chargerDonnees() {
+    const savedPlanning = localStorage.getItem("planning_automatismes");
+    if (savedPlanning) planning = JSON.parse(savedPlanning);
+    else planning = { jour: 26, termine: false };
+    const savedProg = localStorage.getItem(`automatismes_${currentMatiere}`);
+    if (savedProg) progression = JSON.parse(savedProg);
+    else progression = {};
+    document.getElementById("jourActuel").innerText = planning.jour;
+  }
 
-    // Extraire toutes les questions (une par flashcard)
-    function extraireQuestions(data, matiereNom) {
-        const questions = [];
-        let id = 1;
-        for (const theme of data.themes || []) {
-            for (const chapitre of theme.chapitres || []) {
-                for (const flash of chapitre.flashcards || []) {
-                    questions.push({
-                        id: `${matiereNom}_${id++}`,
-                        matiere: matiereNom,
-                        chapitre: chapitre.nom,
-                        question: flash.recto,
-                        reponse: flash.verso
-                    });
-                }
-            }
-        }
-        return questions;
-    }
-
-    // Sélectionner les questions du jour selon planning (30 nouvelles + 10 erreurs + 5 rebrassage)
-    function selectionnerQuestionsDuJour(questions) {
-        const autoData = progression.automatismes;
-        const jour = progression.jour;
-        
-        // 30 nouvelles (ou moins s'il n'y a pas assez de questions)
-        const nouvelles = questions.filter(q => !autoData[q.id] || autoData[q.id].etat === "nouvelle").slice(0, 30);
-        
-        // 10 erreurs des jours précédents
-        const erreurs = questions.filter(q => autoData[q.id] && autoData[q.id].nbErreurs > 0).slice(0, 10);
-        
-        // 5 rebrassage (anciennes questions maîtrisées ou vues)
-        const rebrassage = questions.filter(q => autoData[q.id] && autoData[q.id].etat !== "nouvelle" && autoData[q.id].nbErreurs === 0).slice(0, 5);
-        
-        // Fusion et dédoublonnage
-        const selected = [...nouvelles, ...erreurs, ...rebrassage];
-        const unique = [];
-        const ids = new Set();
-        for (const q of selected) {
-            if (!ids.has(q.id)) {
-                ids.add(q.id);
-                unique.push(q);
-            }
-        }
-        return unique;
-    }
-
-    // Mélanger un tableau (Fisher-Yates)
-    function melanger(tableau) {
-        for (let i = tableau.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [tableau[i], tableau[j]] = [tableau[j], tableau[i]];
-        }
-        return tableau;
-    }
-
-    // Démarrer une session
-    async function demarrerSession() {
-        // Charger toutes les questions depuis les JSON
-        toutesQuestions = [];
-        for (const mat of matieres) {
-            const data = await chargerJSON(mat.fichier);
-            if (data) {
-                const questions = extraireQuestions(data, mat.nom);
-                toutesQuestions.push(...questions);
-                // Initialiser les questions non existantes dans progression
-                for (const q of questions) {
-                    if (!progression.automatismes[q.id]) {
-                        progression.automatismes[q.id] = { compteurReussites: 0, nbErreurs: 0, etat: "nouvelle" };
-                    }
-                }
-            }
-        }
-        sauvegarderProgression();
-        
-        // Sélectionner les questions du jour
-        questionsSession = selectionnerQuestionsDuJour(toutesQuestions);
-        questionsSession = melanger(questionsSession);
-        indexActuel = 0;
-        sessionStats = { total: questionsSession.length, reussies: 0, erreurs: 0 };
-        
-        // Mettre à jour l'affichage
-        document.getElementById("stats").innerHTML = `
-            📅 Jour J-${progression.jour} &nbsp;|&nbsp;
-            🃏 Questions aujourd'hui : ${questionsSession.length} &nbsp;|&nbsp;
-            ✅ Réussies : 0 &nbsp;|&nbsp;
-            ❌ Erreurs : 0
-        `;
-        
-        if (questionsSession.length === 0) {
-            document.getElementById("questionText").innerHTML = "🎉 Félicitations ! Toutes les questions sont maîtrisées.";
-            document.getElementById("reponseInput").disabled = true;
-            document.getElementById("validerBtn").disabled = true;
-            return;
-        }
-        
-        afficherQuestion();
-    }
-    
-    function afficherQuestion() {
-        if (indexActuel >= questionsSession.length) {
-            terminerSession();
-            return;
-        }
-        
-        const q = questionsSession[indexActuel];
-        document.getElementById("questionText").innerHTML = `
-            <div class="matiere-tag">${q.matiere} • ${q.chapitre}</div>
-            ${q.question}
-        `;
-        document.getElementById("reponseInput").value = "";
-        document.getElementById("reponseInput").disabled = false;
-        document.getElementById("validerBtn").disabled = false;
-        document.getElementById("suivantBtn").disabled = true;
-        document.getElementById("feedback").innerHTML = "";
-        document.getElementById("feedback").className = "feedback";
-        reponseEnCours = q;
-        
-        // Mettre à jour la barre de progression
-        const progress = (indexActuel / questionsSession.length) * 100;
-        document.getElementById("progressFill").style.width = `${progress}%`;
-        document.getElementById("sessionStats").innerHTML = `Question ${indexActuel + 1}/${questionsSession.length}`;
-    }
-    
-    function verifierReponse() {
-        const userReponse = document.getElementById("reponseInput").value.trim().toLowerCase();
-        const bonneReponse = reponseEnCours.reponse.toLowerCase();
-        
-        // Comparaison simplifiée (on pourrait améliorer)
-        const estCorrect = userReponse === bonneReponse || 
-                          (bonneReponse.includes(userReponse) && userReponse.length > 3) ||
-                          (userReponse.includes(bonneReponse) && bonneReponse.length > 3);
-        
-        const feedbackDiv = document.getElementById("feedback");
-        const autoData = progression.automatismes[reponseEnCours.id];
-        
-        if (estCorrect) {
-            autoData.compteurReussites++;
-            autoData.nbErreurs = 0;
-            if (autoData.compteurReussites >= 3) {
-                autoData.etat = "maitrisee";
-                feedbackDiv.innerHTML = "✅ Parfait ! Cette question est maîtrisée.";
-            } else {
-                autoData.etat = "en_cours";
-                feedbackDiv.innerHTML = "✅ Bonne réponse ! Continuez comme ça.";
-            }
-            feedbackDiv.classList.add("correct");
-            feedbackDiv.classList.remove("incorrect");
-            sessionStats.reussies++;
-        } else {
-            autoData.compteurReussites = 0;
-            autoData.nbErreurs++;
-            autoData.etat = "en_erreur";
-            feedbackDiv.innerHTML = `❌ La réponse correcte était : "${bonneReponse}". Réessayez plus tard.`;
-            feedbackDiv.classList.add("incorrect");
-            feedbackDiv.classList.remove("correct");
-            sessionStats.erreurs++;
-        }
-        autoData.derniereRevision = new Date().toISOString();
-        progression.automatismes[reponseEnCours.id] = autoData;
-        sauvegarderProgression();
-        
-        document.getElementById("stats").innerHTML = `
-            📅 Jour J-${progression.jour} &nbsp;|&nbsp;
-            🃏 Questions aujourd'hui : ${questionsSession.length} &nbsp;|&nbsp;
-            ✅ Réussies : ${sessionStats.reussies} &nbsp;|&nbsp;
-            ❌ Erreurs : ${sessionStats.erreurs}
-        `;
-        
-        document.getElementById("reponseInput").disabled = true;
-        document.getElementById("validerBtn").disabled = true;
-        document.getElementById("suivantBtn").disabled = false;
-    }
-    
-    function questionSuivante() {
-        indexActuel++;
-        afficherQuestion();
-    }
-    
-    function terminerSession() {
-        clearInterval(timerInterval);
-        document.getElementById("questionText").innerHTML = "🎉 Session terminée !";
-        document.getElementById("reponseInput").disabled = true;
-        document.getElementById("validerBtn").disabled = true;
-        document.getElementById("suivantBtn").disabled = true;
-        document.getElementById("sessionStats").innerHTML = `✅ ${sessionStats.reussies} réussies • ❌ ${sessionStats.erreurs} erreurs`;
-        document.getElementById("progressFill").style.width = "100%";
-    }
-    
-    // Timer
-    function demarrerTimer() {
-        timerInterval = setInterval(() => {
-            if (tempsRestant <= 0) {
-                clearInterval(timerInterval);
-                terminerSession();
-                return;
-            }
-            tempsRestant--;
-            const minutes = Math.floor(tempsRestant / 60);
-            const secondes = tempsRestant % 60;
-            document.getElementById("timer").innerHTML = `⏱️ ${minutes.toString().padStart(2, '0')}:${secondes.toString().padStart(2, '0')}`;
-        }, 1000);
-    }
-    
-    // Événements
-    document.getElementById("setJourBtn").addEventListener("click", () => {
-        const newJour = parseInt(document.getElementById("jourInput").value);
-        if (!isNaN(newJour) && newJour >= 0 && newJour <= 26) {
-            progression.jour = newJour;
-            sauvegarderProgression();
-            demarrerSession();
-        } else {
-            alert("Jour invalide (0 à 26)");
-        }
+  function selectionnerQuestions() {
+    const toutesCartes = cartesParMatiere[currentMatiere];
+    const nouvelles = toutesCartes.filter(c => !progression[c.question] || progression[c.question].etat === "nouvelle").slice(0, 30);
+    const erreurs = toutesCartes.filter(c => progression[c.question] && progression[c.question].nbErreurs > 0).slice(0, 10);
+    const rebrassage = toutesCartes.filter(c => progression[c.question] && progression[c.question].etat === "maitrisee").slice(0, 5);
+    let selected = [...nouvelles, ...erreurs, ...rebrassage];
+    const ids = new Set();
+    selected = selected.filter(c => {
+      if (ids.has(c.question)) return false;
+      ids.add(c.question);
+      return true;
     });
-    
-    document.getElementById("resetProgresBtn").addEventListener("click", () => {
-        if (confirm("⚠️ Réinitialiser toute votre progression ? Cette action est irréversible.")) {
-            localStorage.removeItem("automatismes_progression");
-            chargerProgression();
-            demarrerSession();
-        }
-    });
-    
-    document.getElementById("validerBtn").addEventListener("click", verifierReponse);
-    document.getElementById("suivantBtn").addEventListener("click", questionSuivante);
-    document.getElementById("reponseInput").addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && document.getElementById("validerBtn").disabled === false) {
-            verifierReponse();
-        }
-    });
-    
-    // Initialisation
-    chargerProgression();
-    demarrerSession();
+    for (let i=selected.length-1; i>0; i--) {
+      const j = Math.floor(Math.random()*(i+1));
+      [selected[i], selected[j]] = [selected[j], selected[i]];
+    }
+    return selected;
+  }
+
+  function demarrerSession() {
+    questionsSession = selectionnerQuestions();
+    indexActuel = 0;
+    document.getElementById("sessionInfo").innerHTML = `📌 ${questionsSession.length} questions (30 nouvelles + 10 erreurs + 5 rebrassage)`;
+    if (questionsSession.length === 0) {
+      document.getElementById("questionArea").innerHTML = '<div class="progress">🎉 Félicitations ! Plus de questions à réviser.</div>';
+      return;
+    }
+    afficherQuestion();
     demarrerTimer();
+  }
+
+  function afficherQuestion() {
+    if (indexActuel >= questionsSession.length) {
+      terminerSession();
+      return;
+    }
+    currentQuestion = questionsSession[indexActuel];
+    document.getElementById("questionArea").innerHTML = `
+      <div class="question-card">
+        <div class="question-text">${currentQuestion.question}</div>
+        <textarea id="reponseInput" rows="3" placeholder="Explique avec tes propres mots..."></textarea>
+        <div class="btn-group">
+          <button id="validerBtn">✔️ Vérifier ma compréhension</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+    `;
+    document.getElementById("validerBtn").onclick = () => verifierReponse();
+    document.getElementById("reponseInput").focus();
+    document.getElementById("sessionInfo").innerHTML = `📌 Question ${indexActuel+1}/${questionsSession.length}`;
+  }
+
+  function verifierReponse() {
+    const userReponse = document.getElementById("reponseInput").value.trim();
+    if (userReponse === "") {
+      document.getElementById("feedback").innerHTML = "✏️ Écris une réponse avant de valider (même courte).";
+      document.getElementById("feedback").classList.add("show");
+      return;
+    }
+    const evaluation = evaluerComprehension(userReponse, currentQuestion.reponse);
+    const state = progression[currentQuestion.question] || { nbErreurs: 0, etat: "nouvelle" };
+    if (evaluation.valide) {
+      state.nbErreurs = 0;
+      state.etat = "maitrisee";
+      document.getElementById("feedback").innerHTML = `✅ Bien compris ! (${evaluation.taux}% des idées clés)<br><div class="reponse-modele">📖 Pour info : ${currentQuestion.reponse}</div>`;
+    } else {
+      state.nbErreurs = (state.nbErreurs || 0) + 1;
+      state.etat = "en_erreur";
+      document.getElementById("feedback").innerHTML = `⚠️ On va revoir ça. (${evaluation.taux}% des idées clés)<br><div class="reponse-modele">📖 Réponse modèle : ${currentQuestion.reponse}</div><br>💡 Essaie de reformuler avec tes mots.`;
+    }
+    progression[currentQuestion.question] = state;
+    sauvegarderProgression();
+    document.getElementById("feedback").classList.add("show");
+    indexActuel++;
+    setTimeout(() => afficherQuestion(), 2500);
+  }
+
+  function terminerSession() {
+    clearInterval(timerInterval);
+    document.getElementById("questionArea").innerHTML = '<div class="progress">✅ Session terminée ! Reviens demain.</div>';
+    planning.termine = true;
+    sauvegarderPlanning();
+  }
+
+  function demarrerTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (tempsRestant <= 0) {
+        clearInterval(timerInterval);
+        terminerSession();
+        return;
+      }
+      tempsRestant--;
+      const minutes = Math.floor(tempsRestant / 60);
+      const secondes = tempsRestant % 60;
+      document.getElementById("timer").innerHTML = `⏱️ ${minutes.toString().padStart(2,'0')}:${secondes.toString().padStart(2,'0')}`;
+    }, 1000);
+  }
+
+  function reinitialiser() {
+    if (confirm("⚠️ Réinitialiser toute la progression pour cette matière ?")) {
+      localStorage.removeItem(`automatismes_${currentMatiere}`);
+      chargerDonnees();
+      demarrerSession();
+    }
+  }
+
+  function passerJourSuivant() {
+    if (planning.jour <= 0) {
+      alert("🎉 Planning terminé !");
+      return;
+    }
+    planning.jour--;
+    planning.termine = false;
+    sauvegarderPlanning();
+    chargerDonnees();
+    demarrerSession();
+  }
+
+  document.getElementById("changerMatiereBtn").addEventListener("click", () => {
+    currentMatiere = document.getElementById("matiereSelect").value;
+    chargerDonnees();
+    demarrerSession();
+  });
+  document.getElementById("resetBtn").addEventListener("click", reinitialiser);
+  document.getElementById("nextDayBtn").addEventListener("click", passerJourSuivant);
+
+  chargerDonnees();
+  demarrerSession();
 </script>
 </body>
 </html>
