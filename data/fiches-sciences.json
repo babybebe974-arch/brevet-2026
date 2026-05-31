@@ -1,0 +1,168 @@
+{
+  "matiere": "Sciences",
+  "niveau": "Cycle 4 (3e) - Brevet",
+  "total_chapitres": 30,
+  "type": "fiches_revision",
+  "themes": [
+    {
+      "nom": "SVT",
+      "chapitres": [
+        {
+          "nom": "Le réchauffement climatique",
+          "contenu": "<span class='notion'>Gaz à effet de serre (GES)</span> : CO₂, CH₄, N₂O. Causes humaines : <span class='notion'>combustion fossile</span>, <span class='notion'>déforestation</span>, agriculture intensive. Conséquences : <span class='notion'>fonte des glaciers</span>, <span class='notion'>montée des eaux</span>, catastrophes naturelles. <span class='notion'>Accord de Paris (2015)</span> : limiter le réchauffement à +2°C (idéal 1,5°C).",
+          "mots_cles": ["GES", "combustion fossile", "déforestation", "fonte des glaciers", "montée des eaux", "Accord de Paris"]
+        },
+        {
+          "nom": "Gestion des ressources naturelles",
+          "contenu": "<span class='notion'>Stress hydrique</span> : demande en eau > disponibilité. <span class='notion'>Énergies renouvelables</span> : solaire, éolien, hydraulique. <span class='notion'>Érosion des sols</span> : usure par eau/vent/activités humaines. <span class='notion'>Agriculture durable</span> : rotation des cultures, compost, agroforesterie.",
+          "mots_cles": ["stress hydrique", "énergies renouvelables", "érosion des sols", "agriculture durable"]
+        },
+        {
+          "nom": "Risques naturels et prévention",
+          "contenu": "<span class='notion'>Aléa naturel</span> : phénomène dangereux (séisme, inondation). <span class='notion'>Vulnérabilité</span> : exposition d'une population. <span class='notion'>Prévention</span> : cartographie, systèmes d'alerte, <span class='notion'>PPR</span> (Plan de Prévention des Risques).",
+          "mots_cles": ["aléa naturel", "vulnérabilité", "prévention", "PPR"]
+        },
+        {
+          "nom": "La cellule – unité du vivant",
+          "contenu": "Cellule animale : <span class='notion'>membrane</span>, <span class='notion'>cytoplasme</span>, <span class='notion'>noyau</span>. Cellule végétale : en plus <span class='notion'>paroi cellulosique</span> et <span class='notion'>chloroplastes</span> (<span class='notion'>photosynthèse</span>). Organisation : <span class='notion'>cellule → tissu → organe → appareil → organisme</span>.",
+          "mots_cles": ["membrane", "cytoplasme", "noyau", "paroi cellulosique", "chloroplastes", "photosynthèse", "cellule → tissu → organe"]
+        },
+        {
+          "nom": "Génétique et hérédité",
+          "contenu": "<span class='notion'>Gène</span> : fragment d'ADN pour un caractère. <span class='notion'>Allèle dominant/récessif</span> : dominant = s'exprime toujours, récessif = s'exprime en double. <span class='notion'>Caryotype</span> : chromosomes classés par paires. Maladies génétiques : <span class='notion'>mucoviscidose</span>, <span class='notion'>drépanocytose</span>.",
+          "mots_cles": ["gène", "allèle dominant", "allèle récessif", "caryotype", "mucoviscidose", "drépanocytose"]
+        },
+        {
+          "nom": "Évolution des espèces",
+          "contenu": "<span class='notion'>Sélection naturelle</span> : mieux adaptés survivent et se reproduisent. <span class='notion'>Preuves</span> : fossiles, anatomie comparée, ADN. <span class='notion'>Arbre phylogénétique</span> : liens de parenté. <span class='notion'>Ancêtre commun</span> : espèce disparue dont descendent plusieurs espèces actuelles.",
+          "mots_cles": ["sélection naturelle", "fossiles", "anatomie comparée", "arbre phylogénétique", "ancêtre commun"]
+        },
+        {
+          "nom": "Reproduction",
+          "contenu": "<span class='notion'>Reproduction asexuée</span> : clones (bouturage, marcottage). <span class='notion'>Fécondation</span> : fusion gamètes → zygote. <span class='notion'>Développement embryonnaire</span> : segmentation → gastrulation → organogenèse. <span class='notion'>Pollinisation</span> : transport pollen (vent, insectes).",
+          "mots_cles": ["reproduction asexuée", "fécondation", "développement embryonnaire", "pollinisation"]
+        },
+        {
+          "nom": "Système nerveux",
+          "contenu": "<span class='notion'>Système nerveux central</span> : cerveau, moelle épinière. <span class='notion'>Neurone</span> : transmission de l'influx nerveux. <span class='notion'>Mouvement volontaire</span> : commandé par cerveau. <span class='notion'>Mouvement réflexe</span> : contrôlé par moelle épinière. <span class='notion'>Synapse</span> : zone de communication entre neurones.",
+          "mots_cles": ["système nerveux central", "neurone", "mouvement volontaire", "mouvement réflexe", "synapse"]
+        },
+        {
+          "nom": "Hormones et régulation",
+          "contenu": "<span class='notion'>Insuline</span> : baisse la glycémie (pancréas). <span class='notion'>Adrénaline</span> : stress (accélère cœur). <span class='notion'>Hormones sexuelles</span> : testostérone (hommes), œstrogènes (femmes). <span class='notion'>Hypothalamus</span> : chef d'orchestre des glandes.",
+          "mots_cles": ["insuline", "adrénaline", "hormones sexuelles", "hypothalamus"]
+        },
+        {
+          "nom": "Nutrition et digestion",
+          "contenu": "Nutriments : <span class='notion'>glucides</span>, <span class='notion'>lipides</span>, <span class='notion'>protides</span>. <span class='notion'>Enzymes digestives</span> : dégradent les aliments (amylase, pepsine). Absorption : <span class='notion'>intestin grêle</span> (villosités). <span class='notion'>Bol alimentaire</span> : aliment mâché + salive.",
+          "mots_cles": ["glucides", "lipides", "protides", "enzymes digestives", "intestin grêle", "bol alimentaire"]
+        },
+        {
+          "nom": "Respiration et circulation sanguine",
+          "contenu": "Échanges gazeux : <span class='notion'>alvéoles pulmonaires</span> (O₂ et CO₂). Trajet sang : <span class='notion'>cœur → artères → capillaires → veines → cœur</span>. <span class='notion'>Globules rouges</span> : transportent O₂ (hémoglobine). Différence artère/veine : artère (sang part du cœur), veine (sang retourne au cœur).",
+          "mots_cles": ["alvéoles pulmonaires", "cœur → artères → capillaires → veines → cœur", "globules rouges", "hémoglobine"]
+        },
+        {
+          "nom": "Microbes et infections",
+          "contenu": "4 catégories : <span class='notion'>bactéries</span>, <span class='notion'>virus</span>, <span class='notion'>champignons</span>, <span class='notion'>parasites</span>. <span class='notion'>Barrières naturelles</span> : peau, muqueuses, sucs gastriques. <span class='notion'>Anticorps</span> : protéines qui neutralisent les microbes.",
+          "mots_cles": ["bactéries", "virus", "champignons", "parasites", "barrières naturelles", "anticorps"]
+        },
+        {
+          "nom": "Vaccination et antibiotiques",
+          "contenu": "<span class='notion'>Vaccin</span> : antigène affaibli → mémoire immunitaire. <span class='notion'>Immunité de groupe</span> : protection collective. <span class='notion'>Antibiotiques</span> : efficaces sur bactéries (pas virus). <span class='notion'>Résistance aux antibiotiques</span> : bactéries deviennent insensibles.",
+          "mots_cles": ["vaccin", "immunité de groupe", "antibiotiques", "résistance aux antibiotiques"]
+        },
+        {
+          "nom": "Sexualité et reproduction humaine",
+          "contenu": "Caractères primaires : organes génitaux. <span class='notion'>Contraception</span> : pilule, préservatif, stérilet. <span class='notion'>IST</span> (Infections Sexuellement Transmissibles) : VIH, chlamydia. <span class='notion'>Préservatif</span> : barrière contre VIH.",
+          "mots_cles": ["contraception", "IST", "VIH", "préservatif"]
+        },
+        {
+          "nom": "Défenses immunitaires",
+          "contenu": "<span class='notion'>Lymphocytes</span> : globules blancs (B = anticorps, T = destruction). <span class='notion'>Immunité innée</span> : immédiate, non spécifique (peau, phagocytes). <span class='notion'>Immunité acquise</span> : lente, spécifique (anticorps, mémoire). <span class='notion'>Phagocytes</span> : engloutissent microbes.",
+          "mots_cles": ["lymphocytes", "immunité innée", "immunité acquise", "phagocytes"]
+        }
+      ]
+    },
+    {
+      "nom": "Physique-Chimie",
+      "chapitres": [
+        {
+          "nom": "Constitution de la matière",
+          "contenu": "Atome : <span class='notion'>protons (+)</span>, <span class='notion'>neutrons (neutres)</span> dans le noyau, <span class='notion'>électrons (-)</span> autour. <span class='notion'>Molécule</span> : assemblage d'atomes. <span class='notion'>États de la matière</span> : solide, liquide, gaz. <span class='notion'>Fusion</span> : solide → liquide.",
+          "mots_cles": ["protons", "neutrons", "électrons", "molécule", "états de la matière", "fusion"]
+        },
+        {
+          "nom": "Mélanges et corps purs",
+          "contenu": "<span class='notion'>Corps pur</span> : un seul constituant (eau distillée). <span class='notion'>Mélange homogène</span> : on ne distingue pas les constituants (eau+sucre). <span class='notion'>Mélange hétérogène</span> : plusieurs phases (eau+huile). <span class='notion'>Filtration</span> : sépare solide/liquide. <span class='notion'>Distillation</span> : sépare liquides (ébullition).",
+          "mots_cles": ["corps pur", "mélange homogène", "mélange hétérogène", "filtration", "distillation"]
+        },
+        {
+          "nom": "Transformations chimiques",
+          "contenu": "Réaction : <span class='notion'>réactifs → produits</span>, conservation atomes. Combustion méthane : <span class='notion'>CH₄ + 2 O₂ → CO₂ + 2 H₂O</span>. <span class='notion'>Exothermique</span> : dégage chaleur. <span class='notion'>Endothermique</span> : absorbe chaleur. <span class='notion'>Neutralisation</span> : acide + base → eau + sel.",
+          "mots_cles": ["réactifs → produits", "CH₄ + 2 O₂ → CO₂ + 2 H₂O", "exothermique", "endothermique", "neutralisation"]
+        },
+        {
+          "nom": "Solutions et concentration",
+          "contenu": "<span class='notion'>Solvant</span> : dissout (ex: eau). <span class='notion'>Soluté</span> : dissous (ex: sucre). <span class='notion'>Concentration massique</span> : C = m/V (g/L). pH : <span class='notion'>acide</span> (pH<7), <span class='notion'>neutre</span> (pH=7), <span class='notion'>basique</span> (pH>7).",
+          "mots_cles": ["solvant", "soluté", "concentration massique", "acide", "neutre", "basique"]
+        },
+        {
+          "nom": "Mouvement",
+          "contenu": "<span class='notion'>Trajectoires</span> : rectiligne, circulaire, curviligne. <span class='notion'>Vitesse</span> : v = d/t (m/s ou km/h). <span class='notion'>Conversion</span> : m/s × 3,6 = km/h. <span class='notion'>Référentiel</span> : objet par rapport auquel on étudie le mouvement.",
+          "mots_cles": ["trajectoires", "vitesse", "v = d/t", "conversion m/s km/h", "référentiel"]
+        },
+        {
+          "nom": "Forces",
+          "contenu": "<span class='notion'>Poids</span> : P = m × g (g ≈ 9,8 N/kg, vertical vers bas). <span class='notion'>Frottement</span> : s'oppose au glissement. <span class='notion'>Caractéristiques d'une force</span> : direction, sens, intensité.",
+          "mots_cles": ["poids", "P = m × g", "frottement", "direction", "sens", "intensité"]
+        },
+        {
+          "nom": "Lois de Newton (collège)",
+          "contenu": "<span class='notion'>Principe d'inertie</span> : si forces se compensent (F=0), mouvement rectiligne uniforme ou repos. <span class='notion'>Ceinture de sécurité</span> : application (le corps continue tout droit). <span class='notion'>3e loi</span> : action/réaction (forces égales et opposées).",
+          "mots_cles": ["principe d'inertie", "F=0", "ceinture de sécurité", "3e loi de Newton"]
+        },
+        {
+          "nom": "Pression",
+          "contenu": "<span class='notion'>Pression</span> : P = F/S (Pa). <span class='notion'>Pression atmosphérique normale</span> : 1013 hPa. Variation : <span class='notion'>diminue avec l'altitude</span>. Oreilles qui bouchent : différence pression extérieure/intérieure.",
+          "mots_cles": ["P = F/S", "1013 hPa", "diminue avec l'altitude", "oreilles qui bouchent"]
+        },
+        {
+          "nom": "Sources d'énergie",
+          "contenu": "<span class='notion'>Fossiles</span> : charbon, pétrole, gaz (épuisables, CO₂). <span class='notion'>Renouvelables</span> : solaire, éolien, hydraulique, biomasse, géothermie. <span class='notion'>Nucléaire</span> : fission de l'uranium (70% électricité France).",
+          "mots_cles": ["fossiles", "renouvelables", "nucléaire"]
+        },
+        {
+          "nom": "Formes d'énergie",
+          "contenu": "<span class='notion'>Cinétique</span> : Ec = ½ × m × v². <span class='notion'>Potentielle de position</span> : Ep = m × g × h. <span class='notion'>Chimique</span> : stockée dans liaisons (carburants, aliments, piles). <span class='notion'>Thermique</span> : chaleur.",
+          "mots_cles": ["cinétique", "Ec = ½ × m × v²", "potentielle de position", "Ep = m × g × h", "chimique", "thermique"]
+        },
+        {
+          "nom": "Conversions et rendement",
+          "contenu": "<span class='notion'>Conversion d'énergie</span> : ex: éolienne (vent → électrique). <span class='notion'>Rendement</span> = énergie utile / énergie totale (≤ 100%). Pertes souvent sous forme de chaleur.",
+          "mots_cles": ["conversion d'énergie", "rendement", "énergie utile", "énergie totale"]
+        },
+        {
+          "nom": "Circuits électriques",
+          "contenu": "<span class='notion'>Loi d'Ohm</span> : U = R × I. <span class='notion'>Puissance</span> : P = U × I (W). <span class='notion'>Circuit série</span> : 1 chemin, même courant. <span class='notion'>Circuit dérivation</span> : plusieurs chemins, tension identique. <span class='notion'>Court-circuit</span> : chemin de faible résistance, courant élevé.",
+          "mots_cles": ["U = R × I", "P = U × I", "circuit série", "circuit dérivation", "court-circuit"]
+        },
+        {
+          "nom": "Sécurité électrique",
+          "contenu": "<span class='notion'>Fusible/disjoncteur</span> : coupent en cas de surintensité. <span class='notion'>Prise de terre</span> : évacue courant de fuite. <span class='notion'>Seuil de danger</span> : 10-30 mA (muscles contractés). <span class='notion'>Classe II</span> : double isolation, pas besoin de terre.",
+          "mots_cles": ["fusible", "disjoncteur", "prise de terre", "seuil de danger", "classe II"]
+        },
+        {
+          "nom": "Son et lumière",
+          "contenu": "<span class='notion'>Vitesse de la lumière</span> : 300 000 km/s (dans le vide). <span class='notion'>Vitesse du son</span> : 340 m/s (dans l'air, 15°C). Le son <span class='notion'>a besoin d'un milieu</span> pour se propager, la lumière non. d = v × t.",
+          "mots_cles": ["300 000 km/s", "340 m/s", "a besoin d'un milieu", "d = v × t"]
+        },
+        {
+          "nom": "Caractéristiques des ondes",
+          "contenu": "<span class='notion'>Hauteur</span> : fréquence (Hz) – aigu = fréquence élevée, grave = basse. <span class='notion'>Intensité</span> : amplitude (dB) – son fort = grande amplitude. <span class='notion'>Couleur</span> : objet renvoie sa couleur (bleu absorbe toutes les couleurs sauf bleu).",
+          "mots_cles": ["hauteur", "fréquence", "intensité", "dB", "couleur"]
+        }
+      ]
+    }
+  ]
+}

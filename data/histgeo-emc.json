@@ -1,111 +1,410 @@
 {
-  "matiere": "Histoire-Géographie & EMC",
-  "cartes": [
-    {"id": "ww1_1", "question": "Quelles sont les dates de la Première Guerre mondiale ?", "reponse": "1914-1918", "explication": "Assassinat de François-Ferdinand (28 juin 1914) → armistice du 11 novembre 1918."},
-    {"id": "ww1_2", "question": "Citez deux causes de la Première Guerre mondiale.", "reponse": "Nationalisme, système d’alliances, impérialisme colonial, assassinat de Sarajevo.", "explication": "Triple Entente (France, RU, Russie) / Triple Alliance (Allemagne, Autriche-Hongrie, Italie)."},
-    {"id": "ww1_3", "question": "Qu’est‑ce que la bataille de Verdun ?", "reponse": "Bataille de 1916, symbole de la violence des tranchées, 700 000 morts.", "explication": "« Ils ne passeront pas » (Pétain)."},
-    {"id": "ww1_4", "question": "Quel est le bilan humain de la Première Guerre mondiale ?", "reponse": "Environ 10 millions de soldats tués, 20 millions de blessés.", "explication": "France : 1,4 million de morts."},
-    {"id": "ww1_5", "question": "Quelles sont les conséquences du traité de Versailles (1919) pour l’Allemagne ?", "reponse": "Culpabilité, réparations, pertes territoriales, limitation de l’armée.", "explication": "Humiliations → montée du nazisme."},
-    {"id": "ww2_1", "question": "Dates de la Seconde Guerre mondiale.", "reponse": "1939-1945", "explication": "Déclenchée par l’invasion de la Pologne (1er septembre 1939)."},
-    {"id": "ww2_2", "question": "Qu’est‑ce que la Shoah ?", "reponse": "Génocide des Juifs d’Europe par les nazis (6 millions de victimes).", "explication": "Conférence de Wannsee (1942) : organisation de l’extermination."},
-    {"id": "ww2_3", "question": "Citez deux dates clés de la Seconde Guerre mondiale.", "reponse": "1939 (invasion Pologne), 1945 (capitulation allemande), 1944 (Débarquement Normandie).", "explication": "6 juin 1944 : D-Day. 8 mai 1945 : VE Day."},
-    {"id": "ww2_4", "question": "Qu’est‑ce que la Résistance ?", "reponse": "Mouvement d’opposition à l’occupation nazie et au régime de Vichy.", "explication": "Jean Moulin, de Gaulle, maquis."},
-    {"id": "ww2_5", "question": "Qu’est‑ce que le régime de Vichy ?", "reponse": "Gouvernement collaborationniste dirigé par Pétain (1940-1944).", "explication": "A déporté 76 000 Juifs."},
-    {"id": "vichy_1", "question": "Qui était le chef du régime de Vichy ?", "reponse": "Le maréchal Pétain.", "explication": "Il a signé l’armistice avec Hitler en juin 1940."},
-    {"id": "vichy_2", "question": "Qu’est‑ce que la rafle du Vél’ d’Hiv’ ?", "reponse": "Arrestation massive de Juifs à Paris (16-17 juillet 1942).", "explication": "13 000 Juifs déportés, dont 4 000 enfants."},
-    {"id": "vichy_3", "question": "Qui était Jean Moulin ?", "reponse": "Résistant, unificateur des mouvements de Résistance, mort sous la torture.", "explication": "Sous‑préfet, puis délégué du général de Gaulle."},
-    {"id": "vichy_4", "question": "Que signifie « collaboration » ?", "reponse": "Accord et coopération du régime de Vichy avec l’Allemagne nazie.", "explication": "Pétain rencontre Hitler en octobre 1940."},
-    {"id": "decolonisation_1", "question": "Quand l’Inde a‑t‑elle obtenu son indépendance ?", "reponse": "1947", "explication": "Gandhi et la non‑violence ; partition avec le Pakistan."},
-    {"id": "decolonisation_2", "question": "Quand la guerre d’Algérie a‑t‑elle eu lieu ?", "reponse": "1954-1962", "explication": "Accords d’Évian (1962) → indépendance de l’Algérie."},
-    {"id": "decolonisation_3", "question": "Qu’est‑ce que l’année de l’Afrique ?", "reponse": "1960, année où 17 pays africains accèdent à l’indépendance.", "explication": "Indépendances souvent négociées avec la France."},
-    {"id": "decolonisation_4", "question": "Citez une figure de la décolonisation pacifique.", "reponse": "Gandhi (Inde), Léopold Sédar Senghor (Sénégal).", "explication": "Nkrumah au Ghana."},
-    {"id": "guerrefroide_1", "question": "Dates de la Guerre Froide.", "reponse": "1947-1991", "explication": "Discours de Fulton (Churchill, 1946) : « rideau de fer » ; chute de l’URSS en 1991."},
-    {"id": "guerrefroide_2", "question": "Qu’est‑ce que le rideau de fer ?", "reponse": "Frontière idéologique entre l’Europe de l’Ouest (capitaliste) et l’Est (communiste).", "explication": "Symbole de la division de l’Europe pendant la Guerre Froide."},
-    {"id": "guerrefroide_3", "question": "Quels sont les deux blocs antagonistes ?", "reponse": "Bloc occidental (USA, OTAN) ; bloc de l’Est (URSS, Pacte de Varsovie).", "explication": "Alliances militaires, course aux armements."},
-    {"id": "guerrefroide_4", "question": "Qu’est‑ce que la crise de Cuba (1962) ?", "reponse": "Installation de missiles soviétiques à Cuba, blocus américain, risque nucléaire.", "explication": "Résolution diplomatique : retrait des missiles."},
-    {"id": "guerrefroide_5", "question": "Comment s’est terminée la Guerre Froide ?", "reponse": "Chute du mur de Berlin (1989), dissolution de l’URSS (1991).", "explication": "Fin du communisme en Europe de l’Est."},
-    {"id": "ue_1", "question": "Que signifie l’UE ?", "reponse": "Union européenne", "explication": "Créée par le traité de Maastricht (1992). 27 États membres."},
-    {"id": "ue_2", "question": "Citez deux institutions de l’UE.", "reponse": "Parlement européen (élu au suffrage universel), Commission européenne.", "explication": "Conseil de l’UE, Conseil européen, Cour de justice."},
-    {"id": "ue_3", "question": "Qu’est‑ce que l’euro ?", "reponse": "Monnaie unique européenne, en circulation depuis 2002.", "explication": "Utilisée par 20 pays de l’UE."},
-    {"id": "ue_4", "question": "Que signifie « espace Schengen » ?", "reponse": "Zone de libre circulation sans contrôles aux frontières intérieures.", "explication": "1985 : accord de Schengen."},
-    {"id": "revolution_1", "question": "Quelle est la date de la Révolution française ?", "reponse": "1789 (prise de la Bastille : 14 juillet 1789).", "explication": "Fin de l’Ancien Régime."},
-    {"id": "revolution_2", "question": "Que signifie la Déclaration des Droits de l’Homme et du Citoyen (DDHC) ?", "reponse": "Texte fondateur (26 août 1789) énonçant les droits naturels (liberté, égalité, propriété).", "explication": "Article 1 : « Les hommes naissent libres et égaux. »"},
-    {"id": "revolution_3", "question": "Qu’est‑ce que la Terreur (1793-1794) ?", "reponse": "Période de répression sanglante sous Robespierre (guillotine).", "explication": "Environ 40 000 exécutions."},
-    {"id": "revolution_4", "question": "Qui était Napoléon Bonaparte ?", "reponse": "Général, Premier Consul puis Empereur des Français (1804-1815).", "explication": "Code civil, conquêtes, défaite de Waterloo."},
-    {"id": "napoleon_1", "question": "Qu’est‑ce que le Code civil (1804) ?", "reponse": "Recueil de lois unifiant le droit français, inspiré des idéaux révolutionnaires.", "explication": "Porte encore son nom : Code Napoléon."},
-    {"id": "napoleon_2", "question": "Qu’est‑ce que la bataille de Waterloo (1815) ?", "reponse": "Défaite napoléonienne face aux coalisés (Royaume‑Uni, Prusse).", "explication": "Fin de l’Empire, exil de Napoléon à Sainte‑Hélène."},
-    {"id": "colonisation_1", "question": "Qu’est‑ce que la colonisation ?", "reponse": "Occupation et exploitation d’un territoire par une puissance étrangère.", "explication": "Empire français, britannique, belge…"},
-    {"id": "colonisation_2", "question": "Qu’est‑ce que le TPI (travail forcé) ?", "reponse": "Obligation pour les indigènes de travailler pour l’administration coloniale.", "explication": "Infamie du code de l’indigénat."},
-    {"id": "colonisation_3", "question": "Citez une conséquence durable de la colonisation.", "reponse": "Frontières artificielles, exploitation économique, inégalités, franc CFA.", "explication": "Néocolonialisme."},
-    {"id": "decouvertes_1", "question": "Qui a découvert l’Amérique en 1492 ?", "reponse": "Christophe Colomb (Espagne).", "explication": "Il cherchait une route vers les Indes."},
-    {"id": "decouvertes_2", "question": "Qui a effectué le premier tour du monde ?", "reponse": "Magellan (1519-1522).", "explication": "Expédition espagnole."},
-    {"id": "mondialisation_1", "question": "Qu’est‑ce que la mondialisation ?", "reponse": "Processus d’intégration mondiale des échanges économiques, culturels, humains et financiers.", "explication": "Accélérée depuis 1990 (internet, conteneurs, libéralisation)."},
-    {"id": "mondialisation_2", "question": "Citez deux acteurs de la mondialisation.", "reponse": "FTN (firmes transnationales), OMC, FMI, GAFAM.", "explication": "Ex : Apple, Google, Amazon, Facebook."},
-    {"id": "mondialisation_3", "question": "Qu’est‑ce qu’une FTN ?", "reponse": "Firme transnationale : entreprise implantée dans plusieurs pays.", "explication": "Siège souvent dans un pays riche, production dans pays à bas coûts."},
-    {"id": "mondialisation_4", "question": "Citez un flux de la mondialisation.", "reponse": "Flux de marchandises (conteneurs), flux financiers (capitaux), flux humains (migrants).", "explication": "Trois types de flux."},
-    {"id": "pib_1", "question": "Qu’est‑ce que le PIB ?", "reponse": "Produit Intérieur Brut : valeur totale des richesses produites dans un pays en un an.", "explication": "PIB/habitant = PIB ÷ population."},
-    {"id": "pib_2", "question": "Qu’est‑ce que l’IDH ?", "reponse": "Indice de Développement Humain (PNUD) : santé, éducation, niveau de vie.", "explication": "0 à 1. Norvège très haut, Niger bas."},
-    {"id": "pib_3", "question": "Qu’est‑ce que le Nord / Sud ?", "reponse": "Nord = pays riches (Europe, Amérique du Nord, Japon). Sud = pays pauvres (Afrique, Amérique latine).", "explication": "Brésil, Chine, Inde sont des pays émergents."},
-    {"id": "pib_4", "question": "Citez un pays émergent.", "reponse": "Chine, Inde, Brésil, Afrique du Sud.", "explication": "Croissance rapide, mais encore des inégalités."},
-    {"id": "villes_1", "question": "Qu’est‑ce qu’une métropole ?", "reponse": "Ville qui concentre les fonctions de commandement (économie, politique, culture).", "explication": "Ex : Paris, New York, Londres, Tokyo."},
-    {"id": "villes_2", "question": "Qu’est‑ce qu’une mégapole ?", "reponse": "Ville de plus de 10 millions d’habitants.", "explication": "Tokyo, Delhi, Shanghai, São Paulo…"},
-    {"id": "villes_3", "question": "Pourquoi les métropoles attirent‑elles ?", "reponse": "Emplois, formations, services, transports, culture.", "explication": "Problèmes : logement cher, pollution, inégalités."},
-    {"id": "migrations_1", "question": "Qu’est‑ce qu’un migrant économique ?", "reponse": "Personne qui quitte son pays pour améliorer ses conditions de vie (travail).", "explication": "Distinction avec réfugié."},
-    {"id": "migrations_2", "question": "Qu’est‑ce qu’un réfugié ?", "reponse": "Personne fuyant une persécution (race, religion, nationalité, politique).", "explication": "Protégé par la Convention de Genève (1951)."},
-    {"id": "migrations_3", "question": "Citez un flux migratoire actuel.", "reponse": "Afrique / Moyen‑Orient → Europe ; Amérique latine → États‑Unis ; Asie → Golfe.", "explication": "Migrations économiques ou climatiques."},
-    {"id": "energies_1", "question": "Citez deux énergies fossiles.", "reponse": "Pétrole, charbon, gaz naturel.", "explication": "Non renouvelables, émettent du CO₂."},
-    {"id": "energies_2", "question": "Citez deux énergies renouvelables.", "reponse": "Solaire, éolien, hydraulique, géothermie, biomasse.", "explication": "Peu ou pas d’émission de gaz à effet de serre."},
-    {"id": "energies_3", "question": "Qu’est‑ce que la transition énergétique ?", "reponse": "Changement vers des sources d’énergie plus propres et durables.", "explication": "Sortie progressive du nucléaire et des fossiles."},
-    {"id": "developpement_durable_1", "question": "Quels sont les trois piliers du développement durable ?", "reponse": "Économique, social, environnemental.", "explication": "Économie viable, social équitable, environnement vivable."},
-    {"id": "developpement_durable_2", "question": "Qu’est‑ce que l’Agenda 2030 ?", "reponse": "Programme de l’ONU avec 17 Objectifs de Développement Durable (ODD).", "explication": "Adopté en 2015."},
-    {"id": "developpement_durable_3", "question": "Citez un ODD (Objectif de Développement Durable).", "reponse": "ODD 1 : Pas de pauvreté ; ODD 13 : Mesures contre le changement climatique.", "explication": "17 objectifs."},
-    {"id": "developpement_durable_4", "question": "Qu’est‑ce que l’empreinte carbone ?", "reponse": "Quantité de gaz à effet de serre émise par une activité ou un individu.", "explication": "Se mesure en kg équivalent CO₂."},
-    {"id": "espaces_productifs_1", "question": "Qu’est‑ce qu’un espace productif agricole ?", "reponse": "Zone dédiée à l’agriculture (céréales, élevage, viticulture).", "explication": "Ex : Beauce, vignobles bordelais."},
-    {"id": "espaces_productifs_2", "question": "Qu’est‑ce qu’un espace productif industriel ?", "reponse": "Zone d’usines, de sites de production.", "explication": "Ex : vallée de l’Arve (décolletage)."},
-    {"id": "espaces_productifs_3", "question": "Qu’est‑ce qu’un espace productif tertiaire ?", "reponse": "Zones de services, de recherche, de tourisme.", "explication": "Ex : La Défense (services financiers)."},
-    {"id": "amenagement_1", "question": "Qu’est‑ce que l’aménagement du territoire ?", "reponse": "Organisation du territoire pour corriger les déséquilibres (transports, services…).", "explication": "Ex : LGV, TGV, zones d’activité."},
-    {"id": "amenagement_2", "question": "Citez un exemple d’aménagement.", "reponse": "LGV (ligne à grande vitesse), autoroute, construction d’un hôpital.", "explication": "Exemple : LGV Est européenne."},
-    {"id": "amenagement_3", "question": "Qu’est‑ce que la ZAC ?", "reponse": "Zone d’Aménagement Concerté, projet d’urbanisme local.", "explication": "Logements, commerces, équipements."},
-    {"id": "laicite_1", "question": "Que dit la loi de 1905 sur la laïcité ?", "reponse": "Séparation des Églises et de l’État, neutralité religieuse de l’État.", "explication": "Liberté de conscience, pas de culte d’État."},
-    {"id": "laicite_2", "question": "Qu’est‑ce que le principe de laïcité à l’école ?", "reponse": "Neutralité de l’enseignant, pas de signes religieux ostensibles (loi 2004).", "explication": "École publique."},
-    {"id": "laicite_3", "question": "La laïcité interdit‑elle toute expression religieuse ?", "reponse": "Non, elle garantit la liberté de conscience et le respect de toutes les croyances.", "explication": "Accommodements raisonnables (repas, jours fériés)."},
-    {"id": "laicite_4", "question": "Qu’est‑ce que la charte de la laïcité ?", "reponse": "Document expliquant les principes de laïcité dans les services publics (2013).", "explication": "Affichée dans les établissements scolaires."},
-    {"id": "citoyennete_1", "question": "Quels sont les devoirs du citoyen français ?", "reponse": "Respecter les lois, payer des impôts, défendre la nation (service civique), voter.", "explication": "Les droits et devoirs sont liés."},
-    {"id": "citoyennete_2", "question": "Quels sont les droits du citoyen ?", "reponse": "Voter, se présenter aux élections, liberté d’expression, d’association, de manifestation.", "explication": "Droit à l’éducation, à la santé."},
-    {"id": "citoyennete_3", "question": "À partir de quel âge peut‑on voter en France ?", "reponse": "18 ans.", "explication": "Majeur."},
-    {"id": "citoyennete_4", "question": "Qu’est‑ce que le service civique ?", "reponse": "Engagement volontaire pour une mission d’intérêt général (6‑12 mois).", "explication": "Pour les 16‑25 ans."},
-    {"id": "democratie_1", "question": "Qu’est‑ce que la démocratie représentative ?", "reponse": "Les citoyens élisent des représentants pour prendre des décisions.", "explication": "Suffrage universel."},
-    {"id": "democratie_2", "question": "Qu’est‑ce que le suffrage universel ?", "reponse": "Droit de vote pour tous les citoyens majeurs, sans distinction de sexe, race, religion.", "explication": "Instauré en France en 1848 (masculin) et 1944 (féminin)."},
-    {"id": "democratie_3", "question": "Quelle est la différence entre élection présidentielle et législatives ?", "reponse": "Présidentielle : élection du Président (5 ans). Législatives : élection des députés (Assemblée nationale).", "explication": "Législatives : 577 députés, 5 ans."},
-    {"id": "institutions_1", "question": "Qui est le chef de l’État en France ?", "reponse": "Le Président de la République, élu pour 5 ans (quinquennat).", "explication": "Nomme le Premier ministre, chef des armées."},
-    {"id": "institutions_2", "question": "Qui est le chef du gouvernement ?", "reponse": "Le Premier ministre.", "explication": "Dirige l’action du gouvernement."},
-    {"id": "institutions_3", "question": "Quel est le rôle de l’Assemblée nationale ?", "reponse": "Voter les lois, contrôler le gouvernement.", "explication": "577 députés élus au suffrage universel direct."},
-    {"id": "institutions_4", "question": "Quel est le rôle du Sénat ?", "reponse": "Voter les lois, représenter les collectivités territoriales.", "explication": "348 sénateurs élus au suffrage indirect."},
-    {"id": "institutions_5", "question": "Qu’est‑ce que le Conseil constitutionnel ?", "reponse": "Instance qui vérifie la conformité des lois à la Constitution.", "explication": "9 membres, nomination par le Président, AN, Sénat."},
-    {"id": "ue_emc_1", "question": "Quelles sont les valeurs de l’UE ?", "reponse": "Démocratie, État de droit, respect des droits de l’Homme, liberté, égalité.", "explication": "Article 2 du traité sur l’UE."},
-    {"id": "ue_emc_2", "question": "Qu’est‑ce que la citoyenneté européenne ?", "reponse": "Droit de circuler, de voter et de se présenter aux élections municipales et européennes dans tout État membre.", "explication": "Instaurée par le traité de Maastricht (1992)."},
-    {"id": "ue_emc_3", "question": "Quels sont les symboles de l’UE ?", "reponse": "Drapeau (12 étoiles), hymne (Ode à la joie), devise (« Unie dans la diversité »).", "explication": "Journée de l’Europe : 9 mai."},
-    {"id": "droits_homme_1", "question": "Qu’est‑ce que la DUDH ?", "reponse": "Déclaration Universelle des Droits de l’Homme (ONU, 10 décembre 1948).", "explication": "30 articles."},
-    {"id": "droits_homme_2", "question": "Citez deux articles de la DUDH.", "reponse": "Article 1 : « Tous les êtres humains naissent libres et égaux. » Article 26 : droit à l’éducation.", "explication": "Valeur universelle."},
-    {"id": "droits_homme_3", "question": "Qu’est‑ce que la Cour européenne des droits de l’Homme (CEDH) ?", "reponse": "Tribunal qui juge les violations de la Convention européenne des droits de l’Homme.", "explication": "Siège à Strasbourg."},
-    {"id": "droits_homme_4", "question": "Qu’est‑ce que le racisme ?", "reponse": "Discrimination fondée sur l’origine, la couleur de peau, l’ethnicité.", "explication": "Illégal en France (loi Pleven 1972)."},
-    {"id": "discrimination_1", "question": "Qu’est‑ce que la discrimination ?", "reponse": "Traitement inégal fondé sur l’origine, le sexe, la religion, le handicap…", "explication": "Illégal en France (loi 1972, loi 2001)."},
-    {"id": "discrimination_2", "question": "Citez un exemple de discrimination au travail.", "reponse": "Refus d’embauche à cause de l’âge, du sexe, de l’origine, d’un handicap.", "explication": "Inégalité salariale F/H."},
-    {"id": "discrimination_3", "question": "Qu’est‑ce que la parité ?", "reponse": "Égal accès des femmes et des hommes aux responsabilités politiques.", "explication": "Loi 2000 : parité aux élections municipales et législatives."},
-    {"id": "discrimination_4", "question": "Qu’est‑ce que le Défenseur des droits ?", "reponse": "Autorité indépendante chargée de lutter contre les discriminations.", "explication": "Créé en 2011."},
-    {"id": "egalite_1", "question": "Qu’est‑ce que l’inégalité salariale F/H ?", "reponse": "Écart de salaire entre femmes et hommes (environ 25 % en France).", "explication": "Femmes sous‑représentées aux postes à responsabilité."},
-    {"id": "egalite_2", "question": "Qu’est‑ce que la loi Roudy (1983) ?", "reponse": "Loi sur l’égalité professionnelle entre femmes et hommes.", "explication": "Renforcée par d’autres lois."},
-    {"id": "egalite_3", "question": "Qu’est‑ce que le harcèlement sexuel ?", "reponse": "Comportements à connotation sexuelle répétés qui portent atteinte à la dignité.", "explication": "Illégal, condamné par le code pénal."},
-    {"id": "egalite_4", "question": "Qu’est‑ce que le mouvement #MeToo ?", "reponse": "Campagne de dénonciation des violences sexuelles (2017).", "explication": "A changé le discours public."},
-    {"id": "harcelement_1", "question": "Qu’est‑ce que le harcèlement scolaire ?", "reponse": "Violences répétées (physiques, verbales, psychologiques) sur un élève.", "explication": "Peut être aussi cyberharcèlement."},
-    {"id": "harcelement_2", "question": "Numéro d’aide contre le harcèlement scolaire.", "reponse": "3018", "explication": "Gratuit, anonyme, pour les jeunes victimes ou témoins."},
-    {"id": "harcelement_3", "question": "Que faire si on est témoin de harcèlement ?", "reponse": "En parler à un adulte (professeur, parent, CPE), appeler le 3018.", "explication": "Ne pas rester silencieux."},
-    {"id": "engagement_1", "question": "Qu’est‑ce que l’engagement citoyen ?", "reponse": "Agir pour la collectivité : vote, association, bénévolat, pétition.", "explication": "Différentes formes."},
-    {"id": "engagement_2", "question": "Qu’est‑ce qu’une association ?", "reponse": "Groupe de personnes poursuivant un but non lucratif.", "explication": "Ex : Restos du cœur, Secours populaire."},
-    {"id": "engagement_3", "question": "Qu’est‑ce que le service civique ?", "reponse": "Engagement volontaire pour une mission d’intérêt général (6‑12 mois).", "explication": "Indemnisé, ouvert aux 16‑25 ans."},
-    {"id": "engagement_4", "question": "Comment signer une pétition ?", "reponse": "En ligne ou papier, pour soutenir une cause.", "explication": "Peut aboutir à un débat ou une loi."},
-    {"id": "medias_1", "question": "Qu’est‑ce que la liberté de la presse ?", "reponse": "Droit de publier sans censure préalable.", "explication": "Garantie par la DDHC (1789)."},
-    {"id": "medias_2", "question": "Qu’est‑ce qu’une fake news ?", "reponse": "Information fausse diffusée intentionnellement.", "explication": "Vérifier la source, recouper."},
-    {"id": "medias_3", "question": "Comment vérifier une information ?", "reponse": "Consulter plusieurs sources, vérifier la date, l’auteur, le site.", "explication": "Utiliser des sites de fact‑checking (AFP, Décodex)."}
+  "matiere": "Histoire_Geo_EMC",
+  "niveau": "Cycle 4 (3e) - Brevet",
+  "total_flashcards": 240,
+  "themes": [
+    {
+      "nom": "Histoire",
+      "chapitres": [
+        {
+          "nom": "L'Europe des Lumières",
+          "flashcards": [
+            {"recto": "Quels sont les principaux philosophes des Lumières ?", "verso": "Voltaire, Rousseau, Montesquieu, Diderot, d'Alembert."},
+            {"recto": "Quelles sont les idées nouvelles diffusées par les Lumières ?", "verso": "Tolérance religieuse, liberté individuelle, séparation des pouvoirs, contrat social, critique de l'absolutisme."},
+            {"recto": "Qu'est-ce que l'Encyclopédie ?", "verso": "Ouvre majeure de Diderot et d'Alembert (1751-1772) rassemblant toutes les connaissances de l'époque et diffusant les idées des Lumières."},
+            {"recto": "Comment les idées des Lumières se diffusent-elles ?", "verso": "Dans les salons, académies, loges maçonniques, par des livres et pamphlets parfois interdits."},
+            {"recto": "Qu'est-ce qu'un despote éclairé ?", "verso": "Monarque absolu qui gouverne en s'inspirant des idées des Lumières (réformes, tolérance)."},
+            {"recto": "Citez trois despotes éclairés.", "verso": "Frédéric II de Prusse, Catherine II de Russie, Joseph II d'Autriche."},
+            {"recto": "Quel est l'impact des Lumières sur la société française ?", "verso": "Critique de la monarchie absolue et des privilèges, aspiration à l'égalité, préparation intellectuelle de la Révolution."},
+            {"recto": "Qui a écrit 'L'Esprit des lois' et quelle idée défend-il ?", "verso": "Montesquieu ; il défend la séparation des pouvoirs (exécutif, législatif, judiciaire)."}
+          ]
+        },
+        {
+          "nom": "La France sous Louis XVI",
+          "flashcards": [
+            {"recto": "Comment est organisée la société française sous l'Ancien Régime ?", "verso": "Trois ordres : le clergé (1er), la noblesse (2e), le tiers état (3e = 98% de la population)."},
+            {"recto": "Quels sont les privilèges du clergé et de la noblesse ?", "verso": "Exemption d'impôts (taille, gabelle), droit de chasse, justice seigneuriale, corvée."},
+            {"recto": "Quelles sont les causes de la crise financière sous Louis XVI ?", "verso": "Dépenses de la cour (Versailles), guerres (indépendance américaine), système fiscal inefficace."},
+            {"recto": "Pourquoi Louis XVI convoque-t-il les États généraux en 1789 ?", "verso": "Pour résoudre la crise financière et trouver de nouvelles ressources fiscales."},
+            {"recto": "Qu'est-ce que la corvée ?", "verso": "Travail gratuit imposé aux paysans (entretien des routes)."},
+            {"recto": "Qu'est-ce que la gabelle ?", "verso": "Impôt sur le sel, très impopulaire."},
+            {"recto": "Pourquoi le tiers état est-il en colère ?", "verso": "Il paie tous les impôts, n'a aucun privilège et subit les crises économiques."},
+            {"recto": "Que se passe-t-il le 5 mai 1789 ?", "verso": "Ouverture des États généraux à Versailles. Le tiers état réclame le vote par tête (et non par ordre)."}
+          ]
+        },
+        {
+          "nom": "Les débuts de la Révolution (1789-1791)",
+          "flashcards": [
+            {"recto": "Que se passe-t-il le 14 juillet 1789 ?", "verso": "Prise de la Bastille, prison symbole de l'absolutisme royal. Début de la Révolution française."},
+            {"recto": "Qu'est-ce que la Grande Peur (été 1789) ?", "verso": "Rumeurs d'une attaque aristocratique qui provoquent des révoltes paysannes et la destruction de châteaux."},
+            {"recto": "Que se passe-t-il la nuit du 4 août 1789 ?", "verso": "Abolition des privilèges et de la féodalité. Fin des droits seigneuriaux."},
+            {"recto": "Que proclame la Déclaration des droits de l'homme et du citoyen (26 août 1789) ?", "verso": "Liberté, égalité, propriété, souveraineté nationale, liberté d'expression, présomption d'innocence."},
+            {"recto": "Quel événement a lieu les 5 et 6 octobre 1789 ?", "verso": "Marche des femmes sur Versailles. Le roi est contraint de s'installer aux Tuileries à Paris."},
+            {"recto": "Qu'est-ce que la Constitution civile du clergé (1790) ?", "verso": "Texte qui soumet le clergé à l'État (élection des curés, salaire versé par l'État)."},
+            {"recto": "Pourquoi le roi tente-t-il de fuir en juin 1791 ?", "verso": "Pour rejoindre des troupes contre-révolutionnaires. Il est arrêté à Varennes."},
+            {"recto": "Quel est le premier texte constitutionnel français (1791) ?", "verso": "La Constitution de 1791 : monarchie constitutionnelle, séparation des pouvoirs, suffrage censitaire."}
+          ]
+        },
+        {
+          "nom": "La Terreur et le Directoire (1792-1799)",
+          "flashcards": [
+            {"recto": "Que se passe-t-il le 10 août 1792 ?", "verso": "Prise des Tuileries, arrestation du roi Louis XVI. Fin de la monarchie."},
+            {"recto": "Qui sont les Girondins et les Montagnards ?", "verso": "Deux groupes politiques à la Convention (1792-1795). Girondins (modérés), Montagnards (radicaux, dirigés par Robespierre)."},
+            {"recto": "Quand Louis XVI est-il guillotiné ?", "verso": "21 janvier 1793."},
+            {"recto": "Qu'est-ce que la Terreur (1793-1794) ?", "verso": "Période de répression intense dirigée par Robespierre et le Comité de salut public. Des milliers d'exécutions à la guillotine."},
+            {"recto": "Qui est Robespierre ?", "verso": "Leader des Montagnards, figure majeure de la Terreur. Renversé et guillotiné le 28 juillet 1794."},
+            {"recto": "Qu'est-ce que la déchristianisation ?", "verso": "Politique de suppression du culte catholique : fermeture des églises, calendrier républicain, culte de la Raison."},
+            {"recto": "Qu'est-ce que le Directoire (1795-1799) ?", "verso": "Régime modéré après la Terreur. Corrompu et instable, renversé par Napoléon Bonaparte."},
+            {"recto": "Qui prend le pouvoir le 9 novembre 1799 (18 Brumaire) ?", "verso": "Napoléon Bonaparte, par un coup d'État. Début du Consulat."}
+          ]
+        },
+        {
+          "nom": "Napoléon Bonaparte (1799-1815)",
+          "flashcards": [
+            {"recto": "Qu'est-ce que le Consulat (1799-1804) ?", "verso": "Régime dirigé par trois consuls dont Napoléon Bonaparte est le premier consul."},
+            {"recto": "Quelles sont les grandes réformes de Napoléon ?", "verso": "Code civil (1804), Banque de France, création des lycées, Concordat (réconciliation avec l'Église)."},
+            {"recto": "Qu'est-ce que le Code civil (Code Napoléon) ?", "verso": "Recueil des lois civiles (mariage, divorce, héritage, propriété). Renforce l'autorité du père et du mari."},
+            {"recto": "Quand Napoléon se fait-il sacrer empereur ?", "verso": "2 décembre 1804, à Notre-Dame de Paris, devant le pape."},
+            {"recto": "Quelles sont les grandes batailles napoléoniennes ?", "verso": "Austerlitz (1805), Iéna (1806), Wagram (1809), Waterloo (1815)."},
+            {"recto": "Qu'est-ce que le Blocus continental (1806) ?", "verso": "Interdiction de commercer avec l'Angleterre, pour affaiblir son économie."},
+            {"recto": "Pourquoi la campagne de Russie (1812) est-elle un désastre ?", "verso": "Hiver rigoureux, manque de ravitaillement, harcèlement russe. L'armée napoléonienne est décimée."},
+            {"recto": "Où et quand Napoléon est-il définitivement vaincu ?", "verso": "À Waterloo (Belgique), le 18 juin 1815."}
+          ]
+        },
+        {
+          "nom": "L'Europe entre restauration et révolutions (1815-1848)",
+          "flashcards": [
+            {"recto": "Qu'est-ce que le Congrès de Vienne (1815) ?", "verso": "Réunion des puissances européennes pour redessiner les frontières et rétablir les monarchies après Napoléon."},
+            {"recto": "Quel est le principe du Congrès de Vienne ?", "verso": "Principe de légitimité : restaurer les rois détrônés par Napoléon."},
+            {"recto": "Qu'est-ce que la Sainte-Alliance ?", "verso": "Alliance entre la Russie, l'Autriche et la Prusse pour maintenir l'ordre monarchique en Europe."},
+            {"recto": "Que sont les Printemps des peuples (1848) ?", "verso": "Série de révolutions libérales et nationalistes en Europe (France, Allemagne, Italie, Autriche)."},
+            {"recto": "Que se passe-t-il en France en février 1848 ?", "verso": "Chute de Louis-Philippe (monarchie de Juillet) et proclamation de la IIe République."},
+            {"recto": "Quelles sont les grandes avancées de la IIe République ?", "verso": "Suffrage universel masculin, abolition de l'esclavage (décret du 27 avril 1848), droit au travail."},
+            {"recto": "Qui est élu président de la République en décembre 1848 ?", "verso": "Louis-Napoléon Bonaparte (neveu de Napoléon Ier)."},
+            {"recto": "Pourquoi Louis-Napoléon Bonaparte fait-il un coup d'État ?", "verso": "Le 2 décembre 1851, pour prolonger son mandat et rétablir l'Empire (Second Empire)."}
+          ]
+        },
+        {
+          "nom": "La révolution industrielle (XIXe siècle)",
+          "flashcards": [
+            {"recto": "Quelles sont les grandes innovations techniques de la révolution industrielle ?", "verso": "Machine à vapeur (Watt), métier à tisser mécanique, locomotive, bateau à vapeur."},
+            {"recto": "Quelles sont les nouvelles énergies utilisées ?", "verso": "Charbon (vapeur), puis électricité et pétrole."},
+            {"recto": "Quelles sont les transformations économiques ?", "verso": "Passage de l'artisanat à l'usine, essor du capitalisme, développement des banques."},
+            {"recto": "Quelles sont les transformations sociales ?", "verso": "Exode rural, urbanisation, apparition de deux nouvelles classes : bourgeoisie (patrons) et prolétariat (ouvriers)."},
+            {"recto": "Quelles sont les conditions de vie des ouvriers ?", "verso": "Logements insalubres (taudis), journées de 12-14h, salaires très bas, travail des enfants."},
+            {"recto": "Quels sont les premiers mouvements ouvriers ?", "verso": "Syndicats (autorisés en 1884), grèves, mutuelles, coopératives."},
+            {"recto": "Qui est Karl Marx ?", "verso": "Philosophe allemand, auteur du 'Capital', théoricien du socialisme scientifique (lutte des classes)."},
+            {"recto": "Qu'est-ce que l'Internationale ouvrière ?", "verso": "Organisation créée en 1864 (Association internationale des travailleurs) pour coordonner la lutte ouvrière en Europe."}
+          ]
+        },
+        {
+          "nom": "Les nationalismes et unifications italienne et allemande",
+          "flashcards": [
+            {"recto": "Qui sont les principaux acteurs de l'unification italienne ?", "verso": "Victor-Emmanuel II (roi de Piémont-Sardaigne), Cavour (son ministre), Garibaldi (chef des chemises rouges)."},
+            {"recto": "Quand l'Italie est-elle unifiée ?", "verso": "Proclamation du royaume d'Italie en 1861. Rome devient capitale en 1870."},
+            {"recto": "Qui est le principal artisan de l'unité allemande ?", "verso": "Otto von Bismarck, chancelier prussien."},
+            {"recto": "Quand l'Empire allemand est-il proclamé ?", "verso": "18 janvier 1871, dans la galerie des Glaces à Versailles, après la victoire sur la France."},
+            {"recto": "Quel événement précipite la guerre franco-prussienne (1870) ?", "verso": "La dépêche d'Ems : Bismarck provoque la France pour déclencher la guerre."},
+            {"recto": "Quelles sont les conséquences de la guerre franco-prussienne pour la France ?", "verso": "Perte de l'Alsace-Lorraine, chute de Napoléon III, indemnités de guerre."},
+            {"recto": "Qu'est-ce que le Risorgimento ?", "verso": "Mouvement de renaissance nationale italienne, qui aboutit à l'unification."},
+            {"recto": "Quel déséquilibre l'unification allemande crée-t-elle en Europe ?", "verso": "L'Allemagne devient la première puissance économique et militaire d'Europe, tensions avec la France."}
+          ]
+        },
+        {
+          "nom": "La France de 1870 à 1914 (IIIe République)",
+          "flashcards": [
+            {"recto": "Qu'est-ce que la Commune de Paris (1871) ?", "verso": "Insurrection populaire à Paris après la défaite contre la Prusse. Réprimée très durement (20 000 morts)."},
+            {"recto": "Quand la IIIe République est-elle définitivement installée ?", "verso": "Après la chute du régime de Thiers, avec les lois constitutionnelles de 1875."},
+            {"recto": "Quelles sont les lois scolaires de Jules Ferry (1881-1882) ?", "verso": "Gratuité, obligation (6-13 ans), laïcité de l'école publique."},
+            {"recto": "Qu'est-ce que l'affaire Dreyfus (1894-1906) ?", "verso": "Scandale politico-judiciaire : un officier juif accusé à tort d'espionnage."},
+            {"recto": "Qui est Émile Zola dans l'affaire Dreyfus ?", "verso": "Écrivain qui prend la défense de Dreyfus dans son article 'J'accuse' (1898)."},
+            {"recto": "Qu'est-ce que la loi de séparation des Églises et de l'État (1905) ?", "verso": "Loi qui instaure la laïcité : l'État ne finance plus aucun culte."},
+            {"recto": "Que sont les dreyfusards et antidreyfusards ?", "verso": "Dreyfusards : soutiens de Dreyfus. Antidreyfusards : partisans de sa condamnation (nationalistes, antisémites)."},
+            {"recto": "Quel est le bilan colonial de la IIIe République ?", "verso": "Construction du second empire colonial français (Afrique du Nord, Afrique noire, Indochine)."}
+          ]
+        },
+        {
+          "nom": "La Première Guerre mondiale (1914-1918)",
+          "flashcards": [
+            {"recto": "Quelles sont les causes de la Première Guerre mondiale ?", "verso": "Nationalismes, rivalités économiques et coloniales, système d'alliances, assassinat de François-Ferdinand (28 juin 1914)."},
+            {"recto": "Quels sont les deux principaux camps ?", "verso": "Triple-Entente (France, Royaume-Uni, Russie) vs Triple-Alliance (Allemagne, Autriche-Hongrie, Italie)."},
+            {"recto": "Pourquoi parle-t-on de guerre des tranchées ?", "verso": "Les soldats combattent dans des tranchées (front stabilisé). Conditions de vie épouvantables."},
+            {"recto": "Quelles sont les grandes batailles de 1916 ?", "verso": "Verdun (France) et la Somme (France). Millions de morts."},
+            {"recto": "Qu'est-ce que le génocide arménien (1915-1916) ?", "verso": "Extermination des Arméniens par l'Empire ottoman. 1,2 à 1,5 million de morts."},
+            {"recto": "Qui sont les poilus ?", "verso": "Surnom donné aux soldats français sur le front pendant la Grande Guerre."},
+            {"recto": "Quand l'armistice est-il signé ?", "verso": "11 novembre 1918, dans le wagon du maréchal Foch (forêt de Compiègne)."},
+            {"recto": "Quel est le bilan humain de la Première Guerre mondiale ?", "verso": "10 millions de morts, 20 millions de blessés, 1,4 million de morts français."}
+          ]
+        },
+        {
+          "nom": "La sortie de guerre et les traités",
+          "flashcards": [
+            {"recto": "Qui sont les vainqueurs de la Première Guerre mondiale ?", "verso": "France, Royaume-Uni, États-Unis, Italie."},
+            {"recto": "Quand le traité de Versailles est-il signé ?", "verso": "28 juin 1919."},
+            {"recto": "Quelles sont les principales clauses du traité de Versailles ?", "verso": "Culpabilité allemande, réparations financières, pertes territoriales, limitation de l'armée allemande."},
+            {"recto": "Qu'est-ce que la SDN (Société des Nations) ?", "verso": "Première organisation internationale (1920) pour maintenir la paix. Ancêtre de l'ONU."},
+            {"recto": "Pourquoi la SDN est-elle un échec ?", "verso": "Absence des États-Unis (non-membres), aucune armée propre, incapacité à empêcher les guerres (Japon, Italie, Allemagne)."},
+            {"recto": "Quelles sont les conséquences du traité de Versailles sur l'Allemagne ?", "verso": "Humiliation nationale, crise économique, ressentiment favorisant la montée du nazisme."},
+            {"recto": "Qu'est-ce que la carte mentale ?", "verso": "Le nouveau découpage territorial : disparition des empires austro-hongrois et ottoman, création de nouveaux États (Pologne, Tchécoslovaquie, Yougoslavie)."},
+            {"recto": "Quelle est l'ampleur des destructions après la guerre ?", "verso": "Régions dévastées (Nord-Est de la France), reconstruction très coûteuse."}
+          ]
+        },
+        {
+          "nom": "La montée des totalitarismes (années 1920-1930)",
+          "flashcards": [
+            {"recto": "Qu'est-ce qu'un régime totalitaire ?", "verso": "Régime qui contrôle tous les aspects de la société (politique, économique, culturel, individuel), avec un parti unique et un chef."},
+            {"recto": "Quels sont les trois grands régimes totalitaires des années 1930 ?", "verso": "URSS de Staline (communiste), Allemagne de Hitler (nazi), Italie de Mussolini (fasciste)."},
+            {"recto": "Qu'est-ce que la collectivisation en URSS ?", "verso": "Réforme de Staline (fin des propriétés privées, création de kolkhozes). Provoque une famine (Holodomor)."},
+            {"recto": "Que sont les Goulags ?", "verso": "Camps de travail forcé en URSS où sont envoyés les opposants à Staline."},
+            {"recto": "Quelles sont les idées principales de Hitler dans 'Mein Kampf' ?", "verso": "Racisme antisémite, 'espace vital' (Lebensraum) à l'Est, supériorité aryenne."},
+            {"recto": "Quand Hitler arrive-t-il au pouvoir ?", "verso": "1933, nommé chancelier, puis Führer après la mort d'Hindenburg (1934)."},
+            {"recto": "Qu'est-ce que le fascisme italien ?", "verso": "Régime de Mussolini : nationalisme, culte du chef, répression, rejet de la démocratie."},
+            {"recto": "Quand Mussolini prend-il le pouvoir ?", "verso": "1922 (Marche sur Rome)."}
+          ]
+        },
+        {
+          "nom": "La guerre-éclair (1939-1941)",
+          "flashcards": [
+            {"recto": "Quand la Seconde Guerre mondiale commence-t-elle ?", "verso": "1er septembre 1939 : invasion de la Pologne par l'Allemagne."},
+            {"recto": "Qu'est-ce que la 'drôle de guerre' ?", "verso": "Période de septembre 1939 à mai 1940, sans combats majeurs sur le front français."},
+            {"recto": "Que se passe-t-il en mai-juin 1940 ?", "verso": "Blitzkrieg (guerre-éclair) allemande : invasion des Pays-Bas, Belgique, France."},
+            {"recto": "Quand la France signe-t-elle l'armistice ?", "verso": "22 juin 1940. La France est coupée en deux : zone occupée (nord) et zone libre (sud)."},
+            {"recto": "Qui est le chef de la France libre ?", "verso": "Le général de Gaulle, qui lance l'appel du 18 juin 1940 depuis Londres."},
+            {"recto": "Qu'est-ce que la bataille d'Angleterre (1940) ?", "verso": "Bataille aérienne remportée par les Britanniques, empêchant l'invasion allemande."},
+            {"recto": "Quelle stratégie Hitler adopte-t-il pour vaincre l'Angleterre ?", "verso": "Il renonce à l'invasion et tente de l'affamer par les sous-marins (bataille de l'Atlantique)."},
+            {"recto": "Qui est le Premier ministre britannique pendant la guerre ?", "verso": "Winston Churchill."}
+          ]
+        },
+        {
+          "nom": "La guerre d'anéantissement (1941-1945)",
+          "flashcards": [
+            {"recto": "Qu'est-ce que l'opération Barbarossa (22 juin 1941) ?", "verso": "Invasion de l'URSS par l'Allemagne. Début de la guerre d'anéantissement."},
+            {"recto": "Pourquoi l'attaque de Pearl Harbor (7 décembre 1941) est-elle cruciale ?", "verso": "Entrée en guerre des États-Unis aux côtés des Alliés."},
+            {"recto": "Qu'est-ce que la Shoah ?", "verso": "Extermination systématique des Juifs par les nazis : 6 millions de morts (camps de concentration, Einsatzgruppen)."},
+            {"recto": "Qu'est-ce que la 'Solution finale' ?", "verso": "Plan nazi d'extermination des Juifs, décidé à la conférence de Wannsee (janvier 1942)."},
+            {"recto": "Citez deux camps d'extermination.", "verso": "Auschwitz-Birkenau, Treblinka, Sobibor, Belzec."},
+            {"recto": "Quand a lieu le débarquement de Normandie ?", "verso": "6 juin 1944 (opération Overlord)."}
+          ]
+        },
+        {
+          "nom": "La Libération et le bilan de la guerre (1944-1945)",
+          "flashcards": [
+            {"recto": "Quand l'Allemagne capitule-t-elle ?", "verso": "8 mai 1945 (V-E Day)."},
+            {"recto": "Que se passe-t-il les 6 et 9 août 1945 ?", "verso": "Bombardements atomiques d'Hiroshima et Nagasaki par les États-Unis. Capitulation japonaise (2 septembre)."},
+            {"recto": "Quel est le bilan humain de la Seconde Guerre mondiale ?", "verso": "Environ 60 millions de morts (dont 20 millions de civils soviétiques, 6 millions de Juifs)."},
+            {"recto": "Que sont les procès de Nuremberg (1945-1946) ?", "verso": "Procès internationaux des principaux criminels nazis pour crimes contre l'humanité."},
+            {"recto": "Quelle est la nouvelle organisation internationale après 1945 ?", "verso": "ONU (Organisation des Nations unies), créée le 24 octobre 1945."},
+            {"recto": "Quels sont les grands changements territoriaux après 1945 ?", "verso": "Les frontières allemandes sont modifiées, la Pologne se déplace vers l'ouest."},
+            {"recto": "Qui sont les vainqueurs de la guerre ?", "verso": "États-Unis, URSS, Royaume-Uni, France."},
+            {"recto": "Qu'est-ce que la reconstruction après guerre ?", "verso": "Plan Marshall (aide économique des États-Unis), reconstruction des villes détruites."}
+          ]
+        },
+        {
+          "nom": "La guerre froide (1947-1991)",
+          "flashcards": [
+            {"recto": "Qu'est-ce que la guerre froide ?", "verso": "Période de tensions entre les États-Unis (bloc de l'Ouest) et l'URSS (bloc de l'Est), sans combat direct."},
+            {"recto": "Qu'est-ce que le rideau de fer ?", "verso": "Expression de Churchill pour désigner la frontière entre pays communistes et capitalistes en Europe."},
+            {"recto": "Qu'est-ce que le plan Marshall (1947) ?", "verso": "Aide économique des États-Unis pour reconstruire l'Europe occidentale."},
+            {"recto": "Qu'est-ce que l'OTAN (1949) ?", "verso": "Alliance militaire des pays capitalistes dirigée par les États-Unis."},
+            {"recto": "Qu'est-ce que le pacte de Varsovie (1955) ?", "verso": "Alliance militaire des pays communistes dirigée par l'URSS."},
+            {"recto": "Qu'est-ce que la crise de Cuba (1962) ?", "verso": "Installation de missiles soviétiques à Cuba ; blocus américain. Le monde frôle la guerre nucléaire."},
+            {"recto": "Qu'est-ce que la perestroïka ?", "verso": "Réforme économique de Gorbatchev en URSS (1985) : libéralisation partielle."},
+            {"recto": "Quand le mur de Berlin tombe-t-il ?", "verso": "9 novembre 1989. Symbole de la fin de la guerre froide."}
+          ]
+        },
+        {
+          "nom": "La construction européenne",
+          "flashcards": [
+            {"recto": "Qu'est-ce que la CECA (1951) ?", "verso": "Communauté européenne du charbon et de l'acier (traité de Paris). Première communauté européenne."},
+            {"recto": "Qu'est-ce que la CEE (1957) ?", "verso": "Communauté économique européenne (traité de Rome). Marché commun."},
+            {"recto": "Quels sont les six pays fondateurs de la CEE ?", "verso": "France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg."},
+            {"recto": "Qu'est-ce que l'Union européenne (1992) ?", "verso": "Créée par le traité de Maastricht. Citoyenneté européenne, monnaie unique (euro en 2002)."},
+            {"recto": "Qu'est-ce que l'euro ?", "verso": "Monnaie unique européenne (1999 scripturaire, 2002 fiduciaire). Utilisée par 20 pays (zone euro)."},
+            {"recto": "Qu'est-ce que l'espace Schengen ?", "verso": "Zone de libre circulation des personnes sans contrôles aux frontières intérieures."},
+            {"recto": "Quel est le Brexit ?", "verso": "Sortie du Royaume-Uni de l'Union européenne (référendum 2016, effective 2020)."},
+            {"recto": "Citez deux institutions européennes et leur rôle.", "verso": "Commission européenne (propose les lois), Parlement européen (vote les lois, élu au suffrage direct)."}
+          ]
+        },
+        {
+          "nom": "La décolonisation (1945-1975)",
+          "flashcards": [
+            {"recto": "Pourquoi les colonies demandent-elles l'indépendance après 1945 ?", "verso": "Affaiblissement des métropoles, déclaration de l'ONU (droit des peuples à disposer d'eux-mêmes)."},
+            {"recto": "Qu'est-ce que la guerre d'Indochine (1946-1954) ?", "verso": "Conflit entre la France et le Viet Minh (indépendantistes). Défaite française à Diên Biên Phu."},
+            {"recto": "Quand la guerre d'Algérie commence-t-elle ?", "verso": "1er novembre 1954 (Toussaint rouge). Le FLN (Front de libération nationale) déclenche l'insurrection."},
+            {"recto": "Qui est de Gaulle et quelle est sa position sur l'Algérie ?", "verso": "Revenu au pouvoir en 1958, il évolue du 'Je vous ai compris' (Algérie française) à l'autodétermination."},
+            {"recto": "Quand l'Algérie devient-elle indépendante ?", "verso": "1962 (accords d'Évian). Les pieds-noirs quittent l'Algérie."},
+            {"recto": "Qu'est-ce que la conférence de Bandung (1955) ?", "verso": "Conférence des pays d'Asie et d'Afrique nouvellement indépendants. Création du mouvement des non-alignés."},
+            {"recto": "Qu'est-ce que les non-alignés ?", "verso": "Pays qui ne veulent s'aligner ni sur les États-Unis ni sur l'URSS pendant la guerre froide."},
+            {"recto": "Citez deux décolonisations importantes hors de France.", "verso": "Inde (1947, Gandhi), Ghana (1957, Nkrumah), Congo (1960, Lumumba)."}
+          ]
+        }
+      ]
+    },
+    {
+      "nom": "Géographie",
+      "chapitres": [
+        {
+          "nom": "Les aires urbaines",
+          "flashcards": [
+            {"recto": "Qu'est-ce qu'une aire urbaine ?", "verso": "Ensemble formé par un pôle urbain (ville-centre) et sa couronne périurbaine."},
+            {"recto": "Qu'est-ce que la métropolisation ?", "verso": "Concentration des activités, des capitaux et de la population dans les grandes métropoles."},
+            {"recto": "Quels sont les déséquilibres territoriaux en France ?", "verso": "France de l'Est et Sud-Est plus dynamiques ; France rurale et anciennes régions industrielles fragilisées."},
+            {"recto": "Qu'est-ce que la ségrégation socio-spatiale ?", "verso": "Séparation des populations selon leur niveau de revenu : centres riches, banlieues défavorisées."},
+            {"recto": "Citez trois types d'espaces selon leur densité.", "verso": "Denses (urbains), intermédiaires (périurbains, petites villes), peu denses (ruraux)."},
+            {"recto": "Quels sont les défis des aires urbaines ?", "verso": "Mobilités (transports), logement (tension), environnement (pollution, étalement urbain)."},
+            {"recto": "Qu'est-ce que l'étalement urbain ?", "verso": "Extension des villes en périphérie, consommation d'espaces agricoles."},
+            {"recto": "Qu'est-ce qu'une ZAD (Zone à défendre) ?", "verso": "Zone d'aménagement contestée par des mouvements citoyens (exemple : Notre-Dame-des-Landes)."}
+          ]
+        },
+        {
+          "nom": "Les espaces productifs",
+          "flashcards": [
+            {"recto": "Quels sont les trois grands types d'espaces productifs ?", "verso": "Agricoles, industriels, de services (tourisme, commerce)."},
+            {"recto": "Qu'est-ce que l'agriculture intensive ?", "verso": "Agriculture à haut rendement utilisant des intrants (engrais, pesticides), remembrement, machines."},
+            {"recto": "Qu'est-ce que l'agriculture biologique ?", "verso": "Agriculture sans produits chimiques de synthèse, respectueuse de l'environnement."},
+            {"recto": "Qu'est-ce que la désindustrialisation ?", "verso": "Baisse de l'emploi industriel, due aux délocalisations et aux gains de productivité."},
+            {"recto": "Qu'est-ce qu'une friche industrielle ?", "verso": "Ancien site industriel à l'abandon, en attente de réhabilitation."},
+            {"recto": "Qu'est-ce que la tertiarisation ?", "verso": "Augmentation de la part des services dans l'économie."},
+            {"recto": "Quels sont les principaux pôles touristiques en France ?", "verso": "Littoral (Côte d'Azur, Bretagne), montagne (Alpes, Pyrénées), villes (Paris, châteaux de la Loire)."},
+            {"recto": "Qu'est-ce qu'un pôle de compétitivité ?", "verso": "Regroupement d'entreprises, laboratoires et centres de formation pour innover dans un secteur."}
+          ]
+        },
+        {
+          "nom": "Les espaces de faible densité",
+          "flashcards": [
+            {"recto": "Quels sont les atouts des espaces ruraux ?", "verso": "Cadre de vie, patrimoine naturel, tourisme vert, agriculture de qualité."},
+            {"recto": "Quels sont les fragilités des espaces ruraux ?", "verso": "Vieillissement de la population, manque de services publics, enclavement."},
+            {"recto": "Que sont les néoruraux ?", "verso": "Citadins qui s'installent à la campagne, souvent pour le cadre de vie ou le télétravail."},
+            {"recto": "Qu'est-ce qu'une ZRR (Zone de revitalisation rurale) ?", "verso": "Zone bénéficiant d'aides fiscales pour attirer des activités économiques."},
+            {"recto": "Comment les espaces ruraux se diversifient-ils ?", "verso": "Agritourisme, circuits courts, énergies renouvelables (éolien, solaire)."},
+            {"recto": "Qu'est-ce que le télétravail et quel impact sur les espaces ruraux ?", "verso": "Travailler à distance via internet. Permet à des citadins de s'installer à la campagne."},
+            {"recto": "Qu'est-ce qu'un parc naturel régional ?", "verso": "Espace protégé alliant préservation de la nature et développement durable."},
+            {"recto": "Pourquoi l'enclavement est-il un problème ?", "verso": "Difficulté d'accès aux services (hôpitaux, commerces, formations), isolement."}
+          ]
+        },
+        {
+          "nom": "L'Union européenne",
+          "flashcards": [
+            {"recto": "Combien de pays membres dans l'Union européenne ?", "verso": "27 (depuis le Brexit, 2020)."},
+            {"recto": "Qu'est-ce que la PAC (Politique agricole commune) ?", "verso": "Politique agricole de l'UE (subventions aux agriculteurs, régulation des prix)."},
+            {"recto": "Que sont les fonds structurels européens ?", "verso": "FEDER, FSE, Fonds de cohésion, qui réduisent les inégalités régionales."},
+            {"recto": "Qu'est-ce que l'euro ?", "verso": "Monnaie unique européenne, adoptée par 20 pays (zone euro)."},
+            {"recto": "Qu'est-ce que l'espace Schengen ?", "verso": "Zone de libre circulation sans contrôles d'identité."},
+            {"recto": "Quelles sont les critiques adressées à l'UE ?", "verso": "Euroscepticisme : trop de bureaucratie, perte de souveraineté, montée des inégalités."},
+            {"recto": "Quel est le rôle du Parlement européen ?", "verso": "Vote les lois, contrôle la Commission, vote le budget. Élu au suffrage direct (5 ans)."},
+            {"recto": "Qu'est-ce que le Brexit ?", "verso": "Sortie du Royaume-Uni de l'UE (référendum 2016, effective 2020)."}
+          ]
+        },
+        {
+          "nom": "La France dans l'Union européenne",
+          "flashcards": [
+            {"recto": "Quels sont les atouts géographiques de la France en Europe ?", "verso": "Carrefour européen (proche Allemagne, Espagne, Italie), ouvertures maritimes (Méditerranée, Atlantique)."},
+            {"recto": "Qu'est-ce que l'Interreg ?", "verso": "Programme européen pour la coopération transfrontalière entre régions."},
+            {"recto": "Citez deux eurodistricts.", "verso": "Strasbourg-Ortenau (France-Allemagne), Lille-Courtrai-Tournai (France-Belgique)."},
+            {"recto": "Pourquoi la France est-elle influente dans l'UE ?", "verso": "Pays fondateur, poids économique, siège du Parlement (Strasbourg), diplomatie."},
+            {"recto": "Comment les régions françaises participent-elles à l'Europe ?", "verso": "Via les fonds européens, projets Interreg, jumelages."},
+            {"recto": "Qu'est-ce que la coopération transfrontalière ?", "verso": "Collaboration entre régions de pays différents (transports, santé, emploi, formation)."},
+            {"recto": "Quel est le rôle de Bruxelles pour la France ?", "verso": "Bruxelles (Belgique) abrite les principales institutions européennes (Commission, Conseil)."},
+            {"recto": "Qu'est-ce qu'Erasmus+ ?", "verso": "Programme européen de mobilité étudiante (étudier ou faire un stage à l'étranger)."}
+          ]
+        },
+        {
+          "nom": "La mondialisation",
+          "flashcards": [
+            {"recto": "Qu'est-ce que la mondialisation ?", "verso": "Mise en relation des différentes parties du monde, intensification des flux (biens, capitaux, informations, personnes)."},
+            {"recto": "Qu'est-ce qu'une FMN (Firme multinationale) ?", "verso": "Entreprise qui possède des filiales dans plusieurs pays."},
+            {"recto": "Citez trois institutions de la mondialisation.", "verso": "OMC (commerce), FMI (finance), Banque mondiale (développement)."},
+            {"recto": "Quels sont les principaux flux de la mondialisation ?", "verso": "Marchandises (conteneurs), capitaux (investissements), informations (internet), personnes (tourisme, migrations)."},
+            {"recto": "Qu'est-ce qu'une mégalopole ?", "verso": "Région urbaine très peuplée concentrant les activités économiques (ex : BosWash, Tokyo, Shanghai)."},
+            {"recto": "Qu'est-ce qu'un hub de transport ?", "verso": "Plateforme de correspondance multimodale (aéroport, port, gare)."},
+            {"recto": "Quels sont les territoires marginalisés par la mondialisation ?", "verso": "Pays pauvres (Afrique sahélienne), régions isolées (Amazonie, Sibérie)."},
+            {"recto": "Qu'est-ce que le protectionnisme ?", "verso": "Politique qui protège l'économie nationale contre la concurrence étrangère."}
+          ]
+        },
+        {
+          "nom": "Les inégalités de développement",
+          "flashcards": [
+            {"recto": "Qu'est-ce que l'IDH (Indice de développement humain) ?", "verso": "Indicateur qui combine PIB/hab, espérance de vie, niveau d'éducation."},
+            {"recto": "Quels sont les contrastes entre Nord et Sud ?", "verso": "Nord : pays développés (IDH élevé). Sud : pays en développement (IDH faible ou moyen)."},
+            {"recto": "Que sont les BRICS ?", "verso": "Brésil, Russie, Inde, Chine, Afrique du Sud (pays émergents)."},
+            {"recto": "Qu'est-ce qu'un pays émergent ?", "verso": "Pays en développement dont l'économie connaît une croissance rapide."},
+            {"recto": "Quelles sont les conséquences de la pauvreté dans le Sud ?", "verso": "Malnutrition, accès limité à l'eau potable, mortalité infantile élevée, faible scolarisation."},
+            {"recto": "Qu'est-ce que l'ODD (Objectif de développement durable) ?", "verso": "17 objectifs adoptés par l'ONU pour 2030 (fin de la pauvreté, inégalités, climat)."},
+            {"recto": "Qu'est-ce que la fracture numérique ?", "verso": "Inégalités d'accès aux technologies de l'information (internet, ordinateurs)."},
+            {"recto": "Citez deux indicateurs de développement économique.", "verso": "PIB par habitant, IDH, taux d'alphabétisation, espérance de vie."}
+          ]
+        },
+        {
+          "nom": "Les défis du XXIe siècle",
+          "flashcards": [
+            {"recto": "Quelles sont les causes du changement climatique ?", "verso": "Émissions de gaz à effet de serre (CO₂, méthane) par les activités humaines (industrie, transports, agriculture)."},
+            {"recto": "Quels sont les impacts du réchauffement climatique ?", "verso": "Montée des eaux, canicules, sécheresses, inondations, réfugiés climatiques."},
+            {"recto": "Qu'est-ce qu'un réfugié climatique ?", "verso": "Personne contrainte de quitter sa région à cause de changements environnementaux (sécheresse, montée des eaux)."},
+            {"recto": "Pourquoi l'eau est-elle une ressource en tension ?", "verso": "Raréfaction (pollution, surexploitation) et inégal accès. Conflits pour l'eau."},
+            {"recto": "Quelles sont les causes des migrations ?", "verso": "Économiques (pauvreté, chômage), politiques (guerres, dictatures), climatiques."},
+            {"recto": "Qu'est-ce que le développement durable ?", "verso": "Développement qui répond aux besoins du présent sans compromettre la capacité des générations futures."},
+            {"recto": "Qu'est-ce que la transition énergétique ?", "verso": "Passage d'un système énergétique fossile/nucléaire aux énergies renouvelables."},
+            {"recto": "Qu'est-ce que la cybersécurité ?", "verso": "Protection des systèmes informatiques contre les cyberattaques."}
+          ]
+        }
+      ]
+    },
+    {
+      "nom": "EMC (Enseignement moral et civique)",
+      "chapitres": [
+        {
+          "nom": "Les valeurs de la République",
+          "flashcards": [
+            {"recto": "Quelles sont les quatre grandes valeurs de la République française ?", "verso": "Liberté, Égalité, Fraternité, Laïcité."},
+            {"recto": "Qu'est-ce que la liberté d'expression ?", "verso": "Droit d'exprimer ses opinions, de les publier (presse, internet). Limite : diffamation, incitation à la haine."},
+            {"recto": "Qu'est-ce que l'égalité devant la loi ?", "verso": "Tous les citoyens sont soumis aux mêmes lois, sans privilèges."},
+            {"recto": "Qu'est-ce que la fraternité ?", "verso": "Valeur de solidarité et d'entraide. Exemples : sécurité sociale, impôts progressifs."},
+            {"recto": "Qu'est-ce que la laïcité ?", "verso": "Neutralité de l'État, séparation des religions et de l'État (loi 1905). Liberté de conscience."},
+            {"recto": "Où la laïcité s'applique-t-elle dans l'école ?", "verso": "Neutralité des enseignants, interdiction des signes religieux ostensibles pour les élèves."},
+            {"recto": "Qu'est-ce que la discrimination ?", "verso": "Traitement inégal fondé sur l'origine, le sexe, la religion, le handicap, etc."},
+            {"recto": "Qu'est-ce que le harcèlement scolaire ?", "verso": "Violence répétée (morale, physique) à l'école. Punissable par la loi."}
+          ]
+        },
+        {
+          "nom": "La citoyenneté française",
+          "flashcards": [
+            {"recto": "Quels sont les deux principes d'attribution de la nationalité française ?", "verso": "Droit du sol (né sur le sol français) et droit du sang (fils de Français)."},
+            {"recto": "À quel âge devient-on électeur en France ?", "verso": "18 ans."},
+            {"recto": "Quels sont les devoirs du citoyen français ?", "verso": "Respecter les lois, payer l'impôt, défendre la Nation (JDC, SNU)."},
+            {"recto": "Qu'est-ce que le SNU (Service national universel) ?", "verso": "Séjour de cohésion (deux semaines) pour les 15-17 ans + mission d'intérêt général."},
+            {"recto": "Quel est le rôle du président de la République ?", "verso": "Chef de l'État, chef des armées, nomme le Premier ministre."},
+            {"recto": "Quel est le rôle du Parlement ?", "verso": "Voter les lois, contrôler le gouvernement. Composé de l'Assemblée nationale et du Sénat."},
+            {"recto": "Qu'est-ce qu'une collectivité territoriale ?", "verso": "Commune, département, région. Administrée par des élus (maire, président du conseil départemental, président du conseil régional)."},
+            {"recto": "Qu'est-ce que le droit de vote ?", "verso": "Droit de choisir ses représentants (suffrage universel, secret, libre)."}
+          ]
+        },
+        {
+          "nom": "La justice en France",
+          "flashcards": [
+            {"recto": "Quels sont les trois principes fondamentaux de la justice en France ?", "verso": "Indépendance de la justice, égalité devant la loi, présomption d'innocence."},
+            {"recto": "Qu'est-ce que la présomption d'innocence ?", "verso": "Toute personne est considérée innocente tant que sa culpabilité n'est pas prouvée."},
+            {"recto": "Quelle est la différence entre justice civile et justice pénale ?", "verso": "Civile : litiges entre particuliers. Pénale : infractions (contraventions, délits, crimes)."},
+            {"recto": "Qu'est-ce que le tribunal judiciaire ?", "verso": "Principal tribunal civil et pénal (délits)."},
+            {"recto": "Qu'est-ce que la cour d'assises ?", "verso": "Tribunal pour les crimes graves (meurtre, viol). Jugé avec jury populaire."},
+            {"recto": "Qu'est-ce que le TIG (Travail d'intérêt général) ?", "verso": "Peine alternative à l'emprisonnement : travail non rémunéré pour la collectivité."},
+            {"recto": "Quel est le rôle du juge des enfants ?", "verso": "Juge spécialisé pour les mineurs (protection ou pénal)."},
+            {"recto": "Qu'est-ce que la protection judiciaire de la jeunesse (PJJ) ?", "verso": "Service de l'État qui encadre les mineurs en difficulté ou délinquants."}
+          ]
+        },
+        {
+          "nom": "Le débat démocratique et les médias",
+          "flashcards": [
+            {"recto": "Quel est le rôle des médias dans une démocratie ?", "verso": "Informer les citoyens, permettre le débat public, contrôler le pouvoir."},
+            {"recto": "Qu'est-ce qu'une fake news ?", "verso": "Information fausse diffusée intentionnellement pour manipuler l'opinion."},
+            {"recto": "Qu'est-ce que la liberté de la presse ?", "verso": "Droit de fonder un journal, d'écrire et de diffuser des informations sans censure préalable."},
+            {"recto": "Qu'est-ce que le CSA (Arcom) ?", "verso": "Régulateur des médias audiovisuels (télé, radio)."},
+            {"recto": "Qu'est-ce qu'un syndicat ?", "verso": "Association qui défend les intérêts professionnels des salariés."},
+            {"recto": "Qu'est-ce qu'une association loi 1901 ?", "verso": "Organisation à but non lucratif."},
+            {"recto": "Qu'est-ce que le droit de grève ?", "verso": "Droit des salariés de cesser le travail pour défendre leurs revendications."},
+            {"recto": "Qu'est-ce que le vote blanc ?", "verso": "Voter sans choisir de candidat. Depuis 2014 : comptabilisé mais pas dans les suffrages exprimés."}
+          ]
+        }
+      ]
+    }
   ]
 }
