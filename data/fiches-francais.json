@@ -1,8 +1,5 @@
 {
   "matiere": "Francais",
-  "niveau": "Cycle 4 (3e) - Brevet",
-  "total_chapitres": 27,
-  "total_flashcards": 216,
   "themes": [
     {
       "nom": "Grammaire et syntaxe",
@@ -36,9 +33,9 @@
         {
           "nom": "La phrase",
           "flashcards": [
-            {"recto": "Quels sont les 4 types de phrases ?", "verso": "Déclarative (affirme ou nie), interrogative (pose une question), exclamative (exprime une émotion), impérative (donne un ordre)."},
-            {"recto": "Quelles sont les 2 formes de phrases ?", "verso": "Affirmative (oui) et négative (ne... pas, ne... jamais, etc.)."},
-            {"recto": "Qu'est-ce qu'une phrase simple ?", "verso": "Une phrase qui contient une seule proposition (un seul verbe conjugué). Ex: Je mange une pomme."},
+            {"recto": "Quels sont les 4 types de phrases ?", "verso": "Déclarative, interrogative, exclamative, impérative."},
+            {"recto": "Quelles sont les 2 formes de phrases ?", "verso": "Affirmative et négative."},
+            {"recto": "Qu'est-ce qu'une phrase simple ?", "verso": "Une phrase qui contient une seule proposition (un seul verbe conjugué). Ex: Je mange."},
             {"recto": "Qu'est-ce qu'une phrase complexe ?", "verso": "Une phrase qui contient plusieurs propositions (plusieurs verbes conjugués). Ex: Je mange quand j'ai faim."},
             {"recto": "Qu'est-ce qu'une proposition indépendante ?", "verso": "Proposition qui ne dépend d'aucune autre. Ex: Je chante. Il pleut."},
             {"recto": "Qu'est-ce qu'une proposition principale ?", "verso": "Proposition dont dépend une subordonnée. Ex: Je pense QUE TU AS RAISON."},
@@ -49,14 +46,14 @@
         {
           "nom": "Les temps et modes verbaux",
           "flashcards": [
-            {"recto": "Quels sont les 4 modes personnels ?", "verso": "Indicatif (certitude), subjonctif (souhait, doute), conditionnel (condition, hypothèse), impératif (ordre)."},
-            {"recto": "À quoi sert l'imparfait ?", "verso": "Décrire une action passée qui dure dans le temps (description, habitude). Ex: Quand j'étais petit, je jouais au foot."},
-            {"recto": "À quoi sert le passé simple ?", "verso": "Raconter une action passée, ponctuelle et achevée. Utilisé surtout à l'écrit (récit littéraire). Ex: Il entra dans la pièce."},
-            {"recto": "À quoi sert le passé composé ?", "verso": "Raconter une action passée, ponctuelle ou bilan. Utilisé à l'oral. Ex: Hier, j'ai mangé une pizza."},
-            {"recto": "À quoi sert le plus-que-parfait ?", "verso": "Exprimer une action antérieure à une autre action passée. Ex: Quand je suis arrivé, il était déjà parti."},
-            {"recto": "À quoi sert le futur simple ?", "verso": "Exprimer une action à venir. Ex: Demain, j'irai au cinéma."},
+            {"recto": "Quels sont les 4 modes personnels ?", "verso": "Indicatif, subjonctif, conditionnel, impératif."},
+            {"recto": "À quoi sert l'imparfait ?", "verso": "Décrire une action passée qui dure (description, habitude). Ex: Quand j'étais petit, je jouais au foot."},
+            {"recto": "À quoi sert le passé simple ?", "verso": "Raconter une action passée, ponctuelle et achevée. Utilisé surtout à l'écrit. Ex: Il entra."},
+            {"recto": "À quoi sert le passé composé ?", "verso": "Raconter une action passée, ponctuelle ou bilan. Utilisé à l'oral. Ex: J'ai mangé."},
+            {"recto": "À quoi sert le plus-que-parfait ?", "verso": "Exprimer une action antérieure à une autre action passée. Ex: Il était déjà parti."},
+            {"recto": "À quoi sert le futur simple ?", "verso": "Exprimer une action à venir. Ex: J'irai au cinéma."},
             {"recto": "À quoi sert le subjonctif ?", "verso": "Exprimer le doute, le souhait, l'émotion, l'obligation. Ex: Il faut que tu viennes."},
-            {"recto": "À quoi sert le conditionnel ?", "verso": "Exprimer une action soumise à une condition (si...). Ex: Si j'avais de l'argent, je voyagerais."}
+            {"recto": "À quoi sert le conditionnel ?", "verso": "Exprimer une action soumise à une condition (si...). Ex: Je voyagerais."}
           ]
         }
       ]
@@ -67,53 +64,53 @@
         {
           "nom": "Les accords",
           "flashcards": [
-            {"recto": "Règle d'accord sujet-verbe.", "verso": "Le verbe s'accorde en personne et en nombre avec le sujet. Ex: Les enfants JOUENT. Il JOUE."},
-            {"recto": "Règle d'accord dans le groupe nominal.", "verso": "Le déterminant, le nom et l'adjectif s'accordent en genre et en nombre. Ex: Une GRANDE maison BLEUE."},
-            {"recto": "Règle d'accord du participe passé avec être.", "verso": "Le participe passé s'accorde en genre et en nombre avec le sujet. Ex: Elle EST ALLÉE."},
-            {"recto": "Règle d'accord du participe passé avec avoir.", "verso": "Le participe passé s'accorde avec le COD si celui-ci est placé avant. Ex: Les pommes que j'ai MANGÉES."},
-            {"recto": "Règle d'accord des noms composés.", "verso": "Cela dépend de la nature des mots. Ex: des après-midi (invariable), des chefs-d'œuvre (chefs et œuvres)."},
-            {"recto": "Quand l'adjectif de couleur est-il invariable ?", "verso": "Lorsqu'il est formé à partir d'un nom (marron, orange, cerise). Ex: des yeux marron."},
-            {"recto": "Comment accorder 'grand' dans 'des grands-mères' ?", "verso": "Les deux mots prennent la marque du pluriel : grandes-mères."},
-            {"recto": "Règle d'accord du verbe avec un sujet collectif.", "verso": "Sujet collectif singulier → verbe singulier (La foule acclame). Sujet collectif + complément pluriel → verbe pluriel (Une foule de gens acclament)."}
+            {"recto": "Règle accord sujet-verbe.", "verso": "Le verbe s'accorde en personne et en nombre avec le sujet."},
+            {"recto": "Règle accord dans le GN.", "verso": "Déterminant, nom, adjectif s'accordent en genre et en nombre."},
+            {"recto": "Participe passé avec être.", "verso": "S'accorde avec le sujet."},
+            {"recto": "Participe passé avec avoir.", "verso": "S'accorde avec le COD si placé avant."},
+            {"recto": "Accord des noms composés.", "verso": "Dépend de la nature des mots."},
+            {"recto": "Adjectif de couleur marron.", "verso": "Invariable."},
+            {"recto": "Accord de 'grand' dans 'des grands-mères'.", "verso": "Les deux mots prennent la marque du pluriel."},
+            {"recto": "Sujet collectif : règle.", "verso": "Si singulier → verbe singulier ; si pluriel implicite → verbe pluriel."}
           ]
         },
         {
           "nom": "Les homophones",
           "flashcards": [
-            {"recto": "Différence entre 'a' et 'à'.", "verso": "a = verbe avoir (peut être remplacé par avait). à = préposition (indique le lieu, le temps)."},
-            {"recto": "Différence entre 'ce' et 'se'.", "verso": "ce = déterminant démonstratif. se = pronom personnel (devant un verbe)."},
-            {"recto": "Différence entre 'ces' et 'ses'.", "verso": "ces = déterminant démonstratif pluriel. ses = déterminant possessif."},
-            {"recto": "Différence entre 'ou' et 'où'.", "verso": "ou = conjonction de coordination (peut être remplacé par 'ou bien'). où = pronom ou adverbe interrogatif (lieu, temps)."},
-            {"recto": "Différence entre 'on' et 'ont'.", "verso": "on = pronom indéfini. ont = verbe avoir (3e personne pluriel)."},
-            {"recto": "Différence entre 'son' et 'sont'.", "verso": "son = déterminant possessif. sont = verbe être (3e personne pluriel)."},
-            {"recto": "Différence entre 'peu', 'peut' et 'peuvent'.", "verso": "peu = adverbe (quantité faible). peut = verbe pouvoir (3e singulier). peuvent = verbe pouvoir (3e pluriel)."},
-            {"recto": "Différence entre 'quel' et 'qu'elle'.", "verso": "quel = déterminant interrogatif (s'accorde avec le nom). qu'elle = que + elle (pronom)."}
+            {"recto": "Différence a/à.", "verso": "a=verbe avoir ; à=préposition."},
+            {"recto": "Différence ce/se.", "verso": "ce=démonstratif ; se=pronom personnel."},
+            {"recto": "Différence ces/ses.", "verso": "ces=démonstratif pluriel ; ses=possessif."},
+            {"recto": "Différence ou/où.", "verso": "ou=conjonction ; où=pronom/adverbe."},
+            {"recto": "Différence on/ont.", "verso": "on=pronom indéfini ; ont=verbe avoir."},
+            {"recto": "Différence son/sont.", "verso": "son=possessif ; sont=verbe être."},
+            {"recto": "Différence peu/peut/peuvent.", "verso": "peu=adverbe ; peut=verbe pouvoir singulier ; peuvent=verbe pouvoir pluriel."},
+            {"recto": "Différence quel/qu'elle.", "verso": "quel=interrogatif ; qu'elle=que+elle."}
           ]
         },
         {
           "nom": "La conjugaison",
           "flashcards": [
-            {"recto": "Quels sont les 3 groupes de verbes ?", "verso": "1er groupe : verbes en -er (sauf aller). 2e groupe : verbes en -ir avec -iss- (finir). 3e groupe : tous les autres (aller, faire, dire, prendre, etc.)."},
-            {"recto": "Donnez 3 verbes du 3e groupe fréquents.", "verso": "Être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir."},
-            {"recto": "Terminaisons du présent (1er groupe).", "verso": "Je -e, tu -es, il/elle/on -e, nous -ons, vous -ez, ils/elles -ent. Ex: je chante."},
-            {"recto": "Terminaisons de l'imparfait.", "verso": "Je -ais, tu -ais, il/elle/on -ait, nous -ions, vous -iez, ils/elles -aient."},
-            {"recto": "Terminaisons du futur simple.", "verso": "Je -ai, tu -as, il/elle/on -a, nous -ons, vous -ez, ils/elles -ont."},
-            {"recto": "Terminaisons du passé simple (1er groupe).", "verso": "Je -ai, tu -as, il/elle/on -a, nous -âmes, vous -âtes, ils/elles -èrent."},
-            {"recto": "Conjuguez 'être' au présent.", "verso": "Je suis, tu es, il/elle/on est, nous sommes, vous êtes, ils/elles sont."},
-            {"recto": "Conjuguez 'avoir' au présent.", "verso": "J'ai, tu as, il/elle/on a, nous avons, vous avez, ils/elles ont."}
+            {"recto": "Groupes de verbes.", "verso": "1er groupe : -er (sauf aller) ; 2e groupe : -ir avec -iss- ; 3e groupe : tous les autres."},
+            {"recto": "Verbes 3e groupe fréquents.", "verso": "être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir."},
+            {"recto": "Terminaisons présent 1er groupe.", "verso": "e, es, e, ons, ez, ent."},
+            {"recto": "Terminaisons imparfait.", "verso": "ais, ais, ait, ions, iez, aient."},
+            {"recto": "Terminaisons futur simple.", "verso": "ai, as, a, ons, ez, ont."},
+            {"recto": "Terminaisons passé simple 1er groupe.", "verso": "ai, as, a, âmes, âtes, èrent."},
+            {"recto": "Conjuguer être au présent.", "verso": "suis, es, est, sommes, êtes, sont."},
+            {"recto": "Conjuguer avoir au présent.", "verso": "ai, as, a, avons, avez, ont."}
           ]
         },
         {
           "nom": "Les valeurs des temps",
           "flashcards": [
-            {"recto": "Quelle est la valeur principale de l'imparfait ?", "verso": "Description dans le passé (portrait, paysage, situation) ou habitude. Ex: Il faisait beau."},
-            {"recto": "Quelle est la valeur principale du passé simple ?", "verso": "Action ponctuelle et achevée dans le passé. Utilisé dans les récits littéraires. Ex: Il entra dans la pièce."},
-            {"recto": "Quelle est la valeur principale du passé composé ?", "verso": "Action passée, ponctuelle ou bilan. Utilisé à l'oral et dans les faits d'actualité. Ex: Hier, j'ai mangé une pizza."},
-            {"recto": "Quelle est la valeur principale du plus-que-parfait ?", "verso": "Antériorité par rapport à une autre action passée. Ex: Quand je suis arrivé, il était déjà parti."},
-            {"recto": "Quelle est la valeur principale du présent ?", "verso": "Exprimer une action au moment où l'on parle, une vérité générale ou un fait habituel. Ex: Je mange. L'eau bout à 100°C."},
-            {"recto": "Quelle est la valeur principale du futur simple ?", "verso": "Exprimer une action à venir (prédiction, projet, promesse). Ex: Demain, j'irai au cinéma."},
-            {"recto": "À quoi sert le conditionnel présent ?", "verso": "Exprimer une action soumise à une condition (avec 'si'), un souhait ou une information non confirmée. Ex: Il viendrait demain."},
-            {"recto": "À quoi sert le subjonctif ?", "verso": "Exprimer le doute, le souhait, l'émotion, l'obligation, la nécessité. Ex: Il faut que tu viennes."}
+            {"recto": "Valeur de l'imparfait.", "verso": "Description, habitude."},
+            {"recto": "Valeur du passé simple.", "verso": "Action ponctuelle et achevée (récit littéraire)."},
+            {"recto": "Valeur du passé composé.", "verso": "Action ponctuelle, bilan (oral)."},
+            {"recto": "Valeur du plus-que-parfait.", "verso": "Antériorité par rapport à une autre action passée."},
+            {"recto": "Valeur du présent.", "verso": "Actualité, vérité générale, habitude."},
+            {"recto": "Valeur du futur simple.", "verso": "Prédiction, projet, promesse."},
+            {"recto": "Valeur du conditionnel.", "verso": "Hypothèse, souhait, information non confirmée."},
+            {"recto": "Valeur du subjonctif.", "verso": "Doute, souhait, émotion, obligation, nécessité."}
           ]
         }
       ]
@@ -124,53 +121,53 @@
         {
           "nom": "La formation des mots",
           "flashcards": [
-            {"recto": "Qu'est-ce qu'un radical ?", "verso": "Partie du mot qui porte le sens principal et ne change pas (ou peu) dans une famille de mots. Ex: PORT dans porter, transport, porteur."},
-            {"recto": "Qu'est-ce qu'un préfixe ?", "verso": "Élément placé avant le radical pour modifier le sens. Ex: RE-faire, IN-capable, DÉ-faire."},
-            {"recto": "Qu'est-ce qu'un suffixe ?", "verso": "Élément placé après le radical pour modifier le sens ou la nature du mot. Ex: port-ABLE, petit-ESSE."},
-            {"recto": "Donnez 3 exemples de préfixes et leur sens.", "verso": "RE- (répétition), IN- (contraire), DÉ- (suppression), PRÉ- (avant), ANTI- (contre)."},
-            {"recto": "Donnez 3 exemples de suffixes courants.", "verso": "-ABLE (possible), -AGE (action), -TION (résultat), -EUR (agent), -ETTE (petit)."},
-            {"recto": "Qu'est-ce qu'une famille de mots ?", "verso": "Ensemble des mots formés à partir du même radical. Ex: terre, terrestre, atterrir, enterrer."},
-            {"recto": "Qu'est-ce qu'un néologisme ?", "verso": "Mot nouveau créé dans une langue (ex: smartphone, selfie, télétravail)."},
-            {"recto": "Qu'est-ce que l'étymologie ?", "verso": "Étude de l'origine des mots. Le français vient du latin, avec des influences grecques et arabes."}
+            {"recto": "Qu'est-ce qu'un radical ?", "verso": "Partie du mot qui porte le sens principal."},
+            {"recto": "Qu'est-ce qu'un préfixe ?", "verso": "Élément placé avant le radical pour modifier le sens."},
+            {"recto": "Qu'est-ce qu'un suffixe ?", "verso": "Élément placé après le radical."},
+            {"recto": "Préfixes et leurs sens.", "verso": "RE- (répétition), IN- (contraire), DÉ- (suppression)."},
+            {"recto": "Suffixes courants.", "verso": "-ABLE (possible), -AGE (action), -TION (résultat)."},
+            {"recto": "Famille de mots.", "verso": "Ensemble des mots avec le même radical."},
+            {"recto": "Néologisme.", "verso": "Mot nouveau."},
+            {"recto": "Étymologie.", "verso": "Étude de l'origine des mots."}
           ]
         },
         {
           "nom": "Les figures de style",
           "flashcards": [
-            {"recto": "Qu'est-ce qu'une comparaison ?", "verso": "Figure d'analogie qui rapproche deux éléments avec un outil de comparaison (comme, tel, pareil à). Ex: Il est fort comme un lion."},
-            {"recto": "Qu'est-ce qu'une métaphore ?", "verso": "Figure d'analogie sans outil de comparaison. Ex: Cet homme est un lion."},
-            {"recto": "Qu'est-ce qu'une personnification ?", "verso": "Attribuer des qualités humaines à un objet ou un animal. Ex: La lune sourit aux amoureux."},
-            {"recto": "Qu'est-ce qu'une antithèse ?", "verso": "Rapprochement de deux termes opposés. Ex: Je vis, je meurs."},
-            {"recto": "Qu'est-ce qu'un oxymore ?", "verso": "Rapprochement de deux mots contradictoires. Ex: Une obscure clarté."},
-            {"recto": "Qu'est-ce qu'une hyperbole ?", "verso": "Exagération. Ex: Je t'ai dit mille fois de ranger ta chambre."},
-            {"recto": "Qu'est-ce qu'une litote ?", "verso": "Dire moins pour suggérer plus. Ex: Ce n'est pas bête (= c'est intelligent)."},
-            {"recto": "Qu'est-ce que l'énumération ?", "verso": "Succession de mots ou expressions. Ex: Elle aimait les chiens, les chats, les oiseaux."}
+            {"recto": "Comparaison.", "verso": "Rapprochement avec outil (comme, tel)."},
+            {"recto": "Métaphore.", "verso": "Rapprochement sans outil."},
+            {"recto": "Personnification.", "verso": "Attribuer des qualités humaines à un objet/animal."},
+            {"recto": "Antithèse.", "verso": "Rapprochement de deux termes opposés."},
+            {"recto": "Oxymore.", "verso": "Rapprochement de deux mots contradictoires."},
+            {"recto": "Hyperbole.", "verso": "Exagération."},
+            {"recto": "Litote.", "verso": "Dire moins pour suggérer plus."},
+            {"recto": "Énumération.", "verso": "Succession de mots ou expressions."}
           ]
         },
         {
           "nom": "Les champs lexicaux",
           "flashcards": [
-            {"recto": "Qu'est-ce qu'un champ lexical ?", "verso": "Ensemble des mots qui se rapportent à un même thème. Ex: champ lexical de la mer : vague, océan, bateau, pêche."},
-            {"recto": "Qu'est-ce qu'un champ sémantique ?", "verso": "Ensemble des différents sens d'un même mot. Ex: voler = se déplacer dans l'air, prendre quelque chose."},
-            {"recto": "Quels sont les 3 registres de langue ?", "verso": "Soutenu (littéraire), courant (quotidien), familier (oral, relâché)."},
-            {"recto": "Donnez un exemple de registre familier.", "verso": "C'est un chouette mec (au lieu de : C'est un garçon sympathique)."},
-            {"recto": "Donnez un exemple de registre soutenu.", "verso": "Il est malaisé de (au lieu de : Il est difficile de)."},
-            {"recto": "Qu'est-ce que l'argot ?", "verso": "Langage propre à un groupe (jeunes, métiers, prison). Ex: flic (policier), bouffe (nourriture)."},
-            {"recto": "Comment reconnaître le niveau de langue d'un texte ?", "verso": "Par le choix du vocabulaire (soutenu/familier) et la syntaxe (phrases complexes/simples)."},
-            {"recto": "Pourquoi doit-on adapter son niveau de langue ?", "verso": "À la situation de communication (interlocuteur, contexte oral/écrit)."}
+            {"recto": "Champ lexical.", "verso": "Ensemble des mots liés à un même thème."},
+            {"recto": "Champ sémantique.", "verso": "Ensemble des sens d'un même mot."},
+            {"recto": "Registres de langue.", "verso": "Soutenu, courant, familier, argotique."},
+            {"recto": "Registre familier.", "verso": "Ex: C'est un chouette mec."},
+            {"recto": "Registre soutenu.", "verso": "Ex: Il est malaisé de..."},
+            {"recto": "Argot.", "verso": "Langage propre à un groupe."},
+            {"recto": "Niveau de langue.", "verso": "Soutenu/courant/familier."},
+            {"recto": "Adapter son niveau de langue.", "verso": "Selon la situation de communication."}
           ]
         },
         {
           "nom": "Synonymes, antonymes, homonymes",
           "flashcards": [
-            {"recto": "Qu'est-ce qu'un synonyme ?", "verso": "Mot qui a un sens proche. Ex: joie/bonheur, vite/rapidement."},
-            {"recto": "Qu'est-ce qu'un antonyme ?", "verso": "Mot qui a un sens contraire. Ex: chaud/froid, grand/petit."},
-            {"recto": "Qu'est-ce qu'un homonyme ?", "verso": "Mot qui a la même prononciation qu'un autre, mais un sens différent. Ex: vert/verre/vers."},
-            {"recto": "Qu'est-ce qu'un paronyme ?", "verso": "Mot qui a une prononciation proche d'un autre, mais un sens différent. Ex: collision/collusion."},
-            {"recto": "Donnez 3 exemples d'homonymes.", "verso": "a/à, ou/où, ce/se, on/ont, son/sont, leur/leurs."},
-            {"recto": "Pourquoi les homonymes sont-ils souvent sources d'erreurs ?", "verso": "Car ils se prononcent de la même manière mais ne s'écrivent pas pareil et n'ont pas le même sens."},
-            {"recto": "Comment trouver le synonyme d'un mot ?", "verso": "En utilisant un dictionnaire des synonymes ou en identifiant des mots de la même famille ou du même champ lexical."},
-            {"recto": "Comment trouver l'antonyme d'un mot ?", "verso": "En ajoutant un préfixe de négation (in-, dé-, mal-) ou en cherchant un mot de sens contraire."}
+            {"recto": "Synonyme.", "verso": "Mot de sens proche."},
+            {"recto": "Antonyme.", "verso": "Mot de sens contraire."},
+            {"recto": "Homonyme.", "verso": "Même prononciation, sens différent."},
+            {"recto": "Paronyme.", "verso": "Sons proches, sens différent."},
+            {"recto": "Exemples d'homonymes.", "verso": "vert/verre/vers, a/à, ou/où."},
+            {"recto": "Erreurs liées aux homonymes.", "verso": "Même son, orthographe différente."},
+            {"recto": "Trouver un synonyme.", "verso": "Dictionnaire des synonymes."},
+            {"recto": "Trouver un antonyme.", "verso": "Préfixe de négation ou mot contraire."}
           ]
         }
       ]
@@ -181,53 +178,53 @@
         {
           "nom": "Genres littéraires",
           "flashcards": [
-            {"recto": "Quels sont les 4 grands genres littéraires ?", "verso": "Roman, théâtre, poésie, argumentation (essai, fable)."},
-            {"recto": "Qu'est-ce qu'un roman épistolaire ?", "verso": "Roman composé de lettres échangées entre les personnages. Ex: Les Liaisons dangereuses."},
-            {"recto": "Quels sont les 3 genres théâtraux principaux ?", "verso": "Tragédie (fin malheureuse, héros), comédie (rire, fin heureuse), drame (mélange des tons)."},
-            {"recto": "Qu'est-ce qu'une fable ?", "verso": "Courte histoire, souvent en vers, qui illustre une morale. Ex: Les Fables de La Fontaine."},
-            {"recto": "Qu'est-ce qu'une autobiographie ?", "verso": "Récit où l'auteur raconte sa propre vie. Ex: Les Confessions de Rousseau."},
-            {"recto": "Qu'est-ce qu'un calligramme ?", "verso": "Poème dont les mots sont disposés pour former un dessin."},
-            {"recto": "Qu'est-ce qu'un essai ?", "verso": "Texte argumentatif où l'auteur expose son point de vue sur un sujet."},
-            {"recto": "Qu'est-ce qu'un pamphlet ?", "verso": "Texte argumentatif violent, satirique, dénonçant une personne ou une institution."}
+            {"recto": "Grands genres littéraires.", "verso": "Roman, théâtre, poésie, argumentation."},
+            {"recto": "Roman épistolaire.", "verso": "Composé de lettres."},
+            {"recto": "Genres théâtraux.", "verso": "Tragédie, comédie, drame."},
+            {"recto": "Fable.", "verso": "Courte histoire avec une morale."},
+            {"recto": "Autobiographie.", "verso": "Récit où l'auteur raconte sa vie."},
+            {"recto": "Calligramme.", "verso": "Poème en forme de dessin."},
+            {"recto": "Essai.", "verso": "Texte argumentatif."},
+            {"recto": "Pamphlet.", "verso": "Texte argumentatif violent."}
           ]
         },
         {
           "nom": "Mouvements littéraires",
           "flashcards": [
-            {"recto": "Quels sont les 3 mouvements littéraires du XVIe siècle ?", "verso": "Humanisme (ex: Rabelais, Montaigne)."},
-            {"recto": "Quels sont les mouvements littéraires du XVIIe siècle ?", "verso": "Baroque (éphémère) et Classicisme (Molière, Racine, La Fontaine)."},
-            {"recto": "Quels sont les mouvements littéraires du XVIIIe siècle ?", "verso": "Les Lumières (Voltaire, Rousseau, Diderot)."},
-            {"recto": "Quels sont les mouvements littéraires du XIXe siècle ?", "verso": "Romantisme, Réalisme, Naturalisme, Symbolisme."},
-            {"recto": "Quels sont les mouvements littéraires du XXe siècle ?", "verso": "Surréalisme, Existentialisme, Nouveau Roman."},
-            {"recto": "Quelles sont les idées des Lumières ?", "verso": "Raison, liberté, tolérance, progrès, lutte contre l'obscurantisme."},
-            {"recto": "Quelles sont les idées du Romantisme ?", "verso": "Exaltation des sentiments, le moi, la nature, la mélancolie."},
-            {"recto": "Quelles sont les idées du Réalisme ?", "verso": "Représenter la réalité, les classes populaires, sans idéalisation."}
+            {"recto": "Mouvements du XVIe siècle.", "verso": "Humanisme (Rabelais, Montaigne)."},
+            {"recto": "Mouvements du XVIIe siècle.", "verso": "Baroque, Classicisme (Molière, Racine)."},
+            {"recto": "Mouvements du XVIIIe siècle.", "verso": "Lumières (Voltaire, Rousseau, Diderot)."},
+            {"recto": "Mouvements du XIXe siècle.", "verso": "Romantisme, Réalisme, Naturalisme, Symbolisme."},
+            {"recto": "Mouvements du XXe siècle.", "verso": "Surréalisme, Existentialisme."},
+            {"recto": "Idées des Lumières.", "verso": "Raison, liberté, tolérance, progrès."},
+            {"recto": "Idées du Romantisme.", "verso": "Sentiments, moi, nature, mélancolie."},
+            {"recto": "Idées du Réalisme.", "verso": "Représenter la réalité, sans idéalisation."}
           ]
         },
         {
           "nom": "Les registres littéraires",
           "flashcards": [
-            {"recto": "Qu'est-ce que le registre comique ?", "verso": "Provoque le rire par les situations, les gestes ou les paroles. Ex: Les Fourberies de Scapin."},
-            {"recto": "Qu'est-ce que le registre tragique ?", "verso": "Inspire la terreur et la pitié face à un destin fatal. Ex: Phèdre."},
-            {"recto": "Qu'est-ce que le registre épique ?", "verso": "Célébre des héros, des combats, des exploits (grandeur). Ex: La Chanson de Roland."},
-            {"recto": "Qu'est-ce que le registre lyrique ?", "verso": "Exprime des sentiments personnels (amour, nostalgie, mort). Ex: Les Méditations de Lamartine."},
-            {"recto": "Qu'est-ce que le registre pathétique ?", "verso": "Suscite l'émotion, la tristesse, la compassion face à la souffrance."},
-            {"recto": "Qu'est-ce que le registre fantastique ?", "verso": "Hésitation entre réel et irréel, étrange. Ex: La Vénus d'Ille."},
-            {"recto": "Qu'est-ce que le registre satirique ?", "verso": "Tourne en ridicule les défauts d'une personne ou d'une société."},
-            {"recto": "Qu'est-ce que le registre polémique ?", "verso": "Attaque vigoureusement un adversaire ou une idée."}
+            {"recto": "Registre comique.", "verso": "Provoque le rire."},
+            {"recto": "Registre tragique.", "verso": "Terreur et pitié, fatalité."},
+            {"recto": "Registre épique.", "verso": "Héros, exploits, grandeur."},
+            {"recto": "Registre lyrique.", "verso": "Sentiments personnels."},
+            {"recto": "Registre pathétique.", "verso": "Émotion, tristesse, compassion."},
+            {"recto": "Registre fantastique.", "verso": "Hésitation réel/irréel."},
+            {"recto": "Registre satirique.", "verso": "Ridiculise les défauts."},
+            {"recto": "Registre polémique.", "verso": "Attaque vigoureuse."}
           ]
         },
         {
           "nom": "Le récit",
           "flashcards": [
-            {"recto": "Quelles sont les 5 étapes du schéma narratif ?", "verso": "1. Situation initiale, 2. Élément perturbateur, 3. Péripéties, 4. Résolution, 5. Situation finale."},
-            {"recto": "Qu'est-ce que le schéma actantiel ?", "verso": "Modèle qui analyse les rôles dans un récit : sujet, objet, adjuvant, opposant, destinateur, destinataire."},
-            {"recto": "Qu'est-ce que le point de vue interne ?", "verso": "Le récit est vu à travers les yeux d'un personnage (je ou il). On sait ce qu'il pense."},
-            {"recto": "Qu'est-ce que le point de vue externe ?", "verso": "Le narrateur ne connaît que les actions, pas les pensées. Regard de caméra."},
-            {"recto": "Qu'est-ce que le point de vue omniscient (zéro) ?", "verso": "Le narrateur sait tout (pensées de tous les personnages, passé, futur)."},
-            {"recto": "Qu'est-ce qu'un récit ultérieur ?", "verso": "Le récit raconte des événements passés par rapport au moment où l'on raconte."},
-            {"recto": "Qu'est-ce qu'un récit simultané ?", "verso": "Le récit suit en direct les événements (ex: journal intime)."},
-            {"recto": "Qu'est-ce que le rythme du récit ?", "verso": "Relation entre le temps de l'histoire et le temps du récit (accélération, ralentissement)."}
+            {"recto": "Schéma narratif.", "verso": "Situation initiale → élément perturbateur → péripéties → résolution → situation finale."},
+            {"recto": "Schéma actantiel.", "verso": "Sujet, objet, adjuvant, opposant, destinateur, destinataire."},
+            {"recto": "Point de vue interne.", "verso": "Vu à travers les yeux d'un personnage."},
+            {"recto": "Point de vue externe.", "verso": "Actions seulement (caméra)."},
+            {"recto": "Point de vue omniscient.", "verso": "Le narrateur sait tout."},
+            {"recto": "Récit ultérieur.", "verso": "Raconte des événements passés."},
+            {"recto": "Récit simultané.", "verso": "Récit en direct."},
+            {"recto": "Rythme du récit.", "verso": "Accélération ou ralentissement."}
           ]
         }
       ]
@@ -238,40 +235,40 @@
         {
           "nom": "La rédaction",
           "flashcards": [
-            {"recto": "Quelles sont les 4 étapes de la rédaction ?", "verso": "1. Planifier, 2. Rédiger, 3. Relire, 4. Corriger."},
-            {"recto": "Que doit contenir une introduction ?", "verso": "Amorce (accroche), présentation du sujet, problématique, annonce du plan."},
-            {"recto": "Que doit contenir une conclusion ?", "verso": "Rappel de la réponse à la problématique, synthèse, ouverture."},
-            {"recto": "Quels sont les connecteurs logiques d'addition ?", "verso": "Et, de plus, en outre, également, puis."},
-            {"recto": "Quels sont les connecteurs logiques de cause ?", "verso": "Car, parce que, puisque, étant donné que."},
-            {"recto": "Quels sont les connecteurs logiques de conséquence ?", "verso": "Donc, ainsi, par conséquent, c'est pourquoi."},
-            {"recto": "Quels sont les connecteurs logiques d'opposition ?", "verso": "Mais, cependant, pourtant, néanmoins, en revanche."},
-            {"recto": "Que faut-il vérifier lors de la relecture ?", "verso": "Orthographe, accords, homophones, répétitions, sens, correction de la problématique."}
+            {"recto": "Étapes de la rédaction.", "verso": "Planifier, rédiger, relire, corriger."},
+            {"recto": "Contenu de l'introduction.", "verso": "Amorce, présentation, problématique, annonce du plan."},
+            {"recto": "Contenu de la conclusion.", "verso": "Rappel de la réponse, synthèse, ouverture."},
+            {"recto": "Connecteurs d'addition.", "verso": "et, de plus, en outre, également."},
+            {"recto": "Connecteurs de cause.", "verso": "car, parce que, puisque."},
+            {"recto": "Connecteurs de conséquence.", "verso": "donc, ainsi, par conséquent."},
+            {"recto": "Connecteurs d'opposition.", "verso": "mais, cependant, pourtant, néanmoins."},
+            {"recto": "Relecture : vérifier.", "verso": "Orthographe, accords, homophones, sens."}
           ]
         },
         {
           "nom": "La contraction de texte",
           "flashcards": [
-            {"recto": "Qu'est-ce que la contraction de texte ?", "verso": "Réduction d'un texte au tiers de sa longueur, en respectant le contenu et les idées essentielles."},
-            {"recto": "Quelle est la règle d'or de la contraction ?", "verso": "Ne pas commenter, ne pas juger, ne pas ajouter d'idées extérieures."},
-            {"recto": "Comment procéder pour une contraction ?", "verso": "1. Lire le texte, 2. Relever les idées essentielles, 3. Reformuler avec ses mots, 4. Compter les mots."},
-            {"recto": "Quelles sont les erreurs à éviter dans une contraction ?", "verso": "Changer l'ordre logique, oublier des idées importantes, citer trop longuement."},
-            {"recto": "Que doit-on respecter dans une contraction ?", "verso": "La longueur (1/3), le ton, l'ordre logique, la thèse de l'auteur."},
-            {"recto": "Comment reformuler sans copier le texte ?", "verso": "Utiliser des synonymes, changer la structure des phrases (actif/passif, négation/affirmation)."},
-            {"recto": "Que faire si un mot est difficile à remplacer ?", "verso": "Le garder s'il est indispensable, le définir ou utiliser un synonyme proche."},
-            {"recto": "À quoi sert la contraction de texte ?", "verso": "À vérifier la compréhension d'un texte et la capacité à aller à l'essentiel."}
+            {"recto": "Contraction de texte.", "verso": "Réduction au 1/3 du texte."},
+            {"recto": "Règle d'or.", "verso": "Ne pas commenter, ne pas juger, ne pas ajouter."},
+            {"recto": "Étapes de la contraction.", "verso": "Lire, relever, reformuler, compter."},
+            {"recto": "Erreurs à éviter.", "verso": "Changer l'ordre, oublier des idées, citer trop."},
+            {"recto": "Respecter.", "verso": "Longueur, ton, ordre logique, thèse."},
+            {"recto": "Reformuler.", "verso": "Synonymes, changer la structure."},
+            {"recto": "Mot difficile à remplacer.", "verso": "Le garder ou le définir."},
+            {"recto": "Utilité.", "verso": "Vérifier la compréhension, aller à l'essentiel."}
           ]
         },
         {
           "nom": "Le commentaire composé",
           "flashcards": [
-            {"recto": "Qu'est-ce qu'un commentaire composé ?", "verso": "Analyse méthodique d'un texte littéraire pour en montrer les significations et les procédés."},
-            {"recto": "Quelle est la structure du commentaire ?", "verso": "Introduction, développement en 2-3 axes, conclusion."},
-            {"recto": "Que contient l'introduction du commentaire ?", "verso": "Présentation de l'œuvre et du passage, problématique, annonce du plan."},
-            {"recto": "Que contient le développement du commentaire ?", "verso": "Axes de lecture (2 ou 3), sous-parties, citations analysées, procédés stylistiques."},
-            {"recto": "Que contient la conclusion du commentaire ?", "verso": "Bilan des axes, réponse à la problématique, ouverture (autre œuvre, contexte)."},
-            {"recto": "Comment intégrer une citation ?", "verso": "Entre guillemets, intégrée grammaticalement dans la phrase. Ex: L'auteur écrit « ... »."},
-            {"recto": "Qu'est-ce qu'une analyse de citation ?", "verso": "Expliquer le sens, le procédé (figure de style, champ lexical), l'effet produit."},
-            {"recto": "Que faut-il éviter dans un commentaire ?", "verso": "Le résumé, le jugement subjectif (j'aime, c'est bien), le hors-sujet."}
+            {"recto": "Commentaire composé.", "verso": "Analyse méthodique d'un texte littéraire."},
+            {"recto": "Structure.", "verso": "Introduction, développement (2-3 axes), conclusion."},
+            {"recto": "Introduction du commentaire.", "verso": "Présentation de l'œuvre, problématique, plan."},
+            {"recto": "Développement.", "verso": "Axes de lecture, sous-parties, citations."},
+            {"recto": "Conclusion.", "verso": "Bilan, réponse à la problématique, ouverture."},
+            {"recto": "Intégrer une citation.", "verso": "Entre guillemets, intégrée grammaticalement."},
+            {"recto": "Analyse de citation.", "verso": "Sens, procédé, effet."},
+            {"recto": "À éviter.", "verso": "Résumé, jugement subjectif, hors-sujet."}
           ]
         }
       ]
@@ -282,40 +279,40 @@
         {
           "nom": "L'oral : présentation",
           "flashcards": [
-            {"recto": "Quelle est la durée de l'oral du brevet ?", "verso": "15 minutes au total : 5 minutes d'exposé, 10 minutes d'échange."},
-            {"recto": "Quels sujets peut-on présenter à l'oral ?", "verso": "Un projet interdisciplinaire (EPI), une œuvre d'art, un livre, un stage, un engagement."},
-            {"recto": "Quelle est la structure de l'exposé ?", "verso": "Introduction, développement, conclusion. Avec des transitions claires."},
-            {"recto": "Quels supports peut-on utiliser pour l'oral ?", "verso": "PowerPoint, affiche, diaporama, extraits (livre, vidéo), note personnelle (pas de texte lu)."},
-            {"recto": "Comment gérer son temps lors de l'oral ?", "verso": "S'entraîner chronométré. Ne pas dépasser 5 minutes d'exposé."},
-            {"recto": "Que doit contenir l'introduction ?", "verso": "Présentation du sujet, problématique, annonce du plan."},
-            {"recto": "Que doit contenir la conclusion ?", "verso": "Rappel de la problématique, réponse, ouverture."},
-            {"recto": "Faut-il apprendre son exposé par cœur ?", "verso": "Non, il faut le connaître mais parler naturellement, avec des notes."}
+            {"recto": "Durée de l'oral.", "verso": "5 min exposé + 10 min échange."},
+            {"recto": "Sujets possibles.", "verso": "EPI, œuvre, livre, stage, engagement."},
+            {"recto": "Structure de l'exposé.", "verso": "Introduction, développement, conclusion."},
+            {"recto": "Supports autorisés.", "verso": "PowerPoint, affiche, extraits, notes."},
+            {"recto": "Gérer son temps.", "verso": "S'entraîner chronométré."},
+            {"recto": "Contenu de l'introduction.", "verso": "Présentation du sujet, problématique, plan."},
+            {"recto": "Contenu de la conclusion.", "verso": "Rappel, réponse, ouverture."},
+            {"recto": "Apprendre par cœur ?", "verso": "Non, mais connaître avec des notes."}
           ]
         },
         {
           "nom": "L'oral : expression",
           "flashcards": [
-            {"recto": "Comment bien articuler à l'oral ?", "verso": "Parler distinctement, sans avaler les fins de mots."},
-            {"recto": "Quel doit être le débit de parole ?", "verso": "Ni trop rapide (inaudible), ni trop lent (endormant). Un rythme calme et régulier."},
-            {"recto": "Comment gérer sa voix ?", "verso": "Parler fort et clair. Projeter sa voix jusqu'au fond de la salle."},
-            {"recto": "Comment gérer son regard ?", "verso": "Regarder le jury, pas ses notes. Balayer du regard tous les membres."},
-            {"recto": "Quelle posture adopter à l'oral ?", "verso": "Debout (si possible), pieds ancrés, gestes naturels (pas excessifs)."},
-            {"recto": "Comment gérer son stress ?", "verso": "Respirer, bien dormir la veille, préparer plusieurs fois, avoir une boisson d'eau."},
-            {"recto": "Pourquoi ne pas lire son texte ?", "verso": "Le jury évalue votre capacité à parler spontanément, pas à lire. Utilisez des notes-clés."},
-            {"recto": "Que faire si on a un trou ?", "verso": "Boire une gorgée d'eau, regarder ses notes, reprendre calmement."}
+            {"recto": "Bien articuler.", "verso": "Parler distinctement."},
+            {"recto": "Débit de parole.", "verso": "Calme et régulier."},
+            {"recto": "Gérer sa voix.", "verso": "Parler fort, projeter."},
+            {"recto": "Gérer son regard.", "verso": "Regarder le jury, pas ses notes."},
+            {"recto": "Posture.", "verso": "Debout, pieds ancrés, gestes naturels."},
+            {"recto": "Gérer le stress.", "verso": "Respirer, bien dormir, préparer."},
+            {"recto": "Ne pas lire.", "verso": "Le jury évalue la parole spontanée."},
+            {"recto": "Trou à l'oral.", "verso": "Boire, regarder ses notes, reprendre."}
           ]
         },
         {
           "nom": "L'oral : échange avec le jury",
           "flashcards": [
-            {"recto": "Que faire si on n'a pas compris une question du jury ?", "verso": "Demander poliment une reformulation : 'Pourriez-vous reformuler votre question ?'"},
-            {"recto": "Comment répondre aux questions du jury ?", "verso": "Écouter, reformuler la question pour montrer qu'on a compris, répondre précisément."},
-            {"recto": "Que faire si on ne sait pas répondre ?", "verso": "L'admettre honnêtement : 'Je ne sais pas, mais je pense que...' ou 'Je peux vous dire que...'"},
-            {"recto": "Comment défendre son point de vue ?", "verso": "S'appuyer sur des exemples précis, des citations, des faits."},
-            {"recto": "Pourquoi ne pas couper la parole du jury ?", "verso": "Par respect et pour bien comprendre la question. Attendez la fin."},
-            {"recto": "Que faire si le jury me corrige ?", "verso": "Accepter la correction poliment, ne pas argumenter. 'Merci, je ne le savais pas.'"},
-            {"recto": "Comment montrer qu'on a compris une question ?", "verso": "Reformuler avec ses propres mots. Ex: 'Si je comprends bien, vous me demandez...'"},
-            {"recto": "Faut-il parler beaucoup pendant l'échange ?", "verso": "Répondre précisément (1-2 minutes par réponse), ne pas se perdre."}
+            {"recto": "Question non comprise.", "verso": "Demander une reformulation poliment."},
+            {"recto": "Répondre aux questions.", "verso": "Écouter, reformuler, répondre."},
+            {"recto": "Ne pas savoir répondre.", "verso": "Admettre honnêtement."},
+            {"recto": "Défendre son point de vue.", "verso": "Exemples précis, citations."},
+            {"recto": "Ne pas couper la parole.", "verso": "Par respect et pour bien comprendre."},
+            {"recto": "Jury corrige.", "verso": "Accepter poliment."},
+            {"recto": "Montrer qu'on a compris.", "verso": "Reformuler avec ses propres mots."},
+            {"recto": "Durée de réponse.", "verso": "1-2 minutes par réponse."}
           ]
         }
       ]
@@ -326,53 +323,53 @@
         {
           "nom": "La dictée",
           "flashcards": [
-            {"recto": "Comment se déroule la dictée du brevet ?", "verso": "Lecture lente du texte, dictée phrase par phrase, relecture, puis relecture finale."},
-            {"recto": "Que vérifier en priorité pendant la dictée ?", "verso": "Accords (sujet-verbe, GN), homophones (a/à, on/ont), terminaisons des verbes."},
-            {"recto": "Comment gérer le stress pendant la dictée ?", "verso": "Respirer, se concentrer sur la voix du correcteur, ne pas bloquer sur un mot difficile."},
-            {"recto": "Que faire si on a un doute sur un mot ?", "verso": "Essayer de le placer dans une autre phrase mentalement pour trouver sa terminaison."},
-            {"recto": "Comment vérifier les homophones ?", "verso": "Remplacer par un mot du même temps (pour les verbes) ou par un autre mot (a→avait)."},
-            {"recto": "Comment vérifier les accords dans le groupe nominal ?", "verso": "Repérer le nom noyau, puis vérifier déterminant et adjectif."},
-            {"recto": "Comment vérifier l'accord du participe passé ?", "verso": "Avec être → accord sujet. Avec avoir → accord COD si placé avant."},
-            {"recto": "À quoi sert la relecture finale ?", "verso": "À corriger les erreurs d'étourderie, vérifier tous les accords, lire la phrase à voix haute mentalement."}
+            {"recto": "Déroulement de la dictée.", "verso": "Lecture lente, dictée phrase par phrase, relecture."},
+            {"recto": "Vérifier en priorité.", "verso": "Accords, homophones, terminaisons."},
+            {"recto": "Gérer le stress.", "verso": "Respirer, se concentrer."},
+            {"recto": "Doute sur un mot.", "verso": "Placer mentalement dans une autre phrase."},
+            {"recto": "Vérifier les homophones.", "verso": "Remplacer par un mot du même temps."},
+            {"recto": "Vérifier les accords GN.", "verso": "Repérer le nom noyau."},
+            {"recto": "Participe passé.", "verso": "Avec être : accord sujet. Avec avoir : accord COD si placé avant."},
+            {"recto": "Relecture finale.", "verso": "Corriger les étourderies."}
           ]
         },
         {
           "nom": "La grammaire (analyse de phrase)",
           "flashcards": [
-            {"recto": "Qu'est-ce que la nature d'un mot ?", "verso": "Sa classe grammaticale (nom, verbe, adjectif, adverbe, pronom, etc.)."},
-            {"recto": "Qu'est-ce que la fonction d'un mot ?", "verso": "Son rôle dans la phrase (sujet, COD, COI, etc.)."},
-            {"recto": "Comment justifier la nature d'un mot ?", "verso": "On peut mettre un déterminant devant (pour un nom), ou on peut le conjuguer (pour un verbe)."},
-            {"recto": "Comment justifier la fonction d'un mot ?", "verso": "Poser la question correspondante (qui ? quoi ? à qui ? etc.)."},
-            {"recto": "Quels sont les verbes d'état ?", "verso": "Être, paraître, sembler, devenir, rester, avoir l'air."},
-            {"recto": "Quels sont les verbes d'action ?", "verso": "Tous les autres. Ex: manger, courir, donner, recevoir."},
-            {"recto": "Comment reconnaître une proposition subordonnée relative ?", "verso": "Elle est introduite par un pronom relatif (qui, que, dont, où) et complète un nom."},
-            {"recto": "Comment reconnaître une proposition subordonnée conjonctive ?", "verso": "Elle est introduite par une conjonction de subordination (que, lorsque, puisque, comme)."}
+            {"recto": "Nature d'un mot.", "verso": "Sa classe grammaticale."},
+            {"recto": "Fonction d'un mot.", "verso": "Son rôle dans la phrase."},
+            {"recto": "Justifier la nature.", "verso": "Mettre un déterminant ou conjuguer."},
+            {"recto": "Justifier la fonction.", "verso": "Poser la question (qui ? quoi ?)."},
+            {"recto": "Verbes d'état.", "verso": "être, paraître, sembler, devenir."},
+            {"recto": "Verbes d'action.", "verso": "Tous les autres."},
+            {"recto": "Subordonnée relative.", "verso": "Introduite par un pronom relatif."},
+            {"recto": "Subordonnée conjonctive.", "verso": "Introduite par une conjonction de subordination."}
           ]
         },
         {
           "nom": "La réécriture",
           "flashcards": [
-            {"recto": "Qu'est-ce que la réécriture au brevet ?", "verso": "Transformer un passage (changer le temps, la personne, le genre, le nombre)."},
-            {"recto": "Comment réussir une réécriture ?", "verso": "Lire toute la consigne, repérer les changements à appliquer, transformer étape par étape, relire."},
-            {"recto": "Changer 'je' en 'nous', que devient le verbe ?", "verso": "Le verbe passe de la 1ère personne singulier à la 1ère personne pluriel. Ex: je mange → nous mangeons."},
-            {"recto": "Changer le présent en imparfait, comment accorder ?", "verso": "Remplacer les terminaisons du présent par celles de l'imparfait (-ais, -ait, -ions, -iez, -aient)."},
-            {"recto": "Changer le masculin en féminin, que faut-il accorder ?", "verso": "Les noms, les adjectifs, les participes passés (si accord avec être)."},
-            {"recto": "Changer le singulier en pluriel, que faut-il accorder ?", "verso": "Déterminants, noms, adjectifs, verbes (selon le sujet)."},
-            {"recto": "Que faire avec les homophones dans la réécriture ?", "verso": "Vérifier leur accord après transformation (ex: j'ai fait attention → nous avons fait attention)."},
-            {"recto": "Comment relire sa réécriture ?", "verso": "Relire la phrase complète pour vérifier le sens, les accords, les terminaisons."}
+            {"recto": "Réécriture au brevet.", "verso": "Transformer un passage (temps, personne, genre, nombre)."},
+            {"recto": "Réussir une réécriture.", "verso": "Lire la consigne, repérer les changements, transformer, relire."},
+            {"recto": "Changer je en nous.", "verso": "Verbe à la 1ère personne pluriel."},
+            {"recto": "Présent vers imparfait.", "verso": "Remplacer les terminaisons."},
+            {"recto": "Masculin vers féminin.", "verso": "Accorder noms, adjectifs, participes."},
+            {"recto": "Singulier vers pluriel.", "verso": "Accorder déterminants, noms, adjectifs, verbes."},
+            {"recto": "Homophones dans la réécriture.", "verso": "Vérifier après transformation."},
+            {"recto": "Relire sa réécriture.", "verso": "Lire la phrase complète."}
           ]
         },
         {
           "nom": "L'essai (sujet de réflexion)",
           "flashcards": [
-            {"recto": "Qu'est-ce que l'essai au brevet ?", "verso": "Sujet de réflexion sur un thème (souvent lié à l'un des parcours du programme)."},
-            {"recto": "Quelle est la structure de l'essai ?", "verso": "Introduction, développement (3 paragraphes argumentés), conclusion."},
-            {"recto": "Que contient l'introduction de l'essai ?", "verso": "Explication du sujet, problématique, annonce du plan."},
-            {"recto": "Que contient le développement de l'essai ?", "verso": "Thèse, arguments, exemples précis (œuvres littéraires, artistiques, personnelles)."},
-            {"recto": "Que contient la conclusion de l'essai ?", "verso": "Rappel de la réponse à la problématique, synthèse, ouverture."},
-            {"recto": "Comment trouver des arguments ?", "verso": "Brainstorming (idées en vrac), puis classement par thèmes."},
-            {"recto": "Comment illustrer ses arguments ?", "verso": "Avec des exemples précis (livres, films, œuvres d'art, expériences personnelles)."},
-            {"recto": "Quelle est l'erreur à éviter dans l'essai ?", "verso": "Donner son avis subjectif sans le justifier. Toujours argumenter."}
+            {"recto": "Essai au brevet.", "verso": "Sujet de réflexion."},
+            {"recto": "Structure de l'essai.", "verso": "Introduction, développement (3 paragraphes), conclusion."},
+            {"recto": "Introduction de l'essai.", "verso": "Explication du sujet, problématique, plan."},
+            {"recto": "Développement.", "verso": "Thèse, arguments, exemples (œuvres, expériences)."},
+            {"recto": "Conclusion.", "verso": "Rappel, synthèse, ouverture."},
+            {"recto": "Trouver des arguments.", "verso": "Brainstorming puis classement."},
+            {"recto": "Illustrer ses arguments.", "verso": "Livres, films, œuvres, expériences."},
+            {"recto": "Erreur à éviter.", "verso": "Donner son avis sans le justifier."}
           ]
         }
       ]
