@@ -67,7 +67,7 @@
     sciences: { nom: "Sciences", points: 20, criteres: "Connaissances (6 pts), démarche scientifique (6 pts), rigueur (4 pts), expression (4 pts)", methodologie: "Démarche scientifique : 1. Problématique/hypothèse. 2. Protocole expérimental. 3. Résultats observés. 4. Interprétation/conclusion." }
   };
 
-  async function callCorrection(texte, matiere) {
+  async function <a href="correcteur-ia.html" target="_blank">🤖 Corriger avec l'IA (nouvelle version)</a>
     const b = baremes[matiere];
     const prompt = `Tu es correcteur expert du brevet des collèges.
 
@@ -134,7 +134,7 @@ Réponds UNIQUEMENT au format JSON (sans texte avant ou après) :
     const matiere = document.getElementById("matiereSelect").value;
     document.getElementById("loading").style.display = "block";
     document.getElementById("resultat").style.display = "none";
-    const correction = await callCorrection(texte, matiere);
+    const correction = await <a href="correcteur-ia.html" target="_blank">🤖 Corriger avec l'IA (nouvelle version)</a>;
     document.getElementById("loading").style.display = "none";
     afficherCorrection(correction, matiere);
   });
