@@ -3,307 +3,459 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔬 Sciences — Brevet 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Sujets Sciences — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--purple:#a98af5;--r:14px;--r-sm:8px;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--purple);border:1px solid rgba(169,138,245,0.3);background:rgba(169,138,245,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--purple);font-style:italic;}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
-.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
-.sujet-card:hover{border-color:rgba(169,138,245,0.4);transform:translateY(-2px);}
-.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
-.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
-.who-row{display:flex;gap:10px;margin-bottom:20px;}
-.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
-.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
-.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
-#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
-.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
-.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--purple);}
-.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
-.back:hover{background:rgba(255,255,255,0.04);}
-.chrono-bar{background:rgba(169,138,245,0.06);border-bottom:1px solid rgba(169,138,245,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--purple);}
-.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.chrono-btns{display:flex;gap:8px;}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(169,138,245,0.3);background:rgba(169,138,245,0.07);color:var(--purple);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
-.s-body{padding:24px;}
-.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
-.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--purple);}
-.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
-.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
-.partie-body{padding:20px;}
-.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--purple);}
-.q-block{margin-bottom:16px;}
-.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--purple);font-weight:700;min-width:24px;margin-top:2px;}
-.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
-.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
-.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
-.answer-ta:focus{border-color:rgba(169,138,245,0.4);}
-.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(169,138,245,0.25);background:rgba(169,138,245,0.06);color:var(--purple);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
-.corr-btn:hover{background:rgba(169,138,245,0.12);}
-.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
-.corr-box.show{display:block;}
-.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
-.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
-.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.ae-label{font-size:13px;flex:1;}
-.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
-.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
-.ae-total{background:linear-gradient(135deg,rgba(169,138,245,0.1),rgba(169,138,245,0.05));border:1px solid rgba(169,138,245,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
-.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--purple);}
-.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
-.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btns{display:flex;gap:10px;margin-top:12px;}
-.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
-.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btn.primary{background:linear-gradient(135deg,var(--purple),#7c5ece);border:none;color:#f0ede8;font-weight:700;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
-.toast.show{opacity:1;transform:translateY(0);}
-.toast.ok{border-color:rgba(126,207,138,0.4);color:var(--green);}
-.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
-@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
+  :root {
+    --bg: #09090f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a38;
+    --gold: #e8c87a;
+    --gold-dim: #c4a655;
+    --teal: #5ecfb1;
+    --teal-dim: #3aad91;
+    --red: #e87a7a;
+    --violet: #a07af5;
+    --violet-dim: #7c5cd4;
+    --text: #e8e8f0;
+    --text-dim: #9090a8;
+    --text-muted: #5a5a72;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
 
-/* IA */
-.ai-btn{width:100%;margin-top:8px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:8px;padding:12px;color:#080600;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.2s;}
-.ai-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
-.ai-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
-.ai-loading{display:none;text-align:center;padding:16px;background:rgba(232,200,122,0.04);border:1px solid rgba(232,200,122,0.12);border-radius:8px;margin-top:8px;}
-.ai-spin{width:24px;height:24px;border:2px solid rgba(232,200,122,0.2);border-top-color:#e8c87a;border-radius:50%;animation:aiSp 0.8s linear infinite;margin:0 auto 8px;}
-@keyframes aiSp{to{transform:rotate(360deg)}}
-.ai-result{display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
-.ai-score-bar{padding:14px 18px;display:flex;align-items:center;gap:14px;}
-.ai-score-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;line-height:1;flex-shrink:0;}
-.ai-score-info{flex:1;font-size:11px;}
-.ai-pbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:5px;}
-.ai-pbar-fill{height:100%;border-radius:999px;transition:width 1s ease;}
-.ai-body{padding:14px 18px;background:rgba(0,0,0,0.2);font-size:12px;}
-.ai-annote{line-height:2;margin-bottom:12px;padding:12px;background:rgba(255,255,255,0.03);border-radius:6px;font-size:13px;}
-.ar{background:rgba(245,85,85,0.15);border-bottom:2px solid #f55a5a;cursor:help;position:relative;}
-.av{background:rgba(126,207,138,0.12);border-bottom:2px solid #7ecf8a;}
-.ar .tt{display:none;position:absolute;bottom:calc(100%+5px);left:0;background:#1a1a26;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:8px 12px;font-size:11px;color:#f0ede8;line-height:1.5;z-index:20;min-width:180px;max-width:280px;white-space:normal;}
-.ar:hover .tt{display:block;}
-.ai-sec{margin-bottom:10px;}
-.ai-sec-t{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.06);}
-.ai-sec-b{color:rgba(240,237,232,0.55);line-height:1.6;}
-.ai-sec-b ul{margin-left:12px;}.ai-sec-b li{margin-bottom:2px;}
-.ai-sec-b strong{color:#f0ede8;}
-.ai-r .ai-sec-t{color:#f55a5a;}.ai-v .ai-sec-t{color:#7ecf8a;}
-.ai-g .ai-sec-t{color:#e8c87a;}.ai-p .ai-sec-t{color:#a98af5;}
+  .header { background: linear-gradient(135deg,#09090f,#12121f); border-bottom: 1px solid var(--border); padding: 28px 24px 20px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+  .header-inner { max-width: 920px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .back-btn { color: var(--text-dim); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+  .back-btn:hover { color: var(--teal); }
+  .header-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+  .header-title span { color: var(--violet); }
+  .counter { margin-left: auto; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 13px; color: var(--text-dim); }
+  .counter b { color: var(--teal); }
+
+  .hero { max-width: 920px; margin: 0 auto; padding: 40px 24px 24px; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(24px,5vw,36px); font-weight: 800; line-height: 1.15; margin-bottom: 12px; }
+  .hero h1 em { font-style: normal; color: var(--violet); }
+  .hero p { color: var(--text-dim); font-size: 14px; max-width: 560px; }
+  .hero-note { margin-top: 12px; background: rgba(160,122,245,.08); border: 1px solid var(--violet-dim); border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--text-dim); }
+  .hero-note strong { color: var(--violet); }
+
+  .legend { max-width: 920px; margin: 0 auto 8px; padding: 0 24px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .sujet-list { max-width: 920px; margin: 0 auto; padding: 0 24px 80px; display: flex; flex-direction: column; gap: 14px; }
+  .sujet-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .2s; }
+  .sujet-card:hover { border-color: #4a3a6a; }
+  .sujet-card.open { border-color: var(--violet-dim); }
+
+  .sujet-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; cursor: pointer; user-select: none; }
+  .sujet-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--border); min-width: 38px; line-height: 1; }
+  .sujet-card.open .sujet-num { color: var(--violet); }
+  .sujet-meta { flex: 1; min-width: 0; }
+  .sujet-titre { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .sujet-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .sujet-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
+  .tag.pc { border-color: #5eaacf; color: #5eaacf; }
+  .tag.svt { border-color: #5ecf8a; color: #5ecf8a; }
+  .tag.y24 { border-color: var(--gold-dim); color: var(--gold); }
+  .tag.y23 { border-color: var(--teal-dim); color: var(--teal); }
+  .tag.y22 { border-color: #a07af5; color: #a07af5; }
+
+  .sujet-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-direction: column; align-items: flex-end; }
+  .dl-btn { display: flex; align-items: center; gap: 6px; background: var(--violet); color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 7px 12px; border-radius: 7px; text-decoration: none; transition: background .2s, transform .15s; white-space: nowrap; }
+  .dl-btn:hover { background: var(--violet-dim); transform: translateY(-1px); }
+  .warning-tip { font-size: 11px; color: var(--red); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .chevron { color: var(--text-muted); transition: transform .3s; font-size: 18px; }
+  .sujet-card.open .chevron { transform: rotate(180deg); color: var(--violet); }
+
+  .sujet-body { display: none; border-top: 1px solid var(--border); }
+  .sujet-card.open .sujet-body { display: block; }
+
+  .progress-bar-wrap { padding: 10px 22px; background: var(--surface2); display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-dim); }
+  .progress-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--violet); border-radius: 2px; transition: width .4s; }
+
+  .discipline-header { padding: 14px 22px 6px; display: flex; align-items: center; gap: 10px; }
+  .disc-badge { font-size: 11px; font-weight: 700; font-family: 'Syne', sans-serif; padding: 3px 10px; border-radius: 4px; letter-spacing: .06em; }
+  .disc-badge.pc { background: rgba(94,170,207,.12); color: #5eaacf; border: 1px solid #5eaacf44; }
+  .disc-badge.svt { background: rgba(94,207,138,.12); color: #5ecf8a; border: 1px solid #5ecf8a44; }
+  .disc-pts { font-size: 12px; color: var(--text-muted); }
+
+  .question-block { padding: 14px 22px 18px; border-bottom: 1px solid var(--border); }
+  .question-block:last-child { border-bottom: none; }
+  .q-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .q-num { background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; min-width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .q-num.done { background: rgba(160,122,245,.12); border-color: var(--violet-dim); color: var(--violet); }
+  .q-text { font-size: 14px; color: var(--text); flex: 1; line-height: 1.55; }
+  .q-text strong { color: var(--gold); }
+  .q-text em { color: var(--teal); font-style: normal; }
+  .pdf-note { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--violet); background: rgba(160,122,245,.08); border: 1px solid rgba(160,122,245,.2); border-radius: 5px; padding: 2px 8px; margin-bottom: 6px; }
+
+  .answer-input-wrap { margin-top: 8px; position: relative; }
+  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 100px 9px 12px; resize: none; min-height: 56px; outline: none; transition: border-color .2s; }
+  .answer-input:focus { border-color: var(--violet-dim); }
+  .answer-input::placeholder { color: var(--text-muted); }
+  .send-btn { position: absolute; right: 7px; bottom: 7px; background: var(--violet); color: #fff; border: none; border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 6px 12px; cursor: pointer; transition: background .2s, transform .15s; }
+  .send-btn:hover { background: var(--violet-dim); transform: translateY(-1px); }
+  .send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  .correction-panel { margin-top: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: none; }
+  .correction-panel.visible { display: block; }
+  .correction-tabs { display: flex; border-bottom: 1px solid var(--border); }
+  .ctab { flex: 1; padding: 9px 14px; font-size: 11px; font-family: 'Syne', sans-serif; font-weight: 600; color: var(--text-muted); cursor: pointer; text-align: center; transition: color .2s, background .2s; border: none; background: none; }
+  .ctab.active { color: var(--violet); background: rgba(160,122,245,.06); border-bottom: 2px solid var(--violet); }
+  .correction-body { padding: 14px; font-size: 13px; color: var(--text); line-height: 1.6; display: none; }
+  .correction-body.active { display: block; }
+  .loading { color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+  .dot-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)} }
+  .score-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(94,207,177,.1); border: 1px solid var(--teal-dim); color: var(--teal); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 3px 9px; border-radius: 20px; margin-bottom: 8px; }
+  .score-badge.wrong { background: rgba(232,122,122,.1); border-color: var(--red); color: var(--red); }
+  .score-badge.partial { background: rgba(232,200,122,.1); border-color: var(--gold-dim); color: var(--gold); }
+  .conseil-block { margin-top: 8px; padding: 10px 13px; background: rgba(160,122,245,.06); border-left: 3px solid var(--violet); border-radius: 0 6px 6px 0; font-size: 12px; color: var(--text-dim); }
+  .conseil-block strong { color: var(--violet); display: block; margin-bottom: 4px; }
+  .correction-officielle { margin-top: 12px; padding: 10px; background: rgba(232,122,122,.1); border-left: 3px solid var(--red); border-radius: 0 6px 6px 0; font-size: 12px; color: var(--text-dim); }
+  .correction-officielle strong { color: var(--red); display: block; margin-bottom: 4px; }
+  .btn-copy { background: var(--surface); border: 1px solid var(--violet-dim); color: var(--violet); padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; margin-top: 8px; transition: all .2s; }
+  .btn-copy:hover { background: rgba(160,122,245,.1); transform: translateY(-1px); }
+  .btn-save-all { background: var(--surface); border: 1px solid var(--violet-dim); color: var(--violet); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin: 16px 22px; width: calc(100% - 44px); transition: all .2s; }
+  .btn-save-all:hover { background: rgba(160,122,245,.1); transform: translateY(-1px); }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--violet-dim); color: var(--violet); font-size: 13px; padding: 10px 18px; border-radius: 8px; z-index: 999; transform: translateY(20px); opacity: 0; transition: all .3s; pointer-events: none; }
+  .toast.show { transform: translateY(0); opacity: 1; }
 </style>
 </head>
 <body>
-<div id="home">
-  <div class="badge">🔬 Sujets blancs complets — Sciences</div>
-  <h1>Brevet Blanc <em>Sciences</em></h1>
-  <p class="sub">10 sujets complets format DNB. Physique-Chimie et SVT. Questions + démarche scientifique + schémas.</p>
-  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
-  <div class="who-row">
-    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
-    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+
+<div class="header">
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">← Hub</a>
+    <div class="header-title">Sujets <span>Sciences</span></div>
+    <div class="counter">Sujet <b id="openCount">0</b>/10 commencé</div>
   </div>
-  <div class="sujets-grid" id="sujets-grid"></div>
-  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
 </div>
 
-<div id="sujet-page">
-  <div class="s-header">
-    <div><div class="s-logo">🔬 Brevet Blanc Sciences</div><div class="s-meta" id="s-meta">—</div></div>
-    <button class="back" onclick="goHome()">← Retour</button>
+<div class="hero">
+  <h1>10 vrais sujets<br><em>DNB Sciences</em></h1>
+  <p>Physique-Chimie + SVT sur la même copie. Réponds question par question, l'IA corrige et conseille.</p>
+  <div class="hero-note">
+    <strong>📌 Important :</strong> Chaque sujet DNB Sciences comporte <strong>2 parties</strong> : Physique-Chimie (25 pts) et SVT (25 pts), à traiter sur la même copie en 1h.
   </div>
-  <div class="chrono-bar">
-    <span style="font-size:11px;color:var(--purple);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre</span>
-    <div class="chrono-time" id="chrono">1:00:00</div>
-    <div class="chrono-btns">
-      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
-      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
-    </div>
-  </div>
-  <div class="s-body" id="s-body"></div>
 </div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#5eaacf"></div> Physique-Chimie</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#5ecf8a"></div> SVT</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> 2024</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> 2023</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--violet)"></div> 2022</div>
+</div>
+
+<div class="sujet-list" id="sujetList"></div>
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEETS={W:'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec',N:'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec'};
+// ============================================================
+// 🔑 TON PROXY CORRECT (WASSIL)
+// ============================================================
+const PROXY = 'https://script.google.com/macros/s/AKfycbzwWg7hZXisq3QJfff0499_9Ms6wDbm38mxaSdWdmTE-6oUGMfi90Hi7fNFZH6L_RdB/exec';
 
-const SUJETS = [
-  {
-    id: 1, titre: "Réflexion de la lumière et miroirs",
-    enonce: "Un rayon lumineux arrive sur un miroir plan avec un angle d'incidence de 35°. Tracez le rayon réfléchi et calculez l'angle de réflexion.",
-    questions: [
-      { n: "1", pts: 2, q: "Rappelez la loi de la réflexion. Que vaut l'angle de réflexion ?", c: "Loi : angle d'incidence = angle de réflexion. L'angle de réflexion vaut donc 35°." },
-      { n: "2", pts: 3, q: "Dessinez la situation (miroir, normale, rayons incident et réfléchi) et expliquez ce qu'est la normale.", c: "La normale est la perpendiculaire à la surface au point d'incidence. Le rayon incident et le rayon réfléchi sont symétriques par rapport à la normale." },
-      { n: "3", pts: 2, q: "Si l'angle d'incidence devient 0°, que se passe-t-il ?", c: "Si l'angle d'incidence = 0°, le rayon arrive perpendiculairement au miroir. L'angle de réflexion est aussi 0°, le rayon repart dans la direction opposée." }
-    ]
-  },
-  {
-    id: 2, titre: "La photosynthèse",
-    enonce: "Les plantes vertes produisent leur matière organique à partir de la lumière, de l'eau et du dioxyde de carbone.",
-    questions: [
-      { n: "1", pts: 2, q: "Écrivez l'équation bilan de la photosynthèse.", c: "6 CO₂ + 6 H₂O → (lumière, chlorophylle) → C₆H₁₂O₆ + 6 O₂" },
-      { n: "2", pts: 3, q: "Où se déroule la photosynthèse dans la plante ? Quelle est la molécule verte impliquée ?", c: "La photosynthèse se déroule dans les chloroplastes des cellules des feuilles. La chlorophylle est le pigment vert qui capte l'énergie lumineuse." },
-      { n: "3", pts: 2, q: "Pourquoi la plante a-t-elle besoin d'eau pour fabriquer sa matière organique ?", c: "L'eau fournit les ions hydrogène (H⁺) nécessaires à la réduction du CO₂ en glucose. Elle est indispensable pour former les molécules organiques." }
-    ]
-  },
-  {
-    id: 3, titre: "L'énergie électrique",
-    enonce: "Une lampe de 60 W est allumée pendant 2 heures. Calculez l'énergie consommée en joules et en wattheures.",
-    questions: [
-      { n: "1", pts: 2, q: "Rappelez la formule reliant puissance, énergie et temps.", c: "E = P × t, avec E en joules (J), P en watts (W), t en secondes (s). En Wh : E(Wh) = P(W) × t(h)." },
-      { n: "2", pts: 3, q: "Calculez l'énergie en Wh. Puis convertissez en joules (1 Wh = 3600 J).", c: "E(Wh) = 60 W × 2 h = 120 Wh. E(J) = 120 × 3600 = 432 000 J." },
-      { n: "3", pts: 2, q: "Si le kWh est facturé 0,20 €, quel est le coût de fonctionnement ?", c: "120 Wh = 0,120 kWh. Coût = 0,120 × 0,20 = 0,024 €, soit 2,4 centimes d'euro." }
-    ]
-  },
-  {
-    id: 4, titre: "La reproduction humaine",
-    enonce: "Décrivez le trajet des spermatozoïdes depuis la production jusqu'à la fécondation.",
-    questions: [
-      { n: "1", pts: 2, q: "Où sont produits les spermatozoïdes ?", c: "Les spermatozoïdes sont produits dans les testicules, plus précisément dans les tubes séminifères." },
-      { n: "2", pts: 3, q: "Décrivez le trajet complet.", c: "Testicules → épididyme (maturation) → canal déférent → voies génitales (urètre) → vagin → utérus → trompes de Fallope (rencontre avec l'ovule)." },
-      { n: "3", pts: 2, q: "Où a lieu la fécondation ? Combien de chromosomes l'œuf possède-t-il ?", c: "La fécondation a lieu dans la trompe de Fallope. L'œuf possède 46 chromosomes (23 de chaque parent)." }
-    ]
-  },
-  {
-    id: 5, titre: "La loi d'Ohm",
-    enonce: "Un conducteur ohmique de résistance 220 Ω est traversé par un courant de 0,5 A. Calculez la tension à ses bornes.",
-    questions: [
-      { n: "1", pts: 2, q: "Rappelez la loi d'Ohm.", c: "U = R × I, avec U en volts (V), R en ohms (Ω), I en ampères (A)." },
-      { n: "2", pts: 3, q: "Calculez la tension U.", c: "U = 220 Ω × 0,5 A = 110 V." },
-      { n: "3", pts: 2, q: "Si on augmente la résistance à 440 Ω à intensité constante, comment évolue la tension ?", c: "La tension double : U = 440 × 0,5 = 220 V. La tension est proportionnelle à la résistance." }
-    ]
-  },
-  {
-    id: 6, titre: "Les séismes et ondes sismiques",
-    enonce: "Lors d'un séisme, on enregistre les ondes P et S. Expliquez leurs différences.",
-    questions: [
-      { n: "1", pts: 2, q: "Quelles sont les vitesses respectives des ondes P et S ?", c: "Les ondes P sont plus rapides (environ 6 km/s dans la croûte) que les ondes S (environ 3,5 km/s)." },
-      { n: "2", pts: 3, q: "Quelle est la nature de chaque onde ?", c: "Ondes P : ondes de compression (longitudinales) – la matière vibre dans la direction de propagation. Ondes S : ondes de cisaillement (transversales) – la matière vibre perpendiculairement." },
-      { n: "3", pts: 2, q: "Pourquoi les ondes S ne traversent-elles pas le noyau externe ?", c: "Les ondes S ne se propagent pas dans les liquides. Le noyau externe est liquide, donc elles sont arrêtées." }
-    ]
-  },
-  {
-    id: 7, titre: "La digestion des glucides",
-    enonce: "L'amidon est une macromolécule complexe. Décrivez sa digestion dans le tube digestif.",
-    questions: [
-      { n: "1", pts: 2, q: "Quelle enzyme digère l'amidon ? Où est-elle produite ?", c: "L'amylase (ou ptyaline). Elle est produite par les glandes salivaires (bouche) et par le pancréas (amylase pancréatique dans l'intestin)." },
-      { n: "2", pts: 3, q: "Quels sont les produits finaux de la digestion de l'amidon ?", c: "L'amidon est digéré en maltose (dans la bouche), puis en glucose (dans l'intestin grâce à la maltase). Le glucose est la molécule absorbable." },
-      { n: "3", pts: 2, q: "À quel moment du tube digestif se fait l'absorption du glucose ?", c: "L'absorption du glucose se fait dans l'intestin grêle (au niveau des villosités intestinales)." }
-    ]
-  },
-  {
-    id: 8, titre: "Circuit en série et en dérivation",
-    enonce: "Deux lampes de résistances 100 Ω et 200 Ω sont branchées en série sur une pile de 6 V. Calculez l'intensité.",
-    questions: [
-      { n: "1", pts: 2, q: "Calculez la résistance équivalente du circuit en série.", c: "Req = R1 + R2 = 100 + 200 = 300 Ω." },
-      { n: "2", pts: 3, q: "Calculez l'intensité du courant dans le circuit.", c: "I = U / Req = 6 V / 300 Ω = 0,02 A = 20 mA." },
-      { n: "3", pts: 2, q: "Si on branche les deux lampes en dérivation, quelle est la nouvelle résistance équivalente ?", c: "1/Req = 1/100 + 1/200 = 2/200 + 1/200 = 3/200 → Req = 200/3 ≈ 66,7 Ω. L'intensité totale augmente." }
-    ]
-  },
-  {
-    id: 9, titre: "La classification du vivant",
-    enonce: "Classez les êtres vivants suivants dans les groupes emboîtés : Homme, Chat, Pin, Champignon, Bactérie.",
-    questions: [
-      { n: "1", pts: 2, q: "Quels attributs partagent l'Homme et le Chat ?", c: "Ils partagent l'attribut 'vertébrés' (mammifères, mais le plus proche est 'Eucaryotes pluricellulaires animaux')." },
-      { n: "2", pts: 3, q: "Construisez un arbre de parenté simplifié avec ces 5 espèces.", c: "Arbre : (Bactérie (Champignon (Pin (Homme, Chat)))) → Eucaryotes (Champignon + Végétal + Animal), Végétaux (Pin), Animaux (Homme + Chat)." },
-      { n: "3", pts: 2, q: "Qu'est-ce qu'un groupe monophylétique ? Donnez un exemple.", c: "Un groupe monophylétique comprend un ancêtre commun et tous ses descendants. Exemple : les mammifères." }
-    ]
-  },
-  {
-    id: 10, titre: "Combustion et bilan de matière",
-    enonce: "On brûle 12 g de carbone dans 32 g de dioxygène. Il se forme uniquement du dioxyde de carbone.",
-    questions: [
-      { n: "1", pts: 2, q: "Écrivez l'équation de la combustion du carbone.", c: "C + O₂ → CO₂" },
-      { n: "2", pts: 3, q: "Quelle masse de CO₂ obtient-on ? Justifiez avec la loi de conservation de la masse.", c: "Masse totale avant = 12 + 32 = 44 g. La masse se conserve, donc masse de CO₂ = 44 g." },
-      { n: "3", pts: 2, q: "Si on brûle 24 g de carbone avec 32 g de dioxygène, lequel est en excès ? Quelle masse de CO₂ se forme ?", c: "Réaction : 12 g C réagissent avec 32 g O₂. Pour 24 g C, il faudrait 64 g O₂. O₂ limitant. Masse C consommé : (12/32)×32 = 12 g. Masse CO₂ = 12 + 32 = 44 g. Il reste 24-12 = 12 g C non brûlé." }
-    ]
+let correctionsIA = {};
+
+async function callIA(prompt, system) {
+  try {
+    const response = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, system })
+    });
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const result = await response.json();
+    // Structure de réponse attendue : { success: true, content: "..." }
+    if (result.success && result.content) return result.content;
+    if (result.content) return result.content;
+    throw new Error('Réponse inattendue');
+  } catch(e) {
+    console.error('Erreur callIA:', e);
+    throw e;
   }
+}
+
+async function copierCorrection(texte, btn) {
+  try {
+    await navigator.clipboard.writeText(texte);
+    const original = btn.textContent;
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => { btn.textContent = original; }, 1500);
+  } catch(e) { toast('Impossible de copier'); }
+}
+
+function sauvegarderToutesCorrections(sujetId, annee, session, titre, questions) {
+  const corrections = {};
+  for (let i = 0; i < questions.length; i++) {
+    const numQ = i + 1;
+    if (correctionsIA[sujetId] && correctionsIA[sujetId][numQ]) {
+      corrections[numQ] = { ia: correctionsIA[sujetId][numQ] };
+    } else {
+      corrections[numQ] = { ia: "Non corrigée (aucune réponse IA générée)" };
+    }
+  }
+  const data = {
+    sujet: sujetId,
+    annee: annee,
+    session: session,
+    titre: titre,
+    date: new Date().toISOString(),
+    corrections: corrections
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Sujet${sujetId}_${annee}_${session.replace(/[()]/g, '').replace(/ /g, '_')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  const nb = Object.keys(correctionsIA[sujetId] || {}).length;
+  toast(`✅ ${nb}/${questions.length} corrections sauvegardées`);
+}
+
+async function corrigerQuestion(sujetId, qid, questionText, reponseOfficielle, points, ansId, panelId, numId) {
+  const answer = document.getElementById(ansId).value.trim();
+  if (!answer) { toast('Écris ta réponse avant de corriger !'); return; }
+  
+  const panel = document.getElementById(panelId);
+  panel.classList.add('visible');
+  const corrBody = document.getElementById(panelId + '-0');
+  const conseilBody = document.getElementById(panelId + '-1');
+  corrBody.innerHTML = '<div class="loading"><div class="dot-pulse"></div> Correction en cours...</div>';
+  conseilBody.innerHTML = '<div class="loading"><div class="dot-pulse"></div> Analyse en cours...</div>';
+  
+  const btn = document.getElementById(ansId).parentElement.querySelector('.send-btn');
+  if (btn) btn.disabled = true;
+  
+  const systemPrompt = `Tu es un professeur de Sciences (Physique-Chimie et SVT) bienveillant qui corrige des réponses au DNB.`;
+  const fullPrompt = `Question : ${questionText}\n\nRéponse de l'élève : "${answer}"\n\nBarème : ${points} points.\n\nRéponse officielle pour référence : ${reponseOfficielle}\n\nRéponds en deux parties séparées par "---CONSEILS---". La première partie "CORRECTION" avec ✓/✗/~, les points estimés, et la réponse attendue. La seconde partie "CONSEILS" avec les points à retenir.`;
+  
+  try {
+    const response = await callIA(fullPrompt, systemPrompt);
+    const parts = response.split(/---CONSEILS---/i);
+    const correction = parts[0].replace(/CORRECTION/i, '').trim();
+    const conseils = parts[1] ? parts[1].trim() : 'Relis ton cours et compare avec la réponse officielle.';
+    
+    let badgeClass = 'score-badge';
+    if (correction.includes('✓')) badgeClass += '';
+    else if (correction.includes('✗')) badgeClass += ' wrong';
+    else badgeClass += ' partial';
+    
+    corrBody.innerHTML = `<div class="${badgeClass}">${correction.substring(0, 400)}</div>`;
+    conseilBody.innerHTML = `<div class="conseil-block"><strong>💡 À retenir</strong><br>${conseils}</div>`;
+    
+    const officielleDiv = document.createElement('div');
+    officielleDiv.className = 'correction-officielle';
+    officielleDiv.innerHTML = `<strong>📖 Correction officielle :</strong><br>${reponseOfficielle}`;
+    corrBody.appendChild(officielleDiv);
+    
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-copy';
+    copyBtn.textContent = '📋 Copier la correction';
+    copyBtn.onclick = () => copierCorrection(correction, copyBtn);
+    corrBody.appendChild(copyBtn);
+    
+    if (!correctionsIA[sujetId]) correctionsIA[sujetId] = {};
+    correctionsIA[sujetId][qid] = correction;
+    
+    const qNum = document.getElementById(numId);
+    if (qNum) qNum.classList.add('done');
+    updateProgress(sujetId);
+  } catch(e) {
+    corrBody.innerHTML = '<span style="color:var(--red)">❌ Erreur de connexion. Vérifie ta connexion internet et réessaie.</span>';
+  }
+  if (btn) btn.disabled = false;
+}
+
+function updateProgress(sujetId) {
+  const total = document.querySelectorAll(`#${sujetId} .question-block`).length;
+  const done = document.querySelectorAll(`#${sujetId} .q-num.done`).length;
+  const fill = document.getElementById(`prog-${sujetId}`);
+  const label = document.getElementById(`prog-label-${sujetId}`);
+  if (fill) fill.style.width = `${(done/total)*100}%`;
+  if (label) label.textContent = `${done}/${total}`;
+}
+
+function toggleCard(cardId) {
+  const card = document.getElementById(cardId);
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.sujet-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+function tab(panelId, idx) {
+  const panel = document.getElementById(panelId);
+  const tabs = panel.querySelectorAll('.ctab');
+  const bodies = panel.querySelectorAll('.correction-body');
+  tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+  bodies.forEach((b, i) => b.classList.toggle('active', i === idx));
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ============================================================
+// 10 SUJETS COMPLETS
+// ============================================================
+const SUJETS = [
+  { id: "s1", annee: "2024", session: "Métropole (juin)", titre: "Piscine olympique, pH, électricité", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2024/07/24GENSCMEAG1.pdf",
+    questions: [
+      { texte: "L'eau d'une piscine a un pH inférieur à 7. Donner les 2 inconvénients mentionnés dans le texte pour les baigneurs et les équipements.", pts: 4, reponse: "Pour les baigneurs : irritations des yeux et de la peau. Pour les équipements : corrosion des parois et des canalisations." },
+      { texte: "Un agent mesure l'eau avec du rouge de phénol et obtient une couleur rouge. a) L'eau est-elle acide, basique ou neutre ? Justifie. b) La formule du rouge de phénol est C₁₉H₁₄O₅S. Combien y a-t-il d'atomes de soufre (S) ? c) Le rouge de phénol est-il un corps pur ou un mélange ?", pts: 6, reponse: "a) Rouge de phénol → rouge = pH > 8 → basique. b) 1 atome de soufre. c) Corps pur (formule chimique définie)." },
+      { texte: "L'acide hypochloreux HClO est utilisé pour désinfecter la piscine. Explique son action sur les bactéries.", pts: 8, reponse: "HClO est un acide faible. Il se dissocie en H⁺ et ClO⁻. Il tue les bactéries par oxydation." },
+      { texte: "Calcule la consommation d'une pompe de 0,8 kW fonctionnant 8h par jour pendant 30 jours.", pts: 7, reponse: "E = P × t = 0,8 × (8×30) = 0,8 × 240 = 192 kWh." }
+    ] },
+  { id: "s2", annee: "2024", session: "Amérique du Nord", titre: "Oiseaux-éléphants, CO₂, énergie", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2024/06/24GEN-SC-AN1_v1.pdf",
+    questions: [
+      { texte: "Explique les causes possibles de l'extinction des oiseaux-éléphants de Madagascar.", pts: 8, reponse: "Chasse par l'homme, destruction de leur habitat, introduction de prédateurs, changement climatique." },
+      { texte: "Écris l'équation de dissolution du CO₂ dans l'eau de mer.", pts: 5, reponse: "CO₂ + H₂O → H₂CO₃ (acide carbonique)." },
+      { texte: "Un cycliste pédale à 50 W pendant 1 heure. Quelle énergie produit-il ?", pts: 4, reponse: "E = P × t = 50 W × 3600 s = 180 000 J = 0,05 kWh." },
+      { texte: "Pourquoi utilise-t-on des batteries lithium-ion dans les véhicules électriques ?", pts: 8, reponse: "Légèreté, haute densité énergétique, recharge rapide, longue durée de vie." }
+    ] },
+  { id: "s3", annee: "2023", session: "Métropole (juin)", titre: "Algues rouges, transformations chimiques", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/06/23GENSCMEAG1.pdf",
+    questions: [
+      { texte: "Explique la différence entre reproduction sexuée et asexuée chez l'algue rouge.", pts: 6, reponse: "Sexuée : fusion de gamètes, diversité génétique. Asexuée : fragmentation ou spores, clones identiques." },
+      { texte: "Quels facteurs environnementaux influencent la croissance de la population d'idotées ?", pts: 5, reponse: "Température, nourriture, prédateurs, compétition, qualité de l'eau." },
+      { texte: "Écris l'équation de combustion complète du méthane.", pts: 4, reponse: "CH₄ + 2 O₂ → CO₂ + 2 H₂O." },
+      { texte: "Calcule l'énergie consommée par un appareil de 200 W fonctionnant 2h30.", pts: 5, reponse: "E = 200 × 2,5 = 500 Wh = 0,5 kWh." }
+    ] },
+  { id: "s4", annee: "2023", session: "Métropole (septembre)", titre: "Phénylcétonurie, génétique, CO₂", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/10/23GENSCMEAG3.pdf",
+    questions: [
+      { texte: "La phénylcétonurie est une maladie génétique. Explique le lien entre génotype et phénotype.", pts: 8, reponse: "Le génotype (allèles) détermine la production d'enzyme. L'allèle muté empêche la transformation de la phénylalanine." },
+      { texte: "Pourquoi un régime alimentaire spécifique permet-il de traiter cette maladie ?", pts: 6, reponse: "En évitant les aliments riches en phénylalanine, on empêche son accumulation toxique." },
+      { texte: "Calcule les émissions de CO₂ d'une voiture qui consomme 6L/100km sur 500km.", pts: 6, reponse: "Consommation = 6 × 5 = 30L. Émissions = 30 × 2,3 = 69 kg de CO₂." }
+    ] },
+  { id: "s5", annee: "2023", session: "Asie", titre: "Subduction, séismes, Chili", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/06/23GENSCAA1.pdf",
+    questions: [
+      { texte: "Explique le phénomène de subduction au Chili.", pts: 8, reponse: "La plaque de Nazca plonge sous la plaque sud-américaine, provoquant séismes et volcans." },
+      { texte: "Comment les ondes sismiques permettent-elles de localiser un séisme ?", pts: 6, reponse: "Différence de vitesse entre ondes P et S donne la distance à l'épicentre. Triangulation." },
+      { texte: "Calcule la vitesse d'une onde P si elle parcourt 200 km en 40 secondes.", pts: 6, reponse: "v = d/t = 200 000 / 40 = 5 000 m/s = 5 km/s." }
+    ] },
+  { id: "s6", annee: "2022", session: "Métropole (juin)", titre: "Tortues marines, température, énergie solaire", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/07/DNB-metropole.pdf",
+    questions: [
+      { texte: "Comment la température détermine-t-elle le sexe des tortues marines ?", pts: 6, reponse: "Température élevée → femelles, température basse → mâles." },
+      { texte: "Quel est l'impact du réchauffement climatique sur les tortues marines ?", pts: 6, reponse: "Déséquilibre du sex-ratio (trop de femelles), risque de disparition." },
+      { texte: "Calcule l'énergie produite par un panneau solaire de 300 W pendant 5 heures.", pts: 4, reponse: "E = 300 × 5 = 1 500 Wh = 1,5 kWh." },
+      { texte: "Un pH de 6 est-il acide ou basique ? Justifie.", pts: 4, reponse: "pH < 7 → acide." }
+    ] },
+  { id: "s7", annee: "2022", session: "Asie", titre: "Coccinelle asiatique, espèce invasive", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/06/DNB-Sciences-Asie-2022.pdf",
+    questions: [
+      { texte: "Pourquoi la coccinelle asiatique est-elle considérée comme une espèce invasive ?", pts: 6, reponse: "Elle prolifère rapidement, concurrence les espèces locales et n'a pas de prédateurs naturels." },
+      { texte: "Quels dégâts cause-t-elle en Europe ?", pts: 6, reponse: "Disparition des coccinelles natives, dégradation des cultures, nuisances dans les habitations." },
+      { texte: "Une solution de pH 9 est-elle acide ou basique ?", pts: 4, reponse: "pH 9 > 7 → basique." }
+    ] },
+  { id: "s8", annee: "2022", session: "Amérique du Nord", titre: "Tsunami, risques naturels", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/06/Sciences_brevet_Washington_.pdf",
+    questions: [
+      { texte: "Explique la formation d'un tsunami.", pts: 8, reponse: "Séisme sous-marin → déplacement vertical du fond marin → vague géante." },
+      { texte: "Quelles mesures de prévention existent contre les tsunamis ?", pts: 6, reponse: "Systèmes d'alerte, construction en hauteur, exercices d'évacuation." },
+      { texte: "Une onde sismique met 30s pour parcourir 150 km. Calcule sa vitesse.", pts: 6, reponse: "v = 150 000 / 30 = 5 000 m/s = 5 km/s." }
+    ] },
+  { id: "s9", annee: "2022", session: "Métropole (septembre)", titre: "Chlamydia, IST, sexualité", pdf: "https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/09/DNB-Metropole-septembre-2022.pdf",
+    questions: [
+      { texte: "Qu'est-ce que la chlamydia et comment se transmet-elle ?", pts: 8, reponse: "Infection sexuellement transmissible (IST), transmission par rapports non protégés." },
+      { texte: "Pourquoi le dépistage précoce est-il important ?", pts: 6, reponse: "Permet un traitement antibiotique efficace et évite les complications (stérilité)." },
+      { texte: "Cite deux moyens de prévention contre les IST.", pts: 6, reponse: "Préservatif, dépistage régulier." }
+    ] },
+  { id: "s10", annee: "2024", session: "Officiel education.gouv.fr", titre: "CO₂, batteries lithium, évolution", pdf: "https://www.education.gouv.fr/sites/default/files/document/Dipl%C3%B4me%20national%20du%20brevet%202024%20-%20Sciences-401865.pdf",
+    questions: [
+      { texte: "Comment le CO₂ contribue-t-il à l'acidification des océans ?", pts: 8, reponse: "CO₂ + H₂O → H₂CO₃ → libération d'ions H⁺, baisse du pH." },
+      { texte: "Pourquoi le lithium est-il utilisé dans les batteries ?", pts: 6, reponse: "Très réactif, léger, haute densité énergétique." },
+      { texte: "Explique le principe de l'évolution des espèces.", pts: 6, reponse: "Sélection naturelle : les mieux adaptés survivent et transmettent leurs gènes." }
+    ] }
 ];
 
-let who = null, currentIdx = 0, chronoSecs = 3600, running = false, chronoInterval = null;
-
-function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
-function renderHome() {
-  const g = document.getElementById('sujets-grid'); g.innerHTML = '';
-  const done = JSON.parse(localStorage.getItem('sciences_done_' + (who || 'X')) || '[]');
-  SUJETS.forEach((s, i) => {
-    const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i);
-    const isDone = done.includes(s.id);
-    d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Questions de sciences</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`;
-    g.appendChild(d);
+function renderSujets() {
+  const container = document.getElementById('sujetList');
+  container.innerHTML = '';
+  correctionsIA = {};
+  
+  SUJETS.forEach((s, idx) => {
+    const num = idx + 1;
+    const cardId = `s${num}`;
+    let html = `
+    <div class="sujet-card" id="${cardId}">
+      <div class="sujet-header" onclick="toggleCard('${cardId}')">
+        <div class="sujet-num">${num.toString().padStart(2,'0')}</div>
+        <div class="sujet-meta">
+          <div class="sujet-titre">DNB ${s.annee} — ${s.session}</div>
+          <div class="sujet-desc">${s.titre}</div>
+          <div class="sujet-tags">
+            <span class="tag pc">Physique-Chimie</span>
+            <span class="tag svt">SVT</span>
+            <span class="tag y${s.annee}">${s.annee}</span>
+          </div>
+        </div>
+        <div class="sujet-actions">
+          <a class="dl-btn" href="${s.pdf}" target="_blank">⬇ Télécharger le sujet</a>
+          <span class="chevron">▾</span>
+        </div>
+      </div>
+      <div class="sujet-body">
+        <div class="progress-bar-wrap">
+          <span>Progression</span>
+          <div class="progress-bar"><div class="progress-fill" id="prog-${cardId}" style="width:0%"></div></div>
+          <span id="prog-label-${cardId}">0 / ${s.questions.length}</span>
+        </div>`;
+    
+    for (let i = 0; i < s.questions.length; i++) {
+      const q = s.questions[i];
+      const qid = i + 1;
+      const ansId = `ans_${cardId}_${i}`;
+      const panelId = `panel_${cardId}_${i}`;
+      const numId = `num_${cardId}_${i}`;
+      const type = i < 2 ? "SVT" : "Physique-Chimie";
+      html += `
+        <div class="discipline-header" style="${i===2 && i!==0 ? 'border-top:1px solid var(--border)' : ''}">
+          <span class="disc-badge ${type === 'SVT' ? 'svt' : 'pc'}">${type}</span>
+          <span class="disc-pts">${q.pts} points</span>
+        </div>
+        <div class="question-block" id="qb_${cardId}_${i}">
+          <div class="q-header">
+            <div class="q-num" id="${numId}">Q${qid}</div>
+            <div class="q-text">${q.texte}</div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="${ansId}" rows="3" placeholder="Écris ta réponse ici..."></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('${cardId}', ${qid}, \`${q.texte.replace(/`/g, '\\`')}\`, \`${q.reponse.replace(/`/g, '\\`')}\`, ${q.pts}, '${ansId}', '${panelId}', '${numId}')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="${panelId}">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="tab('${panelId}',0)">✓ Correction</button>
+              <button class="ctab" onclick="tab('${panelId}',1)">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="${panelId}-0"></div>
+            <div class="correction-body" id="${panelId}-1"></div>
+          </div>
+        </div>`;
+    }
+    
+    html += `<div><button class="btn-save-all" onclick="sauvegarderToutesCorrections('${cardId}', '${s.annee}', '${s.session}', '${s.titre}', ${JSON.stringify(s.questions).replace(/"/g, '&quot;')})">💾 Sauvegarder toutes les corrections IA</button></div>`;
+    html += `</div></div>`;
+    container.innerHTML += html;
   });
 }
-function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 3600; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0, 0); }
-function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
-function renderSujet(s) {
-  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Énoncé</span><span class="partie-pts">20 pts</span></div><div class="partie-body"><div class="texte-box">${s.enonce}</div>`;
-  s.questions.forEach((q, i) => {
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="q${i}" placeholder="Ta réponse..."></textarea><button class="ai-btn" style="font-size:12px;padding:9px;margin-bottom:5px" id="ai-q${i}" onclick="corrigerIA('ai-q${i}','q${i}','${q.q.replace(/'/g, "\\'")}','science',${q.pts},'Sciences')">🔬 Corriger avec l'IA</button><div class="ai-loading" id="ai-q${i}_load"><div class="ai-spin"></div></div><div class="ai-result" id="ai-q${i}_result"></div><button class="corr-btn" onclick="tog('c${i}')">Voir correction</button><div class="corr-box" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
-  });
-  h += `</div></div><div class="auto-eval"><div class="ae-title">— Auto-évaluation</div><div class="ae-row"><span class="ae-label">Note totale sur 20</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div><div class="ae-total"><div class="ae-total-lbl">Note finale</div><div class="ae-total-num" id="ae-total">0/20</div></div></div>`;
-  h += `<div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
-  document.getElementById('s-body').innerHTML = h;
-}
-function tog(id) { document.getElementById(id).classList.toggle('show'); }
-function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const t = Math.min(a, 20); document.getElementById('ae-total').textContent = t + '/20'; }
-async function saveSujet() { const s = SUJETS[currentIdx]; const note = Math.min(parseInt(document.getElementById('ae1').value) || 0, 20); const done = JSON.parse(localStorage.getItem('sciences_done_' + (who || 'X')) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('sciences_done_' + (who || 'X'), JSON.stringify(done)); } const url = SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Sciences', annee: 'Sujet blanc ' + s.id, exercice: s.titre, score: Math.round(note / 20 * 20), pointsPerdus: 'Note:' + note + '/20', bloque: '', aRetravailler: '' }) }); showToast('✓ Note sauvegardée', 'ok'); } catch (e) { showToast('⚠ Sauvegarde impossible', 'err'); } }
-function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
-function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 3600; updateChrono(); }
-function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; el.className = 'chrono-time' + (chronoSecs < 300 ? ' urgent' : ''); }
-function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
-window.addEventListener('DOMContentLoaded', () => renderHome());
 
-// Proxy Apps Script utilisé — pas de clé ici
+window.corrigerQuestion = corrigerQuestion;
+window.sauvegarderToutesCorrections = sauvegarderToutesCorrections;
+window.toggleCard = toggleCard;
+window.tab = tab;
+window.copierCorrection = copierCorrection;
 
-async function corrigerIA(btnId, taId, question, typeExo, pts, matiere) {
-  const texte = document.getElementById(taId).value.trim();
-  if (!texte || texte.length < 10) { alert('Écris ta réponse avant de corriger !'); return; }
-  const btn = document.getElementById(btnId);
-  const loadEl = document.getElementById(btnId + '_load');
-  const resEl = document.getElementById(btnId + '_result');
-  btn.disabled = true;
-  if (loadEl) loadEl.style.display = 'block';
-  if (resEl) resEl.style.display = 'none';
-  const prompt = `Tu es correcteur DNB 2026 ${matiere}. Corrige cette réponse scientifique sur ${pts} pts. Critères: mots-clés scientifiques, exactitude, logique. JSON uniquement: {"noteTotal":X,"maxTotal":${pts},"sousNotes":"Mots-clés X, Exactitude X, Logique X","annotations":[{"t":"extrait 8-15 mots","type":"rouge","c":"commentaire"}],"motsClesManquants":["..."],"erreurLogique":"description ou null","methodologie":"<p>Cheminement attendu...</p>","conseil":"Conseil concret."}`;
-  try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec', {
-      method: 'POST', headers: { 'Content-Type': 'text/plain' }, redirect: 'follow',
-      body: JSON.stringify({ system: prompt, prompt: 'Question: ' + question + '\n\nRéponse élève:\n\n' + texte + '\n\nJSON uniquement.' })
-    });
-    const data = await res.json();
-    const rawText = data.content || (data.success && data.data && data.data.content) || '';
-    const json = JSON.parse(rawText.replace(/```json|```/g, '').trim());
-    renderAIRes(resEl, json, texte);
-  } catch (e) { alert('Erreur: ' + e.message); }
-  if (loadEl) loadEl.style.display = 'none';
-  btn.disabled = false;
-}
-function renderAIRes(el, j, orig) {
-  const pct = Math.round(j.noteTotal / j.maxTotal * 100);
-  const col = pct >= 75 ? '#7ecf8a' : pct >= 55 ? '#e8c87a' : '#f55a5a';
-  const bg = pct >= 75 ? 'rgba(126,207,138,0.08)' : pct >= 55 ? 'rgba(232,200,122,0.08)' : 'rgba(245,85,85,0.08)';
-  const barCol = pct >= 75 ? 'linear-gradient(90deg,#7ecf8a,#5ecfb1)' : pct >= 55 ? 'linear-gradient(90deg,#e8c87a,#f07a5a)' : 'linear-gradient(90deg,#f55a5a,#f07a5a)';
-  let html = `<div class="ai-score-bar" style="background:${bg}"><div class="ai-score-num" style="color:${col}">${j.noteTotal}/${j.maxTotal}</div><div class="ai-score-info"><div style="font-weight:700;color:${col}">${pct >= 75 ? 'Excellent' : pct >= 55 ? 'À améliorer' : 'Insuffisant'}</div><div class="ai-pbar-bg"><div class="ai-pbar-fill" id="${el.id}_pb" style="width:0%;background:${barCol}"></div></div></div></div><div class="ai-body">`;
-  if (j.motsClesManquants && j.motsClesManquants.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Mots-clés manquants</div><div class="ai-sec-b">${j.motsClesManquants.map(m => '<span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:999px;border:1px solid rgba(245,85,85,0.3);background:rgba(245,85,85,0.07);font-size:11px;color:#f55a5a">' + m + '</span>').join('')}</div></div>`;
-  if (j.erreurLogique) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Erreur logique</div><div class="ai-sec-b">${j.erreurLogique}</div></div>`;
-  if (j.methodologie) html += `<div class="ai-sec ai-g"><div class="ai-sec-t">Méthodologie</div><div class="ai-sec-b">${j.methodologie}</div></div>`;
-  if (j.conseil) html += `<div class="ai-sec ai-p"><div class="ai-sec-t">Conseil</div><div class="ai-sec-b"><strong>${j.conseil}</strong></div></div>`;
-  html += `</div>`;
-  el.innerHTML = html;
-  el.style.display = 'block';
-  setTimeout(() => { const b = document.getElementById(el.id + '_pb'); if (b) b.style.width = pct + '%'; }, 100);
-}
+renderSujets();
 </script>
 </body>
 </html>
