@@ -31,7 +31,7 @@
 <script>
 
 // ============================================================
-// 🔑 TON PROXY GOOGLE APPS SCRIPT
+// 🔑 TON PROXY GOOGLE APPS SCRIPT (sans ?action=)
 // ============================================================
 const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
 
@@ -44,12 +44,17 @@ async function callIA(prompt, system = "Tu es un correcteur bienveillant pour le
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const result = await response.json();
-    // Le script Google renvoie { success: true, data: { content: [...] } }
-    if (result.success && result.data && result.data.content) {
-      return result.data.content[0].text;
+    
+    // Gère les différentes structures possibles du proxy
+    if (result.success && result.data) {
+      if (typeof result.data === 'string') return result.data;
+      if (result.data.content) return result.data.content;
     }
+    if (typeof result === 'string') return result;
     if (result.content) return result.content;
-    if (result.data) return result.data;
+    if (result.text) return result.text;
+    
+    console.error('Structure inattendue:', result);
     throw new Error('Réponse inattendue du serveur');
   } catch(e) {
     console.error('Erreur callIA:', e);
@@ -58,7 +63,7 @@ async function callIA(prompt, system = "Tu es un correcteur bienveillant pour le
 }
 
 // ============================================================
-// FONCTIONS DE CORRECTION SPÉCIFIQUES
+// FONCTIONS DE CORRECTION
 // ============================================================
 
 async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
@@ -127,7 +132,7 @@ function afficherCorrection(id) {
 }
 
 // ============================================================
-// DONNÉES SUJETS (inchangé)
+// DONNÉES SUJETS (10 sujets complets)
 // ============================================================
 
 const SUJETS = [
