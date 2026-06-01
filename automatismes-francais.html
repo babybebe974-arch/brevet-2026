@@ -15,7 +15,6 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:1.5rem;}
 .container{max-width:860px;margin:0 auto;}
-
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
 .header h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;}
 .header h1 span{color:var(--teal);}
@@ -30,15 +29,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 .phase{display:none;}
 .phase.active{display:block;}
-
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
 .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;max-height:360px;overflow-y:auto;padding:4px;margin-bottom:1rem;}
 .ch-item{display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:8px 12px;cursor:pointer;transition:.15s;font-size:13px;user-select:none;}
 .ch-item:hover{border-color:var(--teal);}
 .ch-item.selected{border-color:var(--teal);background:rgba(94,207,177,.08);}
-.ch-item.faible{border-color:rgba(232,122,122,.4);}
 .ch-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:18px;}
-.ch-warn{margin-left:auto;font-size:10px;color:var(--red);}
 
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
 .btn{padding:8px 16px;border-radius:8px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:12px;cursor:pointer;transition:.15s;}
@@ -60,10 +56,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 
 .q-card{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:1.5rem;margin-bottom:1rem;}
 .q-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
-.q-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;}
-.q-badge.ch{background:var(--s2);border:1px solid var(--br);color:var(--dim);}
-.q-badge.tp{background:rgba(94,207,177,.1);border:1px solid rgba(94,207,177,.2);color:var(--teal);}
-.q-badge.rt{background:rgba(232,122,122,.1);border:1px solid rgba(232,122,122,.2);color:var(--red);}
+.q-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;background:var(--s2);border:1px solid var(--br);color:var(--dim);}
 .q-text{font-size:15px;font-weight:500;margin-bottom:1rem;line-height:1.5;}
 textarea.rep{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;resize:vertical;min-height:70px;outline:none;}
 textarea.rep:focus{border-color:var(--teal);}
@@ -81,18 +74,12 @@ textarea.rep:focus{border-color:var(--teal);}
 .score-big.ex{color:var(--teal);}
 .score-big.bi{color:var(--gold);}
 .score-big.ef{color:var(--red);}
-.faibles-box{background:var(--s2);border:1px solid rgba(232,122,122,.3);border-radius:8px;padding:12px;margin:1rem 0;text-align:left;}
-.faibles-box h4{color:var(--red);font-size:12px;margin-bottom:6px;}
-.faibles-box li{font-size:12px;color:var(--dim);padding:2px 0;}
 </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <div>
-      <h1>⚡ Automatismes <span>Français</span></h1>
-      <p>Choisis tes chapitres · 40 questions mélangées</p>
-    </div>
+    <div><h1>⚡ Automatismes <span>Français</span></h1><p>20-10-10 · Évaluation bienveillante</p></div>
     <a href="index.html" class="back-link">← Hub</a>
   </div>
 
@@ -107,27 +94,24 @@ textarea.rep:focus{border-color:var(--teal);}
     <div class="btn-row">
       <button class="btn" onclick="selectAll(true)">✅ Tout sélectionner</button>
       <button class="btn" onclick="selectAll(false)">❌ Tout désélectionner</button>
-      <button class="btn" onclick="selectFaibles()">⚠ Chapitres à revoir</button>
     </div>
     <div class="info-strip">
       <div class="pill">📚 <b id="nbCartes">0</b> cartes dispo</div>
-      <div class="pill">🎯 <b>40</b> questions/session</div>
+      <div class="pill">🎯 <b id="nbQuestions">0</b> questions</div>
       <div class="pill">⏱ <b>45 min</b></div>
     </div>
-    <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer (40 questions)</button>
+    <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer</button>
   </div>
 
   <div class="phase" id="phaseSession">
     <div class="timer-bar">
       <span class="timer-val" id="timerVal">45:00</span>
       <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-      <span id="qCount" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--dim)">Q 0/40</span>
+      <span id="qCount" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--dim)">Q 0/0</span>
     </div>
     <div id="qArea"></div>
     <div id="fbArea"></div>
-    <div id="nextWrap" style="display:none;margin-top:10px">
-      <button class="btn-primary" onclick="suivante()">→ Question suivante</button>
-    </div>
+    <div id="nextWrap" style="display:none;margin-top:10px"><button class="btn-primary" onclick="suivante()">→ Question suivante</button></div>
   </div>
 
   <div class="phase" id="phaseRes">
@@ -136,7 +120,6 @@ textarea.rep:focus{border-color:var(--teal);}
       <div class="score-big" id="scoreBig">0%</div>
       <div id="scoreDetail" style="font-size:14px;color:var(--dim);margin-bottom:8px"></div>
       <div id="msgFin" style="font-size:15px;color:var(--dim);margin-bottom:1rem"></div>
-      <div id="faiblesRes"></div>
       <div class="btn-row" style="justify-content:center;margin-top:1rem">
         <button class="btn-primary" onclick="location.reload()">📚 Nouvelle session</button>
         <button class="btn" onclick="window.location.href='suivi-parental.html'">📊 Suivi parental</button>
@@ -156,7 +139,6 @@ const CHAPITRES = {
   22:"Oral : échange",23:"Dictée",24:"Grammaire (analyse)",25:"Réécriture",26:"Essai"
 };
 
-// Cartes simplifiées (une par chapitre pour l'exemple)
 const CARTES = {
   1:{q:"Quelles sont les 9 classes grammaticales ?",r:"Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection."},
   2:{q:"Qu'est-ce que le COD ?",r:"Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'"},
@@ -190,36 +172,35 @@ let eleve = 'wassil';
 let sessionCartes = [], idx = 0, score = { ok: 0, total: 0 };
 let timerInt = null, tps = 45*60;
 
+// Stockage des erreurs pour spaced repetition
+let erreurs = {};
+
 function setEleve(e) {
   eleve = e;
   document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil' ? ' aw' : '');
   document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal' ? ' an' : '');
+  chargerErreurs();
 }
 
-function getFaibles() {
-  const sessions = JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]');
-  if (!sessions.length) return [];
-  const taux = {};
-  sessions.slice(0,5).forEach(s => {
-    if (s.chTaux) Object.entries(s.chTaux).forEach(([ch,t]) => {
-      if (!taux[ch]) taux[ch] = [];
-      taux[ch].push(t);
-    });
-  });
-  return Object.entries(taux).filter(([,v]) => v.reduce((a,b)=>a+b,0)/v.length < 60).map(([ch]) => parseInt(ch));
+function chargerErreurs() {
+  const saved = localStorage.getItem(`auto_fr_erreurs_${eleve}`);
+  if (saved) erreurs = JSON.parse(saved);
+  else erreurs = {};
+}
+
+function sauverErreurs() {
+  localStorage.setItem(`auto_fr_erreurs_${eleve}`, JSON.stringify(erreurs));
 }
 
 function buildGrid() {
-  const faibles = getFaibles();
   const g = document.getElementById('chapGrid');
   g.innerHTML = '';
   for (let i=1; i<=26; i++) {
-    const isFaible = faibles.includes(i);
     const d = document.createElement('div');
-    d.className = 'ch-item' + (isFaible ? ' faible' : '');
+    d.className = 'ch-item';
     d.id = 'ci'+i;
     d.onclick = () => { d.classList.toggle('selected'); updateInfo(); };
-    d.innerHTML = `<span class="ch-num">${i}.</span><span style="font-size:12px">${CHAPITRES[i]}</span>${isFaible ? '<span class="ch-warn">⚠</span>' : ''}`;
+    d.innerHTML = `<span class="ch-num">${i}.</span><span style="font-size:12px">${CHAPITRES[i]}</span>`;
     g.appendChild(d);
   }
   updateInfo();
@@ -231,34 +212,100 @@ function getSelected() {
 
 function updateInfo() {
   const sel = getSelected();
-  const nbCartes = sel.length;
-  document.getElementById('nbCartes').textContent = nbCartes;
+  let totalCartes = sel.length;
+  document.getElementById('nbCartes').textContent = totalCartes;
+  document.getElementById('nbQuestions').textContent = Math.min(40, totalCartes * 3);
   document.getElementById('btnStart').disabled = sel.length === 0;
 }
 
 function selectAll(v) { for(let i=1;i<=26;i++) document.getElementById('ci'+i)?.classList.toggle('selected', v); updateInfo(); }
-function selectFaibles() { selectAll(false); getFaibles().forEach(n => document.getElementById('ci'+n)?.classList.add('selected')); updateInfo(); }
 
 function melanger(arr) { for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
 
+// ÉVALUATION BIENVEILLANTE : seuil à 40% pour valider
+function evaluerBienveillant(reponse, attendue) {
+  if (!reponse || reponse.trim().length < 2) return { valide: false, taux: 0, message: "Écris une réponse." };
+  const rep = reponse.toLowerCase().trim();
+  const att = attendue.toLowerCase();
+  
+  if (rep === att) return { valide: true, taux: 100, message: "Parfait !" };
+  
+  // Raccourcis spécifiques
+  if (rep === "e es e ons ez ent" || rep === "e,es,e,ons,ez,ent") return { valide: true, taux: 100, message: "Parfait !" };
+  if (rep === "habitude" && att.includes("habitude")) return { valide: true, taux: 85, message: "Bien !" };
+  if (rep === "habituel" && att.includes("habitude")) return { valide: true, taux: 85, message: "Bien !" };
+  if (rep === "preposition" && att.includes("préposition")) return { valide: true, taux: 80, message: "Bien !" };
+  if (rep === "verbe" && att.includes("avoir")) return { valide: false, taux: 30, message: "Presque ! a = avoir, à = préposition" };
+  
+  // Mots-clés
+  const motsAtt = att.split(/[\s,;.]+/).filter(m => m.length > 3);
+  const motsRep = rep.split(/[\s,;.]+/);
+  let trouve = 0;
+  for (let ma of motsAtt) {
+    for (let mr of motsRep) {
+      if (mr.includes(ma.substring(0,3)) || ma.includes(mr.substring(0,3))) { trouve++; break; }
+    }
+  }
+  let taux = motsAtt.length ? Math.round(trouve / motsAtt.length * 100) : 50;
+  
+  // SEUIL BIENVEILLANT : 40% au lieu de 60%
+  if (taux >= 40) return { valide: true, taux: taux, message: taux >= 70 ? "Bien !" : "Presque ! Relis la correction." };
+  return { valide: false, taux: taux, message: "À retravailler." };
+}
+
+// RÈGLE 20/10/10
+function getQuestionsRatees(limit = 10) {
+  const ratees = Object.entries(erreurs).filter(([,count]) => count >= 1)
+    .sort((a,b) => b[1] - a[1]).slice(0, limit);
+  return ratees.map(([id]) => {
+    const parts = id.split('_');
+    const ch = parseInt(parts[0]);
+    return { ...CARTES[ch], ch: ch, chTitre: CHAPITRES[ch], id: id };
+  });
+}
+
+function getQuestionsRevision(selected, limit = 10) {
+  const toutes = Object.entries(CARTES).map(([ch, c]) => ({ ...c, ch: parseInt(ch), chTitre: CHAPITRES[ch] }));
+  const autres = toutes.filter(c => !selected.includes(c.ch));
+  return melanger(autres).slice(0, limit);
+}
+
 function genererSession(selected) {
-  let cartes = [];
-  for (let ch of selected) {
-    if (CARTES[ch]) cartes.push({ ...CARTES[ch], ch: ch, chTitre: CHAPITRES[ch] });
+  chargerErreurs();
+  
+  // CAS PARTICULIER : si seuls les 3 premiers chapitres sont sélectionnés
+  const onlyThreeFirst = selected.length === 3 && selected.includes(1) && selected.includes(2) && selected.includes(3);
+  
+  if (onlyThreeFirst) {
+    // Prendre 20 cartes aléatoires parmi les 3 premiers chapitres
+    const cartesCh1 = CARTES[1] ? [{ ...CARTES[1], ch: 1, chTitre: CHAPITRES[1] }] : [];
+    const cartesCh2 = CARTES[2] ? [{ ...CARTES[2], ch: 2, chTitre: CHAPITRES[2] }] : [];
+    const cartesCh3 = CARTES[3] ? [{ ...CARTES[3], ch: 3, chTitre: CHAPITRES[3] }] : [];
+    let toutes = [...cartesCh1, ...cartesCh2, ...cartesCh3];
+    if (toutes.length === 0) return [];
+    let session = melanger([...toutes]);
+    while (session.length < 20 && toutes.length > 0) session.push(...melanger([...toutes]).slice(0, 5));
+    return melanger(session).slice(0, 20);
   }
-  // Compléter pour avoir 40 questions
-  let toutes = Object.entries(CARTES).map(([ch, c]) => ({ ...c, ch: parseInt(ch), chTitre: CHAPITRES[ch] }));
-  while (cartes.length < 40) {
-    cartes.push(...melanger([...toutes]).slice(0, 10));
-  }
-  return melanger(cartes.slice(0, 40));
+  
+  // RÈGLE 20/10/10 NORMALE
+  const principales = selected.flatMap(ch => CARTES[ch] ? [{ ...CARTES[ch], ch: ch, chTitre: CHAPITRES[ch] }] : []);
+  const vingt = melanger([...principales]).slice(0, 20);
+  const dixRatees = getQuestionsRatees(10);
+  const dixRevision = getQuestionsRevision(selected, 10);
+  
+  let session = [...vingt, ...dixRatees, ...dixRevision];
+  const ids = new Set();
+  session = session.filter(c => { if (ids.has(c.q)) return false; ids.add(c.q); return true; });
+  return melanger(session);
 }
 
 function demarrer() {
   const sel = getSelected();
   if (sel.length === 0) return;
   sessionCartes = genererSession(sel);
-  idx = 0; score = { ok: 0, total: 0 };
+  if (sessionCartes.length === 0) return;
+  idx = 0; score = { ok: 0, total: sessionCartes.length };
   tps = 45*60;
   showPhase('phaseSession');
   startTimer();
@@ -273,44 +320,36 @@ function afficherQuestion() {
   document.getElementById('qCount').textContent = `Q ${idx+1}/${sessionCartes.length}`;
   document.getElementById('qArea').innerHTML = `
     <div class="q-card">
-      <div class="q-meta">
-        <span class="q-badge ch">${c.chTitre}</span>
-      </div>
+      <div class="q-meta"><span class="q-badge">${c.chTitre}</span></div>
       <div class="q-text">${c.q}</div>
       <textarea class="rep" id="repIn" placeholder="Écris ta réponse..." rows="3"></textarea>
-      <div class="btn-row" style="margin-top:10px">
-        <button class="btn-primary" onclick="valider()">✔ Vérifier</button>
-      </div>
+      <div class="btn-row" style="margin-top:10px"><button class="btn-primary" onclick="valider()">✔ Vérifier</button></div>
     </div>`;
   document.getElementById('fbArea').innerHTML = '';
   document.getElementById('nextWrap').style.display = 'none';
   setTimeout(() => document.getElementById('repIn')?.focus(), 100);
 }
 
-function evaluer(rep, att) {
-  if (!rep || rep.trim().length < 2) return { valide: false, taux: 0, message: "Écris une réponse." };
-  const repClean = rep.toLowerCase().trim();
-  const attClean = att.toLowerCase();
-  if (repClean === attClean) return { valide: true, taux: 100, message: "Parfait !" };
-  const motsAtt = attClean.split(/[\s,;.]+/).filter(m => m.length > 3);
-  const motsRep = repClean.split(/[\s,;.]+/);
-  let trouve = 0;
-  motsAtt.forEach(m => { if (motsRep.some(r => r.includes(m.slice(0,4)))) trouve++; });
-  let taux = motsAtt.length ? Math.round(trouve / motsAtt.length * 100) : 50;
-  if (taux >= 60) return { valide: true, taux: taux, message: "Bien !" };
-  if (taux >= 40) return { valide: true, taux: taux, message: "Presque ! Relis la correction." };
-  return { valide: false, taux: taux, message: "À retravailler." };
-}
-
 function valider() {
   const rep = document.getElementById('repIn')?.value.trim();
   if (!rep) { alert("Écris une réponse."); return; }
   const c = sessionCartes[idx];
-  const ev = evaluer(rep, c.r);
+  const ev = evaluerBienveillant(rep, c.r);
   if (ev.valide) score.ok++;
   score.total++;
-  const cls = ev.taux >= 65 ? 'ok' : (ev.taux >= 40 ? 'mid' : 'bad');
-  const ico = ev.taux >= 65 ? '✅' : (ev.taux >= 40 ? '⚠️' : '❌');
+  
+  // Gestion des erreurs pour spaced repetition
+  const id = `${c.ch}_${c.q.substring(0,30)}`;
+  if (!ev.valide) {
+    erreurs[id] = (erreurs[id] || 0) + 1;
+  } else if (erreurs[id]) {
+    erreurs[id] = Math.max(0, erreurs[id] - 1);
+    if (erreurs[id] === 0) delete erreurs[id];
+  }
+  sauverErreurs();
+  
+  const cls = ev.taux >= 50 ? 'ok' : (ev.taux >= 30 ? 'mid' : 'bad');
+  const ico = ev.taux >= 50 ? '✅' : (ev.taux >= 30 ? '⚠️' : '❌');
   document.getElementById('fbArea').innerHTML = `
     <div class="feedback show">
       <div class="fb-res ${cls}">${ico} ${ev.message} — ${ev.taux}%</div>
@@ -318,7 +357,8 @@ function valider() {
     </div>`;
   idx++;
   document.getElementById('nextWrap').style.display = 'block';
-  document.querySelector('#qArea .btn-primary').disabled = true;
+  const btn = document.querySelector('#qArea .btn-primary');
+  if (btn) btn.disabled = true;
 }
 
 function suivante() {
@@ -345,24 +385,26 @@ function terminer() {
   const pct = score.total > 0 ? Math.round(score.ok / score.total * 100) : 0;
   const chapitresNoms = getSelected().map(n => CHAPITRES[n]);
   
-  // Sauvegarde pour suivi parental
+  // Sauvegarde pour suivi-parental.html
   const keyP = `suivi_sessions_francais_${eleve}`;
-  const sp = JSON.parse(localStorage.getItem(keyP) || '[]');
-  sp.unshift({
-    id: Date.now(), date: new Date().toISOString(), matiere: 'francais', eleve: eleve,
-    chapitres: chapitresNoms, score: { bonnes: score.ok, total: score.total }, pourcentage: pct
+  const sessionsExist = JSON.parse(localStorage.getItem(keyP) || '[]');
+  sessionsExist.unshift({
+    id: Date.now(), date: new Date().toISOString(),
+    chapitres: chapitresNoms, score: { bonnes: score.ok, total: score.total },
+    pourcentage: pct
   });
-  localStorage.setItem(keyP, JSON.stringify(sp.slice(0,200)));
+  localStorage.setItem(keyP, JSON.stringify(sessionsExist.slice(0, 200)));
   
   // Sauvegarde locale
-  const sessions = JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]');
-  sessions.unshift({ id: Date.now(), date: new Date().toISOString(), eleve: eleve,
-    score: score.ok, total: score.total, pourcentage: pct, chapitres: chapitresNoms });
-  localStorage.setItem(`auto_fr_sessions_${eleve}`, JSON.stringify(sessions.slice(0,100)));
+  const keyL = `auto_fr_sessions_${eleve}`;
+  const localSessions = JSON.parse(localStorage.getItem(keyL) || '[]');
+  localSessions.unshift({ id: Date.now(), date: new Date().toISOString(),
+    eleve, score: score.ok, total: score.total, pourcentage: pct, chapitres: chapitresNoms });
+  localStorage.setItem(keyL, JSON.stringify(localSessions.slice(0, 100)));
   
   showPhase('phaseRes');
-  const cls = pct>=80 ? 'ex' : (pct>=60 ? 'bi' : 'ef');
-  const msg = pct>=80 ? '🌟 Excellent !' : (pct>=60 ? '👍 Bien joué !' : (pct>=40 ? '💪 Courage !' : '📚 Continue à t\'entraîner.'));
+  const cls = pct >= 70 ? 'ex' : (pct >= 50 ? 'bi' : 'ef');
+  const msg = pct >= 70 ? '🌟 Excellent !' : (pct >= 50 ? '👍 Bien joué !' : (pct >= 30 ? '💪 Courage !' : '📚 Continue à t\'entraîner.'));
   document.getElementById('scoreBig').className = 'score-big ' + cls;
   document.getElementById('scoreBig').textContent = pct + '%';
   document.getElementById('scoreDetail').textContent = `${score.ok} bonnes réponses sur ${score.total}`;
@@ -376,6 +418,8 @@ function showPhase(id) {
 }
 
 buildGrid();
+updateInfo();
+chargerErreurs();
 </script>
 </body>
 </html>
