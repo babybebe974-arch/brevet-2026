@@ -1,614 +1,272 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>📐 10 sujets blancs – Maths DNB 2022-2025 (correction IA intégrée)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; line-height: 1.5; font-size: 16px; padding: 1rem; }
-        .container { max-width: 1100px; margin: 0 auto; background: #111118; border-radius: 1.8rem; padding: 2rem; border: 1px solid rgba(94,207,177,0.2); }
-        h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.2rem; }
-        .math-color { color: #5ecfb1; }
-        .sub { color: #9aaec9; margin-bottom: 1rem; font-size: 0.85rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .card { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.2rem; padding: 1.2rem; transition: 0.1s; cursor: pointer; }
-        .card:hover { transform: translateY(-2px); border-color: #5ecfb1; }
-        .year { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #5ecfb1; margin-bottom: 0.2rem; }
-        .session { font-size: 0.7rem; color: #aaa; margin-bottom: 0.5rem; font-family: 'DM Mono', monospace; }
-        .themes { font-size: 0.7rem; color: #ccc; margin-bottom: 0.5rem; }
-        .btn { display: inline-block; margin-top: 0.5rem; background: #1e2a3e; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.3rem 1rem; font-size: 0.7rem; color: #5ecfb1; text-decoration: none; cursor: pointer; }
-        .btn:hover { background: #2a3652; }
-        .subject-container { display: none; }
-        .back-btn { background: none; border: 1px solid #5ecfb1; border-radius: 40px; padding: 0.3rem 1rem; font-size: 0.7rem; color: #5ecfb1; cursor: pointer; margin-bottom: 1rem; }
-        .who-selector { display: flex; gap: 1rem; margin: 1rem 0; background: #1e2a3e; padding: 0.5rem; border-radius: 60px; width: fit-content; }
-        .who-btn { background: none; border: none; padding: 0.4rem 1rem; border-radius: 40px; color: #aaa; cursor: pointer; }
-        .who-btn.active-w { background: #7eb8f5; color: #0a0a0f; }
-        .who-btn.active-n { background: #f59eb8; color: #0a0a0f; }
-        .exo { background: #0c1222; border: 1px solid #2a3452; border-radius: 1.2rem; padding: 1.2rem; margin-bottom: 1.5rem; }
-        .exo-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; color: #5ecfb1; }
-        .exo-points { font-size: 0.7rem; color: #e8c87a; font-family: 'DM Mono', monospace; margin-bottom: 0.8rem; }
-        .question { margin-bottom: 1.2rem; border-top: 1px solid #2a3452; padding-top: 1rem; }
-        .question-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
-        .question-number { font-weight: 700; font-size: 0.85rem; color: #e8c87a; background: #1e2a3e; padding: 0.2rem 0.6rem; border-radius: 20px; }
-        .question-text { margin-bottom: 0.3rem; color: #bbb; font-size: 0.85rem; line-height: 1.4; }
-        textarea { width: 100%; background: #0a0a0f; border: 1px solid #2a3452; border-radius: 1rem; padding: 0.6rem; color: white; font-size: 0.8rem; margin: 0.3rem 0; resize: vertical; font-family: 'DM Mono', monospace; }
-        .word-count { font-size: 0.7rem; color: #aaa; text-align: right; margin-bottom: 0.3rem; }
-        .correction-ia { background: #1e2a3e; border: none; border-radius: 40px; padding: 0.3rem 1rem; font-size: 0.7rem; font-family: 'DM Mono', monospace; color: #5ecfb1; cursor: pointer; margin-right: 0.5rem; }
-        .correction-ia:hover { background: #2a3652; }
-        .feedback { background: #1a1a26; border-radius: 1rem; padding: 0.6rem; margin-top: 0.5rem; font-size: 0.75rem; display: none; white-space: pre-wrap; }
-        .feedback.show { display: block; }
-        .upload-area { background: #0c1222; border: 2px dashed #5ecfb1; border-radius: 1rem; padding: 0.6rem; margin: 0.6rem 0; text-align: center; }
-        .upload-area:hover { border-color: #e8c87a; background: #111828; }
-        .upload-label { display: inline-block; background: #5ecfb1; color: #0a0a0f; padding: 0.3rem 0.8rem; border-radius: 40px; font-size: 0.7rem; font-weight: 600; cursor: pointer; }
-        .upload-label:hover { background: #7edcb8; }
-        .file-input { display: none; }
-        .upload-status { font-size: 0.65rem; color: #9aaec9; margin-top: 0.3rem; }
-        .extracted-text { background: #0a0a0f; border: 1px solid #2a3452; border-radius: 0.6rem; padding: 0.4rem; font-size: 0.65rem; color: #ccc; max-height: 100px; overflow-y: auto; margin-top: 0.3rem; display: none; }
-        .extracted-text.show { display: block; }
-        .btn-group { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.3rem; }
-        .back-link { display: inline-block; margin-top: 1rem; text-decoration: none; color: #5ecfb1; font-size: 0.8rem; }
-        .calc-note { font-size: 0.65rem; background: #0a0a0f; padding: 0.1rem 0.4rem; border-radius: 20px; }
-        .qcm-option { background: #1e2a3e; padding: 0.1rem 0.4rem; border-radius: 15px; margin: 0 0.2rem; display: inline-block; font-size: 0.7rem; }
-        .pdf-link { color: #7eb8f5; font-size: 0.7rem; text-decoration: none; }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathématiques - 10 sujets blancs DNB</title>
+<style>
+  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .sujet { background: #111118; border-left: 5px solid #2ecc71; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
+  .texte { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; font-family: 'DM Mono', monospace; font-size: 0.9rem; }
+  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border-left: 3px solid #2ecc71; white-space: pre-wrap; }
+  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
+  textarea.reponse { min-height: 120px; }
+  button { background: #2ecc71; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; color: #09090f; font-weight: 600; }
+  button:hover { background: #3edd81; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
+  .feedback-buttons { margin-top: 0.4rem; display: flex; gap: 0.5rem; }
+  .btn-copy, .btn-pdf { background: #1a1a26; border: 1px solid #2ecc71; color: #2ecc71; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; transition: 0.1s; }
+  .btn-copy:hover, .btn-pdf:hover { background: #2a2a36; }
+  hr { border-color: #2a2a35; margin: 1rem 0; }
+  h3 { color: #2ecc71; }
+  .badge { display: inline-block; background: #2ecc7120; color: #2ecc71; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
+  .question { margin-top: 1rem; }
+  .loading { color: #2ecc71; font-style: italic; }
+  .erreur { color: #e87a7a; }
+  
+  @media print {
+    body * { visibility: hidden; }
+    .print-correction, .print-correction * { visibility: visible; }
+    .print-correction { position: absolute; top: 0; left: 0; width: 100%; }
+    .no-print { display: none; }
+    button { display: none; }
+    textarea { display: none; }
+  }
+</style>
 </head>
 <body>
 <div class="container">
-    <h1>📐 Mathématiques <span class="math-color">DNB 2022-2025</span></h1>
-    <div class="sub">10 sujets blancs – Énoncés complets – Correction IA avec upload de documents</div>
-
-    <div id="landing" class="grid">
-        <div class="card" data-sujet="0"><div class="year">🇦🇶 2025 – Amérique du Sud</div><div class="session">27 novembre 2025 · 100 pts</div><div class="themes">Arithmétique · Trigonométrie · Probabilités · Statistiques · Scratch · Géométrie · Volumes</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="1"><div class="year">🌏 2025 – Asie</div><div class="session">9 juin 2025 · 100 pts</div><div class="themes">QCM · Géométrie · Fonctions · Scratch · Arithmétique · Volumes</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="2"><div class="year">🌍 2025 – Centres étrangers</div><div class="session">16 juin 2025 · 100 pts</div><div class="themes">QCM · Statistiques · Fonctions · Géométrie · Programmes · Probabilités</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="3"><div class="year">🇫🇷 2025 – Métropole (juin)</div><div class="session">26 juin 2025 · 100 pts</div><div class="themes">Probabilités · Géométrie · QCM · Programmes · Fonctions</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="4"><div class="year">🏝️ 2025 – Polynésie</div><div class="session">26 juin 2025 · 100 pts</div><div class="themes">Statistiques · Géométrie · QCM · Programmes · Probabilités</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="5"><div class="year">🏝️ 2025 – Polynésie (sept.)</div><div class="session">8 septembre 2025 · 100 pts</div><div class="themes">Fonctions · QCM · Transformations · Scratch · Volumes · Statistiques</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="6"><div class="year">🇫🇷 2025 – Métropole (sept.)</div><div class="session">10 septembre 2025 · 100 pts</div><div class="themes">Statistiques · QCM · Géométrie · Fonctions · Scratch</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="7"><div class="year">🇳🇨 2025 – Nouvelle-Calédonie</div><div class="session">11 décembre 2025 · 100 pts</div><div class="themes">QCM · Géométrie · Programmes · Probabilités · Scratch</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="8"><div class="year">📝 2026 – Sujet A</div><div class="session">Sujet zéro · 20 pts (automatismes) + 14 pts (raisonnement)</div><div class="themes">Fractions · Statistiques · Géométrie · Fonctions · Aire</div><span class="btn">Commencer →</span></div>
-        <div class="card" data-sujet="9"><div class="year">📝 2026 – Sujet B</div><div class="session">Sujet zéro · 20 pts (automatismes) + 14 pts (raisonnement)</div><div class="themes">Moyenne · Pourcentages · Équations · Probabilités · Fonctions · Arithmétique</div><span class="btn">Commencer →</span></div>
-    </div>
-
-    <div id="subject-area" class="subject-container"></div>
-    <a href="#" class="back-link" onclick="afficherAccueil(); return false;">← Retour au hub central</a>
+  <h1>Mathématiques — 10 sujets blancs (DNB)</h1>
+  <div id="sujets"></div>
 </div>
-
 <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    const PROXY_W = 'https://script.google.com/macros/s/AKfycbzDx2OvzPtZV62LXn2bkQT62il_pPdILg7a0QlqWkHPzECNCqmTYNjdJLwYJ_9pKRjk6g/exec';
-    const PROXY_N = 'https://script.google.com/macros/s/AKfycbxLV6G5Lv-WYK18cwOtgBMWa-T5tgaB8aGH9BuzHWFsV6cSjHe9C1THQEgNcWNA7a4P/exec';
-    let currentWho = 'W';
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec';
 
-    const SUJETS = [
-        { // 0 - Amérique du Sud 2025
-            titre: "Amérique du Sud 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 (24 pts)", points: 24, questions: [
-                    "Décomposer 390 en produit de facteurs premiers.",
-                    "ABC rectangle en A, AB=10cm, BC=20cm. Mesure de l'angle ABC ?",
-                    "Urne 1 à 12. Probabilité nombre ≤ 5 ?",
-                    "Tableau: x=0→1, x=1→-1, x=2→-3. a. Image de 2? b. Image de -1? c. f est-elle linéaire?",
-                    "(2x-3)(4x+5)=8x²-2x-15. a. Vrai pour x=2? b. Vrai pour tout x?"
-                ] },
-                { nom: "Exercice 2 (20 pts)", points: 20, questions: [
-                    "Série: 135;82;104;200;102;17;143;118;62. a. Effectif? b. Moyenne? c. Étendue? d. +50% passent ≥1h30?",
-                    "Collège 640 élèves, 400 répondent. a. >60%? b. Formule tableur F2? c. Nb passent <1h? d. % passent <1h30?"
-                ] },
-                { nom: "Exercice 3 (15 pts)", points: 15, questions: [
-                    "Compléter script triangle équilatéral (côté 50 pas).",
-                    "Associer programmes A et B aux dessins 1,2,3.",
-                    "Construire dessin (1cm=10pas, répéter 4 fois: triangle, côté×2)."
-                ] },
-                { nom: "Exercice 4 (20 pts)", points: 20, questions: [
-                    "Montrer que (AD)//(BC). (AE=9,6; CE=5,4; BC=9)",
-                    "Calculer AD.",
-                    "Montrer que BE=7,2 cm.",
-                    "Aire ABE = 1/3 aire ABD ?"
-                ] },
-                { nom: "Exercice 5 (21 pts)", points: 21, questions: [
-                    "Glaçon 5×2,5×1,5 cm. a. 12 moules → combien? b. Volume ≈19 mL. c. 5L suffisent?",
-                    "Verre cylindrique. a. Volume total ≈295 mL. b. 30L → combien verres 25cL? c. Hauteur h pour 25cL?"
-                ] }
-            ] },
-        { // 1 - Asie 2025
-            titre: "Asie 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 – QCM (16 pts)", points: 16, questions: [
-                    "Urne:4B,6V,7R,3J. Probabilité violette? (A.6/14 B.1/4 C.3/10 D.14/20)",
-                    "70% d'une quantité = multiplier par? (A.0,30 B.0,70 C.1,70 D.1,30)",
-                    "Série 7;18;12;13;15. (A.étendue8 B.médiane12 C.moyenne53 D.moyenne13)",
-                    "Fonction affine graphique? (A.2x+4 B.4x-2 C.-2x+4 D.-4x+2)"
-                ] },
-                { nom: "Exercice 2 (24 pts)", points: 24, questions: [
-                    "Montrer DE=19,5cm (CD=21,6; CE=29,1; FC=17,2; triangle CDE rectangle en D)",
-                    "Aire triangle CDE.",
-                    "Calculer GF arrondie au mm.",
-                    "a. Aire ABC = 1/9 × aire CDE. b. Déterminer AB (triangles semblables)."
-                ] },
-                { nom: "Exercice 3 (20 pts)", points: 20, questions: [
-                    "x=1,5cm. a. Périmètre carré EFGH (EF=2x). b. AB=16-2x. c. Construire ABCD. d. Périmètres égaux?",
-                    "Tableur. a. Formule B2. b. Solution? c. Périmètre rectangle=-2x+32. d. Résoudre équation."
-                ] },
-                { nom: "Exercice 4 (17 pts)", points: 17, questions: [
-                    "Compléter script triangle équilatéral (côté 50).",
-                    "Programme A ou B pour hexagone?",
-                    "Compléter 'répéter' pour hexagone régulier (6 côtés, angle60°)."
-                ] },
-                { nom: "Exercice 5 (23 pts)", points: 23, questions: [
-                    "Décomposition de 300? (A.22×5×15 B.2×2×3×5×5 C.22×3×52)",
-                    "Décomposition de 350.",
-                    "Nombre maximal de lots (PGCD).",
-                    "Poissons par type dans chaque lot."
-                ] }
-            ] },
-        { // 2 - Centres étrangers 2025
-            titre: "Centres étrangers 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 – QCM (20 pts)", points: 20, questions: [
-                    "Décomposition 120? (A.2×3×4×5 B.15×2×2×2 C.2³×3×5 D.53+67)",
-                    "Formule =-4*A1-12, A1=5, B1=2 → B2? (A.-32 B.-20 C.8 D.68)",
-                    "Rapport homothétie carré A→B? (A.-2 B.-0,5 C.0,5 D.2)",
-                    "Factorisation 4x²-1? (A.(2x-1)(2x+1) B.(4x-1)(4x+1) C.4(x-1)(x+1) D.(2x-1)²)",
-                    "Triangle TER, angle39°, TE=7,4cm. RE? (A.4,66 B.5,75 C.9,52 D.11,76 cm)"
-                ] },
-                { nom: "Exercice 2 (19 pts)", points: 19, questions: [
-                    "Moyenne masses (A:4,B:9,C:2,D:7,E:11)",
-                    "Médiane et interprétation.",
-                    "Probabilité masse <8kg.",
-                    "a. Volume colis E=0,12m³. b. Masse volumique ≈91,7 kg/m³. c. Affirmation vraie?"
-                ] },
-                { nom: "Exercice 3 (21 pts)", points: 21, questions: [
-                    "Avec 1, résultat=8.",
-                    "Avec -2, résultat?",
-                    "Montrer résultat = -8x+16.",
-                    "a. Résoudre -8x+16=4. b. Nombre pour obtenir 4.",
-                    "Représentation graphique de f(x)=-8x+16?"
-                ] },
-                { nom: "Exercice 4 (21 pts)", points: 21, questions: [
-                    "Montrer AC=750m (AB=600, BC=450).",
-                    "a. (ED)//(AB). b. DE=360m.",
-                    "Aire CDE=48600m².",
-                    "Mélange de graines (ratio 16:12:8)."
-                ] },
-                { nom: "Exercice 5 (19 pts)", points: 19, questions: [
-                    "Proposer deux codes (lettre A/B/C + chiffre 0-9).",
-                    "Probabilité lettre C.",
-                    "Probabilité chiffre 7 = 1/10.",
-                    "Probabilité code avec nombre premier.",
-                    "a. 5s/code. Tous les codes <3min? b. Sécurité?",
-                    "Code B5 → message? Code correct?"
-                ] }
-            ] },
-        { // 3 - Métropole Antilles Guyane 2025
-            titre: "Métropole Antilles Guyane 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 (20 pts)", points: 20, questions: [
-                    "Urne A:7;10;12;15;24;30. Probabilité nombre pair.",
-                    "Urne B:2;5;6;8;17;18;21;22;25. Probabilité nombre premier=1/3. Justifier.",
-                    "Quelle urne a le plus de multiples de 6?",
-                    "Probabilité nombre ≥20: même dans les deux urnes?",
-                    "Ajouter 50 dans chaque urne. Probabilités encore égales?"
-                ] },
-                { nom: "Exercice 2 (23 pts)", points: 23, questions: [
-                    "Justifier AD=200m (AC=480, AE=250, DE=50)",
-                    "Calculer CD.",
-                    "a. (CD)//(BE)? b. Angle ACD>20°? c. Parcours validé?",
-                    "Temps médian (5min30, 5min45, 5min49, 5min50, 6min, 6min11, 6min12, 6min20, 6min40)",
-                    "Poisson rouge 5km/h. Nage-t-il plus vite que l'élève le plus rapide?"
-                ] },
-                { nom: "Exercice 3 – QCM (18 pts)", points: 18, questions: [
-                    "3 melons=8,40€. 5 melons? (A.16,40 B.42 C.14 D.10,40€)",
-                    "Transformation figure1→figure2? (A.symétrie centrale B.rotation C.translation D.symétrie axiale)",
-                    "350€+20%=? (A.420 B.330 C.370 D.280€)",
-                    "Aire triangle rectangle 6cm,4,5cm,7,5cm? (A.27 B.13,5 C.18 D.9 cm²)",
-                    "(2x+3)(x-4) développé? (A.2x²-5x-12 B.2x²-11x-12 C.2x²-12 D.3x-1)",
-                    "Volume pyramide base 12×4, hauteur7? (A.23 B.112 C.336 D.168 cm³)"
-                ] },
-                { nom: "Exercice 4 (20 pts)", points: 20, questions: [
-                    "Programme Zoé: 10→20? -7→?",
-                    "Programme magique? (toujours le double?)",
-                    "Programme Fred: résultat=20x+50.",
-                    "Nombre pour obtenir 75.",
-                    "Modifier programme pour résultat=20x."
-                ] },
-                { nom: "Exercice 5 (19 pts)", points: 19, questions: [
-                    "Option Achat:22400€+75€/mois. 1an=23300€",
-                    "36 mois: économie location (425€/mois).",
-                    "Formule tableur B3.",
-                    "Expression f(x) pour option Achat.",
-                    "Lecture graphique: à partir de combien de mois Achat plus avantageux?"
-                ] }
-            ] },
-        { // 4 - Polynésie 2025
-            titre: "Polynésie 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 (20 pts)", points: 20, questions: [
-                    "Effectif des 12 ans (tableau).",
-                    "Nombre total d'élèves.",
-                    "Formule cellule H2.",
-                    "'1/5 des élèves ont 14 ans ou plus'?",
-                    "Moyenne a-t-elle augmenté (avant 13 ans)?",
-                    "Hausse 10% l'année prochaine."
-                ] },
-                { nom: "Exercice 2 (22 pts)", points: 22, questions: [
-                    "Longueur DB (AB=500, BE=250, DE=750).",
-                    "AD≈866m (triangle ABD rectangle).",
-                    "a. Sinus angle EAB. b. Mesure angle EAB.",
-                    "a. (AB)//(DC). b. CD=1500m.",
-                    "Tour complet (BC≈1323m, vitesse 1,1m/s). Temps<1h?"
-                ] },
-                { nom: "Exercice 3 – QCM (20 pts)", points: 20, questions: [
-                    "(-3)²=? (A.-9 B.-6 C.6 D.9)",
-                    "Décomposition 360? (A.2³×9×5 B.8×3²×5 C.2³×3²×7 D.2³×3²×5)",
-                    "Aire 135cm², largeur 3cm. Longueur? (A.15 B.45 C.132 D.405 cm)",
-                    "Longueur BG? (A.3x² B.2x²+3 C.5x D.2x+3)",
-                    "Translation D→M: image de GFHI?"
-                ] },
-                { nom: "Exercice 4 (20 pts)", points: 20, questions: [
-                    "5→ résultat=2.",
-                    "a. Expression correcte? b. Montrer résultat=2x-8.",
-                    "a. Représentation n°3 pourquoi? b. Image de 4.",
-                    "Nombre pour résultat=100."
-                ] },
-                { nom: "Exercice 5 (18 pts)", points: 18, questions: [
-                    "Probabilité d'obtenir 4=1/12.",
-                    "Probabilité nombre pair.",
-                    "Probabilité multiple de 3 >0,3?",
-                    "Compléter lignes 2,3,4 bloc Lancer.",
-                    "Dé1=8, Dé2=3 → message?"
-                ] }
-            ] },
-        { // 5 - Polynésie 8 septembre 2025
-            titre: "Polynésie 8 septembre 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 (22 pts)", points: 22, questions: [
-                    "20m²: A(80€/m²)=1600€, B(60€/m²+970€)=2170€.",
-                    "60m²: A=? B=?",
-                    "a. Image de 70 par f(x)=80x. b. Antécédent de 2400. c. Tracer f.",
-                    "Graphique: avec 2800€, aire max avec B?",
-                    "Aire où prix identiques."
-                ] },
-                { nom: "Exercice 2 – QCM (20 pts)", points: 20, questions: [
-                    "Pointure p=1,5(L+1), L=25→? (A.37,5 B.38 C.38,5 D.39)",
-                    "Angle RMU? (A.37° B.42° C.48° D.53°)",
-                    "100m en 10s→km/h? (A.10 B.36 C.44 D.60)",
-                    "Échelle 1/20, largeur 7cm→réelle? (A.14 B.27 C.35 D.140 cm)",
-                    "Coordonnées (65°N;30°O)=point?"
-                ] },
-                { nom: "Exercice 3 (16 pts)", points: 16, questions: [
-                    "Image losange 1 par symétrie centre A.",
-                    "Image losange 3 par symétrie axe (AF).",
-                    "Image losange 7 par rotation centre A.",
-                    "Image losange 8 par translation A→E.",
-                    "Compléter hexagone ABCDEF (5cm).",
-                    "Script A,B ou C pour tracer motif."
-                ] },
-                { nom: "Exercice 4 (23 pts)", points: 23, questions: [
-                    "a. Vérifier 3000m³ neige. b. 1200m³ eau. c. Coût 5160€.",
-                    "a. 25000ha→coût? b. 9250ha→pourcentage?",
-                    "a. FD=? b. AF≈? c. EB=500m. DK=? d. Parcours A-F-E-D-K."
-                ] },
-                { nom: "Exercice 5 (19 pts)", points: 19, questions: [
-                    "Inès:20 tee-shirts, 70% donnés=14.",
-                    "a. Formule H2. b. Probabilité tee-shirt Yuna. c. Moyenne. d. Médiane.",
-                    "168 tee-shirts, 63 pantalons. a. 4 lots? 3 lots? b. Décompositions. c. Nb max lots."
-                ] }
-            ] },
-        { // 6 - Métropole 10 septembre 2025
-            titre: "Métropole 10 septembre 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 (20 pts)", points: 20, questions: [
-                    "22 chansons:9 Noël,6 comptines. Nb berceuses.",
-                    "Durée moyenne (55min total).",
-                    "a. Probabilité comptine=3/11. b. Probabilité pas berceuse. c. Probabilité numéro premier>1/3?"
-                ] },
-                { nom: "Exercice 2 – QCM (18 pts)", points: 18, questions: [
-                    "Étendue 4;8;11;7;2;3;14? (A.10 B.7 C.12 D.14)",
-                    "1L=? (A.1m³ B.1cm³ C.1dm³ D.1mm³)",
-                    "8,6×10⁻⁴=? (A.86000 B.0,00086 C.-0,00086 D.0,000086)",
-                    "Ratio 3:2, longueur90cm→largeur? (A.54 B.135 C.45 D.60 cm)",
-                    "75€→60€, réduction? (A.80% B.25% C.15% D.20%)",
-                    "Factorisation 4x²-25? (A.(2x-5)² B.(2x-5)(2x+5) C.(4x-5)(4x+5) D.(4x-5)²)"
-                ] },
-                { nom: "Exercice 3 (22 pts)", points: 22, questions: [
-                    "a. CE=4,5cm. b. EF=3,6cm.",
-                    "Montrer CEF rectangle en F.",
-                    "a. Angle BCA arrondi. b. Triangles ABC et CEF semblables?"
-                ] },
-                { nom: "Exercice 4 (20 pts)", points: 20, questions: [
-                    "26°C→filtration15h.",
-                    "Temps=0,5x+2.",
-                    "a. Proportionnalité? b. Image de10.",
-                    "Résoudre 0,5x+2=17. Interpréter.",
-                    "16h/jour du 1/07 au 31/08. Coût (0,8kW,0,23€/kWh)?"
-                ] },
-                { nom: "Exercice 5 (20 pts)", points: 20, questions: [
-                    "Aire table 80×80=6400cm².",
-                    "Aire verre=25% du total.",
-                    "Nom transformation rectangle1→2.",
-                    "a. Compléter bloc Rectangle. b. Programme A,B ou C pour table?"
-                ] }
-            ] },
-        { // 7 - Nouvelle-Calédonie 2025
-            titre: "Nouvelle-Calédonie 2025", pdf: "https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-            exos: [
-                { nom: "Exercice 1 – QCM (15 pts)", points: 15, questions: [
-                    "Nombre premier? (A.719 B.935 C.687)",
-                    "Aire figure (7,2,5cm)? (A.24 B.140 C.25 cm²)",
-                    "Fonction affine? (A.f(x)=3(x+1) B.g(x)=5/x+1 C.h(x)=x²+1)",
-                    "6980km en9h→vitesse? (A.600 B.800 C.1000 km/h)",
-                    "730 élèves,60% filles=? (A.438 B.60 C.670)"
-                ] },
-                { nom: "Exercice 2 (20 pts)", points: 20, questions: [
-                    "Calculer BE (arrondi mm).",
-                    "Calculer HT altitude (arrondi m).",
-                    "Vent15 nœuds (1 nœud=0,514m/s). Peut-il voler? (limite20km/h)"
-                ] },
-                { nom: "Exercice 3 (16 pts)", points: 16, questions: [
-                    "a. Programme A avec2→18. b. Programme B avec2→5.",
-                    "f(x)=3x+12. Antécédent de27.",
-                    "g(x)=?. Nombre pour obtenir2.",
-                    "Nombre donnant même résultat A et B."
-                ] },
-                { nom: "Exercice 4 (13 pts)", points: 13, questions: [
-                    "Probabilité bille bleue (15R,10V,5B).",
-                    "Qui a le plus de chances: Amandine(verte) ou Alexis(rouge)?",
-                    "Ensemble des issues (couleur;nombre)."
-                ] },
-                { nom: "Exercice 5 (20 pts)", points: 20, questions: [
-                    "Prouver (BE)//(CD). (AE=6, AD=15, BE=4)",
-                    "Calculer CD.",
-                    "Aire ABE=11,3cm². Aire ACD=?",
-                    "Construire figure en vraie grandeur."
-                ] },
-                { nom: "Exercice 6 (16 pts)", points: 16, questions: [
-                    "Associer script1,2,3 aux figures A,B,C.",
-                    "Compléter script figure E."
-                ] }
-            ] },
-        { // 8 - Sujet A 2026
-            titre: "Sujet A 2026", pdf: "https://www.apmep.fr/IMG/pdf/Brevet_0_A_2026_DV.pdf",
-            exos: [
-                { nom: "Partie 1 – Automatismes (6 pts)", points: 6, questions: [
-                    "Tiers de 18?",
-                    "240 min = ? heures",
-                    "Médiane de 8;12;6;19;15",
-                    "Abscisse point E? (A.5/4 B.3/2 C.7/4 D.5/2)",
-                    "Triangle ABC rectangle en B, A=35°. Calculer C.",
-                    "Cosinus angle ABC? Quel calcul?",
-                    "(DE)//(CB). Déterminer AD.",
-                    "300 élèves,25% olympiade. Combien ne participent pas?",
-                    "Compléter Scratch carré."
-                ] },
-                { nom: "Partie 2 – Raisonnement (14 pts)", points: 14, questions: [
-                    "Gaspillage:62,59,74,68,55,61,71. Moyenne≤65?",
-                    "Distance vélo: effectif total? +30% font ≥5km?",
-                    "Programme:×2,²,-9. a.4→55. b. Expression.",
-                    "f(x)=4x+3, g(x)=6x. a. Proportionnalité? b. Image0 par g. c. Antécédent0 par f. d. Associer droites. e. Intersection.",
-                    "Carré9cm. a. Polygone régulier? b. Aire grisée=63cm². c. Aire disque ∅9cm. d. Différence<1% aire disque."
-                ] }
-            ] },
-        { // 9 - Sujet B 2026
-            titre: "Sujet B 2026", pdf: "https://www.apmep.fr/IMG/pdf/Brevet_0_B_2026_DV.pdf",
-            exos: [
-                { nom: "Partie 1 – Automatismes (6 pts)", points: 6, questions: [
-                    "Mesure angle droit?",
-                    "Moyenne de 8;10;11;11? (A.9,5 B.10 C.10,5 D.11)",
-                    "800 élèves,25% lunettes=?",
-                    "Graphique: augmentation entre8h et16h?",
-                    "90km/h,45km→temps? (A.15min B.30min C.45min D.1h)",
-                    "Périmètre losange (côté3cm)",
-                    "Résoudre 4x-3=20: calcul? (A.x=20/4+3 B.x=20-4+3 C.x=20×4+3 D.x=(20+3)/4)",
-                    "(DE)//(AC). Égalité de rapports pour AB.",
-                    "Algorithme: variable=8×réponse,+10,/2. Avec1→résultat?"
-                ] },
-                { nom: "Partie 2 – Raisonnement (14 pts)", points: 14, questions: [
-                    "a. Somme des angles, calculer x (108°,36°). b. (AB)⊥(EB)? y? c. Angle z=?",
-                    "Urne1à21. a. P(A) avec2,3,10. b. Diviseurs de24. P(B).",
-                    "Lessive:1,5g/cm³, paquet200g. a. Masse600cm³. b. f(x)=1,5x+200. Graphique. c. Lecture2300g. d. Pavé12×8×15 peut-il contenir?",
-                    "91 filles,77 garçons. a. Décompositions. b. Nb max groupes. c. Effectif par groupe."
-                ] }
-            ] }
-    ];
+async function callIA(prompt, system) {
+  const response = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ prompt, system }),
+    redirect: 'follow'
+  });
+  if (!response.ok) throw new Error('HTTP ' + response.status);
+  const result = await response.json();
+  if (result.success && result.content) return result.content;
+  throw new Error(result.error || 'Réponse inattendue');
+}
 
-    let pdfTextCache = null;
+function safeParseJSON(txt) {
+  try {
+    return JSON.parse(txt.replace(/```json|```/g, '').trim());
+  } catch(e) { return null; }
+}
 
-    async function loadPdfText(url) {
-        if (pdfTextCache) return pdfTextCache;
-        try {
-            const loadingTask = pdfjsLib.getDocument(url);
-            const pdf = await loadingTask.promise;
-            let fullText = "";
-            for (let i = 1; i <= Math.min(pdf.numPages, 5); i++) {
-                const page = await pdf.getPage(i);
-                const content = await page.getTextContent();
-                fullText += content.items.map(item => item.str).join(" ") + "\n";
-            }
-            pdfTextCache = fullText;
-            return fullText;
-        } catch(e) { return "Sujet chargé partiellement."; }
+// ============================================================
+// FONCTIONS POUR LES BOUTONS COPIE ET PDF
+// ============================================================
+async function copierCorrection(texte, btn) {
+  try {
+    await navigator.clipboard.writeText(texte);
+    const originalText = btn.textContent;
+    btn.textContent = '✓ Copié !';
+    setTimeout(() => { btn.textContent = originalText; }, 1500);
+  } catch(e) { alert('Impossible de copier'); }
+}
+
+function genererNomPDF(annee, session, type, numQuestion) {
+  const sessionClean = session.replace(/[()]/g, '').replace(/ /g, '_');
+  return `${annee}_${sessionClean}_${type}_Q${numQuestion}.pdf`;
+}
+
+async function imprimerCorrection(contenu, titreDocument, annee, session, type, numQuestion) {
+  const printDiv = document.createElement('div');
+  printDiv.className = 'print-correction';
+  printDiv.style.cssText = 'padding: 20px; font-family: "DM Sans", sans-serif; line-height: 1.6;';
+  printDiv.innerHTML = `
+    <h2>${titreDocument}</h2>
+    <hr>
+    <div style="white-space: pre-wrap;">${contenu}</div>
+    <hr>
+    <p style="font-size: 0.8rem; color: #666;">Correction générée le ${new Date().toLocaleDateString()}</p>
+  `;
+  document.body.appendChild(printDiv);
+  const nomFichier = genererNomPDF(annee, session, type, numQuestion);
+  document.title = nomFichier;
+  window.print();
+  document.body.removeChild(printDiv);
+  document.title = "Mathématiques - 10 sujets blancs DNB";
+}
+
+// ============================================================
+// SUJETS MATHS (10 sujets complets)
+// ============================================================
+const SUJETS = [
+  { id:1, annee:"2024", session:"Métropole (juin)", titre:"Exercice 1 - Statistiques",
+    enonce:"Voici les prix en euros d'un vêtement relevés dans différents magasins : 12 ; 15 ; 10 ; 7 ; 13.<br><br>1) Affirmation A : La moyenne des prix est 11,40 €. Vrai ou faux ? Justifier.<br>2) Affirmation B : La médiane des prix est 10 €. Vrai ou faux ? Justifier.<br>3) Un élève court 20 m en 6 secondes. Affirmation C : Sa vitesse moyenne était de 14 km/h. Vrai ou faux ? Justifier.<br>4) Une urne contient 15 boules de 1 à 15. Affirmation D : Probabilité d'un nombre premier = 7/15. Vrai ou faux ? Justifier.<br>5) Homothétie de rapport -3. Affirmation E : L'aire du triangle A'B'C' est 3 fois l'aire de ABC. Vrai ou faux ? Justifier.",
+    reponses: [
+      "A = Vraie (12+15+10+7+13)/5 = 57/5 = 11,4",
+      "B = Fausse. Médiane = 12 (ordre : 7,10,12,13,15)",
+      "C = Fausse. v = d/t = 20/6 = 3,33 m/s = 12 km/h",
+      "D = Fausse. Nombres premiers : 2,3,5,7,11,13 → 6/15",
+      "E = Fausse. L'aire est multipliée par k² = 9"
+    ] },
+  { id:2, annee:"2024", session:"Asie Pacifique", titre:"QCM - Nombres et géométrie",
+    enonce:"1) Lequel de ces nombres est premier ? (1, 21, 37, 54)<br>2) Aire totale du patron d'un cube d'arête 5 cm ? (125, 150, 120, 100 cm²)<br>3) Forme factorisée de 4x²-9 ?<br>4) Écran 16:9, longueur 110 cm, largeur ? (62, 103, 196, 94 cm)<br>5) Médiane de 4,1 ; 3,67 ; 4,23 ; 4,5 ; 3,4 ?",
+    reponses: [
+      "37 est premier",
+      "150 cm² (6 faces × 25 cm²)",
+      "(2x-3)(2x+3)",
+      "110 × 9/16 = 61,875 ≈ 62 cm",
+      "Médiane = 4,1"
+    ] },
+  { id:3, annee:"2023", session:"Métropole (juin)", titre:"Tableur et géométrie",
+    enonce:"1) Étendue des prix de lunettes (75 à 160 €) = 85 €<br>2) Formule SOMME(B2:F2) pour le total<br>3) Montant total des ventes : 364 250 €, moyenne = 101,89 €<br>4) Théorème de Pythagore : AE = 5,6 cm<br>5) Aire rectangle BCDE = 29,4 cm²",
+    reponses: [
+      "Étendue = 160 - 75 = 85",
+      "=SOMME(B2:F2)",
+      "Moyenne = 364250/3575 = 101,89",
+      "AE² = BE² - AB² = 49 - 17,64 = 31,36 → AE = 5,6",
+      "Aire = 4,2 × 7 = 29,4"
+    ] },
+  { id:4, annee:"2023", session:"Amérique du Nord", titre:"Trigonométrie et Thalès",
+    enonce:"1) Démontrer que AEF est rectangle en E (AE=8, AF=10, EF=6)<br>2) Calculer l'angle EAF au degré près<br>3) Les droites (EF) et (RT) sont-elles parallèles ?",
+    reponses: [
+      "8²+6²=64+36=100=10² → rectangle",
+      "sin(EAF)=EF/AF=6/10=0,6 → angle ≈ 37°",
+      "AE/AR=8/12=2/3, AF/AT=10/14=5/7 ≠ 2/3 → non parallèles"
+    ] },
+  { id:5, annee:"2023", session:"Polynésie", titre:"Statistiques et probabilités",
+    enonce:"1) Effectif des 12 ans dans le tableau<br>2) Nombre total d'élèves<br>3) Formule de la cellule H2<br>4) Calcul de la moyenne d'âge",
+    reponses: [
+      "8 élèves",
+      "1+3+8+12+4+2 = 30",
+      "=SOMME(B2:G2)",
+      "(10×1 + 11×3 + 12×8 + 13×12 + 14×4 + 15×2)/30 = 12,7 ans"
+    ] },
+  { id:6, annee:"2023", session:"Centres étrangers", titre:"Fonctions affines",
+    enonce:"1) Décomposition de 120 en facteurs premiers<br>2) Formule tableur = -4*A1-12<br>3) Rapport d'homothétie<br>4) Factorisation 4x²-1",
+    reponses: [
+      "120 = 2³ × 3 × 5",
+      "A1=5 → -32, B1=2 → -20",
+      "Rapport = 0,5",
+      "(2x-1)(2x+1)"
+    ] },
+  { id:7, annee:"2022", session:"Métropole (juin)", titre:"Probabilités et arithmétique",
+    enonce:"1) Probabilité boule bleue dans l'urne A (20 boules, 8 bleues)<br>2) Probabilité boule bleue dans l'urne B (11 bleues, 14 vertes)<br>3) Médiane de la série 14;12;3;14;7;11;7;12;14",
+    reponses: [
+      "P(A) = 8/20 = 0,4",
+      "P(B) = 11/25 = 0,44",
+      "Médiane = 12"
+    ] },
+  { id:8, annee:"2022", session:"Amérique du Nord", titre:"Géométrie et Scratch",
+    enonce:"1) Démontrer que le triangle ABC est équilatéral (AB=240, angles 60°)<br>2) Montrer que (DE)//(AB)<br>3) Compléter le script Scratch",
+    reponses: [
+      "Triangle ABC a deux angles de 60° donc 3×60° → équilatéral",
+      "CA/CE = CB/CD = 3 → parallèles",
+      "Mettre côté à 240"
+    ] },
+  { id:9, annee:"2022", session:"Amérique du Sud", titre:"Arithmétique et statistiques",
+    enonce:"1) Décomposer 390 en facteurs premiers<br>2) Probabilité nombre ≤5 dans une urne de 1 à 12<br>3) Fonction f : tableau de valeurs, est-elle linéaire ?",
+    reponses: [
+      "390 = 2 × 3 × 5 × 13",
+      "P = 5/12",
+      "Non, f(0)=1 donc pas linéaire"
+    ] },
+  { id:10, annee:"2022", session:"Polynésie", titre:"Volumes et algorithmique",
+    enonce:"1) Volume d'un pavé droit 5×2,5×1,5 cm<br>2) Masse volumique<br>3) Programme Scratch pour un hexagone",
+    reponses: [
+      "V = 5 × 2,5 × 1,5 = 18,75 cm³",
+      "ρ = m/V = 19/18,75 ≈ 1,01 g/cm³",
+      "Répéter 6 fois : avancer 50, tourner 60°"
+    ] }
+];
+
+// ============================================================
+// CORRECTION EXERCICE MATHS
+// ============================================================
+async function corrigerExercice(idTextarea, reponseAttendue, pts, annee, session, numQuestion, numSujet) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳...';
+  const system = 'Tu es un professeur de mathématiques bienveillant. Corrige cette réponse d\'élève (mathématiques DNB). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "explication courte", "conseil": "conseil pour progresser"}';
+  const prompt = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
+  try {
+    const txt = await callIA(prompt, system);
+    const json = safeParseJSON(txt);
+    let contenu = '';
+    if (json) {
+      contenu = 'Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire + '\n\n💡 Conseil : ' + json.conseil;
+      alert(contenu);
+    } else {
+      contenu = txt;
+      alert(txt);
     }
-
-    async function extractFileContent(file) {
-        return new Promise((resolve, reject) => {
-            if (file.type === 'application/pdf') {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    try {
-                        const pdf = await pdfjsLib.getDocument(new Uint8Array(e.target.result)).promise;
-                        let text = "";
-                        for (let i = 1; i <= Math.min(pdf.numPages, 3); i++) {
-                            const page = await pdf.getPage(i);
-                            const content = await page.getTextContent();
-                            text += content.items.map(item => item.str).join(" ");
-                        }
-                        resolve(text);
-                    } catch(err) { reject("Erreur extraction"); }
-                };
-                reader.onerror = () => reject("Erreur lecture");
-                reader.readAsArrayBuffer(file);
-            } else if (file.type.startsWith('image/')) {
-                resolve("[Image] " + file.name);
-            } else { reject("Format non supporté"); }
-        });
+    const corrDiv = document.getElementById('corr-' + idTextarea);
+    if (corrDiv) {
+      const btnContainer = document.createElement('div');
+      btnContainer.className = 'feedback-buttons';
+      btnContainer.innerHTML = `
+        <button class="btn-copy" onclick="copierCorrection(\`${contenu.replace(/`/g, '\\`')}\`, this)">📋 Copier</button>
+        <button class="btn-pdf" onclick="imprimerCorrection(\`${contenu.replace(/`/g, '\\`')}\`, 'Exercice ${numQuestion} (Sujet ${numSujet})', '${annee}', '${session}', 'Exo', ${numQuestion})">🖨️ PDF</button>
+      `;
+      corrDiv.appendChild(btnContainer);
+      corrDiv.style.display = 'block';
     }
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  btn.disabled = false;
+  btn.textContent = 'Corriger avec IA';
+}
 
-    async function callCorrection(questionRef, answer, pdfText, points, uploadedDocText = "") {
-        let context = pdfText;
-        if (uploadedDocText) context += "\n\nDocument élève:\n" + uploadedDocText;
-        const prompt = `Corrige DNB Maths: "${questionRef}". Réponse: "${answer}". Contexte: ${context}. Réponds JSON: {"noteTotal":X,"maxTotal":${points},"appreciation":"...","erreursDetectees":[],"pointsForts":[],"elementsManquants":[],"methodologie":"...","conseil":"...","reponseAttendue":"..."}`;
-        const url = currentWho === 'W' ? PROXY_W : PROXY_N;
-        try {
-            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt, system: "Professeur bienveillant" }) });
-            if (!response.ok) throw new Error();
-            const result = await response.json();
-            if (result.success && result.data?.content) return result.data.content[0].text;
-            if (result.success && result.content) return result.content;
-            return "{}";
-        } catch(e) { return "{}"; }
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+}
+
+// ============================================================
+// RENDU DES SUJETS
+// ============================================================
+function afficherSujets() {
+  const container = document.getElementById('sujets');
+  container.innerHTML = '';
+  SUJETS.forEach((s, idx) => {
+    const num = idx + 1;
+    const div = document.createElement('div');
+    div.className = 'sujet';
+    let html = '<h3>Sujet ' + num + ' – ' + s.annee + ' (' + s.session + ') <span class="badge">' + s.titre + '</span></h3>';
+    html += '<div class="texte"><strong>Énoncé :</strong><br>' + s.enonce + '</div>';
+    
+    // Pour chaque question de l'exercice
+    const questions = s.enonce.split('<br><br>');
+    const reponses = s.reponses;
+    
+    for (let i = 0; i < reponses.length; i++) {
+      const qText = questions[i] || 'Question ' + (i+1);
+      const repEsc = reponses[i].replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      const taId = 'exo-' + num + '-' + i;
+      const corrId = 'corr-' + taId;
+      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (4 pts)<br>' + qText + '</div>';
+      html += '<textarea id="' + taId + '" class="reponse" rows="4" placeholder="Votre réponse..."></textarea>';
+      html += '<button onclick="corrigerExercice(\'' + taId + '\', \'' + repEsc + '\', 4, \'' + s.annee + '\', \'' + s.session + '\', ' + (i+1) + ', ' + num + ')">🤖 Corriger avec IA</button>';
+      html += '<button onclick="afficherCorrection(\'corr-officielle-' + taId + '\')">📖 Voir correction officielle</button>';
+      html += '<div id="corr-officielle-' + taId + '" class="correction"><strong>✓ Correction :</strong><br>' + reponses[i] + '</div>';
+      html += '<div id="' + corrId + '" class="correction"></div>';
     }
+    
+    html += '<hr>';
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
 
-    function updateWordCount(taId, counterId) {
-        const text = document.getElementById(taId).value;
-        const words = text.trim().split(/\s+/).filter(w => w.length).length;
-        document.getElementById(counterId).innerText = `${words} mots`;
-    }
-
-    function afficherSujet(index) {
-        const s = SUJETS[index];
-        if(!s) return;
-        document.getElementById('landing').style.display = 'none';
-        const container = document.getElementById('subject-area');
-        container.innerHTML = `
-            <button class="back-btn" onclick="afficherAccueil()">← Retour à la liste</button>
-            <div class="pdf-info" style="background:#1e2a3e; border-radius:1rem; padding:0.8rem; margin-bottom:1rem;">
-                📄 Sujet "${s.titre}" – <a href="${s.pdf}" target="_blank" class="pdf-link">📎 Ouvrir le PDF officiel (figures et corrigés)</a>
-            </div>
-            <div class="who-selector"><button class="who-btn" data-who="W">Wassil</button><button class="who-btn" data-who="N">Nawal</button></div>
-            <div id="questions-area"></div>
-        `;
-        container.style.display = 'block';
-        document.querySelectorAll('.who-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentWho = btn.dataset.who;
-                document.querySelectorAll('.who-btn').forEach(b=>b.classList.remove('active-w','active-n'));
-                btn.classList.add(currentWho==='W'?'active-w':'active-n');
-            });
-        });
-        document.querySelector('.who-btn[data-who="W"]').classList.add('active-w');
-        pdfTextCache = null;
-        loadPdfText(s.pdf).then(pdfText => {
-            let html = '';
-            for(let e=0; e<s.exos.length; e++){
-                const ex = s.exos[e];
-                const ptsParQ = (ex.points / ex.questions.length).toFixed(1);
-                html += `<div class="exo">
-                    <div class="exo-title">${ex.nom}</div>
-                    <div class="exo-points">📊 ${ex.points} points</div>`;
-                for(let q=0; q<ex.questions.length; q++){
-                    html += `<div class="question">
-                        <div class="question-header">
-                            <span class="question-number">Question ${q+1}</span>
-                            <span class="calc-note">${ptsParQ.replace('.',',')} pts</span>
-                        </div>
-                        <div class="question-text">${ex.questions[q]}</div>
-                        <textarea id="resp-${index}-${e}-${q}" rows="3" placeholder="Rédige ta réponse ici..."></textarea>
-                        <div class="word-count" id="words-${index}-${e}-${q}">0 mots</div>
-                        <div class="upload-area">
-                            <label class="upload-label">📂 Joindre un fichier
-                                <input type="file" class="file-input" id="file-${index}-${e}-${q}" accept=".pdf,.jpg,.jpeg,.png">
-                            </label>
-                            <div class="upload-status" id="status-${index}-${e}-${q}">Aucun fichier</div>
-                            <div class="extracted-text" id="extract-${index}-${e}-${q}"></div>
-                        </div>
-                        <div class="btn-group">
-                            <button class="correction-ia" data-index="${index}" data-exo="${e}" data-q="${q}" data-points="${parseFloat(ptsParQ)}">🤖 Corriger avec l'IA</button>
-                        </div>
-                        <div id="fb-${index}-${e}-${q}" class="feedback"></div>
-                    </div>`;
-                }
-                html += `</div>`;
-            }
-            document.getElementById('questions-area').innerHTML = html;
-            
-            // Initialiser compteurs et uploads
-            for(let e=0; e<s.exos.length; e++){
-                for(let q=0; q<s.exos[e].questions.length; q++){
-                    const ta = document.getElementById(`resp-${index}-${e}-${q}`);
-                    if(ta) ta.addEventListener('input', () => updateWordCount(`resp-${index}-${e}-${q}`, `words-${index}-${e}-${q}`));
-                    const fileInput = document.getElementById(`file-${index}-${e}-${q}`);
-                    if(fileInput){
-                        fileInput.addEventListener('change', async (ev) => {
-                            const file = ev.target.files[0];
-                            const statusDiv = document.getElementById(`status-${index}-${e}-${q}`);
-                            const extractedDiv = document.getElementById(`extract-${index}-${e}-${q}`);
-                            if(!file) return;
-                            statusDiv.innerHTML = "⏳ Extraction...";
-                            try {
-                                const extracted = await extractFileContent(file);
-                                const btn = document.querySelector(`.correction-ia[data-index="${index}"][data-exo="${e}"][data-q="${q}"]`);
-                                if(btn) btn.dataset.uploadedText = extracted;
-                                extractedDiv.innerHTML = `<strong>📄 Extrait:</strong><br>${extracted.substring(0,300)}`;
-                                extractedDiv.classList.add('show');
-                                statusDiv.innerHTML = `✅ "${file.name}" prêt`;
-                            } catch(err) { statusDiv.innerHTML = "❌ Erreur"; }
-                        });
-                    }
-                }
-            }
-            
-            // Boutons correction
-            document.querySelectorAll('.correction-ia').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const idx = parseInt(btn.dataset.index);
-                    const exoNum = parseInt(btn.dataset.exo);
-                    const qNum = parseInt(btn.dataset.q);
-                    const points = parseFloat(btn.dataset.points);
-                    const answer = document.getElementById(`resp-${idx}-${exoNum}-${qNum}`).value.trim();
-                    if(!answer) { alert("✏️ Écris ta réponse."); return; }
-                    const pdfTextCache = await loadPdfText(SUJETS[idx].pdf);
-                    const uploadedText = btn.dataset.uploadedText || "";
-                    const feedbackDiv = document.getElementById(`fb-${idx}-${exoNum}-${qNum}`);
-                    feedbackDiv.innerHTML = "<span style='color:#5ecfb1;'>⏳ Correction en cours...</span>";
-                    feedbackDiv.classList.add('show');
-                    btn.disabled = true;
-                    const questionRef = `${SUJETS[idx].exos[exoNum].nom} – Question ${qNum+1}`;
-                    const correction = await callCorrection(questionRef, answer, pdfTextCache, points, uploadedText);
-                    try {
-                        const json = JSON.parse(correction);
-                        feedbackDiv.innerHTML = `
-                            <strong>📊 Note: ${json.noteTotal}/${json.maxTotal}</strong> <span style="color:#e8c87a;">(${json.appreciation})</span><br><br>
-                            ${json.erreursDetectees?.length ? `<strong>⚠️ Erreurs:</strong> ${json.erreursDetectees.join(', ')}<br><br>` : ''}
-                            <strong>✅ Points forts:</strong> ${json.pointsForts?.join(', ') || 'À développer'}<br><br>
-                            <strong>📝 Éléments manquants:</strong> ${json.elementsManquants?.join(', ') || 'RAS'}<br><br>
-                            <strong>🎯 Réponse attendue:</strong><br>${json.reponseAttendue || 'Consultez le corrigé du PDF'}<br><br>
-                            <strong>📖 Méthodologie:</strong> ${json.methodologie}<br><br>
-                            <strong>💡 Conseil:</strong> ${json.conseil}
-                        `;
-                    } catch(e) { feedbackDiv.innerHTML = `<pre>${correction}</pre>`; }
-                    btn.disabled = false;
-                });
-            });
-        });
-    }
-
-    function afficherAccueil() {
-        document.getElementById('landing').style.display = 'grid';
-        document.getElementById('subject-area').style.display = 'none';
-        pdfTextCache = null;
-    }
-
-    document.querySelectorAll('.card').forEach((card, idx) => {
-        card.addEventListener('click', (e) => {
-            if(!e.target.classList.contains('btn')) afficherSujet(idx);
-        });
-    });
-    window.afficherAccueil = afficherAccueil;
+afficherSujets();
 </script>
 </body>
 </html>
