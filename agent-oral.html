@@ -2,281 +2,179 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>👪 Suivi parental – Brevet 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📊 Suivi parental – Brevet 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:1100px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1.5rem;color:#fff;}
+    .container{max-width:1200px;margin:0 auto;}
     h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
     .sub{color:#aaa;margin-bottom:2rem;border-left:3px solid #ffcc00;padding-left:1rem;}
-    .back-link{display:inline-block;margin-bottom:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    .back-link{display:inline-block;margin-bottom:1.5rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
     
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
-    .card{background:#2a2a2a;border-radius:1.5rem;padding:1.2rem;border:1px solid #333;}
-    .card-title{font-size:1.2rem;font-weight:700;color:#ffcc00;margin-bottom:0.5rem;}
-    .card-value{font-size:2rem;font-weight:700;color:#5ecfb1;margin-bottom:0.5rem;}
-    .card-detail{font-size:0.75rem;color:#aaa;}
+    /* Grille 4 matières */
+    .matieres-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
+    .matiere-card{background:#1a1a1a;border-radius:1.5rem;border:1px solid #333;overflow:hidden;}
+    .matiere-header{padding:1rem;background:#2a2a2a;border-bottom:1px solid #333;}
+    .matiere-nom{font-size:1.3rem;font-weight:700;}
+    .matiere-score{font-size:2rem;font-weight:800;margin-top:0.25rem;}
+    .matiere-date{font-size:0.7rem;color:#aaa;margin-top:0.25rem;}
+    .sessions-list{padding:0.8rem;max-height:300px;overflow-y:auto;}
+    .session-item{background:#0a0a0f;border-radius:0.8rem;padding:0.6rem;margin-bottom:0.5rem;border-left:3px solid #5ecfb1;}
+    .session-date{font-size:0.7rem;color:#5ecfb1;font-family:'DM Mono',monospace;}
+    .session-chapitres{font-size:0.75rem;color:#ddd;margin:0.25rem 0;}
+    .session-score{font-size:0.8rem;font-weight:700;color:#ffcc00;}
+    .vide{color:#555;text-align:center;padding:1rem;font-style:italic;}
     
-    table{width:100%;border-collapse:collapse;margin-top:1rem;}
-    th,td{border:1px solid #333;padding:0.6rem;text-align:left;color:#ffffff;}
-    th{background:#2a2a2a;color:#ffcc00;}
-    .maitrisee{color:#2ecc71;}
-    .en_erreur{color:#e74c3c;}
-    .en_cours{color:#f39c12;}
-    .nouvelle{color:#aaa;}
-    
-    .btn-group{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;}
+    .btn-group{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;}
     button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
     button:hover{background:#2a3652;}
+    .btn-danger{border-color:#e74c3c;color:#e74c3c;}
     
-    .selecteur{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
-    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.4rem 0.8rem;color:white;}
-    
-    .refresh-badge{background:#2ecc71;color:#000;border-radius:999px;padding:2px 8px;font-size:10px;margin-left:8px;}
+    footer{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #333;font-size:0.7rem;color:#555;}
   </style>
 </head>
 <body>
 <div class="container">
   <a href="index.html" class="back-link">← Retour au hub</a>
-  <h1>👪 Suivi parental <span class="refresh-badge">direct localStorage</span></h1>
-  <div class="sub">Progression de l'élève dans les automatismes (flashcards)</div>
+  <h1>📊 Suivi parental</h1>
+  <div class="sub">Chaque session d'automatismes est enregistrée automatiquement.</div>
 
-  <div class="selecteur">
-    <label>📚 Matière : </label>
-    <select id="matiereSelect">
-      <option value="francais">Français</option>
-      <option value="maths">Mathématiques</option>
-      <option value="histoire">Histoire-Géo & EMC</option>
-      <option value="sciences">Sciences</option>
-    </select>
-    <button id="actualiserBtn">🔄 Actualiser</button>
-    <button id="exporterBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter JSON</button>
-    <button id="resetAllBtn" style="border-color:#e74c3c;color:#e74c3c;">⚠️ Réinitialiser tout</button>
-  </div>
-
-  <div class="stats-grid" id="statsGrid"></div>
-  <div id="detailsTable"></div>
-
+  <div class="matieres-grid" id="matieresGrid"></div>
+  
   <div class="btn-group">
-    <button id="excelBtn">📊 Exporter CSV</button>
+    <button id="refreshBtn">🔄 Actualiser</button>
+    <button id="exportBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter tout (JSON)</button>
+    <button id="resetBtn" class="btn-danger">⚠️ Réinitialiser toutes les données</button>
   </div>
+  <footer>💡 Les scores viennent des exercices "Automatismes" (Français, Maths, Histoire, Sciences). Chaque session est automatiquement sauvegardée avec la date, les chapitres et le score.</footer>
 </div>
 
 <script>
-  // Correspondance exacte avec les clés localStorage utilisées dans automatismes-*.html
-  const matieres = {
-    francais: { 
-      nom: "Français", 
-      storageKey: "automatismes_francais",
-      planningKey: "planning_automatismes_francais"
-    },
-    maths: { 
-      nom: "Mathématiques", 
-      storageKey: "automatismes_maths",
-      planningKey: "planning_automatismes_maths"
-    },
-    histoire: { 
-      nom: "Histoire-Géo & EMC", 
-      storageKey: "automatismes_histoire",
-      planningKey: "planning_automatismes_histoire"
-    },
-    sciences: { 
-      nom: "Sciences", 
-      storageKey: "automatismes_sciences",
-      planningKey: "planning_automatismes_sciences"
-    }
+  // Clés localStorage utilisées par les fichiers automatismes-*.html
+  const MATIERES = {
+    francais: { nom: "Français", couleur: "#ffcc00", storageKey: "automatismes_sessions_francais" },
+    maths: { nom: "Mathématiques", couleur: "#2ecc71", storageKey: "automatismes_sessions_maths" },
+    histoire: { nom: "Histoire-Géo & EMC", couleur: "#e74c3c", storageKey: "automatismes_sessions_histoire" },
+    sciences: { nom: "Sciences", couleur: "#3498db", storageKey: "automatismes_sessions_sciences" }
   };
 
-  function chargerProgression(matiereId) {
-    const mat = matieres[matiereId];
-    const saved = localStorage.getItem(mat.storageKey);
-    const planning = localStorage.getItem(mat.planningKey);
-    
-    let progression = {};
-    let planningData = null;
-    
-    if (saved) {
-      try {
-        progression = JSON.parse(saved);
-      } catch(e) { console.error("Erreur parsing", e); }
+  // Récupérer toutes les sessions d'une matière
+  function getSessions(matiereId) {
+    const key = MATIERES[matiereId].storageKey;
+    const saved = localStorage.getItem(key);
+    if (!saved) return [];
+    try {
+      return JSON.parse(saved);
+    } catch(e) {
+      return [];
     }
-    
-    if (planning) {
-      try {
-        planningData = JSON.parse(planning);
-      } catch(e) {}
-    }
-    
-    return { progression, planning: planningData };
   }
 
-  function calculerStats(progression) {
-    let total = 0, maitrisees = 0, erreurs = 0, enCours = 0;
-    for (const [key, value] of Object.entries(progression)) {
-      total++;
-      if (value.etat === "maitrisee") maitrisees++;
-      else if (value.etat === "en_erreur") erreurs++;
-      else if (value.etat === "nouvelle") enCours++;
-      else if (value.nbErreurs > 0) erreurs++;
-      else enCours++;
-    }
-    return { total, maitrisees, erreurs, enCours, pourcentage: total === 0 ? 0 : Math.round(maitrisees/total*100) };
-  }
-
-  function afficherSuivi() {
-    const matiereId = document.getElementById("matiereSelect").value;
-    const mat = matieres[matiereId];
-    const { progression, planning } = chargerProgression(matiereId);
-    const stats = calculerStats(progression);
-    const totalCartes = Object.keys(progression).length;
-    
-    // Afficher les stats
-    document.getElementById("statsGrid").innerHTML = `
-      <div class="card">
-        <div class="card-title">📚 ${mat.nom}</div>
-        <div class="card-value">${stats.pourcentage}%</div>
-        <div class="card-detail">✅ ${stats.maitrisees} cartes maîtrisées</div>
-        <div class="card-detail">❌ ${stats.erreurs} cartes en erreur</div>
-        <div class="card-detail">⏳ ${stats.enCours} cartes en cours</div>
-        <div class="card-detail">📊 Total : ${stats.total} cartes</div>
-        ${planning ? `<div class="card-detail">📅 Jour J-${planning.jour || '?'}</div>` : ''}
-      </div>
-      <div class="card">
-        <div class="card-title">🎯 Détails</div>
-        <div class="card-value">${stats.maitrisees}/${stats.total}</div>
-        <div class="card-detail">🔹 Taux de réussite : ${stats.pourcentage}%</div>
-        <div class="card-detail">🔸 Reste à maîtriser : ${stats.total - stats.maitrisees}</div>
-      </div>
-    `;
-
-    // Afficher les cartes en erreur (priorité)
-    const erreursList = Object.entries(progression).filter(([q, d]) => d.etat === "en_erreur" || d.nbErreurs > 0);
-    const maitriseesList = Object.entries(progression).filter(([q, d]) => d.etat === "maitrisee");
-    const autresList = Object.entries(progression).filter(([q, d]) => d.etat !== "en_erreur" && d.etat !== "maitrisee");
-    
-    document.getElementById("detailsTable").innerHTML = `
-      <div style="margin-top:1rem;">
-        <h3 style="margin:1rem 0 0.5rem 0;color:#e74c3c;">❌ Cartes en erreur (${erreursList.length})</h3>
-        ${erreursList.length === 0 ? '<div class="card" style="text-align:center;">🎉 Aucune carte en erreur !</div>' : `
-        <table>
-          <thead><tr><th>Question</th><th>État</th><th>Nb erreurs</th></tr></thead>
-          <tbody>
-            ${erreursList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="en_erreur">${d.etat || 'en_erreur'}</td><td>${d.nbErreurs || 0}</td></tr>`).join('')}
-          </tbody>
-        </table>
-        `}
-        
-        <h3 style="margin:1rem 0 0.5rem 0;color:#2ecc71;">✅ Cartes maîtrisées (${maitriseesList.length})</h3>
-        ${maitriseesList.length === 0 ? '<div class="card" style="text-align:center;">Aucune carte maîtrisée pour l\'instant.</div>' : `
-        <details>
-          <summary style="cursor:pointer;color:#5ecfb1;">📖 Voir les ${maitriseesList.length} cartes maîtrisées</summary>
-          <table>
-            <thead><tr><th>Question</th><th>État</th></tr></thead>
-            <tbody>
-              ${maitriseesList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="maitrisee">${d.etat}</td></tr>`).join('')}
-            </tbody>
-          </table>
-        </details>
-        `}
-        
-        <h3 style="margin:1rem 0 0.5rem 0;color:#f39c12;">⏳ Cartes en cours (${autresList.length})</h3>
-        ${autresList.length === 0 ? '<div class="card" style="text-align:center;">Aucune carte en cours.</div>' : `
-        <details>
-          <summary style="cursor:pointer;color:#5ecfb1;">📖 Voir les ${autresList.length} cartes en cours</summary>
-          <table>
-            <thead><tr><th>Question</th><th>État</th></tr></thead>
-            <tbody>
-              ${autresList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="en_cours">${d.etat || 'nouvelle'}</td></tr>`).join('')}
-            </tbody>
-          </table>
-        </details>
-        `}
-      </div>
-      ${totalCartes === 0 ? '<div class="card" style="text-align:center;margin-top:1rem;">📭 Aucune donnée pour cette matière. L\'élève n\'a pas encore commencé les automatismes.</div>' : ''}
-    `;
-  }
-
-  function exporterJSON() {
-    const matiereId = document.getElementById("matiereSelect").value;
-    const { progression, planning } = chargerProgression(matiereId);
-    const data = { 
-      matiere: matieres[matiereId].nom,
+  // Sauvegarder une session (appelé depuis automatismes)
+  function sauvegarderSession(matiereId, chapitres, score, details) {
+    const key = MATIERES[matiereId].storageKey;
+    const sessions = getSessions(matiereId);
+    const nouvelleSession = {
+      id: Date.now(),
       date: new Date().toISOString(),
-      progression: progression,
-      planning: planning,
-      stats: calculerStats(progression)
+      dateFr: new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', hour:'2-digit', minute:'2-digit' }),
+      chapitres: chapitres, // tableau des chapitres étudiés
+      score: score, // nombre de bonnes réponses / total
+      pourcentage: Math.round((score.bonnes / score.total) * 100),
+      details: details || {}
     };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    sessions.unshift(nouvelleSession); // les plus récentes d'abord
+    // Garder max 100 sessions par matière
+    while(sessions.length > 100) sessions.pop();
+    localStorage.setItem(key, JSON.stringify(sessions));
+    return nouvelleSession;
+  }
+
+  // Calculer la moyenne des 5 dernières sessions
+  function moyenneRecente(sessions) {
+    const dernieres = sessions.slice(0, 5);
+    if (dernieres.length === 0) return null;
+    const sum = dernieres.reduce((acc, s) => acc + s.pourcentage, 0);
+    return Math.round(sum / dernieres.length);
+  }
+
+  // Afficher toutes les matières
+  function afficherSuivi() {
+    const grid = document.getElementById("matieresGrid");
+    grid.innerHTML = "";
+    
+    for (const [id, mat] of Object.entries(MATIERES)) {
+      const sessions = getSessions(id);
+      const moyenne = moyenneRecente(sessions);
+      const derniereSession = sessions[0];
+      
+      const card = document.createElement("div");
+      card.className = "matiere-card";
+      card.innerHTML = `
+        <div class="matiere-header">
+          <div class="matiere-nom" style="color:${mat.couleur}">${mat.nom}</div>
+          <div class="matiere-score">${moyenne !== null ? moyenne + '%' : '—'}</div>
+          <div class="matiere-date">📊 Moyenne des 5 dernières sessions</div>
+        </div>
+        <div class="sessions-list">
+          ${sessions.length === 0 ? '<div class="vide">📭 Aucune session enregistrée.<br>Lancez un quiz "Automatismes" !</div>' : ''}
+          ${sessions.slice(0, 15).map(s => `
+            <div class="session-item">
+              <div class="session-date">📅 ${s.dateFr}</div>
+              <div class="session-chapitres">📖 ${Array.isArray(s.chapitres) ? s.chapitres.join(', ') : s.chapitres || 'Quiz complet'}</div>
+              <div class="session-score">🎯 Score : ${s.score.bonnes || s.score}/${s.score.total || 100} (${s.pourcentage}%)</div>
+            </div>
+          `).join('')}
+          ${sessions.length > 15 ? `<div class="session-item" style="text-align:center;color:#555;">+ ${sessions.length - 15} sessions anciennes...</div>` : ''}
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  }
+
+  // Exporter toutes les données
+  function exporterJSON() {
+    const allData = {};
+    for (const [id, mat] of Object.entries(MATIERES)) {
+      allData[id] = getSessions(id);
+    }
+    const blob = new Blob([JSON.stringify({
+      exportDate: new Date().toISOString(),
+      data: allData
+    }, null, 2)], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `suivi_${matiereId}_${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `suivi_parental_${new Date().toISOString().slice(0,10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }
 
-  function exporterCSV() {
-    const matiereId = document.getElementById("matiereSelect").value;
-    const { progression } = chargerProgression(matiereId);
-    let csv = "Question;État;NbErreurs;DernièreModification\n";
-    for (const [q, d] of Object.entries(progression)) {
-      csv += `"${q.replace(/"/g, '""')}";${d.etat || 'nouvelle'};${d.nbErreurs || 0};${d.lastModified || ''}\n`;
-    }
-    const blob = new Blob(["\uFEFF" + csv], {type: "text/csv;charset=utf-8;"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `suivi_${matiereId}_${new Date().toISOString().slice(0,10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function reinitialiserMatiere() {
-    const matiereId = document.getElementById("matiereSelect").value;
-    const mat = matieres[matiereId];
-    if (confirm(`⚠️ Attention : cela va effacer TOUTE la progression de ${mat.nom}. Êtes-vous sûr ?`)) {
-      localStorage.removeItem(mat.storageKey);
-      localStorage.removeItem(mat.planningKey);
-      alert(`✅ ${mat.nom} a été réinitialisé.`);
-      afficherSuivi();
-    }
-  }
-
-  function reinitialiserTout() {
-    if (confirm("⚠️ Attention : cela va effacer TOUTE la progression de TOUTES les matières. Êtes-vous sûr ?")) {
-      for (const m of Object.keys(matieres)) {
-        localStorage.removeItem(matieres[m].storageKey);
-        localStorage.removeItem(matieres[m].planningKey);
+  // Réinitialiser tout
+  function resetAll() {
+    if (confirm("⚠️ Supprimer TOUTES les sessions de TOUTES les matières ? Cette action est irréversible.")) {
+      for (const [id, mat] of Object.entries(MATIERES)) {
+        localStorage.removeItem(mat.storageKey);
       }
-      alert("✅ Toutes les données ont été réinitialisées.");
       afficherSuivi();
     }
   }
+
+  // Exposer la fonction de sauvegarde pour les fichiers automatismes
+  window.SuiviParental = {
+    sauvegarderSession: sauvegarderSession,
+    getSessions: getSessions
+  };
 
   // Événements
-  document.getElementById("actualiserBtn").addEventListener("click", afficherSuivi);
-  document.getElementById("exporterBtn").addEventListener("click", exporterJSON);
-  document.getElementById("excelBtn").addEventListener("click", exporterCSV);
-  document.getElementById("resetAllBtn").addEventListener("click", reinitialiserTout);
+  document.getElementById("refreshBtn").addEventListener("click", afficherSuivi);
+  document.getElementById("exportBtn").addEventListener("click", exporterJSON);
+  document.getElementById("resetBtn").addEventListener("click", resetAll);
   
-  // Ajouter un bouton reset par matière
-  const selecteur = document.querySelector(".selecteur");
-  const resetMatiereBtn = document.createElement("button");
-  resetMatiereBtn.textContent = "🗑️ Réinitialiser cette matière";
-  resetMatiereBtn.style.borderColor = "#e74c3c";
-  resetMatiereBtn.style.color = "#e74c3c";
-  resetMatiereBtn.onclick = reinitialiserMatiere;
-  selecteur.appendChild(resetMatiereBtn);
-  
-  // Charger au démarrage
+  // Afficher au chargement
   afficherSuivi();
-  
-  // Auto-refresh toutes les 5 secondes (optionnel)
-  setInterval(() => {
-    afficherSuivi();
-  }, 5000);
 </script>
 </body>
 </html>
