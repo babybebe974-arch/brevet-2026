@@ -3,733 +3,306 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sujets Sciences — Brevet 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<title>🔬 Sciences — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #09090f;
-    --surface: #111118;
-    --surface2: #1a1a24;
-    --border: #2a2a38;
-    --gold: #e8c87a;
-    --gold-dim: #c4a655;
-    --teal: #5ecfb1;
-    --teal-dim: #3aad91;
-    --red: #e87a7a;
-    --violet: #a07af5;
-    --violet-dim: #7c5cd4;
-    --text: #e8e8f0;
-    --text-dim: #9090a8;
-    --text-muted: #5a5a72;
-    --radius: 12px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--purple:#a98af5;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--purple);border:1px solid rgba(169,138,245,0.3);background:rgba(169,138,245,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--purple);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sujet-card:hover{border-color:rgba(169,138,245,0.4);transform:translateY(-2px);}
+.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
+.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--purple);}
+.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
+.back:hover{background:rgba(255,255,255,0.04);}
+.chrono-bar{background:rgba(169,138,245,0.06);border-bottom:1px solid rgba(169,138,245,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--purple);}
+.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chrono-btns{display:flex;gap:8px;}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(169,138,245,0.3);background:rgba(169,138,245,0.07);color:var(--purple);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.s-body{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--purple);}
+.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.partie-body{padding:20px;}
+.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--purple);}
+.q-block{margin-bottom:16px;}
+.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--purple);font-weight:700;min-width:24px;margin-top:2px;}
+.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
+.answer-ta:focus{border-color:rgba(169,138,245,0.4);}
+.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(169,138,245,0.25);background:rgba(169,138,245,0.06);color:var(--purple);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.corr-btn:hover{background:rgba(169,138,245,0.12);}
+.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.corr-box.show{display:block;}
+.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
+.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ae-label{font-size:13px;flex:1;}
+.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
+.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ae-total{background:linear-gradient(135deg,rgba(169,138,245,0.1),rgba(169,138,245,0.05));border:1px solid rgba(169,138,245,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--purple);}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btns{display:flex;gap:10px;margin-top:12px;}
+.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
+.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btn.primary{background:linear-gradient(135deg,var(--purple),#7c5ece);border:none;color:#f0ede8;font-weight:700;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(126,207,138,0.4);color:var(--green);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
 
-  /* HEADER */
-  .header { background: linear-gradient(135deg,#09090f,#12121f); border-bottom: 1px solid var(--border); padding: 28px 24px 20px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-  .header-inner { max-width: 920px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-  .back-btn { color: var(--text-dim); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: color .2s; }
-  .back-btn:hover { color: var(--teal); }
-  .header-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
-  .header-title span { color: var(--violet); }
-  .counter { margin-left: auto; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 13px; color: var(--text-dim); }
-  .counter b { color: var(--teal); }
-
-  /* HERO */
-  .hero { max-width: 920px; margin: 0 auto; padding: 40px 24px 24px; }
-  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(24px,5vw,36px); font-weight: 800; line-height: 1.15; margin-bottom: 12px; }
-  .hero h1 em { font-style: normal; color: var(--violet); }
-  .hero p { color: var(--text-dim); font-size: 14px; max-width: 560px; }
-  .hero-note { margin-top: 12px; background: rgba(160,122,245,.08); border: 1px solid var(--violet-dim); border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--text-dim); }
-  .hero-note strong { color: var(--violet); }
-
-  /* LEGEND */
-  .legend { max-width: 920px; margin: 0 auto 8px; padding: 0 24px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; }
-  .legend-item { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-
-  /* SUJET LIST */
-  .sujet-list { max-width: 920px; margin: 0 auto; padding: 0 24px 80px; display: flex; flex-direction: column; gap: 14px; }
-
-  /* CARD */
-  .sujet-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .2s; }
-  .sujet-card:hover { border-color: #4a3a6a; }
-  .sujet-card.open { border-color: var(--violet-dim); }
-
-  .sujet-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; cursor: pointer; user-select: none; }
-  .sujet-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--border); min-width: 38px; line-height: 1; }
-  .sujet-card.open .sujet-num { color: var(--violet); }
-  .sujet-meta { flex: 1; min-width: 0; }
-  .sujet-titre { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
-  .sujet-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-  .sujet-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
-  .tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
-  .tag.pc { border-color: #5eaacf; color: #5eaacf; }
-  .tag.svt { border-color: #5ecf8a; color: #5ecf8a; }
-  .tag.y24 { border-color: var(--gold-dim); color: var(--gold); }
-  .tag.y23 { border-color: var(--teal-dim); color: var(--teal); }
-  .tag.y22 { border-color: #a07af5; color: #a07af5; }
-
-  .sujet-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-direction: column; align-items: flex-end; }
-  .dl-btn { display: flex; align-items: center; gap: 6px; background: var(--violet); color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 7px 12px; border-radius: 7px; text-decoration: none; transition: background .2s, transform .15s; white-space: nowrap; }
-  .dl-btn:hover { background: var(--violet-dim); transform: translateY(-1px); }
-  .warning-tip { font-size: 11px; color: var(--red); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-  .chevron { color: var(--text-muted); transition: transform .3s; font-size: 18px; }
-  .sujet-card.open .chevron { transform: rotate(180deg); color: var(--violet); }
-
-  /* BODY */
-  .sujet-body { display: none; border-top: 1px solid var(--border); }
-  .sujet-card.open .sujet-body { display: block; }
-
-  /* PROGRESS */
-  .progress-bar-wrap { padding: 10px 22px; background: var(--surface2); display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-dim); }
-  .progress-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--violet); border-radius: 2px; transition: width .4s; }
-
-  /* DISCIPLINE HEADER */
-  .discipline-header { padding: 14px 22px 6px; display: flex; align-items: center; gap: 10px; }
-  .disc-badge { font-size: 11px; font-weight: 700; font-family: 'Syne', sans-serif; padding: 3px 10px; border-radius: 4px; letter-spacing: .06em; }
-  .disc-badge.pc { background: rgba(94,170,207,.12); color: #5eaacf; border: 1px solid #5eaacf44; }
-  .disc-badge.svt { background: rgba(94,207,138,.12); color: #5ecf8a; border: 1px solid #5ecf8a44; }
-  .disc-pts { font-size: 12px; color: var(--text-muted); }
-
-  /* QUESTION */
-  .question-block { padding: 14px 22px 18px; border-bottom: 1px solid var(--border); }
-  .question-block:last-child { border-bottom: none; }
-  .q-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-  .q-num { background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; min-width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .q-num.done { background: rgba(160,122,245,.12); border-color: var(--violet-dim); color: var(--violet); }
-  .q-text { font-size: 14px; color: var(--text); flex: 1; line-height: 1.55; }
-  .q-text strong { color: var(--gold); }
-  .q-text em { color: var(--teal); font-style: normal; }
-  .pdf-note { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--violet); background: rgba(160,122,245,.08); border: 1px solid rgba(160,122,245,.2); border-radius: 5px; padding: 2px 8px; margin-bottom: 6px; }
-
-  /* UPLOAD */
-  .upload-zone { border: 1.5px dashed var(--border); border-radius: 8px; padding: 12px 16px; margin: 10px 0 0; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: border-color .2s, background .2s; }
-  .upload-zone:hover { border-color: var(--violet-dim); background: rgba(160,122,245,.04); }
-  .upload-zone.has-file { border-color: var(--teal-dim); background: rgba(94,207,177,.05); }
-  .upload-zone input { display: none; }
-  .upload-icon { font-size: 18px; }
-  .upload-label { font-size: 12px; color: var(--text-dim); }
-  .upload-label b { color: var(--teal); display: block; font-size: 11px; }
-
-  /* ANSWER */
-  .answer-input-wrap { margin-top: 8px; position: relative; }
-  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 100px 9px 12px; resize: none; min-height: 56px; outline: none; transition: border-color .2s; }
-  .answer-input:focus { border-color: var(--violet-dim); }
-  .answer-input::placeholder { color: var(--text-muted); }
-  .send-btn { position: absolute; right: 7px; bottom: 7px; background: var(--violet); color: #fff; border: none; border-radius: 6px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 6px 12px; cursor: pointer; transition: background .2s, transform .15s; }
-  .send-btn:hover { background: var(--violet-dim); transform: translateY(-1px); }
-  .send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-
-  /* CORRECTION */
-  .correction-panel { margin-top: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: none; }
-  .correction-panel.visible { display: block; }
-  .correction-tabs { display: flex; border-bottom: 1px solid var(--border); }
-  .ctab { flex: 1; padding: 9px 14px; font-size: 11px; font-family: 'Syne', sans-serif; font-weight: 600; color: var(--text-muted); cursor: pointer; text-align: center; transition: color .2s, background .2s; border: none; background: none; }
-  .ctab.active { color: var(--violet); background: rgba(160,122,245,.06); border-bottom: 2px solid var(--violet); }
-  .correction-body { padding: 14px; font-size: 13px; color: var(--text); line-height: 1.6; display: none; }
-  .correction-body.active { display: block; }
-  .loading { color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
-  .dot-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--violet); animation: pulse 1.2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)} }
-  .score-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(94,207,177,.1); border: 1px solid var(--teal-dim); color: var(--teal); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; padding: 3px 9px; border-radius: 20px; margin-bottom: 8px; }
-  .score-badge.wrong { background: rgba(232,122,122,.1); border-color: var(--red); color: var(--red); }
-  .score-badge.partial { background: rgba(232,200,122,.1); border-color: var(--gold-dim); color: var(--gold); }
-  .conseil-block { margin-top: 8px; padding: 10px 13px; background: rgba(160,122,245,.06); border-left: 3px solid var(--violet); border-radius: 0 6px 6px 0; font-size: 12px; color: var(--text-dim); }
-  .conseil-block strong { color: var(--violet); display: block; margin-bottom: 4px; }
-
-  /* GLOBAL SCORE */
-  .global-score { padding: 14px 22px; background: var(--surface2); border-top: 1px solid var(--border); display: none; align-items: center; gap: 14px; }
-  .global-score.visible { display: flex; }
-  .score-ring { width: 52px; height: 52px; border-radius: 50%; background: var(--surface); border: 2px solid var(--violet-dim); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; color: var(--violet); flex-shrink: 0; }
-  .score-text { font-size: 13px; color: var(--text-dim); }
-  .score-text strong { color: var(--text); display: block; font-size: 15px; }
-
-  /* UPCOMING */
-  .upcoming { opacity: .5; pointer-events: none; }
-  .upcoming .sujet-header { cursor: default; }
-  .upcoming-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 10px; font-size: 11px; color: var(--text-muted); }
-
-  /* TOAST */
-  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface2); border: 1px solid var(--violet-dim); color: var(--violet); font-size: 13px; padding: 10px 18px; border-radius: 8px; z-index: 999; transform: translateY(20px); opacity: 0; transition: all .3s; pointer-events: none; }
-  .toast.show { transform: translateY(0); opacity: 1; }
+/* IA */
+.ai-btn{width:100%;margin-top:8px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:8px;padding:12px;color:#080600;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.2s;}
+.ai-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
+.ai-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.ai-loading{display:none;text-align:center;padding:16px;background:rgba(232,200,122,0.04);border:1px solid rgba(232,200,122,0.12);border-radius:8px;margin-top:8px;}
+.ai-spin{width:24px;height:24px;border:2px solid rgba(232,200,122,0.2);border-top-color:#e8c87a;border-radius:50%;animation:aiSp 0.8s linear infinite;margin:0 auto 8px;}
+@keyframes aiSp{to{transform:rotate(360deg)}}
+.ai-result{display:none;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);}
+.ai-score-bar{padding:14px 18px;display:flex;align-items:center;gap:14px;}
+.ai-score-num{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;line-height:1;flex-shrink:0;}
+.ai-score-info{flex:1;font-size:11px;}
+.ai-pbar-bg{height:4px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-top:5px;}
+.ai-pbar-fill{height:100%;border-radius:999px;transition:width 1s ease;}
+.ai-body{padding:14px 18px;background:rgba(0,0,0,0.2);font-size:12px;}
+.ai-annote{line-height:2;margin-bottom:12px;padding:12px;background:rgba(255,255,255,0.03);border-radius:6px;font-size:13px;}
+.ar{background:rgba(245,85,85,0.15);border-bottom:2px solid #f55a5a;cursor:help;position:relative;}
+.av{background:rgba(126,207,138,0.12);border-bottom:2px solid #7ecf8a;}
+.ar .tt{display:none;position:absolute;bottom:calc(100%+5px);left:0;background:#1a1a26;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:8px 12px;font-size:11px;color:#f0ede8;line-height:1.5;z-index:20;min-width:180px;max-width:280px;white-space:normal;}
+.ar:hover .tt{display:block;}
+.ai-sec{margin-bottom:10px;}
+.ai-sec-t{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.ai-sec-b{color:rgba(240,237,232,0.55);line-height:1.6;}
+.ai-sec-b ul{margin-left:12px;}.ai-sec-b li{margin-bottom:2px;}
+.ai-sec-b strong{color:#f0ede8;}
+.ai-r .ai-sec-t{color:#f55a5a;}.ai-v .ai-sec-t{color:#7ecf8a;}
+.ai-g .ai-sec-t{color:#e8c87a;}.ai-p .ai-sec-t{color:#a98af5;}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-inner">
-    <a href="index.html" class="back-btn">← Hub</a>
-    <div class="header-title">Sujets <span>Sciences</span></div>
-    <div class="counter">Sujet <b id="openCount">0</b>/10 commencé</div>
+<div id="home">
+  <div class="badge">🔬 Sujets blancs complets — Sciences</div>
+  <h1>Brevet Blanc <em>Sciences</em></h1>
+  <p class="sub">10 sujets complets format DNB. Physique-Chimie et SVT. Questions + démarche scientifique + schémas.</p>
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
   </div>
+  <div class="sujets-grid" id="sujets-grid"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
 </div>
 
-<div class="hero">
-  <h1>10 vrais sujets<br><em>DNB Sciences</em></h1>
-  <p>Physique-Chimie + SVT sur la même copie. Réponds question par question, l'IA corrige et conseille.</p>
-  <div class="hero-note">
-    <strong>📌 Important :</strong> Chaque sujet DNB Sciences comporte <strong>2 parties</strong> : Physique-Chimie (25 pts) et SVT (25 pts), à traiter sur la même copie en 1h. Certains sujets ont des <strong>ANNEXES à rendre</strong> — télécharge le PDF !
+<div id="sujet-page">
+  <div class="s-header">
+    <div><div class="s-logo">🔬 Brevet Blanc Sciences</div><div class="s-meta" id="s-meta">—</div></div>
+    <button class="back" onclick="goHome()">← Retour</button>
   </div>
+  <div class="chrono-bar">
+    <span style="font-size:11px;color:var(--purple);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre</span>
+    <div class="chrono-time" id="chrono">1:00:00</div>
+    <div class="chrono-btns">
+      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
+      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="s-body" id="s-body"></div>
 </div>
-
-<div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#5eaacf"></div> Physique-Chimie</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#5ecf8a"></div> SVT</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> 2024</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> 2023</div>
-  <div class="legend-item"><div class="legend-dot" style="background:var(--violet)"></div> 2022</div>
-</div>
-
-<div class="sujet-list" id="sujetList">
-
-<!-- ═══════════════════════════════════════════════════════
-     SUJET 1 — 2024 Métropole
-     PC: Piscine olympique, pH, rouge de phénol, molécules
-     SVT: Technologie (Vigie anti-incendie)
-═══════════════════════════════════════════════════════ -->
-<div class="sujet-card" id="s1">
-  <div class="sujet-header" onclick="toggle('s1')">
-    <div class="sujet-num">01</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2024 — Métropole (juin)</div>
-      <div class="sujet-desc">50 pts · PC + Technologie · 1h · Annexes à rendre (pp. 8-9)</div>
-      <div class="sujet-tags">
-        <span class="tag pc">Physique-Chimie</span>
-        <span class="tag">Technologie</span>
-        <span class="tag y24">2024</span>
-        <span class="tag">Piscine olympique · pH · Électricité · Vigie</span>
-      </div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2024/07/24GENSCMEAG1.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap">
-      <span>Progression</span>
-      <div class="progress-bar"><div class="progress-fill" id="prog-s1" style="width:0%"></div></div>
-      <span id="prog-label-s1">0 / 8</span>
-    </div>
-
-    <!-- PC -->
-    <div class="discipline-header">
-      <span class="disc-badge pc">PHYSIQUE-CHIMIE</span>
-      <span class="disc-pts">25 points — Piscine olympique, pH, molécules</span>
-    </div>
-
-    <div class="question-block" id="q_s1_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s1_pc1">Q1</div>
-      <div class="q-text">L'eau d'une piscine a un pH inférieur à 7.<br><strong>Donner les 2 inconvénients</strong> mentionnés dans le texte pour les baigneurs et les équipements.</div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s1_pc1" placeholder="Inconvénient 1 :  Inconvénient 2 :"></textarea><button class="send-btn" onclick="corriger('s1','pc1','a_s1_pc1','f_s1_pc1','p_s1_pc1','qn_s1_pc1')">Corriger ↗</button></div>
-      <input type="file" id="f_s1_pc1" style="display:none" accept="image/*,.pdf">
-      <div class="correction-panel" id="p_s1_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s1_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s1_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s1_pc1-0"></div><div class="correction-body" id="p_s1_pc1-1"></div></div>
-    </div>
-
-    <div class="question-block" id="q_s1_pc2">
-      <div class="q-header"><div class="q-num" id="qn_s1_pc2">Q2</div>
-      <div class="q-text"><span class="pdf-note">📄 Tableau dans le PDF</span><br>Un agent mesure l'eau avec du rouge de phénol et obtient une couleur <strong>rouge</strong>.<br>a) L'eau est-elle acide, basique ou neutre ? Justifie.<br>b) La formule du rouge de phénol est C₁₉H₁₄O₅S. Combien y a-t-il d'atomes de soufre (S) ?<br>c) Le rouge de phénol est-il un corps pur ou un mélange ? Justifie.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s1_pc2').click()"><input type="file" id="f_s1_pc2" accept="image/*,.pdf" onchange="fileOk(this,'q_s1_pc2')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille (optionnel)<b id="fn_s1_pc2">Recommandé si tu as fait des calculs</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s1_pc2" placeholder="a) ... car rouge de phénol indique pH...  b) ...atomes  c) ..."></textarea><button class="send-btn" onclick="corriger('s1','pc2','a_s1_pc2','f_s1_pc2','p_s1_pc2','qn_s1_pc2')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s1_pc2"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s1_pc2',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s1_pc2',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s1_pc2-0"></div><div class="correction-body" id="p_s1_pc2-1"></div></div>
-    </div>
-
-    <div class="question-block" id="q_s1_pc3">
-      <div class="q-header"><div class="q-num" id="qn_s1_pc3">Q3</div>
-      <div class="q-text"><span class="pdf-note">📄 Documents dans le PDF p.3-4</span><br>L'acide hypochloreux HClO est utilisé pour désinfecter la piscine.<br><strong>Questions sur les ions, la formule chimique de HClO, et la désinfection.</strong><br>Lis les questions Q3 directement dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s1_pc3').click()"><input type="file" id="f_s1_pc3" accept="image/*,.pdf" onchange="fileOk(this,'q_s1_pc3')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s1_pc3">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s1_pc3" placeholder="Ta réponse aux questions sur HClO..."></textarea><button class="send-btn" onclick="corriger('s1','pc3','a_s1_pc3','f_s1_pc3','p_s1_pc3','qn_s1_pc3')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s1_pc3"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s1_pc3',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s1_pc3',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s1_pc3-0"></div><div class="correction-body" id="p_s1_pc3-1"></div></div>
-    </div>
-
-    <div class="question-block" id="q_s1_pc4">
-      <div class="q-header"><div class="q-num" id="qn_s1_pc4">Q4-5</div>
-      <div class="q-text"><span class="pdf-note">📄 Annexe p.8-9 à rendre — Documents électricité/énergie</span><br>Partie sur l'<strong>énergie électrique au centre aquatique</strong>.<br>Lis les questions 4 et 5 dans le PDF (p.5-7) et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s1_pc4').click()"><input type="file" id="f_s1_pc4" accept="image/*,.pdf" onchange="fileOk(this,'q_s1_pc4')"><span class="upload-icon">📎</span><div class="upload-label">📎 Photo de l'annexe complétée<b id="fn_s1_pc4">Obligatoire pour l'IA</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s1_pc4" placeholder="Tes réponses aux questions sur l'électricité..."></textarea><button class="send-btn" onclick="corriger('s1','pc4','a_s1_pc4','f_s1_pc4','p_s1_pc4','qn_s1_pc4')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s1_pc4"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s1_pc4',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s1_pc4',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s1_pc4-0"></div><div class="correction-body" id="p_s1_pc4-1"></div></div>
-    </div>
-
-    <!-- SVT -->
-    <div class="discipline-header" style="border-top:1px solid var(--border)">
-      <span class="disc-badge svt">TECHNOLOGIE / SVT</span>
-      <span class="disc-pts">25 points — Vigie anti-incendie, capteurs, angles</span>
-    </div>
-
-    <div class="question-block" id="q_s1_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s1_svt1">SVT1</div>
-      <div class="q-text"><span class="pdf-note">📄 Documents Vigie dans le PDF p.5-7</span><br>Depuis une vigie, les pompiers localisent les départs de feu sur 360°.<br>Lis les questions SVT directement dans le PDF et réponds ici (angles, localisation, capteurs).</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s1_svt1').click()"><input type="file" id="f_s1_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s1_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s1_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s1_svt1" placeholder="Tes réponses sur la vigie..."></textarea><button class="send-btn" onclick="corriger('s1','svt1','a_s1_svt1','f_s1_svt1','p_s1_svt1','qn_s1_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s1_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s1_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s1_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s1_svt1-0"></div><div class="correction-body" id="p_s1_svt1-1"></div></div>
-    </div>
-
-    <div class="global-score" id="gs_s1">
-      <div class="score-ring" id="ring_s1">—</div>
-      <div class="score-text"><strong>Score estimé — Sujet 1</strong><span id="st_s1">Continue à répondre pour voir ton score.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     SUJET 2 — 2024 Amérique du Nord
-     SVT: Oiseaux-éléphants de Madagascar, évolution
-     PC: CO2, acidification océans, smartphone, énergie
-═══════════════════════════════════════════════════════ -->
-<div class="sujet-card" id="s2">
-  <div class="sujet-header" onclick="toggle('s2')">
-    <div class="sujet-num">02</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2024 — Amérique du Nord</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexe p.8 à rendre</div>
-      <div class="sujet-tags">
-        <span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span>
-        <span class="tag y24">2024</span>
-        <span class="tag">Oiseaux-éléphants · CO₂ · Évolution · Océans</span>
-      </div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2024/06/24GEN-SC-AN1_v1.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s2" style="width:0%"></div></div><span id="prog-label-s2">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Oiseaux-éléphants de Madagascar, évolution des espèces</span></div>
-    <div class="question-block" id="q_s2_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s2_svt1">SVT1</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF p.2-4</span><br>Les oiseaux-éléphants de Madagascar ont disparu. Lis les questions SVT (reproduction, évolution, biodiversité) dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s2_svt1').click()"><input type="file" id="f_s2_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s2_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s2_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s2_svt1" placeholder="Tes réponses SVT sur les oiseaux-éléphants..."></textarea><button class="send-btn" onclick="corriger('s2','svt1','a_s2_svt1','f_s2_svt1','p_s2_svt1','qn_s2_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s2_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s2_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s2_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s2_svt1-0"></div><div class="correction-body" id="p_s2_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points — CO₂, acidification des océans, ions lithium, vélo-générateur</span></div>
-    <div class="question-block" id="q_s2_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s2_pc1">PC1</div><div class="q-text"><span class="pdf-note">📄 Documents PC dans le PDF p.5-8</span><br>CO₂ se dissout dans l'eau de mer → acidification des océans. Formule de l'ion lithium. Vélo-générateur en gare. Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s2_pc1').click()"><input type="file" id="f_s2_pc1" accept="image/*,.pdf" onchange="fileOk(this,'q_s2_pc1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s2_pc1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s2_pc1" placeholder="Tes réponses PC (CO2, ions, vélo)..."></textarea><button class="send-btn" onclick="corriger('s2','pc1','a_s2_pc1','f_s2_pc1','p_s2_pc1','qn_s2_pc1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s2_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s2_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s2_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s2_pc1-0"></div><div class="correction-body" id="p_s2_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s2"><div class="score-ring" id="ring_s2">—</div><div class="score-text"><strong>Score estimé — Sujet 2</strong><span id="st_s2">Continue à répondre pour voir ton score.</span></div></div>
-  </div>
-</div>
-
-<!-- SUJET 3 — 2023 Métropole -->
-<div class="sujet-card" id="s3">
-  <div class="sujet-header" onclick="toggle('s3')">
-    <div class="sujet-num">03</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2023 — Métropole (juin)</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y23">2023</span><span class="tag">Idotée · Algue rouge · Reproduction · Transformations chimiques</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/06/23GENSCMEAG1.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s3" style="width:0%"></div></div><span id="prog-label-s3">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Reproduction de l'algue rouge, population d'idotées</span></div>
-    <div class="question-block" id="q_s3_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s3_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents SVT dans le PDF</span><br>Reproduction sexuée/asexuée chez l'algue rouge. Dynamique de population des idotées. Lis les questions dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s3_svt1').click()"><input type="file" id="f_s3_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s3_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s3_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s3_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s3','svt1','a_s3_svt1','f_s3_svt1','p_s3_svt1','qn_s3_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s3_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s3_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s3_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s3_svt1-0"></div><div class="correction-body" id="p_s3_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points — Transformations chimiques, énergie</span></div>
-    <div class="question-block" id="q_s3_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s3_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents PC dans le PDF</span><br>Lis les questions Physique-Chimie dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s3_pc1').click()"><input type="file" id="f_s3_pc1" accept="image/*,.pdf" onchange="fileOk(this,'q_s3_pc1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s3_pc1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s3_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s3','pc1','a_s3_pc1','f_s3_pc1','p_s3_pc1','qn_s3_pc1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s3_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s3_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s3_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s3_pc1-0"></div><div class="correction-body" id="p_s3_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s3"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 3</strong><span>Continue à répondre.</span></div></div>
-  </div>
-</div>
-
-<!-- SUJET 4 — 2023 Métropole Septembre -->
-<div class="sujet-card" id="s4">
-  <div class="sujet-header" onclick="toggle('s4')">
-    <div class="sujet-num">04</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2023 — Métropole (septembre, rattrapage)</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y23">2023</span><span class="tag">Phénylcétonurie · Génotype · Emissions CO₂</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/10/23GENSCMEAG3.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s4" style="width:0%"></div></div><span id="prog-label-s4">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Phénylcétonurie, génotype/phénotype, hérédité</span></div>
-    <div class="question-block" id="q_s4_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s4_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>La phénylcétonurie est une maladie génétique. Génotype, phénotype, environnement. Lis les questions dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s4_svt1').click()"><input type="file" id="f_s4_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s4_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s4_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s4_svt1" placeholder="Tes réponses SVT (génétique)..."></textarea><button class="send-btn" onclick="corriger('s4','svt1','a_s4_svt1','f_s4_svt1','p_s4_svt1','qn_s4_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s4_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s4_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s4_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s4_svt1-0"></div><div class="correction-body" id="p_s4_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points — Émissions CO₂, énergie, calculs</span></div>
-    <div class="question-block" id="q_s4_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s4_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s4_pc1').click()"><input type="file" id="f_s4_pc1" accept="image/*,.pdf" onchange="fileOk(this,'q_s4_pc1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s4_pc1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s4_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s4','pc1','a_s4_pc1','f_s4_pc1','p_s4_pc1','qn_s4_pc1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s4_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s4_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s4_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s4_pc1-0"></div><div class="correction-body" id="p_s4_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s4"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 4</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 5 — 2023 Asie -->
-<div class="sujet-card" id="s5">
-  <div class="sujet-header" onclick="toggle('s5')">
-    <div class="sujet-num">05</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2023 — Asie</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexe à rendre</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y23">2023</span><span class="tag">Subduction · Séismes · Chili · Ondes sismiques</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2023/06/23GENSCAA1.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s5" style="width:0%"></div></div><span id="prog-label-s5">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Subduction au Chili, séismes, plaques tectoniques</span></div>
-    <div class="question-block" id="q_s5_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s5_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Le Chili : zone sismique, subduction, risques naturels. Lis les questions dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s5_svt1').click()"><input type="file" id="f_s5_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s5_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s5_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s5_svt1" placeholder="Tes réponses SVT (géologie)..."></textarea><button class="send-btn" onclick="corriger('s5','svt1','a_s5_svt1','f_s5_svt1','p_s5_svt1','qn_s5_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s5_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s5_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s5_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s5_svt1-0"></div><div class="correction-body" id="p_s5_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points</span></div>
-    <div class="question-block" id="q_s5_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s5_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s5_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s5','pc1','a_s5_pc1','f_s5_pc1','p_s5_pc1','qn_s5_pc1')">Corriger ↗</button></div>
-      <input type="file" id="f_s5_pc1" style="display:none">
-      <div class="correction-panel" id="p_s5_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s5_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s5_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s5_pc1-0"></div><div class="correction-body" id="p_s5_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s5"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 5</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 6 — 2022 Métropole juin -->
-<div class="sujet-card" id="s6">
-  <div class="sujet-header" onclick="toggle('s6')">
-    <div class="sujet-num">06</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2022 — Métropole (juin)</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexes pp.7-8 à rendre</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y22">2022</span><span class="tag">Tortues marines · Température · pH · Énergie solaire</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/07/DNB-metropole.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s6" style="width:0%"></div></div><span id="prog-label-s6">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Sexe des tortues marines, impact du réchauffement climatique</span></div>
-    <div class="question-block" id="q_s6_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s6_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>La température de l'environnement détermine le sexe des tortues marines. Impact du changement climatique sur les êtres vivants. Lis les questions dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s6_svt1').click()"><input type="file" id="f_s6_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s6_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s6_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s6_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s6','svt1','a_s6_svt1','f_s6_svt1','p_s6_svt1','qn_s6_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s6_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s6_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s6_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s6_svt1-0"></div><div class="correction-body" id="p_s6_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points — pH, énergie solaire</span></div>
-    <div class="question-block" id="q_s6_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s6_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s6_pc1').click()"><input type="file" id="f_s6_pc1" accept="image/*,.pdf" onchange="fileOk(this,'q_s6_pc1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s6_pc1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s6_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s6','pc1','a_s6_pc1','f_s6_pc1','p_s6_pc1','qn_s6_pc1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s6_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s6_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s6_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s6_pc1-0"></div><div class="correction-body" id="p_s6_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s6"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 6</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 7 — 2022 Asie -->
-<div class="sujet-card" id="s7">
-  <div class="sujet-header" onclick="toggle('s7')">
-    <div class="sujet-num">07</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2022 — Asie</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexes à rendre</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y22">2022</span><span class="tag">Coccinelle asiatique · Biodiversité · Espèce invasive</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/06/DNB-Sciences-Asie-2022.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s7" style="width:0%"></div></div><span id="prog-label-s7">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Coccinelle asiatique, espèce invasive, biodiversité</span></div>
-    <div class="question-block" id="q_s7_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s7_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>La coccinelle asiatique (Harmonia axyridis) est une espèce invasive en Europe. Lis les questions SVT dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s7_svt1').click()"><input type="file" id="f_s7_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s7_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s7_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s7_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s7','svt1','a_s7_svt1','f_s7_svt1','p_s7_svt1','qn_s7_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s7_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s7_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s7_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s7_svt1-0"></div><div class="correction-body" id="p_s7_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points</span></div>
-    <div class="question-block" id="q_s7_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s7_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s7_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s7','pc1','a_s7_pc1','f_s7_pc1','p_s7_pc1','qn_s7_pc1')">Corriger ↗</button></div>
-      <input type="file" id="f_s7_pc1" style="display:none">
-      <div class="correction-panel" id="p_s7_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s7_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s7_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s7_pc1-0"></div><div class="correction-body" id="p_s7_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s7"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 7</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 8 — 2022 Amérique du Nord -->
-<div class="sujet-card" id="s8">
-  <div class="sujet-header" onclick="toggle('s8')">
-    <div class="sujet-num">08</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2022 — Amérique du Nord</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexe à rendre</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y22">2022</span><span class="tag">Tsunami · Risques naturels · Séismes · Prévention</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/06/Sciences_brevet_Washington_.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s8" style="width:0%"></div></div><span id="prog-label-s8">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Tsunamis, risques naturels, mesures de prévention</span></div>
-    <div class="question-block" id="q_s8_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s8_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions SVT dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s8_svt1').click()"><input type="file" id="f_s8_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s8_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s8_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s8_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s8','svt1','a_s8_svt1','f_s8_svt1','p_s8_svt1','qn_s8_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s8_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s8_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s8_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s8_svt1-0"></div><div class="correction-body" id="p_s8_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points</span></div>
-    <div class="question-block" id="q_s8_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s8_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s8_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s8','pc1','a_s8_pc1','f_s8_pc1','p_s8_pc1','qn_s8_pc1')">Corriger ↗</button></div>
-      <input type="file" id="f_s8_pc1" style="display:none">
-      <div class="correction-panel" id="p_s8_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s8_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s8_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s8_pc1-0"></div><div class="correction-body" id="p_s8_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s8"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 8</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 9 — 2022 Métropole Septembre -->
-<div class="sujet-card" id="s9">
-  <div class="sujet-header" onclick="toggle('s9')">
-    <div class="sujet-num">09</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2022 — Métropole (septembre, rattrapage)</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Annexes pp.8-9 à rendre</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y22">2022</span><span class="tag">Chlamydia · IST · Prévention · Sexualité</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://svt.ac-besancon.fr/wp-content/uploads/sites/104/2022/09/DNB-Metropole-septembre-2022.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s9" style="width:0%"></div></div><span id="prog-label-s9">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Chlamydia, IST, comportements responsables en matière de sexualité</span></div>
-    <div class="question-block" id="q_s9_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s9_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions SVT dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s9_svt1').click()"><input type="file" id="f_s9_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s9_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s9_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s9_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s9','svt1','a_s9_svt1','f_s9_svt1','p_s9_svt1','qn_s9_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s9_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s9_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s9_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s9_svt1-0"></div><div class="correction-body" id="p_s9_svt1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points</span></div>
-    <div class="question-block" id="q_s9_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s9_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s9_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s9','pc1','a_s9_pc1','f_s9_pc1','p_s9_pc1','qn_s9_pc1')">Corriger ↗</button></div>
-      <input type="file" id="f_s9_pc1" style="display:none">
-      <div class="correction-panel" id="p_s9_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s9_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s9_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s9_pc1-0"></div><div class="correction-body" id="p_s9_pc1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s9"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 9</strong></div></div>
-  </div>
-</div>
-
-<!-- SUJET 10 — 2024 officiel education.gouv.fr -->
-<div class="sujet-card" id="s10">
-  <div class="sujet-header" onclick="toggle('s10')">
-    <div class="sujet-num">10</div>
-    <div class="sujet-meta">
-      <div class="sujet-titre">DNB 2024 — Officiel (education.gouv.fr)</div>
-      <div class="sujet-desc">50 pts · PC + SVT · 1h · Source officielle MEN</div>
-      <div class="sujet-tags"><span class="tag svt">SVT</span><span class="tag pc">Physique-Chimie</span><span class="tag y24">2024</span><span class="tag">CO₂ · Batteries lithium · Énergie · Évolution</span></div>
-    </div>
-    <div class="sujet-actions">
-      <a class="dl-btn" href="https://www.education.gouv.fr/sites/default/files/document/Dipl%C3%B4me%20national%20du%20brevet%202024%20-%20Sciences-401865.pdf" target="_blank" download>⬇ Télécharger le sujet</a>
-      <div class="warning-tip">⚠ Ne regarde pas le corrigé !</div>
-      <span class="chevron">▾</span>
-    </div>
-  </div>
-  <div class="sujet-body">
-    <div class="progress-bar-wrap"><span>Progression</span><div class="progress-bar"><div class="progress-fill" id="prog-s10" style="width:0%"></div></div><span id="prog-label-s10">0 / 6</span></div>
-    <div class="discipline-header"><span class="disc-badge pc">PHYSIQUE-CHIMIE</span><span class="disc-pts">25 points — CO₂, acidification des océans, ion lithium, énergie panneaux solaires</span></div>
-    <div class="question-block" id="q_s10_pc1">
-      <div class="q-header"><div class="q-num" id="qn_s10_pc1">PC</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>CO₂ dissous dans l'eau de mer, formule chimique de CaCO₃, ion lithium Li⁺, vélo-générateur. Lis les questions PC dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s10_pc1').click()"><input type="file" id="f_s10_pc1" accept="image/*,.pdf" onchange="fileOk(this,'q_s10_pc1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s10_pc1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s10_pc1" placeholder="Tes réponses PC..."></textarea><button class="send-btn" onclick="corriger('s10','pc1','a_s10_pc1','f_s10_pc1','p_s10_pc1','qn_s10_pc1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s10_pc1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s10_pc1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s10_pc1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s10_pc1-0"></div><div class="correction-body" id="p_s10_pc1-1"></div></div>
-    </div>
-    <div class="discipline-header" style="border-top:1px solid var(--border)"><span class="disc-badge svt">SVT</span><span class="disc-pts">25 points — Reconstitution oiseaux-éléphants de Madagascar, évolution</span></div>
-    <div class="question-block" id="q_s10_svt1">
-      <div class="q-header"><div class="q-num" id="qn_s10_svt1">SVT</div><div class="q-text"><span class="pdf-note">📄 Documents dans le PDF</span><br>Lis les questions SVT dans le PDF et réponds ici.</div></div>
-      <div class="upload-zone" onclick="document.getElementById('f_s10_svt1').click()"><input type="file" id="f_s10_svt1" accept="image/*,.pdf" onchange="fileOk(this,'q_s10_svt1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille<b id="fn_s10_svt1">Recommandé</b></div></div>
-      <div class="answer-input-wrap"><textarea class="answer-input" id="a_s10_svt1" placeholder="Tes réponses SVT..."></textarea><button class="send-btn" onclick="corriger('s10','svt1','a_s10_svt1','f_s10_svt1','p_s10_svt1','qn_s10_svt1')">Corriger ↗</button></div>
-      <div class="correction-panel" id="p_s10_svt1"><div class="correction-tabs"><button class="ctab active" onclick="tab('p_s10_svt1',0)">✓ Correction</button><button class="ctab" onclick="tab('p_s10_svt1',1)">💡 Conseils</button></div><div class="correction-body active" id="p_s10_svt1-0"></div><div class="correction-body" id="p_s10_svt1-1"></div></div>
-    </div>
-    <div class="global-score" id="gs_s10"><div class="score-ring">—</div><div class="score-text"><strong>Score estimé — Sujet 10</strong></div></div>
-  </div>
-</div>
-
-</div><!-- /sujet-list -->
 <div class="toast" id="toast"></div>
 
 <script>
-const PROXY = 'https://script.google.com/macros/s/AKfycbz2mOpVxuK3mSWe7e5f3LxgOYhJgLeoOF0UqeNYAl521IQ9K_OCTewiFwtcRHmFGkxVwA/exec';
-const files = {};
-const answered = {};
+const SHEETS={W:'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec',N:'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec'};
 
-// ── TOGGLE ────────────────────────────────────────────────
-function toggle(id) {
-  const c = document.getElementById(id);
-  const was = c.classList.contains('open');
-  document.querySelectorAll('.sujet-card.open').forEach(x => x.classList.remove('open'));
-  if (!was) c.classList.add('open');
+const SUJETS = [
+  {
+    id: 1, titre: "Réflexion de la lumière et miroirs",
+    enonce: "Un rayon lumineux arrive sur un miroir plan avec un angle d'incidence de 35°. Tracez le rayon réfléchi et calculez l'angle de réflexion.",
+    questions: [
+      { n: "1", pts: 2, q: "Rappelez la loi de la réflexion. Que vaut l'angle de réflexion ?", c: "Loi : angle d'incidence = angle de réflexion. L'angle de réflexion vaut donc 35°." },
+      { n: "2", pts: 3, q: "Dessinez la situation (miroir, normale, rayons incident et réfléchi) et expliquez ce qu'est la normale.", c: "La normale est la perpendiculaire à la surface au point d'incidence. Le rayon incident et le rayon réfléchi sont symétriques par rapport à la normale." },
+      { n: "3", pts: 2, q: "Si l'angle d'incidence devient 0°, que se passe-t-il ?", c: "Si l'angle d'incidence = 0°, le rayon arrive perpendiculairement au miroir. L'angle de réflexion est aussi 0°, le rayon repart dans la direction opposée." }
+    ]
+  },
+  {
+    id: 2, titre: "La photosynthèse",
+    enonce: "Les plantes vertes produisent leur matière organique à partir de la lumière, de l'eau et du dioxyde de carbone.",
+    questions: [
+      { n: "1", pts: 2, q: "Écrivez l'équation bilan de la photosynthèse.", c: "6 CO₂ + 6 H₂O → (lumière, chlorophylle) → C₆H₁₂O₆ + 6 O₂" },
+      { n: "2", pts: 3, q: "Où se déroule la photosynthèse dans la plante ? Quelle est la molécule verte impliquée ?", c: "La photosynthèse se déroule dans les chloroplastes des cellules des feuilles. La chlorophylle est le pigment vert qui capte l'énergie lumineuse." },
+      { n: "3", pts: 2, q: "Pourquoi la plante a-t-elle besoin d'eau pour fabriquer sa matière organique ?", c: "L'eau fournit les ions hydrogène (H⁺) nécessaires à la réduction du CO₂ en glucose. Elle est indispensable pour former les molécules organiques." }
+    ]
+  },
+  {
+    id: 3, titre: "L'énergie électrique",
+    enonce: "Une lampe de 60 W est allumée pendant 2 heures. Calculez l'énergie consommée en joules et en wattheures.",
+    questions: [
+      { n: "1", pts: 2, q: "Rappelez la formule reliant puissance, énergie et temps.", c: "E = P × t, avec E en joules (J), P en watts (W), t en secondes (s). En Wh : E(Wh) = P(W) × t(h)." },
+      { n: "2", pts: 3, q: "Calculez l'énergie en Wh. Puis convertissez en joules (1 Wh = 3600 J).", c: "E(Wh) = 60 W × 2 h = 120 Wh. E(J) = 120 × 3600 = 432 000 J." },
+      { n: "3", pts: 2, q: "Si le kWh est facturé 0,20 €, quel est le coût de fonctionnement ?", c: "120 Wh = 0,120 kWh. Coût = 0,120 × 0,20 = 0,024 €, soit 2,4 centimes d'euro." }
+    ]
+  },
+  {
+    id: 4, titre: "La reproduction humaine",
+    enonce: "Décrivez le trajet des spermatozoïdes depuis la production jusqu'à la fécondation.",
+    questions: [
+      { n: "1", pts: 2, q: "Où sont produits les spermatozoïdes ?", c: "Les spermatozoïdes sont produits dans les testicules, plus précisément dans les tubes séminifères." },
+      { n: "2", pts: 3, q: "Décrivez le trajet complet.", c: "Testicules → épididyme (maturation) → canal déférent → voies génitales (urètre) → vagin → utérus → trompes de Fallope (rencontre avec l'ovule)." },
+      { n: "3", pts: 2, q: "Où a lieu la fécondation ? Combien de chromosomes l'œuf possède-t-il ?", c: "La fécondation a lieu dans la trompe de Fallope. L'œuf possède 46 chromosomes (23 de chaque parent)." }
+    ]
+  },
+  {
+    id: 5, titre: "La loi d'Ohm",
+    enonce: "Un conducteur ohmique de résistance 220 Ω est traversé par un courant de 0,5 A. Calculez la tension à ses bornes.",
+    questions: [
+      { n: "1", pts: 2, q: "Rappelez la loi d'Ohm.", c: "U = R × I, avec U en volts (V), R en ohms (Ω), I en ampères (A)." },
+      { n: "2", pts: 3, q: "Calculez la tension U.", c: "U = 220 Ω × 0,5 A = 110 V." },
+      { n: "3", pts: 2, q: "Si on augmente la résistance à 440 Ω à intensité constante, comment évolue la tension ?", c: "La tension double : U = 440 × 0,5 = 220 V. La tension est proportionnelle à la résistance." }
+    ]
+  },
+  {
+    id: 6, titre: "Les séismes et ondes sismiques",
+    enonce: "Lors d'un séisme, on enregistre les ondes P et S. Expliquez leurs différences.",
+    questions: [
+      { n: "1", pts: 2, q: "Quelles sont les vitesses respectives des ondes P et S ?", c: "Les ondes P sont plus rapides (environ 6 km/s dans la croûte) que les ondes S (environ 3,5 km/s)." },
+      { n: "2", pts: 3, q: "Quelle est la nature de chaque onde ?", c: "Ondes P : ondes de compression (longitudinales) – la matière vibre dans la direction de propagation. Ondes S : ondes de cisaillement (transversales) – la matière vibre perpendiculairement." },
+      { n: "3", pts: 2, q: "Pourquoi les ondes S ne traversent-elles pas le noyau externe ?", c: "Les ondes S ne se propagent pas dans les liquides. Le noyau externe est liquide, donc elles sont arrêtées." }
+    ]
+  },
+  {
+    id: 7, titre: "La digestion des glucides",
+    enonce: "L'amidon est une macromolécule complexe. Décrivez sa digestion dans le tube digestif.",
+    questions: [
+      { n: "1", pts: 2, q: "Quelle enzyme digère l'amidon ? Où est-elle produite ?", c: "L'amylase (ou ptyaline). Elle est produite par les glandes salivaires (bouche) et par le pancréas (amylase pancréatique dans l'intestin)." },
+      { n: "2", pts: 3, q: "Quels sont les produits finaux de la digestion de l'amidon ?", c: "L'amidon est digéré en maltose (dans la bouche), puis en glucose (dans l'intestin grâce à la maltase). Le glucose est la molécule absorbable." },
+      { n: "3", pts: 2, q: "À quel moment du tube digestif se fait l'absorption du glucose ?", c: "L'absorption du glucose se fait dans l'intestin grêle (au niveau des villosités intestinales)." }
+    ]
+  },
+  {
+    id: 8, titre: "Circuit en série et en dérivation",
+    enonce: "Deux lampes de résistances 100 Ω et 200 Ω sont branchées en série sur une pile de 6 V. Calculez l'intensité.",
+    questions: [
+      { n: "1", pts: 2, q: "Calculez la résistance équivalente du circuit en série.", c: "Req = R1 + R2 = 100 + 200 = 300 Ω." },
+      { n: "2", pts: 3, q: "Calculez l'intensité du courant dans le circuit.", c: "I = U / Req = 6 V / 300 Ω = 0,02 A = 20 mA." },
+      { n: "3", pts: 2, q: "Si on branche les deux lampes en dérivation, quelle est la nouvelle résistance équivalente ?", c: "1/Req = 1/100 + 1/200 = 2/200 + 1/200 = 3/200 → Req = 200/3 ≈ 66,7 Ω. L'intensité totale augmente." }
+    ]
+  },
+  {
+    id: 9, titre: "La classification du vivant",
+    enonce: "Classez les êtres vivants suivants dans les groupes emboîtés : Homme, Chat, Pin, Champignon, Bactérie.",
+    questions: [
+      { n: "1", pts: 2, q: "Quels attributs partagent l'Homme et le Chat ?", c: "Ils partagent l'attribut 'vertébrés' (mammifères, mais le plus proche est 'Eucaryotes pluricellulaires animaux')." },
+      { n: "2", pts: 3, q: "Construisez un arbre de parenté simplifié avec ces 5 espèces.", c: "Arbre : (Bactérie (Champignon (Pin (Homme, Chat)))) → Eucaryotes (Champignon + Végétal + Animal), Végétaux (Pin), Animaux (Homme + Chat)." },
+      { n: "3", pts: 2, q: "Qu'est-ce qu'un groupe monophylétique ? Donnez un exemple.", c: "Un groupe monophylétique comprend un ancêtre commun et tous ses descendants. Exemple : les mammifères." }
+    ]
+  },
+  {
+    id: 10, titre: "Combustion et bilan de matière",
+    enonce: "On brûle 12 g de carbone dans 32 g de dioxygène. Il se forme uniquement du dioxyde de carbone.",
+    questions: [
+      { n: "1", pts: 2, q: "Écrivez l'équation de la combustion du carbone.", c: "C + O₂ → CO₂" },
+      { n: "2", pts: 3, q: "Quelle masse de CO₂ obtient-on ? Justifiez avec la loi de conservation de la masse.", c: "Masse totale avant = 12 + 32 = 44 g. La masse se conserve, donc masse de CO₂ = 44 g." },
+      { n: "3", pts: 2, q: "Si on brûle 24 g de carbone avec 32 g de dioxygène, lequel est en excès ? Quelle masse de CO₂ se forme ?", c: "Réaction : 12 g C réagissent avec 32 g O₂. Pour 24 g C, il faudrait 64 g O₂. O₂ limitant. Masse C consommé : (12/32)×32 = 12 g. Masse CO₂ = 12 + 32 = 44 g. Il reste 24-12 = 12 g C non brûlé." }
+    ]
+  }
+];
+
+let who = null, currentIdx = 0, chronoSecs = 3600, running = false, chronoInterval = null;
+
+function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
+function renderHome() {
+  const g = document.getElementById('sujets-grid'); g.innerHTML = '';
+  const done = JSON.parse(localStorage.getItem('sciences_done_' + (who || 'X')) || '[]');
+  SUJETS.forEach((s, i) => {
+    const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i);
+    const isDone = done.includes(s.id);
+    d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Questions de sciences</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`;
+    g.appendChild(d);
+  });
 }
-
-// ── FICHIER ───────────────────────────────────────────────
-function fileOk(input, qid) {
-  if (!input.files[0]) return;
-  const name = input.files[0].name;
-  const zone = input.closest('.upload-zone');
-  if (zone) zone.classList.add('has-file');
-  const lbl = document.getElementById('fn_' + input.id.replace('f_',''));
-  if (lbl) lbl.textContent = '📎 ' + name;
-  const r = new FileReader();
-  r.onload = e => { files[input.id] = e.target.result; };
-  r.readAsDataURL(input.files[0]);
-  toast('📎 ' + name);
+function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 3600; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0, 0); }
+function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
+function renderSujet(s) {
+  let h = `<div class="partie"><div class="partie-header"><span class="partie-label">Énoncé</span><span class="partie-pts">20 pts</span></div><div class="partie-body"><div class="texte-box">${s.enonce}</div>`;
+  s.questions.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="q${i}" placeholder="Ta réponse..."></textarea><button class="ai-btn" style="font-size:12px;padding:9px;margin-bottom:5px" id="ai-q${i}" onclick="corrigerIA('ai-q${i}','q${i}','${q.q.replace(/'/g, "\\'")}','science',${q.pts},'Sciences')">🔬 Corriger avec l'IA</button><div class="ai-loading" id="ai-q${i}_load"><div class="ai-spin"></div></div><div class="ai-result" id="ai-q${i}_result"></div><button class="corr-btn" onclick="tog('c${i}')">Voir correction</button><div class="corr-box" id="c${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h += `</div></div><div class="auto-eval"><div class="ae-title">— Auto-évaluation</div><div class="ae-row"><span class="ae-label">Note totale sur 20</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div><div class="ae-total"><div class="ae-total-lbl">Note finale</div><div class="ae-total-num" id="ae-total">0/20</div></div></div>`;
+  h += `<div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
+  document.getElementById('s-body').innerHTML = h;
 }
+function tog(id) { document.getElementById(id).classList.toggle('show'); }
+function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const t = Math.min(a, 20); document.getElementById('ae-total').textContent = t + '/20'; }
+async function saveSujet() { const s = SUJETS[currentIdx]; const note = Math.min(parseInt(document.getElementById('ae1').value) || 0, 20); const done = JSON.parse(localStorage.getItem('sciences_done_' + (who || 'X')) || '[]'); if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('sciences_done_' + (who || 'X'), JSON.stringify(done)); } const url = SHEETS[who]; try { await fetch(url, { method: 'POST', mode: 'cors', body: JSON.stringify({ action: 'logAnnale', matiere: 'Sciences', annee: 'Sujet blanc ' + s.id, exercice: s.titre, score: Math.round(note / 20 * 20), pointsPerdus: 'Note:' + note + '/20', bloque: '', aRetravailler: '' }) }); showToast('✓ Note sauvegardée', 'ok'); } catch (e) { showToast('⚠ Sauvegarde impossible', 'err'); } }
+function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
+function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 3600; updateChrono(); }
+function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; el.className = 'chrono-time' + (chronoSecs < 300 ? ' urgent' : ''); }
+function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
+window.addEventListener('DOMContentLoaded', () => renderHome());
 
-// ── TABS ──────────────────────────────────────────────────
-function tab(pid, idx) {
-  const p = document.getElementById(pid);
-  p.querySelectorAll('.ctab').forEach((t,i) => t.classList.toggle('active', i===idx));
-  p.querySelectorAll('.correction-body').forEach((b,i) => b.classList.toggle('active', i===idx));
-}
+// Proxy Apps Script utilisé — pas de clé ici
 
-// ── CORRIGER ──────────────────────────────────────────────
-async function corriger(sid, qid, ansId, fileId, panelId, numId) {
-  const ans = document.getElementById(ansId).value.trim();
-  const hasFile = !!files[fileId];
-  if (!ans && !hasFile) { toast('Écris ta réponse ou importe ta feuille !'); return; }
-
-  const panel = document.getElementById(panelId);
-  panel.classList.add('visible');
-  const b0 = document.getElementById(panelId+'-0');
-  const b1 = document.getElementById(panelId+'-1');
-  b0.innerHTML = '<div class="loading"><div class="dot-pulse"></div> Correction en cours...</div>';
-  b1.innerHTML = '<div class="loading"><div class="dot-pulse"></div> Préparation des conseils...</div>';
-  const btn = document.getElementById(ansId).parentElement.querySelector('.send-btn');
-  if (btn) btn.disabled = true;
-
-  const sysPrompt = `Tu es un professeur de Sciences (Physique-Chimie et SVT) bienveillant qui corrige des réponses au DNB (brevet des collèges) pour des élèves de 3ème.
-
-L'épreuve Sciences du DNB dure 1h et comporte 2 parties : Physique-Chimie (25 pts) et SVT (25 pts) sur la même copie.
-
-Règles de correction :
-1. Commence par ✓ (correct), ✗ (incorrect) ou ~ (partiellement correct).
-2. Estime les points obtenus sur les points disponibles.
-3. Explique clairement toute erreur sans être condescendant.
-4. Donne la réponse attendue avec le raisonnement scientifique complet.
-5. Utilise un vocabulaire scientifique précis mais accessible pour un élève de 3ème.
-
-Format : 2 sections séparées par ---CONSEILS---
-
-SECTION 1 - CORRECTION :
-[Résultat + points]
-[Analyse]
-[Réponse correcte détaillée]
-
----CONSEILS---
-
-SECTION 2 - CONSEILS :
-[Méthode scientifique à retenir]
-[Lien avec le programme DNB]
-[Encouragement]`;
-
+async function corrigerIA(btnId, taId, question, typeExo, pts, matiere) {
+  const texte = document.getElementById(taId).value.trim();
+  if (!texte || texte.length < 10) { alert('Écris ta réponse avant de corriger !'); return; }
+  const btn = document.getElementById(btnId);
+  const loadEl = document.getElementById(btnId + '_load');
+  const resEl = document.getElementById(btnId + '_result');
+  btn.disabled = true;
+  if (loadEl) loadEl.style.display = 'block';
+  if (resEl) resEl.style.display = 'none';
+  const prompt = `Tu es correcteur DNB 2026 ${matiere}. Corrige cette réponse scientifique sur ${pts} pts. Critères: mots-clés scientifiques, exactitude, logique. JSON uniquement: {"noteTotal":X,"maxTotal":${pts},"sousNotes":"Mots-clés X, Exactitude X, Logique X","annotations":[{"t":"extrait 8-15 mots","type":"rouge","c":"commentaire"}],"motsClesManquants":["..."],"erreurLogique":"description ou null","methodologie":"<p>Cheminement attendu...</p>","conseil":"Conseil concret."}`;
   try {
-    let userContent = `Sujet : ${sid.toUpperCase()} — Question ${qid}\n\nRéponse de l'élève :\n"${ans}"`;
-    if (hasFile && files[fileId] && files[fileId].startsWith('data:image')) {
-      const b64 = files[fileId].split(',')[1];
-      const mime = files[fileId].split(';')[0].replace('data:','');
-      userContent = [
-        {type:'image', source:{type:'base64', media_type:mime, data:b64}},
-        {type:'text', text:userContent}
-      ];
-    }
-    const res = await fetch(PROXY + '?action=proxyAnthropic', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({system: sysPrompt, user: userContent})
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec', {
+      method: 'POST', headers: { 'Content-Type': 'text/plain' }, redirect: 'follow',
+      body: JSON.stringify({ system: prompt, prompt: 'Question: ' + question + '\n\nRéponse élève:\n\n' + texte + '\n\nJSON uniquement.' })
     });
     const data = await res.json();
-    const txt = (data.content&&data.content[0]) ? data.content[0].text : (data.error||'Erreur');
-    const [corrTxt, conseilTxt] = txt.split('---CONSEILS---');
-    const c = (corrTxt||txt).trim();
-    const ok = c.includes('✓') && !c.includes('✗');
-    const bad = c.includes('✗');
-    const badge = ok ? '<span class="score-badge">✓ Correct</span>'
-                    : bad ? '<span class="score-badge wrong">✗ À revoir</span>'
-                          : '<span class="score-badge partial">~ Partiel</span>';
-    b0.innerHTML = badge + '<br>' + fmt(c);
-    b1.innerHTML = '<div class="conseil-block"><strong>💡 À retenir</strong>' + fmt((conseilTxt||'Relis ton cours.').trim()) + '</div>';
-    // Mark done
-    answered[panelId] = true;
-    const qnum = document.getElementById(numId);
-    if (qnum) qnum.classList.add('done');
-    updateProg(sid);
-  } catch(e) {
-    b0.innerHTML = '<span style="color:var(--red)">Erreur de connexion. Vérifie ta connexion et réessaie.</span>';
-  }
-  if (btn) btn.disabled = false;
+    const rawText = data.content || (data.success && data.data && data.data.content) || '';
+    const json = JSON.parse(rawText.replace(/```json|```/g, '').trim());
+    renderAIRes(resEl, json, texte);
+  } catch (e) { alert('Erreur: ' + e.message); }
+  if (loadEl) loadEl.style.display = 'none';
+  btn.disabled = false;
 }
-
-function fmt(t) {
-  return (t||'').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
-}
-
-const TOTALS = {s1:5,s2:4,s3:4,s4:4,s5:4,s6:4,s7:4,s8:4,s9:4,s10:4};
-function updateProg(sid) {
-  const total = TOTALS[sid]||4;
-  const done = Object.keys(answered).filter(k => k.startsWith('p_'+sid+'_')).length;
-  const pct = Math.round(done/total*100);
-  const fill = document.getElementById('prog-'+sid);
-  const lbl = document.getElementById('prog-label-'+sid);
-  if (fill) fill.style.width = pct+'%';
-  if (lbl) lbl.textContent = done+' / '+total;
-}
-
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+function renderAIRes(el, j, orig) {
+  const pct = Math.round(j.noteTotal / j.maxTotal * 100);
+  const col = pct >= 75 ? '#7ecf8a' : pct >= 55 ? '#e8c87a' : '#f55a5a';
+  const bg = pct >= 75 ? 'rgba(126,207,138,0.08)' : pct >= 55 ? 'rgba(232,200,122,0.08)' : 'rgba(245,85,85,0.08)';
+  const barCol = pct >= 75 ? 'linear-gradient(90deg,#7ecf8a,#5ecfb1)' : pct >= 55 ? 'linear-gradient(90deg,#e8c87a,#f07a5a)' : 'linear-gradient(90deg,#f55a5a,#f07a5a)';
+  let html = `<div class="ai-score-bar" style="background:${bg}"><div class="ai-score-num" style="color:${col}">${j.noteTotal}/${j.maxTotal}</div><div class="ai-score-info"><div style="font-weight:700;color:${col}">${pct >= 75 ? 'Excellent' : pct >= 55 ? 'À améliorer' : 'Insuffisant'}</div><div class="ai-pbar-bg"><div class="ai-pbar-fill" id="${el.id}_pb" style="width:0%;background:${barCol}"></div></div></div></div><div class="ai-body">`;
+  if (j.motsClesManquants && j.motsClesManquants.length) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Mots-clés manquants</div><div class="ai-sec-b">${j.motsClesManquants.map(m => '<span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:999px;border:1px solid rgba(245,85,85,0.3);background:rgba(245,85,85,0.07);font-size:11px;color:#f55a5a">' + m + '</span>').join('')}</div></div>`;
+  if (j.erreurLogique) html += `<div class="ai-sec ai-r"><div class="ai-sec-t">Erreur logique</div><div class="ai-sec-b">${j.erreurLogique}</div></div>`;
+  if (j.methodologie) html += `<div class="ai-sec ai-g"><div class="ai-sec-t">Méthodologie</div><div class="ai-sec-b">${j.methodologie}</div></div>`;
+  if (j.conseil) html += `<div class="ai-sec ai-p"><div class="ai-sec-t">Conseil</div><div class="ai-sec-b"><strong>${j.conseil}</strong></div></div>`;
+  html += `</div>`;
+  el.innerHTML = html;
+  el.style.display = 'block';
+  setTimeout(() => { const b = document.getElementById(el.id + '_pb'); if (b) b.style.width = pct + '%'; }, 100);
 }
 </script>
 </body>
