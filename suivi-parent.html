@@ -33,6 +33,7 @@
     footer{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #333;font-size:0.7rem;color:#555;}
     .badge-reussi{color:#2ecc71;}
     .badge-echec{color:#e74c3c;}
+    .debug{background:#0a0a0f;padding:0.5rem;margin-bottom:1rem;border-radius:0.5rem;font-size:0.7rem;color:#555;display:none;}
   </style>
 </head>
 <body>
@@ -40,6 +41,8 @@
   <a href="index.html" class="back-link">← Retour au hub</a>
   <h1>📊 Suivi parental</h1>
   <div class="sub">Chaque session d'automatismes est enregistrée automatiquement.</div>
+
+  <div id="debug" class="debug"></div>
 
   <div class="matieres-grid" id="matieresGrid"></div>
   
@@ -52,26 +55,40 @@
 </div>
 
 <script>
-  // ==================== LISTE DES MATIÈRES PAR ÉLÈVE ====================
-  const MATIERES = {
-    // WASSIL
-    francais_wassil: { nom: "🇫🇷 Français (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_francais_wassil" },
-    maths_wassil: { nom: "📐 Mathématiques (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_maths_wassil" },
-    histoire_wassil: { nom: "🌍 Histoire-Géo (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_histoire_wassil" },
-    sciences_wassil: { nom: "🔬 Sciences (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_sciences_wassil" },
-    // NAWAL
-    francais_nawal: { nom: "🇫🇷 Français (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_francais_nawal" },
-    maths_nawal: { nom: "📐 Mathématiques (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_maths_nawal" },
-    histoire_nawal: { nom: "🌍 Histoire-Géo (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_histoire_nawal" },
-    sciences_nawal: { nom: "🔬 Sciences (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_sciences_nawal" }
+  // Mapping des noms affichés
+  const MATIERE_NOMS = {
+    francais: "🇫🇷 Français",
+    maths: "📐 Mathématiques",
+    histoire: "🌍 Histoire-Géo",
+    sciences: "🔬 Sciences"
+  };
+  
+  const ELEVE_NOMS = {
+    wassil: { nom: "Wassil", couleur: "#7eb8f5" },
+    nawal: { nom: "Nawal", couleur: "#f59eb8" }
   };
 
-  function getSessions(matiereId) {
-    const key = MATIERES[matiereId].storageKey;
-    const saved = localStorage.getItem(key);
-    if (!saved) return [];
-    try { return JSON.parse(saved); }
-    catch(e) { return []; }
+  // Détecter automatiquement toutes les clés localStorage qui commencent par "automatismes_sessions_"
+  function detecterToutesLesSessions() {
+    const sessions = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("automatismes_sessions_")) {
+        // Extraire la matière et l'élève
+        // Format: automatismes_sessions_francais_wassil
+        const parts = key.replace("automatismes_sessions_", "").split("_");
+        const matiere = parts[0];
+        const eleve = parts[1] || "inconnu";
+        
+        if (!sessions[matiere]) sessions[matiere] = {};
+        try {
+          sessions[matiere][eleve] = JSON.parse(localStorage.getItem(key)) || [];
+        } catch(e) {
+          sessions[matiere][eleve] = [];
+        }
+      }
+    }
+    return sessions;
   }
 
   function moyenneRecente(sessions) {
@@ -89,69 +106,70 @@
   }
 
   function afficherSuivi() {
+    const toutesSessions = detecterToutesLesSessions();
     const grid = document.getElementById("matieresGrid");
     grid.innerHTML = "";
     
-    for (const [id, mat] of Object.entries(MATIERES)) {
-      const sessions = getSessions(id);
-      const moyenne = moyenneRecente(sessions);
+    // Afficher les sessions détectées dans la console
+    console.log("Sessions détectées:", toutesSessions);
+    
+    // Debug visible
+    const debugDiv = document.getElementById("debug");
+    debugDiv.style.display = "block";
+    debugDiv.innerHTML = `<strong>🔍 Clés détectées dans localStorage :</strong><br>${Object.keys(toutesSessions).map(m => 
+      `${MATIERE_NOMS[m] || m}: ${Object.keys(toutesSessions[m]).join(', ')}`
+    ).join('<br>') || "Aucune session trouvée"}`;
+    
+    // Pour chaque matière détectée
+    for (const [matiereId, eleves] of Object.entries(toutesSessions)) {
+      const matiereNom = MATIERE_NOMS[matiereId] || matiereId;
       
-      let sessionsHtml = '';
-      const cinqDernieres = sessions.slice(0, 5);
-      if (cinqDernieres.length === 0) {
-        sessionsHtml = '<tr><td colspan="3" class="vide">📭 Aucune session enregistrée</td></tr>';
-      } else {
-        sessionsHtml = cinqDernieres.map(s => `
-          <tr>
-            <td>${formatDate(s.date)}</td>
-            <td>${Array.isArray(s.chapitres) ? s.chapitres.slice(0, 2).join(', ') + (s.chapitres.length > 2 ? '…' : '') : (s.chapitres || 'Quiz')}</td>
-            <td class="${s.pourcentage >= 60 ? 'badge-reussi' : 'badge-echec'}">${s.pourcentage}%</td>
-          </tr>
-        `).join('');
+      // Pour chaque élève dans cette matière
+      for (const [eleveId, sessions] of Object.entries(eleves)) {
+        const eleveInfo = ELEVE_NOMS[eleveId] || { nom: eleveId.charAt(0).toUpperCase() + eleveId.slice(1), couleur: "#aaa" };
+        const moyenne = moyenneRecente(sessions);
+        
+        let sessionsHtml = '';
+        const cinqDernieres = sessions.slice(0, 5);
+        if (cinqDernieres.length === 0) {
+          sessionsHtml = '<tr><td colspan="3" class="vide">📭 Aucune session enregistrée</td></tr>';
+        } else {
+          sessionsHtml = cinqDernieres.map(s => `
+            <tr>
+              <td>${formatDate(s.date)}</td>
+              <td>${Array.isArray(s.chapitres) ? s.chapitres.slice(0, 2).join(', ') + (s.chapitres.length > 2 ? '…' : '') : (s.chapitres || 'Quiz')}</td>
+              <td class="${s.pourcentage >= 60 ? 'badge-reussi' : 'badge-echec'}">${s.pourcentage}%</td>
+            </tr>
+          `).join('');
+        }
+        
+        const card = document.createElement("div");
+        card.className = "matiere-card";
+        card.innerHTML = `
+          <div class="matiere-header">
+            <div class="matiere-nom" style="color:${eleveInfo.couleur}">📚 ${matiereNom} (${eleveInfo.nom})</div>
+            <div class="moyenne" style="color:${eleveInfo.couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
+            <div class="stats-ligne">📈 Moyenne des 5 dernières sessions</div>
+          </div>
+          <div style="padding:0.8rem;">
+            <table class="sessions-table">
+              <thead><tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr></thead>
+              <tbody>${sessionsHtml}</tbody>
+            </table>
+          </div>
+        `;
+        grid.appendChild(card);
       }
-      
-      const card = document.createElement("div");
-      card.className = "matiere-card";
-      card.innerHTML = `
-        <div class="matiere-header">
-          <div class="matiere-nom" style="color:${mat.couleur}">📚 ${mat.nom}</div>
-          <div class="moyenne" style="color:${mat.couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
-          <div class="stats-ligne">📈 Moyenne des 5 dernières sessions</div>
-        </div>
-        <div style="padding:0.8rem;">
-          <table class="sessions-table">
-            <thead><tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr></thead>
-            <tbody>${sessionsHtml}</tbody>
-          </table>
-        </div>
-      `;
-      grid.appendChild(card);
     }
-  }
-
-  function sauvegarderSession(matiereId, chapitres, score) {
-    const mat = MATIERES[matiereId];
-    if (!mat) { console.error("Matière inconnue:", matiereId); return; }
-    const key = mat.storageKey;
-    const sessions = getSessions(matiereId);
-    sessions.unshift({
-      id: Date.now(),
-      date: new Date().toISOString(),
-      chapitres: chapitres,
-      score: score,
-      pourcentage: Math.round((score.bonnes / score.total) * 100)
-    });
-    while(sessions.length > 100) sessions.pop();
-    localStorage.setItem(key, JSON.stringify(sessions));
-    console.log(`✅ Sauvegardé dans ${key}:`, sessions[0]);
+    
+    if (Object.keys(toutesSessions).length === 0) {
+      grid.innerHTML = '<div style="text-align:center;padding:2rem;color:#555;">📭 Aucune session enregistrée. Lancez un quiz "Automatismes" !</div>';
+    }
   }
 
   function exporterJSON() {
-    const allData = {};
-    for (const [id, mat] of Object.entries(MATIERES)) {
-      allData[id] = getSessions(id);
-    }
-    const blob = new Blob([JSON.stringify({ exportDate: new Date().toISOString(), data: allData }, null, 2)], {type: "application/json"});
+    const toutesSessions = detecterToutesLesSessions();
+    const blob = new Blob([JSON.stringify({ exportDate: new Date().toISOString(), data: toutesSessions }, null, 2)], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -162,21 +180,42 @@
 
   function resetAll() {
     if (confirm("⚠️ Supprimer TOUTES les sessions ?")) {
-      for (const [id, mat] of Object.entries(MATIERES)) {
-        localStorage.removeItem(mat.storageKey);
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith("automatismes_sessions_")) {
+          localStorage.removeItem(key);
+        }
       }
       afficherSuivi();
     }
   }
 
-  window.SuiviParental = { sauvegarderSession, getSessions };
+  // Sauvegarde d'une session (appelé depuis automatismes)
+  function sauvegarderSession(matiereId, chapitres, score) {
+    const eleve = matiereId.split('_')[1] || "inconnu";
+    const matiere = matiereId.split('_')[0];
+    const key = `automatismes_sessions_${matiere}_${eleve}`;
+    const sessions = JSON.parse(localStorage.getItem(key) || "[]");
+    sessions.unshift({
+      id: Date.now(),
+      date: new Date().toISOString(),
+      chapitres: chapitres,
+      score: score,
+      pourcentage: Math.round((score.bonnes / score.total) * 100)
+    });
+    while(sessions.length > 100) sessions.pop();
+    localStorage.setItem(key, JSON.stringify(sessions));
+    console.log(`✅ Sauvegardé dans ${key}:`, sessions[0]);
+    return sessions[0];
+  }
+
+  window.SuiviParental = { sauvegarderSession };
 
   document.getElementById("refreshBtn").addEventListener("click", afficherSuivi);
   document.getElementById("exportBtn").addEventListener("click", exporterJSON);
   document.getElementById("resetBtn").addEventListener("click", resetAll);
   
   afficherSuivi();
-  console.log("Suivi parental chargé. Clés disponibles:", Object.keys(MATIERES));
 </script>
 </body>
 </html>
