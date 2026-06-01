@@ -1,228 +1,325 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>📖 Fiches de révision – Brevet 2026</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:1200px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
-    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #ffcc00;padding-left:1rem;}
-    
-    .nav-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;align-items:flex-end;}
-    .nav-group{flex:1;min-width:200px;}
-    .nav-group label{display:block;font-size:0.7rem;color:#aaa;margin-bottom:0.2rem;}
-    select{width:100%;background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.6rem 1rem;color:#ffffff;font-size:0.9rem;cursor:pointer;}
-    select:focus{outline:none;border-color:#ffcc00;}
-    
-    .fiche-content{background:#1a1a1a;border-radius:1rem;padding:1.2rem;border:1px solid #333;}
-    .objectif{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin-bottom:1rem;border-left:4px solid #ffcc00;}
-    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem;}
-    th,td{border:1px solid #333;padding:0.6rem;vertical-align:top;text-align:left;color:#ffffff;}
-    th{background:#2a2a2a;color:#ffcc00;}
-    tr:nth-child(even) td{background:#222;}
-    .notion{color:#ff3b3b;font-weight:600;background:rgba(255,59,59,0.15);padding:0.1rem 0.2rem;border-radius:4px;display:inline-block;}
-    .pieges,.exemple,.flashcards{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin:1rem 0;}
-    .flashcards{border-left:3px solid #ff3b3b;}
-    .footer{font-size:0.7rem;color:#aaa;text-align:center;margin-top:1rem;}
-    strong{color:#ffcc00;}
-  </style>
-</head>
-<body>
-<div class="container">
-  <h1>📖 Fiches de révision</h1>
-  <div class="sub">Brevet 2026 – Choisis ta matière et ton chapitre</div>
-
-  <div class="nav-row">
-    <div class="nav-group">
-      <label>📚 Matière</label>
-      <select id="matiereSelect">
-        <option value="francais">🇫🇷 Français</option>
-        <option value="maths">📐 Mathématiques</option>
-        <option value="histoire">🌍 Histoire-Géo & EMC</option>
-        <option value="sciences">🔬 Sciences</option>
-      </select>
-    </div>
-    <div class="nav-group">
-      <label>📖 Chapitre</label>
-      <select id="chapitreSelect"></select>
-    </div>
-  </div>
-
-  <div id="ficheContainer" class="fiche-content">
-    <!-- Le contenu de la fiche s'affichera ici dynamiquement -->
-  </div>
-
-  <div class="footer">📌 Notions en <span class="notion">rouge</span> = flashcards à maîtriser.</div>
-</div>
-
-<script>
-  // ==================== FRANÇAIS – 26 CHAPITRES COMPLETS ====================
-  const francaisChapitres = [
-    {numero:1,titre:"Les classes grammaticales",objectif:"Identifier la <span class='notion'>nature (classe grammaticale)</span> de n'importe quel mot.",tableau:[["Nom","Être, chose, idée. On peut mettre « le » ou « un » devant.","chat, table, liberté"],["Déterminant","Précède le nom, indique genre/nombre.","le, la, les, un, une, des, ce, mon, ton, son"],["Adjectif qualificatif","Qualifie le nom (accorde en genre/nombre).","grand, belle, intéressant"],["Pronom","Remplace un nom ou un GN.","je, tu, il, elle, on, nous, vous, ils, elles, le, lui, y, en, que, qui, dont, où"],["Verbe","Action ou état. Se conjugue.","manger, courir, être, avoir, sembler"],["Adverbe","Modifie un verbe, un adjectif ou un adverbe. Invariable.","rapidement, très, bien, mal, hier, trop"],["Préposition","Introduit un complément. Invariable.","à, de, pour, par, avec, sans, dans, sur, sous, chez"],["Conjonction","Relie des mots ou propositions.","mais, ou, et, donc, or, ni, car (coordination) ; que, parce que, lorsque, puisque, comme, si (subordination)"],["Interjection","Mot-phrase exprimant une émotion.","Ah ! Oh ! Hélas ! Bravo ! Zut !"]],pieges:"<span class='notion'>Leur / leurs</span> : <em>leur</em> = pronom invariable ; <em>leurs</em> = déterminant pluriel.<br>• <span class='notion'>Tout</span> peut être : déterminant, pronom, adverbe ou nom.<br>• Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait dans la phrase).",exemple:"« <span class='notion'>L'immense</span> forêt <span class='notion'>s'étendait</span> <span class='notion'>silencieusement</span> <span class='notion'>devant</span> <span class='notion'>eux</span>. »",flashcards:"<span class='notion'>9 classes grammaticales</span> – <span class='notion'>déterminants</span> – <span class='notion'>pronoms</span> – <span class='notion'>adverbe vs préposition</span> – <span class='notion'>7 conjonctions de coordination</span> – <span class='notion'>reconnaître nom/verbe</span> – <span class='notion'>leur/leurs</span> – <span class='notion'>tout (4 natures)</span>"},
-    {numero:2,titre:"Les fonctions grammaticales",objectif:"Identifier la <span class='notion'>fonction</span> d'un mot dans la phrase.",tableau:[["Sujet","qui est-ce qui ? quoi ?","Le chat dort."],["COD","quoi ? qui ? (sans préposition)","Je mange UNE POMME."],["COI","à qui ? à quoi ?","Je parle À MARIE."],["Complément circonstanciel","temps, lieu, manière, cause, but","Il court LE MATIN."],["Attribut du sujet","verbe d'état (être, paraître, sembler)","Il est GRAND."],["Épithète","adjectif qui qualifie directement un nom","Une GRANDE maison."],["Apposition","nom ou adjectif placé à côté d'un nom","Paris, CAPITALE DE LA FRANCE."],["Complément du nom","groupe de mots qui complète un nom","La maison DE MA GRAND-MÈRE."]],pieges:"Ne pas confondre <span class='notion'>nature</span> et <span class='notion'>fonction</span>.",exemple:"« Marie mange une pomme dans la cuisine. » → Marie = sujet, mange = verbe, une pomme = COD, dans la cuisine = CC de lieu.",flashcards:"<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>complément circonstanciel</span> – <span class='notion'>attribut du sujet</span> – <span class='notion'>épithète</span> – <span class='notion'>apposition</span> – <span class='notion'>complément du nom</span>"},
-    {numero:3,titre:"La phrase",objectif:"Analyser la structure d'une phrase.",tableau:[["Phrase simple","Une seule proposition (1 verbe).","Je mange."],["Phrase complexe","Plusieurs propositions.","Je mange quand j'ai faim."],["Proposition indépendante","Ne dépend d'aucune autre.","Je chante."],["Proposition principale","Dont dépend une subordonnée.","Je pense QUE TU AS RAISON."],["Subordonnée relative","Introduite par qui, que, dont, où","Le livre QUE JE LIS est intéressant."],["Subordonnée conjonctive","Introduite par que, parce que, etc.","Je veux QUE TU VIENNES."]],pieges:"La relative complète un nom (antécédent). La conjonctive complète le verbe.",exemple:"« Je prends mon parapluie parce qu'il pleut. » → subordonnée conjonctive de cause.",flashcards:"<span class='notion'>phrase simple</span> – <span class='notion'>phrase complexe</span> – <span class='notion'>proposition indépendante</span> – <span class='notion'>principale</span> – <span class='notion'>subordonnée relative</span> – <span class='notion'>subordonnée conjonctive</span>"},
-    {numero:4,titre:"Temps et modes verbaux",objectif:"Maîtriser les temps et leurs valeurs.",tableau:[["Indicatif","Mode de la réalité.","présent, imparfait, passé simple, passé composé, plus-que-parfait, futur"],["Subjonctif","Mode du doute, souhait, émotion.","Il faut que tu VIENNES."],["Conditionnel","Mode de l'hypothèse.","Si j'avais de l'argent, je VOYAGERAIS."],["Impératif","Mode de l'ordre.","Viens !"]],pieges:"Ne pas confondre conditionnel et futur (mêmes terminaisons mais contextes différents).",exemple:"Imparfait = description/habitude (Quand j'étais petit, je jouais). Passé simple = action ponctuelle (Il entra).",flashcards:"<span class='notion'>indicatif</span> – <span class='notion'>subjonctif</span> – <span class='notion'>conditionnel</span> – <span class='notion'>impératif</span>"},
-    {numero:5,titre:"Les accords",objectif:"Maîtriser les accords essentiels.",tableau:[["Accord sujet-verbe","Le verbe s'accorde en personne et nombre avec le sujet.","Les enfants JOUENT."],["Accord dans le GN","Déterminant, nom et adjectif s'accordent.","Une GRANDE maison BLEUE."],["Participe passé avec être","S'accorde avec le sujet.","Elle EST ALLÉE."],["Participe passé avec avoir","S'accorde avec le COD si placé avant.","Les pommes que j'ai MANGÉES."]],pieges:"Avec avoir, pas d'accord si le COD est après le verbe.",exemple:"La lettre que j'ai REÇUE (COD placé avant). J'ai REÇU une lettre (COD après).",flashcards:"<span class='notion'>accord sujet-verbe</span> – <span class='notion'>accord GN</span> – <span class='notion'>participe passé avec être</span> – <span class='notion'>participe passé avec avoir</span>"},
-    {numero:6,titre:"Les homophones",objectif:"Distinguer les homophones grammaticaux.",tableau:[["a / à","a = avoir ; à = préposition","Il a faim. Je vais à Paris."],["ce / se","ce = démonstratif ; se = pronom","Ce livre. Il se lave."],["ces / ses","ces = démonstratif pluriel ; ses = possessif","Ces enfants. Ses parents."],["ou / où","ou = conjonction ; où = pronom/adverbe","Thé ou café ? Où vas-tu ?"],["on / ont","on = pronom indéfini ; ont = avoir","On mange. Ils ont faim."],["son / sont","son = possessif ; sont = être","Son chien. Ils sont contents."]],pieges:"Pour vérifier : remplacer par 'avait' → a ; par 'étaient' → sont ; par 'et' → ou.",exemple:"Il a (avait) raison. Elles sont (étaient) fatiguées.",flashcards:"<span class='notion'>a/à</span> – <span class='notion'>ce/se</span> – <span class='notion'>ces/ses</span> – <span class='notion'>ou/où</span> – <span class='notion'>on/ont</span> – <span class='notion'>son/sont</span>"},
-    {numero:7,titre:"Conjugaison",objectif:"Connaître les terminaisons des principaux temps.",tableau:[["1er groupe (-er)","Présent : -e, -es, -e, -ons, -ez, -ent","je chante, nous chantons"],["2e groupe (-ir avec -iss-)","Présent : -is, -is, -it, -issons, -issez, -issent","je finis, nous finissons"],["3e groupe","Verbes irréguliers : être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir","je suis, j'ai, je vais, je fais"],["Imparfait","-ais, -ais, -ait, -ions, -iez, -aient","je chantais"],["Futur simple","-ai, -as, -a, -ons, -ez, -ont","je chanterai"]],pieges:"Apprendre par cœur les verbes du 3e groupe les plus fréquents.",exemple:"Être au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.",flashcards:"<span class='notion'>1er groupe</span> – <span class='notion'>2e groupe</span> – <span class='notion'>3e groupe</span> – <span class='notion'>imparfait</span> – <span class='notion'>futur simple</span>"},
-    {numero:8,titre:"Valeurs des temps",objectif:"Comprendre la valeur des temps dans un récit.",tableau:[["Imparfait","Description, habitude, action qui dure.","Il faisait beau. Il jouait tous les jours."],["Passé simple","Action ponctuelle, début ou fin (récit écrit).","Il entra dans la pièce."],["Passé composé","Action ponctuelle passée, bilan (oral).","Hier, j'ai mangé une pizza."],["Plus-que-parfait","Antériorité par rapport à une action passée.","Il était déjà parti."],["Présent","Actualité, vérité générale, habitude.","L'eau bout à 100°C."]],pieges:"Ne pas utiliser le passé simple à l'oral.",exemple:"Imparfait : 'Il regardait la mer' (description). Passé simple : 'Il cria' (action).",flashcards:"<span class='notion'>imparfait</span> – <span class='notion'>passé simple</span> – <span class='notion'>passé composé</span> – <span class='notion'>plus-que-parfait</span> – <span class='notion'>présent</span>"},
-    {numero:9,titre:"Formation des mots",objectif:"Comprendre comment se forment les mots.",tableau:[["Radical","Partie qui porte le sens principal.","PORT dans porter, transport, porteur"],["Préfixe","Élément avant le radical (modifie le sens).","re-, in-, dé-, pré-, anti-"],["Suffixe","Élément après le radical (modifie sens ou nature).","-able, -age, -tion, -eur, -ette"],["Famille de mots","Mots avec le même radical.","terre, terrestre, atterrir"]],pieges:"Ne pas confondre radical et racine.",exemple:"Préfixe 're-' = répétition (refaire). Suffixe '-able' = possible (portable).",flashcards:"<span class='notion'>radical</span> – <span class='notion'>préfixe</span> – <span class='notion'>suffixe</span> – <span class='notion'>famille de mots</span>"},
-    {numero:10,titre:"Figures de style",objectif:"Reconnaître les principales figures de style.",tableau:[["Comparaison","Rapprochement avec outil (comme, tel).","Fort comme un lion."],["Métaphore","Rapprochement sans outil.","C'est un lion."],["Personnification","Qualités humaines à un objet.","La lune sourit."],["Antithèse","Rapprochement de deux termes opposés.","Je vis, je meurs."],["Oxymore","Mots contradictoires.","Une obscure clarté."],["Hyperbole","Exagération.","Je t'ai dit mille fois."],["Litote","Dire moins pour suggérer plus.","Ce n'est pas bête."],["Énumération","Succession de mots.","Elle aimait les chiens, les chats."]],pieges:"Ne pas confondre comparaison et métaphore.",exemple:"Oxymore : 'un silence assourdissant'.",flashcards:"<span class='notion'>comparaison</span> – <span class='notion'>métaphore</span> – <span class='notion'>personnification</span> – <span class='notion'>antithèse</span> – <span class='notion'>oxymore</span> – <span class='notion'>hyperbole</span> – <span class='notion'>litote</span> – <span class='notion'>énumération</span>"},
-    {numero:11,titre:"Champs lexicaux",objectif:"Identifier le champ lexical d'un texte.",tableau:[["Champ lexical","Ensemble des mots liés à un même thème.","mer → vague, bateau, pêche"],["Registres de langue","Soutenu, courant, familier, argotique.","Il est malaisé / difficile / c'est dur / c'est chaud"]],pieges:"Ne pas confondre champ lexical (thème) et champ sémantique (sens d'un mot).",exemple:"Texte sur la guerre : champ lexical de la violence (combat, arme, mort).",flashcards:"<span class='notion'>champ lexical</span> – <span class='notion'>registre soutenu</span> – <span class='notion'>registre familier</span>"},
-    {numero:12,titre:"Synonymes, antonymes, homonymes",objectif:"Utiliser les relations entre les mots.",tableau:[["Synonyme","Mots de sens proche.","joie / bonheur"],["Antonyme","Mots de sens contraire.","chaud / froid"],["Homonyme","Même prononciation, sens différent.","vert / verre / vers"],["Paronyme","Sons proches, sens différent.","collision / collusion"]],pieges:"Les homonymes sont source d'erreurs orthographiques.",exemple:"a/à, ou/où, on/ont, son/sont.",flashcards:"<span class='notion'>synonyme</span> – <span class='notion'>antonyme</span> – <span class='notion'>homonyme</span> – <span class='notion'>paronyme</span>"},
-    {numero:13,titre:"Genres littéraires",objectif:"Reconnaître les grands genres littéraires.",tableau:[["Roman","récit en prose (aventures, policier, fantastique, SF, autobiographie)","Les Misérables"],["Théâtre","texte joué (tragédie, comédie, drame)","Phèdre, Le Cid"],["Poésie","vers ou prose rythmée (lyrique, engagée)","Les Fleurs du mal"],["Argumentation","essai, fable, pamphlet","Les Fables de La Fontaine"]],pieges:"Un même texte peut appartenir à plusieurs genres.",exemple:"Fable = récit + morale (argumentation).",flashcards:"<span class='notion'>roman</span> – <span class='notion'>théâtre</span> – <span class='notion'>poésie</span> – <span class='notion'>argumentation</span>"},
-    {numero:14,titre:"Mouvements littéraires",objectif:"Situer une œuvre dans son époque.",tableau:[["Humanisme (XVIe)","Rabelais, Montaigne → exaltation de l'homme","Gargantua"],["Classicisme (XVIIe)","Molière, Racine → règles, bienséance","Le Tartuffe"],["Lumières (XVIIIe)","Voltaire, Rousseau → raison, liberté","Candide"],["Romantisme (XIXe)","Hugo → émotion, nature","Les Misérables"],["Réalisme (XIXe)","Balzac → réalité","Le Père Goriot"],["Naturalisme (XIXe)","Zola → déterminisme","Germinal"],["Surréalisme (XXe)","Breton → rêve, inconscient","Nadja"]],pieges:"Ne pas confondre Romantisme et Réalisme.",exemple:"Lumières : critique de l'absolutisme (Voltaire, Montesquieu).",flashcards:"<span class='notion'>Humanisme</span> – <span class='notion'>Classicisme</span> – <span class='notion'>Lumières</span> – <span class='notion'>Romantisme</span> – <span class='notion'>Réalisme</span> – <span class='notion'>Naturalisme</span> – <span class='notion'>Surréalisme</span>"},
-    {numero:15,titre:"Registres littéraires",objectif:"Identifier l'effet recherché par l'auteur.",tableau:[["Comique","rire (satire, farce, comédie)","Les Fourberies de Scapin"],["Tragique","terreur, pitié, fatalité","Phèdre"],["Épique","héros, exploits, grandeur","La Chanson de Roland"],["Lyrique","sentiments personnels (amour, mort)","Les Méditations"],["Pathétique","émotion, souffrance","(textes sur la mort)"],["Fantastique","hésitation réel/irréel","La Vénus d'Ille"]],pieges:"Le registre dépend de l'effet produit, pas du genre.",exemple:"Un roman peut être à la fois comique et tragique.",flashcards:"<span class='notion'>comique</span> – <span class='notion'>tragique</span> – <span class='notion'>épique</span> – <span class='notion'>lyrique</span> – <span class='notion'>pathétique</span> – <span class='notion'>fantastique</span>"},
-    {numero:16,titre:"Le récit",objectif:"Analyser la structure d'un récit.",tableau:[["Schéma narratif","situation initiale → élément perturbateur → péripéties → résolution → situation finale","(contes, romans)"],["Schéma actantiel","sujet, objet, adjuvant, opposant, destinateur, destinataire","(quête, héros, aide)"],["Point de vue","interne, externe, omniscient",""],["Rythme du récit","accélération (ellipse), ralentissement (pause descriptive)",""]],pieges:"Ne pas confondre auteur et narrateur.",exemple:"Point de vue interne : on sait ce que pense le personnage.",flashcards:"<span class='notion'>schéma narratif</span> – <span class='notion'>schéma actantiel</span> – <span class='notion'>point de vue</span> – <span class='notion'>rythme du récit</span>"},
-    {numero:17,titre:"La rédaction",objectif:"Rédiger un texte structuré.",tableau:[["Plan","introduction (amorce, problématique, plan) / développement (paragraphes) / conclusion (réponse, ouverture)",""],["Connecteurs","addition (et, de plus), cause (car, parce que), conséquence (donc, ainsi), opposition (mais, cependant)",""]],pieges:"Ne pas sauter de ligne entre introduction, développement et conclusion.",exemple:"Introduction : accroche + présentation du sujet + problématique + annonce du plan.",flashcards:"<span class='notion'>introduction</span> – <span class='notion'>développement</span> – <span class='notion'>conclusion</span> – <span class='notion'>connecteurs</span>"},
-    {numero:18,titre:"Contraction de texte",objectif:"Résumer un texte au 1/3.",tableau:[["Règle d'or","ne pas commenter, ne pas juger, ne pas ajouter",""],["Étapes","lire, relever les idées essentielles, reformuler, compter les mots",""]],pieges:"Ne pas changer l'ordre logique.",exemple:"Respecter la thèse de l'auteur, même si on n'est pas d'accord.",flashcards:"<span class='notion'>1/3</span> – <span class='notion'>reformuler</span> – <span class='notion'>ne pas commenter</span>"},
-    {numero:19,titre:"Commentaire composé",objectif:"Analyser un texte littéraire.",tableau:[["Structure","introduction / développement (2-3 axes) / conclusion",""],["Analyse","identifier les procédés (figures de style, champs lexicaux) et leur effet",""]],pieges:"Ne pas résumer le texte.",exemple:"Chaque axe = plusieurs paragraphes (sous-parties).",flashcards:"<span class='notion'>commentaire composé</span> – <span class='notion'>axes de lecture</span> – <span class='notion'>citation</span> – <span class='notion'>analyse</span>"},
-    {numero:20,titre:"Oral : présentation",objectif:"Préparer son oral du brevet.",tableau:[["Durée","5 min exposé + 10 min échange",""],["Structure","introduction, développement, conclusion",""],["Supports","PowerPoint, affiche, extraits (pas de texte lu)",""]],pieges:"Ne pas apprendre par cœur, mais connaître son plan.",exemple:"S'entraîner chronométré.",flashcards:"<span class='notion'>5 min exposé</span> – <span class='notion'>structure</span> – <span class='notion'>supports</span> – <span class='notion'>s'entraîner</span>"},
-    {numero:21,titre:"Oral : expression",objectif:"Bien s'exprimer devant le jury.",tableau:[["Voix","articuler, parler fort, débit calme",""],["Regard","regarder le jury, pas ses notes",""],["Posture","debout, gestes naturels",""],["Stress","respirer, bien dormir, préparer",""]],pieges:"Ne pas lire son texte.",exemple:"Utiliser des notes (mots-clés).",flashcards:"<span class='notion'>articuler</span> – <span class='notion'>regarder le jury</span> – <span class='notion'>posture</span> – <span class='notion'>gérer le stress</span>"},
-    {numero:22,titre:"Oral : échange avec le jury",objectif:"Répondre aux questions du jury.",tableau:[["Ne pas comprendre","demander une reformulation poliment",""],["Ne pas savoir","l'admettre honnêtement",""],["Argumenter","exemples précis, citations",""]],pieges:"Ne pas couper la parole du jury.",exemple:"Reformuler la question pour montrer qu'on a compris.",flashcards:"<span class='notion'>reformuler</span> – <span class='notion'>admettre ne pas savoir</span> – <span class='notion'>ne pas couper</span>"},
-    {numero:23,titre:"Dictée du brevet",objectif:"Réussir la dictée.",tableau:[["Préparation","lire le texte, identifier les difficultés",""],["Pendant","écouter, repérer les accords et les homophones",""],["Relecture","vérifier les accords, les terminaisons, le sens",""]],pieges:"Vérifier les homophones (a/à, on/ont, son/sont).",exemple:"Remplacer a par avait pour vérifier.",flashcards:"<span class='notion'>préparation</span> – <span class='notion'>relecture</span> – <span class='notion'>homophones</span>"},
-    {numero:24,titre:"Grammaire (analyse de phrase)",objectif:"Réussir l'analyse grammaticale.",tableau:[["Nature","classe grammaticale (nom, verbe, adjectif…)",""],["Fonction","rôle dans la phrase (sujet, COD, COI, CC…)",""],["Justifier","poser la question (qui ? quoi ? à qui ?)",""]],pieges:"Ne pas confondre nature et fonction.",exemple:"COD : on pose la question 'quoi ?' après le verbe.",flashcards:"<span class='notion'>nature</span> – <span class='notion'>fonction</span> – <span class='notion'>justifier</span>"},
-    {numero:25,titre:"Réécriture",objectif:"Réussir la réécriture.",tableau:[["Consigne","changer temps, personne, genre, nombre",""],["Appliquer","transformer étape par étape",""],["Vérifier","accords, terminaisons, homophones",""]],pieges:"Vérifier l'accord du participe passé après transformation.",exemple:"Changer 'je' en 'nous' → verbes à la 1ère personne du pluriel.",flashcards:"<span class='notion'>changer temps</span> – <span class='notion'>changer personne</span> – <span class='notion'>vérifier accords</span>"},
-    {numero:26,titre:"Essai (sujet de réflexion)",objectif:"Réussir l'essai.",tableau:[["Plan","introduction / développement (thèse, arguments, exemples) / conclusion",""],["Brainstorming","trouver des idées, puis les classer",""],["Exemples","œuvres littéraires, films, expériences personnelles",""]],pieges:"Ne pas donner son avis sans le justifier.",exemple:"Pour illustrer, citer des œuvres connues (Les Misérables, Candide).",flashcards:"<span class='notion'>essai</span> – <span class='notion'>brainstorming</span> – <span class='notion'>exemples</span> – <span class='notion'>justifier</span>"}
-  ];
-
-  // ==================== MATHÉMATIQUES – 18 CHAPITRES COMPLETS ====================
-  const mathsChapitres = [
-    {numero:1,titre:"Nombres premiers et PGCD",objectif:"Décomposer et calculer le PGCD.",tableau:[["Nombre premier","divisible uniquement par 1 et lui-même","2,3,5,7,11,13,17,19,23…"],["Décomposition","diviser par les nombres premiers","72 = 2³ × 3²"],["PGCD","Plus Grand Diviseur Commun","PGCD(12,18)=6"],["Algorithme d'Euclide","divisions successives","PGCD(72,30)=6"]],pieges:"1 n'est pas premier. 2 est le seul nombre pair premier.",exemple:"84 = 2² × 3 × 7.",flashcards:"<span class='notion'>nombre premier</span> – <span class='notion'>décomposition</span> – <span class='notion'>PGCD</span> – <span class='notion'>algorithme d'Euclide</span>"},
-    {numero:2,titre:"Nombres relatifs",objectif:"Opérations sur les relatifs.",tableau:[["Addition","même signe : on additionne ; signes contraires : on soustrait","(-3)+(-5)=-8 ; (+7)+(-4)=+3"],["Soustraction","ajouter l'opposé","(-7)-(+3)=-10"],["Multiplication","règle des signes","(-2)×(+3)=-6 ; (-2)×(-3)=+6"],["Division","même règle des signes","(-15)÷(-3)=+5"]],pieges:"Deux signes négatifs donnent un résultat positif.",exemple:"Calculer (-4)+(-7)-(+2) = -11-2 = -13.",flashcards:"<span class='notion'>addition</span> – <span class='notion'>soustraction</span> – <span class='notion'>multiplication</span> – <span class='notion'>division</span> – <span class='notion'>règle des signes</span>"},
-    {numero:3,titre:"Fractions et quotients",objectif:"Opérations sur les fractions.",tableau:[["Addition/Soustraction","mettre au même dénominateur","2/5+1/3=6/15+5/15=11/15"],["Multiplication","multiplier numérateurs et dénominateurs","2/3×4/5=8/15"],["Division","multiplier par l'inverse","(2/3)÷(4/5)=5/6"],["Simplification","diviser par le PGCD","18/24=3/4"]],pieges:"Addition possible uniquement avec dénominateur commun.",exemple:"3/4 - 1/2 = 3/4 - 2/4 = 1/4.",flashcards:"<span class='notion'>addition fractions</span> – <span class='notion'>multiplication</span> – <span class='notion'>division</span> – <span class='notion'>simplification</span>"},
-    {numero:4,titre:"Puissances",objectif:"Calcul avec puissances et notation scientifique.",tableau:[["Définition","aⁿ = a×…×a","2³=8"],["Exposant négatif","a⁻ⁿ = 1/aⁿ","10⁻²=0,01"],["Notation scientifique","a×10ⁿ avec 1≤a<10","15000=1,5×10⁴"],["Règles","aⁿ×aᵖ=aⁿ⁺ᵖ ; (aⁿ)ᵖ=aⁿˣᵖ ; aⁿ/aᵖ=aⁿ⁻ᵖ","2³×2²=2⁵=32"]],pieges:"10⁻²=0,01 (pas -100).",exemple:"2⁴×2⁻²=2²=4.",flashcards:"<span class='notion'>aⁿ</span> – <span class='notion'>a⁻ⁿ</span> – <span class='notion'>notation scientifique</span> – <span class='notion'>règles des puissances</span>"},
-    {numero:5,titre:"Calcul littéral",objectif:"Développer, factoriser, réduire.",tableau:[["Réduire","regrouper les termes de même nature","3x+5-2x+2 = x+7"],["Développer","k(a+b)=ka+kb ; (a+b)(c+d)=ac+ad+bc+bd","3(x+2)=3x+6"],["Factoriser","trouver un facteur commun","6x+12=6(x+2)"],["Identités remarquables","(a+b)²=a²+2ab+b² ; (a-b)²=a²-2ab+b² ; (a-b)(a+b)=a²-b²","(x+2)²=x²+4x+4"]],pieges:"Ne pas confondre développer et factoriser.",exemple:"x²-4 = (x-2)(x+2).",flashcards:"<span class='notion'>réduire</span> – <span class='notion'>développer</span> – <span class='notion'>factoriser</span> – <span class='notion'>identités remarquables</span>"},
-    {numero:6,titre:"Équations et inéquations",objectif:"Résoudre équations et inéquations du 1er degré.",tableau:[["Équation","ax+b=0 → x=-b/a","2x-3=7 → x=5"],["Produit nul","(x-a)(x-b)=0 → x=a ou x=b","(x-3)(x+4)=0 → x=3 ou -4"],["Inéquation","ax+b < 0","x-3 ≤ 5 → x ≤ 8"],["Règle","multiplier par un négatif inverse le sens","-2x < 4 → x > -2"]],pieges:"Changer le sens de l'inégalité en multipliant par un négatif.",exemple:"-3x+5 = 2x-10 → x=3.",flashcards:"<span class='notion'>équation 1er degré</span> – <span class='notion'>produit nul</span> – <span class='notion'>inéquation</span> – <span class='notion'>inverser le sens</span>"},
-    {numero:7,titre:"Proportionnalité",objectif:"Utiliser proportionnalité, pourcentages, échelles, vitesse.",tableau:[["Produit en croix","a/b=c/d → ad=bc","2/3=4/x → x=6"],["Pourcentage","t% = t/100 × quantité","30% de 80 = 24"],["Hausse","× (1+t/100)","200+15% = 230"],["Baisse","× (1-t/100)","50-20% = 40"],["Échelle","plan / réel","1/500 : 8cm → 40m"],["Vitesse","v = d/t","120km/2h = 60 km/h"]],pieges:"Ne pas confondre hausse et baisse.",exemple:"10 m/s → 36 km/h (×3,6).",flashcards:"<span class='notion'>produit en croix</span> – <span class='notion'>pourcentage</span> – <span class='notion'>hausse</span> – <span class='notion'>baisse</span> – <span class='notion'>échelle</span> – <span class='notion'>vitesse</span>"},
-    {numero:8,titre:"Statistiques",objectif:"Calculer moyenne, médiane, étendue.",tableau:[["Moyenne","somme des valeurs / effectif total","(12+15+18)/3=15"],["Médiane","valeur qui partage la série","3,7,9,12,15 → 9"],["Étendue","max - min","5,12,8,20,3 → 17"],["Fréquence","effectif / effectif total","3/8=0,375"]],pieges:"Pour la médiane, toujours ranger la série.",exemple:"Médiane de 2,5,8,11 → (5+8)/2=6,5.",flashcards:"<span class='notion'>moyenne</span> – <span class='notion'>médiane</span> – <span class='notion'>étendue</span> – <span class='notion'>fréquence</span>"},
-    {numero:9,titre:"Probabilités",objectif:"Calculer une probabilité.",tableau:[["P(A)","nb issues favorables / nb total","P(4)=1/6"],["Événement certain","P=1",""],["Événement impossible","P=0",""],["Contraire","P(Ā)=1-P(A)","P(pair)=1/2 → P(impair)=1/2"]],pieges:"La probabilité est toujours entre 0 et 1.",exemple:"Tirer rouge (3R,5B) → P=3/8.",flashcards:"<span class='notion'>P(A)</span> – <span class='notion'>événement certain</span> – <span class='notion'>événement impossible</span> – <span class='notion'>événement contraire</span>"},
-    {numero:10,titre:"Fonctions",objectif:"Comprendre image, antécédent, fonctions linéaires et affines.",tableau:[["Image","f(4) pour f(x)=2x+3","11"],["Antécédent","x tel que f(x)=7","x=2"],["Fonction linéaire","f(x)=ax (proportionnalité)","f(x)=3x"],["Fonction affine","f(x)=ax+b","f(x)=2x+3"]],pieges:"Ne pas confondre image (y) et antécédent (x).",exemple:"f(x)=2x-1 : image de 3 = 5 ; antécédent de 5 = 3.",flashcards:"<span class='notion'>image</span> – <span class='notion'>antécédent</span> – <span class='notion'>fonction linéaire</span> – <span class='notion'>fonction affine</span>"},
-    {numero:11,titre:"Fonctions (suite)",objectif:"Déterminer coefficient directeur et ordonnée.",tableau:[["Coefficient a","a = (y₂-y₁)/(x₂-x₁)","A(1,3), B(3,7) → a=2"],["Ordonnée b","b = f(0)","f(0)=3 → b=3"]],pieges:"L'ordre des points est important.",exemple:"a=2, A(2,5) → 5=4+b → b=1 → f(x)=2x+1.",flashcards:"<span class='notion'>coefficient directeur</span> – <span class='notion'>ordonnée à l'origine</span> – <span class='notion'>déterminer f(x)</span>"},
-    {numero:12,titre:"Pythagore",objectif:"Calculer une longueur ou prouver qu'un triangle est rectangle.",tableau:[["Théorème","hyp² = a²+b²","AB=3,AC=4 → BC=5"],["Réciproque","si hyp² = a²+b² → rectangle","3²+4²=5² → rectangle"],["Contraposée","si hyp² ≠ a²+b² → non rectangle","2²+3²=13 ≠ 4² → non rectangle"]],pieges:"Identifier l'hypoténuse (côté opposé à l'angle droit).",exemple:"Diagonale d'un carré de côté 5 → d=√(5²+5²)=5√2≈7,07.",flashcards:"<span class='notion'>théorème de Pythagore</span> – <span class='notion'>réciproque</span> – <span class='notion'>contraposée</span>"},
-    {numero:13,titre:"Thalès",objectif:"Calculer des longueurs ou prouver le parallélisme.",tableau:[["Théorème","AM/AB = AN/AC = MN/BC","AM=3,AB=5,BC=10 → MN=6"],["Réciproque","si AM/AB = AN/AC (même ordre) → (MN)//(BC)","3/5=6/10 → parallèles"]],pieges:"Les points doivent être alignés dans le même ordre.",exemple:"AN/AC = AM/AB → AN/9=4/12 → AN=3.",flashcards:"<span class='notion'>théorème de Thalès</span> – <span class='notion'>réciproque</span> – <span class='notion'>configuration</span>"},
-    {numero:14,titre:"Trigonométrie",objectif:"Calculer des longueurs ou des angles dans un triangle rectangle.",tableau:[["Cosinus","adjacent / hypoténuse","SOH CAH TOA"],["Sinus","opposé / hypoténuse","SOH CAH TOA"],["Tangente","opposé / adjacent","SOH CAH TOA"]],pieges:"Bien identifier les côtés.",exemple:"cos(30°)=√3/2, sin(30°)=1/2, tan(45°)=1.",flashcards:"<span class='notion'>cosinus</span> – <span class='notion'>sinus</span> – <span class='notion'>tangente</span> – <span class='notion'>SOH CAH TOA</span>"},
-    {numero:15,titre:"Géométrie (angles)",objectif:"Utiliser les propriétés des angles.",tableau:[["Somme des angles d'un triangle","180°",""],["Angles complémentaires","somme=90°",""],["Angles supplémentaires","somme=180°",""],["Angles alternes-internes","égaux si deux parallèles",""]],pieges:"Les angles opposés par le sommet sont égaux.",exemple:"Deux parallèles coupées par une sécante : angles alternes-internes égaux.",flashcards:"<span class='notion'>somme des angles</span> – <span class='notion'>angles alternes-internes</span> – <span class='notion'>angles opposés</span>"},
-    {numero:16,titre:"Transformations",objectif:"Reconnaître les transformations.",tableau:[["Translation","glisse (même forme, même orientation)",""],["Rotation","tourne (même forme, orientation changée)",""],["Symétrie axiale","reflet par rapport à une droite (orientation inversée)",""],["Symétrie centrale","reflet par rapport à un point (rotation 180°)",""]],pieges:"La symétrie centrale inverse l'orientation.",exemple:"Translation : on avance sans tourner.",flashcards:"<span class='notion'>translation</span> – <span class='notion'>rotation</span> – <span class='notion'>symétrie axiale</span> – <span class='notion'>symétrie centrale</span>"},
-    {numero:17,titre:"Solides",objectif:"Calculer volumes et aires.",tableau:[["Pavé droit","V = L×l×h",""],["Prisme droit","V = Aire base × hauteur",""],["Cylindre","V = π×r²×h",""],["Pyramide","V = (Aire base × h)/3",""],["Cône","V = (π×r²×h)/3",""]],pieges:"1 dm³ = 1 L.",exemple:"Cylindre r=2, h=5 → V=20π≈62,8.",flashcards:"<span class='notion'>volume pavé</span> – <span class='notion'>volume cylindre</span> – <span class='notion'>volume pyramide</span> – <span class='notion'>volume cône</span>"},
-    {numero:18,titre:"Scratch (algorithmique)",objectif:"Utiliser les boucles, variables et conditions.",tableau:[["Variable","stocke une valeur","mettre résultat à 0"],["Boucle","répéter N fois","répéter 4 fois"],["Condition","si … alors … sinon …","si réponse = 5 alors dire 'gagné'"],["Orientation","90° = droite, 0° = haut",""]],pieges:"Ne pas créer de boucle infinie.",exemple:"Carré : répéter 4 fois : avancer 50, tourner 90°.",flashcards:"<span class='notion'>variable</span> – <span class='notion'>boucle</span> – <span class='notion'>condition</span> – <span class='notion'>orientation</span> – <span class='notion'>carré Scratch</span> – <span class='notion'>triangle équilatéral</span> – <span class='notion'>stylo</span>"}
-  ];
-
-  // ==================== SCIENCES – 28 CHAPITRES COMPLETS ====================
-  const sciencesChapitres = [
-    {numero:1,titre:"Réchauffement climatique",objectif:"Comprendre les causes et conséquences.",tableau:[["GES","CO₂, CH₄, N₂O",""],["Causes humaines","combustion fossile, déforestation",""],["Conséquences","fonte des glaciers, montée des eaux, catastrophes",""],["Accord de Paris (2015)","limiter à +2°C",""]],pieges:"Ne pas confondre effet de serre (naturel) et réchauffement (aggravé).",exemple:"Les énergies renouvelables (solaire, éolien) réduisent les GES.",flashcards:"<span class='notion'>GES</span> – <span class='notion'>CO₂</span> – <span class='notion'>Accord de Paris</span>"},
-    {numero:2,titre:"Cellule – unité du vivant",objectif:"Connaître la structure de la cellule.",tableau:[["Cellule animale","membrane, cytoplasme, noyau, mitochondries",""],["Cellule végétale","paroi cellulosique, chloroplastes (photosynthèse)",""],["Organisation","cellule → tissu → organe → appareil → organisme",""]],pieges:"Les chloroplastes ne sont que dans les cellules végétales.",exemple:"La photosynthèse : CO₂ + H₂O + lumière → glucose + O₂.",flashcards:"<span class='notion'>noyau</span> – <span class='notion'>membrane</span> – <span class='notion'>chloroplastes</span> – <span class='notion'>photosynthèse</span>"},
-    {numero:3,titre:"Génétique et hérédité",objectif:"Comprendre l'hérédité.",tableau:[["Gène","fragment d'ADN pour un caractère",""],["Allèle dominant/récessif","dominant = s'exprime seul, récessif = en double",""],["Caryotype","photo des chromosomes (46, 23 paires)",""],["Maladies génétiques","mucoviscidose, drépanocytose",""]],pieges:"Un caryotype normal : 46,XX (femme) ou 46,XY (homme).",exemple:"La mucoviscidose est due à deux allèles récessifs.",flashcards:"<span class='notion'>gène</span> – <span class='notion'>allèle</span> – <span class='notion'>caryotype</span> – <span class='notion'>mucoviscidose</span>"},
-    {numero:4,titre:"Évolution des espèces",objectif:"Comprendre l'évolution.",tableau:[["Sélection naturelle","les mieux adaptés survivent (Darwin)",""],["Preuves","fossiles, anatomie comparée, ADN",""],["Arbre phylogénétique","liens de parenté",""]],pieges:"L'évolution ne dit pas que l'homme descend du singe (ancêtre commun).",exemple:"Les membres des vertébrés ont la même structure (même origine).",flashcards:"<span class='notion'>sélection naturelle</span> – <span class='notion'>Darwin</span> – <span class='notion'>fossiles</span> – <span class='notion'>arbre phylogénétique</span>"},
-    {numero:5,titre:"Reproduction",objectif:"Comprendre la reproduction.",tableau:[["Asexuée","clones (bouturage, marcottage)",""],["Sexuée","fécondation (gamètes) → zygote",""],["Développement","segmentation → gastrulation → organogenèse",""],["Pollinisation","transport du pollen (vent, insectes)",""]],pieges:"La reproduction sexuée crée du brassage génétique.",exemple:"La fécondation est la fusion d'un spermatozoïde et d'un ovule.",flashcards:"<span class='notion'>reproduction asexuée</span> – <span class='notion'>fécondation</span> – <span class='notion'>pollinisation</span>"},
-    {numero:6,titre:"Système nerveux",objectif:"Connaître le système nerveux.",tableau:[["SNC","cerveau, moelle épinière",""],["Neurone","transmet l'influx nerveux",""],["Synapse","zone de communication",""],["Mouvement volontaire (cerveau) / réflexe (moelle)","",""]],pieges:"Le réflexe est plus rapide qu'un mouvement volontaire.",exemple:"Le réflexe rotulien (coup sur le tendon) ne passe pas par le cerveau.",flashcards:"<span class='notion'>SNC</span> – <span class='notion'>neurone</span> – <span class='notion'>synapse</span> – <span class='notion'>mouvement réflexe</span>"},
-    {numero:7,titre:"Hormones et régulation",objectif:"Connaître le système hormonal.",tableau:[["Insuline","baisse la glycémie (pancréas)",""],["Adrénaline","stress (accélère le cœur)",""],["Hormones sexuelles","testostérone (hommes), œstrogènes (femmes)",""],["Hypothalamus","chef d'orchestre des glandes",""]],pieges:"L'insuline est une hormone hypoglycémiante.",exemple:"Le diabète de type 1 est dû à un manque d'insuline.",flashcards:"<span class='notion'>insuline</span> – <span class='notion'>adrénaline</span> – <span class='notion'>hormones sexuelles</span> – <span class='notion'>hypothalamus</span>"},
-    {numero:8,titre:"Nutrition et digestion",objectif:"Comprendre la digestion.",tableau:[["Nutriments","glucides, lipides, protides, vitamines, minéraux",""],["Enzymes","dégradent les aliments (amylase, pepsine)",""],["Absorption","intestin grêle (villosités)",""],["Bol alimentaire","aliment mâché + salive",""]],pieges:"Les enzymes sont des catalyseurs biologiques.",exemple:"L'amylase dégrade l'amidon en sucre.",flashcards:"<span class='notion'>nutriments</span> – <span class='notion'>enzymes</span> – <span class='notion'>intestin grêle</span> – <span class='notion'>bol alimentaire</span>"},
-    {numero:9,titre:"Respiration et circulation sanguine",objectif:"Comprendre la circulation.",tableau:[["Alvéoles pulmonaires","échanges gazeux (O₂, CO₂)",""],["Trajet sang","cœur → artères → capillaires → veines → cœur",""],["Globules rouges","transportent l'O₂ (hémoglobine)",""],["Différence artère/veine","artère : sang part du cœur, veine : sang retourne",""]],pieges:"Le sang artériel est riche en O₂ (sauf artère pulmonaire).",exemple:"L'hémoglobine donne sa couleur rouge au sang.",flashcards:"<span class='notion'>alvéoles</span> – <span class='notion'>globules rouges</span> – <span class='notion'>hémoglobine</span> – <span class='notion'>artère/veine</span>"},
-    {numero:10,titre:"Microbes et infections",objectif:"Connaître les microbes.",tableau:[["Bactéries, virus, champignons, parasites","",""],["Barrières naturelles","peau, muqueuses, sucs gastriques, larmes",""],["Anticorps","protéines qui neutralisent les microbes",""]],pieges:"Les virus ne sont pas des cellules vivantes.",exemple:"Les lymphocytes B fabriquent des anticorps.",flashcards:"<span class='notion'>bactéries</span> – <span class='notion'>virus</span> – <span class='notion'>anticorps</span> – <span class='notion'>lymphocytes</span>"},
-    {numero:11,titre:"Vaccination et antibiotiques",objectif:"Comprendre la vaccination.",tableau:[["Vaccin","antigène affaibli → mémoire immunitaire",""],["Immunité de groupe","protection collective",""],["Antibiotiques","efficaces sur les bactéries (pas les virus)",""],["Résistance","bactéries deviennent insensibles",""]],pieges:"Les antibiotiques sont inefficaces contre la grippe (virus).",exemple:"Le vaccin contre le tétanos doit être régulièrement rappelé.",flashcards:"<span class='notion'>vaccin</span> – <span class='notion'>immunité de groupe</span> – <span class='notion'>antibiotiques</span> – <span class='notion'>résistance</span>"},
-    {numero:12,titre:"Sexualité et reproduction humaine",objectif:"Connaître la reproduction humaine.",tableau:[["Contraception","pilule, préservatif, stérilet",""],["IST","infection sexuellement transmissible (VIH, chlamydia)",""],["Préservatif","barrière contre le VIH et les IST",""]],pieges:"Le préservatif protège aussi des IST.",exemple:"Le VIH affaiblit le système immunitaire (sida).",flashcards:"<span class='notion'>contraception</span> – <span class='notion'>IST</span> – <span class='notion'>VIH</span> – <span class='notion'>préservatif</span>"},
-    {numero:13,titre:"Défenses immunitaires",objectif:"Comprendre l'immunité.",tableau:[["Lymphocytes","globules blancs (B = anticorps, T = destruction)",""],["Immunité innée","immédiate, non spécifique (peau, phagocytes)",""],["Immunité acquise","lente, spécifique (anticorps, mémoire)",""]],pieges:"La mémoire immunitaire permet une réponse plus rapide en cas de 2e contact.",exemple:"Les phagocytes (macrophages) engloutissent les microbes.",flashcards:"<span class='notion'>lymphocytes</span> – <span class='notion'>immunité innée</span> – <span class='notion'>immunité acquise</span> – <span class='notion'>phagocytes</span>"},
-    {numero:14,titre:"Atomes et molécules (physique)",objectif:"Connaître la structure de la matière.",tableau:[["Atome","noyau (protons+, neutrons) + électrons-",""],["Molécule","assemblage d'atomes (ex: H₂O)",""],["États","solide, liquide, gaz",""],["Fusion","solide → liquide",""]],pieges:"L'eau bout à 100°C et gèle à 0°C.",exemple:"H₂O = 2 atomes d'hydrogène + 1 atome d'oxygène.",flashcards:"<span class='notion'>atome</span> – <span class='notion'>molécule</span> – <span class='notion'>fusion</span> – <span class='notion'>H₂O</span>"},
-    {numero:15,titre:"Mélanges et corps purs",objectif:"Distinguer mélanges et corps purs.",tableau:[["Corps pur","un seul constituant (eau distillée)",""],["Mélange homogène","on ne distingue pas les constituants",""],["Mélange hétérogène","plusieurs phases",""],["Filtration / distillation","techniques de séparation",""]],pieges:"L'eau salée est un mélange homogène.",exemple:"L'huile et l'eau forment un mélange hétérogène.",flashcards:"<span class='notion'>corps pur</span> – <span class='notion'>mélange homogène</span> – <span class='notion'>mélange hétérogène</span> – <span class='notion'>filtration</span> – <span class='notion'>distillation</span>"},
-    {numero:16,titre:"Réactions chimiques",objectif:"Écrire des équations chimiques.",tableau:[["Réactifs → produits","",""],["Conservation des atomes","",""],["Combustion du méthane","CH₄ + 2 O₂ → CO₂ + 2 H₂O",""],["Exothermique / endothermique","dégage / absorbe de la chaleur",""],["Neutralisation","acide + base → eau + sel",""]],pieges:"Dans une réaction chimique, rien ne se perd, rien ne se crée (Lavoisier).",exemple:"La rouille est une oxydation du fer.",flashcards:"<span class='notion'>réactifs → produits</span> – <span class='notion'>conservation des atomes</span> – <span class='notion'>combustion du méthane</span> – <span class='notion'>neutralisation</span>"},
-    {numero:17,titre:"Solutions et concentration",objectif:"Calculer une concentration.",tableau:[["Solvant (eau) / soluté (sucre)","",""],["Concentration massique","C = m/V (g/L)",""],["pH","acide (<7), neutre (7), basique (>7)",""]],pieges:"Plus la concentration est élevée, plus le goût est fort.",exemple:"Une solution de pH=3 est acide.",flashcards:"<span class='notion'>solvant</span> – <span class='notion'>soluté</span> – <span class='notion'>C = m/V</span> – <span class='notion'>pH</span>"},
-    {numero:18,titre:"Mouvement",objectif:"Analyser un mouvement.",tableau:[["Trajectoire","rectiligne, circulaire, curviligne",""],["Vitesse","v = d/t (m/s ou km/h)",""],["Conversion","m/s × 3,6 = km/h",""],["Référentiel","objet de référence",""]],pieges:"Une vitesse constante ne signifie pas un mouvement rectiligne (ex : cercle).",exemple:"20 m/s = 72 km/h.",flashcards:"<span class='notion'>trajectoire</span> – <span class='notion'>v = d/t</span> – <span class='notion'>conversion m/s km/h</span> – <span class='notion'>référentiel</span>"},
-    {numero:19,titre:"Forces",objectif:"Connaître les forces.",tableau:[["Poids","P = m × g (g=9,8 N/kg, vertical vers bas)",""],["Frottements","s'opposent au glissement",""],["Caractéristiques","direction, sens, intensité",""]],pieges:"Le poids est une force à distance (gravité).",exemple:"Sur la Lune, le poids est 6 fois plus faible (g=1,6 N/kg).",flashcards:"<span class='notion'>poids</span> – <span class='notion'>P = m × g</span> – <span class='notion'>frottements</span>"},
-    {numero:20,titre:"Lois de Newton",objectif:"Connaître le principe d'inertie.",tableau:[["Principe d'inertie","si forces se compensent (F=0), mouvement rectiligne uniforme ou repos",""],["Ceinture de sécurité","application du principe d'inertie",""],["Action/réaction","forces égales et opposées",""]],pieges:"Une voiture qui freine : le corps continue tout droit (ceinture).",exemple:"Un objet posé sur une table : poids et réaction se compensent.",flashcards:"<span class='notion'>principe d'inertie</span> – <span class='notion'>ceinture de sécurité</span> – <span class='notion'>action/réaction</span>"},
-    {numero:21,titre:"Pression",objectif:"Calculer une pression.",tableau:[["Formule","P = F/S (Pa)",""],["Pression atmosphérique normale","1013 hPa",""],["Variation","diminue avec l'altitude",""]],pieges:"La pression augmente avec la profondeur dans l'eau.",exemple:"Les oreilles se bouchent en montagne (pression extérieure plus faible).",flashcards:"<span class='notion'>P = F/S</span> – <span class='notion'>1013 hPa</span> – <span class='notion'>diminue avec l'altitude</span>"},
-    {numero:22,titre:"Sources d'énergie",objectif:"Connaître les sources d'énergie.",tableau:[["Fossiles","charbon, pétrole, gaz (épuisables, CO₂)",""],["Renouvelables","solaire, éolien, hydraulique, biomasse, géothermie",""],["Nucléaire","fission de l'uranium (70% de l'électricité française)",""]],pieges:"Les énergies fossiles émettent du CO₂ (gaz à effet de serre).",exemple:"La France est le pays le plus nucléarisé au monde.",flashcards:"<span class='notion'>fossiles</span> – <span class='notion'>renouvelables</span> – <span class='notion'>nucléaire</span>"},
-    {numero:23,titre:"Formes d'énergie",objectif:"Calculer des énergies.",tableau:[["Cinétique","Ec = ½ × m × v² (J)",""],["Potentielle","Ep = m × g × h (J)",""],["Chimique","stockée dans les liaisons (carburants, aliments, piles)",""],["Thermique","chaleur",""]],pieges:"L'énergie cinétique augmente avec la masse et la vitesse.",exemple:"Une voiture à 50 km/h a 4 fois moins d'énergie cinétique qu'à 100 km/h (v²).",flashcards:"<span class='notion'>cinétique</span> – <span class='notion'>potentielle</span> – <span class='notion'>chimique</span> – <span class='notion'>thermique</span>"},
-    {numero:24,titre:"Conversions et rendement",objectif:"Calculer un rendement.",tableau:[["Conversion","ex: éolienne (vent → électrique)",""],["Rendement","énergie utile / énergie totale (≤ 100%)",""],["Pertes","souvent sous forme de chaleur",""]],pieges:"Un rendement de 25% signifie que 75% de l'énergie est perdue.",exemple:"Un moteur thermique a un rendement d'environ 30%.",flashcards:"<span class='notion'>conversion</span> – <span class='notion'>rendement</span> – <span class='notion'>pertes</span>"},
-    {numero:25,titre:"Circuits électriques",objectif:"Calculer tension, courant, résistance.",tableau:[["Loi d'Ohm","U = R × I",""],["Puissance","P = U × I (W)",""],["Circuit série","1 seul chemin, même courant",""],["Circuit dérivation","plusieurs chemins, même tension",""],["Court-circuit","chemin de faible résistance, courant élevé",""]],pieges:"Dans un circuit série, la tension se partage.",exemple:"U = 12V, R = 4Ω → I = 3A.",flashcards:"<span class='notion'>U = R × I</span> – <span class='notion'>P = U × I</span> – <span class='notion'>circuit série</span> – <span class='notion'>circuit dérivation</span> – <span class='notion'>court-circuit</span>"},
-    {numero:26,titre:"Sécurité électrique",objectif:"Connaître les risques électriques.",tableau:[["Fusible / disjoncteur","coupe le circuit en cas de surintensité",""],["Prise de terre","évacue le courant de fuite",""],["Seuil de danger","10-30 mA (muscles contractés)",""],["Classe II (double isolation)","pas besoin de terre",""]],pieges:"Le corps humain devient conducteur lorsqu'il est humide.",exemple:"Un disjoncteur différentiel détecte les fuites à la terre.",flashcards:"<span class='notion'>fusible</span> – <span class='notion'>prise de terre</span> – <span class='notion'>seuil de danger</span> – <span class='notion'>classe II</span>"},
-    {numero:27,titre:"Son et lumière",objectif:"Connaître les vitesses.",tableau:[["Lumière","300 000 km/s (dans le vide)",""],["Son","340 m/s (dans l'air à 15°C)",""],["Relation","d = v × t",""]],pieges:"Le son a besoin d'un milieu matériel (pas dans le vide).",exemple:"L'éclair est vu avant d'entendre le tonnerre (lumière plus rapide que le son).",flashcards:"<span class='notion'>300 000 km/s</span> – <span class='notion'>340 m/s</span> – <span class='notion'>d = v × t</span>"},
-    {numero:28,titre:"Caractéristiques des ondes",objectif:"Distinguer hauteur et intensité.",tableau:[["Hauteur","fréquence (Hz) – aigu = fréquence élevée",""],["Intensité","amplitude (dB) – son fort = grande amplitude",""],["Couleur","objet renvoie sa couleur (absorbe les autres)",""],["Signal numérique","valeurs discrètes (0/1)",""],["Signal analogique","variation continue",""]],pieges:"Un son aigu a une fréquence élevée.",exemple:"Une voiture bleue absorbe toutes les couleurs sauf le bleu (réfléchi).",flashcards:"<span class='notion'>hauteur</span> – <span class='notion'>intensité</span> – <span class='notion'>couleur</span> – <span class='notion'>numérique/analogique</span>"}
-  ];
-
-  // ==================== HISTOIRE – CHAPITRES 10 À 30 (21 CHAPITRES) ====================
-  const histoireChapitres = [
-    {numero:10,titre:"Première Guerre mondiale (1914-1918)",objectif:"Connaître les causes, le déroulement et les conséquences de la Grande Guerre.",tableau:[["Guerre des tranchées","Verdun (1916), Somme (1916)",""],["Génocide arménien (1915-1916)","Empire ottoman, 1,2 million de morts",""],["Armistice","11 novembre 1918",""],["Bilan","10 millions de morts, 20 millions de blessés",""]],pieges:"Les poilus sont les soldats français.",exemple:"L'armistice est signé dans le wagon du maréchal Foch.",flashcards:"<span class='notion'>causes de la Première Guerre mondiale</span> – <span class='notion'>Triple Entente/Triple Alliance</span> – <span class='notion'>guerre des tranchées</span> – <span class='notion'>Verdun (1916)</span> – <span class='notion'>bataille de la Somme</span> – <span class='notion'>génocide arménien</span> – <span class='notion'>entrée en guerre des États-Unis (1917)</span> – <span class='notion'>11 novembre 1918</span> – <span class='notion'>mutineries de 1917</span>"},
-    {numero:11,titre:"Sortie de guerre et traités",objectif:"Connaître le traité de Versailles et la création de la SDN.",tableau:[["Traité de Versailles (1919)","culpabilité allemande, réparations, pertes territoriales",""],["SDN (1920)","Société des Nations (ancêtre ONU), échec",""]],pieges:"Les États-Unis ne ratifient pas le traité.",exemple:"La SDN n'a pas d'armée, ne peut empêcher les guerres.",flashcards:"<span class='notion'>traité de Versailles (28 juin 1919)</span> – <span class='notion'>14 points de Wilson</span> – <span class='notion'>SDN (1920)</span> – <span class='notion'>culpabilité allemande</span> – <span class='notion'>réparations</span> – <span class='notion'>nouveaux États après 1918</span> – <span class='notion'>échec de la SDN</span>"},
-    {numero:12,titre:"Montée des totalitarismes (années 1920-1930)",objectif:"Connaître les régimes totalitaires.",tableau:[["URSS (Staline)","collectivisation, Goulag",""],["Allemagne (Hitler)","antisémitisme, Lebensraum",""],["Italie (Mussolini)","fascisme, marche sur Rome (1922)",""]],pieges:"Le totalitarisme contrôle tous les aspects de la société.",exemple:"Mein Kampf de Hitler (1925).",flashcards:"<span class='notion'>régime totalitaire</span> – <span class='notion'>Staline (URSS)</span> – <span class='notion'>Hitler (Allemagne)</span> – <span class='notion'>Mussolini (Italie)</span> – <span class='notion'>culte de la personnalité</span> – <span class='notion'>propagande totalitaire</span> – <span class='notion'>police politique (NKVD, Gestapo)</span> – <span class='notion'>camps de concentration (Dachau 1933)</span> – <span class='notion'>Front populaire (1936)</span> – <span class='notion'>Jeux olympiques de Berlin (1936)</span>"},
-    {numero:13,titre:"Guerre-éclair (1939-1941)",objectif:"Connaître le début de la Seconde Guerre mondiale.",tableau:[["1er septembre 1939","invasion de la Pologne",""],["Blitzkrieg","guerre-éclair allemande",""],["Armistice (22 juin 1940)","France coupée en deux",""],["Appel du 18 juin","de Gaulle (France libre)",""]],pieges:"La France libre continue la guerre aux côtés des Alliés.",exemple:"Churchill est le Premier ministre britannique.",flashcards:"<span class='notion'>invasion de la Pologne (1er septembre 1939)</span> – <span class='notion'>Blitzkrieg</span> – <span class='notion'>armistice (22 juin 1940)</span> – <span class='notion'>appel du 18 juin (de Gaulle)</span> – <span class='notion'>bataille d'Angleterre (1940)</span> – <span class='notion'>zone occupée / zone libre</span>"},
-    {numero:14,titre:"Guerre d'anéantissement (1941-1945)",objectif:"Connaître la guerre d'anéantissement.",tableau:[["Opération Barbarossa (1941)","invasion de l'URSS",""],["Pearl Harbor (7 décembre 1941)","entrée en guerre des États-Unis",""],["Shoah","extermination des Juifs (6 millions)",""],["Débarquement de Normandie","6 juin 1944",""]],pieges:"La Solution finale est décidée à Wannsee (1942).",exemple:"Auschwitz est un camp d'extermination.",flashcards:"<span class='notion'>opération Barbarossa (22 juin 1941)</span> – <span class='notion'>Pearl Harbor (7 décembre 1941)</span> – <span class='notion'>guerre totale</span> – <span class='notion'>bataille de Stalingrad (1942-1943)</span> – <span class='notion'>débarquement de Normandie (6 juin 1944)</span> – <span class='notion'>Shoah (6 millions de morts)</span> – <span class='notion'>camps d'extermination (Auschwitz)</span> – <span class='notion'>Einsatzgruppen</span> – <span class='notion'>conférence de Wannsee (1942)</span> – <span class='notion'>Hiroshima et Nagasaki (6 et 9 août 1945)</span> – <span class='notion'>capitulation allemande (8 mai 1945)</span>"},
-    {numero:15,titre:"Libération et bilan (1944-1945)",objectif:"Connaître la fin de la guerre.",tableau:[["8 mai 1945","capitulation allemande",""],["Hiroshima (6 août 1945)","bombe atomique",""],["Procès de Nuremberg (1945-1946)","crimes contre l'humanité",""],["ONU (1945)","Organisation des Nations unies",""]],pieges:"Les procès de Nuremberg jugent les criminels nazis.",exemple:"Le Japon capitule le 2 septembre 1945.",flashcards:"<span class='notion'>bilan humain (60 millions de morts)</span> – <span class='notion'>procès de Nuremberg (1945-1946)</span> – <span class='notion'>crime contre l'humanité</span> – <span class='notion'>ONU (1945)</span> – <span class='notion'>Déclaration universelle des droits de l'homme (1948)</span> – <span class='notion'>plan Marshall (1947)</span>"},
-    {numero:16,titre:"Guerre froide (1947-1991)",objectif:"Connaître la guerre froide.",tableau:[["Rideau de fer","frontière entre blocs",""],["Plan Marshall (1947)","aide américaine à l'Europe",""],["OTAN (1949) / pacte de Varsovie (1955)","alliances militaires",""],["Crise de Cuba (1962)","missiles soviétiques",""],["Chute du mur de Berlin","9 novembre 1989",""]],pieges:"La guerre froide n'est pas une guerre militaire directe.",exemple:"Guerre du Vietnam : guerre par procuration.",flashcards:"<span class='notion'>rideau de fer (Churchill 1946)</span> – <span class='notion'>doctrine Truman (1947)</span> – <span class='notion'>plan Marshall (1947)</span> – <span class='notion'>blocus de Berlin (1948-1949)</span> – <span class='notion'>OTAN (1949)</span> – <span class='notion'>pacte de Varsovie (1955)</span> – <span class='notion'>crise de Cuba (1962)</span> – <span class='notion'>guerre par procuration</span> – <span class='notion'>détente (années 1970)</span> – <span class='notion'>chute du mur de Berlin (9 novembre 1989)</span> – <span class='notion'>dislocation de l'URSS (1991)</span>"},
-    {numero:17,titre:"Construction européenne",objectif:"Connaître l'UE.",tableau:[["CECA (1951)","charbon et acier",""],["CEE (1957)","traité de Rome",""],["Union européenne (1992)","traité de Maastricht",""],["Euro (2002)","monnaie unique",""],["Brexit (2020)","sortie du Royaume-Uni",""]],pieges:"6 pays fondateurs : France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg.",exemple:"L'euro est la monnaie de 20 pays.",flashcards:"<span class='notion'>CECA (1951)</span> – <span class='notion'>CEE (1957)</span> – <span class='notion'>traité de Maastricht (1992)</span> – <span class='notion'>euro (2002)</span> – <span class='notion'>Brexit (2020)</span> – <span class='notion'>PAC</span> – <span class='notion'>espace Schengen</span> – <span class='notion'>Erasmus+</span>"},
-    {numero:18,titre:"Décolonisation (1945-1975)",objectif:"Connaître la décolonisation.",tableau:[["Guerre d'Indochine (1946-1954)","défaite française à Diên Biên Phu",""],["Guerre d'Algérie (1954-1962)","accords d'Évian",""],["Conférence de Bandung (1955)","non-alignés",""]],pieges:"L'Algérie est française jusqu'en 1962.",exemple:"Le FLN mène la guerre d'indépendance algérienne.",flashcards:"<span class='notion'>conférence de Bandung (1955)</span> – <span class='notion'>guerre d'Indochine (1946-1954)</span> – <span class='notion'>guerre d'Algérie (1954-1962)</span> – <span class='notion'>FLN</span> – <span class='notion'>accords d'Évian (1962)</span> – <span class='notion'>année de l'Afrique (1960)</span> – <span class='notion'>indépendance de l'Inde (1947, Gandhi)</span> – <span class='notion'>guerre du Vietnam (1955-1975)</span> – <span class='notion'>décolonisation portugaise (1974-1975)</span> – <span class='notion'>Françafrique</span>"},
-    {numero:19,titre:"Après-guerre froide (1991 à nos jours)",objectif:"Connaître le monde depuis 1991.",tableau:[["Guerre du Golfe (1990-1991)","intervention contre l'Irak",""],["Guerres de Yougoslavie (1991-2001)","nettoyage ethnique",""],["Génocide au Rwanda (1994)","800 000 morts Tutsis",""],["11 septembre 2001","attentats d'Al-Qaïda",""]],pieges:"Le 11 septembre marque le début de la 'guerre contre le terrorisme'.",exemple:"Les BRICS sont des pays émergents.",flashcards:"<span class='notion'>guerre du Golfe (1990-1991)</span> – <span class='notion'>guerres de Yougoslavie</span> – <span class='notion'>génocide au Rwanda (1994)</span> – <span class='notion'>11 septembre 2001</span> – <span class='notion'>guerre contre le terrorisme</span> – <span class='notion'>BRICS</span> – <span class='notion'>crise des migrants (2015)</span> – <span class='notion'>Accord de Paris (2015)</span> – <span class='notion'>Covid-19 (2020)</span>"},
-    {numero:20,titre:"Aires urbaines (géographie)",objectif:"Comprendre la métropolisation.",tableau:[["Métropolisation","concentration dans les grandes villes",""],["Aire urbaine","pôle urbain + couronne périurbaine",""],["Ségrégation","centres riches / banlieues défavorisées",""],["Étalement urbain","consommation d'espaces agricoles",""]],pieges:"La périurbanisation est l'extension des villes.",exemple:"90% des Français vivent dans des aires urbaines.",flashcards:"<span class='notion'>métropolisation</span> – <span class='notion'>aire urbaine</span> – <span class='notion'>ségrégation socio-spatiale</span> – <span class='notion'>étalement urbain</span> – <span class='notion'>périurbanisation</span> – <span class='notion'>villes moyennes</span> – <span class='notion'>éco-quartiers</span>"},
-    {numero:21,titre:"Espaces productifs",objectif:"Connaître les espaces productifs.",tableau:[["Agricoles","intensive / biologique",""],["Industriels","désindustrialisation, friches",""],["Services","tertiarisation, tourisme",""],["Pôles de compétitivité","innovation",""]],pieges:"L'industrie a diminué en France.",exemple:"Le tourisme est un espace productif de services.",flashcards:"<span class='notion'>espaces agricoles</span> – <span class='notion'>désindustrialisation</span> – <span class='notion'>tertiarisation</span> – <span class='notion'>pôles de compétitivité</span> – <span class='notion'>zones industrialo-portuaires</span> – <span class='notion'>tourisme</span> – <span class='notion'>énergies renouvelables</span>"},
-    {numero:22,titre:"Espaces de faible densité",objectif:"Connaître les espaces ruraux.",tableau:[["Atouts","cadre de vie, tourisme vert",""],["Fragilités","vieillissement, enclavement",""],["Néoruraux","citadins s'installant à la campagne",""],["ZRR","zones de revitalisation rurale",""]],pieges:"Les ZRR bénéficient d'aides fiscales.",exemple:"Le télétravail dynamise certains espaces ruraux.",flashcards:"<span class='notion'>néoruraux</span> – <span class='notion'>ZRR</span> – <span class='notion'>enclavement</span> – <span class='notion'>télétravail</span> – <span class='notion'>espaces de montagne</span>"},
-    {numero:23,titre:"Union européenne (géographie)",objectif:"Connaître l'UE.",tableau:[["27 pays","",""],["PAC","politique agricole commune",""],["Fonds structurels","FEDER, FSE",""],["Espace Schengen","libre circulation",""]],pieges:"La PAC subventionne les agriculteurs.",exemple:"L'euro est utilisé dans 20 pays.",flashcards:"<span class='notion'>27 pays membres</span> – <span class='notion'>PAC</span> – <span class='notion'>fonds structurels (FEDER, FSE)</span> – <span class='notion'>espace Schengen</span> – <span class='notion'>inégalités territoriales dans l'UE</span> – <span class='notion'>corridor Rhin-Rhône</span> – <span class='notion'>capitales européennes</span> – <span class='notion'>régions ultrapériphériques</span>"},
-    {numero:24,titre:"Mondialisation",objectif:"Comprendre la mondialisation.",tableau:[["FMN","firme multinationale",""],["Institutions","OMC, FMI, Banque mondiale",""],["Flux","marchandises, capitaux, informations",""],["Mégalopoles","régions urbaines très peuplées",""]],pieges:"La mondialisation marginalise certains territoires.",exemple:"Les BRICS sont des pays émergents.",flashcards:"<span class='notion'>mondialisation</span> – <span class='notion'>FMN</span> – <span class='notion'>OMC / FMI / Banque mondiale</span> – <span class='notion'>flux (conteneurs)</span> – <span class='notion'>hubs</span> – <span class='notion'>mégalopoles</span> – <span class='notion'>pays émergents (BRICS)</span> – <span class='notion'>ZES (Shenzhen)</span> – <span class='notion'>mondialisation culturelle</span>"},
-    {numero:25,titre:"Inégalités de développement",objectif:"Comprendre les inégalités.",tableau:[["IDH","indice de développement humain",""],["Nord/Sud","pays développés / en développement",""],["BRICS","pays émergents",""],["ODD (2030)","objectifs de développement durable",""]],pieges:"Les ODD remplacent les objectifs du millénaire.",exemple:"L'Afrique subsaharienne a un IDH faible.",flashcards:"<span class='notion'>IDH</span> – <span class='notion'>Nord/Sud</span> – <span class='notion'>PMA (pays les moins avancés)</span> – <span class='notion'>taux d'alphabétisation</span> – <span class='notion'>espérance de vie</span> – <span class='notion'>OMD</span> – <span class='notion'>ODD (2030)</span> – <span class='notion'>fracture numérique</span>"},
-    {numero:26,titre:"Défis du XXIe siècle",objectif:"Connaître les défis actuels.",tableau:[["Changement climatique","GES, montée des eaux",""],["Transition énergétique","passage aux renouvelables",""],["Migrations","économiques, politiques, climatiques",""],["Développement durable","répondre aux besoins sans compromettre l'avenir",""]],pieges:"Le réchauffement climatique est accéléré par l'homme.",exemple:"L'Accord de Paris (2015) vise à limiter le réchauffement.",flashcards:"<span class='notion'>changement climatique</span> – <span class='notion'>transition énergétique</span> – <span class='notion'>migrations</span> – <span class='notion'>développement durable</span> – <span class='notion'>économie circulaire</span> – <span class='notion'>intelligence artificielle</span> – <span class='notion'>désinformation (fake news)</span> – <span class='notion'>perte de biodiversité</span>"},
-    {numero:27,titre:"Valeurs de la République (EMC)",objectif:"Connaître les valeurs de la République.",tableau:[["Liberté","expression, presse, conscience",""],["Égalité","droits des femmes, lutte contre les discriminations",""],["Fraternité","solidarité, sécurité sociale",""],["Laïcité","loi de 1905, neutralité de l'État",""]],pieges:"La laïcité n'est pas une opposition aux religions.",exemple:"La liberté d'expression a pour limite la diffamation.",flashcards:"<span class='notion'>liberté</span> – <span class='notion'>égalité</span> – <span class='notion'>fraternité</span> – <span class='notion'>laïcité</span> – <span class='notion'>charte de la laïcité</span>"},
-    {numero:28,titre:"Citoyenneté française (EMC)",objectif:"Connaître la citoyenneté.",tableau:[["Nationalité","droit du sol, droit du sang, naturalisation",""],["Droits et devoirs","vote (18 ans), impôt, défense nationale",""],["SNU","service national universel",""]],pieges:"Le SNU est obligatoire (séjour de cohésion).",exemple:"Le président est élu au suffrage universel direct.",flashcards:"<span class='notion'>droit du sol</span> – <span class='notion'>droit du sang</span> – <span class='notion'>naturalisation</span> – <span class='notion'>JDC (journée défense citoyenneté)</span> – <span class='notion'>SNU</span> – <span class='notion'>service civique</span> – <span class='notion'>institutions françaises</span>"},
-    {numero:29,titre:"Justice en France (EMC)",objectif:"Connaître la justice.",tableau:[["Principes","indépendance, égalité, présomption d'innocence",""],["Juridictions","civiles / pénales (cour d'assises)",""],["Sanctions","TIG (travail d'intérêt général)",""],["Protection des mineurs","juge des enfants, PJJ",""]],pieges:"La présomption d'innocence dure jusqu'au jugement.",exemple:"Le TIG est une peine alternative à l'emprisonnement.",flashcards:"<span class='notion'>présomption d'innocence</span> – <span class='notion'>cour d'assises</span> – <span class='notion'>TIG (travail d'intérêt général)</span> – <span class='notion'>juge des enfants</span> – <span class='notion'>tribunal de proximité</span> – <span class='notion'>aide juridictionnelle</span>"},
-    {numero:30,titre:"Débat démocratique et médias (EMC)",objectif:"Comprendre le rôle des médias.",tableau:[["Médias","informer, permettre le débat, contrôler le pouvoir",""],["Fake news","désinformation",""],["Liberté de la presse","droit d'informer sans censure préalable",""],["Engagement","syndicats, associations, droit de grève",""]],pieges:"Les fake news peuvent manipuler l'opinion.",exemple:"Le droit de grève est reconnu par la Constitution.",flashcards:"<span class='notion'>rôle des médias</span> – <span class='notion'>liberté de la presse</span> – <span class='notion'>fake news</span> – <span class='notion'>fact-checking</span> – <span class='notion'>réseaux sociaux</span> – <span class='notion'>loi de 1881</span> – <span class='notion'>droit de grève</span> – <span class='notion'>associations loi 1901</span>"}
-  ];
-
-  // Assemblage des données par matière
-  const fichesData = {
-    francais: { chapitres: francaisChapitres },
-    maths: { chapitres: mathsChapitres },
-    histoire: { chapitres: histoireChapitres },
-    sciences: { chapitres: sciencesChapitres }
-  };
-
-  // Mise à jour du sélecteur de chapitre
-  function updateChapitreSelect() {
-    const matiere = document.getElementById('matiereSelect').value;
-    const chapitres = fichesData[matiere].chapitres;
-    const select = document.getElementById('chapitreSelect');
-    select.innerHTML = '';
-    chapitres.forEach(ch => {
-      const option = document.createElement('option');
-      option.value = ch.numero;
-      option.textContent = `Chapitre ${ch.numero} : ${ch.titre}`;
-      select.appendChild(option);
-    });
-    afficherFiche();
+// ==================== FRANÇAIS – 26 CHAPITRES ====================
+const francaisChapitres = [
+  { numero:1, titre:"Classes grammaticales", 
+    objectif:"Identifier la <span class='notion'>nature (classe grammaticale)</span> de n'importe quel mot.",
+    tableau:[
+      ["Nom","Être, chose, idée. On peut mettre « le » ou « un » devant.","chat, table, liberté"],
+      ["Déterminant","Précède le nom, indique genre/nombre.","le, la, les, un, une, des, ce, mon, ton, son"],
+      ["Adjectif qualificatif","Qualifie le nom (accorde en genre/nombre).","grand, belle, intéressant"],
+      ["Pronom","Remplace un nom ou un GN.","je, tu, il, elle, on, nous, vous, ils, elles, le, lui, y, en, que, qui, dont, où"],
+      ["Verbe","Action ou état. Se conjugue.","manger, courir, être, avoir, sembler"],
+      ["Adverbe","Modifie un verbe, un adjectif ou un adverbe. Invariable.","rapidement, très, bien, mal, hier, trop"],
+      ["Préposition","Introduit un complément. Invariable.","à, de, pour, par, avec, sans, dans, sur, sous, chez"],
+      ["Conjonction","Relie des mots ou propositions.","mais, ou, et, donc, or, ni, car (coordination) ; que, parce que, lorsque, puisque, comme, si (subordination)"],
+      ["Interjection","Mot-phrase exprimant une émotion.","Ah ! Oh ! Hélas ! Bravo ! Zut !"]
+    ],
+    pieges:"<span class='notion'>Leur / leurs</span> : <em>leur</em> = pronom invariable ; <em>leurs</em> = déterminant pluriel.<br>• <span class='notion'>Tout</span> peut être : déterminant, pronom, adverbe ou nom.<br>• Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait dans la phrase).",
+    exemple:"« <span class='notion'>L'immense</span> forêt <span class='notion'>s'étendait</span> <span class='notion'>silencieusement</span> <span class='notion'>devant</span> <span class='notion'>eux</span>. »",
+    flashcards:"<span class='notion'>9 classes grammaticales</span> – <span class='notion'>déterminants</span> – <span class='notion'>pronoms</span> – <span class='notion'>adverbe vs préposition</span> – <span class='notion'>7 conjonctions</span>"
+  },
+  { numero:2, titre:"Fonctions grammaticales", 
+    objectif:"Identifier la <span class='notion'>fonction</span> d'un mot dans la phrase.",
+    tableau:[
+      ["Sujet","qui est-ce qui ? quoi ?","Le chat dort."],
+      ["COD","quoi ? qui ? (sans préposition)","Je mange UNE POMME."],
+      ["COI","à qui ? à quoi ?","Je parle À MARIE."],
+      ["Complément circonstanciel","temps, lieu, manière, cause, but","Il court LE MATIN."],
+      ["Attribut du sujet","verbe d'état (être, paraître, sembler)","Il est GRAND."],
+      ["Épithète","adjectif qui qualifie directement un nom","Une GRANDE maison."],
+      ["Apposition","nom ou adjectif placé à côté d'un nom","Paris, CAPITALE DE LA FRANCE."],
+      ["Complément du nom","groupe de mots qui complète un nom","La maison DE MA GRAND-MÈRE."]
+    ],
+    pieges:"Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait).",
+    exemple:"« Marie <span class='notion'>mange</span> <span class='notion'>une pomme</span> <span class='notion'>dans la cuisine</span>. » → Marie = sujet, mange = verbe, une pomme = COD, dans la cuisine = CC de lieu.",
+    flashcards:"<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>CC</span> – <span class='notion'>attribut</span> – <span class='notion'>épithète</span> – <span class='notion'>apposition</span> – <span class='notion'>complément du nom</span>"
+  },
+  { numero:3, titre:"La phrase", 
+    objectif:"Analyser la structure d'une phrase.",
+    tableau:[
+      ["Phrase simple","Une seule proposition (1 verbe).","Je mange."],
+      ["Phrase complexe","Plusieurs propositions.","Je mange quand j'ai faim."],
+      ["Proposition indépendante","Ne dépend d'aucune autre.","Je chante."],
+      ["Proposition principale","Dont dépend une subordonnée.","Je pense QUE TU AS RAISON."],
+      ["Subordonnée relative","Introduite par qui, que, dont, où","Le livre QUE JE LIS est intéressant."],
+      ["Subordonnée conjonctive","Introduite par que, parce que, etc.","Je veux QUE TU VIENNES."]
+    ],
+    pieges:"La relative complète un nom (antécédent). La conjonctive complète le verbe.",
+    exemple:"« Je prends mon parapluie <span class='notion'>parce qu'il pleut</span>. » → subordonnée conjonctive de cause.",
+    flashcards:"<span class='notion'>phrase simple</span> – <span class='notion'>phrase complexe</span> – <span class='notion'>proposition indépendante</span> – <span class='notion'>principale</span> – <span class='notion'>subordonnée relative</span> – <span class='notion'>subordonnée conjonctive</span>"
+  },
+  { numero:4, titre:"Temps et modes verbaux", 
+    objectif:"Maîtriser les temps et leurs valeurs.",
+    tableau:[
+      ["Indicatif","Mode de la réalité.","présent, imparfait, passé simple, passé composé, plus-que-parfait, futur"],
+      ["Subjonctif","Mode du doute, souhait, émotion.","Il faut que tu VIENNES."],
+      ["Conditionnel","Mode de l'hypothèse.","Si j'avais de l'argent, je VOYAGERAIS."],
+      ["Impératif","Mode de l'ordre.","Viens !"]
+    ],
+    pieges:"Ne pas confondre conditionnel et futur (mêmes terminaisons mais contextes différents).",
+    exemple:"Imparfait = description/habitude (Quand j'étais petit, je jouais). Passé simple = action ponctuelle (Il entra).",
+    flashcards:"<span class='notion'>indicatif</span> – <span class='notion'>subjonctif</span> – <span class='notion'>conditionnel</span> – <span class='notion'>impératif</span>"
+  },
+  { numero:5, titre:"Les accords", 
+    objectif:"Maîtriser les accords essentiels.",
+    tableau:[
+      ["Accord sujet-verbe","Le verbe s'accorde en personne et nombre avec le sujet.","Les enfants JOUENT."],
+      ["Accord dans le GN","Déterminant, nom et adjectif s'accordent.","Une GRANDE maison BLEUE."],
+      ["Participe passé avec être","S'accorde avec le sujet.","Elle EST ALLÉE."],
+      ["Participe passé avec avoir","S'accorde avec le COD si placé avant.","Les pommes que j'ai MANGÉES."]
+    ],
+    pieges:"Avec avoir, pas d'accord si le COD est après le verbe.",
+    exemple:"La lettre que j'ai REÇUE (COD placé avant). J'ai REÇU une lettre (COD après).",
+    flashcards:"<span class='notion'>accord sujet-verbe</span> – <span class='notion'>accord GN</span> – <span class='notion'>participe passé avec être</span> – <span class='notion'>participe passé avec avoir</span>"
+  },
+  { numero:6, titre:"Les homophones", 
+    objectif:"Distinguer les homophones grammaticaux.",
+    tableau:[
+      ["a / à","a = avoir ; à = préposition","Il a faim. Je vais à Paris."],
+      ["ce / se","ce = démonstratif ; se = pronom","Ce livre. Il se lave."],
+      ["ces / ses","ces = démonstratif pluriel ; ses = possessif","Ces enfants. Ses parents."],
+      ["ou / où","ou = conjonction ; où = pronom/adverbe","Thé ou café ? Où vas-tu ?"],
+      ["on / ont","on = pronom indéfini ; ont = avoir","On mange. Ils ont faim."],
+      ["son / sont","son = possessif ; sont = être","Son chien. Ils sont contents."]
+    ],
+    pieges:"Pour vérifier : remplacer par 'avait' → a ; par 'étaient' → sont ; par 'et' → ou.",
+    exemple:"Il a (avait) raison. Elles sont (étaient) fatiguées.",
+    flashcards:"<span class='notion'>a/à</span> – <span class='notion'>ce/se</span> – <span class='notion'>ces/ses</span> – <span class='notion'>ou/où</span> – <span class='notion'>on/ont</span> – <span class='notion'>son/sont</span>"
+  },
+  { numero:7, titre:"Conjugaison", 
+    objectif:"Connaître les terminaisons des principaux temps.",
+    tableau:[
+      ["1er groupe (-er)","Présent : -e, -es, -e, -ons, -ez, -ent","je chante, nous chantons"],
+      ["2e groupe (-ir avec -iss-)","Présent : -is, -is, -it, -issons, -issez, -issent","je finis, nous finissons"],
+      ["3e groupe","Verbes irréguliers : être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir","je suis, j'ai, je vais, je fais"],
+      ["Imparfait","-ais, -ais, -ait, -ions, -iez, -aient","je chantais"],
+      ["Futur simple","-ai, -as, -a, -ons, -ez, -ont","je chanterai"]
+    ],
+    pieges:"Apprendre par cœur les verbes du 3e groupe les plus fréquents.",
+    exemple:"Être au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.",
+    flashcards:"<span class='notion'>1er groupe</span> – <span class='notion'>2e groupe</span> – <span class='notion'>3e groupe</span> – <span class='notion'>imparfait</span> – <span class='notion'>futur simple</span>"
+  },
+  { numero:8, titre:"Valeurs des temps", 
+    objectif:"Comprendre la valeur des temps dans un récit.",
+    tableau:[
+      ["Imparfait","Description, habitude, action qui dure.","Il faisait beau. Il jouait tous les jours."],
+      ["Passé simple","Action ponctuelle, début ou fin (récit écrit).","Il entra dans la pièce."],
+      ["Passé composé","Action ponctuelle passée, bilan (oral).","Hier, j'ai mangé une pizza."],
+      ["Plus-que-parfait","Antériorité par rapport à une action passée.","Il était déjà parti."],
+      ["Présent","Actualité, vérité générale, habitude.","L'eau bout à 100°C."]
+    ],
+    pieges:"Ne pas utiliser le passé simple à l'oral.",
+    exemple:"Imparfait : 'Il regardait la mer' (description). Passé simple : 'Il cria' (action).",
+    flashcards:"<span class='notion'>imparfait</span> – <span class='notion'>passé simple</span> – <span class='notion'>passé composé</span> – <span class='notion'>plus-que-parfait</span> – <span class='notion'>présent</span>"
+  },
+  { numero:9, titre:"Formation des mots", 
+    objectif:"Comprendre comment se forment les mots.",
+    tableau:[
+      ["Radical","Partie qui porte le sens principal.","PORT dans porter, transport, porteur"],
+      ["Préfixe","Élément avant le radical (modifie le sens).","re-, in-, dé-, pré-, anti-"],
+      ["Suffixe","Élément après le radical (modifie sens ou nature).","-able, -age, -tion, -eur, -ette"],
+      ["Famille de mots","Mots avec le même radical.","terre, terrestre, atterrir"]
+    ],
+    pieges:"Ne pas confondre radical et racine.",
+    exemple:"Préfixe 're-' = répétition (refaire). Suffixe '-able' = possible (portable).",
+    flashcards:"<span class='notion'>radical</span> – <span class='notion'>préfixe</span> – <span class='notion'>suffixe</span> – <span class='notion'>famille de mots</span>"
+  },
+  { numero:10, titre:"Figures de style", 
+    objectif:"Reconnaître les principales figures de style.",
+    tableau:[
+      ["Comparaison","Rapprochement avec outil (comme, tel).","Fort comme un lion."],
+      ["Métaphore","Rapprochement sans outil.","C'est un lion."],
+      ["Personnification","Qualités humaines à un objet.","La lune sourit."],
+      ["Antithèse","Rapprochement de deux termes opposés.","Je vis, je meurs."],
+      ["Oxymore","Mots contradictoires.","Une obscure clarté."],
+      ["Hyperbole","Exagération.","Je t'ai dit mille fois."],
+      ["Litote","Dire moins pour suggérer plus.","Ce n'est pas bête."],
+      ["Énumération","Succession de mots.","Elle aimait les chiens, les chats."]
+    ],
+    pieges:"Ne pas confondre comparaison et métaphore.",
+    exemple:"Oxymore : 'un silence assourdissant'.",
+    flashcards:"<span class='notion'>comparaison</span> – <span class='notion'>métaphore</span> – <span class='notion'>personnification</span> – <span class='notion'>antithèse</span> – <span class='notion'>oxymore</span> – <span class='notion'>hyperbole</span> – <span class='notion'>litote</span> – <span class='notion'>énumération</span>"
+  },
+  { numero:11, titre:"Champs lexicaux", 
+    objectif:"Identifier le champ lexical d'un texte.",
+    tableau:[
+      ["Champ lexical","Ensemble des mots liés à un même thème.","mer → vague, bateau, pêche"],
+      ["Registres de langue","Soutenu, courant, familier, argotique.","Il est malaisé / difficile / c'est dur / c'est chaud"]
+    ],
+    pieges:"Ne pas confondre champ lexical (thème) et champ sémantique (sens d'un mot).",
+    exemple:"Texte sur la guerre : champ lexical de la violence (combat, arme, mort).",
+    flashcards:"<span class='notion'>champ lexical</span> – <span class='notion'>registre soutenu</span> – <span class='notion'>registre familier</span>"
+  },
+  { numero:12, titre:"Synonymes, antonymes, homonymes", 
+    objectif:"Utiliser les relations entre les mots.",
+    tableau:[
+      ["Synonyme","Mots de sens proche.","joie / bonheur"],
+      ["Antonyme","Mots de sens contraire.","chaud / froid"],
+      ["Homonyme","Même prononciation, sens différent.","vert / verre / vers"],
+      ["Paronyme","Sons proches, sens différent.","collision / collusion"]
+    ],
+    pieges:"Les homonymes sont source d'erreurs orthographiques.",
+    exemple:"a/à, ou/où, on/ont, son/sont.",
+    flashcards:"<span class='notion'>synonyme</span> – <span class='notion'>antonyme</span> – <span class='notion'>homonyme</span> – <span class='notion'>paronyme</span>"
+  },
+  { numero:13, titre:"Genres littéraires", 
+    objectif:"Reconnaître les grands genres littéraires.",
+    tableau:[
+      ["Roman","récit en prose (aventures, policier, fantastique, SF, autobiographie)","Les Misérables"],
+      ["Théâtre","texte joué (tragédie, comédie, drame)","Phèdre, Le Cid"],
+      ["Poésie","vers ou prose rythmée (lyrique, engagée)","Les Fleurs du mal"],
+      ["Argumentation","essai, fable, pamphlet","Les Fables de La Fontaine"]
+    ],
+    pieges:"Un même texte peut appartenir à plusieurs genres.",
+    exemple:"Fable = récit + morale (argumentation).",
+    flashcards:"<span class='notion'>roman</span> – <span class='notion'>théâtre</span> – <span class='notion'>poésie</span> – <span class='notion'>argumentation</span>"
+  },
+  { numero:14, titre:"Mouvements littéraires", 
+    objectif:"Situer une œuvre dans son époque.",
+    tableau:[
+      ["Humanisme (XVIe)","Rabelais, Montaigne → exaltation de l'homme","Gargantua"],
+      ["Classicisme (XVIIe)","Molière, Racine → règles, bienséance","Le Tartuffe"],
+      ["Lumières (XVIIIe)","Voltaire, Rousseau → raison, liberté","Candide"],
+      ["Romantisme (XIXe)","Hugo → émotion, nature","Les Misérables"],
+      ["Réalisme (XIXe)","Balzac → réalité","Le Père Goriot"],
+      ["Naturalisme (XIXe)","Zola → déterminisme","Germinal"],
+      ["Surréalisme (XXe)","Breton → rêve, inconscient","Nadja"]
+    ],
+    pieges:"Ne pas confondre Romantisme et Réalisme.",
+    exemple:"Lumières : critique de l'absolutisme (Voltaire, Montesquieu).",
+    flashcards:"<span class='notion'>Humanisme</span> – <span class='notion'>Classicisme</span> – <span class='notion'>Lumières</span> – <span class='notion'>Romantisme</span> – <span class='notion'>Réalisme</span> – <span class='notion'>Naturalisme</span> – <span class='notion'>Surréalisme</span>"
+  },
+  { numero:15, titre:"Registres littéraires", 
+    objectif:"Identifier l'effet recherché par l'auteur.",
+    tableau:[
+      ["Comique","rire (satire, farce, comédie)","Les Fourberies de Scapin"],
+      ["Tragique","terreur, pitié, fatalité","Phèdre"],
+      ["Épique","héros, exploits, grandeur","La Chanson de Roland"],
+      ["Lyrique","sentiments personnels (amour, mort)","Les Méditations"],
+      ["Pathétique","émotion, souffrance","(textes sur la mort)"],
+      ["Fantastique","hésitation réel/irréel","La Vénus d'Ille"]
+    ],
+    pieges:"Le registre dépend de l'effet produit, pas du genre.",
+    exemple:"Un roman peut être à la fois comique et tragique.",
+    flashcards:"<span class='notion'>comique</span> – <span class='notion'>tragique</span> – <span class='notion'>épique</span> – <span class='notion'>lyrique</span> – <span class='notion'>pathétique</span> – <span class='notion'>fantastique</span>"
+  },
+  { numero:16, titre:"Le récit", 
+    objectif:"Analyser la structure d'un récit.",
+    tableau:[
+      ["Schéma narratif","situation initiale → élément perturbateur → péripéties → résolution → situation finale","(contes, romans)"],
+      ["Schéma actantiel","sujet, objet, adjuvant, opposant, destinateur, destinataire","(quête, héros, aide)"],
+      ["Point de vue","interne (par un personnage), externe (caméra), omniscient (tout savoir)",""],
+      ["Rythme du récit","accélération (ellipse), ralentissement (pause descriptive)",""]
+    ],
+    pieges:"Ne pas confondre auteur et narrateur.",
+    exemple:"Point de vue interne : on sait ce que pense le personnage (il, elle, je).",
+    flashcards:"<span class='notion'>schéma narratif</span> – <span class='notion'>schéma actantiel</span> – <span class='notion'>point de vue</span> – <span class='notion'>rythme du récit</span>"
+  },
+  { numero:17, titre:"La rédaction", 
+    objectif:"Rédiger un texte structuré.",
+    tableau:[
+      ["Plan","introduction (amorce, problématique, plan) / développement (paragraphes) / conclusion (réponse, ouverture)",""],
+      ["Connecteurs","addition (et, de plus), cause (car, parce que), conséquence (donc, ainsi), opposition (mais, cependant)",""]
+    ],
+    pieges:"Ne pas sauter de ligne entre introduction, développement et conclusion.",
+    exemple:"Introduction : accroche + présentation du sujet + problématique + annonce du plan.",
+    flashcards:"<span class='notion'>introduction</span> – <span class='notion'>développement</span> – <span class='notion'>conclusion</span> – <span class='notion'>connecteurs</span>"
+  },
+  { numero:18, titre:"Contraction de texte", 
+    objectif:"Résumer un texte au 1/3.",
+    tableau:[
+      ["Règle d'or","ne pas commenter, ne pas juger, ne pas ajouter",""],
+      ["Étapes","lire, relever les idées essentielles, reformuler, compter les mots",""]
+    ],
+    pieges:"Ne pas changer l'ordre logique.",
+    exemple:"Respecter la thèse de l'auteur, même si on n'est pas d'accord.",
+    flashcards:"<span class='notion'>1/3</span> – <span class='notion'>reformuler</span> – <span class='notion'>ne pas commenter</span>"
+  },
+  { numero:19, titre:"Commentaire composé", 
+    objectif:"Analyser un texte littéraire.",
+    tableau:[
+      ["Structure","introduction / développement (2-3 axes) / conclusion",""],
+      ["Analyse","identifier les procédés (figures de style, champs lexicaux) et leur effet",""]
+    ],
+    pieges:"Ne pas résumer le texte.",
+    exemple:"Chaque axe = plusieurs paragraphes (sous-parties).",
+    flashcards:"<span class='notion'>commentaire composé</span> – <span class='notion'>axes de lecture</span> – <span class='notion'>citation</span> – <span class='notion'>analyse</span>"
+  },
+  { numero:20, titre:"Oral : présentation", 
+    objectif:"Préparer son oral du brevet.",
+    tableau:[
+      ["Durée","5 min exposé + 10 min échange",""],
+      ["Structure","introduction, développement, conclusion",""],
+      ["Supports","PowerPoint, affiche, extraits (pas de texte lu)",""]
+    ],
+    pieges:"Ne pas apprendre par cœur, mais connaître son plan.",
+    exemple:"S'entraîner chronométré.",
+    flashcards:"<span class='notion'>5 min exposé</span> – <span class='notion'>structure</span> – <span class='notion'>supports</span> – <span class='notion'>s'entraîner</span>"
+  },
+  { numero:21, titre:"Oral : expression", 
+    objectif:"Bien s'exprimer devant le jury.",
+    tableau:[
+      ["Voix","articuler, parler fort, débit calme",""],
+      ["Regard","regarder le jury, pas ses notes",""],
+      ["Posture","debout, gestes naturels",""],
+      ["Stress","respirer, bien dormir, préparer",""]
+    ],
+    pieges:"Ne pas lire son texte.",
+    exemple:"Utiliser des notes (mots-clés).",
+    flashcards:"<span class='notion'>articuler</span> – <span class='notion'>regarder le jury</span> – <span class='notion'>posture</span> – <span class='notion'>gérer le stress</span>"
+  },
+  { numero:22, titre:"Oral : échange", 
+    objectif:"Répondre aux questions du jury.",
+    tableau:[
+      ["Ne pas comprendre","demander une reformulation poliment",""],
+      ["Ne pas savoir","l'admettre honnêtement",""],
+      ["Argumenter","exemples précis, citations",""]
+    ],
+    pieges:"Ne pas couper la parole du jury.",
+    exemple:"Reformuler la question pour montrer qu'on a compris.",
+    flashcards:"<span class='notion'>reformuler</span> – <span class='notion'>admettre ne pas savoir</span> – <span class='notion'>ne pas couper</span>"
+  },
+  { numero:23, titre:"Dictée du brevet", 
+    objectif:"Réussir la dictée.",
+    tableau:[
+      ["Préparation","lire le texte, identifier les difficultés",""],
+      ["Pendant","écouter, repérer les accords et les homophones",""],
+      ["Relecture","vérifier les accords, les terminaisons, le sens",""]
+    ],
+    pieges:"Vérifier les homophones (a/à, on/ont, son/sont).",
+    exemple:"Remplacer a par avait pour vérifier.",
+    flashcards:"<span class='notion'>préparation</span> – <span class='notion'>relecture</span> – <span class='notion'>homophones</span>"
+  },
+  { numero:24, titre:"Grammaire (analyse de phrase)", 
+    objectif:"Réussir l'analyse grammaticale.",
+    tableau:[
+      ["Nature","classe grammaticale (nom, verbe, adjectif…)",""],
+      ["Fonction","rôle dans la phrase (sujet, COD, COI, CC…)",""],
+      ["Justifier","poser la question (qui ? quoi ? à qui ?)",""]
+    ],
+    pieges:"Ne pas confondre nature et fonction.",
+    exemple:"COD : on pose la question 'quoi ?' après le verbe.",
+    flashcards:"<span class='notion'>nature</span> – <span class='notion'>fonction</span> – <span class='notion'>justifier</span>"
+  },
+  { numero:25, titre:"Réécriture", 
+    objectif:"Réussir la réécriture.",
+    tableau:[
+      ["Consigne","changer temps, personne, genre, nombre",""],
+      ["Appliquer","transformer étape par étape",""],
+      ["Vérifier","accords, terminaisons, homophones",""]
+    ],
+    pieges:"Vérifier l'accord du participe passé après transformation.",
+    exemple:"Changer 'je' en 'nous' → verbes à la 1ère personne du pluriel.",
+    flashcards:"<span class='notion'>changer temps</span> – <span class='notion'>changer personne</span> – <span class='notion'>vérifier accords</span>"
+  },
+  { numero:26, titre:"Essai (sujet de réflexion)", 
+    objectif:"Réussir l'essai.",
+    tableau:[
+      ["Plan","introduction / développement (thèse, arguments, exemples) / conclusion",""],
+      ["Brainstorming","trouver des idées, puis les classer",""],
+      ["Exemples","œuvres littéraires, films, expériences personnelles",""]
+    ],
+    pieges:"Ne pas donner son avis sans le justifier.",
+    exemple:"Pour illustrer, citer des œuvres connues (Les Misérables, Candide).",
+    flashcards:"<span class='notion'>essai</span> – <span class='notion'>brainstorming</span> – <span class='notion'>exemples</span> – <span class='notion'>justifier</span>"
   }
-
-  // Affichage de la fiche sélectionnée
-  function afficherFiche() {
-    const matiere = document.getElementById('matiereSelect').value;
-    const chapitreNum = parseInt(document.getElementById('chapitreSelect').value);
-    const chapitre = fichesData[matiere].chapitres.find(c => c.numero === chapitreNum);
-    if (!chapitre) return;
-
-    let tableauHtml = '';
-    if (chapitre.tableau && chapitre.tableau.length > 0) {
-      tableauHtml = '<table><thead><tr><th>Notion</th><th>Astuce / Définition</th><th>Exemples</th></tr></thead><tbody>';
-      for (const row of chapitre.tableau) {
-        tableauHtml += `<tr><td class="notion">${row[0]}</td><td>${row[1]}</td><td>${row[2] || ''}</td></tr>`;
-      }
-      tableauHtml += '</tbody></tr>';
-    }
-
-    const html = `
-      <div class="objectif">🎯 ${chapitre.objectif}</div>
-      ${tableauHtml}
-      <div class="pieges">⚠️ ${chapitre.pieges}</div>
-      <div class="exemple">✍️ ${chapitre.exemple}</div>
-      <div class="flashcards">🃏 Flashcards : ${chapitre.flashcards}</div>
-    `;
-    document.getElementById('ficheContainer').innerHTML = html;
-  }
-
-  // Événements
-  document.getElementById('matiereSelect').addEventListener('change', () => updateChapitreSelect());
-  document.getElementById('chapitreSelect').addEventListener('change', () => afficherFiche());
-
-  // Initialisation
-  updateChapitreSelect();
-</script>
-</body>
-</html>
+];
