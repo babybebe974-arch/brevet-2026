@@ -8,29 +8,36 @@
 <style>
   body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
   .container { max-width: 1000px; margin: 0 auto; }
-  .sujet { background: #111118; border-left: 5px solid #3498db; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
+  .sujet { background: #111118; border-left: 5px solid #3498db; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; position: relative; }
+  .texte { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
+  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border-left: 3px solid #3498db; white-space: pre-wrap; }
   textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
+  textarea.dictee { min-height: 200px; }
+  textarea.redaction { min-height: 250px; }
   button { background: #3498db; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; color: #09090f; font-weight: 600; }
   button:hover { background: #5aade8; }
   button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; }
+  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
   .feedback-buttons { margin-top: 0.4rem; display: flex; gap: 0.5rem; }
-  .btn-copy { background: #1a1a26; border: 1px solid #3498db; color: #3498db; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; }
+  .btn-copy { background: #1a1a26; border: 1px solid #3498db; color: #3498db; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; transition: 0.1s; }
   .btn-copy:hover { background: #2a2a36; }
+  .save-all-btn { background: #1a1a26; border: 1px solid #3498db; color: #3498db; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: 0.1s; margin-top: 1rem; width: 100%; }
+  .save-all-btn:hover { background: #2a2a36; }
   hr { border-color: #2a2a35; margin: 1rem 0; }
   h3 { color: #3498db; }
   .badge { display: inline-block; background: #3498db20; color: #3498db; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
   .question { margin-top: 1rem; }
   .loading { color: #3498db; font-style: italic; }
   .erreur { color: #e87a7a; }
-  .export-zone { margin-top: 14px; padding: 10px 14px; background: #1a1a24; border: 1px dashed #2a2a38; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .export-zone span { font-size: 12px; color: #9090a8; }
-  .btn-export { background: #1a1a26 !important; border: 1px solid #e8c87a !important; color: #e8c87a !important; font-size: 11px; padding: 6px 12px; border-radius: 6px; }
-  .btn-export:hover { background: rgba(232,200,122,0.1) !important; }
+  .correction-officielle { color: #e87a7a; margin-top: 12px; padding: 8px; background: rgba(232,122,122,0.1); border-radius: 6px; }
+  
   @media print {
     body * { visibility: hidden; }
-    .print-zone, .print-zone * { visibility: visible; }
-    .print-zone { position: absolute; top: 0; left: 0; width: 100%; }
+    .print-correction, .print-correction * { visibility: visible; }
+    .print-correction { position: absolute; top: 0; left: 0; width: 100%; }
+    .no-print { display: none; }
+    button { display: none; }
+    textarea { display: none; }
   }
 </style>
 </head>
@@ -40,187 +47,221 @@
   <div id="sujets"></div>
 </div>
 <script>
+
+// ============================================================
+// PROXY QUI MARCHE (identique à sujets-francais.html)
+// ============================================================
 const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec';
-const STORE = {}; // stockage corrections par sujet
 
 async function callIA(prompt, system) {
-  const r = await fetch(PROXY_URL, {
-    method: 'POST', headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ prompt, system }), redirect: 'follow'
+  const response = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ prompt, system }),
+    redirect: 'follow'
   });
-  if (!r.ok) throw new Error('HTTP ' + r.status);
-  const d = await r.json();
-  if (d.success && d.content) return d.content;
-  throw new Error(d.error || 'Réponse inattendue');
+  if (!response.ok) throw new Error('HTTP ' + response.status);
+  const result = await response.json();
+  if (result.success && result.content) return result.content;
+  throw new Error(result.error || 'Réponse inattendue');
 }
 
-function safeJSON(txt) {
-  try { return JSON.parse(txt.replace(/```json|```/g,'').trim()); } catch(e) { return null; }
-}
-
-async function copier(btn) {
+function safeParseJSON(txt) {
   try {
-    await navigator.clipboard.writeText(btn.closest('.correction').innerText);
+    return JSON.parse(txt.replace(/```json|```/g, '').trim());
+  } catch(e) { return null; }
+}
+
+async function copierCorrection(texte, btn) {
+  try {
+    await navigator.clipboard.writeText(texte);
+    const originalText = btn.textContent;
     btn.textContent = '✓ Copié !';
-    setTimeout(() => btn.textContent = '📋 Copier', 1500);
+    setTimeout(() => { btn.textContent = originalText; }, 1500);
   } catch(e) { alert('Impossible de copier'); }
 }
 
-function exportPDF(sid, annee, session, titre) {
-  const corrections = STORE[sid];
-  if (!corrections || !corrections.length) { alert("Corrige au moins une question d'abord."); return; }
-  let totalObt = 0, totalMax = 0;
-  corrections.forEach(c => { if (c.note != null) totalObt += parseFloat(c.note); totalMax += c.pts; });
+// Stockage des corrections IA par sujet
+let correctionsIASujet = {};
 
-  let html = `<html><head><meta charset="UTF-8"><style>
-    body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:2rem;}
-    h1{font-size:16px;border-bottom:2px solid #3498db;color:#3498db;padding-bottom:6px;}
-    h2{font-size:13px;margin-top:1.2rem;border-left:4px solid #3498db;padding-left:8px;color:#333;}
-    .q{font-style:italic;color:#555;font-size:12px;margin-bottom:4px;}
-    .ia{background:#f0f8ff;border-left:3px solid #3498db;padding:8px;border-radius:4px;white-space:pre-wrap;font-size:12px;margin-bottom:6px;}
-    .off{background:#fff0f0;border-left:3px solid #e87a7a;padding:8px;border-radius:4px;font-size:12px;}
-    .lb{font-weight:bold;color:#3498db;font-size:11px;margin-bottom:2px;}
-    .lo{font-weight:bold;color:#e87a7a;font-size:11px;margin-bottom:2px;}
-    .total{margin-top:16px;padding:10px;background:#f5f5f5;border-radius:6px;font-weight:bold;font-size:14px;}
-    .footer{margin-top:1.5rem;font-size:10px;color:#999;border-top:1px solid #ddd;padding-top:4px;text-align:right;}
-    @media print{body{padding:1rem;}}
-  </style></head><body>
-  <h1>Sciences DNB ${annee} — ${session} — ${titre}</h1>
-  <p style="color:#666;font-size:11px">Généré le ${new Date().toLocaleDateString('fr-FR')} · ${corrections.length} question(s) corrigée(s)</p>`;
-
-  corrections.forEach(c => {
-    html += `<h2>Question ${c.num} (${c.pts} pts)</h2>
-    <div class="q">${c.question}</div>
-    <div class="lb">🤖 Correction IA</div><div class="ia">${c.correctionIA}</div>
-    <div class="lo">📖 Correction officielle</div><div class="off">${c.correctionOfficielle}</div>`;
-  });
-
-  const pct = totalMax > 0 ? Math.round(totalObt / totalMax * 100) : 0;
-  html += `<div class="total">📊 Note totale estimée : ${totalObt.toFixed(1)} / ${totalMax} pts (${pct}%)</div>`;
-  const nom = 'Sciences_' + annee + '_' + session.replace(/[() ]/g,'_') + '_Sujet' + sid;
-  html += `<div class="footer">${nom}.pdf</div></body></html>`;
-
-  const win = window.open('','_blank');
-  win.document.write(html);
-  win.document.close();
-  win.document.title = nom;
-  win.onload = () => win.print();
+function stockerCorrectionIA(sujetId, numQuestion, contenu) {
+  if (!correctionsIASujet[sujetId]) correctionsIASujet[sujetId] = {};
+  correctionsIASujet[sujetId][numQuestion] = contenu;
 }
 
+// Sauvegarde unique en bas du sujet
+async function sauvegarderTout(sujetId, annee, session, titre, questions) {
+  const corrections = {};
+  for (let i = 0; i < questions.length; i++) {
+    const numQ = i + 1;
+    const iaCorr = (correctionsIASujet[sujetId] && correctionsIASujet[sujetId][numQ]) 
+      ? correctionsIASujet[sujetId][numQ] 
+      : "Non corrigée";
+    corrections[numQ] = {
+      ia: iaCorr,
+      officielle: questions[i].reponse
+    };
+  }
+  
+  const data = {
+    sujet: sujetId,
+    annee: annee,
+    session: session,
+    titre: titre,
+    date: new Date().toISOString(),
+    corrections: corrections
+  };
+  
+  // Sauvegarde JSON
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Sujet_${sujetId}_${annee}_${session.replace(/[()]/g, '').replace(/ /g, '_')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  // Génération PDF
+  const printDiv = document.createElement('div');
+  printDiv.className = 'print-correction';
+  printDiv.style.cssText = 'padding: 20px; font-family: "DM Sans", sans-serif; line-height: 1.6;';
+  let htmlContent = `<h1>Sujet ${sujetId} - ${annee} (${session})</h1><h2>${titre}</h2><hr>`;
+  for (let i = 0; i < questions.length; i++) {
+    const numQ = i + 1;
+    const iaCorr = (correctionsIASujet[sujetId] && correctionsIASujet[sujetId][numQ]) 
+      ? correctionsIASujet[sujetId][numQ] 
+      : "Non corrigée";
+    htmlContent += `
+      <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+        <h3>Question ${numQ} (${questions[i].pts} points)</h3>
+        <p><strong>Question :</strong> ${questions[i].texte}</p>
+        <p><strong>🤖 Correction IA :</strong><br>${iaCorr}</p>
+        <p style="color: #e74c3c;"><strong>📖 Correction officielle :</strong><br>${questions[i].reponse}</p>
+      </div>
+    `;
+  }
+  htmlContent += `<hr><p style="font-size: 0.8rem;">Document généré le ${new Date().toLocaleDateString()}</p>`;
+  printDiv.innerHTML = htmlContent;
+  document.body.appendChild(printDiv);
+  document.title = `Sujet_${sujetId}_${annee}_${session.replace(/[()]/g, '').replace(/ /g, '_')}.pdf`;
+  window.print();
+  document.body.removeChild(printDiv);
+  document.title = "Sciences - 10 sujets blancs DNB";
+  
+  alert(`✅ ${Object.keys(correctionsIASujet[sujetId] || {}).length}/${questions.length} corrections sauvegardées (JSON + PDF)`);
+}
+
+// ============================================================
+// 10 SUJETS SCIENCES
+// ============================================================
 const SUJETS = [
-  { id:1, annee:"2024", session:"Métropole (juin)", titre:"Piscine olympique, pH, électricité",
+  { id:"s1", annee:"2024", session:"Métropole (juin)", titre:"Piscine olympique, pH, électricité",
     questions: [
       { texte:"L'eau d'une piscine a un pH inférieur à 7. Donner les 2 inconvénients pour les baigneurs et les équipements.", pts:4, reponse:"Pour les baigneurs : irritations des yeux et de la peau. Pour les équipements : corrosion des parois et des canalisations." },
-      { texte:"Un agent mesure l'eau avec du rouge de phénol et obtient une couleur rouge. a) L'eau est-elle acide, basique ou neutre ? b) La formule est C₁₉H₁₄O₅S. Combien d'atomes de soufre ? c) Corps pur ou mélange ?", pts:6, reponse:"a) Basique (rouge = pH > 8). b) 1 atome de soufre. c) Corps pur (formule chimique définie)." },
-      { texte:"L'acide hypochloreux HClO désinfecte la piscine. Explique son action sur les bactéries.", pts:8, reponse:"HClO se dissocie en H⁺ et ClO⁻. Il tue les bactéries par oxydation des membranes cellulaires." },
+      { texte:"Un agent mesure l'eau avec du rouge de phénol et obtient une couleur rouge. a) L'eau est-elle acide, basique ou neutre ? Justifie. b) La formule du rouge de phénol est C₁₉H₁₄O₅S. Combien d'atomes de soufre (S) ? c) Le rouge de phénol est-il un corps pur ou un mélange ?", pts:6, reponse:"a) Rouge de phénol → rouge = pH > 8 → basique. b) 1 atome de soufre. c) Corps pur (formule chimique définie)." },
+      { texte:"L'acide hypochloreux HClO désinfecte la piscine. Explique son action sur les bactéries.", pts:8, reponse:"HClO est un acide faible. Il se dissocie en H⁺ et ClO⁻. Il tue les bactéries par oxydation." },
       { texte:"Calcule la consommation d'une pompe de 0,8 kW fonctionnant 8h/jour pendant 30 jours.", pts:7, reponse:"E = P × t = 0,8 × (8×30) = 0,8 × 240 = 192 kWh." }
     ] },
-  { id:2, annee:"2024", session:"Amérique du Nord", titre:"Oiseaux-éléphants, CO₂, énergie",
+  { id:"s2", annee:"2024", session:"Amérique du Nord", titre:"Oiseaux-éléphants, CO₂, énergie",
     questions: [
       { texte:"Explique les causes de l'extinction des oiseaux-éléphants de Madagascar.", pts:8, reponse:"Chasse par l'homme, destruction de l'habitat, introduction de prédateurs, changement climatique." },
       { texte:"Écris l'équation de dissolution du CO₂ dans l'eau de mer.", pts:5, reponse:"CO₂ + H₂O → H₂CO₃ (acide carbonique)." },
       { texte:"Un cycliste pédale à 50 W pendant 1 heure. Quelle énergie produit-il ?", pts:4, reponse:"E = P × t = 50 × 3600 = 180 000 J = 0,05 kWh." },
       { texte:"Pourquoi utilise-t-on des batteries lithium-ion dans les véhicules électriques ?", pts:8, reponse:"Légèreté, haute densité énergétique, recharge rapide, longue durée de vie." }
     ] },
-  { id:3, annee:"2023", session:"Métropole (juin)", titre:"Algues rouges, transformations chimiques",
+  { id:"s3", annee:"2023", session:"Métropole (juin)", titre:"Algues rouges, transformations chimiques",
     questions: [
       { texte:"Différence entre reproduction sexuée et asexuée chez l'algue rouge.", pts:6, reponse:"Sexuée : fusion de gamètes, diversité génétique. Asexuée : fragmentation ou spores, clones identiques." },
       { texte:"Facteurs environnementaux influençant la population d'idotées.", pts:5, reponse:"Température, nourriture, prédateurs, compétition, qualité de l'eau." },
       { texte:"Écris l'équation de combustion complète du méthane.", pts:4, reponse:"CH₄ + 2 O₂ → CO₂ + 2 H₂O." },
       { texte:"Calcule l'énergie consommée par un appareil de 200 W pendant 2h30.", pts:5, reponse:"E = 200 × 2,5 = 500 Wh = 0,5 kWh." }
     ] },
-  { id:4, annee:"2023", session:"Métropole (septembre)", titre:"Phénylcétonurie, génétique, CO₂",
+  { id:"s4", annee:"2023", session:"Métropole (septembre)", titre:"Phénylcétonurie, génétique, CO₂",
     questions: [
       { texte:"Lien entre génotype et phénotype dans la phénylcétonurie.", pts:8, reponse:"Le génotype (allèles) détermine la production d'enzyme. L'allèle muté empêche la transformation de la phénylalanine." },
       { texte:"Pourquoi un régime alimentaire traite cette maladie ?", pts:6, reponse:"En évitant les aliments riches en phénylalanine, on empêche son accumulation toxique." },
       { texte:"Émissions CO₂ d'une voiture consommant 6L/100km sur 500km.", pts:6, reponse:"Consommation = 6×5 = 30L. Émissions = 30 × 2,3 = 69 kg CO₂." }
     ] },
-  { id:5, annee:"2023", session:"Asie", titre:"Subduction, séismes, Chili",
+  { id:"s5", annee:"2023", session:"Asie", titre:"Subduction, séismes, Chili",
     questions: [
       { texte:"Explique le phénomène de subduction au Chili.", pts:8, reponse:"La plaque de Nazca plonge sous la plaque sud-américaine, provoquant séismes et volcans." },
-      { texte:"Comment les ondes sismiques localisent un séisme ?", pts:6, reponse:"Différence de vitesse entre ondes P et S donne la distance. Triangulation depuis 3 stations." },
+      { texte:"Comment les ondes sismiques localisent un séisme ?", pts:6, reponse:"Différence de vitesse entre ondes P et S donne la distance à l'épicentre. Triangulation." },
       { texte:"Vitesse d'une onde P parcourant 200 km en 40 secondes.", pts:6, reponse:"v = d/t = 200 000 / 40 = 5 000 m/s = 5 km/s." }
     ] },
-  { id:6, annee:"2022", session:"Métropole (juin)", titre:"Tortues marines, température, énergie solaire",
+  { id:"s6", annee:"2022", session:"Métropole (juin)", titre:"Tortues marines, température, énergie solaire",
     questions: [
-      { texte:"Comment la température détermine-t-elle le sexe des tortues marines ?", pts:6, reponse:"Température élevée → femelles, température basse → mâles. Mécanisme de thermosensibilité." },
-      { texte:"Impact du réchauffement climatique sur les tortues marines.", pts:6, reponse:"Déséquilibre du sex-ratio (trop de femelles), risque de disparition de l'espèce." },
+      { texte:"Comment la température détermine le sexe des tortues marines ?", pts:6, reponse:"Température élevée → femelles, température basse → mâles." },
+      { texte:"Impact du réchauffement climatique sur les tortues marines.", pts:6, reponse:"Déséquilibre du sex-ratio (trop de femelles), risque de disparition." },
       { texte:"Énergie produite par un panneau solaire de 300 W pendant 5h.", pts:4, reponse:"E = 300 × 5 = 1 500 Wh = 1,5 kWh." },
       { texte:"Un pH de 6 est-il acide ou basique ? Justifie.", pts:4, reponse:"pH < 7 → acide." }
     ] },
-  { id:7, annee:"2022", session:"Asie", titre:"Coccinelle asiatique, espèce invasive",
+  { id:"s7", annee:"2022", session:"Asie", titre:"Coccinelle asiatique, espèce invasive",
     questions: [
-      { texte:"Pourquoi la coccinelle asiatique est-elle invasive ?", pts:6, reponse:"Elle prolifère rapidement, concurrence les espèces locales, sans prédateurs naturels en Europe." },
+      { texte:"Pourquoi la coccinelle asiatique est-elle invasive ?", pts:6, reponse:"Elle prolifère rapidement, concurrence les espèces locales, pas de prédateurs naturels." },
       { texte:"Quels dégâts cause-t-elle en Europe ?", pts:6, reponse:"Disparition des coccinelles natives, dégradation des cultures, nuisances dans les habitations." },
       { texte:"Une solution de pH 9 est-elle acide ou basique ?", pts:4, reponse:"pH 9 > 7 → basique." }
     ] },
-  { id:8, annee:"2022", session:"Amérique du Nord", titre:"Tsunami, risques naturels",
+  { id:"s8", annee:"2022", session:"Amérique du Nord", titre:"Tsunami, risques naturels",
     questions: [
-      { texte:"Explique la formation d'un tsunami.", pts:8, reponse:"Séisme sous-marin → déplacement vertical du fond marin → vague géante qui se propage." },
-      { texte:"Mesures de prévention contre les tsunamis.", pts:6, reponse:"Systèmes d'alerte (bouées DART), constructions en hauteur, exercices d'évacuation réguliers." },
+      { texte:"Explique la formation d'un tsunami.", pts:8, reponse:"Séisme sous-marin → déplacement vertical du fond marin → vague géante." },
+      { texte:"Mesures de prévention contre les tsunamis.", pts:6, reponse:"Systèmes d'alerte, construction en hauteur, exercices d'évacuation." },
       { texte:"Vitesse d'une onde sismique parcourant 150 km en 30s.", pts:6, reponse:"v = 150 000 / 30 = 5 000 m/s = 5 km/s." }
     ] },
-  { id:9, annee:"2022", session:"Métropole (septembre)", titre:"Chlamydia, IST, sexualité",
+  { id:"s9", annee:"2022", session:"Métropole (septembre)", titre:"Chlamydia, IST, sexualité",
     questions: [
-      { texte:"Qu'est-ce que la chlamydia et comment se transmet-elle ?", pts:8, reponse:"IST bactérienne, transmission par rapports sexuels non protégés. Souvent asymptomatique." },
-      { texte:"Pourquoi le dépistage précoce est-il important ?", pts:6, reponse:"Permet un traitement antibiotique efficace et évite les complications (stérilité, grossesse extra-utérine)." },
-      { texte:"Cite deux moyens de prévention contre les IST.", pts:6, reponse:"Préservatif masculin ou féminin. Dépistage régulier." }
+      { texte:"Qu'est-ce que la chlamydia et comment se transmet-elle ?", pts:8, reponse:"Infection sexuellement transmissible (IST), transmission par rapports non protégés." },
+      { texte:"Pourquoi le dépistage précoce est-il important ?", pts:6, reponse:"Permet un traitement antibiotique efficace et évite les complications (stérilité)." },
+      { texte:"Cite deux moyens de prévention contre les IST.", pts:6, reponse:"Préservatif, dépistage régulier." }
     ] },
-  { id:10, annee:"2024", session:"Officiel education.gouv.fr", titre:"CO₂, batteries lithium, évolution",
+  { id:"s10", annee:"2024", session:"Officiel education.gouv.fr", titre:"CO₂, batteries lithium, évolution",
     questions: [
-      { texte:"Comment le CO₂ acidifie-t-il les océans ?", pts:8, reponse:"CO₂ + H₂O → H₂CO₃ → libération d'ions H⁺ → baisse du pH → acidification." },
-      { texte:"Pourquoi le lithium est-il utilisé dans les batteries ?", pts:6, reponse:"Très réactif, léger (faible masse atomique), haute densité énergétique." },
-      { texte:"Explique le principe de l'évolution des espèces par sélection naturelle.", pts:6, reponse:"Les individus les mieux adaptés survivent, se reproduisent et transmettent leurs gènes (Darwin)." }
+      { texte:"Comment le CO₂ acidifie-t-il les océans ?", pts:8, reponse:"CO₂ + H₂O → H₂CO₃ → libération d'ions H⁺, baisse du pH." },
+      { texte:"Pourquoi le lithium est-il utilisé dans les batteries ?", pts:6, reponse:"Très réactif, léger, haute densité énergétique." },
+      { texte:"Explique le principe de l'évolution des espèces.", pts:6, reponse:"Sélection naturelle : les mieux adaptés survivent et transmettent leurs gènes." }
     ] }
 ];
 
-async function corrigerExercice(idTextarea, reponseAttendue, pts, annee, session, numQuestion, numSujet, texteQuestion) {
+// ============================================================
+// CORRECTION EXERCICE
+// ============================================================
+async function corrigerExercice(idTextarea, reponseAttendue, pts, annee, session, numQuestion, numSujet, texteQuestion, sujetId) {
   const texteEleve = document.getElementById(idTextarea).value.trim();
   if (!texteEleve) { alert("Écris ta réponse avant de corriger."); return; }
   const btn = event.target;
   btn.disabled = true;
   btn.textContent = '⏳...';
-
-  const system = 'Tu es un professeur de sciences bienveillant. Corrige cette réponse. Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication", "conseil": "conseil"}';
+  const system = 'Tu es un professeur de sciences bienveillant. Corrige cette réponse. Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication courte", "conseil": "conseil"}';
   const prompt = 'Question : "' + texteQuestion + '"\nRéponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texteEleve + '"\nNote sur ' + pts + ' points.';
-
   try {
     const txt = await callIA(prompt, system);
-    const json = safeJSON(txt);
-    const note = json ? json.note : null;
-    const contenu = json
-      ? 'Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire + '\n\n💡 ' + json.conseil
-      : txt;
-
-    // Stocker
-    if (!STORE[numSujet]) STORE[numSujet] = [];
-    STORE[numSujet].push({ num: numQuestion, question: texteQuestion, correctionIA: contenu, correctionOfficielle: reponseAttendue, pts: pts, note: note });
-
-    // Afficher
+    const json = safeParseJSON(txt);
+    let contenu = '';
+    if (json) {
+      contenu = 'Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire + '\n\n💡 Conseil : ' + json.conseil;
+      alert(contenu);
+    } else {
+      contenu = txt;
+      alert(txt);
+    }
+    
+    // Stocker la correction IA
+    stockerCorrectionIA(sujetId, numQuestion, contenu);
+    
     const corrDiv = document.getElementById('corr-' + idTextarea);
     if (corrDiv) {
-      corrDiv.innerHTML =
-        '<div style="color:#5ecfb1;font-weight:700;font-size:14px;margin-bottom:8px">' +
-        (json ? '✓ Note : ' + json.note + '/' + pts : '') + '</div>' +
-        '<div style="color:#e8e8f0;white-space:pre-wrap">' + (json ? json.commentaire : contenu) + '</div>' +
-        (json && json.conseil ? '<div style="color:#9090a8;margin-top:8px;font-size:13px">💡 ' + json.conseil + '</div>' : '');
-
-      // Correction officielle en rouge
-      const offDiv = document.createElement('div');
-      offDiv.style.cssText = 'margin-top:12px;padding:8px 12px;background:rgba(232,122,122,0.08);border-left:3px solid #e87a7a;border-radius:0 6px 6px 0;font-size:13px;';
-      offDiv.innerHTML = '<strong style="color:#e87a7a">📖 Correction officielle :</strong><br><span style="color:#e8e8f0">' + reponseAttendue + '</span>';
-      corrDiv.appendChild(offDiv);
-
-      // Bouton copier
-      const btnDiv = document.createElement('div');
-      btnDiv.className = 'feedback-buttons';
-      btnDiv.innerHTML = '<button class="btn-copy" onclick="copier(this)">📋 Copier</button>';
-      corrDiv.appendChild(btnDiv);
+      corrDiv.innerHTML = contenu;
+      const officielleDiv = document.createElement('div');
+      officielleDiv.className = 'correction-officielle';
+      officielleDiv.innerHTML = '<strong>📖 Correction officielle :</strong><br>' + reponseAttendue;
+      corrDiv.appendChild(officielleDiv);
+      const btnContainer = document.createElement('div');
+      btnContainer.className = 'feedback-buttons';
+      btnContainer.innerHTML = `<button class="btn-copy" onclick="copierCorrection(\`${contenu.replace(/`/g, '\\`')}\`, this)">📋 Copier</button>`;
+      corrDiv.appendChild(btnContainer);
       corrDiv.style.display = 'block';
     }
   } catch(e) {
-    const corrDiv = document.getElementById('corr-' + idTextarea);
-    if (corrDiv) { corrDiv.innerHTML = '<span class="erreur">Erreur : ' + e.message + '</span>'; corrDiv.style.display = 'block'; }
+    alert('Erreur : ' + e.message);
   }
   btn.disabled = false;
   btn.textContent = 'Corriger avec IA';
@@ -231,31 +272,33 @@ function afficherCorrection(id) {
   el.style.display = (el.style.display === 'block') ? 'none' : 'block';
 }
 
+// ============================================================
+// RENDU DES SUJETS
+// ============================================================
 function afficherSujets() {
   const container = document.getElementById('sujets');
   container.innerHTML = '';
   SUJETS.forEach((s, idx) => {
     const num = idx + 1;
+    const sujetId = s.id;
     const div = document.createElement('div');
     div.className = 'sujet';
     let html = '<h3>Sujet ' + num + ' – ' + s.annee + ' (' + s.session + ') <span class="badge">' + s.titre + '</span></h3>';
-
+    
     s.questions.forEach((q, i) => {
-      const taId = 'exo-' + num + '-' + i;
+      const taId = 'exo-' + sujetId + '-' + i;
+      const corrId = 'corr-' + taId;
       html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.texte + '</div>';
       html += '<textarea id="' + taId + '" rows="4" placeholder="Votre réponse..."></textarea>';
-      html += '<button onclick="corrigerExercice(\'' + taId + '\', \'' + q.reponse.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\', ' + q.pts + ', \'' + s.annee + '\', \'' + s.session + '\', ' + (i+1) + ', ' + num + ', \'' + q.texte.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')">Corriger avec IA</button>';
+      html += '<button onclick="corrigerExercice(\'' + taId + '\', \'' + q.reponse.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\', ' + q.pts + ', \'' + s.annee + '\', \'' + s.session + '\', ' + (i+1) + ', ' + num + ', \'' + q.texte.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\', \'' + sujetId + '\')">Corriger avec IA</button>';
       html += '<button onclick="afficherCorrection(\'corr-officielle-' + taId + '\')">📖 Voir correction officielle</button>';
       html += '<div id="corr-officielle-' + taId + '" class="correction"><strong>✓ Correction officielle :</strong><br>' + q.reponse + '</div>';
-      html += '<div id="corr-' + taId + '" class="correction"></div>';
+      html += '<div id="' + corrId + '" class="correction"></div>';
     });
-
-    // Bouton export PDF en bas
-    html += '<div class="export-zone">';
-    html += '<span>📄 Sauvegarder toutes les corrections IA de ce sujet</span>';
-    html += '<button class="btn-export" onclick="exportPDF(' + num + ',\'' + s.annee + '\',\'' + s.session.replace(/'/g,"\\'") + '\',\'' + s.titre.replace(/'/g,"\\'") + '\')">📄 Générer PDF</button>';
-    html += '</div><hr>';
-
+    
+    // Bouton unique en bas du sujet
+    html += `<button class="save-all-btn" onclick="sauvegarderTout('${sujetId}', '${s.annee}', '${s.session}', '${s.titre}', ${JSON.stringify(s.questions).replace(/"/g, '&quot;')})">💾 Sauvegarder toutes les corrections (JSON + PDF)</button>`;
+    html += '<hr>';
     div.innerHTML = html;
     container.appendChild(div);
   });
