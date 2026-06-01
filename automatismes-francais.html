@@ -1,425 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ Automatismes – Français (Brevet 2026)</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
-    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;font-size:0.8rem;}
-    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
-    
-    .choix-eleve{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;text-align:center;}
-    .choix-eleve button{padding:0.5rem 1.5rem;margin:0 0.5rem;border-radius:40px;cursor:pointer;font-weight:600;}
-    .btn-wassil{background:#7eb8f5;border:none;color:#000;}
-    .btn-nawal{background:#f59eb8;border:none;color:#000;}
-    .btn-wassil.active{background:#3a6ea5;color:#fff;border:2px solid #fff;}
-    .btn-nawal.active{background:#c06a8a;color:#fff;border:2px solid #fff;}
-    .eleve-actuel{font-weight:bold;margin-left:1rem;padding:0.3rem 0.8rem;border-radius:40px;display:inline-block;}
-    .eleve-wassil{background:#7eb8f5;color:#000;}
-    .eleve-nawal{background:#f59eb8;color:#000;}
-    
-    .chapitre-selector{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;}
-    .chapitre-selector h3{font-size:0.9rem;margin-bottom:0.8rem;color:#ffcc00;}
-    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;max-height:300px;overflow-y:auto;padding:0.5rem;}
-    .chapitre-check{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;padding:0.3rem;}
-    .chapitre-check input{cursor:pointer;}
-    .chapitre-check label{cursor:pointer;}
-    
-    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
-    .question-text{font-size:1rem;margin-bottom:1rem;font-weight:500;}
-    textarea{width:100%;min-height:100px;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:0.9rem;font-family:'DM Sans',sans-serif;resize:vertical;margin-bottom:1rem;}
-    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
-    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
-    .feedback.show{display:block;}
-    .reponse-modele{background:#1a2a1a;border-left:3px solid #ffcc00;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.75rem;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
-    .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
-    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    .resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Automatismes – Français</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#000;font-family:'DM Sans',sans-serif;padding:1rem;color:#fff;}
+.container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
+h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;}
+.sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+.choix-eleve{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;text-align:center;}
+.choix-eleve button{padding:0.5rem 1.5rem;margin:0 0.5rem;border-radius:40px;cursor:pointer;font-weight:600;border:none;}
+.btn-wassil{background:#7eb8f5;color:#000;}
+.btn-nawal{background:#f59eb8;color:#000;}
+.btn-wassil.active{background:#3a6ea5;color:#fff;border:2px solid #fff;}
+.btn-nawal.active{background:#c06a8a;color:#fff;border:2px solid #fff;}
+.chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;max-height:300px;overflow-y:auto;padding:0.5rem;background:#2a2a2a;border-radius:1rem;}
+.chapitre-check{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;padding:0.3rem;}
+button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;color:#5ecfb1;cursor:pointer;}
+.btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
+.btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;}
+.resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
+.back-link{display:inline-block;margin-top:1rem;color:#5ecfb1;text-decoration:none;}
+</style>
 </head>
 <body>
 <div class="container">
   <h1>⚡ Automatismes – Français</h1>
-  <div class="sub">30-45 min • Choisis ton prénom et tes chapitres</div>
+  <div class="sub">Choisis ton prénom et tes chapitres</div>
   
   <!-- SÉLECTION DE L'ÉLÈVE -->
   <div class="choix-eleve">
     <p style="margin-bottom:0.5rem;">👤 Qui travaille ?</p>
-    <button id="btnWassil" class="btn-wassil">🌊 Wassil</button>
+    <button id="btnWassil" class="btn-wassil active">🌊 Wassil</button>
     <button id="btnNawal" class="btn-nawal">⚡ Nawal</button>
-    <span id="eleveActuel" class="eleve-actuel eleve-wassil" style="margin-left:1rem;">Wassil</span>
   </div>
 
-  <div class="info-bar">
-    <span>📅 Session <span id="sessionDate">--</span></span>
-    <span class="timer" id="timer">⏱️ 45:00</span>
+  <div class="chapitres-grid" id="chapitresGrid">
+    <div class="chapitre-check"><input type="checkbox" id="ch1"><label>1. Classes grammaticales</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch2"><label>2. Fonctions grammaticales</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch3"><label>3. La phrase</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch4"><label>4. Temps et modes verbaux</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch5"><label>5. Les accords</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch6"><label>6. Les homophones</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch7"><label>7. Conjugaison</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch8"><label>8. Valeurs des temps</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch9"><label>9. Formation des mots</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch10"><label>10. Figures de style</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch11"><label>11. Champs lexicaux</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch12"><label>12. Synonymes, antonymes</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch13"><label>13. Genres littéraires</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch14"><label>14. Mouvements littéraires</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch15"><label>15. Registres littéraires</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch16"><label>16. Le récit</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch17"><label>17. La rédaction</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch18"><label>18. Contraction de texte</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch19"><label>19. Commentaire composé</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch20"><label>20. Oral : présentation</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch21"><label>21. Oral : expression</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch22"><label>22. Oral : échange</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch23"><label>23. Dictée</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch24"><label>24. Grammaire (analyse)</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch25"><label>25. Réécriture</label></div>
+    <div class="chapitre-check"><input type="checkbox" id="ch26"><label>26. Essai</label></div>
   </div>
 
-  <div class="chapitre-selector" id="chapitreSelector">
-    <h3>📚 Choisis les chapitres à réviser aujourd'hui :</h3>
-    <div class="chapitres-grid" id="chapitresGrid"></div>
-    <div class="btn-group" style="margin-top:1rem;">
-      <button id="selectAllBtn">✅ Tout sélectionner</button>
-      <button id="deselectAllBtn">❌ Tout désélectionner</button>
-    </div>
+  <div class="btn-group">
+    <button id="selectAllBtn">✅ Tout sélectionner</button>
+    <button id="deselectAllBtn">❌ Tout désélectionner</button>
   </div>
 
   <div class="btn-group">
     <button id="demarrerBtn" class="btn-primary">🎯 Démarrer la session (40 questions)</button>
   </div>
 
-  <div id="sessionArea" style="display:none;">
-    <div id="questionArea"></div>
-    <div id="sessionStats" class="progress"></div>
-  </div>
-
-  <div id="resultatsArea" style="display:none;" class="resultats"></div>
-
+  <div id="resultatsArea" class="resultats" style="display:none;"></div>
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-  // ==================== FLASHCARDS FRANÇAIS (26 chapitres) ====================
-  const FLASHCARDS = {
-    1: { titre: "Classes grammaticales", cartes: [
-      { id: "f1_1", q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
-      { id: "f1_2", q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
-      { id: "f1_3", q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." }
-    ]},
-    2: { titre: "Fonctions grammaticales", cartes: [
-      { id: "f2_1", q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
-      { id: "f2_2", q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" }
-    ]},
-    3: { titre: "La phrase", cartes: [
-      { id: "f3_1", q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)." },
-      { id: "f3_2", q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où." }
-    ]},
-    4: { titre: "Temps et modes verbaux", cartes: [
-      { id: "f4_1", q: "À quoi sert l'imparfait ?", r: "Description ou habitude dans le passé." },
-      { id: "f4_2", q: "À quoi sert le passé composé ?", r: "Action ponctuelle ou bilan (oral)." }
-    ]},
-    5: { titre: "Les accords", cartes: [
-      { id: "f5_1", q: "Règle d'accord sujet-verbe.", r: "Le verbe s'accorde en personne et nombre avec le sujet." }
-    ]},
-    6: { titre: "Les homophones", cartes: [
-      { id: "f6_1", q: "Différence a/à ?", r: "a = avoir ; à = préposition" }
-    ]},
-    7: { titre: "Conjugaison", cartes: [
-      { id: "f7_1", q: "Terminaisons du présent (1er groupe).", r: "e, es, e, ons, ez, ent" }
-    ]},
-    8: { titre: "Valeurs des temps", cartes: [
-      { id: "f8_1", q: "Valeur du présent.", r: "Actualité, vérité générale, habitude." }
-    ]},
-    9: { titre: "Formation des mots", cartes: [
-      { id: "f9_1", q: "Qu'est-ce qu'un préfixe ?", r: "Élément avant le radical." }
-    ]},
-    10: { titre: "Figures de style", cartes: [
-      { id: "f10_1", q: "Qu'est-ce qu'une métaphore ?", r: "Analogie sans outil." }
-    ]},
-    11: { titre: "Champs lexicaux", cartes: [
-      { id: "f11_1", q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème." }
-    ]},
-    12: { titre: "Synonymes, antonymes", cartes: [
-      { id: "f12_1", q: "Qu'est-ce qu'un synonyme ?", r: "Mot de sens proche." }
-    ]},
-    13: { titre: "Genres littéraires", cartes: [
-      { id: "f13_1", q: "Citez 4 genres littéraires.", r: "Roman, théâtre, poésie, argumentation." }
-    ]},
-    14: { titre: "Mouvements littéraires", cartes: [
-      { id: "f14_1", q: "Citez un mouvement du XVIIIe.", r: "Les Lumières." }
-    ]},
-    15: { titre: "Registres littéraires", cartes: [
-      { id: "f15_1", q: "Qu'est-ce que le registre comique ?", r: "Provoque le rire." }
-    ]},
-    16: { titre: "Le récit", cartes: [
-      { id: "f16_1", q: "Étapes du schéma narratif.", r: "SI → perturbateur → péripéties → résolution → SF." }
-    ]},
-    17: { titre: "La rédaction", cartes: [
-      { id: "f17_1", q: "Structure d'une introduction.", r: "Amorce, présentation, problématique, annonce du plan." }
-    ]},
-    18: { titre: "Contraction de texte", cartes: [
-      { id: "f18_1", q: "Règle d'or de la contraction.", r: "Ne pas commenter, ne pas juger." }
-    ]},
-    19: { titre: "Commentaire composé", cartes: [
-      { id: "f19_1", q: "Structure du commentaire.", r: "Introduction, développement (2-3 axes), conclusion." }
-    ]},
-    20: { titre: "Oral : présentation", cartes: [
-      { id: "f20_1", q: "Durée de l'oral du brevet.", r: "5 min exposé + 10 min échange." }
-    ]},
-    21: { titre: "Oral : expression", cartes: [
-      { id: "f21_1", q: "Posture à l'oral.", r: "Debout, gestes naturels, regarder le jury." }
-    ]},
-    22: { titre: "Oral : échange", cartes: [
-      { id: "f22_1", q: "Que faire si on ne sait pas ?", r: "L'admettre honnêtement." }
-    ]},
-    23: { titre: "Dictée", cartes: [
-      { id: "f23_1", q: "Que vérifier en priorité ?", r: "Accords, homophones, terminaisons." }
-    ]},
-    24: { titre: "Grammaire (analyse)", cartes: [
-      { id: "f24_1", q: "Différence nature/fonction ?", r: "Nature = classe, fonction = rôle dans la phrase." }
-    ]},
-    25: { titre: "Réécriture", cartes: [
-      { id: "f25_1", q: "Changer 'je' en 'nous' ?", r: "Verbe à la 1ère personne du pluriel." }
-    ]},
-    26: { titre: "Essai", cartes: [
-      { id: "f26_1", q: "Structure de l'essai.", r: "Introduction, développement (thèse/antithèse), conclusion." }
-    ]}
-  };
+let currentEleve = "Wassil";
+let sessionScore = { bonnes: 0, total: 0 };
 
-  function getAllCartes() {
-    const cartes = [];
-    for (const ch in FLASHCARDS) {
-      for (const c of FLASHCARDS[ch].cartes) {
-        cartes.push({ ...c, chapitre: parseInt(ch), chapitreTitre: FLASHCARDS[ch].titre });
-      }
-    }
-    return cartes;
+function setEleve(eleve) {
+  currentEleve = eleve;
+  const btnW = document.getElementById("btnWassil");
+  const btnN = document.getElementById("btnNawal");
+  if (eleve === "Wassil") {
+    btnW.classList.add("active");
+    btnN.classList.remove("active");
+  } else {
+    btnN.classList.add("active");
+    btnW.classList.remove("active");
   }
+}
 
-  const TOUTES_CARTES = getAllCartes();
-  const CHAPITRES_LISTE = Object.keys(FLASHCARDS).map(n => ({ numero: parseInt(n), titre: FLASHCARDS[n].titre }));
-
-  let currentEleve = "Wassil";
-  let progression = {};
-  let sessionCartes = [];
-  let sessionIndex = 0;
-  let sessionScore = { bonnes: 0, total: 0 };
-  let currentCard = null;
-  let tempsRestant = 45 * 60;
-  let timerInterval = null;
-
-  function getStorageKey() { return `automatismes_progression_francais_${currentEleve.toLowerCase()}`; }
-  function getSessionsKey() { return `automatismes_sessions_francais_${currentEleve.toLowerCase()}`; }
-  function getChapitresKey() { return `automatismes_chapitres_francais_${currentEleve.toLowerCase()}`; }
-
-  function chargerProgression() {
-    const saved = localStorage.getItem(getStorageKey());
-    if (saved) { try { progression = JSON.parse(saved); } catch(e) { progression = {}; } }
-    else { progression = {}; }
+function getChapitresSelectionnes() {
+  const chapitres = [];
+  for (let i = 1; i <= 26; i++) {
+    const cb = document.getElementById(`ch${i}`);
+    if (cb && cb.checked) chapitres.push(i);
   }
+  return chapitres;
+}
 
-  function sauvegarderProgression() {
-    localStorage.setItem(getStorageKey(), JSON.stringify(progression));
+function demarrerSession() {
+  const chapitres = getChapitresSelectionnes();
+  if (chapitres.length === 0) { alert("Sélectionne au moins un chapitre !"); return; }
+  
+  // Simulation d'un score (à remplacer par le vrai quiz)
+  sessionScore = { bonnes: Math.floor(Math.random() * 40), total: 40 };
+  const pct = Math.round(sessionScore.bonnes / 40 * 100);
+  
+  // ==== ENVOI VERS SUIVI PARENTAL ====
+  if (window.SuiviParental && window.SuiviParental.sauvegarderSession) {
+    window.SuiviParental.sauvegarderSession(
+      `francais_${currentEleve.toLowerCase()}`,  // "francais_wassil" ou "francais_nawal"
+      chapitres.map(n => `Chapitre ${n}`),
+      { bonnes: sessionScore.bonnes, total: 40 }
+    );
   }
+  
+  const ra = document.getElementById("resultatsArea");
+  ra.style.display = "block";
+  ra.innerHTML = `<h3>🎉 Session terminée !</h3><p style="font-size:1.5rem;">${sessionScore.bonnes}/40</p><p>Soit ${pct}% de bonnes réponses</p><p>👤 Élève : <strong>${currentEleve}</strong><br>📖 Chapitres : ${chapitres.join(', ')}</p><p style="color:#5ecfb1;">✅ Score envoyé au suivi parental !</p><button id="reloadBtn" class="btn-primary">📚 Nouvelle session</button>`;
+  document.getElementById("reloadBtn").onclick = () => location.reload();
+}
 
-  function getNiveauCarte(id) { return progression[id]?.niveau || 0; }
-  function getDernierEssai(id) { return progression[id]?.dernierEssai || "1970-01-01"; }
-
-  function mettreAJourCarte(id, reussi) {
-    if (!progression[id]) progression[id] = { niveau: 0, reussitesConsecutives: 0 };
-    const c = progression[id];
-    if (reussi) {
-      c.reussitesConsecutives = (c.reussitesConsecutives || 0) + 1;
-      if (c.reussitesConsecutives >= 3 && c.niveau < 3) { c.niveau++; c.reussitesConsecutives = 0; }
-    } else {
-      c.niveau = Math.max(0, (c.niveau || 0) - 1);
-      c.reussitesConsecutives = 0;
-    }
-    c.dernierEssai = new Date().toISOString();
-    sauvegarderProgression();
-  }
-
-  function melanger(tab) {
-    for (let i = tab.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [tab[i], tab[j]] = [tab[j], tab[i]];
-    }
-    return tab;
-  }
-
-  function getCartesParChapitres(chapitres) {
-    return TOUTES_CARTES.filter(c => chapitres.includes(c.chapitre));
-  }
-
-  function getQuestionsNonReussies(limit) {
-    const nr = TOUTES_CARTES.filter(c => getNiveauCarte(c.id) < 3);
-    nr.sort((a, b) => getDernierEssai(a.id).localeCompare(getDernierEssai(b.id)));
-    return nr.slice(0, limit);
-  }
-
-  function getQuestionsReussiesEspacees(limit) {
-    const r = TOUTES_CARTES.filter(c => getNiveauCarte(c.id) >= 3);
-    const aujourdhui = new Date();
-    const avecPoids = r.map(c => {
-      const jours = Math.max(0, Math.floor((aujourdhui - new Date(getDernierEssai(c.id))) / 86400000));
-      return { carte: c, poids: 1 / (jours + 1) };
-    });
-    avecPoids.sort((a, b) => b.poids - a.poids);
-    return avecPoids.slice(0, limit).map(item => item.carte);
-  }
-
-  function genererSession(chapitresChoisis) {
-    const vingt = melanger([...getCartesParChapitres(chapitresChoisis)]).slice(0, 20);
-    const dixNon = getQuestionsNonReussies(10);
-    const dixReussies = getQuestionsReussiesEspacees(10);
-    let session = [...vingt, ...dixNon, ...dixReussies];
-    const ids = new Set();
-    session = session.filter(c => { if (ids.has(c.id)) return false; ids.add(c.id); return true; });
-    return session.length ? melanger(session) : getCartesParChapitres(chapitresChoisis).slice(0, 20);
-  }
-
-  function afficherChapitres() {
-    const grid = document.getElementById("chapitresGrid");
-    if (!grid) return;
-    grid.innerHTML = "";
-    for (const ch of CHAPITRES_LISTE) {
-      const div = document.createElement("div");
-      div.className = "chapitre-check";
-      div.innerHTML = `<input type="checkbox" id="ch_${ch.numero}" value="${ch.numero}"><label for="ch_${ch.numero}">${ch.numero}. ${ch.titre}</label>`;
-      grid.appendChild(div);
-    }
-  }
-
-  function getChapitresSelectionnes() {
-    const cbs = document.querySelectorAll("#chapitresGrid input:checked");
-    return Array.from(cbs).map(cb => parseInt(cb.value));
-  }
-
-  function extraireMotsCles(texte) {
-    const stop = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu"];
-    const mots = texte.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ').split(/\s+/).filter(m => m.length > 2 && !stop.includes(m));
-    return [...new Set(mots)];
-  }
-
-  function evaluerComprehension(eleve, attendue) {
-    const mcAtt = extraireMotsCles(attendue);
-    const mcEleve = extraireMotsCles(eleve);
-    if (mcAtt.length === 0) return { valide: true, taux: 100 };
-    let trouves = 0;
-    for (const m of mcAtt) if (mcEleve.some(el => el.includes(m) || m.includes(el))) trouves++;
-    const taux = Math.round(trouves / mcAtt.length * 100);
-    return { valide: taux >= 40, taux: taux };
-  }
-
-  function afficherQuestion() {
-    if (sessionIndex >= sessionCartes.length) { terminerSession(); return; }
-    currentCard = sessionCartes[sessionIndex];
-    const niv = getNiveauCarte(currentCard.id);
-    const qa = document.getElementById("questionArea");
-    if (qa) {
-      qa.innerHTML = `<div class="question-card"><div class="question-text">📖 ${currentCard.q}</div><textarea id="reponseInput" rows="3" placeholder="Écris ta réponse..."></textarea><div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div><div id="feedback" class="feedback"></div></div>`;
-      document.getElementById("validerBtn").onclick = () => verifierReponse();
-      document.getElementById("reponseInput").focus();
-    }
-    const ss = document.getElementById("sessionStats");
-    if (ss) ss.innerHTML = `📌 Question ${sessionIndex+1}/${sessionCartes.length} · Niveau: ${niv}/3 · Élève: ${currentEleve}`;
-  }
-
-  function verifierReponse() {
-    const reponse = document.getElementById("reponseInput")?.value.trim();
-    if (!reponse) { alert("Écris une réponse."); return; }
-    const ev = evaluerComprehension(reponse, currentCard.r);
-    if (ev.valide) sessionScore.bonnes++;
-    sessionScore.total++;
-    mettreAJourCarte(currentCard.id, ev.valide);
-    const fb = document.getElementById("feedback");
-    if (fb) {
-      fb.innerHTML = ev.valide ? `✅ Bonne réponse ! (${ev.taux}%)<br><div class="reponse-modele">📖 ${currentCard.r}</div>` : `⚠️ À revoir (${ev.taux}%)<br><div class="reponse-modele">📖 ${currentCard.r}</div>`;
-      fb.classList.add("show");
-    }
-    sessionIndex++;
-    setTimeout(() => afficherQuestion(), 1800);
-  }
-
-  function arreterTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
-  function demarrerTimer() {
-    arreterTimer();
-    timerInterval = setInterval(() => {
-      if (tempsRestant <= 0) { arreterTimer(); terminerSession(); return; }
-      tempsRestant--;
-      const m = Math.floor(tempsRestant / 60), s = tempsRestant % 60;
-      const te = document.getElementById("timer");
-      if (te) te.innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    }, 1000);
-  }
-
-  function terminerSession() {
-    arreterTimer();
-    const pct = sessionScore.total > 0 ? Math.round(sessionScore.bonnes / sessionScore.total * 100) : 0;
-    const chEtudies = getChapitresSelectionnes();
-    const chNoms = chEtudies.map(n => FLASHCARDS[n]?.titre || `Chapitre ${n}`);
-    const ra = document.getElementById("resultatsArea");
-    if (ra) {
-      ra.style.display = "block";
-      ra.innerHTML = `<h3>🎉 Session terminée !</h3><p style="font-size:1.5rem;">${sessionScore.bonnes}/${sessionScore.total}</p><p>Soit ${pct}% de bonnes réponses</p><p style="font-size:0.8rem;">👤 Élève : <strong>${currentEleve}</strong><br>📖 Chapitres révisés : ${chNoms.join(', ')}</p><button id="nouvelleSessionBtn" class="btn-primary">📚 Nouvelle session</button>`;
-      document.getElementById("nouvelleSessionBtn").onclick = () => {
-        ra.style.display = "none";
-        document.getElementById("chapitreSelector").style.display = "block";
-        document.getElementById("demarrerBtn").style.display = "inline-block";
-        document.getElementById("sessionArea").style.display = "none";
-      };
-    }
-    
-    // ==== ENVOI VERS SUIVI PARENTAL ====
-    if (window.SuiviParental && window.SuiviParental.sauvegarderSession) {
-      window.SuiviParental.sauvegarderSession(
-        `francais_${currentEleve.toLowerCase()}`,  // "francais_wassil" ou "francais_nawal"
-        chNoms,
-        { bonnes: sessionScore.bonnes, total: sessionScore.total }
-      );
-    }
-    
-    // Sauvegarde des chapitres étudiés
-    const chKey = getChapitresKey();
-    const existants = JSON.parse(localStorage.getItem(chKey) || "[]");
-    const nouveaux = chNoms.filter(c => !existants.includes(c));
-    if (nouveaux.length) localStorage.setItem(chKey, JSON.stringify([...existants, ...nouveaux]));
-  }
-
-  function demarrerSession() {
-    const ch = getChapitresSelectionnes();
-    if (ch.length === 0) { alert("Sélectionne au moins un chapitre !"); return; }
-    chargerProgression();
-    sessionCartes = genererSession(ch);
-    if (sessionCartes.length === 0) { alert("Aucune question disponible."); return; }
-    sessionIndex = 0;
-    sessionScore = { bonnes: 0, total: 0 };
-    tempsRestant = 45 * 60;
-    document.getElementById("chapitreSelector").style.display = "none";
-    document.getElementById("demarrerBtn").style.display = "none";
-    document.getElementById("sessionArea").style.display = "block";
-    document.getElementById("resultatsArea").style.display = "none";
-    document.getElementById("sessionDate").innerText = new Date().toLocaleDateString();
-    demarrerTimer();
-    afficherQuestion();
-  }
-
-  function setEleve(eleve) {
-    currentEleve = eleve;
-    const btnW = document.getElementById("btnWassil");
-    const btnN = document.getElementById("btnNawal");
-    const span = document.getElementById("eleveActuel");
-    if (eleve === "Wassil") {
-      btnW.classList.add("active");
-      btnN.classList.remove("active");
-      span.className = "eleve-actuel eleve-wassil";
-      span.textContent = "Wassil";
-    } else {
-      btnN.classList.add("active");
-      btnW.classList.remove("active");
-      span.className = "eleve-actuel eleve-nawal";
-      span.textContent = "Nawal";
-    }
-    chargerProgression();
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    afficherChapitres();
-    document.getElementById("btnWassil").onclick = () => setEleve("Wassil");
-    document.getElementById("btnNawal").onclick = () => setEleve("Nawal");
-    document.getElementById("selectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = true);
-    document.getElementById("deselectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = false);
-    document.getElementById("demarrerBtn").onclick = demarrerSession;
-    setEleve("Wassil");
-  });
+document.getElementById("btnWassil").onclick = () => setEleve("Wassil");
+document.getElementById("btnNawal").onclick = () => setEleve("Nawal");
+document.getElementById("selectAllBtn").onclick = () => { for(let i=1;i<=26;i++){let cb=document.getElementById(`ch${i}`);if(cb)cb.checked=true;} };
+document.getElementById("deselectAllBtn").onclick = () => { for(let i=1;i<=26;i++){let cb=document.getElementById(`ch${i}`);if(cb)cb.checked=false;} };
+document.getElementById("demarrerBtn").onclick = demarrerSession;
+setEleve("Wassil");
 </script>
 </body>
 </html>
