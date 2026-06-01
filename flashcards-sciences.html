@@ -7,151 +7,367 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #3498db;}
+    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #3498db;}
     h1{font-family:'Playfair Display',serif;font-size:2rem;color:#3498db;margin-bottom:0.25rem;}
     .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #3498db;padding-left:1rem;}
     .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
     .flashcard:hover{border-color:#3498db;}
-    .question{font-size:1.1rem;margin-bottom:1rem;}
-    .answer{font-size:1rem;color:#3498db;margin-top:1rem;display:none;}
+    .question{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    .answer{font-size:1rem;color:#3498db;margin-top:1rem;display:none;line-height:1.5;}
     .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
     .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
     button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
     button:hover{background:#2a3652;}
     .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
+    .selector-group{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;align-items:center;}
+    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.5rem 1rem;color:white;font-size:0.8rem;cursor:pointer;flex:1;min-width:200px;}
     .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>🔬 Flashcards Sciences</h1>
-  <div class="sub">Brevet 2026 • Mémorisation active • 176 cartes</div>
+  <div class="sub">Brevet 2026 • SVT + Physique-Chimie • 28 chapitres</div>
+
+  <div class="selector-group">
+    <select id="chapitreSelect"></select>
+    <button id="changerBtn">📚 Charger chapitre</button>
+    <button id="resetChapitreBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Reset chapitre</button>
+  </div>
+
   <div class="stats" id="stats">📊 Chargement...</div>
   <div id="card-area"></div>
   <div id="session-stats" class="progress"></div>
-  <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;margin-top:1rem;">🔄 Réinitialiser</button>
+  <button id="resetAllBtn" style="border-color:#e74c3c;color:#e74c3c;margin-top:1rem;">⚠️ Réinitialiser TOUTE progression</button>
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-  const flashcards = [
-    // SVT + Physique-Chimie (15+15 chapitres × 8 = 240 cartes, on concentre sur l'essentiel du brevet)
-    { question: "Citez trois gaz à effet de serre.", reponse: "CO₂, CH₄, N₂O" },
-    { question: "Causes humaines du réchauffement.", reponse: "Combustion fossile, déforestation, agriculture intensive." },
-    { question: "Conséquences du réchauffement.", reponse: "Fonte des glaciers, montée des eaux, catastrophes." },
-    { question: "Accord de Paris (2015).", reponse: "Limiter le réchauffement à +2°C." },
-    { question: "Structure cellule animale.", reponse: "Membrane, cytoplasme, noyau." },
-    { question: "Différence cellule végétale.", reponse: "Paroi cellulosique, chloroplastes." },
-    { question: "Qu'est-ce qu'un gène ?", reponse: "Fragment d'ADN pour un caractère." },
-    { question: "Allèle dominant/récessif.", reponse: "Dominant s'exprime seul ; récessif en double." },
-    { question: "Sélection naturelle.", reponse: "Les mieux adaptés survivent (Darwin)." },
-    { question: "Preuves de l'évolution.", reponse: "Fossiles, anatomie comparée, ADN." },
-    { question: "Reproduction asexuée.", reponse: "Un seul individu donne des clones (bouturage)." },
-    { question: "Fécondation.", reponse: "Fusion d'un gamète mâle et femelle." },
-    { question: "Système nerveux central.", reponse: "Cerveau, moelle épinière." },
-    { question: "Neurone.", reponse: "Cellule qui transmet l'influx nerveux." },
-    { question: "Rôle de l'insuline.", reponse: "Baisse la glycémie." },
-    { question: "Rôle de l'adrénaline.", reponse: "Accélère le cœur (stress)." },
-    { question: "Nutriments.", reponse: "Glucides, lipides, protides, vitamines, minéraux." },
-    { question: "Enzymes digestives.", reponse: "Dégradent les aliments (amylase, pepsine)." },
-    { question: "Absorption des nutriments.", reponse: "Intestin grêle (villosités)." },
-    { question: "Échanges gazeux.", reponse: "Alvéoles pulmonaires (O₂, CO₂)." },
-    { question: "Globules rouges.", reponse: "Transportent l'O₂ (hémoglobine)." },
-    { question: "Différence artère/veine.", reponse: "Artère : sang part du cœur ; veine : sang retourne." },
-    { question: "Barrières naturelles.", reponse: "Peau, muqueuses, sucs gastriques." },
-    { question: "Anticorps.", reponse: "Protéine qui neutralise les microbes." },
-    { question: "Vaccin.", reponse: "Antigène affaibli → mémoire immunitaire." },
-    { question: "Antibiotiques.", reponse: "Efficaces sur les bactéries (pas les virus)." },
-    { question: "Contraception.", reponse: "Pilule, préservatif, stérilet." },
-    { question: "IST.", reponse: "Infection Sexuellement Transmissible." },
-    { question: "VIH.", reponse: "Virus qui affaiblit le système immunitaire." },
-    { question: "Lymphocytes.", reponse: "Globules blancs (B = anticorps, T = destruction)." },
-    { question: "Immunité innée.", reponse: "Immédiate, non spécifique (peau, phagocytes)." },
-    { question: "Immunité acquise.", reponse: "Lente, spécifique (anticorps, mémoire)." },
-    { question: "Atome.", reponse: "Noyau (protons+, neutrons) + électrons-." },
-    { question: "Molécule d'eau.", reponse: "H₂O." },
-    { question: "Corps pur.", reponse: "Un seul constituant (eau distillée)." },
-    { question: "Mélange homogène/hétérogène.", reponse: "Homogène : on distingue pas ; hétérogène : plusieurs phases." },
-    { question: "Filtration.", reponse: "Sépare solide/liquide." },
-    { question: "Distillation.", reponse: "Sépare liquides (ébullition)." },
-    { question: "Réaction chimique.", reponse: "Réactifs → produits, conservation atomes." },
-    { question: "Combustion du méthane.", reponse: "CH₄ + 2 O₂ → CO₂ + 2 H₂O." },
-    { question: "Exothermique / endothermique.", reponse: "Exo : dégage chaleur ; endo : absorbe chaleur." },
-    { question: "Neutralisation.", reponse: "Acide + base → eau + sel." },
-    { question: "Concentration massique.", reponse: "C = m/V (g/L)." },
-    { question: "pH acide / neutre / basique.", reponse: "Acide <7, neutre =7, basique >7." },
-    { question: "Trajectoires.", reponse: "Rectiligne, circulaire, curviligne." },
-    { question: "Vitesse moyenne.", reponse: "v = d/t." },
-    { question: "Conversion m/s en km/h.", reponse: "×3,6." },
-    { question: "Poids.", reponse: "P = m × g (vertical vers bas)." },
-    { question: "Principe d'inertie.", reponse: "Si forces se compensent, mouvement rectiligne uniforme ou repos." },
-    { question: "Pression.", reponse: "P = F/S (Pa)." },
-    { question: "Pression atmosphérique normale.", reponse: "1013 hPa." },
-    { question: "Énergies fossiles.", reponse: "Charbon, pétrole, gaz." },
-    { question: "Énergies renouvelables.", reponse: "Solaire, éolien, hydraulique." },
-    { question: "Énergie cinétique.", reponse: "Ec = ½ × m × v²." },
-    { question: "Énergie potentielle.", reponse: "Ep = m × g × h." },
-    { question: "Loi d'Ohm.", reponse: "U = R × I." },
-    { question: "Puissance électrique.", reponse: "P = U × I." },
-    { question: "Circuit série.", reponse: "Un seul chemin, même courant." },
-    { question: "Circuit dérivation.", reponse: "Plusieurs chemins, même tension." },
-    { question: "Court-circuit.", reponse: "Chemin de faible résistance, courant élevé." },
-    { question: "Fusible / disjoncteur.", reponse: "Coupe le circuit en cas de surintensité." },
-    { question: "Prise de terre.", reponse: "Évacue le courant de fuite." },
-    { question: "Vitesse de la lumière.", reponse: "300 000 km/s." },
-    { question: "Vitesse du son.", reponse: "340 m/s." },
-    { question: "Hauteur d'un son.", reponse: "Fréquence (Hz) : aigu = fréquence élevée." },
-    { question: "Intensité sonore.", reponse: "Amplitude (dB)." }
-  ];
+  // ==================== SCIENCES – 28 CHAPITRES (SVT + PHYSIQUE) ====================
+  const chapitres = {
+    1: { titre: "Réchauffement climatique", flashcards: [
+      { q: "Citez trois gaz à effet de serre (GES).", r: "CO₂ (dioxyde de carbone), CH₄ (méthane), N₂O (protoxyde d'azote)." },
+      { q: "Quelles sont les causes humaines du réchauffement climatique ?", r: "Combustion des énergies fossiles, déforestation, agriculture intensive, élevage." },
+      { q: "Quelles sont les conséquences du réchauffement climatique ?", r: "Fonte des glaciers, montée des eaux, catastrophes naturelles, extinction d'espèces." },
+      { q: "Qu'est-ce que l'Accord de Paris (2015) ?", r: "Traité international pour limiter le réchauffement à +2°C (idéal 1,5°C)." },
+      { q: "Différence entre effet de serre naturel et réchauffement climatique ?", r: "L'effet de serre naturel est vital. Le réchauffement est dû à son augmentation par l'homme." }
+    ]},
+    2: { titre: "Cellule – unité du vivant", flashcards: [
+      { q: "Quels sont les constituants d'une cellule animale ?", r: "Membrane plasmique, cytoplasme, noyau, mitochondries." },
+      { q: "Quelle est la différence entre cellule animale et cellule végétale ?", r: "La cellule végétale possède une paroi cellulosique et des chloroplastes." },
+      { q: "Où se déroule la photosynthèse ?", r: "Dans les chloroplastes des cellules végétales." },
+      { q: "Qu'est-ce qu'un tissu ?", r: "Ensemble de cellules ayant la même fonction." },
+      { q: "Donner l'équation de la photosynthèse.", r: "CO₂ + H₂O + lumière → glucose + O₂." }
+    ]},
+    3: { titre: "Génétique et hérédité", flashcards: [
+      { q: "Qu'est-ce qu'un gène ?", r: "Fragment d'ADN qui porte l'information pour un caractère héréditaire." },
+      { q: "Différence entre allèle dominant et récessif.", r: "Dominant : s'exprime même à un seul exemplaire. Récessif : s'exprime seulement en deux exemplaires." },
+      { q: "Qu'est-ce qu'un caryotype ?", r: "Photographie classée des chromosomes d'une cellule." },
+      { q: "Combien de chromosomes possède un être humain ?", r: "46 chromosomes (23 paires)." },
+      { q: "Qu'est-ce que la mucoviscidose ?", r: "Maladie génétique due à deux allèles récessifs." }
+    ]},
+    4: { titre: "Évolution des espèces", flashcards: [
+      { q: "Qu'est-ce que la sélection naturelle ?", r: "Les individus les mieux adaptés à leur environnement survivent et se reproduisent (Darwin)." },
+      { q: "Citez trois preuves de l'évolution.", r: "Fossiles, anatomie comparée, similitudes génétiques (ADN)." },
+      { q: "Qu'est-ce qu'un ancêtre commun ?", r: "Espèce disparue dont descendent plusieurs espèces actuelles." },
+      { q: "Qu'est-ce qu'un arbre phylogénétique ?", r: "Schéma qui représente les liens de parenté entre espèces." }
+    ]},
+    5: { titre: "Reproduction", flashcards: [
+      { q: "Qu'est-ce que la reproduction asexuée ?", r: "Un seul individu donne naissance à des clones (bouturage, marcottage)." },
+      { q: "Qu'est-ce que la fécondation ?", r: "Fusion d'un gamète mâle et d'un gamète femelle pour former un zygote." },
+      { q: "Quelles sont les étapes du développement embryonnaire ?", r: "Fécondation → segmentation → gastrulation → organogenèse." },
+      { q: "Comment se fait la pollinisation ?", r: "Transport du pollen par le vent, l'eau, les insectes ou les animaux." }
+    ]},
+    6: { titre: "Système nerveux", flashcards: [
+      { q: "Quels sont les organes du système nerveux central ?", r: "Cerveau, cervelet, tronc cérébral, moelle épinière." },
+      { q: "Qu'est-ce qu'un neurone ?", r: "Cellule spécialisée dans la transmission de l'influx nerveux." },
+      { q: "Différence entre mouvement volontaire et réflexe.", r: "Volontaire : commandé par le cerveau. Réflexe : commandé par la moelle épinière." },
+      { q: "Qu'est-ce qu'une synapse ?", r: "Zone de communication entre deux neurones." }
+    ]},
+    7: { titre: "Hormones et régulation", flashcards: [
+      { q: "Quel est le rôle de l'insuline ?", r: "Hormone qui fait baisser le taux de glucose (glycémie) dans le sang." },
+      { q: "Que se passe-t-il lors d'un stress ?", r: "Libération d'adrénaline qui accélère le cœur et prépare le corps à l'action." },
+      { q: "Quelles sont les hormones sexuelles principales ?", r: "Testostérone (hommes), œstrogènes et progestérone (femmes)." },
+      { q: "Quel est le rôle de l'hypothalamus ?", r: "Glande dans le cerveau, chef d'orchestre des autres glandes." }
+    ]},
+    8: { titre: "Nutrition et digestion", flashcards: [
+      { q: "Citez les trois grandes familles de nutriments.", r: "Glucides (sucres), lipides (graisses), protides (protéines)." },
+      { q: "À quoi servent les enzymes digestives ?", r: "À dégrader les aliments (ex: amylase dégrade l'amidon)." },
+      { q: "Où se déroule l'absorption des nutriments ?", r: "Dans l'intestin grêle, grâce aux villosités intestinales." },
+      { q: "Qu'est-ce que le bol alimentaire ?", r: "Masse pâteuse formée par les aliments mâchés et mélangés à la salive." }
+    ]},
+    9: { titre: "Respiration et circulation sanguine", flashcards: [
+      { q: "Où se produisent les échanges gazeux entre l'air et le sang ?", r: "Dans les alvéoles pulmonaires." },
+      { q: "Quel est le trajet du sang dans la circulation ?", r: "Cœur → artères → capillaires (échanges) → veines → cœur." },
+      { q: "Que transportent les globules rouges ?", r: "L'oxygène (O₂) grâce à l'hémoglobine." },
+      { q: "Différence entre artère et veine.", r: "Artère : sang part du cœur, paroi épaisse. Veine : sang retourne au cœur, paroi moins épaisse." }
+    ]},
+    10: { titre: "Microbes et infections", flashcards: [
+      { q: "Citez les 4 grandes catégories de microbes.", r: "Bactéries, virus, champignons, parasites." },
+      { q: "Quelles sont les barrières naturelles de l'organisme ?", r: "Peau, muqueuses, sucs gastriques, larmes." },
+      { q: "Différence entre bactérie et virus.", r: "Bactérie : cellule vivante. Virus : particule non vivante, nécessite une cellule hôte." },
+      { q: "Qu'est-ce qu'un anticorps ?", r: "Protéine fabriquée par les lymphocytes qui neutralise un antigène." }
+    ]},
+    11: { titre: "Vaccination et antibiotiques", flashcards: [
+      { q: "Qu'est-ce qu'un vaccin ?", r: "Antigène affaibli qui déclenche une réponse immunitaire sans provoquer la maladie." },
+      { q: "Pourquoi les antibiotiques sont-ils inefficaces contre les virus ?", r: "Ils ciblent des structures propres aux bactéries (paroi, ribosomes)." },
+      { q: "Qu'est-ce que l'immunité de groupe ?", r: "Protection collective quand un pourcentage élevé de la population est vacciné." },
+      { q: "Pourquoi y a-t-il une résistance aux antibiotiques ?", r: "Les bactéries mutent et deviennent insensibles (surn utilisation)." }
+    ]},
+    12: { titre: "Sexualité et reproduction humaine", flashcards: [
+      { q: "Citez trois méthodes contraceptives.", r: "Pilule, préservatif, stérilet, implant, patch." },
+      { q: "Que signifie IST ?", r: "Infection Sexuellement Transmissible." },
+      { q: "Comment agit le préservatif face au VIH ?", r: "Barrière physique empêchant l'échange de liquides biologiques." },
+      { q: "Qu'est-ce que le VIH ?", r: "Virus qui attaque les lymphocytes, affaiblit le système immunitaire (sida)." }
+    ]},
+    13: { titre: "Défenses immunitaires", flashcards: [
+      { q: "Qu'est-ce que l'immunité innée ?", r: "Immédiate, non spécifique (peau, phagocytes, inflammation)." },
+      { q: "Qu'est-ce que l'immunité acquise ?", r: "Lente, spécifique (anticorps, lymphocytes mémoire)." },
+      { q: "Quel est le rôle des lymphocytes B ?", r: "Fabriquer des anticorps." },
+      { q: "Quel est le rôle des lymphocytes T ?", r: "Détruire les cellules infectées." }
+    ]},
+    14: { titre: "Atomes et molécules (physique)", flashcards: [
+      { q: "Quels sont les constituants d'un atome ?", r: "Protons (charge +), neutrons (neutres) dans le noyau, électrons (charge -) autour." },
+      { q: "Donner la formule de la molécule d'eau.", r: "H₂O" },
+      { q: "Différence entre atome et molécule.", r: "Atome = plus petite particule d'un élément. Molécule = assemblage d'atomes." },
+      { q: "Comment passe-t-on de l'état solide à l'état liquide ?", r: "Fusion (apport de chaleur)." }
+    ]},
+    15: { titre: "Mélanges et corps purs", flashcards: [
+      { q: "Qu'est-ce qu'un corps pur ?", r: "Substance composée d'un seul type de constituant (ex: eau distillée)." },
+      { q: "Différence entre mélange homogène et hétérogène.", r: "Homogène : on ne distingue pas les constituants. Hétérogène : plusieurs phases." },
+      { q: "Comment séparer du sable et de l'eau ?", r: "Filtration." },
+      { q: "Comment séparer de l'eau salée ?", r: "Distillation." }
+    ]},
+    16: { titre: "Réactions chimiques", flashcards: [
+      { q: "Qu'est-ce qu'une réaction chimique ?", r: "Transformation de réactifs en produits, avec conservation des atomes." },
+      { q: "Écrire l'équation de combustion complète du méthane.", r: "CH₄ + 2 O₂ → CO₂ + 2 H₂O" },
+      { q: "Différence entre réaction exothermique et endothermique.", r: "Exothermique : dégage de la chaleur. Endothermique : absorbe de la chaleur." },
+      { q: "Qu'est-ce qu'une neutralisation ?", r: "Réaction entre un acide et une base pour former de l'eau et un sel." }
+    ]},
+    17: { titre: "Solutions et concentration", flashcards: [
+      { q: "Différence entre solvant et soluté.", r: "Solvant : substance qui dissout (ex: eau). Soluté : substance dissoute (ex: sucre)." },
+      { q: "Formule de la concentration massique.", r: "C = m/V (en g/L)." },
+      { q: "Que signifie un pH de 3 ?", r: "Solution acide (pH < 7)." },
+      { q: "Que signifie un pH de 10 ?", r: "Solution basique (pH > 7)." }
+    ]},
+    18: { titre: "Mouvement", flashcards: [
+      { q: "Quels sont les types de trajectoires ?", r: "Rectiligne, circulaire, curviligne." },
+      { q: "Formule de la vitesse moyenne.", r: "v = d/t." },
+      { q: "Convertir 20 m/s en km/h.", r: "72 km/h (×3,6)." },
+      { q: "Convertir 90 km/h en m/s.", r: "25 m/s (÷3,6)." }
+    ]},
+    19: { titre: "Forces", flashcards: [
+      { q: "Formule du poids (force de gravité).", r: "P = m × g (g ≈ 9,8 N/kg sur Terre)." },
+      { q: "Quelles sont les caractéristiques d'une force ?", r: "Direction, sens, intensité (valeur), point d'application." },
+      { q: "Qu'est-ce qu'une force de frottement ?", r: "Force qui s'oppose au mouvement ou au glissement." },
+      { q: "Sur la Lune, le poids est-il différent ?", r: "Oui, car g est plus faible (g Lune ≈ 1,6 N/kg)." }
+    ]},
+    20: { titre: "Lois de Newton (principe d'inertie)", flashcards: [
+      { q: "Énoncer le principe d'inertie.", r: "Si les forces qui s'exercent sur un corps se compensent (F=0), alors son mouvement est rectiligne uniforme ou il est au repos." },
+      { q: "Pourquoi doit-on attacher sa ceinture de sécurité ?", r: "Application du principe d'inertie : en cas de freinage, le corps continue tout droit." },
+      { q: "Qu'est-ce que le principe des actions réciproques ?", r: "Deux corps en interaction exercent des forces opposées (action/réaction)." }
+    ]},
+    21: { titre: "Pression", flashcards: [
+      { q: "Formule de la pression.", r: "P = F/S (en Pascals, Pa)." },
+      { q: "Quelle est la pression atmosphérique normale ?", r: "1013 hPa (hectopascals)." },
+      { q: "Pourquoi les oreilles se bouchent-elles en montagne ?", r: "La pression atmosphérique diminue avec l'altitude." },
+      { q: "Pourquoi les skis sont-ils larges ?", r: "Pour augmenter la surface et diminuer la pression sur la neige." }
+    ]},
+    22: { titre: "Sources d'énergie", flashcards: [
+      { q: "Citez trois énergies fossiles.", r: "Charbon, pétrole, gaz naturel." },
+      { q: "Citez trois énergies renouvelables.", r: "Solaire, éolien, hydraulique, biomasse, géothermie." },
+      { q: "Quelle est la part du nucléaire dans l'électricité française ?", r: "Environ 70% (la France est le pays le plus nucléarisé au monde)." },
+      { q: "Pourquoi les énergies fossiles sont-elles critiquées ?", r: "Elles émettent du CO₂ (gaz à effet de serre) et sont épuisables." }
+    ]},
+    23: { titre: "Formes d'énergie", flashcards: [
+      { q: "Formule de l'énergie cinétique.", r: "Ec = ½ × m × v² (en Joules)." },
+      { q: "Formule de l'énergie potentielle de position.", r: "Ep = m × g × h (en Joules)." },
+      { q: "Qu'est-ce que l'énergie chimique ?", r: "Énergie stockée dans les liaisons chimiques (carburants, aliments, piles)." },
+      { q: "Une voiture à 100 km/h a-t-elle plus d'énergie qu'à 50 km/h ?", r: "4 fois plus (car v² → 2² = 4)." }
+    ]},
+    24: { titre: "Conversions et rendement", flashcards: [
+      { q: "Qu'est-ce qu'une conversion d'énergie ?", r: "Passage d'une forme d'énergie à une autre (ex: éolienne : vent → électrique)." },
+      { q: "Formule du rendement.", r: "Rendement = énergie utile / énergie totale (≤ 1 ou 100%)." },
+      { q: "Un rendement de 25% signifie quoi ?", r: "75% de l'énergie est perdue (souvent en chaleur)." },
+      { q: "Pourquoi un moteur thermique a-t-il un faible rendement ?", r: "Beaucoup d'énergie est perdue sous forme de chaleur." }
+    ]},
+    25: { titre: "Circuits électriques", flashcards: [
+      { q: "Énoncer la loi d'Ohm.", r: "U = R × I (U en volts, R en ohms, I en ampères)." },
+      { q: "Formule de la puissance électrique.", r: "P = U × I (P en watts)." },
+      { q: "Différence entre circuit série et circuit dérivation.", r: "Série : un seul chemin, même courant. Dérivation : plusieurs chemins, même tension." },
+      { q: "Qu'est-ce qu'un court-circuit ?", r: "Chemin de très faible résistance qui contourne un récepteur, courant très élevé." }
+    ]},
+    26: { titre: "Sécurité électrique", flashcards: [
+      { q: "À quoi sert un fusible ou un disjoncteur ?", r: "À couper le circuit en cas de surintensité (trop d'ampères)." },
+      { q: "À quoi sert la prise de terre ?", r: "À évacuer le courant de fuite vers la terre (protection contre les électrocutions)." },
+      { q: "Quel est le seuil de danger pour le corps humain ?", r: "10-30 mA (muscles contractés, arrêt respiratoire)." },
+      { q: "Pourquoi ne faut-il pas toucher un appareil électrique avec les mains mouillées ?", r: "L'eau est conductrice, le risque d'électrocution augmente." }
+    ]},
+    27: { titre: "Son et lumière", flashcards: [
+      { q: "Vitesse de la lumière dans le vide.", r: "300 000 km/s (3×10⁸ m/s)." },
+      { q: "Vitesse du son dans l'air (15°C).", r: "340 m/s." },
+      { q: "La lumière a-t-elle besoin d'un support pour se propager ?", r: "Non (se propage dans le vide). Le son, oui." },
+      { q: "Pourquoi voit-on l'éclair avant d'entendre le tonnerre ?", r: "La lumière est beaucoup plus rapide que le son." }
+    ]},
+    28: { titre: "Caractéristiques des ondes", flashcards: [
+      { q: "Qu'est-ce que la hauteur d'un son ?", r: "Liée à la fréquence (Hz). Aigu = fréquence élevée, grave = fréquence basse." },
+      { q: "Qu'est-ce que l'intensité sonore ?", r: "Liée à l'amplitude (dB). Son fort = grande amplitude." },
+      { q: "Pourquoi un objet est-il rouge ?", r: "Il absorbe toutes les couleurs sauf le rouge (qu'il réfléchit)." },
+      { q: "Différence entre signal numérique et analogique.", r: "Numérique : valeurs discrètes (0/1). Analogique : variation continue." }
+    ]}
+  };
 
-  let index = 0;
+  let currentChapitre = 1;
+  let currentCartes = [];
+  let currentIndex = 0;
   let currentCard = null;
-  let progression = JSON.parse(localStorage.getItem("flashcards_sciences") || "{}");
+  let progression = {};
 
-  function sauvegarder() { localStorage.setItem("flashcards_sciences", JSON.stringify(progression)); }
-  function melanger(tab) { for (let i=tab.length-1; i>0; i--) { let j=Math.floor(Math.random()*(i+1)); [tab[i],tab[j]]=[tab[j],tab[i]]; } return tab; }
-
-  function demarrer() {
-    let cartes = flashcards.filter(c => !progression[c.question] || progression[c.question] < 3);
-    cartes = melanger(cartes);
-    if (cartes.length === 0) {
-      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes sont maîtrisées.</div>';
-      document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
-      return;
-    }
-    index = 0;
-    afficher(cartes);
+  function getStorageKey() { return `flashcards_sciences_ch${currentChapitre}`; }
+  function sauvegarderProgression() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
+  function chargerProgression() {
+    const saved = localStorage.getItem(getStorageKey());
+    if (saved) progression = JSON.parse(saved);
+    else progression = {};
   }
 
-  function afficher(cartes) {
-    if (index >= cartes.length) { demarrer(); return; }
-    currentCard = cartes[index];
+  function getCardKey(question) { return question.substring(0, 60); }
+
+  function getCartesChapitre() { return chapitres[currentChapitre]?.flashcards || []; }
+
+  function initProgression() {
+    const cartes = getCartesChapitre();
+    let modif = false;
+    for (const c of cartes) {
+      const key = getCardKey(c.q);
+      if (!progression[key]) {
+        progression[key] = { score: 0, etat: "nouvelle" };
+        modif = true;
+      }
+    }
+    if (modif) sauvegarderProgression();
+  }
+
+  function melanger(tab) {
+    for (let i = tab.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tab[i], tab[j]] = [tab[j], tab[i]];
+    }
+    return tab;
+  }
+
+  function selectionnerCartesDuJour() {
+    const cartes = getCartesChapitre();
+    const nouvelles = cartes.filter(c => progression[getCardKey(c.q)]?.score === 0).slice(0, 20);
+    const erreurs = cartes.filter(c => progression[getCardKey(c.q)]?.score > 0 && progression[getCardKey(c.q)]?.score < 3).slice(0, 10);
+    const revoir = cartes.filter(c => progression[getCardKey(c.q)]?.score >= 3).slice(0, 5);
+    let selected = [...nouvelles, ...erreurs, ...revoir];
+    const ids = new Set();
+    selected = selected.filter(c => { const k = getCardKey(c.q); if (ids.has(k)) return false; ids.add(k); return true; });
+    return melanger(selected);
+  }
+
+  function mettreAJourStats() {
+    const cartes = getCartesChapitre();
+    let total = cartes.length;
+    let maitrisees = 0;
+    for (const c of cartes) {
+      if (progression[getCardKey(c.q)]?.score >= 3) maitrisees++;
+    }
+    document.getElementById("stats").innerHTML = `🔬 Sciences – Chapitre ${currentChapitre} : ${chapitres[currentChapitre]?.titre || ""}<br>✅ ${maitrisees}/${total} cartes maîtrisées (${Math.round(maitrisees/total*100)}%)`;
+  }
+
+  function afficherCarte() {
+    if (currentIndex >= currentCartes.length) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Bravo ! Chapitre terminé. Change de chapitre ou reviens plus tard.</div>';
+      document.getElementById("session-stats").innerHTML = `✅ Session terminée ! ${currentCartes.length} cartes revues.`;
+      mettreAJourStats();
+      return;
+    }
+    currentCard = currentCartes[currentIndex];
+    const key = getCardKey(currentCard.q);
+    const score = progression[key]?.score || 0;
     document.getElementById("card-area").innerHTML = `
-      <div class="flashcard" onclick="reveler()">
-        <div class="question">${currentCard.question}</div>
-        <div class="answer" id="answer">${currentCard.reponse}</div>
+      <div class="flashcard" onclick="revelerReponse()">
+        <div class="question">🔬 ${currentCard.q}</div>
+        <div class="answer" id="answer">📌 ${currentCard.r}</div>
         <div class="show-answer">👆 Cliquez pour voir la réponse</div>
       </div>
       <div class="btn-group" id="btns" style="display:none;">
-        <button onclick="repondre(true)">✅ Je sais</button>
+        <button onclick="repondre(true)">✅ Je sais (${score}/3)</button>
         <button onclick="repondre(false)">❌ Je ne sais pas</button>
       </div>
     `;
-    document.getElementById("session-stats").innerHTML = `📌 Carte ${index+1}/${cartes.length}`;
-    document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+    document.getElementById("session-stats").innerHTML = `📌 Carte ${currentIndex+1}/${currentCartes.length} · Score: ${score}/3`;
   }
 
-  window.reveler = function() { document.getElementById("answer").style.display = "block"; document.getElementById("btns").style.display = "flex"; };
-  window.repondre = function(reussi) {
-    if (reussi) progression[currentCard.question] = (progression[currentCard.question] || 0) + 1;
-    else progression[currentCard.question] = 0;
-    sauvegarder();
-    index++;
-    demarrer();
+  window.revelerReponse = function() {
+    document.getElementById("answer").style.display = "block";
+    document.getElementById("btns").style.display = "flex";
   };
-  document.getElementById("resetBtn").onclick = () => { if (confirm("Réinitialiser ?")) { localStorage.removeItem("flashcards_sciences"); progression = {}; demarrer(); } };
-  demarrer();
+
+  window.repondre = function(reussi) {
+    const key = getCardKey(currentCard.q);
+    let score = progression[key]?.score || 0;
+    if (reussi) score = Math.min(score + 1, 3);
+    else score = 0;
+    progression[key] = { score: score, etat: score >= 3 ? "maitrisee" : (score > 0 ? "en_cours" : "nouvelle") };
+    sauvegarderProgression();
+    currentIndex++;
+    afficherCarte();
+    mettreAJourStats();
+  };
+
+  function demarrerSession() {
+    chargerProgression();
+    initProgression();
+    currentCartes = selectionnerCartesDuJour();
+    currentIndex = 0;
+    mettreAJourStats();
+    if (currentCartes.length === 0) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes de ce chapitre sont maîtrisées.</div>';
+      return;
+    }
+    afficherCarte();
+  }
+
+  function remplirChapitreSelect() {
+    const select = document.getElementById("chapitreSelect");
+    select.innerHTML = "";
+    for (const [num, data] of Object.entries(chapitres)) {
+      const option = document.createElement("option");
+      option.value = num;
+      let titre = `${num}. ${data.titre}`;
+      option.textContent = titre;
+      select.appendChild(option);
+    }
+    select.value = currentChapitre;
+  }
+
+  document.getElementById("changerBtn").addEventListener("click", () => {
+    currentChapitre = parseInt(document.getElementById("chapitreSelect").value);
+    demarrerSession();
+  });
+
+  document.getElementById("resetChapitreBtn").addEventListener("click", () => {
+    if (confirm(`Réinitialiser le chapitre ${currentChapitre} (${chapitres[currentChapitre]?.titre}) ?`)) {
+      localStorage.removeItem(getStorageKey());
+      demarrerSession();
+    }
+  });
+
+  document.getElementById("resetAllBtn").addEventListener("click", () => {
+    if (confirm("⚠️ Supprimer TOUTE progression dans TOUS les chapitres de sciences ?")) {
+      for (const chap of Object.keys(chapitres)) {
+        localStorage.removeItem(`flashcards_sciences_ch${chap}`);
+      }
+      demarrerSession();
+    }
+  });
+
+  remplirChapitreSelect();
+  demarrerSession();
 </script>
 </body>
 </html>
