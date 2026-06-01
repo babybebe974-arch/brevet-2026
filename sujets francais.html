@@ -54,13 +54,14 @@ h1 em{color:var(--teal);font-style:italic;}
 .answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
 .answer-ta:focus{border-color:rgba(94,207,177,0.4);}
 .redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
-.btn-correction{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;text-decoration:none;display:inline-block;margin-top:8px;}
-.btn-correction:hover{background:rgba(94,207,177,0.12);}
 .corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
 .corr-btn:hover{background:rgba(94,207,177,0.12);}
 .corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
 .corr-box.show{display:block;}
 .corr-box strong{color:var(--text);}
+.ai-btn{background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;padding:5px 12px;font-size:11px;color:#080600;font-weight:700;cursor:pointer;margin-right:8px;margin-top:4px;transition:all 0.2s;}
+.ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,200,122,0.3);}
+.ai-loading{display:none;margin-top:5px;font-size:11px;color:#e8c87a;}
 .auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
 .ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
 .ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
@@ -80,8 +81,6 @@ h1 em{color:var(--teal);font-style:italic;}
 .toast.show{opacity:1;transform:translateY(0);}
 .toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
 .toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
-.ai-link{display:inline-block;margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;color:#080600;font-weight:700;font-size:12px;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-.ai-link:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
 @media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -117,9 +116,84 @@ h1 em{color:var(--teal);font-style:italic;}
 <div class="toast" id="toast"></div>
 
 <script>
+// ============================================================
+// TON PROXY GOOGLE APPS SCRIPT
+// ============================================================
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
+
+async function callIA(prompt, system) {
+  try {
+    const response = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, system })
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result = await response.json();
+    if (result.success && result.content) return result.content;
+    if (result.content) return result.content;
+    throw new Error('Réponse inattendue');
+  } catch(e) {
+    console.error('Erreur callIA:', e);
+    throw e;
+  }
+}
+
+// ============================================================
+// CORRECTIONS IA
+// ============================================================
+
+async function corrigerQuestion(taId, reponseAttendue, pts, btnId) {
+  const texte = document.getElementById(taId).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  const btn = document.getElementById(btnId);
+  const loadingSpan = document.getElementById(btnId + '_loading');
+  if (loadingSpan) loadingSpan.style.display = 'inline-block';
+  btn.disabled = true;
+  
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse. Réponds UNIQUEMENT en JSON : {"note": X, "commentaire": "..."}';
+  const prompt = `Réponse attendue : "${reponseAttendue}"\n\nRéponse élève : "${texte}"\n\nNote sur ${pts} points.`;
+  
+  try {
+    const result = await callIA(prompt, system);
+    const clean = result.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert(`Note : ${json.note}/${pts}\n\n${json.commentaire}`);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (loadingSpan) loadingSpan.style.display = 'none';
+  btn.disabled = false;
+}
+
+async function corrigerRedaction(taId, pts, btnId) {
+  const texte = document.getElementById(taId).value.trim();
+  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
+  const btn = document.getElementById(btnId);
+  const loadingSpan = document.getElementById(btnId + '_loading');
+  if (loadingSpan) loadingSpan.style.display = 'inline-block';
+  btn.disabled = true;
+  
+  const system = `Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ${pts} points (pertinence, structure, style, orthographe). Réponds UNIQUEMENT en JSON : {"note": X, "commentaire": "détail des points forts et axes d'amélioration"}`;
+  const prompt = `Rédaction :\n${texte}`;
+  
+  try {
+    const result = await callIA(prompt, system);
+    const clean = result.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert(`Note : ${json.note}/${pts}\n\n${json.commentaire}`);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (loadingSpan) loadingSpan.style.display = 'none';
+  btn.disabled = false;
+}
+
+// ============================================================
+// DONNÉES SUJETS
+// ============================================================
 const SUJETS = [
-  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.\n\nIci, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.\n\nIl posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},{n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},{n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants). 3. "silence épais et vivant" → oxymore ou personnification.'},{n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},{n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans, les notifications, le bruit constant" est une proposition participiale (gérondif/participe présent).'},{n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité, montre le lien affectif de Thomas avec l\'arbre.'}],redaction:{pts:20,sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation en vous appuyant sur des exemples précis. (Minimum 300 mots)',criteres:'Critères d\'évaluation (20 pts) :\n• Compréhension du sujet et pertinence (4 pts)\n• Organisation et structure (intro/dév/conclu) (4 pts)\n• Richesse des arguments ou du récit (4 pts)\n• Qualité de la langue — vocabulaire, style (4 pts)\n• Orthographe et grammaire (4 pts)'}},
-  {id:2,titre:'La mémoire et le temps qui passe',texte:`Grand-mère avait quatre-vingt-deux ans et une mémoire extraordinaire. Non pas pour les événements récents — ceux-là, elle les oubliait aussi vite qu'ils arrivaient — mais pour les souvenirs anciens, ceux d'avant, quand le monde était différent.\n\nElle pouvait décrire avec une précision stupéfiante la robe qu'elle portait le jour de son premier bal, en 1958. Elle se souvenait de l'odeur exacte du pain frais que sa mère sortait du four chaque dimanche matin. Elle revoyait encore, les yeux fermés, le visage de son frère disparu à la guerre, un frère qu'elle n'avait plus vu depuis soixante ans.\n\n"Le passé est plus réel que le présent", disait-elle parfois avec un sourire mélancolique. Sa petite-fille Camille, assise en face d'elle, l'écoutait avec un mélange d'admiration et d'inquiétude. Ces souvenirs la tenaient en vie, c'était évident. Mais ils l'empêchaient aussi, peut-être, de vivre vraiment dans le présent.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Quelle particularité a la mémoire de la grand-mère ? Expliquez avec vos propres mots.',c:'Elle a une excellente mémoire du passé lointain mais oublie facilement les événements récents. Elle se souvient avec précision de détails d\'il y a 60 ans mais pas de ce qui vient de se passer.'},{n:'2',pts:3,q:'Relevez trois exemples de souvenirs précis de la grand-mère.',c:'1. La robe du premier bal en 1958. 2. L\'odeur du pain frais de sa mère le dimanche. 3. Le visage de son frère disparu à la guerre.'},{n:'3',pts:3,q:'Comment Camille voit-elle les souvenirs de sa grand-mère ? Est-ce uniquement positif ?',c:'Camille ressent un "mélange d\'admiration et d\'inquiétude". Positif : les souvenirs la "tenaient en vie". Négatif : ils l\'empêchaient "de vivre vraiment dans le présent". Vision nuancée.'},{n:'4',pts:2,q:'Expliquez la phrase : "Le passé est plus réel que le présent."',c:'Pour la grand-mère, ses souvenirs anciens sont si précis et vivants qu\'ils semblent plus concrets que la réalité immédiate qu\'elle oublie. Le passé est sa vraie vie.'}],grammaire:[{n:'1',pts:2,q:'Analysez le groupe nominal "sa petite-fille Camille" : donnez la nature de chaque mot.',c:'"sa" = déterminant possessif. "petite-fille" = nom commun (noyau du GN). "Camille" = nom propre (apposition).'},{n:'2',pts:2,q:'Conjuguez "disparaître" au plus-que-parfait de l\'indicatif, 3ème personne du singulier.',c:'"il/elle avait disparu"'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Mais ils l\'empêchaient aussi, peut-être, de vivre vraiment dans le présent."',c:'"de vivre vraiment dans le présent" est une proposition subordonnée infinitive complément du verbe "empêchaient".'},{n:'4',pts:2,q:'Réécrivez au discours indirect : Elle disait : "Le passé est plus réel que le présent."',c:'Elle disait que le passé était plus réel que le présent.'}],redaction:{pts:20,sujet1:'Vous souvenez-vous d\'une personne âgée qui vous a transmis quelque chose d\'important ? Racontez cette rencontre et ce qu\'elle vous a apporté. (Min. 300 mots)',sujet2:'La mémoire fait-elle partie de l\'identité d\'une personne ? Développez votre réflexion en vous appuyant sur des exemples. (Min. 300 mots)',criteres:'Critères DNB (20 pts) :\n• Pertinence et richesse des idées (4 pts)\n• Structure (introduction, développement, conclusion) (4 pts)\n• Qualité narrative ou argumentative (4 pts)\n• Vocabulaire et style (4 pts)\n• Orthographe et grammaire (4 pts)'}}
+  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.\n\nIci, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.\n\nIl posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},{n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},{n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants).'},{n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},{n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans..." est une proposition participiale.'},{n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité.'}],redaction:{pts:20,sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation.',criteres:'Critères : pertinence (4), structure (4), richesse (4), style (4), orthographe (4)'}}
 ];
 
 let who = null, currentIdx = 0, chronoSecs = 9000, running = false, chronoInterval = null;
@@ -134,22 +208,25 @@ function renderSujet(s) {
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
   h += `<div class="texte-box">${s.texte.replace(/\n\n/g, '</p><p style="margin-top:14px">').replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
   s.comprehension.forEach((q, i) => {
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    const btnId = `btn_c_${i}`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('c_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button></div><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
   s.grammaire.forEach((q, i) => {
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    const btnId = `btn_g_${i}`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('g_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button></div><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
   h += `<p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Choisissez UN sujet parmi les deux proposés. Minimum 300 mots.</p>`;
   h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px;border-left:2px solid var(--gold)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet A — Texte narratif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet1}</div></div>`;
   h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border-left:2px solid var(--purple)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet B — Texte argumentatif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet2}</div></div>`;
+  const redacBtnId = 'btn_redac';
   h += `<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
   h += `<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
-  h += `<a href="correcteur-ia.html" target="_blank" class="ai-link">🤖 Faire corriger ma rédaction avec l'IA</a>`;
-  h += `<button class="corr-btn" onclick="tog('rc')">📖 Voir les critères de correction</button><div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
+  h += `<div><button id="${redacBtnId}" class="ai-btn" onclick="corrigerRedaction('redac', 20, '${redacBtnId}')">🤖 Corriger la rédaction avec IA</button><span id="${redacBtnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('rc')">📖 Voir les critères</button></div>`;
+  h += `<div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
   h += `</div></div>`;
   h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
     <div class="ae-row"><span class="ae-label">Compréhension</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
@@ -176,7 +253,6 @@ async function saveSujet() {
   const a = parseInt(document.getElementById('ae1').value) || 0;
   const b = parseInt(document.getElementById('ae2').value) || 0;
   const c = parseInt(document.getElementById('ae3').value) || 0;
-  const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20);
   const done = JSON.parse(localStorage.getItem('fr_done_' + who) || '[]');
   if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('fr_done_' + who, JSON.stringify(done)); }
   showToast('✓ Progression sauvegardée', 'ok');
