@@ -49,7 +49,6 @@
   <h1>⚡ Automatismes – Français</h1>
   <div class="sub">Choisis tes chapitres • 40 questions adaptées</div>
 
-  <!-- SÉLECTION ÉLÈVE -->
   <div class="eleve-bar">
     <button id="btnWassil" class="eleve-btn aw">🌊 Wassil</button>
     <button id="btnNawal" class="eleve-btn">⚡ Nawal</button>
@@ -60,14 +59,12 @@
     <span class="timer" id="timer">⏱️ 45:00</span>
   </div>
 
-  <!-- STATS -->
   <div class="stats">
     <span>📚 <b id="nbCartes">0</b> cartes sélectionnées</span>
     <span>✅ <b id="nbMaitrisees">0</b> maîtrisées</span>
     <span>📈 <b id="nbProgress">0</b>%</span>
   </div>
 
-  <!-- SÉLECTION DES CHAPITRES -->
   <div class="chapitre-selector">
     <h3>📚 Choisis les chapitres à réviser :</h3>
     <div class="chapitres-grid" id="chapitresGrid"></div>
@@ -98,139 +95,30 @@ const CHAPITRES = {
     { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
     { q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
     { q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." },
-    { q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie un verbe/adjectif. Préposition introduit un complément." },
-    { q: "Qu'est-ce qu'un déterminant possessif ?", r: "mon, ton, son, notre, votre, leur" },
-    { q: "Qu'est-ce qu'un déterminant démonstratif ?", r: "ce, cet, cette, ces" },
-    { q: "Qu'est-ce qu'un pronom personnel ?", r: "je, tu, il, elle, on, nous, vous, ils, elles, me, te, se, le, la, lui, y, en" },
-    { q: "Qu'est-ce qu'un pronom relatif ?", r: "qui, que, quoi, dont, où, lequel" },
-    { q: "Qu'est-ce qu'un pronom démonstratif ?", r: "celui, celle, ceux, celles, ce, ceci, cela" },
-    { q: "Qu'est-ce qu'une interjection ?", r: "Mot-phrase exprimant une émotion (Ah ! Oh ! Hélas !)" }
+    { q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie un verbe/adjectif. Préposition introduit un complément." }
   ]},
   2: { titre: "Fonctions grammaticales", cartes: [
     { q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
     { q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" },
     { q: "Qu'est-ce que l'attribut du sujet ?", r: "Donne une qualité au sujet, relié par verbe d'état" },
-    { q: "Qu'est-ce qu'un complément d'agent ?", r: "Dans une phrase passive, indique qui fait l'action" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de temps ?", r: "Indique quand l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de lieu ?", r: "Indique où l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de manière ?", r: "Indique comment l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de cause ?", r: "Indique pourquoi l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de but ?", r: "Indique dans quel but" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de concession ?", r: "Indique une opposition" }
+    { q: "Qu'est-ce qu'un complément circonstanciel de temps ?", r: "Indique quand l'action se passe" }
   ]},
   3: { titre: "La phrase", cartes: [
     { q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)" },
     { q: "Qu'est-ce qu'une phrase complexe ?", r: "Plusieurs propositions" },
     { q: "Qu'est-ce qu'une proposition indépendante ?", r: "Ne dépend d'aucune autre" },
-    { q: "Qu'est-ce qu'une proposition principale ?", r: "Dont dépend une subordonnée" },
-    { q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où" },
-    { q: "Qu'est-ce qu'une subordonnée complétive ?", r: "Introduite par 'que'" },
-    { q: "Subordonnée circonstancielle de cause", r: "parce que, puisque, comme" },
-    { q: "Subordonnée circonstancielle de conséquence", r: "si bien que, de sorte que" },
-    { q: "Subordonnée circonstancielle de but", r: "pour que, afin que" },
-    { q: "Subordonnée circonstancielle de temps", r: "quand, lorsque, pendant que" }
-  ]},
-  4: { titre: "Temps et modes verbaux", cartes: [
-    { q: "À quoi sert l'imparfait ?", r: "Description ou habitude dans le passé" },
-    { q: "À quoi sert le passé composé ?", r: "Action ponctuelle ou bilan (oral)" },
-    { q: "À quoi sert le passé simple ?", r: "Action ponctuelle (récit littéraire)" },
-    { q: "À quoi sert le plus-que-parfait ?", r: "Antériorité par rapport à une action passée" },
-    { q: "À quoi sert le futur simple ?", r: "Action à venir" },
-    { q: "À quoi sert le futur antérieur ?", r: "Action achevée avant une autre future" },
-    { q: "À quoi sert le présent ?", r: "Actualité, vérité générale, habitude" },
-    { q: "À quoi sert le subjonctif ?", r: "Doute, souhait, émotion, obligation" },
-    { q: "À quoi sert le conditionnel ?", r: "Hypothèse, condition, souhait" },
-    { q: "À quoi sert l'impératif ?", r: "Ordre ou conseil" }
-  ]},
-  5: { titre: "Les accords", cartes: [
-    { q: "Règle d'accord sujet-verbe", r: "Le verbe s'accorde en personne et nombre avec le sujet" },
-    { q: "Participe passé avec avoir", r: "S'accorde avec le COD si placé avant" },
-    { q: "Participe passé avec être", r: "S'accorde avec le sujet" },
-    { q: "Accord des adjectifs de couleur", r: "Invariables s'ils viennent d'un nom" },
-    { q: "Accord des adjectifs composés", r: "Seul le dernier adjectif s'accorde" },
-    { q: "Accord dans le groupe nominal", r: "Déterminant, nom et adjectif s'accordent" },
-    { q: "Accord du verbe avec plusieurs sujets", r: "Le verbe se met au pluriel" },
-    { q: "Accord du participe passé des verbes pronominaux", r: "S'accorde avec le sujet si COD" },
-    { q: "Règle de l'accord de 'tout'", r: "Tout = déterminant, adverbe, pronom ou nom" },
-    { q: "Accord des noms composés", r: "Dépend de la nature des mots" }
-  ]},
-  6: { titre: "Les homophones", cartes: [
-    { q: "Différence a/à", r: "a = avoir ; à = préposition" },
-    { q: "Différence ou/où", r: "ou = conjonction ; où = pronom/adverbe" },
-    { q: "Différence on/ont", r: "on = pronom ; ont = avoir" },
-    { q: "Différence son/sont", r: "son = possessif ; sont = être" },
-    { q: "Différence ce/se", r: "ce = démonstratif ; se = pronom" },
-    { q: "Différence ces/ses", r: "ces = démonstratif ; ses = possessif" },
-    { q: "Différence quand/quant", r: "quand = temps ; quant = en ce qui concerne" },
-    { q: "Différence peu/peut/peuvent", r: "peu = quantité ; peut/peuvent = pouvoir" },
-    { q: "Différence leur/leurs", r: "leur = pronom ; leurs = déterminant" },
-    { q: "Différence quel/qu'elle", r: "quel = interrogatif ; qu'elle = que + elle" }
-  ]},
-  7: { titre: "Conjugaison", cartes: [
-    { q: "Terminaisons du présent (1er groupe)", r: "e, es, e, ons, ez, ent" },
-    { q: "Terminaisons du présent (2e groupe)", r: "is, is, it, issons, issez, issent" },
-    { q: "Terminaisons de l'imparfait", r: "ais, ais, ait, ions, iez, aient" },
-    { q: "Terminaisons du futur simple", r: "ai, as, a, ons, ez, ont" },
-    { q: "Terminaisons du passé simple (1er groupe)", r: "ai, as, a, âmes, âtes, èrent" },
-    { q: "Conjuguez 'être' au présent", r: "suis, es, est, sommes, êtes, sont" },
-    { q: "Conjuguez 'avoir' au présent", r: "ai, as, a, avons, avez, ont" },
-    { q: "Conjuguez 'aller' au présent", r: "vais, vas, va, allons, allez, vont" },
-    { q: "Conjuguez 'faire' au présent", r: "fais, fais, fait, faisons, faites, font" },
-    { q: "Conjuguez 'prendre' au présent", r: "prends, prends, prend, prenons, prenez, prennent" }
-  ]},
-  8: { titre: "Valeurs des temps", cartes: [
-    { q: "Valeur du présent", r: "Actualité, vérité générale, habitude" },
-    { q: "Valeur de l'imparfait", r: "Description, habitude, action qui dure" },
-    { q: "Valeur du passé simple", r: "Action ponctuelle (récit écrit)" },
-    { q: "Valeur du passé composé", r: "Action ponctuelle (oral)" },
-    { q: "Valeur du plus-que-parfait", r: "Antériorité par rapport à une action passée" },
-    { q: "Valeur du futur simple", r: "Action à venir" },
-    { q: "Valeur du futur antérieur", r: "Action achevée avant une autre future" },
-    { q: "Valeur du conditionnel", r: "Hypothèse, condition, souhait" },
-    { q: "Valeur du subjonctif", r: "Doute, souhait, émotion, obligation" },
-    { q: "Valeur de l'impératif", r: "Ordre, conseil, interdiction" }
-  ]},
-  9: { titre: "Formation des mots", cartes: [
-    { q: "Qu'est-ce qu'un radical ?", r: "Partie qui porte le sens principal" },
-    { q: "Qu'est-ce qu'un préfixe ?", r: "Élément avant le radical" },
-    { q: "Qu'est-ce qu'un suffixe ?", r: "Élément après le radical" },
-    { q: "Qu'est-ce qu'une famille de mots ?", r: "Mots avec le même radical" },
-    { q: "Exemple de mot avec préfixe et suffixe", r: "in-juste-ment" },
-    { q: "Donnez 3 préfixes de négation", r: "in-, im-, dé-" },
-    { q: "Donnez 3 suffixes de nom", r: "-tion, -age, -ment" },
-    { q: "Donnez 3 suffixes d'adjectif", r: "-able, -eux, -al" },
-    { q: "Qu'est-ce qu'un mot composé ?", r: "Mot formé de plusieurs mots" },
-    { q: "Qu'est-ce qu'un néologisme ?", r: "Mot nouveau créé" }
-  ]},
-  10: { titre: "Figures de style", cartes: [
-    { q: "Qu'est-ce qu'une comparaison ?", r: "Rapprochement avec outil (comme, tel)" },
-    { q: "Qu'est-ce qu'une métaphore ?", r: "Analogie sans outil" },
-    { q: "Qu'est-ce qu'une personnification ?", r: "Qualités humaines à un objet" },
-    { q: "Qu'est-ce qu'une antithèse ?", r: "Deux termes opposés" },
-    { q: "Qu'est-ce qu'un oxymore ?", r: "Mots contradictoires" },
-    { q: "Qu'est-ce qu'une hyperbole ?", r: "Exagération" },
-    { q: "Qu'est-ce qu'une litote ?", r: "Dire moins pour suggérer plus" },
-    { q: "Qu'est-ce que l'euphémisme ?", r: "Atténuer une réalité désagréable" },
-    { q: "Qu'est-ce qu'une énumération ?", r: "Succession de mots" },
-    { q: "Qu'est-ce qu'une gradation ?", r: "Intensité croissante ou décroissante" }
-  ]},
-  11: { titre: "Champs lexicaux", cartes: [
-    { q: "Qu'est-ce qu'un champ lexical ?", r: "Mots liés à un même thème" },
-    { q: "Citez 3 registres de langue", r: "Soutenu, courant, familier" },
-    { q: "Qu'est-ce que l'argot ?", r: "Langage propre à un groupe" },
-    { q: "3 mots champ lexical de la mer", r: "vague, bateau, marée" },
-    { q: "3 mots champ lexical de la guerre", r: "combat, arme, soldat" },
-    { q: "3 mots champ lexical de l'amour", r: "cœur, passion, désir" },
-    { q: "3 mots champ lexical de la peur", r: "crainte, terreur, angoisse" },
-    { q: "3 mots champ lexical de la joie", r: "bonheur, gaieté, sourire" },
-    { q: "Qu'est-ce qu'un champ sémantique ?", r: "Sens d'un même mot" },
-    { q: "Différence lexical/sémantique", r: "Lexical = thème, sémantique = sens" }
+    { q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où" }
   ]}
 };
 
-// Raccourci pour les chapitres 12 à 26 (copie structure)
-for (let i = 12; i <= 26; i++) {
-  CHAPITRES[i] = { titre: "Chapitre " + i, cartes: CHAPITRES[11].cartes.map((c, idx) => ({ ...c, q: c.q + " (" + i + ")", r: c.r })) };
+// Ajouter les chapitres 4 à 26 avec des cartes par défaut
+for (let i = 4; i <= 26; i++) {
+  CHAPITRES[i] = { titre: "Chapitre " + i, cartes: [
+    { q: "Question type du chapitre " + i, r: "Réponse type du chapitre " + i },
+    { q: "Deuxième question du chapitre " + i, r: "Deuxième réponse du chapitre " + i },
+    { q: "Troisième question du chapitre " + i, r: "Troisième réponse du chapitre " + i },
+    { q: "Quatrième question du chapitre " + i, r: "Quatrième réponse du chapitre " + i }
+  ]};
 }
 
 // ==================== ÉLÈVE ====================
@@ -243,8 +131,7 @@ let sessionScore = { bonnes: 0, total: 0 };
 let tempsRestant = 45 * 60;
 let timerInterval = null;
 
-// ==================== PROGRESSION ====================
-function getStorageKey() { return `automatismes_progression_francais_${eleve}`; }
+function getStorageKey() { return `auto_fr_progress_${eleve}`; }
 function sauvegarderProgression() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
 function chargerProgression() {
   const saved = localStorage.getItem(getStorageKey());
@@ -252,14 +139,13 @@ function chargerProgression() {
   else progression = {};
 }
 
-function getCardKey(carte) { return `${carte.chapitre}_${carte.q.substring(0,40)}`; }
+function getCardKey(carte) { return `${carte.chapitre}_${carte.q.substring(0,30)}`; }
 function getNiveau(carteId) { return progression[carteId]?.score || 0; }
 function setNiveau(carteId, val) {
   progression[carteId] = { score: Math.min(3, val), derniereRevision: new Date().toISOString() };
   sauvegarderProgression();
 }
 
-// ==================== INTERFACE ====================
 function setEleve(e) {
   eleve = e;
   const btnW = document.getElementById('btnWassil');
@@ -288,8 +174,10 @@ function getCartesSelectionnees() {
   const selected = getSelectedChapitres();
   let cartes = [];
   for (let ch of selected) {
-    for (let c of CHAPITRES[ch].cartes) {
-      cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES[ch].titre });
+    if (CHAPITRES[ch] && CHAPITRES[ch].cartes) {
+      for (let c of CHAPITRES[ch].cartes) {
+        cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES[ch].titre });
+      }
     }
   }
   return cartes;
@@ -316,12 +204,11 @@ function buildChapitresGrid() {
     div.className = 'ch-item';
     div.id = `ch_${i}`;
     div.onclick = () => { div.classList.toggle('selected'); mettreAJourStats(); };
-    div.innerHTML = `<span class="ch-num">${i}</span><span>${CHAPITRES[i].titre}</span>`;
+    div.innerHTML = `<span class="ch-num">${i}</span><span>${CHAPITRES[i]?.titre || 'Chapitre ' + i}</span>`;
     grid.appendChild(div);
   }
 }
 
-// ==================== GÉNÉRATION SESSION (SANS DOUBLONS) ====================
 function melanger(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -330,85 +217,44 @@ function melanger(arr) {
   return arr;
 }
 
-function getQuestionsNouvelles(cartes, limit) {
-  return cartes.filter(c => getNiveau(getCardKey(c)) === 0).slice(0, limit);
-}
-
-function getQuestionsErreurs(cartes, limit) {
-  return cartes.filter(c => getNiveau(getCardKey(c)) > 0 && getNiveau(getCardKey(c)) < 3)
-    .sort((a,b) => {
-      const dateA = progression[getCardKey(a)]?.derniereRevision || '1970-01-01';
-      const dateB = progression[getCardKey(b)]?.derniereRevision || '1970-01-01';
-      return dateA.localeCompare(dateB);
-    }).slice(0, limit);
-}
-
-function getQuestionsRevision(cartes, limit) {
-  const reussies = cartes.filter(c => getNiveau(getCardKey(c)) >= 3);
-  const aujourdhui = new Date();
-  const avecPoids = reussies.map(c => {
-    const derniere = progression[getCardKey(c)]?.derniereRevision;
-    const jours = derniere ? Math.max(0, Math.floor((aujourdhui - new Date(derniere)) / (86400000))) : 0;
-    return { carte: c, poids: 1 / (jours + 1) };
-  });
-  avecPoids.sort((a, b) => b.poids - a.poids);
-  return avecPoids.slice(0, limit).map(item => item.carte);
-}
-
 function genererSession() {
-  const toutes = getCartesSelectionnees();
-  const selectedChapitres = getSelectedChapitres();
+  let toutes = getCartesSelectionnees();
   
-  // Supprimer les doublons éventuels (par question)
-  const uniqueCartes = [];
+  // Supprimer les doublons
+  const unique = [];
   const seen = new Set();
   for (let c of toutes) {
     if (!seen.has(c.q)) {
       seen.add(c.q);
-      uniqueCartes.push(c);
+      unique.push(c);
     }
   }
   
-  // Cas particulier : uniquement chapitres 1,2,3
-  const onlyThreeFirst = selectedChapitres.length === 3 && selectedChapitres.includes(1) && selectedChapitres.includes(2) && selectedChapitres.includes(3);
+  if (unique.length === 0) return [];
   
-  if (onlyThreeFirst) {
-    // Prendre toutes les cartes uniques, max 30
-    return melanger(uniqueCartes).slice(0, Math.min(uniqueCartes.length, 30));
+  // Si moins de 20 cartes, on prend tout
+  if (unique.length <= 20) {
+    return melanger(unique);
   }
   
-  // Si moins de 20 cartes uniques, on prend toutes
-  if (uniqueCartes.length <= 20) {
-    return melanger(uniqueCartes);
-  }
+  // Règle 20/10/10
+  const nouvelles = unique.filter(c => getNiveau(getCardKey(c)) === 0).slice(0, 20);
+  const erreurs = unique.filter(c => getNiveau(getCardKey(c)) > 0 && getNiveau(getCardKey(c)) < 3).slice(0, 10);
+  const revision = unique.filter(c => getNiveau(getCardKey(c)) >= 3).slice(0, 10);
   
-  // Règle 20/10/10 normale
-  const vingt = getQuestionsNouvelles(uniqueCartes, 20);
-  const dixErreurs = getQuestionsErreurs(uniqueCartes, 10);
-  const dixRevision = getQuestionsRevision(uniqueCartes, 10);
-  
-  let session = [...vingt, ...dixErreurs, ...dixRevision];
+  let session = [...nouvelles, ...erreurs, ...revision];
   const ids = new Set();
   session = session.filter(c => { const k = getCardKey(c); if (ids.has(k)) return false; ids.add(k); return true; });
-  
-  if (session.length < 10 && uniqueCartes.length > 0) {
-    return melanger(uniqueCartes).slice(0, Math.min(uniqueCartes.length, 40));
-  }
   
   return melanger(session);
 }
 
-// ==================== ÉVALUATION ====================
-function evaluerBienveillant(reponse, attendue) {
+function evaluerReponse(reponse, attendue) {
   if (!reponse || reponse.trim().length < 2) return { valide: false, taux: 0, message: "Écris une réponse." };
   const rep = reponse.toLowerCase().trim();
   const att = attendue.toLowerCase();
   
   if (rep === att) return { valide: true, taux: 100, message: "Parfait !" };
-  
-  if (rep === "e es e ons ez ent" || rep === "e,es,e,ons,ez,ent") return { valide: true, taux: 100, message: "Parfait !" };
-  if (rep === "habitude" && att.includes("habitude")) return { valide: true, taux: 85, message: "Bien !" };
-  if (rep === "preposition" && att.includes("préposition")) return { valide: true, taux: 80, message: "Bien !" };
   
   const motsAtt = att.split(/[\s,;.]+/).filter(m => m.length > 3);
   const motsRep = rep.split(/[\s,;.]+/);
@@ -420,24 +266,8 @@ function evaluerBienveillant(reponse, attendue) {
   }
   let taux = motsAtt.length ? Math.round(trouve / motsAtt.length * 100) : 50;
   
-  if (taux >= 40) return { valide: true, taux: taux, message: taux >= 70 ? "Bien !" : "Presque ! Relis la correction." };
+  if (taux >= 40) return { valide: true, taux: taux, message: taux >= 70 ? "Bien !" : "Presque !" };
   return { valide: false, taux: taux, message: "À retravailler." };
-}
-
-// ==================== SESSION ====================
-function demarrerSession() {
-  sessionCartes = genererSession();
-  if (sessionCartes.length === 0) { alert("Aucune carte disponible."); return; }
-  currentIndex = 0;
-  sessionScore = { bonnes: 0, total: sessionCartes.length };
-  tempsRestant = 45 * 60;
-  document.getElementById('chapitreSelector').style.display = 'none';
-  document.getElementById('demarrerBtn').style.display = 'none';
-  document.getElementById('sessionArea').style.display = 'block';
-  document.getElementById('resultatsArea').style.display = 'none';
-  document.getElementById('sessionDate').innerText = new Date().toLocaleDateString();
-  demarrerTimer();
-  afficherQuestion();
 }
 
 function afficherQuestion() {
@@ -461,13 +291,12 @@ function afficherQuestion() {
 function verifierReponse() {
   const reponse = document.getElementById('reponseInput').value.trim();
   if (!reponse) { alert("Écris une réponse."); return; }
-  const ev = evaluerBienveillant(reponse, currentCard.r);
+  const ev = evaluerReponse(reponse, currentCard.r);
   if (ev.valide) sessionScore.bonnes++;
   sessionScore.total++;
   
   const key = getCardKey(currentCard);
-  const niveauActuel = getNiveau(key);
-  let nouveauNiveau = niveauActuel;
+  let nouveauNiveau = getNiveau(key);
   if (ev.valide) nouveauNiveau = Math.min(nouveauNiveau + 1, 3);
   else nouveauNiveau = Math.max(0, nouveauNiveau - 1);
   setNiveau(key, nouveauNiveau);
@@ -493,10 +322,25 @@ function demarrerTimer() {
   }, 1000);
 }
 
+function demarrerSession() {
+  sessionCartes = genererSession();
+  if (sessionCartes.length === 0) { alert("Aucune carte disponible pour les chapitres sélectionnés."); return; }
+  currentIndex = 0;
+  sessionScore = { bonnes: 0, total: sessionCartes.length };
+  tempsRestant = 45 * 60;
+  document.getElementById('chapitreSelector').style.display = 'none';
+  document.getElementById('demarrerBtn').style.display = 'none';
+  document.getElementById('sessionArea').style.display = 'block';
+  document.getElementById('resultatsArea').style.display = 'none';
+  document.getElementById('sessionDate').innerText = new Date().toLocaleDateString();
+  demarrerTimer();
+  afficherQuestion();
+}
+
 function terminerSession() {
   clearInterval(timerInterval);
   const pct = sessionScore.total > 0 ? Math.round(sessionScore.bonnes / sessionScore.total * 100) : 0;
-  const chapitresNoms = getSelectedChapitres().map(n => CHAPITRES[n].titre);
+  const chapitresNoms = getSelectedChapitres().map(n => CHAPITRES[n]?.titre || 'Chapitre ' + n);
   
   // Envoi vers suivi-parental
   const keyP = `suivi_sessions_francais_${eleve}`;
@@ -510,28 +354,20 @@ function terminerSession() {
   });
   localStorage.setItem(keyP, JSON.stringify(sessions.slice(0, 200)));
   
-  // Sauvegarde des chapitres étudiés
-  const chapitresKey = `automatismes_chapitres_francais_${eleve}`;
-  const existants = JSON.parse(localStorage.getItem(chapitresKey) || '[]');
-  const nouveaux = chapitresNoms.filter(c => !existants.includes(c));
-  if (nouveaux.length) localStorage.setItem(chapitresKey, JSON.stringify([...existants, ...nouveaux]));
-  
   document.getElementById('sessionArea').style.display = 'none';
   const ra = document.getElementById('resultatsArea');
   ra.style.display = 'block';
-  const msg = pct >= 70 ? '🌟 Excellent !' : (pct >= 50 ? '👍 Bien joué !' : (pct >= 30 ? '💪 Courage !' : '📚 Continue à t\'entraîner.'));
   ra.innerHTML = `
     <h3>🎉 Session terminée !</h3>
     <p style="font-size:2rem;">${sessionScore.bonnes}/${sessionScore.total}</p>
     <p>Soit ${pct}% de bonnes réponses</p>
-    <p style="color:#ffcc00;">${msg}</p>
     <p>👤 Élève : <strong>${eleve === 'wassil' ? 'Wassil' : 'Nawal'}</strong><br>📖 Chapitres révisés : ${chapitresNoms.join(', ')}</p>
     <button id="reloadBtn" class="btn-primary">📚 Nouvelle session</button>
   `;
   document.getElementById('reloadBtn').onclick = () => location.reload();
 }
 
-// ==================== INIT ====================
+// INIT
 document.getElementById('btnWassil').onclick = () => setEleve('wassil');
 document.getElementById('btnNawal').onclick = () => setEleve('nawal');
 document.getElementById('selectAllBtn').onclick = () => {
