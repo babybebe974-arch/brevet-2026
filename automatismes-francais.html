@@ -7,207 +7,393 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:800px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
+    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
     h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;margin-bottom:0.25rem;}
     .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;font-size:0.8rem;}
     .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
+    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
+    
+    .chapitre-selector{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;}
+    .chapitre-selector h3{font-size:0.9rem;margin-bottom:0.8rem;color:#ffcc00;}
+    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;max-height:300px;overflow-y:auto;padding:0.5rem;}
+    .chapitre-check{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;padding:0.3rem;}
+    .chapitre-check input{cursor:pointer;}
+    .chapitre-check label{cursor:pointer;}
+    
     .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
-    .question-text{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
-    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
-    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .progress{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.7rem;color:#aaa;text-align:center;}
+    .question-text{font-size:1rem;margin-bottom:1rem;font-weight:500;}
+    textarea{width:100%;min-height:100px;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:0.9rem;font-family:'DM Sans',sans-serif;resize:vertical;margin-bottom:1rem;}
+    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
     .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
     .feedback.show{display:block;}
-    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
+    .reponse-modele{background:#1a2a1a;border-left:3px solid #ffcc00;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.75rem;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
+    .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
     .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    .reponse-modele{background:#1a2a1a;border-left:3px solid #5ecfb1;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.8rem;}
+    .resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>⚡ Automatismes – Français</h1>
-  <div class="sub">45 min • Reformule avec tes mots</div>
+  <div class="sub">30-45 min • Choisis tes chapitres • L'IA adapte les questions</div>
   <div class="info-bar">
-    <span>📅 Jour J-<span id="jourActuel">--</span></span>
+    <span>📅 Session <span id="sessionDate">--</span></span>
     <span class="timer" id="timer">⏱️ 45:00</span>
   </div>
-  <div id="sessionInfo" class="progress">📊 Chargement...</div>
-  <div id="questionArea"></div>
-  <div class="btn-group">
-    <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser</button>
-    <button id="nextDayBtn" style="border-color:#ffcc00;color:#ffcc00;">📅 Jour suivant</button>
+
+  <div class="chapitre-selector" id="chapitreSelector">
+    <h3>📚 Choisis les chapitres à réviser aujourd'hui :</h3>
+    <div class="chapitres-grid" id="chapitresGrid"></div>
+    <div class="btn-group" style="margin-top:1rem;">
+      <button id="selectAllBtn">✅ Tout sélectionner</button>
+      <button id="deselectAllBtn">❌ Tout désélectionner</button>
+    </div>
   </div>
+
+  <div class="btn-group">
+    <button id="demarrerBtn" class="btn-primary">🎯 Démarrer la session (40 questions)</button>
+  </div>
+
+  <div id="sessionArea" style="display:none;">
+    <div id="questionArea"></div>
+    <div id="sessionStats" class="progress"></div>
+  </div>
+
+  <div id="resultatsArea" style="display:none;" class="resultats"></div>
+
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-  // Fonction d'évaluation par compréhension
+  // ==================== FLASHCARDS FRANÇAIS – 26 CHAPITRES COMPLETS ====================
+  const FLASHCARDS = {
+    1: { titre: "Classes grammaticales", cartes: [
+      { id: "f1_1", q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
+      { id: "f1_2", q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
+      { id: "f1_3", q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie verbe/adjectif. Préposition introduit complément." },
+      { id: "f1_4", q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." }
+    ]},
+    2: { titre: "Fonctions grammaticales", cartes: [
+      { id: "f2_1", q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
+      { id: "f2_2", q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" },
+      { id: "f2_3", q: "Qu'est-ce que l'attribut du sujet ?", r: "Donne une qualité au sujet, relié par verbe d'état (être, paraître)." }
+    ]},
+    3: { titre: "La phrase", cartes: [
+      { id: "f3_1", q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)." },
+      { id: "f3_2", q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où." }
+    ]},
+    4: { titre: "Temps et modes verbaux", cartes: [
+      { id: "f4_1", q: "À quoi sert l'imparfait ?", r: "Description ou habitude dans le passé." },
+      { id: "f4_2", q: "À quoi sert le passé composé ?", r: "Action ponctuelle ou bilan (oral)." }
+    ]},
+    5: { titre: "Les accords", cartes: [
+      { id: "f5_1", q: "Règle d'accord sujet-verbe.", r: "Le verbe s'accorde en personne et nombre avec le sujet." },
+      { id: "f5_2", q: "Participe passé avec avoir ?", r: "S'accorde avec le COD si placé avant." }
+    ]},
+    6: { titre: "Les homophones", cartes: [
+      { id: "f6_1", q: "Différence a/à ?", r: "a = avoir ; à = préposition" },
+      { id: "f6_2", q: "Différence ou/où ?", r: "ou = conjonction ; où = pronom/adverbe" },
+      { id: "f6_3", q: "Différence on/ont ?", r: "on = pronom ; ont = avoir" }
+    ]},
+    7: { titre: "Conjugaison", cartes: [
+      { id: "f7_1", q: "Terminaisons du présent (1er groupe).", r: "e, es, e, ons, ez, ent" },
+      { id: "f7_2", q: "Conjuguez 'être' au présent.", r: "suis, es, est, sommes, êtes, sont" }
+    ]},
+    8: { titre: "Valeurs des temps", cartes: [
+      { id: "f8_1", q: "Valeur du présent.", r: "Actualité, vérité générale, habitude." },
+      { id: "f8_2", q: "Valeur du conditionnel.", r: "Hypothèse, condition, souhait." }
+    ]},
+    9: { titre: "Formation des mots", cartes: [
+      { id: "f9_1", q: "Qu'est-ce qu'un préfixe ?", r: "Élément avant le radical." },
+      { id: "f9_2", q: "Qu'est-ce qu'un suffixe ?", r: "Élément après le radical." }
+    ]},
+    10: { titre: "Figures de style", cartes: [
+      { id: "f10_1", q: "Qu'est-ce qu'une métaphore ?", r: "Analogie sans outil." },
+      { id: "f10_2", q: "Qu'est-ce qu'une personnification ?", r: "Qualités humaines à un objet." },
+      { id: "f10_3", q: "Qu'est-ce qu'une hyperbole ?", r: "Exagération." }
+    ]},
+    11: { titre: "Champs lexicaux", cartes: [
+      { id: "f11_1", q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème." },
+      { id: "f11_2", q: "Citez 3 registres de langue.", r: "Soutenu, courant, familier." }
+    ]},
+    12: { titre: "Synonymes, antonymes", cartes: [
+      { id: "f12_1", q: "Qu'est-ce qu'un synonyme ?", r: "Mot de sens proche." },
+      { id: "f12_2", q: "Qu'est-ce qu'un antonyme ?", r: "Mot de sens contraire." }
+    ]},
+    13: { titre: "Genres littéraires", cartes: [
+      { id: "f13_1", q: "Citez 4 genres littéraires.", r: "Roman, théâtre, poésie, argumentation." }
+    ]},
+    14: { titre: "Mouvements littéraires", cartes: [
+      { id: "f14_1", q: "Citez un mouvement du XVIIIe.", r: "Les Lumières." },
+      { id: "f14_2", q: "Citez un mouvement du XIXe.", r: "Romantisme, Réalisme, Naturalisme." }
+    ]},
+    15: { titre: "Registres littéraires", cartes: [
+      { id: "f15_1", q: "Qu'est-ce que le registre comique ?", r: "Provoque le rire." },
+      { id: "f15_2", q: "Qu'est-ce que le registre tragique ?", r: "Inspire terreur et pitié." }
+    ]},
+    16: { titre: "Le récit", cartes: [
+      { id: "f16_1", q: "Étapes du schéma narratif.", r: "SI → perturbateur → péripéties → résolution → SF." }
+    ]},
+    17: { titre: "La rédaction", cartes: [
+      { id: "f17_1", q: "Structure d'une introduction.", r: "Amorce, présentation, problématique, annonce du plan." }
+    ]},
+    18: { titre: "Contraction de texte", cartes: [
+      { id: "f18_1", q: "Règle d'or de la contraction.", r: "Ne pas commenter, ne pas juger." }
+    ]},
+    19: { titre: "Commentaire composé", cartes: [
+      { id: "f19_1", q: "Structure du commentaire.", r: "Introduction, développement (2-3 axes), conclusion." }
+    ]},
+    20: { titre: "Oral : présentation", cartes: [
+      { id: "f20_1", q: "Durée de l'oral du brevet.", r: "5 min exposé + 10 min échange." }
+    ]},
+    21: { titre: "Oral : expression", cartes: [
+      { id: "f21_1", q: "Posture à l'oral.", r: "Debout, gestes naturels, regarder le jury." }
+    ]},
+    22: { titre: "Oral : échange", cartes: [
+      { id: "f22_1", q: "Que faire si on ne sait pas ?", r: "L'admettre honnêtement." }
+    ]},
+    23: { titre: "Dictée", cartes: [
+      { id: "f23_1", q: "Que vérifier en priorité ?", r: "Accords, homophones, terminaisons." }
+    ]},
+    24: { titre: "Grammaire (analyse)", cartes: [
+      { id: "f24_1", q: "Différence nature/fonction ?", r: "Nature = classe, fonction = rôle dans la phrase." }
+    ]},
+    25: { titre: "Réécriture", cartes: [
+      { id: "f25_1", q: "Changer 'je' en 'nous' ?", r: "Verbe à la 1ère personne du pluriel." }
+    ]},
+    26: { titre: "Essai", cartes: [
+      { id: "f26_1", q: "Structure de l'essai.", r: "Introduction, développement (thèse/antithèse), conclusion." }
+    ]}
+  };
+
+  function getAllCartes() {
+    const cartes = [];
+    for (const chapitre in FLASHCARDS) {
+      const data = FLASHCARDS[chapitre];
+      for (const carte of data.cartes) {
+        cartes.push({
+          ...carte,
+          chapitre: parseInt(chapitre),
+          chapitreTitre: data.titre
+        });
+      }
+    }
+    return cartes;
+  }
+
+  const TOUTES_CARTES = getAllCartes();
+  const CHAPITRES_LISTE = Object.keys(FLASHCARDS).map(num => ({ 
+    numero: parseInt(num), 
+    titre: FLASHCARDS[num].titre 
+  }));
+
+  let progression = {};
+  let sessionCartes = [];
+  let sessionIndex = 0;
+  let sessionScore = { bonnes: 0, total: 0 };
+  let currentCard = null;
+  let tempsRestant = 45 * 60;
+  let timerInterval = null;
+
+  function chargerProgression() {
+    const saved = localStorage.getItem("automatismes_progression_francais");
+    if (saved) { try { progression = JSON.parse(saved); } catch(e) { progression = {}; } }
+    else { progression = {}; }
+  }
+
+  function sauvegarderProgression() {
+    localStorage.setItem("automatismes_progression_francais", JSON.stringify(progression));
+  }
+
+  function getNiveauCarte(carteId) { return progression[carteId]?.niveau || 0; }
+  function getDernierEssai(carteId) { return progression[carteId]?.dernierEssai || "1970-01-01"; }
+
+  function mettreAJourCarte(carteId, reussi) {
+    if (!progression[carteId]) progression[carteId] = { niveau: 0, reussitesConsecutives: 0 };
+    const carte = progression[carteId];
+    if (reussi) {
+      carte.reussitesConsecutives = (carte.reussitesConsecutives || 0) + 1;
+      if (carte.reussitesConsecutives >= 3 && carte.niveau < 3) {
+        carte.niveau++;
+        carte.reussitesConsecutives = 0;
+      }
+    } else {
+      carte.niveau = Math.max(0, (carte.niveau || 0) - 1);
+      carte.reussitesConsecutives = 0;
+    }
+    carte.dernierEssai = new Date().toISOString();
+    sauvegarderProgression();
+  }
+
+  function melanger(tab) {
+    for (let i = tab.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tab[i], tab[j]] = [tab[j], tab[i]];
+    }
+    return tab;
+  }
+
+  function getCartesParChapitres(chapitres) {
+    return TOUTES_CARTES.filter(c => chapitres.includes(c.chapitre));
+  }
+
+  function getQuestionsNonReussies(limit) {
+    const nonReussies = TOUTES_CARTES.filter(c => getNiveauCarte(c.id) < 3);
+    nonReussies.sort((a, b) => getDernierEssai(a.id).localeCompare(getDernierEssai(b.id)));
+    return nonReussies.slice(0, limit);
+  }
+
+  function getQuestionsReussiesEspacees(limit) {
+    const reussies = TOUTES_CARTES.filter(c => getNiveauCarte(c.id) >= 3);
+    const aujourdhui = new Date();
+    const avecPoids = reussies.map(c => {
+      const joursEcoules = Math.max(0, Math.floor((aujourdhui - new Date(getDernierEssai(c.id))) / (1000 * 60 * 60 * 24)));
+      return { carte: c, poids: 1 / (joursEcoules + 1) };
+    });
+    avecPoids.sort((a, b) => b.poids - a.poids);
+    return avecPoids.slice(0, limit).map(item => item.carte);
+  }
+
+  function genererSession(chapitresChoisis) {
+    const vingtChoisies = melanger([...getCartesParChapitres(chapitresChoisis)]).slice(0, 20);
+    const dixNonReussies = getQuestionsNonReussies(10);
+    const dixReussies = getQuestionsReussiesEspacees(10);
+    let session = [...vingtChoisies, ...dixNonReussies, ...dixReussies];
+    const ids = new Set();
+    session = session.filter(c => { if (ids.has(c.id)) return false; ids.add(c.id); return true; });
+    return session.length > 0 ? melanger(session) : getCartesParChapitres(chapitresChoisis).slice(0, 20);
+  }
+
+  function afficherChapitres() {
+    const grid = document.getElementById("chapitresGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    for (const ch of CHAPITRES_LISTE) {
+      const div = document.createElement("div");
+      div.className = "chapitre-check";
+      div.innerHTML = `<input type="checkbox" id="ch_${ch.numero}" value="${ch.numero}"><label for="ch_${ch.numero}">${ch.numero}. ${ch.titre}</label>`;
+      grid.appendChild(div);
+    }
+  }
+
+  function getChapitresSelectionnes() {
+    const checkboxes = document.querySelectorAll("#chapitresGrid input:checked");
+    return Array.from(checkboxes).map(cb => parseInt(cb.value));
+  }
+
   function extraireMotsCles(texte) {
-    const stopWords = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu","ce","que","qui","dont","où","ce","cet","cette","ces","mon","ton","son"];
+    const stopWords = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu"];
     const mots = texte.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ').split(/\s+/).filter(m => m.length > 2 && !stopWords.includes(m));
     return [...new Set(mots)];
   }
+
   function evaluerComprehension(reponseEleve, reponseAttendue) {
     const motsClesAttendus = extraireMotsCles(reponseAttendue);
     const motsEleve = extraireMotsCles(reponseEleve);
-    if (motsClesAttendus.length === 0) return { valide: true, taux: 1 };
+    if (motsClesAttendus.length === 0) return { valide: true, taux: 100 };
     let trouves = 0;
     for (const mot of motsClesAttendus) {
       if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
     }
-    const taux = trouves / motsClesAttendus.length;
-    return { valide: taux >= 0.5, taux: Math.round(taux * 100) };
-  }
-
-  // ==================== TOUTES LES FLASHCARDS FRANÇAIS (190 cartes) ====================
-  const flashcards = [
-    { question: "Quelles sont les 9 classes grammaticales ?", reponse: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
-    { question: "Donnez 3 déterminants.", reponse: "le, la, les / un, une, des / mon, ton, son / ce, cet, cette" },
-    { question: "Qu'est-ce qu'un pronom relatif ? Citez-en 3.", reponse: "qui, que, quoi, dont, où, lequel" },
-    { question: "Différence entre adverbe et préposition ?", reponse: "Adverbe modifie un verbe ou un adjectif (ex: rapidement). Préposition introduit un complément (ex: à, de, par, pour)." },
-    { question: "Citez 4 conjonctions de coordination.", reponse: "Mais, ou, et, donc, or, ni, car." },
-    { question: "À quoi reconnaît-on un nom ?", reponse: "On peut mettre un déterminant devant (le chat, une table)." },
-    { question: "À quoi reconnaît-on un verbe ?", reponse: "On peut le conjuguer (je mange, tu mangais)." },
-    { question: "Qu'est-ce que le COD ?", reponse: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?' après le verbe. Ex: Je mange UNE POMME." },
-    { question: "Qu'est-ce que le COI ?", reponse: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'. Ex: Je parle À MARIE." },
-    { question: "Qu'est-ce que l'attribut du sujet ?", reponse: "Donne une qualité au sujet, relié par un verbe d'état (être, paraître, sembler). Ex: Il est GRAND." },
-    { question: "Quels sont les 4 types de phrases ?", reponse: "Déclarative, interrogative, exclamative, impérative." },
-    { question: "Qu'est-ce qu'une phrase simple ?", reponse: "Une seule proposition (un verbe). Ex: Je mange." },
-    { question: "Qu'est-ce qu'une phrase complexe ?", reponse: "Plusieurs propositions. Ex: Je mange quand j'ai faim." },
-    { question: "Qu'est-ce qu'une proposition subordonnée relative ?", reponse: "Introduite par un pronom relatif (qui, que, dont, où). Ex: Le livre QUE JE LIS." },
-    { question: "Quels sont les 4 modes personnels ?", reponse: "Indicatif, subjonctif, conditionnel, impératif." },
-    { question: "À quoi sert l'imparfait ?", reponse: "Description ou habitude dans le passé. Ex: Quand j'étais petit, je jouais." },
-    { question: "À quoi sert le passé simple ?", reponse: "Action ponctuelle (récit écrit). Ex: Il entra." },
-    { question: "À quoi sert le passé composé ?", reponse: "Action ponctuelle (oral). Ex: J'ai mangé." },
-    { question: "À quoi sert le plus-que-parfait ?", reponse: "Antériorité. Ex: Il était déjà parti." },
-    { question: "À quoi sert le futur simple ?", reponse: "Action à venir. Ex: J'irai." },
-    { question: "Règle d'accord sujet-verbe.", reponse: "Le verbe s'accorde en personne et nombre avec le sujet." },
-    { question: "Participe passé avec être.", reponse: "S'accorde avec le sujet (Elle est allée)." },
-    { question: "Participe passé avec avoir.", reponse: "S'accorde avec le COD si placé avant (Les pommes que j'ai mangées)." },
-    { question: "Différence a/à.", reponse: "a = avoir ; à = préposition." },
-    { question: "Différence ce/se.", reponse: "ce = démonstratif ; se = pronom." },
-    { question: "Différence ou/où.", reponse: "ou = conjonction ; où = pronom/adverbe." },
-    { question: "Différence on/ont.", reponse: "on = pronom ; ont = avoir." },
-    { question: "Terminaisons du présent (1er groupe).", reponse: "e, es, e, ons, ez, ent." },
-    { question: "Terminaisons de l'imparfait.", reponse: "ais, ais, ait, ions, iez, aient." },
-    { question: "Conjuguer être au présent.", reponse: "suis, es, est, sommes, êtes, sont." },
-    { question: "Qu'est-ce qu'un radical ?", reponse: "Partie qui porte le sens (PORT dans porter)." },
-    { question: "Comparaison vs métaphore.", reponse: "Comparaison avec outil (comme) ; métaphore sans outil." },
-    { question: "Personnification.", reponse: "Qualités humaines à un objet (La lune sourit)." },
-    { question: "Antithèse.", reponse: "Opposition (Je vis, je meurs)." },
-    { question: "Oxymore.", reponse: "Mots contradictoires (Une obscure clarté)." },
-    { question: "Hyperbole.", reponse: "Exagération (Je t'ai dit mille fois)." },
-    { question: "Champ lexical.", reponse: "Mots liés à un thème (mer → vague, bateau)." },
-    { question: "Registres de langue.", reponse: "Soutenu, courant, familier, argotique." },
-    { question: "Synonyme.", reponse: "Sens proche (joie/bonheur)." },
-    { question: "Antonyme.", reponse: "Sens contraire (chaud/froid)." },
-    { question: "Genres littéraires.", reponse: "Roman, théâtre, poésie, argumentation." },
-    { question: "Mouvements littéraires : Lumières.", reponse: "XVIIIe, Voltaire, Rousseau, Montesquieu." },
-    { question: "Registre comique.", reponse: "Provoque le rire." },
-    { question: "Schéma narratif.", reponse: "SI → élément perturbateur → péripéties → résolution → SF." },
-    { question: "Point de vue interne.", reponse: "Vu par un personnage." },
-    { question: "Structure d'une introduction.", reponse: "Amorce, présentation, problématique, annonce du plan." },
-    { question: "Connecteurs de cause.", reponse: "car, parce que, puisque." },
-    { question: "Contraction de texte.", reponse: "Réduction au 1/3, sans commentaire." },
-    { question: "Commentaire composé.", reponse: "Introduction, développement (axes), conclusion." },
-    { question: "Durée de l'oral du brevet.", reponse: "5 min exposé + 10 min échange." },
-    { question: "Posture à l'oral.", reponse: "Debout, regarder le jury, gestes naturels." },
-    { question: "Que faire si on ne sait pas répondre au jury ?", reponse: "L'admettre honnêtement." },
-    { question: "Dictée : vérifier en priorité.", reponse: "Accords, homophones, terminaisons." },
-    { question: "Réécriture : changer 'je' en 'nous'.", reponse: "Verbe à la 1ère personne pluriel." },
-    { question: "Essai : structure.", reponse: "Introduction, développement, conclusion." }
-  ];
-
-  let planning = { jour: 26, termine: false };
-  let progression = {};
-  let questionsSession = [];
-  let indexActuel = 0;
-  let currentQuestion = null;
-  let timerInterval = null;
-  let tempsRestant = 45 * 60;
-
-  function sauvegarderPlanning() { localStorage.setItem("planning_automatismes_francais", JSON.stringify(planning)); }
-  function sauvegarderProgression() { localStorage.setItem("automatismes_francais", JSON.stringify(progression)); }
-
-  function chargerDonnees() {
-    const savedPlanning = localStorage.getItem("planning_automatismes_francais");
-    if (savedPlanning) planning = JSON.parse(savedPlanning);
-    else planning = { jour: 26, termine: false };
-    const savedProg = localStorage.getItem("automatismes_francais");
-    if (savedProg) progression = JSON.parse(savedProg);
-    else progression = {};
-    document.getElementById("jourActuel").innerText = planning.jour;
-  }
-
-  function selectionnerQuestions() {
-    const nouvelles = flashcards.filter(c => !progression[c.question] || progression[c.question].etat === "nouvelle").slice(0, 30);
-    const erreurs = flashcards.filter(c => progression[c.question] && progression[c.question].nbErreurs > 0).slice(0, 10);
-    const rebrassage = flashcards.filter(c => progression[c.question] && progression[c.question].etat === "maitrisee").slice(0, 5);
-    let selected = [...nouvelles, ...erreurs, ...rebrassage];
-    const ids = new Set();
-    selected = selected.filter(c => { if (ids.has(c.question)) return false; ids.add(c.question); return true; });
-    for (let i=selected.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [selected[i], selected[j]] = [selected[j], selected[i]]; }
-    return selected;
-  }
-
-  function demarrerSession() {
-    questionsSession = selectionnerQuestions();
-    indexActuel = 0;
-    document.getElementById("sessionInfo").innerHTML = `📌 ${questionsSession.length} questions (30 nouvelles + 10 erreurs + 5 rebrassage)`;
-    if (questionsSession.length === 0) {
-      document.getElementById("questionArea").innerHTML = '<div class="progress">🎉 Félicitations ! Plus de questions.</div>';
-      return;
-    }
-    afficherQuestion();
-    demarrerTimer();
+    const taux = Math.round((trouves / motsClesAttendus.length) * 100);
+    return { valide: taux >= 40, taux: taux };
   }
 
   function afficherQuestion() {
-    if (indexActuel >= questionsSession.length) { terminerSession(); return; }
-    currentQuestion = questionsSession[indexActuel];
-    document.getElementById("questionArea").innerHTML = `
-      <div class="question-card">
-        <div class="question-text">${currentQuestion.question}</div>
-        <textarea id="reponseInput" rows="3" placeholder="Explique avec tes propres mots..."></textarea>
-        <div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div>
-        <div id="feedback" class="feedback"></div>
-      </div>
-    `;
-    document.getElementById("validerBtn").onclick = () => verifierReponse();
-    document.getElementById("reponseInput").focus();
-    document.getElementById("sessionInfo").innerHTML = `📌 ${indexActuel+1}/${questionsSession.length}`;
+    if (sessionIndex >= sessionCartes.length) { terminerSession(); return; }
+    currentCard = sessionCartes[sessionIndex];
+    const niveau = getNiveauCarte(currentCard.id);
+    const qa = document.getElementById("questionArea");
+    if (qa) {
+      qa.innerHTML = `<div class="question-card"><div class="question-text">📖 ${currentCard.q}</div><textarea id="reponseInput" rows="3" placeholder="Écris ta réponse..."></textarea><div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div><div id="feedback" class="feedback"></div></div>`;
+      document.getElementById("validerBtn").onclick = () => verifierReponse();
+      document.getElementById("reponseInput").focus();
+    }
+    const ss = document.getElementById("sessionStats");
+    if (ss) ss.innerHTML = `📌 Question ${sessionIndex+1}/${sessionCartes.length} · Niveau: ${niveau}/3`;
   }
 
   function verifierReponse() {
-    const userReponse = document.getElementById("reponseInput").value.trim();
-    if (userReponse === "") { alert("Écris une réponse."); return; }
-    const evaluation = evaluerComprehension(userReponse, currentQuestion.reponse);
-    const state = progression[currentQuestion.question] || { nbErreurs: 0, etat: "nouvelle" };
-    if (evaluation.valide) {
-      state.nbErreurs = 0; state.etat = "maitrisee";
-      document.getElementById("feedback").innerHTML = `✅ Bien compris ! (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
-    } else {
-      state.nbErreurs = (state.nbErreurs || 0) + 1; state.etat = "en_erreur";
-      document.getElementById("feedback").innerHTML = `⚠️ Revoir (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
+    const reponse = document.getElementById("reponseInput")?.value.trim();
+    if (!reponse) { alert("Écris une réponse."); return; }
+    const evaluation = evaluerComprehension(reponse, currentCard.r);
+    if (evaluation.valide) sessionScore.bonnes++;
+    sessionScore.total++;
+    mettreAJourCarte(currentCard.id, evaluation.valide);
+    const fb = document.getElementById("feedback");
+    if (fb) {
+      fb.innerHTML = evaluation.valide ? `✅ Bonne réponse ! (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentCard.r}</div>` : `⚠️ À revoir (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentCard.r}</div>`;
+      fb.classList.add("show");
     }
-    progression[currentQuestion.question] = state;
-    sauvegarderProgression();
-    document.getElementById("feedback").classList.add("show");
-    indexActuel++;
-    setTimeout(() => afficherQuestion(), 2000);
+    sessionIndex++;
+    setTimeout(() => afficherQuestion(), 1800);
   }
 
-  function terminerSession() { clearInterval(timerInterval); document.getElementById("questionArea").innerHTML = '<div class="progress">✅ Session terminée.</div>'; planning.termine = true; sauvegarderPlanning(); }
-  function demarrerTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { if (tempsRestant <= 0) { terminerSession(); return; } tempsRestant--; const m = Math.floor(tempsRestant/60), s = tempsRestant%60; document.getElementById("timer").innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }, 1000); }
-  function reinitialiser() { if (confirm("Réinitialiser ?")) { localStorage.removeItem("automatismes_francais"); localStorage.removeItem("planning_automatismes_francais"); chargerDonnees(); demarrerSession(); } }
-  function passerJour() { if (planning.jour <= 0) { alert("Planning terminé"); return; } planning.jour--; sauvegarderPlanning(); chargerDonnees(); demarrerSession(); }
+  function arreterTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
+  function demarrerTimer() {
+    arreterTimer();
+    timerInterval = setInterval(() => {
+      if (tempsRestant <= 0) { arreterTimer(); terminerSession(); return; }
+      tempsRestant--;
+      const m = Math.floor(tempsRestant / 60), s = tempsRestant % 60;
+      const timerEl = document.getElementById("timer");
+      if (timerEl) timerEl.innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+  }
 
-  document.getElementById("resetBtn").onclick = reinitialiser;
-  document.getElementById("nextDayBtn").onclick = passerJour;
-  chargerDonnees();
-  demarrerSession();
+  function terminerSession() {
+    arreterTimer();
+    const pourcentage = sessionScore.total > 0 ? Math.round((sessionScore.bonnes / sessionScore.total) * 100) : 0;
+    const chapitresEtudies = getChapitresSelectionnes();
+    const chapitresNoms = chapitresEtudies.map(num => FLASHCARDS[num]?.titre || `Chapitre ${num}`);
+    const ra = document.getElementById("resultatsArea");
+    if (ra) {
+      ra.style.display = "block";
+      ra.innerHTML = `<h3>🎉 Session terminée !</h3><p style="font-size:1.5rem;">${sessionScore.bonnes}/${sessionScore.total}</p><p>Soit ${pourcentage}% de bonnes réponses</p><p style="font-size:0.8rem;">Chapitres révisés : ${chapitresNoms.join(', ')}</p><button id="nouvelleSessionBtn" class="btn-primary">📚 Nouvelle session</button>`;
+      document.getElementById("nouvelleSessionBtn").onclick = () => {
+        ra.style.display = "none";
+        document.getElementById("chapitreSelector").style.display = "block";
+        document.getElementById("demarrerBtn").style.display = "inline-block";
+        document.getElementById("sessionArea").style.display = "none";
+      };
+    }
+    if (window.SuiviParental?.sauvegarderSession) {
+      window.SuiviParental.sauvegarderSession("francais", chapitresNoms, { bonnes: sessionScore.bonnes, total: sessionScore.total });
+    }
+    const chapitresEtudiesKey = "automatismes_chapitres_francais";
+    const existants = JSON.parse(localStorage.getItem(chapitresEtudiesKey) || "[]");
+    const nouveaux = chapitresNoms.filter(c => !existants.includes(c));
+    if (nouveaux.length) localStorage.setItem(chapitresEtudiesKey, JSON.stringify([...existants, ...nouveaux]));
+  }
+
+  function demarrerSession() {
+    const chapitresChoisis = getChapitresSelectionnes();
+    if (chapitresChoisis.length === 0) { alert("Sélectionne au moins un chapitre !"); return; }
+    chargerProgression();
+    sessionCartes = genererSession(chapitresChoisis);
+    if (sessionCartes.length === 0) { alert("Aucune question disponible."); return; }
+    sessionIndex = 0;
+    sessionScore = { bonnes: 0, total: 0 };
+    tempsRestant = 45 * 60;
+    document.getElementById("chapitreSelector").style.display = "none";
+    document.getElementById("demarrerBtn").style.display = "none";
+    document.getElementById("sessionArea").style.display = "block";
+    document.getElementById("resultatsArea").style.display = "none";
+    document.getElementById("sessionDate").innerText = new Date().toLocaleDateString();
+    demarrerTimer();
+    afficherQuestion();
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    afficherChapitres();
+    chargerProgression();
+    document.getElementById("selectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = true);
+    document.getElementById("deselectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = false);
+    document.getElementById("demarrerBtn").onclick = demarrerSession;
+  });
 </script>
 </body>
 </html>
