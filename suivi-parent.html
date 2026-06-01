@@ -8,31 +8,33 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1.5rem;color:#fff;}
-    .container{max-width:1200px;margin:0 auto;}
+    .container{max-width:1400px;margin:0 auto;}
     h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
     .sub{color:#aaa;margin-bottom:2rem;border-left:3px solid #ffcc00;padding-left:1rem;}
     .back-link{display:inline-block;margin-bottom:1.5rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
     
-    /* Grille 4 matières */
-    .matieres-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
+    .matieres-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:1.5rem;margin-bottom:2rem;}
     .matiere-card{background:#1a1a1a;border-radius:1.5rem;border:1px solid #333;overflow:hidden;}
     .matiere-header{padding:1rem;background:#2a2a2a;border-bottom:1px solid #333;}
     .matiere-nom{font-size:1.3rem;font-weight:700;}
-    .matiere-score{font-size:2rem;font-weight:800;margin-top:0.25rem;}
-    .matiere-date{font-size:0.7rem;color:#aaa;margin-top:0.25rem;}
-    .sessions-list{padding:0.8rem;max-height:300px;overflow-y:auto;}
-    .session-item{background:#0a0a0f;border-radius:0.8rem;padding:0.6rem;margin-bottom:0.5rem;border-left:3px solid #5ecfb1;}
-    .session-date{font-size:0.7rem;color:#5ecfb1;font-family:'DM Mono',monospace;}
-    .session-chapitres{font-size:0.75rem;color:#ddd;margin:0.25rem 0;}
-    .session-score{font-size:0.8rem;font-weight:700;color:#ffcc00;}
-    .vide{color:#555;text-align:center;padding:1rem;font-style:italic;}
+    .stats-ligne{display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.75rem;color:#aaa;}
+    .moyenne{font-size:1.8rem;font-weight:800;margin-top:0.25rem;}
+    .progression-barre{background:#0a0a0f;border-radius:999px;height:6px;margin:0.5rem 0;overflow:hidden;}
+    .progression-fill{height:100%;border-radius:999px;transition:width 0.5s;}
     
-    .btn-group{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;}
+    .sessions-table{width:100%;border-collapse:collapse;font-size:0.7rem;}
+    .sessions-table th,.sessions-table td{border-bottom:1px solid #333;padding:0.5rem;text-align:left;}
+    .sessions-table th{color:#ffcc00;font-family:'DM Mono',monospace;font-weight:normal;}
+    .sessions-table tr:hover td{background:#2a2a2a;}
+    
+    .vide{color:#555;text-align:center;padding:1rem;font-style:italic;}
+    .btn-group{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;}
     button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
     button:hover{background:#2a3652;}
     .btn-danger{border-color:#e74c3c;color:#e74c3c;}
-    
     footer{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #333;font-size:0.7rem;color:#555;}
+    .badge-reussi{color:#2ecc71;}
+    .badge-echec{color:#e74c3c;}
   </style>
 </head>
 <body>
@@ -48,48 +50,95 @@
     <button id="exportBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter tout (JSON)</button>
     <button id="resetBtn" class="btn-danger">⚠️ Réinitialiser toutes les données</button>
   </div>
-  <footer>💡 Les scores viennent des exercices "Automatismes" (Français, Maths, Histoire, Sciences). Chaque session est automatiquement sauvegardée avec la date, les chapitres et le score.</footer>
+  <footer>💡 Les scores viennent des exercices "Automatismes". Le % du programme = chapitres étudiés / chapitres totaux.</footer>
 </div>
 
 <script>
-  // Clés localStorage utilisées par les fichiers automatismes-*.html
-  const MATIERES = {
-    francais: { nom: "Français", couleur: "#ffcc00", storageKey: "automatismes_sessions_francais" },
-    maths: { nom: "Mathématiques", couleur: "#2ecc71", storageKey: "automatismes_sessions_maths" },
-    histoire: { nom: "Histoire-Géo & EMC", couleur: "#e74c3c", storageKey: "automatismes_sessions_histoire" },
-    sciences: { nom: "Sciences", couleur: "#3498db", storageKey: "automatismes_sessions_sciences" }
+  // ==================== LISTE DES CHAPITRES PAR MATIÈRE ====================
+  const CHAPITRES_PAR_MATIERE = {
+    francais: {
+      nom: "Français",
+      couleur: "#ffcc00",
+      storageKey: "automatismes_sessions_francais",
+      chapitresKey: "automatismes_chapitres_francais",
+      totalChapitres: 26,
+      chapitresListe: [
+        "Classes grammaticales", "Fonctions grammaticales", "La phrase", "Temps et modes verbaux",
+        "Les accords", "Homophones", "Conjugaison", "Valeurs des temps", "Formation des mots",
+        "Figures de style", "Champs lexicaux", "Synonymes/antonymes", "Genres littéraires",
+        "Mouvements littéraires", "Registres littéraires", "Le récit", "La rédaction",
+        "Contraction de texte", "Commentaire composé", "Oral : présentation", "Oral : expression",
+        "Oral : échange", "Dictée", "Grammaire (analyse)", "Réécriture", "Essai"
+      ]
+    },
+    maths: {
+      nom: "Mathématiques",
+      couleur: "#2ecc71",
+      storageKey: "automatismes_sessions_maths",
+      chapitresKey: "automatismes_chapitres_maths",
+      totalChapitres: 18,
+      chapitresListe: [
+        "Nombres premiers et PGCD", "Nombres relatifs", "Fractions", "Puissances", "Calcul littéral",
+        "Équations", "Proportionnalité", "Statistiques", "Probabilités", "Fonctions",
+        "Fonctions (suite)", "Pythagore", "Thalès", "Trigonométrie", "Géométrie (angles)",
+        "Transformations", "Solides", "Scratch"
+      ]
+    },
+    histoire: {
+      nom: "Histoire-Géo & EMC",
+      couleur: "#e74c3c",
+      storageKey: "automatismes_sessions_histoire",
+      chapitresKey: "automatismes_chapitres_histoire",
+      totalChapitres: 21,
+      chapitresListe: [
+        "Première Guerre mondiale", "Sortie de guerre", "Totalitarismes", "Guerre-éclair",
+        "Guerre d'anéantissement", "Libération et bilan", "Guerre froide", "Construction européenne",
+        "Décolonisation", "Après-guerre froide", "Aires urbaines", "Espaces productifs",
+        "Espaces de faible densité", "UE (géographie)", "Mondialisation", "Inégalités de développement",
+        "Défis XXIe siècle", "Valeurs République", "Citoyenneté", "Justice", "Débat démocratique"
+      ]
+    },
+    sciences: {
+      nom: "Sciences",
+      couleur: "#3498db",
+      storageKey: "automatismes_sessions_sciences",
+      chapitresKey: "automatismes_chapitres_sciences",
+      totalChapitres: 28,
+      chapitresListe: [
+        "Réchauffement climatique", "Cellule", "Génétique", "Évolution", "Reproduction",
+        "Système nerveux", "Hormones", "Nutrition", "Respiration", "Microbes",
+        "Vaccination", "Sexualité", "Défenses immunitaires", "Atomes", "Mélanges",
+        "Réactions chimiques", "Solutions", "Mouvement", "Forces", "Lois de Newton",
+        "Pression", "Sources d'énergie", "Formes d'énergie", "Conversions", "Circuits électriques",
+        "Sécurité électrique", "Son et lumière", "Caractéristiques des ondes"
+      ]
+    }
   };
 
   // Récupérer toutes les sessions d'une matière
   function getSessions(matiereId) {
-    const key = MATIERES[matiereId].storageKey;
+    const key = CHAPITRES_PAR_MATIERE[matiereId].storageKey;
     const saved = localStorage.getItem(key);
     if (!saved) return [];
-    try {
-      return JSON.parse(saved);
-    } catch(e) {
-      return [];
-    }
+    try { return JSON.parse(saved); }
+    catch(e) { return []; }
   }
 
-  // Sauvegarder une session (appelé depuis automatismes)
-  function sauvegarderSession(matiereId, chapitres, score, details) {
-    const key = MATIERES[matiereId].storageKey;
-    const sessions = getSessions(matiereId);
-    const nouvelleSession = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      dateFr: new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', hour:'2-digit', minute:'2-digit' }),
-      chapitres: chapitres, // tableau des chapitres étudiés
-      score: score, // nombre de bonnes réponses / total
-      pourcentage: Math.round((score.bonnes / score.total) * 100),
-      details: details || {}
-    };
-    sessions.unshift(nouvelleSession); // les plus récentes d'abord
-    // Garder max 100 sessions par matière
-    while(sessions.length > 100) sessions.pop();
-    localStorage.setItem(key, JSON.stringify(sessions));
-    return nouvelleSession;
+  // Récupérer les chapitres étudiés
+  function getChapitresEtudies(matiereId) {
+    const key = CHAPITRES_PAR_MATIERE[matiereId].chapitresKey;
+    const saved = localStorage.getItem(key);
+    if (!saved) return [];
+    try { return JSON.parse(saved); }
+    catch(e) { return []; }
+  }
+
+  // Calculer le pourcentage du programme couvert
+  function getPourcentageProgramme(matiereId) {
+    const etudies = getChapitresEtudies(matiereId);
+    const total = CHAPITRES_PAR_MATIERE[matiereId].totalChapitres;
+    if (total === 0) return 0;
+    return Math.round((etudies.length / total) * 100);
   }
 
   // Calculer la moyenne des 5 dernières sessions
@@ -100,45 +149,113 @@
     return Math.round(sum / dernieres.length);
   }
 
+  // Formater une date
+  function formatDate(dateStr) {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    } catch(e) { return dateStr; }
+  }
+
   // Afficher toutes les matières
   function afficherSuivi() {
     const grid = document.getElementById("matieresGrid");
     grid.innerHTML = "";
     
-    for (const [id, mat] of Object.entries(MATIERES)) {
+    for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
       const sessions = getSessions(id);
       const moyenne = moyenneRecente(sessions);
-      const derniereSession = sessions[0];
+      const pourcentageProg = getPourcentageProgramme(id);
+      const couleur = mat.couleur;
+      
+      // Couleur de la barre selon pourcentage
+      let barreCouleur = '#e74c3c';
+      if (pourcentageProg >= 75) barreCouleur = '#2ecc71';
+      else if (pourcentageProg >= 50) barreCouleur = '#ffcc00';
+      else if (pourcentageProg >= 25) barreCouleur = '#f39c12';
+      
+      // Construction du tableau des 5 dernières sessions
+      let sessionsHtml = '';
+      const cinqDernieres = sessions.slice(0, 5);
+      if (cinqDernieres.length === 0) {
+        sessionsHtml = '<tr><td colspan="3" class="vide">📭 Aucune session enregistrée</td></tr>';
+      } else {
+        sessionsHtml = cinqDernieres.map(s => `
+          <tr>
+            <td>${formatDate(s.date)}</td>
+            <td>${Array.isArray(s.chapitres) ? s.chapitres.slice(0, 2).join(', ') + (s.chapitres.length > 2 ? '…' : '') : (s.chapitres || 'Quiz')}</td>
+            <td class="${s.pourcentage >= 60 ? 'badge-reussi' : 'badge-echec'}">${s.pourcentage}%</td>
+          </tr>
+        `).join('');
+      }
       
       const card = document.createElement("div");
       card.className = "matiere-card";
       card.innerHTML = `
         <div class="matiere-header">
-          <div class="matiere-nom" style="color:${mat.couleur}">${mat.nom}</div>
-          <div class="matiere-score">${moyenne !== null ? moyenne + '%' : '—'}</div>
-          <div class="matiere-date">📊 Moyenne des 5 dernières sessions</div>
+          <div class="matiere-nom" style="color:${couleur}">📚 ${mat.nom}</div>
+          <div class="stats-ligne">
+            <span>📖 ${pourcentageProg}% du programme</span>
+            <span>📊 ${getChapitresEtudies(id).length}/${mat.totalChapitres} chapitres</span>
+          </div>
+          <div class="progression-barre">
+            <div class="progression-fill" style="width:${pourcentageProg}%;background:${barreCouleur}"></div>
+          </div>
+          <div class="moyenne" style="color:${couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
+          <div class="stats-ligne">📈 Moyenne des 5 dernières sessions</div>
         </div>
-        <div class="sessions-list">
-          ${sessions.length === 0 ? '<div class="vide">📭 Aucune session enregistrée.<br>Lancez un quiz "Automatismes" !</div>' : ''}
-          ${sessions.slice(0, 15).map(s => `
-            <div class="session-item">
-              <div class="session-date">📅 ${s.dateFr}</div>
-              <div class="session-chapitres">📖 ${Array.isArray(s.chapitres) ? s.chapitres.join(', ') : s.chapitres || 'Quiz complet'}</div>
-              <div class="session-score">🎯 Score : ${s.score.bonnes || s.score}/${s.score.total || 100} (${s.pourcentage}%)</div>
-            </div>
-          `).join('')}
-          ${sessions.length > 15 ? `<div class="session-item" style="text-align:center;color:#555;">+ ${sessions.length - 15} sessions anciennes...</div>` : ''}
+        <div style="padding:0.8rem;">
+          <table class="sessions-table">
+            <thead>
+              <tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr>
+            </thead>
+            <tbody>
+              ${sessionsHtml}
+            </tbody>
+          </table>
         </div>
       `;
       grid.appendChild(card);
     }
   }
 
+  // Sauvegarder une session (appelé depuis automatismes)
+  function sauvegarderSession(matiereId, chapitres, score) {
+    const mat = CHAPITRES_PAR_MATIERE[matiereId];
+    const key = mat.storageKey;
+    const sessions = getSessions(matiereId);
+    
+    const nouvelleSession = {
+      id: Date.now(),
+      date: new Date().toISOString(),
+      chapitres: chapitres,
+      score: score,
+      pourcentage: Math.round((score.bonnes / score.total) * 100)
+    };
+    sessions.unshift(nouvelleSession);
+    while(sessions.length > 100) sessions.pop();
+    localStorage.setItem(key, JSON.stringify(sessions));
+    
+    // Mettre à jour les chapitres étudiés
+    const chapitresKey = mat.chapitresKey;
+    const etudies = getChapitresEtudies(matiereId);
+    const nouveauxChapitres = Array.isArray(chapitres) ? chapitres : [chapitres];
+    nouveauxChapitres.forEach(c => {
+      if (!etudies.includes(c)) etudies.push(c);
+    });
+    localStorage.setItem(chapitresKey, JSON.stringify(etudies));
+    
+    return nouvelleSession;
+  }
+
   // Exporter toutes les données
   function exporterJSON() {
     const allData = {};
-    for (const [id, mat] of Object.entries(MATIERES)) {
-      allData[id] = getSessions(id);
+    for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
+      allData[id] = {
+        sessions: getSessions(id),
+        chapitresEtudies: getChapitresEtudies(id)
+      };
     }
     const blob = new Blob([JSON.stringify({
       exportDate: new Date().toISOString(),
@@ -154,9 +271,10 @@
 
   // Réinitialiser tout
   function resetAll() {
-    if (confirm("⚠️ Supprimer TOUTES les sessions de TOUTES les matières ? Cette action est irréversible.")) {
-      for (const [id, mat] of Object.entries(MATIERES)) {
+    if (confirm("⚠️ Supprimer TOUTES les sessions et progression de TOUTES les matières ?")) {
+      for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
         localStorage.removeItem(mat.storageKey);
+        localStorage.removeItem(mat.chapitresKey);
       }
       afficherSuivi();
     }
