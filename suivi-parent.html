@@ -1,221 +1,426 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📊 Suivi parental – Brevet 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1.5rem;color:#fff;}
-    .container{max-width:1400px;margin:0 auto;}
-    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:2rem;border-left:3px solid #ffcc00;padding-left:1rem;}
-    .back-link{display:inline-block;margin-bottom:1.5rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    
-    .matieres-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:1.5rem;margin-bottom:2rem;}
-    .matiere-card{background:#1a1a1a;border-radius:1.5rem;border:1px solid #333;overflow:hidden;}
-    .matiere-header{padding:1rem;background:#2a2a2a;border-bottom:1px solid #333;}
-    .matiere-nom{font-size:1.3rem;font-weight:700;}
-    .stats-ligne{display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.75rem;color:#aaa;}
-    .moyenne{font-size:1.8rem;font-weight:800;margin-top:0.25rem;}
-    
-    .sessions-table{width:100%;border-collapse:collapse;font-size:0.7rem;}
-    .sessions-table th,.sessions-table td{border-bottom:1px solid #333;padding:0.5rem;text-align:left;}
-    .sessions-table th{color:#ffcc00;font-family:'DM Mono',monospace;font-weight:normal;}
-    .sessions-table tr:hover td{background:#2a2a2a;}
-    
-    .vide{color:#555;text-align:center;padding:1rem;font-style:italic;}
-    .btn-group{display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;justify-content:center;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .btn-danger{border-color:#e74c3c;color:#e74c3c;}
-    footer{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid #333;font-size:0.7rem;color:#555;}
-    .badge-reussi{color:#2ecc71;}
-    .badge-echec{color:#e74c3c;}
-    .debug{background:#0a0a0f;padding:0.5rem;margin-bottom:1rem;border-radius:0.5rem;font-size:0.7rem;color:#555;display:none;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 Suivi Parental — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #09090f; --s1: #111118; --s2: #1a1a24; --br: #2a2a38;
+  --teal: #5ecfb1; --gold: #e8c87a; --red: #e87a7a; --violet: #a07af5;
+  --blue-w: #7eb8f5; --pink-n: #f59eb8;
+  --text: #e8e8f0; --dim: #9090a8; --muted: #5a5a72;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; padding: 1.5rem; min-height: 100vh; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* HEADER */
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.page-header h1 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; }
+.page-header h1 span { color: var(--gold); }
+.page-header p { color: var(--dim); font-size: 13px; margin-top: 4px; }
+.back-link { color: var(--dim); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+.back-link:hover { color: var(--teal); }
+
+/* TABS ELEVES */
+.eleve-tabs { display: flex; gap: 10px; margin-bottom: 2rem; }
+.etab { padding: 8px 24px; border-radius: 50px; border: 2px solid var(--br); background: transparent; cursor: pointer; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--dim); transition: .2s; }
+.etab.aw { border-color: var(--blue-w); color: var(--blue-w); background: rgba(126,184,245,.08); }
+.etab.an { border-color: var(--pink-n); color: var(--pink-n); background: rgba(245,158,184,.08); }
+
+/* ALERTE */
+.alerte { background: rgba(232,122,122,.1); border: 1px solid rgba(232,122,122,.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--red); }
+.alerte-hidden { display: none; }
+
+/* STATS GRID */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+.stat-card { background: var(--s1); border: 1px solid var(--br); border-radius: 12px; padding: 16px; text-align: center; }
+.stat-val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+.stat-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: .06em; font-family: 'DM Mono', monospace; }
+
+/* SECTIONS */
+.section { background: var(--s1); border: 1px solid var(--br); border-radius: 12px; margin-bottom: 1.5rem; overflow: hidden; }
+.section-header { padding: 14px 18px; border-bottom: 1px solid var(--br); display: flex; align-items: center; justify-content: space-between; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: .08em; }
+.section-body { padding: 16px 18px; }
+
+/* COMPARAISON MATIÈRES */
+.matiere-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.matiere-nom { font-size: 13px; min-width: 120px; color: var(--dim); }
+.matiere-bar { flex: 1; height: 8px; background: var(--br); border-radius: 4px; overflow: hidden; }
+.matiere-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+.matiere-pct { font-family: 'DM Mono', monospace; font-size: 12px; min-width: 40px; text-align: right; }
+.matiere-sessions { font-size: 11px; color: var(--muted); min-width: 70px; text-align: right; }
+
+/* CHAPITRES FAIBLES */
+.faibles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+.faible-item { background: var(--s2); border: 1px solid rgba(232,122,122,.3); border-radius: 8px; padding: 10px 12px; }
+.faible-nom { font-size: 12px; color: var(--text); margin-bottom: 4px; }
+.faible-taux { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--red); }
+
+/* GRAPHIQUE SIMPLIFIÉ */
+.graph-bars { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding: 0 4px; }
+.graph-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.graph-bar { width: 100%; border-radius: 4px 4px 0 0; transition: height .4s; min-width: 8px; }
+.graph-label { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); max-height: 40px; overflow: hidden; }
+
+/* SESSIONS TABLE */
+.sessions-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.sessions-table th { color: var(--gold); font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400; text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--br); }
+.sessions-table td { padding: 8px 10px; border-bottom: 1px solid var(--s2); color: var(--dim); }
+.sessions-table tr:last-child td { border-bottom: none; }
+.sessions-table tr:hover td { background: var(--s2); }
+.pct-ok { color: var(--teal); font-weight: 600; }
+.pct-mid { color: var(--gold); font-weight: 600; }
+.pct-bad { color: var(--red); font-weight: 600; }
+
+/* STREAK */
+.streak-display { display: flex; align-items: center; gap: 12px; }
+.streak-num { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--gold); }
+.streak-label { font-size: 13px; color: var(--dim); }
+.streak-days { display: flex; gap: 4px; margin-top: 8px; }
+.streak-day { width: 20px; height: 20px; border-radius: 4px; border: 1px solid var(--br); display: flex; align-items: center; justify-content: center; font-size: 9px; }
+.streak-day.done { background: var(--teal); border-color: var(--teal); }
+.streak-day.today { border-color: var(--gold); }
+
+/* EMPTY */
+.empty { text-align: center; padding: 2rem; color: var(--muted); font-size: 13px; }
+
+/* BTNS */
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1.5rem; }
+.btn { padding: 8px 18px; border-radius: 8px; border: 1px solid var(--br); background: var(--s2); color: var(--dim); font-size: 12px; cursor: pointer; transition: .15s; }
+.btn:hover { border-color: var(--teal); color: var(--teal); }
+.btn-danger { border-color: rgba(232,122,122,.4); color: var(--red); }
+.btn-danger:hover { background: rgba(232,122,122,.1); border-color: var(--red); }
+</style>
 </head>
 <body>
 <div class="container">
-  <a href="index.html" class="back-link">← Retour au hub</a>
-  <h1>📊 Suivi parental</h1>
-  <div class="sub">Chaque session d'automatismes est enregistrée automatiquement.</div>
-
-  <div id="debug" class="debug"></div>
-
-  <div class="matieres-grid" id="matieresGrid"></div>
-  
-  <div class="btn-group">
-    <button id="refreshBtn">🔄 Actualiser</button>
-    <button id="exportBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter tout (JSON)</button>
-    <button id="resetBtn" class="btn-danger">⚠️ Réinitialiser toutes les données</button>
+  <div class="page-header">
+    <div>
+      <h1>📊 Suivi <span>Parental</span></h1>
+      <p>Progression automatismes · Brevet 2026</p>
+    </div>
+    <a href="index.html" class="back-link">← Hub</a>
   </div>
-  <footer>💡 Les scores viennent des exercices "Automatismes".</footer>
+
+  <!-- TABS ELEVES -->
+  <div class="eleve-tabs">
+    <button class="etab aw" onclick="setEleve('wassil')">🌊 Wassil</button>
+    <button class="etab" onclick="setEleve('nawal')">⚡ Nawal</button>
+  </div>
+
+  <!-- ALERTE INACTIVITÉ -->
+  <div id="alerteInactivite" class="alerte-hidden">
+    ⚠️ <span id="alerteMsg"></span>
+  </div>
+
+  <!-- STATS RAPIDES -->
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <!-- STREAK + GRAPHIQUE -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem;">
+    <div class="section">
+      <div class="section-header"><span class="section-title">🔥 Streak</span></div>
+      <div class="section-body" id="streakBody"></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><span class="section-title">📈 10 dernières sessions</span></div>
+      <div class="section-body" id="graphBody"></div>
+    </div>
+  </div>
+
+  <!-- COMPARAISON MATIÈRES -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">📚 Comparaison par matière</span></div>
+    <div class="section-body" id="matiereBody"></div>
+  </div>
+
+  <!-- CHAPITRES FAIBLES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">⚠ Chapitres faibles (&lt; 60%)</span>
+      <span style="font-size:11px;color:var(--muted)">Identifiés sur les 5 dernières sessions</span>
+    </div>
+    <div class="section-body" id="faiblesBody"></div>
+  </div>
+
+  <!-- SESSIONS RÉCENTES -->
+  <div class="section">
+    <div class="section-header"><span class="section-title">🕐 Sessions récentes</span></div>
+    <div class="section-body" id="sessionsBody"></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" onclick="actualiser()">🔄 Actualiser</button>
+    <button class="btn" onclick="exporterJSON()">📤 Exporter JSON</button>
+    <button class="btn btn-danger" onclick="reinitialiser()">⚠ Réinitialiser</button>
+  </div>
 </div>
 
 <script>
-  // Mapping des noms affichés
-  const MATIERE_NOMS = {
-    francais: "🇫🇷 Français",
-    maths: "📐 Mathématiques",
-    histoire: "🌍 Histoire-Géo",
-    sciences: "🔬 Sciences"
-  };
-  
-  const ELEVE_NOMS = {
-    wassil: { nom: "Wassil", couleur: "#7eb8f5" },
-    nawal: { nom: "Nawal", couleur: "#f59eb8" }
-  };
+let eleveActif = 'wassil';
 
-  // Détecter automatiquement toutes les clés localStorage qui commencent par "automatismes_sessions_"
-  function detecterToutesLesSessions() {
-    const sessions = {};
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith("automatismes_sessions_")) {
-        // Extraire la matière et l'élève
-        // Format: automatismes_sessions_francais_wassil
-        const parts = key.replace("automatismes_sessions_", "").split("_");
-        const matiere = parts[0];
-        const eleve = parts[1] || "inconnu";
-        
-        if (!sessions[matiere]) sessions[matiere] = {};
-        try {
-          sessions[matiere][eleve] = JSON.parse(localStorage.getItem(key)) || [];
-        } catch(e) {
-          sessions[matiere][eleve] = [];
-        }
-      }
+const MATIERES = [
+  { id: 'francais', nom: '🇫🇷 Français', couleur: '#5ecfb1' },
+  { id: 'maths', nom: '📐 Maths', couleur: '#e8c87a' },
+  { id: 'histoire', nom: '🌍 Histoire-Géo', couleur: '#a07af5' },
+  { id: 'sciences', nom: '🔬 Sciences', couleur: '#5eaacf' }
+];
+
+function setEleve(e) {
+  eleveActif = e;
+  document.querySelectorAll('.etab').forEach(b => b.className = 'etab');
+  if (e === 'wassil') document.querySelectorAll('.etab')[0].className = 'etab aw';
+  else document.querySelectorAll('.etab')[1].className = 'etab an';
+  render();
+}
+
+function getSessionsMatiere(matiere) {
+  const key = `suivi_sessions_${matiere}_${eleveActif}`;
+  return JSON.parse(localStorage.getItem(key) || '[]');
+}
+
+function getAllSessions() {
+  return MATIERES.flatMap(m => getSessionsMatiere(m.id).map(s => ({...s, matiere: m.id})))
+    .sort((a,b) => new Date(b.date) - new Date(a.date));
+}
+
+function render() {
+  renderAlerte();
+  renderStats();
+  renderStreak();
+  renderGraph();
+  renderMatieres();
+  renderFaibles();
+  renderSessions();
+}
+
+// ── ALERTE INACTIVITÉ ──
+function renderAlerte() {
+  const all = getAllSessions();
+  if (!all.length) {
+    document.getElementById('alerteInactivite').className = 'alerte-hidden';
+    return;
+  }
+  const derniere = new Date(all[0].date);
+  const diff = Math.floor((Date.now() - derniere) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('alerteInactivite');
+  if (diff >= 2) {
+    el.className = 'alerte';
+    document.getElementById('alerteMsg').textContent =
+      `Dernière session il y a ${diff} jour${diff>1?'s':''}. ${eleveActif.charAt(0).toUpperCase()+eleveActif.slice(1)} n'a pas travaillé récemment !`;
+  } else {
+    el.className = 'alerte-hidden';
+  }
+}
+
+// ── STATS ──
+function renderStats() {
+  const all = getAllSessions();
+  if (!all.length) {
+    document.getElementById('statsGrid').innerHTML = '<div class="empty">Aucune session enregistrée.</div>';
+    return;
+  }
+
+  const moyenne = Math.round(all.slice(0,10).reduce((a,s)=>a+s.pourcentage,0)/Math.min(all.length,10));
+  const meilleureSession = Math.max(...all.map(s=>s.pourcentage));
+  const totalSessions = all.length;
+  const derniersTaux = all.slice(0,5).map(s=>s.pourcentage);
+  const tendance = derniersTaux.length >= 2 ?
+    (derniersTaux[0] > derniersTaux[derniersTaux.length-1] ? '↑' : derniersTaux[0] < derniersTaux[derniersTaux.length-1] ? '↓' : '→') : '—';
+  const tendanceCouleur = tendance === '↑' ? 'var(--teal)' : tendance === '↓' ? 'var(--red)' : 'var(--dim)';
+
+  const jours = calculerStreak(all);
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--teal)">${moyenne}%</div>
+      <div class="stat-label">Moyenne générale</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--gold)">${meilleureSession}%</div>
+      <div class="stat-label">Meilleur score</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--violet)">${totalSessions}</div>
+      <div class="stat-label">Sessions totales</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:${tendanceCouleur}">${tendance}</div>
+      <div class="stat-label">Tendance récente</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--gold)">${jours}</div>
+      <div class="stat-label">🔥 Jours consécutifs</div>
+    </div>
+  `;
+}
+
+// ── STREAK ──
+function calculerStreak(sessions) {
+  if (!sessions.length) return 0;
+  const jours = new Set(sessions.map(s => new Date(s.date).toDateString()));
+  let streak = 0;
+  let date = new Date();
+  while (jours.has(date.toDateString())) {
+    streak++;
+    date.setDate(date.getDate() - 1);
+  }
+  return streak;
+}
+
+function renderStreak() {
+  const all = getAllSessions();
+  const streak = calculerStreak(all);
+  const msg = streak === 0 ? "Commence dès aujourd'hui !" :
+              streak < 3 ? "Bon départ !" : streak < 7 ? "Continue !" : "🔥 Incroyable !";
+
+  // Afficher les 7 derniers jours
+  const jours = [];
+  const sessionsParJour = new Set(all.map(s => new Date(s.date).toDateString()));
+  for (let i=6; i>=0; i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    jours.push({ date: d, done: sessionsParJour.has(d.toDateString()), isToday: i===0 });
+  }
+
+  document.getElementById('streakBody').innerHTML = `
+    <div class="streak-display">
+      <div class="streak-num">${streak}</div>
+      <div>
+        <div class="streak-label">jours consécutifs<br><small style="color:var(--muted)">${msg}</small></div>
+      </div>
+    </div>
+    <div class="streak-days" style="margin-top:12px">
+      ${jours.map(j => `
+        <div class="streak-day ${j.done?'done':''} ${j.isToday?'today':''}" title="${j.date.toLocaleDateString('fr-FR')}">
+          ${j.date.toLocaleDateString('fr-FR',{weekday:'short'}).charAt(0)}
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── GRAPHIQUE ──
+function renderGraph() {
+  const all = getAllSessions().slice(0,10).reverse();
+  if (!all.length) { document.getElementById('graphBody').innerHTML = '<div class="empty">Pas encore de données.</div>'; return; }
+
+  const bars = all.map(s => {
+    const col = s.pourcentage>=80?'var(--teal)':s.pourcentage>=60?'var(--gold)':'var(--red)';
+    const h = Math.max(8, Math.round(s.pourcentage * 0.75));
+    const mat = MATIERES.find(m=>m.id===s.matiere);
+    return `<div class="graph-bar-wrap">
+      <div class="graph-bar" style="height:${h}px;background:${col}" title="${s.pourcentage}%"></div>
+      <div class="graph-label">${mat?mat.nom.slice(0,3):''} ${s.pourcentage}%</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('graphBody').innerHTML = `<div class="graph-bars">${bars}</div>`;
+}
+
+// ── MATIERES ──
+function renderMatieres() {
+  const rows = MATIERES.map(m => {
+    const sessions = getSessionsMatiere(m.id);
+    if (!sessions.length) return `
+      <div class="matiere-row">
+        <span class="matiere-nom">${m.nom}</span>
+        <div class="matiere-bar"><div class="matiere-fill" style="width:0%;background:${m.couleur}"></div></div>
+        <span class="matiere-pct" style="color:var(--muted)">—</span>
+        <span class="matiere-sessions">0 session</span>
+      </div>`;
+    const moy = Math.round(sessions.slice(0,10).reduce((a,s)=>a+s.pourcentage,0)/Math.min(sessions.length,10));
+    return `
+      <div class="matiere-row">
+        <span class="matiere-nom">${m.nom}</span>
+        <div class="matiere-bar"><div class="matiere-fill" style="width:${moy}%;background:${m.couleur}"></div></div>
+        <span class="matiere-pct" style="color:${m.couleur}">${moy}%</span>
+        <span class="matiere-sessions">${sessions.length} session${sessions.length>1?'s':''}</span>
+      </div>`;
+  }).join('');
+  document.getElementById('matiereBody').innerHTML = rows;
+}
+
+// ── CHAPITRES FAIBLES ──
+function renderFaibles() {
+  const all = getAllSessions();
+  if (!all.length) { document.getElementById('faiblesBody').innerHTML = '<div class="empty">Pas encore de données.</div>'; return; }
+
+  const taux = {};
+  all.slice(0, 5).forEach(s => {
+    if (s.chapitresTaux) {
+      Object.entries(s.chapitresTaux).forEach(([ch, t]) => {
+        if (!taux[ch]) taux[ch] = [];
+        taux[ch].push(t);
+      });
     }
-    return sessions;
+  });
+
+  const faibles = Object.entries(taux)
+    .filter(([,vals]) => vals.reduce((a,b)=>a+b,0)/vals.length < 60)
+    .map(([ch, vals]) => ({ ch, moy: Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) }))
+    .sort((a,b) => a.moy - b.moy);
+
+  if (!faibles.length) {
+    document.getElementById('faiblesBody').innerHTML = '<div class="empty">✅ Aucun chapitre faible détecté. Bravo !</div>';
+    return;
   }
 
-  function moyenneRecente(sessions) {
-    const dernieres = sessions.slice(0, 5);
-    if (dernieres.length === 0) return null;
-    const sum = dernieres.reduce((acc, s) => acc + s.pourcentage, 0);
-    return Math.round(sum / dernieres.length);
-  }
+  document.getElementById('faiblesBody').innerHTML = `
+    <div class="faibles-grid">
+      ${faibles.map(f => `
+        <div class="faible-item">
+          <div class="faible-nom">${f.ch}</div>
+          <div class="faible-taux">${f.moy}% de réussite</div>
+        </div>`).join('')}
+    </div>`;
+}
 
-  function formatDate(dateStr) {
-    try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString('fr-FR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
-    } catch(e) { return dateStr; }
-  }
+// ── SESSIONS RÉCENTES ──
+function renderSessions() {
+  const all = getAllSessions().slice(0, 15);
+  if (!all.length) { document.getElementById('sessionsBody').innerHTML = '<div class="empty">Aucune session.</div>'; return; }
 
-  function afficherSuivi() {
-    const toutesSessions = detecterToutesLesSessions();
-    const grid = document.getElementById("matieresGrid");
-    grid.innerHTML = "";
-    
-    // Afficher les sessions détectées dans la console
-    console.log("Sessions détectées:", toutesSessions);
-    
-    // Debug visible
-    const debugDiv = document.getElementById("debug");
-    debugDiv.style.display = "block";
-    debugDiv.innerHTML = `<strong>🔍 Clés détectées dans localStorage :</strong><br>${Object.keys(toutesSessions).map(m => 
-      `${MATIERE_NOMS[m] || m}: ${Object.keys(toutesSessions[m]).join(', ')}`
-    ).join('<br>') || "Aucune session trouvée"}`;
-    
-    // Pour chaque matière détectée
-    for (const [matiereId, eleves] of Object.entries(toutesSessions)) {
-      const matiereNom = MATIERE_NOMS[matiereId] || matiereId;
-      
-      // Pour chaque élève dans cette matière
-      for (const [eleveId, sessions] of Object.entries(eleves)) {
-        const eleveInfo = ELEVE_NOMS[eleveId] || { nom: eleveId.charAt(0).toUpperCase() + eleveId.slice(1), couleur: "#aaa" };
-        const moyenne = moyenneRecente(sessions);
-        
-        let sessionsHtml = '';
-        const cinqDernieres = sessions.slice(0, 5);
-        if (cinqDernieres.length === 0) {
-          sessionsHtml = '<tr><td colspan="3" class="vide">📭 Aucune session enregistrée</td></tr>';
-        } else {
-          sessionsHtml = cinqDernieres.map(s => `
-            <tr>
-              <td>${formatDate(s.date)}</td>
-              <td>${Array.isArray(s.chapitres) ? s.chapitres.slice(0, 2).join(', ') + (s.chapitres.length > 2 ? '…' : '') : (s.chapitres || 'Quiz')}</td>
-              <td class="${s.pourcentage >= 60 ? 'badge-reussi' : 'badge-echec'}">${s.pourcentage}%</td>
-            </tr>
-          `).join('');
-        }
-        
-        const card = document.createElement("div");
-        card.className = "matiere-card";
-        card.innerHTML = `
-          <div class="matiere-header">
-            <div class="matiere-nom" style="color:${eleveInfo.couleur}">📚 ${matiereNom} (${eleveInfo.nom})</div>
-            <div class="moyenne" style="color:${eleveInfo.couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
-            <div class="stats-ligne">📈 Moyenne des 5 dernières sessions</div>
-          </div>
-          <div style="padding:0.8rem;">
-            <table class="sessions-table">
-              <thead><tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr></thead>
-              <tbody>${sessionsHtml}</tbody>
-            </table>
-          </div>
-        `;
-        grid.appendChild(card);
-      }
-    }
-    
-    if (Object.keys(toutesSessions).length === 0) {
-      grid.innerHTML = '<div style="text-align:center;padding:2rem;color:#555;">📭 Aucune session enregistrée. Lancez un quiz "Automatismes" !</div>';
-    }
-  }
+  const rows = all.map(s => {
+    const pct = s.pourcentage;
+    const cls = pct>=80?'pct-ok':pct>=60?'pct-mid':'pct-bad';
+    const mat = MATIERES.find(m=>m.id===s.matiere);
+    const date = new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+    const chapitres = Array.isArray(s.chapitres) ? s.chapitres.slice(0,2).join(', ')+(s.chapitres.length>2?'…':'') : '—';
+    return `<tr>
+      <td>${date}</td>
+      <td>${mat?mat.nom:'—'}</td>
+      <td style="color:var(--dim);font-size:11px">${chapitres}</td>
+      <td class="${cls}">${pct}%</td>
+    </tr>`;
+  }).join('');
 
-  function exporterJSON() {
-    const toutesSessions = detecterToutesLesSessions();
-    const blob = new Blob([JSON.stringify({ exportDate: new Date().toISOString(), data: toutesSessions }, null, 2)], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `suivi_parental_${new Date().toISOString().slice(0,10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  document.getElementById('sessionsBody').innerHTML = `
+    <table class="sessions-table">
+      <thead><tr><th>Date</th><th>Matière</th><th>Chapitres</th><th>Score</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
 
-  function resetAll() {
-    if (confirm("⚠️ Supprimer TOUTES les sessions ?")) {
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith("automatismes_sessions_")) {
-          localStorage.removeItem(key);
-        }
-      }
-      afficherSuivi();
-    }
-  }
+function actualiser() { render(); }
 
-  // Sauvegarde d'une session (appelé depuis automatismes)
-  function sauvegarderSession(matiereId, chapitres, score) {
-    const eleve = matiereId.split('_')[1] || "inconnu";
-    const matiere = matiereId.split('_')[0];
-    const key = `automatismes_sessions_${matiere}_${eleve}`;
-    const sessions = JSON.parse(localStorage.getItem(key) || "[]");
-    sessions.unshift({
-      id: Date.now(),
-      date: new Date().toISOString(),
-      chapitres: chapitres,
-      score: score,
-      pourcentage: Math.round((score.bonnes / score.total) * 100)
-    });
-    while(sessions.length > 100) sessions.pop();
-    localStorage.setItem(key, JSON.stringify(sessions));
-    console.log(`✅ Sauvegardé dans ${key}:`, sessions[0]);
-    return sessions[0];
-  }
+function exporterJSON() {
+  const data = {};
+  MATIERES.forEach(m => { data[m.id] = { wassil: getSessionsMatiere(m.id) }; });
+  const blob = new Blob([JSON.stringify({date:new Date().toISOString(), eleve:eleveActif, data},null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=`suivi_${eleveActif}_${new Date().toISOString().slice(0,10)}.json`; a.click();
+  URL.revokeObjectURL(url);
+}
 
-  window.SuiviParental = { sauvegarderSession };
+function reinitialiser() {
+  if (!confirm(`⚠ Supprimer toutes les données de ${eleveActif} ?`)) return;
+  MATIERES.forEach(m => localStorage.removeItem(`suivi_sessions_${m.id}_${eleveActif}`));
+  render();
+}
 
-  document.getElementById("refreshBtn").addEventListener("click", afficherSuivi);
-  document.getElementById("exportBtn").addEventListener("click", exporterJSON);
-  document.getElementById("resetBtn").addEventListener("click", resetAll);
-  
-  afficherSuivi();
+render();
 </script>
 </body>
 </html>
