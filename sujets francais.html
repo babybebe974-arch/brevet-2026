@@ -54,14 +54,14 @@ h1 em{color:var(--teal);font-style:italic;}
 .answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
 .answer-ta:focus{border-color:rgba(94,207,177,0.4);}
 .redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
+.ai-btn{background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;padding:6px 14px;font-size:11px;color:#080600;font-weight:700;cursor:pointer;margin-right:8px;margin-top:4px;transition:all 0.2s;}
+.ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,200,122,0.3);}
+.ai-loading{display:none;margin-left:8px;font-size:11px;color:#e8c87a;}
 .corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
 .corr-btn:hover{background:rgba(94,207,177,0.12);}
 .corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
 .corr-box.show{display:block;}
 .corr-box strong{color:var(--text);}
-.ai-btn{background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;padding:5px 12px;font-size:11px;color:#080600;font-weight:700;cursor:pointer;margin-right:8px;margin-top:4px;transition:all 0.2s;}
-.ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,200,122,0.3);}
-.ai-loading{display:none;margin-top:5px;font-size:11px;color:#e8c87a;}
 .auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
 .ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
 .ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
@@ -117,7 +117,7 @@ h1 em{color:var(--teal);font-style:italic;}
 
 <script>
 // ============================================================
-// TON PROXY GOOGLE APPS SCRIPT
+// TON PROXY GOOGLE APPS SCRIPT (remplace par TA vraie URL)
 // ============================================================
 const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
 
@@ -190,10 +190,10 @@ async function corrigerRedaction(taId, pts, btnId) {
 }
 
 // ============================================================
-// DONNÉES SUJETS
+// DONNÉES SUJETS (2 sujets pour l'exemple)
 // ============================================================
 const SUJETS = [
-  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.\n\nIci, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.\n\nIl posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},{n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},{n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants).'},{n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},{n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans..." est une proposition participiale.'},{n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité.'}],redaction:{pts:20,sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation.',criteres:'Critères : pertinence (4), structure (4), richesse (4), style (4), orthographe (4)'}}
+  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable".'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt".'}],redaction:{pts:20,sujet1:'Racontez un moment où vous vous êtes senti proche de la nature.',sujet2:'La nature est-elle importante pour l\'homme ? Argumentez.',criteres:'Pertinence (4), structure (4), style (4), orthographe (4)'}}
 ];
 
 let who = null, currentIdx = 0, chronoSecs = 9000, running = false, chronoInterval = null;
@@ -206,16 +206,16 @@ function goHome() { document.getElementById('sujet-page').style.display = 'none'
 function renderSujet(s) {
   let h = '';
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
-  h += `<div class="texte-box">${s.texte.replace(/\n\n/g, '</p><p style="margin-top:14px">').replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
+  h += `<div class="texte-box">${s.texte.replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
   s.comprehension.forEach((q, i) => {
     const btnId = `btn_c_${i}`;
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('c_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button></div><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('c_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button></div><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
   s.grammaire.forEach((q, i) => {
     const btnId = `btn_g_${i}`;
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('g_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button></div><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('g_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button></div><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
   h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
@@ -225,7 +225,7 @@ function renderSujet(s) {
   const redacBtnId = 'btn_redac';
   h += `<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
   h += `<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
-  h += `<div><button id="${redacBtnId}" class="ai-btn" onclick="corrigerRedaction('redac', 20, '${redacBtnId}')">🤖 Corriger la rédaction avec IA</button><span id="${redacBtnId}_loading" style="display:none; font-size:11px; color:#e8c87a;"> ⏳...</span><button class="corr-btn" onclick="tog('rc')">📖 Voir les critères</button></div>`;
+  h += `<div><button id="${redacBtnId}" class="ai-btn" onclick="corrigerRedaction('redac', 20, '${redacBtnId}')">🤖 Corriger la rédaction avec IA</button><span id="${redacBtnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('rc')">📖 Voir les critères</button></div>`;
   h += `<div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
   h += `</div></div>`;
   h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
@@ -246,18 +246,7 @@ function renderSujet(s) {
 
 function tog(id) { document.getElementById(id).classList.toggle('show'); }
 function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20); const el = document.getElementById('ae-total'); el.textContent = t + '/56'; el.style.color = t >= 45 ? 'var(--green)' : t >= 36 ? 'var(--gold)' : t >= 28 ? 'var(--coral)' : 'var(--red)'; }
-
-async function saveSujet() {
-  if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; }
-  const s = SUJETS[currentIdx];
-  const a = parseInt(document.getElementById('ae1').value) || 0;
-  const b = parseInt(document.getElementById('ae2').value) || 0;
-  const c = parseInt(document.getElementById('ae3').value) || 0;
-  const done = JSON.parse(localStorage.getItem('fr_done_' + who) || '[]');
-  if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('fr_done_' + who, JSON.stringify(done)); }
-  showToast('✓ Progression sauvegardée', 'ok');
-}
-
+function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal', 'err'); return; } showToast('✓ Sauvegardé', 'ok'); }
 function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
 function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 9000; updateChrono(); }
 function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; el.className = 'chrono-time' + (chronoSecs < 600 ? ' urgent' : ''); }
