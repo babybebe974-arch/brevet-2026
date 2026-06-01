@@ -1,428 +1,282 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎤 Oral Blanc Brevet 2026 · IA correctrice · Exposé + 10 questions</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--oral:#f0a3a3;--oral-dark:#e08282;--r:14px;--r-sm:8px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;background:radial-gradient(ellipse at 50% 0%,rgba(240,163,163,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--oral);border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--oral);font-style:italic;}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:800px;width:100%;margin:20px 0;}
-.candidate-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:28px;cursor:pointer;text-align:center;transition:all 0.2s;}
-.candidate-card:hover{transform:translateY(-4px);border-color:rgba(240,163,163,0.5);}
-.candidate-card.wassil{border-top:3px solid #7eb8f5;}
-.candidate-card.nawal{border-top:3px solid #f59eb8;}
-.candidate-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;}
-.candidate-theme{font-size:13px;color:var(--muted);margin:8px 0;}
-#oral-page{display:none;max-width:1000px;margin:0 auto;}
-.oral-header{position:sticky;top:0;background:rgba(9,9,15,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
-.back-btn{background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;}
-.chrono-bar{background:rgba(240,163,163,0.06);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--oral);}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.07);color:var(--oral);cursor:pointer;}
-.s-body{padding:24px;}
-.expose-section{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-bottom:24px;}
-.section-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--oral);margin-bottom:12px;}
-.answer-ta{width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;}
-.ai-btn{background:rgba(94,207,177,0.1);border:1px solid var(--teal);color:var(--teal);padding:8px 18px;border-radius:999px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;margin-top:12px;}
-.ai-feedback{background:linear-gradient(135deg,rgba(94,207,177,0.08),transparent);border-left:3px solid var(--teal);padding:16px;margin-top:16px;border-radius:var(--r-sm);font-size:13px;line-height:1.6;display:none;}
-.questions-block{margin:24px 0;}
-.q-section{background:var(--bg3);border-radius:var(--r);padding:16px;margin-bottom:20px;}
-.q-section h3{font-size:14px;color:var(--gold);margin-bottom:12px;font-family:'DM Mono',monospace;}
-.q-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:12px;}
-.q-text{font-weight:500;margin-bottom:10px;font-size:14px;}
-.q-answer textarea{width:100%;min-height:70px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:8px;color:var(--text);font-size:12px;resize:vertical;}
-.q-feedback{font-size:12px;color:var(--teal);margin-top:8px;padding:8px;background:rgba(94,207,177,0.05);border-radius:var(--r-sm);display:none;}
-.q-score{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:12px;}
-.generate-pdf{background:var(--bg2);border:2px solid var(--gold);border-radius:var(--r);padding:14px;color:var(--gold);cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;width:100%;margin:20px 0;}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transition:0.3s;}
-.toast.show{opacity:1;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>👪 Suivi parental – Brevet 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:1100px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:2rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+    .back-link{display:inline-block;margin-bottom:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem;}
+    .card{background:#2a2a2a;border-radius:1.5rem;padding:1.2rem;border:1px solid #333;}
+    .card-title{font-size:1.2rem;font-weight:700;color:#ffcc00;margin-bottom:0.5rem;}
+    .card-value{font-size:2rem;font-weight:700;color:#5ecfb1;margin-bottom:0.5rem;}
+    .card-detail{font-size:0.75rem;color:#aaa;}
+    
+    table{width:100%;border-collapse:collapse;margin-top:1rem;}
+    th,td{border:1px solid #333;padding:0.6rem;text-align:left;color:#ffffff;}
+    th{background:#2a2a2a;color:#ffcc00;}
+    .maitrisee{color:#2ecc71;}
+    .en_erreur{color:#e74c3c;}
+    .en_cours{color:#f39c12;}
+    .nouvelle{color:#aaa;}
+    
+    .btn-group{display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
+    button:hover{background:#2a3652;}
+    
+    .selecteur{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
+    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.4rem 0.8rem;color:white;}
+    
+    .refresh-badge{background:#2ecc71;color:#000;border-radius:999px;padding:2px 8px;font-size:10px;margin-left:8px;}
+  </style>
 </head>
 <body>
-<div id="home">
-  <div class="badge">🎤 Brevet Blanc 2026 · Correcteur IA</div>
-  <h1>Oral Blanc <em>· 3 + 7 questions</em></h1>
-  <p class="sub">3 questions sur VOTRE exposé · 7 questions sur le thème (hors exposé)<br>L'IA corrige, note et conseille chaque réponse · PDF exportable</p>
-  <div class="cards-container">
-    <div class="candidate-card wassil" onclick="selectCandidate('Wassil')">
-      <div class="candidate-name">🌊 Wassil</div>
-      <div class="candidate-theme">📐 L'invention du zéro · Al-Khwarizmi · Mathématiques arabes</div>
-    </div>
-    <div class="candidate-card nawal" onclick="selectCandidate('Nawal')">
-      <div class="candidate-name">⚡ Nawal</div>
-      <div class="candidate-theme">📖 Malala · Féminisme · Droit à l'éducation des filles</div>
-    </div>
-  </div>
-</div>
+<div class="container">
+  <a href="index.html" class="back-link">← Retour au hub</a>
+  <h1>👪 Suivi parental <span class="refresh-badge">direct localStorage</span></h1>
+  <div class="sub">Progression de l'élève dans les automatismes (flashcards)</div>
 
-<div id="oral-page">
-  <div class="oral-header">
-    <div><strong id="oral-candidate"></strong><br><span id="oral-theme" style="font-size:11px;color:var(--muted);"></span></div>
-    <button class="back-btn" onclick="goHome()">← Retour accueil</button>
+  <div class="selecteur">
+    <label>📚 Matière : </label>
+    <select id="matiereSelect">
+      <option value="francais">Français</option>
+      <option value="maths">Mathématiques</option>
+      <option value="histoire">Histoire-Géo & EMC</option>
+      <option value="sciences">Sciences</option>
+    </select>
+    <button id="actualiserBtn">🔄 Actualiser</button>
+    <button id="exporterBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter JSON</button>
+    <button id="resetAllBtn" style="border-color:#e74c3c;color:#e74c3c;">⚠️ Réinitialiser tout</button>
   </div>
-  <div class="chrono-bar">
-    <span>⏱ Chrono exposé (5 min)</span>
-    <div class="chrono-time" id="chrono">5:00</div>
-    <div><button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
-    <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button></div>
+
+  <div class="stats-grid" id="statsGrid"></div>
+  <div id="detailsTable"></div>
+
+  <div class="btn-group">
+    <button id="excelBtn">📊 Exporter CSV</button>
   </div>
-  <div class="s-body" id="oral-body"></div>
 </div>
-<div class="toast" id="toast"></div>
 
 <script>
-const THEMES = {
-  Wassil: {
-    nom: "Wassil",
-    theme: "L'invention du zéro",
-    consignes: "Racontez l'histoire du zéro : ses origines en Inde, sa transmission par les mathématiciens arabes (Al-Khwarizmi), son importance dans les mathématiques modernes (algèbre, système décimal, informatique).",
-    // Banque de questions HORS exposé (7 par série, mais on en pioche)
-    cultureQuestions: [
-      "Quel mathématicien persan a écrit 'Al-Kitāb al-mukhtaṣar fī ḥisāb al-ğabr wa-l-muqābala' ?",
-      "Que signifie le mot 'algorithme' étymologiquement ?",
-      "Pourquoi la division par zéro est-elle impossible en mathématiques ?",
-      "Quel est le symbole du zéro dans la numération maya ?",
-      "Les Romains utilisaient-ils un zéro ? Comment faisaient-ils ?",
-      "Qu'est-ce que la notation positionnelle ? Pourquoi est-elle révolutionnaire ?",
-      "Cite un usage du zéro en informatique (binaire).",
-      "Qu'est-ce que le zéro absolu en thermodynamique ?",
-      "Pourquoi le zéro a-t-il été interdit à Florence au XIIIe siècle ?",
-      "Qui est Brahmagupta et quelles sont ses règles sur le zéro ?",
-      "Que se passe-t-il quand on élève zéro à la puissance zéro ?",
-      "En quoi le zéro a-t-il permis la comptabilité moderne ?",
-      "Quel est le lien entre le zéro et le concept de vide en philosophie ?",
-      "Comment Fibonacci a-t-il contribué à diffuser le zéro en Europe ?",
-      "Pourquoi dit-on que sans zéro, il n'y aurait pas d'ordinateurs ?"
-    ]
-  },
-  Nawal: {
-    nom: "Nawal",
-    theme: "Malala et le féminisme · Droit à l'éducation",
-    consignes: "Présentez Malala Yousafzai : son enfance au Pakistan, l'attentat des talibans, son combat pour l'éducation des filles, son Prix Nobel de la Paix et son discours à l'ONU.",
-    cultureQuestions: [
-      "En quelle année Malala a-t-elle reçu le Prix Nobel de la Paix ?",
-      "Quel est le titre de son livre autobiographique ?",
-      "Que signifie le mot 'féminisme' ?",
-      "Cite une féministe historique du XVIIIe ou XIXe siècle.",
-      "Quelle est la différence entre égalité et équité ?",
-      "Pourquoi les talibans interdisaient-ils l'éducation des filles ?",
-      "Quel pourcentage de filles ne sont pas scolarisées dans le monde ?",
-      "Qu'est-ce que la fondation Malala ?",
-      "Cite une autre militante pour l'éducation des filles.",
-      "Quel est le message principal du 'Malala Day' (12 juillet) ?",
-      "Pourquoi le droit à l'éducation est-il une cause féministe ?",
-      "Quelle est la différence entre féminisme et misandrie ?",
-      "Quel discours célèbre Malala a-t-elle prononcé à l'ONU en 2013 ?",
-      "Quel film documentaire raconte son histoire ?",
-      "Comment l'éducation des filles lutte contre la pauvreté ?"
-    ]
+  // Correspondance exacte avec les clés localStorage utilisées dans automatismes-*.html
+  const matieres = {
+    francais: { 
+      nom: "Français", 
+      storageKey: "automatismes_francais",
+      planningKey: "planning_automatismes_francais"
+    },
+    maths: { 
+      nom: "Mathématiques", 
+      storageKey: "automatismes_maths",
+      planningKey: "planning_automatismes_maths"
+    },
+    histoire: { 
+      nom: "Histoire-Géo & EMC", 
+      storageKey: "automatismes_histoire",
+      planningKey: "planning_automatismes_histoire"
+    },
+    sciences: { 
+      nom: "Sciences", 
+      storageKey: "automatismes_sciences",
+      planningKey: "planning_automatismes_sciences"
+    }
+  };
+
+  function chargerProgression(matiereId) {
+    const mat = matieres[matiereId];
+    const saved = localStorage.getItem(mat.storageKey);
+    const planning = localStorage.getItem(mat.planningKey);
+    
+    let progression = {};
+    let planningData = null;
+    
+    if (saved) {
+      try {
+        progression = JSON.parse(saved);
+      } catch(e) { console.error("Erreur parsing", e); }
+    }
+    
+    if (planning) {
+      try {
+        planningData = JSON.parse(planning);
+      } catch(e) {}
+    }
+    
+    return { progression, planning: planningData };
   }
-};
 
-let currentCandidate = null;
-let currentExpose = "";
-let chronoSecs = 300;
-let running = false;
-let chronoInterval = null;
+  function calculerStats(progression) {
+    let total = 0, maitrisees = 0, erreurs = 0, enCours = 0;
+    for (const [key, value] of Object.entries(progression)) {
+      total++;
+      if (value.etat === "maitrisee") maitrisees++;
+      else if (value.etat === "en_erreur") erreurs++;
+      else if (value.etat === "nouvelle") enCours++;
+      else if (value.nbErreurs > 0) erreurs++;
+      else enCours++;
+    }
+    return { total, maitrisees, erreurs, enCours, pourcentage: total === 0 ? 0 : Math.round(maitrisees/total*100) };
+  }
 
-// 3 questions SUR l'exposé (générées dynamiquement)
-// 7 questions de CULTURE (hors exposé, piochées dans la banque)
-let generatedContentQuestions = []; // stocke les 3 questions basées sur l'exposé
-let selectedCultureQuestions = [];
-
-function selectCandidate(name) {
-  currentCandidate = name;
-  document.getElementById('home').style.display = 'none';
-  document.getElementById('oral-page').style.display = 'block';
-  document.getElementById('oral-candidate').innerHTML = THEMES[name].nom;
-  document.getElementById('oral-theme').innerHTML = THEMES[name].theme;
-  renderOralInterface();
-  resetChrono();
-}
-
-function renderOralInterface() {
-  const html = `
-    <div class="expose-section">
-      <div class="section-title">🎤 1. ÉCRIVEZ OU COLLEZ VOTRE EXPOSÉ (5 min)</div>
-      <div class="texte-box" style="background:var(--bg3);padding:14px;border-radius:var(--r-sm);margin-bottom:16px;font-size:13px;">
-        <strong>📌 Consigne :</strong> ${THEMES[currentCandidate].consignes}
+  function afficherSuivi() {
+    const matiereId = document.getElementById("matiereSelect").value;
+    const mat = matieres[matiereId];
+    const { progression, planning } = chargerProgression(matiereId);
+    const stats = calculerStats(progression);
+    const totalCartes = Object.keys(progression).length;
+    
+    // Afficher les stats
+    document.getElementById("statsGrid").innerHTML = `
+      <div class="card">
+        <div class="card-title">📚 ${mat.nom}</div>
+        <div class="card-value">${stats.pourcentage}%</div>
+        <div class="card-detail">✅ ${stats.maitrisees} cartes maîtrisées</div>
+        <div class="card-detail">❌ ${stats.erreurs} cartes en erreur</div>
+        <div class="card-detail">⏳ ${stats.enCours} cartes en cours</div>
+        <div class="card-detail">📊 Total : ${stats.total} cartes</div>
+        ${planning ? `<div class="card-detail">📅 Jour J-${planning.jour || '?'}</div>` : ''}
       </div>
-      <textarea id="expose-text" class="answer-ta" placeholder="Collez ou rédigez ici votre exposé...&#10;&#10;Exemple :&#10;Introduction : Je vais vous parler de...&#10;Développement : Tout d'abord... Ensuite...&#10;Conclusion : Pour conclure..."></textarea>
-      <button class="ai-btn" onclick="analyserExposeEtGenererQuestions()">🤖 IA : Analyser mon exposé + générer les 10 questions (3 sur l'exposé, 7 culture)</button>
-      <div id="expose-feedback" class="ai-feedback"></div>
-    </div>
-    
-    <div id="questions-container" style="display:none;">
-      <div class="questions-block">
-        <div class="q-section">
-          <h3>📖 PARTIE 1 · Questions SUR votre exposé (3 questions)</h3>
-          <div id="content-questions"></div>
-        </div>
-        <div class="q-section">
-          <h3>🌍 PARTIE 2 · Questions de culture générale sur le thème (hors exposé — 7 questions)</h3>
-          <div id="culture-questions"></div>
-        </div>
-        <button class="generate-pdf" onclick="genererPDFAvecCorrections()">📄 Générer PDF (exposé + toutes les corrections IA)</button>
-        <div style="margin-top:16px;text-align:center;"><button class="chrono-btn" onclick="sauvegarderReponses()">💾 Sauvegarder mes réponses</button></div>
-      </div>
-    </div>
-  `;
-  document.getElementById('oral-body').innerHTML = html;
-}
-
-async function analyserExposeEtGenererQuestions() {
-  const exposeText = document.getElementById('expose-text')?.value;
-  if(!exposeText || exposeText.trim().length < 100) {
-    showToast("❌ Votre exposé est trop court (min 100 caractères). Développez davantage.", "err");
-    return;
-  }
-  currentExpose = exposeText;
-  showToast("🤖 IA analyse l'exposé et génère 3 questions personnalisées...", "ok");
-  await new Promise(r => setTimeout(r, 800));
-  
-  // 1. Générer 3 questions basées sur le contenu de l'exposé (IA simulée mais intelligente)
-  generatedContentQuestions = genererQuestionsSurExpose(exposeText, currentCandidate);
-  
-  // 2. Piocher 7 questions aléatoires dans la banque de culture (hors exposé)
-  const bank = [...THEMES[currentCandidate].cultureQuestions];
-  for(let i = bank.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bank[i], bank[j]] = [bank[j], bank[i]]; }
-  selectedCultureQuestions = bank.slice(0, 7);
-  
-  // 3. Évaluation IA de l'exposé lui-même
-  const evaluationExpose = evaluerExpose(exposeText, currentCandidate);
-  const fbDiv = document.getElementById('expose-feedback');
-  fbDiv.style.display = 'block';
-  fbDiv.innerHTML = `<strong>✨ Analyse IA de votre exposé</strong><br><br>${evaluationExpose.feedback}<br><br><strong>📊 Note estimée : ${evaluationExpose.note}/20</strong> — ${evaluationExpose.note>=15 ? "Excellent !" : evaluationExpose.note>=11 ? "Bien, peut mieux faire" : "À retravailler"}`;
-  
-  // 4. Afficher les questions
-  afficherQuestions();
-  showToast("✓ Questions générées ! Répondez aux 10 questions, l'IA corrigera chaque réponse.", "ok");
-}
-
-function genererQuestionsSurExpose(expose, candidate) {
-  // Extraction intelligente de mots-clés
-  const motsCles = [];
-  const phrases = expose.split(/[.!?]+/).filter(p => p.length > 20);
-  const mots = expose.toLowerCase().split(/\s+/);
-  const motsUniques = [...new Set(mots.filter(m => m.length > 5))].slice(0, 12);
-  
-  let questions = [];
-  if(candidate === "Wassil") {
-    if(expose.includes("Inde") || expose.includes("indienne")) questions.push("Selon votre exposé, dans quel pays et à quelle époque le zéro a-t-il été inventé ? Justifiez avec les éléments que vous avez donnés.");
-    else questions.push("D'après votre exposé, quelle civilisation a inventé le zéro ? Donnez les détails historiques que vous avez mentionnés.");
-    
-    if(expose.includes("Al-Khwarizmi") || expose.includes("arabe") || expose.includes("arabe")) questions.push("Quel rôle Al-Khwarizmi a-t-il joué dans la transmission du zéro selon votre exposé ?");
-    else questions.push("Vous avez parlé de mathématiciens arabes. Expliquez précisément comment ils ont transmis le zéro à l'Europe.");
-    
-    if(expose.includes("algèbre") || expose.includes("calcul")) questions.push("Vous avez évoqué l'importance du zéro en mathématiques. Développez un exemple concret que vous avez cité.");
-    else questions.push("Dans votre exposé, vous mentionnez l'importance du zéro. Racontez un usage mathématique précis que vous avez décrit.");
-  } else {
-    if(expose.includes("Pakistan") || expose.includes("Swat")) questions.push("Où et dans quelles conditions Malala a-t-elle grandi selon votre exposé ?");
-    else questions.push("D'après votre exposé, quel était le contexte au Pakistan lorsque Malala a commencé son combat ?");
-    
-    if(expose.includes("attentat") || expose.includes("talibans") || expose.includes("balle")) questions.push("Que s'est-il passé le 9 octobre 2012 ? Racontez avec les détails de votre exposé.");
-    else questions.push("Selon votre exposé, pourquoi Malala est-elle devenue une cible des talibans ?");
-    
-    if(expose.includes("Nobel") || expose.includes("prix")) questions.push("Pourquoi Malala a-t-elle reçu le Prix Nobel de la Paix ? Citez les raisons que vous avez données.");
-    else questions.push("Dans votre exposé, quel est l'événement international qui a consacré Malala ? Expliquez.");
-  }
-  // Compléter avec des questions génériques si besoin
-  while(questions.length < 3) {
-    questions.push(`Dans votre exposé, vous avez dit : "${phrases[phrases.length%phrases.length]?.substring(0,80) || '...'}"? Pouvez-vous reformuler et approfondir cette idée ?`);
-  }
-  return questions.slice(0,3);
-}
-
-function evaluerExpose(expose, candidate) {
-  let score = 10;
-  const mots = expose.split(/\s+/).length;
-  if(mots > 200) score += 2;
-  if(mots > 350) score += 2;
-  if(expose.includes("introduction") || expose.includes("tout d'abord")) score += 1;
-  if(expose.includes("conclusion") || expose.includes("pour conclure")) score += 1;
-  if(candidate === "Wassil") {
-    if(expose.includes("zéro") && (expose.includes("Inde") || expose.includes("Al-Khwarizmi"))) score += 3;
-    if(expose.includes("algèbre") || expose.includes("décimal")) score += 1;
-  } else {
-    if(expose.includes("Malala") && (expose.includes("Pakistan") || expose.includes("éducation"))) score += 3;
-    if(expose.includes("Nobel") || expose.includes("ONU")) score += 1;
-  }
-  score = Math.min(20, Math.max(0, score));
-  let feedback = "";
-  if(score >= 16) feedback = "Exposé solide, bonne structure et contenu riche. Les 3 questions sur votre texte devraient être bien maîtrisées.";
-  else if(score >= 12) feedback = "Exposé correct mais manque de détails précis (dates, noms). Ajoutez des exemples concrets.";
-  else feedback = "Travaillez davantage la structure (intro/développement/conclusion) et approfondissez les connaissances historiques.";
-  return { feedback, note: score };
-}
-
-function afficherQuestions() {
-  const container = document.getElementById('questions-container');
-  if(container) container.style.display = 'block';
-  
-  const contentDiv = document.getElementById('content-questions');
-  const cultureDiv = document.getElementById('culture-questions');
-  
-  // Afficher les 3 questions sur l'exposé
-  contentDiv.innerHTML = '';
-  generatedContentQuestions.forEach((q, idx) => {
-    contentDiv.innerHTML += `
-      <div class="q-item" id="cq-${idx}">
-        <div class="q-text"><strong>Q${idx+1}</strong> ${q}</div>
-        <div class="q-answer">
-          <textarea id="ans-c-${idx}" placeholder="Votre réponse (l'IA évaluera si vous avez bien compris votre propre exposé)..."></textarea>
-          <div><button class="chrono-btn" style="background:rgba(94,207,177,0.1);color:var(--teal);margin-top:8px;" onclick="corrigerReponse('c', ${idx})">✅ IA : Corriger cette réponse</button> <span id="score-c-${idx}" class="q-score"></span></div>
-          <div id="fb-c-${idx}" class="q-feedback"></div>
-        </div>
+      <div class="card">
+        <div class="card-title">🎯 Détails</div>
+        <div class="card-value">${stats.maitrisees}/${stats.total}</div>
+        <div class="card-detail">🔹 Taux de réussite : ${stats.pourcentage}%</div>
+        <div class="card-detail">🔸 Reste à maîtriser : ${stats.total - stats.maitrisees}</div>
       </div>
     `;
-  });
-  
-  // Afficher les 7 questions de culture (hors exposé)
-  cultureDiv.innerHTML = '';
-  selectedCultureQuestions.forEach((q, idx) => {
-    cultureDiv.innerHTML += `
-      <div class="q-item" id="cuq-${idx}">
-        <div class="q-text"><strong>Q${idx+4}</strong> ${q}</div>
-        <div class="q-answer">
-          <textarea id="ans-u-${idx}" placeholder="Votre réponse... L'IA va juger votre culture sur le sujet (hors exposé)"></textarea>
-          <div><button class="chrono-btn" style="background:rgba(94,207,177,0.1);color:var(--teal);margin-top:8px;" onclick="corrigerReponse('u', ${idx})">✅ IA : Corriger cette réponse</button> <span id="score-u-${idx}" class="q-score"></span></div>
-          <div id="fb-u-${idx}" class="q-feedback"></div>
-        </div>
+
+    // Afficher les cartes en erreur (priorité)
+    const erreursList = Object.entries(progression).filter(([q, d]) => d.etat === "en_erreur" || d.nbErreurs > 0);
+    const maitriseesList = Object.entries(progression).filter(([q, d]) => d.etat === "maitrisee");
+    const autresList = Object.entries(progression).filter(([q, d]) => d.etat !== "en_erreur" && d.etat !== "maitrisee");
+    
+    document.getElementById("detailsTable").innerHTML = `
+      <div style="margin-top:1rem;">
+        <h3 style="margin:1rem 0 0.5rem 0;color:#e74c3c;">❌ Cartes en erreur (${erreursList.length})</h3>
+        ${erreursList.length === 0 ? '<div class="card" style="text-align:center;">🎉 Aucune carte en erreur !</div>' : `
+        <table>
+          <thead><tr><th>Question</th><th>État</th><th>Nb erreurs</th></tr></thead>
+          <tbody>
+            ${erreursList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="en_erreur">${d.etat || 'en_erreur'}</td><td>${d.nbErreurs || 0}</td></tr>`).join('')}
+          </tbody>
+        </table>
+        `}
+        
+        <h3 style="margin:1rem 0 0.5rem 0;color:#2ecc71;">✅ Cartes maîtrisées (${maitriseesList.length})</h3>
+        ${maitriseesList.length === 0 ? '<div class="card" style="text-align:center;">Aucune carte maîtrisée pour l\'instant.</div>' : `
+        <details>
+          <summary style="cursor:pointer;color:#5ecfb1;">📖 Voir les ${maitriseesList.length} cartes maîtrisées</summary>
+          <table>
+            <thead><tr><th>Question</th><th>État</th></tr></thead>
+            <tbody>
+              ${maitriseesList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="maitrisee">${d.etat}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </details>
+        `}
+        
+        <h3 style="margin:1rem 0 0.5rem 0;color:#f39c12;">⏳ Cartes en cours (${autresList.length})</h3>
+        ${autresList.length === 0 ? '<div class="card" style="text-align:center;">Aucune carte en cours.</div>' : `
+        <details>
+          <summary style="cursor:pointer;color:#5ecfb1;">📖 Voir les ${autresList.length} cartes en cours</summary>
+          <table>
+            <thead><tr><th>Question</th><th>État</th></tr></thead>
+            <tbody>
+              ${autresList.slice(0,30).map(([q, d]) => `<tr><td>${q.substring(0, 70)}${q.length>70?'...':''}</td><td class="en_cours">${d.etat || 'nouvelle'}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </details>
+        `}
       </div>
+      ${totalCartes === 0 ? '<div class="card" style="text-align:center;margin-top:1rem;">📭 Aucune donnée pour cette matière. L\'élève n\'a pas encore commencé les automatismes.</div>' : ''}
     `;
-  });
-  
-  // Charger sauvegardes existantes
-  for(let i=0;i<generatedContentQuestions.length;i++) {
-    const saved = localStorage.getItem(`oral_${currentCandidate}_content_${i}`);
-    if(saved && document.getElementById(`ans-c-${i}`)) document.getElementById(`ans-c-${i}`).value = saved;
   }
-  for(let i=0;i<selectedCultureQuestions.length;i++) {
-    const saved = localStorage.getItem(`oral_${currentCandidate}_culture_${i}`);
-    if(saved && document.getElementById(`ans-u-${i}`)) document.getElementById(`ans-u-${i}`).value = saved;
-  }
-}
 
-async function corrigerReponse(type, idx) {
-  let reponse, question;
-  if(type === 'c') {
-    reponse = document.getElementById(`ans-c-${idx}`)?.value;
-    question = generatedContentQuestions[idx];
-  } else {
-    reponse = document.getElementById(`ans-u-${idx}`)?.value;
-    question = selectedCultureQuestions[idx];
+  function exporterJSON() {
+    const matiereId = document.getElementById("matiereSelect").value;
+    const { progression, planning } = chargerProgression(matiereId);
+    const data = { 
+      matiere: matieres[matiereId].nom,
+      date: new Date().toISOString(),
+      progression: progression,
+      planning: planning,
+      stats: calculerStats(progression)
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `suivi_${matiereId}_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
-  if(!reponse || reponse.trim().length < 20) { showToast("Écrivez une réponse plus développée (min 20 caractères)", "err"); return; }
-  showToast(`🤖 IA corrige question ${type === 'c' ? idx+1 : idx+4}...`, "ok");
-  await new Promise(r => setTimeout(r, 400));
-  
-  let evaluation;
-  if(type === 'c') evaluation = evaluerReponseSurExpose(reponse, question, currentExpose);
-  else evaluation = evaluerReponseCulture(reponse, question, currentCandidate);
-  
-  const fbDiv = document.getElementById(`fb-${type}-${idx}`);
-  const scoreSpan = document.getElementById(`score-${type}-${idx}`);
-  fbDiv.style.display = 'block';
-  fbDiv.innerHTML = `<strong>🤖 IA :</strong> ${evaluation.feedback}<br><strong>Note : ${evaluation.note}/10</strong> — ${evaluation.conseil}`;
-  scoreSpan.textContent = `🎯 ${evaluation.note}/10`;
-  
-  // Sauvegarde automatique
-  if(type === 'c') localStorage.setItem(`oral_${currentCandidate}_content_${idx}`, reponse);
-  else localStorage.setItem(`oral_${currentCandidate}_culture_${idx}`, reponse);
-  localStorage.setItem(`oral_${currentCandidate}_${type}_${idx}_note`, evaluation.note);
-}
 
-function evaluerReponseSurExpose(reponse, question, expose) {
-  let score = 6;
-  if(reponse.length > 80) score += 1;
-  if(reponse.length > 150) score += 1;
-  // Vérifie si la réponse mentionne des éléments de l'exposé
-  const motsExpose = expose.toLowerCase().split(/\s+/).slice(0, 100);
-  let match = 0;
-  motsExpose.forEach(m => { if(reponse.toLowerCase().includes(m) && m.length>4) match++; });
-  if(match > 3) score += 2;
-  score = Math.min(10, score);
-  let feedback = score >= 8 ? "Bonne réponse ! Vous avez bien assimilé votre propre exposé." : "Relisez votre exposé : la réponse devait s'appuyer sur ce que vous avez écrit.";
-  return { feedback, note: score, conseil: score>=8 ? "Félicitations" : "À revoir" };
-}
-
-function evaluerReponseCulture(reponse, question, candidate) {
-  let score = 5;
-  if(reponse.length > 60) score += 1;
-  if(reponse.length > 120) score += 1;
-  const motsCles = ["Malala", "Pakistan", "éducation", "Nobel", "féminisme", "talibans", "zéro", "Al-Khwarizmi", "Inde", "algèbre", "binaire"];
-  let trouve = 0;
-  motsCles.forEach(mc => { if(reponse.toLowerCase().includes(mc.toLowerCase())) trouve++; });
-  if(trouve >= 2) score += 2;
-  if(trouve >= 3) score += 1;
-  score = Math.min(10, score);
-  let feedback = score >= 7 ? "Réponse enrichissante, bonne culture !" : "Approfondissez vos connaissances sur le thème (recherchez des dates, noms, faits précis).";
-  return { feedback, note: score, conseil: score>=7 ? "Bien" : "À enrichir" };
-}
-
-function genererPDFAvecCorrections() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  doc.setFont("helvetica");
-  doc.setFontSize(16);
-  doc.text(`Oral Blanc · ${THEMES[currentCandidate].nom} · ${THEMES[currentCandidate].theme}`, 15, 20);
-  doc.setFontSize(10);
-  doc.text(`Date : ${new Date().toLocaleString()}`, 15, 30);
-  doc.text(`Exposé soumis (extrait) : ${currentExpose.substring(0, 200)}...`, 15, 40);
-  let y = 60;
-  
-  // Ajouter les 3 questions sur exposé
-  doc.setFontSize(11); doc.setTextColor(240, 163, 163);
-  doc.text("📖 QUESTIONS SUR L'EXPOSÉ (3)", 15, y); y+=8;
-  for(let i=0;i<generatedContentQuestions.length;i++) {
-    if(y > 270) { doc.addPage(); y=20; }
-    const reponse = document.getElementById(`ans-c-${i}`)?.value || "(non répondue)";
-    const note = localStorage.getItem(`oral_${currentCandidate}_c_${i}_note`) || "?";
-    doc.setTextColor(200,160,100); doc.text(`Q${i+1}: ${generatedContentQuestions[i]}`, 15, y); y+=6;
-    doc.setTextColor(200,200,200); const repLines = doc.splitTextToSize(`Réponse: ${reponse.substring(0,250)}`, 170); doc.text(repLines, 15, y); y+= repLines.length * 5 + 2;
-    doc.setTextColor(94,207,177); doc.text(`Note IA: ${note}/10`, 15, y); y+=8;
+  function exporterCSV() {
+    const matiereId = document.getElementById("matiereSelect").value;
+    const { progression } = chargerProgression(matiereId);
+    let csv = "Question;État;NbErreurs;DernièreModification\n";
+    for (const [q, d] of Object.entries(progression)) {
+      csv += `"${q.replace(/"/g, '""')}";${d.etat || 'nouvelle'};${d.nbErreurs || 0};${d.lastModified || ''}\n`;
+    }
+    const blob = new Blob(["\uFEFF" + csv], {type: "text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `suivi_${matiereId}_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
+
+  function reinitialiserMatiere() {
+    const matiereId = document.getElementById("matiereSelect").value;
+    const mat = matieres[matiereId];
+    if (confirm(`⚠️ Attention : cela va effacer TOUTE la progression de ${mat.nom}. Êtes-vous sûr ?`)) {
+      localStorage.removeItem(mat.storageKey);
+      localStorage.removeItem(mat.planningKey);
+      alert(`✅ ${mat.nom} a été réinitialisé.`);
+      afficherSuivi();
+    }
+  }
+
+  function reinitialiserTout() {
+    if (confirm("⚠️ Attention : cela va effacer TOUTE la progression de TOUTES les matières. Êtes-vous sûr ?")) {
+      for (const m of Object.keys(matieres)) {
+        localStorage.removeItem(matieres[m].storageKey);
+        localStorage.removeItem(matieres[m].planningKey);
+      }
+      alert("✅ Toutes les données ont été réinitialisées.");
+      afficherSuivi();
+    }
+  }
+
+  // Événements
+  document.getElementById("actualiserBtn").addEventListener("click", afficherSuivi);
+  document.getElementById("exporterBtn").addEventListener("click", exporterJSON);
+  document.getElementById("excelBtn").addEventListener("click", exporterCSV);
+  document.getElementById("resetAllBtn").addEventListener("click", reinitialiserTout);
   
-  // Ajouter les 7 questions culture
-  doc.setTextColor(240,163,163); doc.text("🌍 QUESTIONS DE CULTURE (hors exposé — 7)", 15, y); y+=8;
-  for(let i=0;i<selectedCultureQuestions.length;i++) {
-    if(y > 270) { doc.addPage(); y=20; }
-    const reponse = document.getElementById(`ans-u-${i}`)?.value || "(non répondue)";
-    const note = localStorage.getItem(`oral_${currentCandidate}_u_${i}_note`) || "?";
-    doc.setTextColor(200,160,100); doc.text(`Q${i+4}: ${selectedCultureQuestions[i]}`, 15, y); y+=6;
-    doc.setTextColor(200,200,200); const repLines = doc.splitTextToSize(`Réponse: ${reponse.substring(0,250)}`, 170); doc.text(repLines, 15, y); y+= repLines.length * 5 + 2;
-    doc.setTextColor(94,207,177); doc.text(`Note IA: ${note}/10`, 15, y); y+=8;
-  }
-  doc.save(`oral_${currentCandidate}_corrections_IA.pdf`);
-  showToast("📄 PDF généré avec toutes les corrections", "ok");
-}
-
-function sauvegarderReponses() {
-  for(let i=0;i<generatedContentQuestions.length;i++) {
-    const val = document.getElementById(`ans-c-${i}`)?.value;
-    if(val) localStorage.setItem(`oral_${currentCandidate}_content_${i}`, val);
-  }
-  for(let i=0;i<selectedCultureQuestions.length;i++) {
-    const val = document.getElementById(`ans-u-${i}`)?.value;
-    if(val) localStorage.setItem(`oral_${currentCandidate}_culture_${i}`, val);
-  }
-  showToast("✅ Toutes vos réponses sont sauvegardées", "ok");
-}
-
-function startChrono() { if(running) return; running=true; chronoInterval=setInterval(()=>{ if(chronoSecs<=0){ clearInterval(chronoInterval); running=false; showToast("⏱ Temps de l'exposé écoulé !","err"); return; } chronoSecs--; updateChrono(); },1000); }
-function resetChrono() { clearInterval(chronoInterval); running=false; chronoSecs=300; updateChrono(); }
-function updateChrono() { const m=Math.floor(chronoSecs/60); const s=chronoSecs%60; document.getElementById('chrono').textContent=`${m}:${String(s).padStart(2,'0')}`; }
-function goHome() { document.getElementById('oral-page').style.display='none'; document.getElementById('home').style.display='flex'; if(chronoInterval) clearInterval(chronoInterval); }
-function showToast(msg,t) { const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3000); }
+  // Ajouter un bouton reset par matière
+  const selecteur = document.querySelector(".selecteur");
+  const resetMatiereBtn = document.createElement("button");
+  resetMatiereBtn.textContent = "🗑️ Réinitialiser cette matière";
+  resetMatiereBtn.style.borderColor = "#e74c3c";
+  resetMatiereBtn.style.color = "#e74c3c";
+  resetMatiereBtn.onclick = reinitialiserMatiere;
+  selecteur.appendChild(resetMatiereBtn);
+  
+  // Charger au démarrage
+  afficherSuivi();
+  
+  // Auto-refresh toutes les 5 secondes (optionnel)
+  setInterval(() => {
+    afficherSuivi();
+  }, 5000);
 </script>
 </body>
 </html>
