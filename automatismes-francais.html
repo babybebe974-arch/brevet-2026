@@ -145,16 +145,14 @@ textarea.rep::placeholder{color:var(--muted);}
       <div id="faiblesRes"></div>
       <div class="btn-row" style="justify-content:center;margin-top:1rem">
         <button class="btn-primary" onclick="location.reload()">📚 Nouvelle session</button>
-        <button class="btn" onclick="window.location.href='suivi-parent.html'">📊 Suivi parental</button>
+        <button class="btn" onclick="window.location.href='suivi-parental.html'">📊 Suivi parental</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════
-// CARTES — identiques à flashcards-francais.html
-// ══════════════════════════════════════════════════
+// ==================== CHAPITRES ET CARTES ====================
 const CHAPITRES = {
   1:{ titre:"Classes grammaticales", cartes:[
     {q:"Quelles sont les 9 classes grammaticales ?", r:"Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection."},
@@ -169,21 +167,21 @@ const CHAPITRES = {
     {q:"Qu'est-ce que le COD ?", r:"Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'"},
     {q:"Qu'est-ce que le COI ?", r:"Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'"},
     {q:"Qu'est-ce que l'attribut du sujet ?", r:"Donne une qualité au sujet, relié par verbe d'état (être, paraître)."},
-    {q:"Qu'est-ce qu'un complément d'agent ?", r:"Dans une phrase passive, indique qui fait l'action. Ex: Le chat est mangé PAR LE CHIEN."},
-    {q:"Qu'est-ce qu'un complément circonstanciel de but ?", r:"Indique dans quel but (pour, afin de). Ex: Il court POUR GAGNER."},
-    {q:"Qu'est-ce qu'un complément circonstanciel de concession ?", r:"Indique une opposition (malgré, bien que). Ex: Il est sorti MALGRÉ LA PLUIE."}
+    {q:"Qu'est-ce qu'un complément d'agent ?", r:"Dans une phrase passive, indique qui fait l'action."},
+    {q:"Qu'est-ce qu'un complément circonstanciel de but ?", r:"Indique dans quel but (pour, afin de)."},
+    {q:"Qu'est-ce qu'un complément circonstanciel de concession ?", r:"Indique une opposition (malgré, bien que)."}
   ]},
   3:{ titre:"La phrase", cartes:[
     {q:"Qu'est-ce qu'une phrase simple ?", r:"Une seule proposition (un verbe)."},
     {q:"Qu'est-ce qu'une phrase complexe ?", r:"Plusieurs propositions."},
     {q:"Qu'est-ce qu'une subordonnée relative ?", r:"Introduite par qui, que, dont, où."},
-    {q:"Qu'est-ce qu'une subordonnée complétive ?", r:"Introduite par 'que', complète le verbe. Ex: Je pense QUE TU AS RAISON."},
+    {q:"Qu'est-ce qu'une subordonnée complétive ?", r:"Introduite par 'que', complète le verbe."},
     {q:"Qu'est-ce qu'une subordonnée circonstancielle ?", r:"Indique une circonstance (temps, cause, conséquence, but)."}
   ]},
   4:{ titre:"Temps et modes verbaux", cartes:[
     {q:"À quoi sert l'imparfait ?", r:"Description ou habitude dans le passé."},
     {q:"À quoi sert le passé composé ?", r:"Action ponctuelle ou bilan (oral)."},
-    {q:"À quoi sert le passé simple ?", r:"Action ponctuelle et achevée dans le passé (récit littéraire)."},
+    {q:"À quoi sert le passé simple ?", r:"Action ponctuelle et achevée (récit littéraire)."},
     {q:"À quoi sert le subjonctif ?", r:"Exprime le doute, le souhait, l'émotion, l'obligation."},
     {q:"À quoi sert le conditionnel ?", r:"Hypothèse, condition, souhait."}
   ]},
@@ -192,7 +190,7 @@ const CHAPITRES = {
     {q:"Participe passé avec avoir ?", r:"S'accorde avec le COD si placé avant."},
     {q:"Participe passé avec être ?", r:"S'accorde avec le sujet."},
     {q:"Accord des adjectifs de couleur ?", r:"Invariables s'ils viennent d'un nom (marron, orange)."},
-    {q:"Accord des adjectifs composés ?", r:"Seul le dernier adjectif s'accorde. Ex: 'des yeux verts foncés'."}
+    {q:"Accord des adjectifs composés ?", r:"Seul le dernier adjectif s'accorde."}
   ]},
   6:{ titre:"Les homophones", cartes:[
     {q:"Différence a/à ?", r:"a = avoir ; à = préposition"},
@@ -221,148 +219,30 @@ const CHAPITRES = {
     {q:"Qu'est-ce qu'un suffixe ?", r:"Élément après le radical (-able, -age, -tion)."},
     {q:"Qu'est-ce qu'un radical ?", r:"Partie qui porte le sens principal."},
     {q:"Qu'est-ce qu'une famille de mots ?", r:"Mots formés à partir du même radical."},
-    {q:"Exemple de mot avec préfixe et suffixe.", r:"'in-juste-ment' (préfixe in- + radical juste + suffixe -ment)."}
+    {q:"Exemple de mot avec préfixe et suffixe.", r:"'in-juste-ment'"}
   ]},
   10:{ titre:"Figures de style", cartes:[
-    {q:"Qu'est-ce qu'une comparaison ?", r:"Rapprochement avec outil (comme, tel). Ex: 'Fort comme un lion'."},
-    {q:"Qu'est-ce qu'une métaphore ?", r:"Analogie sans outil. Ex: 'C'est un lion'."},
-    {q:"Qu'est-ce qu'une personnification ?", r:"Qualités humaines à un objet. Ex: 'La lune sourit'."},
-    {q:"Qu'est-ce qu'une antithèse ?", r:"Deux termes opposés rapprochés. Ex: 'Je vis, je meurs'."},
-    {q:"Qu'est-ce qu'un oxymore ?", r:"Mots contradictoires. Ex: 'Une obscure clarté'."},
-    {q:"Qu'est-ce qu'une hyperbole ?", r:"Exagération. Ex: 'Je t'ai dit mille fois'."},
-    {q:"Qu'est-ce qu'une litote ?", r:"Dire moins pour suggérer plus. Ex: 'Ce n'est pas bête'."},
-    {q:"Qu'est-ce que l'euphémisme ?", r:"Atténuer une réalité désagréable. Ex: 'Il nous a quittés'."},
-    {q:"Qu'est-ce qu'une énumération ?", r:"Succession de mots du même type."},
-    {q:"Qu'est-ce qu'une gradation ?", r:"Suite de mots d'intensité croissante ou décroissante."}
-  ]},
-  11:{ titre:"Champs lexicaux", cartes:[
-    {q:"Qu'est-ce qu'un champ lexical ?", r:"Ensemble des mots liés à un même thème."},
-    {q:"Citez 3 registres de langue.", r:"Soutenu, courant, familier."},
-    {q:"Qu'est-ce que l'argot ?", r:"Langage propre à un groupe."},
-    {q:"3 mots du champ lexical de la mer.", r:"vague, bateau, pêche, marée, port, plage."},
-    {q:"3 mots du champ lexical de la guerre.", r:"combat, arme, soldat, bataille, victoire, mort."}
-  ]},
-  12:{ titre:"Synonymes, antonymes", cartes:[
-    {q:"Qu'est-ce qu'un synonyme ?", r:"Mot de sens proche."},
-    {q:"Qu'est-ce qu'un antonyme ?", r:"Mot de sens contraire."},
-    {q:"Qu'est-ce qu'un homonyme ?", r:"Même prononciation, sens différent."},
-    {q:"Synonyme de 'rapidement'.", r:"vite, promptement, prestement."},
-    {q:"Antonyme de 'grand'.", r:"petit, minuscule, court."}
-  ]},
-  13:{ titre:"Genres littéraires", cartes:[
-    {q:"Citez 4 genres littéraires.", r:"Roman, théâtre, poésie, argumentation."},
-    {q:"Qu'est-ce que la littérature d'idées ?", r:"Genres qui transmettent un message (essai, fable, pamphlet)."},
-    {q:"Qu'est-ce qu'une fable ?", r:"Courte histoire avec une morale."},
-    {q:"Qu'est-ce qu'une autobiographie ?", r:"Récit où l'auteur raconte sa propre vie."},
-    {q:"Qu'est-ce qu'une tragédie ?", r:"Pièce de théâtre où les personnages subissent un destin fatal."}
-  ]},
-  14:{ titre:"Mouvements littéraires", cartes:[
-    {q:"Citez un mouvement du XVIIIe.", r:"Les Lumières."},
-    {q:"Citez un mouvement du XIXe.", r:"Romantisme, Réalisme, Naturalisme."},
-    {q:"Citez un mouvement du XXe.", r:"Surréalisme, Existentialisme."},
-    {q:"Idées des Lumières.", r:"Raison, liberté, tolérance, progrès."},
-    {q:"Idées du Romantisme.", r:"Exaltation des sentiments, de la nature, de la mélancolie."}
-  ]},
-  15:{ titre:"Registres littéraires", cartes:[
-    {q:"Registre comique ?", r:"Provoque le rire."},
-    {q:"Registre tragique ?", r:"Inspire terreur et pitié."},
-    {q:"Registre épique ?", r:"Célèbre des héros."},
-    {q:"Registre lyrique ?", r:"Exprime des sentiments personnels (amour, nostalgie)."},
-    {q:"Registre satirique ?", r:"Critique de manière moqueuse."}
-  ]},
-  16:{ titre:"Le récit", cartes:[
-    {q:"Étapes du schéma narratif.", r:"SI → perturbateur → péripéties → résolution → SF."},
-    {q:"Narrateur omniscient ?", r:"Sait tout des personnages."},
-    {q:"Narrateur externe ?", r:"Ne décrit que les actions (caméra)."},
-    {q:"Narrateur interne ?", r:"Raconte à la 1ère personne."},
-    {q:"Qu'est-ce qu'une analepse ?", r:"Retour en arrière dans le récit (flashback)."}
-  ]},
-  17:{ titre:"La rédaction", cartes:[
-    {q:"Structure d'une introduction.", r:"Amorce, présentation, problématique, annonce du plan."},
-    {q:"3 connecteurs de cause.", r:"car, parce que, puisque."},
-    {q:"3 connecteurs de conséquence.", r:"donc, ainsi, par conséquent."},
-    {q:"3 connecteurs d'opposition.", r:"mais, cependant, pourtant."},
-    {q:"3 connecteurs d'addition.", r:"et, de plus, en outre, également."}
-  ]},
-  18:{ titre:"Contraction de texte", cartes:[
-    {q:"Règle d'or de la contraction.", r:"Ne pas commenter, ne pas juger."},
-    {q:"À combien réduire un texte ?", r:"Au 1/3 environ."},
-    {q:"Comment compter les mots ?", r:"Chaque mot compte, 'c'est' = 2 mots."},
-    {q:"Que conserver dans une contraction ?", r:"Les idées essentielles, la thèse, l'ordre logique."},
-    {q:"Que supprimer dans une contraction ?", r:"Les exemples trop détaillés, les répétitions."}
-  ]},
-  19:{ titre:"Commentaire composé", cartes:[
-    {q:"Structure du commentaire.", r:"Introduction, développement (2-3 axes), conclusion."},
-    {q:"Que ne faut-il pas faire ?", r:"Ne pas résumer le texte."},
-    {q:"Comment justifier son analyse ?", r:"Citer, nommer le procédé, expliquer l'effet."},
-    {q:"Que contient la conclusion ?", r:"Bilan de l'analyse, réponse à la problématique, ouverture."},
-    {q:"Comment nommer les procédés littéraires ?", r:"Utiliser les termes précis : comparaison, métaphore, champ lexical."}
-  ]},
-  20:{ titre:"Oral : présentation", cartes:[
-    {q:"Durée de l'oral du brevet.", r:"5 min exposé + 10 min échange."},
-    {q:"Peut-on lire son texte ?", r:"Non, utiliser des notes (mots-clés)."},
-    {q:"Peut-on utiliser un PowerPoint ?", r:"Oui, mais sobre (pas de texte lu)."},
-    {q:"Que faut-il préparer pour l'oral ?", r:"Un plan détaillé, des notes, des exemples précis."},
-    {q:"Comment gérer son stress ?", r:"Respirer, bien dormir, bien préparer."}
-  ]},
-  21:{ titre:"Oral : expression", cartes:[
-    {q:"Posture à l'oral.", r:"Debout, gestes naturels, regarder le jury."},
-    {q:"Comment bien utiliser sa voix ?", r:"Articuler, parler fort, débit calme."},
-    {q:"Comment bien articuler ?", r:"Ouvrir la bouche, parler lentement, détacher les syllabes."},
-    {q:"Que faire si on a un trou de mémoire ?", r:"Prendre une inspiration, regarder ses notes, reformuler."},
-    {q:"Comment regarder le jury ?", r:"Regarder toutes les personnes, pas seulement une."}
-  ]},
-  22:{ titre:"Oral : échange", cartes:[
-    {q:"Que faire si on ne sait pas ?", r:"L'admettre honnêtement."},
-    {q:"Que faire si on ne comprend pas la question ?", r:"Demander une reformulation poliment."},
-    {q:"Comment ne pas couper la parole ?", r:"Attendre que le jury ait fini de parler."},
-    {q:"Comment répondre à une question difficile ?", r:"Prendre le temps de réfléchir, reformuler la question."},
-    {q:"Peut-on dire 'je ne sais pas' ?", r:"Oui, en montrant qu'on a réfléchi."}
-  ]},
-  23:{ titre:"Dictée", cartes:[
-    {q:"Que vérifier en priorité ?", r:"Accords, homophones, terminaisons."},
-    {q:"Comment vérifier a/à ?", r:"Remplacer par 'avait'."},
-    {q:"Comment vérifier on/ont ?", r:"Remplacer par 'avaient'."},
-    {q:"Comment vérifier les accords du participe passé ?", r:"Avec être : accord sujet. Avec avoir : accord COD si placé avant."},
-    {q:"Comment vérifier les homophones ?", r:"Remplacer par un autre mot équivalent."}
-  ]},
-  24:{ titre:"Grammaire (analyse)", cartes:[
-    {q:"Différence nature/fonction ?", r:"Nature = classe grammaticale, fonction = rôle dans la phrase."},
-    {q:"Comment trouver le COD ?", r:"Poser 'quoi ?' après le verbe."},
-    {q:"Comment trouver le COI ?", r:"Poser 'à qui ?' ou 'de quoi ?'"},
-    {q:"Comment trouver le sujet ?", r:"Poser 'qui est-ce qui ?' avant le verbe."},
-    {q:"Comment trouver le complément circonstanciel ?", r:"Poser 'quand ?', 'où ?', 'comment ?', 'pourquoi ?'"}
-  ]},
-  25:{ titre:"Réécriture", cartes:[
-    {q:"Changer 'je' en 'nous' ?", r:"Verbe à la 1ère personne du pluriel."},
-    {q:"Changer le féminin en masculin ?", r:"Modifier déterminants, adjectifs et participes."},
-    {q:"Changer le singulier en pluriel ?", r:"Ajouter 's' ou 'x', adapter le verbe."},
-    {q:"Changer le présent en imparfait ?", r:"Appliquer les terminaisons -ais, -ais, -ait..."},
-    {q:"Changer le présent en futur ?", r:"Appliquer les terminaisons -ai, -as, -a..."}
-  ]},
-  26:{ titre:"Essai", cartes:[
-    {q:"Structure de l'essai.", r:"Introduction, développement (thèse/antithèse), conclusion."},
-    {q:"Comment trouver des idées ?", r:"Brainstorming."},
-    {q:"Comment illustrer ses arguments ?", r:"Exemples précis (œuvres, films, expériences)."},
-    {q:"Structure d'un paragraphe argumentatif.", r:"1. Idée. 2. Exemple. 3. Explication du lien."},
-    {q:"Comment conclure un essai ?", r:"Rappeler la réponse, ouvrir sur une question plus large."}
+    {q:"Qu'est-ce qu'une comparaison ?", r:"Rapprochement avec outil (comme, tel)."},
+    {q:"Qu'est-ce qu'une métaphore ?", r:"Analogie sans outil."},
+    {q:"Qu'est-ce qu'une personnification ?", r:"Qualités humaines à un objet."},
+    {q:"Qu'est-ce qu'une antithèse ?", r:"Deux termes opposés rapprochés."},
+    {q:"Qu'est-ce qu'un oxymore ?", r:"Mots contradictoires."},
+    {q:"Qu'est-ce qu'une hyperbole ?", r:"Exagération."},
+    {q:"Qu'est-ce qu'une litote ?", r:"Dire moins pour suggérer plus."},
+    {q:"Qu'est-ce que l'euphémisme ?", r:"Atténuer une réalité désagréable."},
+    {q:"Qu'est-ce qu'une énumération ?", r:"Succession de mots."},
+    {q:"Qu'est-ce qu'une gradation ?", r:"Suite de mots d'intensité croissante."}
   ]}
 };
 
-// ══════════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════════
+// ==================== ÉTAT ====================
 let eleve = 'wassil';
 let session = [], idx = 0, score = { ok:0, total:0, chTaux:{} };
 let timerInt = null, tps = 45*60;
 
-// ══════════════════════════════════════════════════
-// STORAGE
-// ══════════════════════════════════════════════════
-const key = t => `auto_fr_${t}_${eleve}`;
-const getSessions = () => JSON.parse(localStorage.getItem(key('sessions'))||'[]');
-const getRatees = () => JSON.parse(localStorage.getItem(key('ratees'))||'{}');
-
+// ==================== STORAGE ====================
+function getSessions() { return JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]'); }
+function getRatees() { return JSON.parse(localStorage.getItem(`auto_fr_ratees_${eleve}`) || '{}'); }
 function getFaibles() {
   const s = getSessions().slice(0,5);
   if (!s.length) return [];
@@ -373,24 +253,17 @@ function getFaibles() {
       taux[ch].push(t);
     });
   });
-  return Object.entries(taux)
-    .filter(([,v]) => v.reduce((a,b)=>a+b,0)/v.length < 60)
-    .map(([ch]) => parseInt(ch));
+  return Object.entries(taux).filter(([,v]) => v.reduce((a,b)=>a+b,0)/v.length < 60).map(([ch]) => parseInt(ch));
 }
 
-// ══════════════════════════════════════════════════
-// ELEVE
-// ══════════════════════════════════════════════════
+// ==================== INTERFACE ====================
 function setEleve(e) {
   eleve = e;
-  document.getElementById('btnW').className = 'eleve-btn'+(e==='wassil'?' aw':'');
-  document.getElementById('btnN').className = 'eleve-btn'+(e==='nawal'?' an':'');
+  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil' ? ' aw' : '');
+  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal' ? ' an' : '');
   buildGrid(); updateInfo();
 }
 
-// ══════════════════════════════════════════════════
-// GRILLE CHAPITRES
-// ══════════════════════════════════════════════════
 function buildGrid() {
   const faibles = getFaibles();
   const g = document.getElementById('chapGrid');
@@ -398,82 +271,42 @@ function buildGrid() {
   Object.entries(CHAPITRES).forEach(([n, ch]) => {
     const isFaible = faibles.includes(parseInt(n));
     const d = document.createElement('div');
-    d.className = 'ch-item'+(isFaible?' faible':'');
+    d.className = 'ch-item' + (isFaible ? ' faible' : '');
     d.id = 'ci'+n;
     d.onclick = () => toggleCh(n);
-    d.innerHTML = `<span class="ch-num">${n}.</span><span style="font-size:12px">${ch.titre}</span>${isFaible?'<span class="ch-warn">⚠</span>':''}`;
+    d.innerHTML = `<span class="ch-num">${n}.</span><span style="font-size:12px">${ch.titre}</span>${isFaible ? '<span class="ch-warn">⚠</span>' : ''}`;
     g.appendChild(d);
   });
 }
 
-function toggleCh(n) {
-  const el = document.getElementById('ci'+n);
-  el.classList.toggle('selected');
-  updateInfo();
-}
-
-function selectAll(v) {
-  Object.keys(CHAPITRES).forEach(n => {
-    document.getElementById('ci'+n)?.classList.toggle('selected', v);
-  });
-  updateInfo();
-}
-
-function selectFaibles() {
-  selectAll(false);
-  getFaibles().forEach(n => document.getElementById('ci'+n)?.classList.add('selected'));
-  updateInfo();
-}
-
-function getSelected() {
-  return Array.from(document.querySelectorAll('#chapGrid .ch-item.selected'))
-    .map(el => parseInt(el.id.replace('ci','')));
-}
-
+function toggleCh(n) { document.getElementById('ci'+n).classList.toggle('selected'); updateInfo(); }
+function selectAll(v) { Object.keys(CHAPITRES).forEach(n => document.getElementById('ci'+n)?.classList.toggle('selected', v)); updateInfo(); }
+function selectFaibles() { selectAll(false); getFaibles().forEach(n => document.getElementById('ci'+n)?.classList.add('selected')); updateInfo(); }
+function getSelected() { return Array.from(document.querySelectorAll('#chapGrid .ch-item.selected')).map(el => parseInt(el.id.replace('ci',''))); }
 function updateInfo() {
   const sel = getSelected();
   const cartes = sel.flatMap(n => CHAPITRES[n]?.cartes||[]);
-  const nb = Math.min(40, cartes.length);
   document.getElementById('nbCartes').textContent = cartes.length;
-  document.getElementById('nbQ').textContent = nb;
+  document.getElementById('nbQ').textContent = Math.min(40, cartes.length);
   document.getElementById('btnStart').disabled = sel.length === 0;
 }
 
-// ══════════════════════════════════════════════════
-// GÉNÉRATION SESSION — règle 20-10-10
-// ══════════════════════════════════════════════════
-function melanger(a) {
-  for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
-}
+function melanger(a) { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 
 function genSession(sel) {
   const principal = sel.flatMap(n => (CHAPITRES[n]?.cartes||[]).map(c=>({...c,ch:n,type:'principal'})));
   const ratees = getRatees();
-  const cartesRatees = Object.entries(ratees)
-    .filter(([,d])=>d.count>=1).sort((a,b)=>b[1].count-a[1].count).slice(0,10)
-    .map(([,d])=>({...d.carte,type:'ratee'}));
-  const autres = Object.entries(CHAPITRES)
-    .filter(([n])=>!sel.includes(parseInt(n)))
-    .flatMap(([n,ch])=>ch.cartes.map(c=>({...c,ch:parseInt(n),type:'revision'})));
-
+  const cartesRatees = Object.entries(ratees).filter(([,d])=>d.count>=1).sort((a,b)=>b[1].count-a[1].count).slice(0,10).map(([,d])=>({...d.carte,type:'ratee'}));
+  const autres = Object.entries(CHAPITRES).filter(([n])=>!sel.includes(parseInt(n))).flatMap(([n,ch])=>ch.cartes.map(c=>({...c,ch:parseInt(n),type:'revision'})));
   let vingt = melanger([...principal]).slice(0,20);
   let dixR = melanger([...cartesRatees]).slice(0,10);
   let dixA = melanger([...autres]).slice(0,10);
-
-  // Compléter si besoin
-  if (vingt.length<20) vingt=[...vingt,...melanger([...principal,...autres]).slice(0,20-vingt.length)];
-  if (dixR.length<10) dixR=[...dixR,...melanger([...principal]).slice(0,10-dixR.length).map(c=>({...c,type:'revision'}))];
-
+  if(vingt.length<20) vingt = [...vingt, ...melanger([...principal,...autres]).slice(0,20-vingt.length)];
+  if(dixR.length<10) dixR = [...dixR, ...melanger([...principal]).slice(0,10-dixR.length).map(c=>({...c,type:'revision'}))];
   const ids=new Set();
-  return melanger([...vingt,...dixR,...dixA])
-    .filter(c=>{if(ids.has(c.q))return false;ids.add(c.q);return true;})
-    .slice(0,40);
+  return melanger([...vingt,...dixR,...dixA]).filter(c=>{if(ids.has(c.q))return false;ids.add(c.q);return true;}).slice(0,40);
 }
 
-// ══════════════════════════════════════════════════
-// SESSION
-// ══════════════════════════════════════════════════
 function demarrer() {
   const sel = getSelected();
   if (!sel.length) return;
@@ -508,31 +341,17 @@ function affQ() {
   document.getElementById('fbArea').innerHTML='';
   document.getElementById('nextWrap').style.display='none';
   setTimeout(()=>document.getElementById('repIn')?.focus(),100);
-  document.getElementById('repIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)verif();});
 }
 
 function evaluer(rep,att) {
   if(!rep||rep.trim().length<2) return{v:false,t:0,m:"Il faut écrire une réponse."};
   const rc=rep.toLowerCase().trim(), ac=att.toLowerCase();
   if(rc===ac) return{v:true,t:100,m:"Parfait !"};
-
-  // Mots-clés importants de la réponse attendue (longueur > 3)
   const mots=ac.split(/[\s,;.]+/).filter(m=>m.length>3);
   const me=rc.split(/[\s,;.]+/);
   let ok=0; mots.forEach(m=>{if(me.some(x=>x.includes(m.slice(0,4))))ok++;});
   let t=mots.length?Math.round(ok/mots.length*100):50;
-
-  // BONUS : réponse courte mais juste
-  // Si l'élève a écrit peu de mots mais qu'ils sont tous dans la réponse attendue → bonus
-  const motsEleve=rc.split(/[\s,;.]+/).filter(m=>m.length>3);
-  if(motsEleve.length<=6 && t>=40) t=Math.min(100, t+20);
-
-  // BONUS : réponse contient le sens principal (mots du début de la réponse attendue)
-  const motsCles=mots.slice(0,3);
-  const clesOk=motsCles.filter(m=>me.some(x=>x.includes(m.slice(0,4)))).length;
-  if(clesOk>=2) t=Math.min(100, t+15);
-
-  if(t>=60) return{v:true,t,m:"Bien ! Tu as compris l'essentiel."};
+  if(t>=60) return{v:true,t,m:"Bien !"};
   if(t>=40) return{v:true,t,m:"Presque ! Relis la correction."};
   return{v:false,t,m:"À retravailler."};
 }
@@ -548,12 +367,11 @@ function verif() {
   score.chTaux[c.ch].t++;
   if(ev.v) score.chTaux[c.ch].ok++;
 
-  // Spaced repetition
   const ratees = getRatees();
   const id = c.q.slice(0,40);
   if(!ev.v){ ratees[id]={count:(ratees[id]?.count||0)+1,carte:c}; }
   else if(ratees[id]){ ratees[id].count=Math.max(0,(ratees[id].count||1)-1); if(!ratees[id].count)delete ratees[id]; }
-  localStorage.setItem(key('ratees'),JSON.stringify(ratees));
+  localStorage.setItem(`auto_fr_ratees_${eleve}`,JSON.stringify(ratees));
 
   const cls=ev.t>=65?'ok':ev.t>=40?'mid':'bad';
   const ico=ev.t>=65?'✅':ev.t>=40?'⚠️':'❌';
@@ -564,18 +382,11 @@ function verif() {
     </div>`;
   idx++;
   document.getElementById('nextWrap').style.display='block';
-  const bv=document.querySelector('#qArea .btn-primary');
-  if(bv)bv.disabled=true;
+  const bv=document.querySelector('#qArea .btn-primary'); if(bv)bv.disabled=true;
 }
 
-function suivante(){
-  document.getElementById('nextWrap').style.display='none';
-  affQ();
-}
+function suivante(){ document.getElementById('nextWrap').style.display='none'; affQ(); }
 
-// ══════════════════════════════════════════════════
-// TIMER
-// ══════════════════════════════════════════════════
 function startTimer(){
   clearInterval(timerInt);
   timerInt=setInterval(()=>{
@@ -587,34 +398,40 @@ function startTimer(){
   },1000);
 }
 
-// ══════════════════════════════════════════════════
-// FIN
-// ══════════════════════════════════════════════════
 function fin(){
   clearInterval(timerInt);
-  const pct=score.total>0?Math.round(score.ok/score.total*100):0;
-  const chTaux={};
+  const pct = score.total>0?Math.round(score.ok/score.total*100):0;
+  const chTaux = {};
   Object.entries(score.chTaux).forEach(([ch,d])=>{chTaux[ch]=Math.round(d.ok/d.t*100);});
+  const chapitresNoms = getSelected().map(n=>CHAPITRES[n]?.titre).filter(Boolean);
 
-  // Sauvegarder session locale
-  const sessions=getSessions();
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),eleve,score:score.ok,total:score.total,pourcentage:pct,chapitres:getSelected().map(n=>CHAPITRES[n]?.titre).filter(Boolean),chTaux});
-  localStorage.setItem(key('sessions'),JSON.stringify(sessions.slice(0,100)));
+  // ==== SAUVEGARDE POUR SUIVI PARENTAL (CLÉ CORRECTE) ====
+  const keyP = `suivi_sessions_francais_${eleve}`;
+  const sp = JSON.parse(localStorage.getItem(keyP) || '[]');
+  sp.unshift({
+    id: Date.now(),
+    date: new Date().toISOString(),
+    matiere: 'francais',
+    eleve: eleve,
+    chapitres: chapitresNoms,
+    chapitresTaux: chTaux,
+    score: { bonnes: score.ok, total: score.total },
+    pourcentage: pct
+  });
+  localStorage.setItem(keyP, JSON.stringify(sp.slice(0,200)));
 
-  // Sauvegarder pour suivi parental
-  const keyP=`suivi_sessions_francais_${eleve}`;
-  const sp=JSON.parse(localStorage.getItem(keyP)||'[]');
-  sp.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'francais',eleve,pourcentage:pct,chapitres:getSelected().map(n=>CHAPITRES[n]?.titre).filter(Boolean),chapitresTaux:chTaux});
-  localStorage.setItem(keyP,JSON.stringify(sp.slice(0,200)));
+  // Sauvegarde locale
+  const sessions = getSessions();
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),eleve,score:score.ok,total:score.total,pourcentage:pct,chapitres:chapitresNoms,chTaux});
+  localStorage.setItem(`auto_fr_sessions_${eleve}`, JSON.stringify(sessions.slice(0,100)));
 
   showPhase('phaseRes');
   const cls=pct>=80?'ex':pct>=60?'bi':'ef';
-  const msg=pct>=80?'🌟 Excellent ! Continue sur cette lancée.':pct>=60?'👍 Bien joué ! Encore un effort.':pct>=40?'💪 Courage ! Revois les corrections.':'📚 Continue à t\'entraîner.';
+  const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue à t\'entraîner.';
   document.getElementById('scoreBig').className='score-big '+cls;
   document.getElementById('scoreBig').textContent=pct+'%';
   document.getElementById('scoreDetail').textContent=`${score.ok} bonnes réponses sur ${score.total}`;
   document.getElementById('msgFin').textContent=msg;
-
   const faibles=Object.entries(chTaux).filter(([,t])=>t<60).map(([ch])=>CHAPITRES[ch]?.titre).filter(Boolean);
   if(faibles.length){
     document.getElementById('faiblesRes').innerHTML=`<div class="faibles-box"><h4>⚠ Chapitres à retravailler (< 60%)</h4><ul>${faibles.map(f=>`<li>• ${f}</li>`).join('')}</ul></div>`;
