@@ -2,357 +2,191 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Français - 10 sujets blancs DNB</title>
+<title>📖 Sujets Blancs Français — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 1000px; margin: 0 auto; }
-  .sujet { background: #111118; border-left: 5px solid #5ecfb1; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
-  .texte { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
-  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border-left: 3px solid #5ecfb1; white-space: pre-wrap; }
-  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
-  textarea.dictee { min-height: 200px; }
-  textarea.redaction { min-height: 250px; }
-  button { background: #5ecfb1; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; color: #09090f; font-weight: 600; }
-  button:hover { background: #7edcb8; }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
-  hr { border-color: #2a2a35; margin: 1rem 0; }
-  h3 { color: #5ecfb1; }
-  .badge { display: inline-block; background: #5ecfb120; color: #5ecfb1; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
-  .question { margin-top: 1rem; }
-  .loading { color: #5ecfb1; font-style: italic; }
-  .erreur { color: #e87a7a; }
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(94,207,177,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--teal);border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--teal);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
+.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
+.sujet-card:hover{border-color:rgba(94,207,177,0.4);transform:translateY(-2px);}
+.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+.who-row{display:flex;gap:10px;margin-bottom:20px;}
+.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
+.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
+.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
+.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
+.s-logo{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:var(--teal);}
+.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
+.back:hover{background:rgba(255,255,255,0.04);}
+.chrono-bar{background:rgba(94,207,177,0.06);border-bottom:1px solid rgba(94,207,177,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--teal);}
+.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chrono-btns{display:flex;gap:8px;}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.07);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.s-body{padding:24px;}
+.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
+.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.partie-label{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--teal);}
+.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
+.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
+.partie-body{padding:20px;}
+.texte-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px 22px;margin-bottom:20px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;color:var(--text);border-left:2px solid var(--teal);}
+.texte-box .auteur{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:12px;text-align:right;}
+.q-block{margin-bottom:16px;}
+.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);font-weight:700;min-width:24px;margin-top:2px;}
+.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
+.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
+.answer-ta{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;}
+.answer-ta:focus{border-color:rgba(94,207,177,0.4);}
+.redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
+.btn-correction{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;text-decoration:none;display:inline-block;margin-top:8px;}
+.btn-correction:hover{background:rgba(94,207,177,0.12);}
+.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
+.corr-btn:hover{background:rgba(94,207,177,0.12);}
+.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
+.corr-box.show{display:block;}
+.corr-box strong{color:var(--text);}
+.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
+.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
+.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.ae-label{font-size:13px;flex:1;}
+.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
+.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ae-total{background:linear-gradient(135deg,rgba(94,207,177,0.1),rgba(94,207,177,0.05));border:1px solid rgba(94,207,177,0.25);border-radius:var(--r-sm);padding:14px;text-align:center;margin-top:14px;}
+.ae-total-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--teal);}
+.ae-total-lbl{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
+.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btns{display:flex;gap:10px;margin-top:12px;}
+.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
+.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.nav-btn.primary{background:linear-gradient(135deg,var(--teal),#3aad8a);border:none;color:#060f0a;font-weight:700;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
+.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
+.ai-link{display:inline-block;margin-top:8px;padding:8px 16px;background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;color:#080600;font-weight:700;font-size:12px;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.ai-link:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,200,122,0.3);}
+@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Français — 10 sujets blancs (DNB)</h1>
-  <div id="sujets"></div>
+<div id="home">
+  <div class="badge">📖 Sujets blancs complets — Français</div>
+  <h1>Brevet Blanc <em>Français</em></h1>
+  <p class="sub">10 sujets complets format DNB. Texte + compréhension + grammaire + rédaction. Corrections détaillées avec barèmes.</p>
+  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
+  <div class="who-row">
+    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
+    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+  </div>
+  <div class="sujets-grid" id="sujets-grid"></div>
+  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
 </div>
+
+<div id="sujet-page">
+  <div class="s-header">
+    <div><div class="s-logo">📖 Brevet Blanc Français</div><div class="s-meta" id="s-meta">—</div></div>
+    <button class="back" onclick="goHome()">← Retour</button>
+  </div>
+  <div class="chrono-bar">
+    <span style="font-size:11px;color:var(--teal);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;">⏱ Chronomètre</span>
+    <div class="chrono-time" id="chrono">2:30:00</div>
+    <div class="chrono-btns">
+      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
+      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="s-body" id="s-body"></div>
+</div>
+<div class="toast" id="toast"></div>
+
 <script>
-
-const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec';
-
-async function callIA(prompt, system) {
-  const response = await fetch(PROXY_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, system })
-  });
-  if (!response.ok) throw new Error('HTTP ' + response.status);
-  const result = await response.json();
-  if (result.success && result.content) return result.content;
-  throw new Error(result.error || 'Réponse inattendue');
-}
-
-function safeParseJSON(txt) {
-  try {
-    return JSON.parse(txt.replace(/```json|```/g, '').trim());
-  } catch(e) { return null; }
-}
-
 const SUJETS = [
-  { id:1, annee:"2025", session:"Métropole (juin)", titre:"Simone de Beauvoir – La Force de l'âge",
-    texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
-    auteur:"Simone de Beauvoir, La Force de l'âge (1960)",
-    dictee:{ titre:"Dictée – Simone de Beauvoir", texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs. Dans les vieux escaliers, une vie toujours neuve me remplissait les yeux. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde." },
-    questions:[
-      {q:"1. Où se passe cette scène ? Relevez deux éléments du texte qui justifient votre réponse.", pts:3, rep:"À Marseille (Vieux-Port, Notre-Dame-de-la-Garde, jetée, pêcheurs)."},
-      {q:"2. Quelle est l'attitude du narrateur ? Justifiez par une citation.", pts:3, rep:"Il est heureux, content de lui, curieux. Citation : 'J'étais contente de moi' / 'Il fallait que je sorte, que je marche'."},
-      {q:"3. Relevez une figure de style dans le texte. Nommez-la et expliquez son effet.", pts:4, rep:"Métaphore : 'une vie toujours neuve me remplissait les yeux' (la vie est comparée à un liquide)."},
-      {q:"4. Quelle(s) différence(s) avec la vie à Paris ? Citez le texte.", pts:3, rep:"À Paris : 'brouhaha' (bruit, agitation). À Marseille : liberté, marche, mer, vie neuve."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Je ne pouvais pas rester chez moi.' (sujet, verbe, négation).", pts:2, rep:"Sujet : 'Je', verbe : 'pouvais', négation : 'ne...pas'."},
-      {q:"2. Réécrivez 'Je montais' à l'imparfait de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous montions."},
-      {q:"3. Donnez la nature et la fonction de 'mélancoliques' dans la phrase.", pts:2, rep:"Adjectif qualificatif, épithète du nom 'fins d'après-midi'."}
-    ],
-    redaction:{sujet1:"Racontez un moment où vous avez découvert une nouvelle ville qui vous a plu.", sujet2:"Pensez-vous que voyager seul permet de mieux se connaître ? Argumentez.", pts:20}
-  },
-  { id:2, annee:"2025", session:"Métropole (septembre)", titre:"Marc Dugain – La Chambre des officiers",
-    texte:"Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables. Marguerite souriait, hochait la tête, et parfois elle nous surprenait par une repartie pleine d'humour.",
-    auteur:"Marc Dugain, La Chambre des officiers (1998)",
-    dictee:{ titre:"Dictée – Marc Dugain", texte:"Marguerite devint le centre de nos préoccupations. Pour lui parler, nous nous adressions à Penanster. Elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Penanster se sentait utile. Il traduisait nos paroles avec patience. Marguerite souriait et nous surprenait par son humour." },
-    questions:[
-      {q:"1. Pourquoi Penanster est-il indispensable dans ce groupe ?", pts:3, rep:"Il sert d'intermédiaire car Marguerite est sourde. Il traduit les paroles."},
-      {q:"2. Quels sont les sentiments de Penanster ? Justifiez avec deux citations.", pts:4, rep:"Il se sent utile, essentiel, épanoui. Citations : 'Il se sentait utile, essentiel' / 's'épanouissait'."},
-      {q:"3. Quelle est la qualité principale de Marguerite d'après le texte ?", pts:2, rep:"Sa voix douce et son humour."}
-    ],
-    grammaire:[
-      {q:"1. Identifiez la proposition subordonnée relative dans 'qui lui répétait nos propos'.", pts:2, rep:"'qui lui répétait nos propos' – subordonnée relative, antécédent 'Penanster'."},
-      {q:"2. Conjuguez 's'intégrer' au passé simple, 3e personne du singulier.", pts:2, rep:"elle s'intégra."},
-      {q:"3. Réécrivez 'Marguerite souriait' au présent de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous sourions."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui surmonte un handicap.", sujet2:"La solidarité est-elle une valeur essentielle dans notre société ?", pts:20}
-  },
-  { id:3, annee:"2024", session:"Métropole (juin)", titre:"George Sand – Histoire de ma vie",
-    texte:"Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine.",
-    auteur:"George Sand, Histoire de ma vie (1855)",
-    dictee:{ titre:"Dictée – George Sand", texte:"Je n'avais pas encore douze ans lorsque mon frère mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère tomba dans une tristesse profonde. Je la voyais pleurer en silence. Mon père, lui, ne pleurait pas. Il cachait sa douleur." },
-    questions:[
-      {q:"1. Quel est l'événement tragique raconté par le narrateur ?", pts:2, rep:"La mort de son frère, tué dans un accident."},
-      {q:"2. Décrivez la réaction de la mère et celle du père.", pts:4, rep:"La mère pleure, elle est profondément triste. Le père ne pleure pas, il reste silencieux devant la fenêtre, cachant sa douleur."},
-      {q:"3. Pourquoi le narrateur n'ose-t-il pas parler à sa mère ?", pts:3, rep:"Il n'ose pas, par crainte ou par respect, mais il reste près d'elle pour la réconforter."},
-      {q:"4. Que comprend le narrateur plus tard à propos de son père ?", pts:3, rep:"Que son père cachait sa douleur pour ne pas ajouter à la peine de la famille."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Je la voyais pleurer en silence' (COD, infinitif).", pts:2, rep:"'la' = COD (la mère) ; 'pleurer' = infinitif complément du verbe voir."},
-      {q:"2. Conjuguez 'cacher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait caché."},
-      {q:"3. Réécrivez au discours indirect : 'Je compris : mon père cachait sa douleur.'", pts:3, rep:"Je compris que mon père cachait sa douleur."}
-    ],
-    redaction:{sujet1:"Racontez un événement douloureux qui a marqué votre enfance.", sujet2:"Faut-il montrer ses émotions ou les cacher ? Argumentez.", pts:20}
-  },
-  { id:4, annee:"2024", session:"Amérique du Nord", titre:"Albert Camus – L'Étranger",
-    texte:"Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. L'asile est à Marengo, à quatre-vingts kilomètres d'Alger. Je prendrai le bus à deux heures et j'arriverai dans l'après-midi. Ainsi, je pourrai veiller et rentrer demain soir. J'ai demandé deux jours de congé à mon patron. Il ne pouvait pas me les refuser.",
-    auteur:"Albert Camus, L'Étranger (1942)",
-    dictee:{ titre:"Dictée – Albert Camus", texte:"Aujourd'hui, maman est morte. J'ai reçu un télégramme de l'asile. Cela ne veut rien dire. C'était peut-être hier. Je prendrai le bus à deux heures. Ainsi, je pourrai veiller et rentrer demain soir." },
-    questions:[
-      {q:"1. Quelle nouvelle le narrateur apprend-il ?", pts:2, rep:"La mort de sa mère."},
-      {q:"2. Que suggère la répétition 'Ou peut-être hier' ?", pts:4, rep:"L'indifférence, le détachement émotionnel du narrateur, ou son incertitude."},
-      {q:"3. Quels sont les projets du narrateur ?", pts:3, rep:"Prendre le bus, veiller sa mère, rentrer le lendemain soir."},
-      {q:"4. Que demande-t-il à son patron ?", pts:3, rep:"Deux jours de congé."}
-    ],
-    grammaire:[
-      {q:"1. Identifiez la nature de la proposition 'que je ne sais pas'.", pts:2, rep:"Proposition subordonnée relative, antécédent 'hier'."},
-      {q:"2. Conjuguez 'pouvoir' au conditionnel présent, 3e personne du singulier.", pts:2, rep:"il pourrait."},
-      {q:"3. Réécrivez au discours indirect : 'Il me dit : \"Je prendrai le bus\".'", pts:3, rep:"Il me dit qu'il prendrait le bus."}
-    ],
-    redaction:{sujet1:"Racontez un moment où vous avez appris une nouvelle qui a changé votre vie.", sujet2:"Le détachement émotionnel est-il une force ou une faiblesse ?", pts:20}
-  },
-  { id:5, annee:"2023", session:"Métropole (juin)", titre:"Molière – Le Malade imaginaire",
-    texte:"Mon cher frère, vous ne sauriez croire combien je suis troublé. Argan, notre malade imaginaire, vient de me consulter. Il souffre de tous les maux et ne veut entendre parler que de sa médecine. Il veut se faire saigner, purger, traiter pour la moindre vapeur. Je lui ai conseillé le repos, mais il préfère ses apothicaires. Que voulez-vous, l'homme est ainsi fait : il se plaît à être malade. Je crains qu'il ne finisse par se rendre vraiment malade à force de vouloir se soigner.",
-    auteur:"Molière, Le Malade imaginaire (1673)",
-    dictee:{ titre:"Dictée – Molière", texte:"Argan, notre malade imaginaire, vient de me consulter. Il ne veut entendre parler que de sa médecine. Je lui ai conseillé le repos, mais il préfère ses apothicaires. L'homme se plaît à être malade." },
-    questions:[
-      {q:"1. Qui est Argan et quel est son comportement ?", pts:3, rep:"Argan est un malade imaginaire. Il consulte pour tout, veut se faire saigner et purger, se croit toujours malade."},
-      {q:"2. Que craint le narrateur pour Argan ?", pts:4, rep:"Il craint qu'Argan ne devienne vraiment malade à force de vouloir se soigner."},
-      {q:"3. Relevez une hyperbole dans le texte. Justifiez.", pts:3, rep:"'Il souffre de tous les maux' – exagération, Argan n'a rien."},
-      {q:"4. Quelle est la morale implicite de ce texte ?", pts:3, rep:"On peut se rendre malade par la peur d'être malade ou par l'abus de médecine."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la proposition 'qu'Argan ne finisse par se rendre malade'.", pts:2, rep:"Proposition subordonnée conjonctive (complément du verbe 'craindre'), verbe au subjonctif."},
-      {q:"2. Conjuguez 'consulter' au passé simple, 1ère personne du singulier.", pts:2, rep:"je consultai."},
-      {q:"3. Réécrivez la dernière phrase à la forme négative.", pts:2, rep:"Je ne crains pas qu'il ne finisse par se rendre malade."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui se croit toujours malade.", sujet2:"La médecine guérit-elle tous les maux ? Argumentez.", pts:20}
-  },
-  { id:6, annee:"2023", session:"Polynésie", titre:"Victor Hugo – Les Misérables",
-    texte:"Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.",
-    auteur:"Victor Hugo, Les Misérables (1862)",
-    dictee:{ titre:"Dictée – Victor Hugo", texte:"Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. Le vent froid lui glaçait le visage." },
-    questions:[
-      {q:"1. Décrivez l'état d'esprit du personnage.", pts:3, rep:"Fatigué, seul, triste, désespéré, il cherche un abri."},
-      {q:"2. Relevez trois éléments du décor qui renforcent cette impression.", pts:4, rep:"Rues sombres et désertes, nuit profonde, pas d'étoiles, vent froid."},
-      {q:"3. Pourquoi personne ne lui ouvre-t-il ?", pts:3, rep:"Il est pauvre, les gens se méfient des pauvres, ou ils dorment."},
-      {q:"4. Quelle est la situation finale du personnage ?", pts:3, rep:"Il s'assied sur une borne, épuisé, sans avoir trouvé de gîte."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Pas une étoile ne brillait' (négation, sens).", pts:2, rep:"Négation totale, insiste sur le vide et l'obscurité."},
-      {q:"2. Conjuguez 'frapper' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait frappé."},
-      {q:"3. Réécrivez 'Il marchait lentement' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous marchions lentement."}
-    ],
-    redaction:{sujet1:"Racontez une nuit difficile où vous vous êtes senti seul.", sujet2:"La pauvreté et la solitude sont-elles toujours liées ?", pts:20}
-  },
-  { id:7, annee:"2022", session:"Métropole", titre:"Alain-René Lesage – Gil Blas",
-    texte:"Ce cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : « Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde. » Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.",
-    auteur:"Alain-René Lesage, Gil Blas (1715)",
-    dictee:{ titre:"Dictée – Gil Blas", texte:"Le cavalier s'approcha de moi d'un air empressé. Il m'apprit que j'étais l'ornement d'Oviedo. Je ne pus lui répondre. Je compris plus tard qu'il voulait seulement manger à mes dépens." },
-    questions:[
-      {q:"1. Quels éloges le cavalier fait-il de Gil Blas ? Citez-en trois.", pts:4, rep:"'ornement d'Oviedo', 'flambeau de la philosophie', 'huitième merveille du monde'."},
-      {q:"2. Quelle est la véritable intention du cavalier ? Justifiez avec la fin du texte.", pts:3, rep:"Manger aux dépens de Gil Blas. Citation : 'qu'il voulait seulement manger à mes dépens'."},
-      {q:"3. Pourquoi Gil Blas ne peut-il pas répondre tout de suite ?", pts:2, rep:"Parce que le cavalier le serre trop fort (accolade)."}
-    ],
-    grammaire:[
-      {q:"1. Relevez une hyperbole et justifiez.", pts:2, rep:"'la huitième merveille du monde' – exagération élogieuse."},
-      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
-      {q:"3. Analysez la proposition 'qu'il voulait seulement manger à mes dépens'.", pts:2, rep:"Proposition subordonnée conjonctive complétive (COD du verbe 'compris')."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'un flatteur qui cherche à profiter des autres.", sujet2:"Faut-il toujours se méfier des compliments ?", pts:20}
-  },
-  { id:8, annee:"2022", session:"Polynésie", titre:"Guy de Maupassant – La Parure",
-    texte:"C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.",
-    auteur:"Guy de Maupassant, La Parure (1884)",
-    dictee:{ titre:"Dictée – Maupassant", texte:"C'était une de ces jolies filles nées par erreur dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances. Elle épousa un petit commis. Leur beauté tient lieu de naissance aux femmes." },
-    questions:[
-      {q:"1. Pourquoi cette fille est-elle malheureuse ?", pts:3, rep:"Elle est née pauvre mais se sent faite pour la richesse. Elle n'a pas de dot, pas d'espérances."},
-      {q:"2. Qui épouse-t-elle ?", pts:2, rep:"Un petit commis du ministère."},
-      {q:"3. Que veulent dire les dernières phrases ?", pts:5, rep:"Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale."}
-    ],
-    grammaire:[
-      {q:"1. Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts:2, rep:"Gradation ascendante, le mariage est le but ultime pour une femme à l'époque."},
-      {q:"2. Conjuguez 'se résigner' au passé simple, 3e personne du singulier.", pts:2, rep:"elle se résigna."},
-      {q:"3. Réécrivez la dernière phrase à la forme affirmative.", pts:2, rep:"Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2:"L'apparence est-elle plus importante que l'origine sociale ?", pts:20}
-  },
-  { id:9, annee:"2021", session:"Métropole (juin)", titre:"Émile Zola – Germinal",
-    texte:"Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.",
-    auteur:"Émile Zola, Germinal (1885)",
-    dictee:{ titre:"Dictée – Zola", texte:"Dans la plaine désolée, un homme marchait seul le long de la route. Il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Seul le vent soufflait, lugubre. Il était seul, complètement seul." },
-    questions:[
-      {q:"1. Où se passe cette scène ?", pts:2, rep:"Dans une plaine déserte, de nuit."},
-      {q:"2. Quels sentiments dominent ?", pts:3, rep:"La solitude, l'abandon, la tristesse."},
-      {q:"3. Relevez trois répétitions qui renforcent le sentiment de solitude.", pts:4, rep:"'seul' (répété), 'pas une maison, pas un arbre' (négations), 'il ne voyait rien, il ne connaissait personne'."},
-      {q:"4. Que fait le personnage de temps en temps ?", pts:3, rep:"Il lève la tête et regarde le ciel noir."}
-    ],
-    grammaire:[
-      {q:"1. Analysez les négations dans 'Pas une maison, pas un arbre'.", pts:2, rep:"Négations totales, insistent sur le vide absolu."},
-      {q:"2. Conjuguez 'marcher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait marché."},
-      {q:"3. Réécrivez 'Il était seul' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous étions seuls."}
-    ],
-    redaction:{sujet1:"Racontez un voyage solitaire.", sujet2:"La solitude est-elle une chance ou une punition ?", pts:20}
-  },
-  { id:10, annee:"2026", session:"Sujet zéro", titre:"Jules Verne – Vingt Mille Lieues sous les mers",
-    texte:"Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.",
-    auteur:"Jules Verne, Vingt Mille Lieues sous les mers (1870)",
-    dictee:{ titre:"Dictée – Jules Verne", texte:"Le commandant prononça des paroles solennelles. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait la surface des flots. Soudain, une trombe d'eau jaillit. Une masse énorme émergea." },
-    questions:[
-      {q:"1. Que se passe-t-il ?", pts:3, rep:"On se prépare à pêcher un monstre marin."},
-      {q:"2. Quelle est la réaction des marins ?", pts:3, rep:"Ils s'élancent aux engins, prêts à agir."},
-      {q:"3. Quels éléments du décor sont décrits ?", pts:3, rep:"Mer calme, lune, flots, trombe d'eau."}
-    ],
-    grammaire:[
-      {q:"1. Relevez les verbes d'action dans la dernière phrase.", pts:2, rep:"jaillit, émergea."},
-      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
-      {q:"3. Analysez la proposition 'qu'il ordonnait la pêche du monstre'.", pts:2, rep:"Proposition subordonnée conjonctive complétive, COD du verbe 'devinai'."}
-    ],
-    redaction:{sujet1:"Racontez une aventure en mer.", sujet2:"L'aventure est-elle nécessaire à l'homme ?", pts:20}
-  }
+  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.\n\nIci, dans ce sous-bois où la lumière filtrait à peine, il retrouvait quelque chose d'essentiel. Peut-être était-ce simplement le silence. Ou peut-être était-ce ce sentiment étrange d'être infiniment petit face à ces géants végétaux qui avaient vu passer des générations entières.\n\nIl posa sa main sur un chêne noueux, vieux de plusieurs siècles. "Toi, tu as tout vu", murmura-t-il. L'arbre ne répondit pas, bien sûr. Mais Thomas eut l'impression, fugace et troublante, d'être entendu.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable", "sous-bois", "géants végétaux".'},{n:'2',pts:3,q:'Pourquoi Thomas a-t-il quitté la ville ? Citez le texte pour justifier.',c:'Il a fui la ville pour retrouver le calme et l\'essentiel. Citation : "laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne."'},{n:'3',pts:3,q:'Relevez deux figures de style et nommez-les.',c:'1. "voûte impénétrable" → métaphore (les branches = une voûte). 2. "ces géants végétaux" → métaphore (les arbres = des géants). 3. "silence épais et vivant" → oxymore ou personnification.'},{n:'4',pts:2,q:'Quel est le sentiment éprouvé par Thomas au contact de l\'arbre ? Justifiez.',c:'Sentiment d\'être entendu, de communion avec la nature. Citation : "eut l\'impression, fugace et troublante, d\'être entendu."'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt" (via le verbe d\'état "était").'},{n:'2',pts:2,q:'Réécrivez la phrase suivante au passé simple : "Il pose sa main sur un chêne noueux."',c:'"Il posa sa main sur un chêne noueux."'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans."',c:'"laissant derrière lui les écrans, les notifications, le bruit constant" est une proposition participiale (gérondif/participe présent).'},{n:'4',pts:2,q:'Relevez un exemple de discours direct dans le texte et expliquez son effet.',c:'"Toi, tu as tout vu" — discours direct. Effet : donne une impression d\'intimité, montre le lien affectif de Thomas avec l\'arbre.'}],redaction:{pts:20,sujet1:'Comme Thomas, vous avez un jour ressenti le besoin de vous éloigner de votre quotidien. Racontez cette expérience et ce qu\'elle vous a apporté. (Minimum 300 mots)',sujet2:'Pensez-vous que la nature soit indispensable au bien-être de l\'être humain ? Développez votre argumentation en vous appuyant sur des exemples précis. (Minimum 300 mots)',criteres:'Critères d\'évaluation (20 pts) :\n• Compréhension du sujet et pertinence (4 pts)\n• Organisation et structure (intro/dév/conclu) (4 pts)\n• Richesse des arguments ou du récit (4 pts)\n• Qualité de la langue — vocabulaire, style (4 pts)\n• Orthographe et grammaire (4 pts)'}},
+  {id:2,titre:'La mémoire et le temps qui passe',texte:`Grand-mère avait quatre-vingt-deux ans et une mémoire extraordinaire. Non pas pour les événements récents — ceux-là, elle les oubliait aussi vite qu'ils arrivaient — mais pour les souvenirs anciens, ceux d'avant, quand le monde était différent.\n\nElle pouvait décrire avec une précision stupéfiante la robe qu'elle portait le jour de son premier bal, en 1958. Elle se souvenait de l'odeur exacte du pain frais que sa mère sortait du four chaque dimanche matin. Elle revoyait encore, les yeux fermés, le visage de son frère disparu à la guerre, un frère qu'elle n'avait plus vu depuis soixante ans.\n\n"Le passé est plus réel que le présent", disait-elle parfois avec un sourire mélancolique. Sa petite-fille Camille, assise en face d'elle, l'écoutait avec un mélange d'admiration et d'inquiétude. Ces souvenirs la tenaient en vie, c'était évident. Mais ils l'empêchaient aussi, peut-être, de vivre vraiment dans le présent.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Quelle particularité a la mémoire de la grand-mère ? Expliquez avec vos propres mots.',c:'Elle a une excellente mémoire du passé lointain mais oublie facilement les événements récents. Elle se souvient avec précision de détails d\'il y a 60 ans mais pas de ce qui vient de se passer.'},{n:'2',pts:3,q:'Relevez trois exemples de souvenirs précis de la grand-mère.',c:'1. La robe du premier bal en 1958. 2. L\'odeur du pain frais de sa mère le dimanche. 3. Le visage de son frère disparu à la guerre.'},{n:'3',pts:3,q:'Comment Camille voit-elle les souvenirs de sa grand-mère ? Est-ce uniquement positif ?',c:'Camille ressent un "mélange d\'admiration et d\'inquiétude". Positif : les souvenirs la "tenaient en vie". Négatif : ils l\'empêchaient "de vivre vraiment dans le présent". Vision nuancée.'},{n:'4',pts:2,q:'Expliquez la phrase : "Le passé est plus réel que le présent."',c:'Pour la grand-mère, ses souvenirs anciens sont si précis et vivants qu\'ils semblent plus concrets que la réalité immédiate qu\'elle oublie. Le passé est sa vraie vie.'}],grammaire:[{n:'1',pts:2,q:'Analysez le groupe nominal "sa petite-fille Camille" : donnez la nature de chaque mot.',c:'"sa" = déterminant possessif. "petite-fille" = nom commun (noyau du GN). "Camille" = nom propre (apposition).'},{n:'2',pts:2,q:'Conjuguez "disparaître" au plus-que-parfait de l\'indicatif, 3ème personne du singulier.',c:'"il/elle avait disparu"'},{n:'3',pts:2,q:'Identifiez la proposition subordonnée dans : "Mais ils l\'empêchaient aussi, peut-être, de vivre vraiment dans le présent."',c:'"de vivre vraiment dans le présent" est une proposition subordonnée infinitive complément du verbe "empêchaient".'},{n:'4',pts:2,q:'Réécrivez au discours indirect : Elle disait : "Le passé est plus réel que le présent."',c:'Elle disait que le passé était plus réel que le présent.'}],redaction:{pts:20,sujet1:'Vous souvenez-vous d\'une personne âgée qui vous a transmis quelque chose d\'important ? Racontez cette rencontre et ce qu\'elle vous a apporté. (Min. 300 mots)',sujet2:'La mémoire fait-elle partie de l\'identité d\'une personne ? Développez votre réflexion en vous appuyant sur des exemples. (Min. 300 mots)',criteres:'Critères DNB (20 pts) :\n• Pertinence et richesse des idées (4 pts)\n• Structure (introduction, développement, conclusion) (4 pts)\n• Qualité narrative ou argumentative (4 pts)\n• Vocabulaire et style (4 pts)\n• Orthographe et grammaire (4 pts)'}}
 ];
 
-// ── CORRECTION DICTÉE ──────────────────────────────────────────────────
-async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
-  const texteEleve = document.getElementById(idTextarea).value.trim();
-  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
-  const corrDiv = document.getElementById('correction-dictee-' + numSujet);
-  corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
-  corrDiv.style.display = 'block';
-  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
-  const prompt = 'Texte officiel : "' + texteOfficiel + '"\nDictée élève : "' + texteEleve + '"';
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
-    } else {
-      corrDiv.innerHTML = txt;
-    }
-  } catch(e) {
-    corrDiv.innerHTML = '<span class="erreur">Erreur : ' + e.message + '</span>';
-  }
-}
+let who = null, currentIdx = 0, chronoSecs = 9000, running = false, chronoInterval = null;
 
-// ── CORRECTION EXERCICE ────────────────────────────────────────────────
-async function corrigerExo(idTextarea, reponseAttendue, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "explication courte"}';
-  const prompt = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
-    } else {
-      alert(txt);
-    }
-  } catch(e) {
-    alert('Erreur : ' + e.message);
-  }
-  btn.disabled = false;
-  btn.textContent = 'Corriger avec IA';
-}
+function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
+function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('fr_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); const isDone = done.includes(s.id); d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Compréhension · Grammaire · Rédaction</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
+function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 9000; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0,0); }
+function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
 
-// ── CORRECTION RÉDACTION ───────────────────────────────────────────────
-async function corrigerRedaction(idTextarea, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
-  const prompt = 'Rédaction :\n' + texte;
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
-    } else {
-      alert(txt);
-    }
-  } catch(e) {
-    alert('Erreur : ' + e.message);
-  }
-  btn.disabled = false;
-  btn.textContent = 'Corriger la rédaction avec IA';
-}
-
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-}
-
-// ── RENDU ──────────────────────────────────────────────────────────────
-function afficherSujets() {
-  const container = document.getElementById('sujets');
-  container.innerHTML = '';
-  SUJETS.forEach((s, idx) => {
-    const num = idx + 1;
-    const div = document.createElement('div');
-    div.className = 'sujet';
-    let html = '<h3>Sujet ' + num + ' – ' + s.annee + ' (' + s.session + ') <span class="badge">' + s.titre + '</span></h3>';
-    html += '<div class="texte"><strong>Texte :</strong><br>' + s.texte + '<br><em>' + s.auteur + '</em></div>';
-
-    // DICTÉE
-    const dicteeTexteEsc = s.dictee.texte.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
-    html += '<div class="document"><strong>Dictée (10 points)</strong><br>' + s.dictee.titre + '<br><em>Le professeur lira le texte à voix haute. Écoutez et écrivez.</em></div>';
-    html += '<textarea id="dictee-' + num + '" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>';
-    html += '<button onclick="corrigerDictee(\'dictee-' + num + '\', `' + dicteeTexteEsc + '`, ' + num + ')">Corriger la dictée avec IA</button>';
-    html += '<div id="correction-dictee-' + num + '" class="correction"></div>';
-
-    // COMPRÉHENSION
-    const ptsComp = s.questions.reduce((a, q) => a + q.pts, 0);
-    html += '<br><div><strong>📖 Compréhension (' + ptsComp + ' points)</strong></div>';
-    s.questions.forEach((q, i) => {
-      const repEsc = q.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.q + '</div>';
-      html += '<textarea id="comp-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
-      html += '<button onclick="corrigerExo(\'comp-' + num + '-' + i + '\', \'' + repEsc + '\', ' + q.pts + ')">Corriger avec IA</button>';
-      html += '<button onclick="afficherCorrection(\'corr-comp-' + num + '-' + i + '\')">Voir correction</button>';
-      html += '<div id="corr-comp-' + num + '-' + i + '" class="correction">' + q.rep + '</div>';
-    });
-
-    // GRAMMAIRE
-    const ptsGram = s.grammaire.reduce((a, g) => a + g.pts, 0);
-    html += '<br><div><strong>📝 Grammaire (' + ptsGram + ' points)</strong></div>';
-    s.grammaire.forEach((g, i) => {
-      const repEsc = g.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + g.pts + ' points)<br>' + g.q + '</div>';
-      html += '<textarea id="gram-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
-      html += '<button onclick="corrigerExo(\'gram-' + num + '-' + i + '\', \'' + repEsc + '\', ' + g.pts + ')">Corriger avec IA</button>';
-      html += '<button onclick="afficherCorrection(\'corr-gram-' + num + '-' + i + '\')">Voir correction</button>';
-      html += '<div id="corr-gram-' + num + '-' + i + '" class="correction">' + g.rep + '</div>';
-    });
-
-    // RÉDACTION
-    html += '<br><div><strong>✍️ Rédaction (' + s.redaction.pts + ' points)</strong><br>';
-    html += 'Choix A : ' + s.redaction.sujet1 + '<br>';
-    html += 'Choix B : ' + s.redaction.sujet2 + '</div>';
-    html += '<textarea id="redac-' + num + '" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>';
-    html += '<button onclick="corrigerRedaction(\'redac-' + num + '\', ' + s.redaction.pts + ')">Corriger la rédaction avec IA</button>';
-    html += '<hr>';
-
-    div.innerHTML = html;
-    container.appendChild(div);
+function renderSujet(s) {
+  let h = '';
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h += `<div class="texte-box">${s.texte.replace(/\n\n/g, '</p><p style="margin-top:14px">').replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
+  s.comprehension.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
+  h += `</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
+  s.grammaire.forEach((q, i) => {
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g${i}" placeholder="Ta réponse..."></textarea><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+  });
+  h += `</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h += `<p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Choisissez UN sujet parmi les deux proposés. Minimum 300 mots.</p>`;
+  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px;border-left:2px solid var(--gold)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet A — Texte narratif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet1}</div></div>`;
+  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border-left:2px solid var(--purple)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet B — Texte argumentatif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet2}</div></div>`;
+  h += `<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
+  h += `<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
+  h += `<a href="correcteur-ia.html" target="_blank" class="ai-link">🤖 Faire corriger ma rédaction avec l'IA</a>`;
+  h += `<button class="corr-btn" onclick="tog('rc')">📖 Voir les critères de correction</button><div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
+  h += `</div></div>`;
+  h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
+    <div class="ae-row"><span class="ae-label">Compréhension</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-row"><span class="ae-label">Grammaire</span><input type="number" class="ae-input" id="ae2" min="0" max="16" value="0" oninput="updateTotal()"><span class="ae-max">/ 16</span></div>
+    <div class="ae-row"><span class="ae-label">Rédaction</span><input type="number" class="ae-input" id="ae3" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
+    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/56</div></div>
+  </div>`;
+  h += `<div class="nav-btns">
+    ${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}
+    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>
+    ${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}
+  </div>`;
+  document.getElementById('s-body').innerHTML = h;
+  const redac = document.getElementById('redac');
+  if(redac) redac.addEventListener('input', function() { const n = this.value.trim() ? this.value.trim().split(/\s+/).length : 0; document.getElementById('wc-redac').textContent = n + ' mot' + (n > 1 ? 's' : ''); });
 }
 
-afficherSujets();
+function tog(id) { document.getElementById(id).classList.toggle('show'); }
+function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20); const el = document.getElementById('ae-total'); el.textContent = t + '/56'; el.style.color = t >= 45 ? 'var(--green)' : t >= 36 ? 'var(--gold)' : t >= 28 ? 'var(--coral)' : 'var(--red)'; }
+
+async function saveSujet() {
+  if (!who) { showToast('Sélectionne Wassil ou Nawal d\'abord', 'err'); return; }
+  const s = SUJETS[currentIdx];
+  const a = parseInt(document.getElementById('ae1').value) || 0;
+  const b = parseInt(document.getElementById('ae2').value) || 0;
+  const c = parseInt(document.getElementById('ae3').value) || 0;
+  const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20);
+  const done = JSON.parse(localStorage.getItem('fr_done_' + who) || '[]');
+  if (!done.includes(s.id)) { done.push(s.id); localStorage.setItem('fr_done_' + who, JSON.stringify(done)); }
+  showToast('✓ Progression sauvegardée', 'ok');
+}
+
+function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
+function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 9000; updateChrono(); }
+function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; el.className = 'chrono-time' + (chronoSecs < 600 ? ' urgent' : ''); }
+function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
+window.addEventListener('DOMContentLoaded', () => renderHome());
 </script>
 </body>
 </html>
