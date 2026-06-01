@@ -5,7 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Français - 10 sujets blancs DNB</title>
-<script src="config.js"></script>
 <style>
   body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
   .container { max-width: 1000px; margin: 0 auto; }
@@ -21,6 +20,7 @@
   h3 { color: #5ecfb1; }
   .badge { display: inline-block; background: #5ecfb120; color: #5ecfb1; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
   .question { margin-top: 1rem; }
+  .loading { color: #5ecfb1; font-style: italic; }
 </style>
 </head>
 <body>
@@ -29,7 +29,21 @@
   <div id="sujets"></div>
 </div>
 <script>
-// ==================== LES 10 SUJETS OFFICIELS DNB (textes dictées masquées) ====================
+
+const PROXY = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
+
+async function callIA(system, user) {
+  const res = await fetch(PROXY + '?action=proxyAnthropic', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ system, user })
+  });
+  const data = await res.json();
+  if (data.content && data.content[0]) return data.content[0].text;
+  if (data.success && data.data && data.data.content) return data.data.content;
+  throw new Error(JSON.stringify(data));
+}
+
 const SUJETS = [
   { id: 1, annee: "2025", session: "Métropole (juin)", titre: "Simone de Beauvoir – La Force de l'âge",
     texte: "Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
@@ -155,7 +169,7 @@ const SUJETS = [
     questions: [
       { q: "1. Pourquoi cette fille est-elle malheureuse ?", pts: 3, rep: "Elle est née pauvre mais se sent faite pour la richesse. Elle n'a pas de dot, pas d'espérances." },
       { q: "2. Qui épouse-t-elle ?", pts: 2, rep: "Un petit commis du ministère." },
-      { q: "3. Que veulent dire les dernières phrases : 'Les femmes n'ont point de caste... leur beauté leur tient lieu de naissance' ?", pts: 5, rep: "Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale. Elles peuvent s'élever grâce à leur grâce." }
+      { q: "3. Que veulent dire les dernières phrases : 'Les femmes n'ont point de caste... leur beauté leur tient lieu de naissance' ?", pts: 5, rep: "Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale." }
     ],
     grammaire: [
       { q: "1. Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts: 2, rep: "Gradation ascendante, le mariage est le but ultime pour une femme à l'époque." },
@@ -193,11 +207,74 @@ const SUJETS = [
     grammaire: [
       { q: "1. Relevez les verbes d'action dans la dernière phrase.", pts: 2, rep: "jaillit, émergea." },
       { q: "2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts: 2, rep: "je compris." },
-      { q: "3. Analysez la proposition 'que le commandant prononça des paroles'.", pts: 2, rep: "Proposition subordonnée conjonctive complétive (COD du verbe 'devinai' ? non, ici 'que' introduit une subordonnée après 'devinai qu'il ordonnait'...)." }
+      { q: "3. Analysez la proposition 'qu'il ordonnait la pêche du monstre'.", pts: 2, rep: "Proposition subordonnée conjonctive complétive, COD du verbe 'devinai'." }
     ],
     redaction: { sujet1: "Racontez une aventure en mer.", sujet2: "L'aventure est-elle nécessaire à l'homme ?", pts: 20 }
   }
 ];
+
+// ── FONCTIONS IA via proxy ──────────────────────────────────────────────
+
+async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
+  const texteEleve = document.getElementById(idTextarea).value.trim();
+  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
+  const corrDiv = document.getElementById('correction-dictee-' + numSujet);
+  corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
+  corrDiv.style.display = 'block';
+  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
+  const user = 'Texte officiel : "' + texteOfficiel + '"\nDictée élève : "' + texteEleve + '"';
+  try {
+    const txt = await callIA(system, user);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
+  } catch(e) {
+    corrDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
+  }
+}
+
+async function corrigerExo(idTextarea, reponseAttendue, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
+  if (btn) btn.textContent = '⏳...';
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication courte"}';
+  const user = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
+  try {
+    const txt = await callIA(system, user);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (btn) btn.textContent = 'Corriger avec IA';
+}
+
+async function corrigerRedaction(idTextarea, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
+  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
+  if (btn) btn.textContent = '⏳...';
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
+  const user = 'Rédaction :\n' + texte;
+  try {
+    const txt = await callIA(system, user);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (btn) btn.textContent = 'Corriger la rédaction avec IA';
+}
+
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+// ── RENDU ───────────────────────────────────────────────────────────────
 
 function afficherSujets() {
   const container = document.getElementById('sujets');
@@ -206,113 +283,50 @@ function afficherSujets() {
     const num = idx + 1;
     const div = document.createElement('div');
     div.className = 'sujet';
-    
-    let html = `<h3>Sujet ${num} – ${s.annee} (${s.session}) <span class="badge">${s.titre}</span></h3>`;
-    html += `<div class="texte"><strong>Texte :</strong><br>${s.texte}<br><em>${s.auteur}</em></div>`;
-    
-    // DICTÉE (titre seulement, texte masqué)
-    html += `<div class="document"><strong>Dictée (10 points)</strong><br>${s.dictee.titre}<br><em>Le professeur lira le texte à voix haute. Écoutez et écrivez.</em></div>`;
-    html += `<textarea id="dictee-${num}" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>`;
-    html += `<button onclick="corrigerDictee('dictee-${num}', \`${s.dictee.texte.replace(/`/g, '\\`')}\`, ${num})">Corriger la dictée avec IA</button>`;
-    html += `<div id="correction-dictee-${num}" class="correction"></div>`;
-    
+    let html = '<h3>Sujet ' + num + ' – ' + s.annee + ' (' + s.session + ') <span class="badge">' + s.titre + '</span></h3>';
+    html += '<div class="texte"><strong>Texte :</strong><br>' + s.texte + '<br><em>' + s.auteur + '</em></div>';
+
+    // DICTÉE
+    html += '<div class="document"><strong>Dictée (10 points)</strong><br>' + s.dictee.titre + '<br><em>Le professeur lira le texte à voix haute. Écoutez et écrivez.</em></div>';
+    html += '<textarea id="dictee-' + num + '" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>';
+    html += '<button onclick="corrigerDictee(\'dictee-' + num + '\', `' + s.dictee.texte.replace(/`/g, '\\`') + '`, ' + num + ')">Corriger la dictée avec IA</button>';
+    html += '<div id="correction-dictee-' + num + '" class="correction"></div>';
+
     // COMPRÉHENSION
-    html += `<div><strong>📖 Compréhension (${s.questions.reduce((a,q)=>a+q.pts,0)} points)</strong></div>`;
+    const ptsComp = s.questions.reduce((a, q) => a + q.pts, 0);
+    html += '<div><strong>📖 Compréhension (' + ptsComp + ' points)</strong></div>';
     s.questions.forEach((q, i) => {
-      html += `<div class="question"><strong>Question ${i+1}</strong> (${q.pts} points)<br>${q.q}</div>`;
-      html += `<textarea id="comp-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
-      html += `<button onclick="corrigerExo('comp-${num}-${i}', '${q.rep.replace(/'/g, "\\'")}', ${q.pts})">Corriger avec IA</button>`;
-      html += `<button onclick="afficherCorrection('corr-comp-${num}-${i}')">Voir correction</button>`;
-      html += `<div id="corr-comp-${num}-${i}" class="correction">${q.rep}</div>`;
+      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.q + '</div>';
+      html += '<textarea id="comp-' + num + '-' + i + '" class="reponse" placeholder="Votre réponse..."></textarea>';
+      const repEsc = q.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      html += '<button onclick="corrigerExo(\'comp-' + num + '-' + i + '\', \'' + repEsc + '\', ' + q.pts + ')">Corriger avec IA</button>';
+      html += '<button onclick="afficherCorrection(\'corr-comp-' + num + '-' + i + '\')">Voir correction</button>';
+      html += '<div id="corr-comp-' + num + '-' + i + '" class="correction">' + q.rep + '</div>';
     });
-    
+
     // GRAMMAIRE
-    html += `<div><strong>📝 Grammaire (${s.grammaire.reduce((a,g)=>a+g.pts,0)} points)</strong></div>`;
+    const ptsGram = s.grammaire.reduce((a, g) => a + g.pts, 0);
+    html += '<div><strong>📝 Grammaire (' + ptsGram + ' points)</strong></div>';
     s.grammaire.forEach((g, i) => {
-      html += `<div class="question"><strong>Question ${i+1}</strong> (${g.pts} points)<br>${g.q}</div>`;
-      html += `<textarea id="gram-${num}-${i}" class="reponse" placeholder="Votre réponse..."></textarea>`;
-      html += `<button onclick="corrigerExo('gram-${num}-${i}', '${g.rep.replace(/'/g, "\\'")}', ${g.pts})">Corriger avec IA</button>`;
-      html += `<button onclick="afficherCorrection('corr-gram-${num}-${i}')">Voir correction</button>`;
-      html += `<div id="corr-gram-${num}-${i}" class="correction">${g.rep}</div>`;
+      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + g.pts + ' points)<br>' + g.q + '</div>';
+      html += '<textarea id="gram-' + num + '-' + i + '" class="reponse" placeholder="Votre réponse..."></textarea>';
+      const repEsc = g.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      html += '<button onclick="corrigerExo(\'gram-' + num + '-' + i + '\', \'' + repEsc + '\', ' + g.pts + ')">Corriger avec IA</button>';
+      html += '<button onclick="afficherCorrection(\'corr-gram-' + num + '-' + i + '\')">Voir correction</button>';
+      html += '<div id="corr-gram-' + num + '-' + i + '" class="correction">' + g.rep + '</div>';
     });
-    
+
     // RÉDACTION
-    html += `<div><strong>✍️ Rédaction (${s.redaction.pts} points)</strong><br>`;
-    html += `Choix A : ${s.redaction.sujet1}<br>`;
-    html += `Choix B : ${s.redaction.sujet2}<br>`;
-    html += `<textarea id="redac-${num}" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>`;
-    html += `<button onclick="corrigerRedaction('redac-${num}', ${s.redaction.pts})">Corriger la rédaction avec IA</button>`;
-    
-    html += `<hr>`;
+    html += '<div><strong>✍️ Rédaction (' + s.redaction.pts + ' points)</strong><br>';
+    html += 'Choix A : ' + s.redaction.sujet1 + '<br>';
+    html += 'Choix B : ' + s.redaction.sujet2 + '</div>';
+    html += '<textarea id="redac-' + num + '" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>';
+    html += '<button onclick="corrigerRedaction(\'redac-' + num + '\', ' + s.redaction.pts + ')">Corriger la rédaction avec IA</button>';
+    html += '<hr>';
+
     div.innerHTML = html;
     container.appendChild(div);
   });
-}
-
-async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
-  const texteEleve = document.getElementById(idTextarea).value.trim();
-  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
-    alert("Clé API non configurée. Vérifie les secrets GitHub.");
-    return;
-  }
-  const prompt = `Compare la dictée de l'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds en JSON : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 600, system: prompt, messages: [{ role: "user", content: `Texte officiel : "${texteOfficiel}"\nDictée élève : "${texteEleve}"` }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    document.getElementById(`correction-dictee-${numSujet}`).innerHTML = `<strong>Note : ${json.note}/10</strong><br><br>${json.commentaire}<br><br><strong>Conseil :</strong> ${json.conseil}`;
-    document.getElementById(`correction-dictee-${numSujet}`).style.display = 'block';
-  } catch(e) { alert("Erreur IA : " + e.message); }
-}
-
-async function corrigerExo(idTextarea, reponseAttendue, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
-    alert("Clé API non configurée. Vérifie les secrets GitHub.");
-    return;
-  }
-  const prompt = `Corrige cette réponse d'élève (français). Réponse attendue : "${reponseAttendue}". Réponse élève : "${texte}". Note sur ${pts}. Réponds en JSON : {"note": nombre, "commentaire": "explication courte"}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: prompt, messages: [{ role: "user", content: prompt }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
-  } catch(e) { alert("Erreur IA : " + e.message); }
-}
-
-async function corrigerRedaction(idTextarea, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
-    alert("Clé API non configurée. Vérifie les secrets GitHub.");
-    return;
-  }
-  const prompt = `Corrige cette rédaction (DNB français). Note sur ${pts} points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds en JSON : {"note": nombre, "commentaire": "détail des points forts et axes d'amélioration"}`;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 800, system: prompt, messages: [{ role: "user", content: "Rédaction:\n" + texte }] })
-    });
-    const data = await res.json();
-    const json = JSON.parse(data.content[0].text);
-    alert(`Note : ${json.note}/${pts}\n${json.commentaire}`);
-  } catch(e) { alert("Erreur IA : " + e.message); }
-}
-
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 afficherSujets();
