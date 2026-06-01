@@ -19,6 +19,9 @@
     .btn-nawal{background:#f59eb8;border:none;color:#000;}
     .btn-wassil.active{background:#3a6ea5;color:#fff;border:2px solid #fff;}
     .btn-nawal.active{background:#c06a8a;color:#fff;border:2px solid #fff;}
+    .eleve-actuel{font-weight:bold;margin-left:1rem;padding:0.3rem 0.8rem;border-radius:40px;display:inline-block;}
+    .eleve-wassil{background:#7eb8f5;color:#000;}
+    .eleve-nawal{background:#f59eb8;color:#000;}
     
     .chapitre-selector{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;}
     .chapitre-selector h3{font-size:0.9rem;margin-bottom:0.8rem;color:#ffcc00;}
@@ -40,9 +43,6 @@
     .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
     .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
     .resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
-    .eleve-actuel{font-weight:bold;margin-left:1rem;padding:0.3rem 0.8rem;border-radius:40px;display:inline-block;}
-    .eleve-wassil{background:#7eb8f5;color:#000;}
-    .eleve-nawal{background:#f59eb8;color:#000;}
   </style>
 </head>
 <body>
@@ -196,9 +196,9 @@
   let tempsRestant = 45 * 60;
   let timerInterval = null;
 
-  function getStorageKey() { return `automatismes_progression_francais_${currentEleve}`; }
-  function getSessionsKey() { return `automatismes_sessions_francais_${currentEleve}`; }
-  function getChapitresKey() { return `automatismes_chapitres_francais_${currentEleve}`; }
+  function getStorageKey() { return `automatismes_progression_francais_${currentEleve.toLowerCase()}`; }
+  function getSessionsKey() { return `automatismes_sessions_francais_${currentEleve.toLowerCase()}`; }
+  function getChapitresKey() { return `automatismes_chapitres_francais_${currentEleve.toLowerCase()}`; }
 
   function chargerProgression() {
     const saved = localStorage.getItem(getStorageKey());
@@ -349,7 +349,7 @@
     const ra = document.getElementById("resultatsArea");
     if (ra) {
       ra.style.display = "block";
-      ra.innerHTML = `<h3>🎉 Session terminée !</h3><p style="font-size:1.5rem;">${sessionScore.bonnes}/${sessionScore.total}</p><p>Soit ${pct}% de bonnes réponses</p><p style="font-size:0.8rem;">Élève : ${currentEleve}<br>Chapitres révisés : ${chNoms.join(', ')}</p><button id="nouvelleSessionBtn" class="btn-primary">📚 Nouvelle session</button>`;
+      ra.innerHTML = `<h3>🎉 Session terminée !</h3><p style="font-size:1.5rem;">${sessionScore.bonnes}/${sessionScore.total}</p><p>Soit ${pct}% de bonnes réponses</p><p style="font-size:0.8rem;">👤 Élève : <strong>${currentEleve}</strong><br>📖 Chapitres révisés : ${chNoms.join(', ')}</p><button id="nouvelleSessionBtn" class="btn-primary">📚 Nouvelle session</button>`;
       document.getElementById("nouvelleSessionBtn").onclick = () => {
         ra.style.display = "none";
         document.getElementById("chapitreSelector").style.display = "block";
@@ -357,10 +357,16 @@
         document.getElementById("sessionArea").style.display = "none";
       };
     }
-    // Envoi vers suivi-parental avec le nom de l'élève
-    if (window.SuiviParental?.sauvegarderSession) {
-      window.SuiviParental.sauvegarderSession(`francais_${currentEleve.toLowerCase()}`, chNoms, { bonnes: sessionScore.bonnes, total: sessionScore.total });
+    
+    // ==== ENVOI VERS SUIVI PARENTAL ====
+    if (window.SuiviParental && window.SuiviParental.sauvegarderSession) {
+      window.SuiviParental.sauvegarderSession(
+        `francais_${currentEleve.toLowerCase()}`,  // "francais_wassil" ou "francais_nawal"
+        chNoms,
+        { bonnes: sessionScore.bonnes, total: sessionScore.total }
+      );
     }
+    
     // Sauvegarde des chapitres étudiés
     const chKey = getChapitresKey();
     const existants = JSON.parse(localStorage.getItem(chKey) || "[]");
