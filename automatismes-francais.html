@@ -32,7 +32,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .phase.active{display:block;}
 
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
-.chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;max-height:360px;overflow-y:auto;padding:4px;margin-bottom:1rem;}
+.chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;max-height:360px;overflow-y:auto;padding:4px;margin-bottom:1rem;}
 .ch-item{display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:8px 12px;cursor:pointer;transition:.15s;font-size:13px;user-select:none;}
 .ch-item:hover{border-color:var(--teal);}
 .ch-item.selected{border-color:var(--teal);background:rgba(94,207,177,.08);}
@@ -91,7 +91,7 @@ textarea.rep:focus{border-color:var(--teal);}
   <div class="header">
     <div>
       <h1>⚡ Automatismes <span>Français</span></h1>
-      <p>26 chapitres · Règle 20-10-10 · 40 questions max</p>
+      <p>Choisis tes chapitres · 40 questions mélangées</p>
     </div>
     <a href="index.html" class="back-link">← Hub</a>
   </div>
@@ -102,26 +102,26 @@ textarea.rep:focus{border-color:var(--teal);}
   </div>
 
   <div class="phase active" id="phaseSelect">
-    <div class="section-title">Chapitres à réviser</div>
+    <div class="section-title">📚 Choisis tes chapitres</div>
     <div class="chapitres-grid" id="chapGrid"></div>
     <div class="btn-row">
       <button class="btn" onclick="selectAll(true)">✅ Tout sélectionner</button>
       <button class="btn" onclick="selectAll(false)">❌ Tout désélectionner</button>
-      <button class="btn" onclick="selectFaibles()">⚠ Chapitres faibles</button>
+      <button class="btn" onclick="selectFaibles()">⚠ Chapitres à revoir</button>
     </div>
     <div class="info-strip">
-      <div class="pill">📚 <b id="nbCartes">0</b> cartes disponibles</div>
-      <div class="pill">🎯 <b id="nbQ">0</b> questions prévues</div>
+      <div class="pill">📚 <b id="nbCartes">0</b> cartes dispo</div>
+      <div class="pill">🎯 <b>40</b> questions/session</div>
       <div class="pill">⏱ <b>45 min</b></div>
     </div>
-    <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer</button>
+    <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer (40 questions)</button>
   </div>
 
   <div class="phase" id="phaseSession">
     <div class="timer-bar">
       <span class="timer-val" id="timerVal">45:00</span>
       <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-      <span id="qCount" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--dim)">Q 0/0</span>
+      <span id="qCount" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--dim)">Q 0/40</span>
     </div>
     <div id="qArea"></div>
     <div id="fbArea"></div>
@@ -146,215 +146,62 @@ textarea.rep:focus{border-color:var(--teal);}
 </div>
 
 <script>
-// ==================== 26 CHAPITRES COMPLETS ====================
+// ==================== 26 CHAPITRES ====================
 const CHAPITRES = {
-  1:{ titre:"Classes grammaticales", cartes:[
-    {q:"Quelles sont les 9 classes grammaticales ?", r:"Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection."},
-    {q:"Donnez 3 déterminants.", r:"le, la, les / un, une, des / mon, ton, son"},
-    {q:"Citez les 7 conjonctions de coordination.", r:"Mais, ou, et, donc, or, ni, car."},
-    {q:"Différence entre adverbe et préposition ?", r:"Adverbe modifie un verbe/adjectif. Préposition introduit un complément."},
-    {q:"Qu'est-ce qu'un déterminant possessif ?", r:"Indique l'appartenance : mon, ton, son, notre, votre, leur."},
-    {q:"Qu'est-ce qu'un déterminant démonstratif ?", r:"Indique de quel objet on parle : ce, cet, cette, ces."},
-    {q:"Qu'est-ce qu'un pronom personnel ?", r:"je, tu, il, elle, on, nous, vous, ils, elles, me, te, se, le, la, lui, y, en."}
-  ]},
-  2:{ titre:"Fonctions grammaticales", cartes:[
-    {q:"Qu'est-ce que le COD ?", r:"Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'"},
-    {q:"Qu'est-ce que le COI ?", r:"Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'"},
-    {q:"Qu'est-ce que l'attribut du sujet ?", r:"Donne une qualité au sujet, relié par verbe d'état."},
-    {q:"Qu'est-ce qu'un complément d'agent ?", r:"Dans une phrase passive, indique qui fait l'action."},
-    {q:"Qu'est-ce qu'un complément circonstanciel de but ?", r:"Indique dans quel but (pour, afin de)."},
-    {q:"Qu'est-ce qu'un complément circonstanciel de concession ?", r:"Indique une opposition (malgré, bien que)."}
-  ]},
-  3:{ titre:"La phrase", cartes:[
-    {q:"Qu'est-ce qu'une phrase simple ?", r:"Une seule proposition (un verbe)."},
-    {q:"Qu'est-ce qu'une phrase complexe ?", r:"Plusieurs propositions."},
-    {q:"Qu'est-ce qu'une subordonnée relative ?", r:"Introduite par qui, que, dont, où."},
-    {q:"Qu'est-ce qu'une subordonnée complétive ?", r:"Introduite par 'que', complète le verbe."},
-    {q:"Qu'est-ce qu'une subordonnée circonstancielle ?", r:"Indique une circonstance (temps, cause, conséquence, but)."}
-  ]},
-  4:{ titre:"Temps et modes verbaux", cartes:[
-    {q:"À quoi sert l'imparfait ?", r:"Description ou habitude dans le passé."},
-    {q:"À quoi sert le passé composé ?", r:"Action ponctuelle ou bilan (oral)."},
-    {q:"À quoi sert le passé simple ?", r:"Action ponctuelle (récit littéraire)."},
-    {q:"À quoi sert le subjonctif ?", r:"Doute, souhait, émotion, obligation."},
-    {q:"À quoi sert le conditionnel ?", r:"Hypothèse, condition, souhait."}
-  ]},
-  5:{ titre:"Les accords", cartes:[
-    {q:"Règle d'accord sujet-verbe.", r:"Le verbe s'accorde en personne et nombre avec le sujet."},
-    {q:"Participe passé avec avoir ?", r:"S'accorde avec le COD si placé avant."},
-    {q:"Participe passé avec être ?", r:"S'accorde avec le sujet."},
-    {q:"Accord des adjectifs de couleur ?", r:"Invariables s'ils viennent d'un nom (marron, orange)."},
-    {q:"Accord des adjectifs composés ?", r:"Seul le dernier adjectif s'accorde."}
-  ]},
-  6:{ titre:"Les homophones", cartes:[
-    {q:"Différence a/à ?", r:"a = avoir ; à = préposition"},
-    {q:"Différence ou/où ?", r:"ou = conjonction ; où = pronom/adverbe"},
-    {q:"Différence on/ont ?", r:"on = pronom ; ont = avoir"},
-    {q:"Différence son/sont ?", r:"son = possessif ; sont = être"},
-    {q:"Différence quand/quant ?", r:"quand = temps ; quant = en ce qui concerne"},
-    {q:"Différence peu/peut/peuvent ?", r:"peu = quantité ; peut = pouvoir (singulier) ; peuvent = pouvoir (pluriel)"}
-  ]},
-  7:{ titre:"Conjugaison", cartes:[
-    {q:"Terminaisons du présent (1er groupe).", r:"e, es, e, ons, ez, ent"},
-    {q:"Conjuguez 'être' au présent.", r:"suis, es, est, sommes, êtes, sont"},
-    {q:"Conjuguez 'avoir' au présent.", r:"ai, as, a, avons, avez, ont"},
-    {q:"Conjuguez 'aller' au présent.", r:"vais, vas, va, allons, allez, vont"},
-    {q:"Terminaisons de l'imparfait.", r:"ais, ais, ait, ions, iez, aient"}
-  ]},
-  8:{ titre:"Valeurs des temps", cartes:[
-    {q:"Valeur du présent.", r:"Actualité, vérité générale, habitude."},
-    {q:"Valeur du conditionnel.", r:"Hypothèse, condition, souhait."},
-    {q:"Valeur du subjonctif.", r:"Doute, souhait, émotion, obligation."},
-    {q:"Valeur du passé simple.", r:"Action ponctuelle (récit littéraire)."},
-    {q:"Valeur du plus-que-parfait.", r:"Antériorité par rapport à une action passée."}
-  ]},
-  9:{ titre:"Formation des mots", cartes:[
-    {q:"Qu'est-ce qu'un préfixe ?", r:"Élément avant le radical (re-, in-, dé-)."},
-    {q:"Qu'est-ce qu'un suffixe ?", r:"Élément après le radical (-able, -age, -tion)."},
-    {q:"Qu'est-ce qu'un radical ?", r:"Partie qui porte le sens principal."},
-    {q:"Qu'est-ce qu'une famille de mots ?", r:"Mots formés à partir du même radical."},
-    {q:"Exemple de mot avec préfixe et suffixe.", r:"'in-juste-ment'"}
-  ]},
-  10:{ titre:"Figures de style", cartes:[
-    {q:"Qu'est-ce qu'une comparaison ?", r:"Rapprochement avec outil (comme, tel)."},
-    {q:"Qu'est-ce qu'une métaphore ?", r:"Analogie sans outil."},
-    {q:"Qu'est-ce qu'une personnification ?", r:"Qualités humaines à un objet."},
-    {q:"Qu'est-ce qu'une antithèse ?", r:"Deux termes opposés rapprochés."},
-    {q:"Qu'est-ce qu'un oxymore ?", r:"Mots contradictoires."},
-    {q:"Qu'est-ce qu'une hyperbole ?", r:"Exagération."},
-    {q:"Qu'est-ce qu'une litote ?", r:"Dire moins pour suggérer plus."},
-    {q:"Qu'est-ce que l'euphémisme ?", r:"Atténuer une réalité désagréable."},
-    {q:"Qu'est-ce qu'une énumération ?", r:"Succession de mots."},
-    {q:"Qu'est-ce qu'une gradation ?", r:"Suite de mots d'intensité croissante."}
-  ]},
-  11:{ titre:"Champs lexicaux", cartes:[
-    {q:"Qu'est-ce qu'un champ lexical ?", r:"Ensemble des mots liés à un même thème."},
-    {q:"Citez 3 registres de langue.", r:"Soutenu, courant, familier."},
-    {q:"Qu'est-ce que l'argot ?", r:"Langage propre à un groupe."},
-    {q:"3 mots du champ lexical de la mer.", r:"vague, bateau, pêche, marée."},
-    {q:"3 mots du champ lexical de la guerre.", r:"combat, arme, soldat, bataille."}
-  ]},
-  12:{ titre:"Synonymes, antonymes", cartes:[
-    {q:"Qu'est-ce qu'un synonyme ?", r:"Mot de sens proche."},
-    {q:"Qu'est-ce qu'un antonyme ?", r:"Mot de sens contraire."},
-    {q:"Qu'est-ce qu'un homonyme ?", r:"Même prononciation, sens différent."},
-    {q:"Synonyme de 'rapidement'.", r:"vite, promptement."},
-    {q:"Antonyme de 'grand'.", r:"petit, minuscule."}
-  ]},
-  13:{ titre:"Genres littéraires", cartes:[
-    {q:"Citez 4 genres littéraires.", r:"Roman, théâtre, poésie, argumentation."},
-    {q:"Qu'est-ce que la littérature d'idées ?", r:"Genres qui transmettent un message."},
-    {q:"Qu'est-ce qu'une fable ?", r:"Courte histoire avec une morale."},
-    {q:"Qu'est-ce qu'une autobiographie ?", r:"Récit où l'auteur raconte sa vie."},
-    {q:"Qu'est-ce qu'une tragédie ?", r:"Pièce où les personnages subissent un destin fatal."}
-  ]},
-  14:{ titre:"Mouvements littéraires", cartes:[
-    {q:"Mouvement du XVIIIe siècle ?", r:"Les Lumières."},
-    {q:"Mouvement du XIXe siècle ?", r:"Romantisme, Réalisme, Naturalisme."},
-    {q:"Mouvement du XXe siècle ?", r:"Surréalisme, Existentialisme."},
-    {q:"Idées des Lumières ?", r:"Raison, liberté, tolérance, progrès."},
-    {q:"Idées du Romantisme ?", r:"Exaltation des sentiments, de la nature."}
-  ]},
-  15:{ titre:"Registres littéraires", cartes:[
-    {q:"Registre comique ?", r:"Provoque le rire."},
-    {q:"Registre tragique ?", r:"Inspire terreur et pitié."},
-    {q:"Registre épique ?", r:"Célèbre des héros."},
-    {q:"Registre lyrique ?", r:"Exprime des sentiments personnels."},
-    {q:"Registre satirique ?", r:"Critique de manière moqueuse."}
-  ]},
-  16:{ titre:"Le récit", cartes:[
-    {q:"Étapes du schéma narratif ?", r:"SI → perturbateur → péripéties → résolution → SF."},
-    {q:"Narrateur omniscient ?", r:"Sait tout des personnages."},
-    {q:"Narrateur externe ?", r:"Ne décrit que les actions."},
-    {q:"Narrateur interne ?", r:"Raconte à la 1ère personne."},
-    {q:"Qu'est-ce qu'une analepse ?", r:"Retour en arrière (flashback)."}
-  ]},
-  17:{ titre:"La rédaction", cartes:[
-    {q:"Structure d'une introduction ?", r:"Amorce, présentation, problématique, annonce du plan."},
-    {q:"Connecteurs de cause ?", r:"car, parce que, puisque."},
-    {q:"Connecteurs de conséquence ?", r:"donc, ainsi, par conséquent."},
-    {q:"Connecteurs d'opposition ?", r:"mais, cependant, pourtant."},
-    {q:"Connecteurs d'addition ?", r:"et, de plus, en outre."}
-  ]},
-  18:{ titre:"Contraction de texte", cartes:[
-    {q:"Règle d'or de la contraction ?", r:"Ne pas commenter, ne pas juger."},
-    {q:"À combien réduire un texte ?", r:"Au 1/3 environ."},
-    {q:"Comment compter les mots ?", r:"Chaque mot compte, 'c'est' = 2 mots."},
-    {q:"Que conserver dans une contraction ?", r:"Idées essentielles, thèse, ordre logique."},
-    {q:"Que supprimer dans une contraction ?", r:"Exemples trop détaillés, répétitions."}
-  ]},
-  19:{ titre:"Commentaire composé", cartes:[
-    {q:"Structure du commentaire ?", r:"Introduction, développement (2-3 axes), conclusion."},
-    {q:"Que ne faut-il pas faire ?", r:"Ne pas résumer le texte."},
-    {q:"Comment justifier son analyse ?", r:"Citer, nommer le procédé, expliquer l'effet."},
-    {q:"Que contient la conclusion ?", r:"Bilan, réponse à la problématique, ouverture."},
-    {q:"Comment nommer les procédés ?", r:"Comparaison, métaphore, champ lexical."}
-  ]},
-  20:{ titre:"Oral : présentation", cartes:[
-    {q:"Durée de l'oral du brevet ?", r:"5 min exposé + 10 min échange."},
-    {q:"Peut-on lire son texte ?", r:"Non, utiliser des notes (mots-clés)."},
-    {q:"Peut-on utiliser un PowerPoint ?", r:"Oui, mais sobre."},
-    {q:"Que préparer pour l'oral ?", r:"Plan détaillé, notes, exemples précis."},
-    {q:"Comment gérer son stress ?", r:"Respirer, bien dormir, bien préparer."}
-  ]},
-  21:{ titre:"Oral : expression", cartes:[
-    {q:"Posture à l'oral ?", r:"Debout, gestes naturels, regarder le jury."},
-    {q:"Comment bien utiliser sa voix ?", r:"Articuler, parler fort, débit calme."},
-    {q:"Comment bien articuler ?", r:"Ouvrir la bouche, parler lentement."},
-    {q:"Trou de mémoire ?", r:"Inspirer, regarder ses notes, reformuler."},
-    {q:"Comment regarder le jury ?", r:"Regarder toutes les personnes."}
-  ]},
-  22:{ titre:"Oral : échange", cartes:[
-    {q:"Que faire si on ne sait pas ?", r:"L'admettre honnêtement."},
-    {q:"Question incomprise ?", r:"Demander une reformulation poliment."},
-    {q:"Ne pas couper la parole ?", r:"Attendre que le jury ait fini."},
-    {q:"Question difficile ?", r:"Prendre le temps de réfléchir, reformuler."},
-    {q:"Peut-on dire 'je ne sais pas' ?", r:"Oui, en montrant qu'on a réfléchi."}
-  ]},
-  23:{ titre:"Dictée", cartes:[
-    {q:"Que vérifier en priorité ?", r:"Accords, homophones, terminaisons."},
-    {q:"Vérifier a/à ?", r:"Remplacer par 'avait'."},
-    {q:"Vérifier on/ont ?", r:"Remplacer par 'avaient'."},
-    {q:"Accords du participe passé ?", r:"Avec être : accord sujet. Avec avoir : accord COD si avant."},
-    {q:"Vérifier les homophones ?", r:"Remplacer par un autre mot équivalent."}
-  ]},
-  24:{ titre:"Grammaire (analyse)", cartes:[
-    {q:"Différence nature/fonction ?", r:"Nature = classe grammaticale, fonction = rôle."},
-    {q:"Trouver le COD ?", r:"Poser 'quoi ?' après le verbe."},
-    {q:"Trouver le COI ?", r:"Poser 'à qui ?' ou 'de quoi ?'."},
-    {q:"Trouver le sujet ?", r:"Poser 'qui est-ce qui ?' avant le verbe."},
-    {q:"Trouver le complément circonstanciel ?", r:"Poser 'quand ?', 'où ?', 'comment ?', 'pourquoi ?'."}
-  ]},
-  25:{ titre:"Réécriture", cartes:[
-    {q:"Changer 'je' en 'nous' ?", r:"Verbe à la 1ère personne du pluriel."},
-    {q:"Changer féminin en masculin ?", r:"Modifier déterminants, adjectifs et participes."},
-    {q:"Changer singulier en pluriel ?", r:"Ajouter 's' ou 'x', adapter le verbe."},
-    {q:"Présent en imparfait ?", r:"Terminaisons -ais, -ais, -ait, -ions, -iez, -aient."},
-    {q:"Présent en futur ?", r:"Terminaisons -ai, -as, -a, -ons, -ez, -ont."}
-  ]},
-  26:{ titre:"Essai", cartes:[
-    {q:"Structure de l'essai ?", r:"Introduction, développement (thèse/antithèse), conclusion."},
-    {q:"Trouver des idées ?", r:"Brainstorming."},
-    {q:"Illustrer ses arguments ?", r:"Exemples précis (œuvres, films, expériences)."},
-    {q:"Structure d'un paragraphe argumentatif ?", r:"1. Idée. 2. Exemple. 3. Explication."},
-    {q:"Conclure un essai ?", r:"Rappeler la réponse, ouvrir sur une question plus large."}
-  ]}
+  1:"Classes grammaticales",2:"Fonctions grammaticales",3:"La phrase",4:"Temps et modes verbaux",
+  5:"Les accords",6:"Les homophones",7:"Conjugaison",8:"Valeurs des temps",9:"Formation des mots",
+  10:"Figures de style",11:"Champs lexicaux",12:"Synonymes, antonymes",13:"Genres littéraires",
+  14:"Mouvements littéraires",15:"Registres littéraires",16:"Le récit",17:"La rédaction",
+  18:"Contraction de texte",19:"Commentaire composé",20:"Oral : présentation",21:"Oral : expression",
+  22:"Oral : échange",23:"Dictée",24:"Grammaire (analyse)",25:"Réécriture",26:"Essai"
 };
 
-// ==================== ÉTAT ====================
+// Cartes simplifiées (une par chapitre pour l'exemple)
+const CARTES = {
+  1:{q:"Quelles sont les 9 classes grammaticales ?",r:"Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection."},
+  2:{q:"Qu'est-ce que le COD ?",r:"Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'"},
+  3:{q:"Qu'est-ce qu'une phrase simple ?",r:"Une seule proposition (un verbe)."},
+  4:{q:"À quoi sert l'imparfait ?",r:"Description ou habitude dans le passé."},
+  5:{q:"Règle d'accord sujet-verbe ?",r:"Le verbe s'accorde en personne et nombre avec le sujet."},
+  6:{q:"Différence a/à ?",r:"a = avoir ; à = préposition"},
+  7:{q:"Terminaisons du présent (1er groupe) ?",r:"e, es, e, ons, ez, ent"},
+  8:{q:"Valeur du présent ?",r:"Actualité, vérité générale, habitude."},
+  9:{q:"Qu'est-ce qu'un préfixe ?",r:"Élément avant le radical (re-, in-, dé-)."},
+  10:{q:"Qu'est-ce qu'une métaphore ?",r:"Analogie sans outil."},
+  11:{q:"Qu'est-ce qu'un champ lexical ?",r:"Ensemble des mots liés à un même thème."},
+  12:{q:"Qu'est-ce qu'un synonyme ?",r:"Mot de sens proche."},
+  13:{q:"Citez 4 genres littéraires.",r:"Roman, théâtre, poésie, argumentation."},
+  14:{q:"Mouvement du XVIIIe siècle ?",r:"Les Lumières."},
+  15:{q:"Registre comique ?",r:"Provoque le rire."},
+  16:{q:"Étapes du schéma narratif ?",r:"SI → perturbateur → péripéties → résolution → SF."},
+  17:{q:"Structure d'une introduction ?",r:"Amorce, présentation, problématique, annonce du plan."},
+  18:{q:"Règle d'or de la contraction ?",r:"Ne pas commenter, ne pas juger."},
+  19:{q:"Structure du commentaire ?",r:"Introduction, développement (2-3 axes), conclusion."},
+  20:{q:"Durée de l'oral du brevet ?",r:"5 min exposé + 10 min échange."},
+  21:{q:"Posture à l'oral ?",r:"Debout, gestes naturels, regarder le jury."},
+  22:{q:"Que faire si on ne sait pas ?",r:"L'admettre honnêtement."},
+  23:{q:"Que vérifier en priorité dans une dictée ?",r:"Accords, homophones, terminaisons."},
+  24:{q:"Différence nature/fonction ?",r:"Nature = classe grammaticale, fonction = rôle."},
+  25:{q:"Changer 'je' en 'nous' ?",r:"Verbe à la 1ère personne du pluriel."},
+  26:{q:"Structure de l'essai ?",r:"Introduction, développement (thèse/antithèse), conclusion."}
+};
+
 let eleve = 'wassil';
-let session = [], idx = 0, score = { ok:0, total:0, chTaux:{} };
+let sessionCartes = [], idx = 0, score = { ok: 0, total: 0 };
 let timerInt = null, tps = 45*60;
 
-// ==================== STORAGE ====================
-function getSessions() { return JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]'); }
-function getRatees() { return JSON.parse(localStorage.getItem(`auto_fr_ratees_${eleve}`) || '{}'); }
+function setEleve(e) {
+  eleve = e;
+  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil' ? ' aw' : '');
+  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal' ? ' an' : '');
+}
+
 function getFaibles() {
-  const s = getSessions().slice(0,5);
-  if (!s.length) return [];
+  const sessions = JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]');
+  if (!sessions.length) return [];
   const taux = {};
-  s.forEach(ses => {
-    if (ses.chTaux) Object.entries(ses.chTaux).forEach(([ch,t]) => {
+  sessions.slice(0,5).forEach(s => {
+    if (s.chTaux) Object.entries(s.chTaux).forEach(([ch,t]) => {
       if (!taux[ch]) taux[ch] = [];
       taux[ch].push(t);
     });
@@ -362,196 +209,173 @@ function getFaibles() {
   return Object.entries(taux).filter(([,v]) => v.reduce((a,b)=>a+b,0)/v.length < 60).map(([ch]) => parseInt(ch));
 }
 
-// ==================== INTERFACE ====================
-function setEleve(e) {
-  eleve = e;
-  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil' ? ' aw' : '');
-  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal' ? ' an' : '');
-  buildGrid(); updateInfo();
-}
-
 function buildGrid() {
   const faibles = getFaibles();
   const g = document.getElementById('chapGrid');
   g.innerHTML = '';
-  Object.entries(CHAPITRES).forEach(([n, ch]) => {
-    const isFaible = faibles.includes(parseInt(n));
+  for (let i=1; i<=26; i++) {
+    const isFaible = faibles.includes(i);
     const d = document.createElement('div');
     d.className = 'ch-item' + (isFaible ? ' faible' : '');
-    d.id = 'ci'+n;
-    d.onclick = () => toggleCh(n);
-    d.innerHTML = `<span class="ch-num">${n}.</span><span style="font-size:12px">${ch.titre}</span>${isFaible ? '<span class="ch-warn">⚠</span>' : ''}`;
+    d.id = 'ci'+i;
+    d.onclick = () => { d.classList.toggle('selected'); updateInfo(); };
+    d.innerHTML = `<span class="ch-num">${i}.</span><span style="font-size:12px">${CHAPITRES[i]}</span>${isFaible ? '<span class="ch-warn">⚠</span>' : ''}`;
     g.appendChild(d);
-  });
+  }
+  updateInfo();
 }
 
-function toggleCh(n) { document.getElementById('ci'+n).classList.toggle('selected'); updateInfo(); }
-function selectAll(v) { Object.keys(CHAPITRES).forEach(n => document.getElementById('ci'+n)?.classList.toggle('selected', v)); updateInfo(); }
-function selectFaibles() { selectAll(false); getFaibles().forEach(n => document.getElementById('ci'+n)?.classList.add('selected')); updateInfo(); }
-function getSelected() { return Array.from(document.querySelectorAll('#chapGrid .ch-item.selected')).map(el => parseInt(el.id.replace('ci',''))); }
+function getSelected() {
+  return Array.from(document.querySelectorAll('#chapGrid .ch-item.selected')).map(el => parseInt(el.id.replace('ci','')));
+}
+
 function updateInfo() {
   const sel = getSelected();
-  const cartes = sel.flatMap(n => CHAPITRES[n]?.cartes||[]);
-  document.getElementById('nbCartes').textContent = cartes.length;
-  document.getElementById('nbQ').textContent = Math.min(40, cartes.length);
+  const nbCartes = sel.length;
+  document.getElementById('nbCartes').textContent = nbCartes;
   document.getElementById('btnStart').disabled = sel.length === 0;
 }
 
-function melanger(a) { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function selectAll(v) { for(let i=1;i<=26;i++) document.getElementById('ci'+i)?.classList.toggle('selected', v); updateInfo(); }
+function selectFaibles() { selectAll(false); getFaibles().forEach(n => document.getElementById('ci'+n)?.classList.add('selected')); updateInfo(); }
 
-function genSession(sel) {
-  const principal = sel.flatMap(n => (CHAPITRES[n]?.cartes||[]).map(c=>({...c,ch:n,type:'principal'})));
-  const ratees = getRatees();
-  const cartesRatees = Object.entries(ratees).filter(([,d])=>d.count>=1).sort((a,b)=>b[1].count-a[1].count).slice(0,10).map(([,d])=>({...d.carte,type:'ratee'}));
-  const autres = Object.entries(CHAPITRES).filter(([n])=>!sel.includes(parseInt(n))).flatMap(([n,ch])=>ch.cartes.map(c=>({...c,ch:parseInt(n),type:'revision'})));
-  let vingt = melanger([...principal]).slice(0,20);
-  let dixR = melanger([...cartesRatees]).slice(0,10);
-  let dixA = melanger([...autres]).slice(0,10);
-  if(vingt.length<20) vingt = [...vingt, ...melanger([...principal,...autres]).slice(0,20-vingt.length)];
-  if(dixR.length<10) dixR = [...dixR, ...melanger([...principal]).slice(0,10-dixR.length).map(c=>({...c,type:'revision'}))];
-  const ids=new Set();
-  return melanger([...vingt,...dixR,...dixA]).filter(c=>{if(ids.has(c.q))return false;ids.add(c.q);return true;}).slice(0,40);
+function melanger(arr) { for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+
+function genererSession(selected) {
+  let cartes = [];
+  for (let ch of selected) {
+    if (CARTES[ch]) cartes.push({ ...CARTES[ch], ch: ch, chTitre: CHAPITRES[ch] });
+  }
+  // Compléter pour avoir 40 questions
+  let toutes = Object.entries(CARTES).map(([ch, c]) => ({ ...c, ch: parseInt(ch), chTitre: CHAPITRES[ch] }));
+  while (cartes.length < 40) {
+    cartes.push(...melanger([...toutes]).slice(0, 10));
+  }
+  return melanger(cartes.slice(0, 40));
 }
 
 function demarrer() {
   const sel = getSelected();
-  if (!sel.length) return;
-  session = genSession(sel);
-  idx = 0; score = {ok:0,total:0,chTaux:{}};
+  if (sel.length === 0) return;
+  sessionCartes = genererSession(sel);
+  idx = 0; score = { ok: 0, total: 0 };
   tps = 45*60;
   showPhase('phaseSession');
   startTimer();
-  affQ();
+  afficherQuestion();
 }
 
-function affQ() {
-  if (idx>=session.length){fin();return;}
-  const c = session[idx];
-  const pct = Math.round(idx/session.length*100);
-  document.getElementById('progFill').style.width = pct+'%';
-  document.getElementById('qCount').textContent = `Q ${idx+1}/${session.length}`;
-  const tLabel = c.type==='ratee'?'🔴 À retravailler':c.type==='revision'?'🔵 Révision':'🟢 Chapitre choisi';
-  const tCls = c.type==='ratee'?'rt':'tp';
+function afficherQuestion() {
+  if (idx >= sessionCartes.length) { terminer(); return; }
+  const c = sessionCartes[idx];
+  const pct = Math.round(idx / sessionCartes.length * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('qCount').textContent = `Q ${idx+1}/${sessionCartes.length}`;
   document.getElementById('qArea').innerHTML = `
     <div class="q-card">
       <div class="q-meta">
-        <span class="q-badge ch">${CHAPITRES[c.ch]?.titre||''}</span>
-        <span class="q-badge ${tCls}">${tLabel}</span>
+        <span class="q-badge ch">${c.chTitre}</span>
       </div>
       <div class="q-text">${c.q}</div>
       <textarea class="rep" id="repIn" placeholder="Écris ta réponse..." rows="3"></textarea>
       <div class="btn-row" style="margin-top:10px">
-        <button class="btn-primary" onclick="verif()">✔ Vérifier</button>
+        <button class="btn-primary" onclick="valider()">✔ Vérifier</button>
       </div>
     </div>`;
-  document.getElementById('fbArea').innerHTML='';
-  document.getElementById('nextWrap').style.display='none';
-  setTimeout(()=>document.getElementById('repIn')?.focus(),100);
+  document.getElementById('fbArea').innerHTML = '';
+  document.getElementById('nextWrap').style.display = 'none';
+  setTimeout(() => document.getElementById('repIn')?.focus(), 100);
 }
 
-function evaluer(rep,att) {
-  if(!rep||rep.trim().length<2) return{v:false,t:0,m:"Il faut écrire une réponse."};
-  const rc=rep.toLowerCase().trim(), ac=att.toLowerCase();
-  if(rc===ac) return{v:true,t:100,m:"Parfait !"};
-  const mots=ac.split(/[\s,;.]+/).filter(m=>m.length>3);
-  const me=rc.split(/[\s,;.]+/);
-  let ok=0; mots.forEach(m=>{if(me.some(x=>x.includes(m.slice(0,4))))ok++;});
-  let t=mots.length?Math.round(ok/mots.length*100):50;
-  if(t>=60) return{v:true,t,m:"Bien !"};
-  if(t>=40) return{v:true,t,m:"Presque ! Relis la correction."};
-  return{v:false,t,m:"À retravailler."};
+function evaluer(rep, att) {
+  if (!rep || rep.trim().length < 2) return { valide: false, taux: 0, message: "Écris une réponse." };
+  const repClean = rep.toLowerCase().trim();
+  const attClean = att.toLowerCase();
+  if (repClean === attClean) return { valide: true, taux: 100, message: "Parfait !" };
+  const motsAtt = attClean.split(/[\s,;.]+/).filter(m => m.length > 3);
+  const motsRep = repClean.split(/[\s,;.]+/);
+  let trouve = 0;
+  motsAtt.forEach(m => { if (motsRep.some(r => r.includes(m.slice(0,4)))) trouve++; });
+  let taux = motsAtt.length ? Math.round(trouve / motsAtt.length * 100) : 50;
+  if (taux >= 60) return { valide: true, taux: taux, message: "Bien !" };
+  if (taux >= 40) return { valide: true, taux: taux, message: "Presque ! Relis la correction." };
+  return { valide: false, taux: taux, message: "À retravailler." };
 }
 
-function verif() {
+function valider() {
   const rep = document.getElementById('repIn')?.value.trim();
-  if(!rep){alert("Écris une réponse.");return;}
-  const c = session[idx];
+  if (!rep) { alert("Écris une réponse."); return; }
+  const c = sessionCartes[idx];
   const ev = evaluer(rep, c.r);
-  if(ev.v) score.ok++;
+  if (ev.valide) score.ok++;
   score.total++;
-  if(!score.chTaux[c.ch]) score.chTaux[c.ch]={ok:0,t:0};
-  score.chTaux[c.ch].t++;
-  if(ev.v) score.chTaux[c.ch].ok++;
-
-  const ratees = getRatees();
-  const id = c.q.slice(0,40);
-  if(!ev.v){ ratees[id]={count:(ratees[id]?.count||0)+1,carte:c}; }
-  else if(ratees[id]){ ratees[id].count=Math.max(0,(ratees[id].count||1)-1); if(!ratees[id].count)delete ratees[id]; }
-  localStorage.setItem(`auto_fr_ratees_${eleve}`,JSON.stringify(ratees));
-
-  const cls=ev.t>=65?'ok':ev.t>=40?'mid':'bad';
-  const ico=ev.t>=65?'✅':ev.t>=40?'⚠️':'❌';
-  document.getElementById('fbArea').innerHTML=`
+  const cls = ev.taux >= 65 ? 'ok' : (ev.taux >= 40 ? 'mid' : 'bad');
+  const ico = ev.taux >= 65 ? '✅' : (ev.taux >= 40 ? '⚠️' : '❌');
+  document.getElementById('fbArea').innerHTML = `
     <div class="feedback show">
-      <div class="fb-res ${cls}">${ico} ${ev.m} — ${ev.t}%</div>
+      <div class="fb-res ${cls}">${ico} ${ev.message} — ${ev.taux}%</div>
       <div class="fb-corr"><strong>📖 Réponse attendue</strong>${c.r}</div>
     </div>`;
   idx++;
-  document.getElementById('nextWrap').style.display='block';
-  const bv=document.querySelector('#qArea .btn-primary'); if(bv)bv.disabled=true;
+  document.getElementById('nextWrap').style.display = 'block';
+  document.querySelector('#qArea .btn-primary').disabled = true;
 }
 
-function suivante(){ document.getElementById('nextWrap').style.display='none'; affQ(); }
+function suivante() {
+  document.getElementById('nextWrap').style.display = 'none';
+  afficherQuestion();
+}
 
-function startTimer(){
+function startTimer() {
   clearInterval(timerInt);
-  timerInt=setInterval(()=>{
-    if(tps<=0){clearInterval(timerInt);fin();return;}
+  timerInt = setInterval(() => {
+    if (tps <= 0) { clearInterval(timerInt); terminer(); return; }
     tps--;
-    const m=Math.floor(tps/60),s=tps%60;
-    const el=document.getElementById('timerVal');
-    if(el){el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;el.className='timer-val'+(tps<300?' urgent':'');}
-  },1000);
+    const m = Math.floor(tps/60), s = tps%60;
+    const el = document.getElementById('timerVal');
+    if (el) {
+      el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      el.className = 'timer-val' + (tps < 300 ? ' urgent' : '');
+    }
+  }, 1000);
 }
 
-function fin(){
+function terminer() {
   clearInterval(timerInt);
-  const pct = score.total>0?Math.round(score.ok/score.total*100):0;
-  const chTaux = {};
-  Object.entries(score.chTaux).forEach(([ch,d])=>{chTaux[ch]=Math.round(d.ok/d.t*100);});
-  const chapitresNoms = getSelected().map(n=>CHAPITRES[n]?.titre).filter(Boolean);
-
-  // ===== SAUVEGARDE POUR SUIVI PARENTAL =====
+  const pct = score.total > 0 ? Math.round(score.ok / score.total * 100) : 0;
+  const chapitresNoms = getSelected().map(n => CHAPITRES[n]);
+  
+  // Sauvegarde pour suivi parental
   const keyP = `suivi_sessions_francais_${eleve}`;
   const sp = JSON.parse(localStorage.getItem(keyP) || '[]');
   sp.unshift({
-    id: Date.now(),
-    date: new Date().toISOString(),
-    matiere: 'francais',
-    eleve: eleve,
-    chapitres: chapitresNoms,
-    chapitresTaux: chTaux,
-    score: { bonnes: score.ok, total: score.total },
-    pourcentage: pct
+    id: Date.now(), date: new Date().toISOString(), matiere: 'francais', eleve: eleve,
+    chapitres: chapitresNoms, score: { bonnes: score.ok, total: score.total }, pourcentage: pct
   });
   localStorage.setItem(keyP, JSON.stringify(sp.slice(0,200)));
-
+  
   // Sauvegarde locale
-  const sessions = getSessions();
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),eleve,score:score.ok,total:score.total,pourcentage:pct,chapitres:chapitresNoms,chTaux});
+  const sessions = JSON.parse(localStorage.getItem(`auto_fr_sessions_${eleve}`) || '[]');
+  sessions.unshift({ id: Date.now(), date: new Date().toISOString(), eleve: eleve,
+    score: score.ok, total: score.total, pourcentage: pct, chapitres: chapitresNoms });
   localStorage.setItem(`auto_fr_sessions_${eleve}`, JSON.stringify(sessions.slice(0,100)));
-
+  
   showPhase('phaseRes');
-  const cls=pct>=80?'ex':pct>=60?'bi':'ef';
-  const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue à t\'entraîner.';
-  document.getElementById('scoreBig').className='score-big '+cls;
-  document.getElementById('scoreBig').textContent=pct+'%';
-  document.getElementById('scoreDetail').textContent=`${score.ok} bonnes réponses sur ${score.total}`;
-  document.getElementById('msgFin').textContent=msg;
-  const faibles=Object.entries(chTaux).filter(([,t])=>t<60).map(([ch])=>CHAPITRES[ch]?.titre).filter(Boolean);
-  if(faibles.length){
-    document.getElementById('faiblesRes').innerHTML=`<div class="faibles-box"><h4>⚠ Chapitres à retravailler (&lt; 60%)</h4><ul>${faibles.map(f=>`<li>• ${f}</li>`).join('')}</ul></div>`;
-  }
+  const cls = pct>=80 ? 'ex' : (pct>=60 ? 'bi' : 'ef');
+  const msg = pct>=80 ? '🌟 Excellent !' : (pct>=60 ? '👍 Bien joué !' : (pct>=40 ? '💪 Courage !' : '📚 Continue à t\'entraîner.'));
+  document.getElementById('scoreBig').className = 'score-big ' + cls;
+  document.getElementById('scoreBig').textContent = pct + '%';
+  document.getElementById('scoreDetail').textContent = `${score.ok} bonnes réponses sur ${score.total}`;
+  document.getElementById('msgFin').textContent = msg;
 }
 
-function showPhase(id){
-  ['phaseSelect','phaseSession','phaseRes'].forEach(p=>{
-    document.getElementById(p).className='phase'+(p===id?' active':'');
+function showPhase(id) {
+  ['phaseSelect','phaseSession','phaseRes'].forEach(p => {
+    document.getElementById(p).className = 'phase' + (p === id ? ' active' : '');
   });
 }
 
 buildGrid();
-updateInfo();
 </script>
 </body>
 </html>
