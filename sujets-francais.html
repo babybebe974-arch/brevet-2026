@@ -30,19 +30,105 @@
 </div>
 <script>
 
-const PROXY = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
+// ============================================================
+// 🔑 TON PROXY GOOGLE APPS SCRIPT
+// ============================================================
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
 
-async function callIA(system, user) {
-  const res = await fetch(PROXY + '?action=proxyAnthropic', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ system, user })
-  });
-  const data = await res.json();
-  if (data.content && data.content[0]) return data.content[0].text;
-  if (data.success && data.data && data.data.content) return data.data.content;
-  throw new Error(JSON.stringify(data));
+async function callIA(prompt, system = "Tu es un correcteur bienveillant pour le brevet.") {
+  try {
+    const response = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, system })
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result = await response.json();
+    // Le script Google renvoie { success: true, data: { content: [...] } }
+    if (result.success && result.data && result.data.content) {
+      return result.data.content[0].text;
+    }
+    if (result.content) return result.content;
+    if (result.data) return result.data;
+    throw new Error('Réponse inattendue du serveur');
+  } catch(e) {
+    console.error('Erreur callIA:', e);
+    throw e;
+  }
 }
+
+// ============================================================
+// FONCTIONS DE CORRECTION SPÉCIFIQUES
+// ============================================================
+
+async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
+  const texteEleve = document.getElementById(idTextarea).value.trim();
+  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
+  const corrDiv = document.getElementById('correction-dictee-' + numSujet);
+  corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
+  corrDiv.style.display = 'block';
+  
+  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
+  const prompt = `Texte officiel : "${texteOfficiel}"\n\nDictée élève : "${texteEleve}"`;
+  
+  try {
+    const txt = await callIA(prompt, system);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
+  } catch(e) {
+    corrDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
+  }
+}
+
+async function corrigerExo(idTextarea, reponseAttendue, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
+  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
+  if (btn) btn.textContent = '⏳...';
+  
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication courte"}';
+  const prompt = `Réponse attendue : "${reponseAttendue}"\n\nRéponse élève : "${texte}"\n\nNote sur ${pts} points.`;
+  
+  try {
+    const txt = await callIA(prompt, system);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (btn) btn.textContent = 'Corriger avec IA';
+}
+
+async function corrigerRedaction(idTextarea, pts) {
+  const texte = document.getElementById(idTextarea).value.trim();
+  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
+  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
+  if (btn) btn.textContent = '⏳...';
+  
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
+  const prompt = 'Rédaction :\n' + texte;
+  
+  try {
+    const txt = await callIA(prompt, system);
+    const clean = txt.replace(/```json|```/g, '').trim();
+    const json = JSON.parse(clean);
+    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+  } catch(e) {
+    alert('Erreur : ' + e.message);
+  }
+  if (btn) btn.textContent = 'Corriger la rédaction avec IA';
+}
+
+function afficherCorrection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+}
+
+// ============================================================
+// DONNÉES SUJETS (inchangé)
+// ============================================================
 
 const SUJETS = [
   { id: 1, annee: "2025", session: "Métropole (juin)", titre: "Simone de Beauvoir – La Force de l'âge",
@@ -213,68 +299,9 @@ const SUJETS = [
   }
 ];
 
-// ── FONCTIONS IA via proxy ──────────────────────────────────────────────
-
-async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
-  const texteEleve = document.getElementById(idTextarea).value.trim();
-  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
-  const corrDiv = document.getElementById('correction-dictee-' + numSujet);
-  corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
-  corrDiv.style.display = 'block';
-  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
-  const user = 'Texte officiel : "' + texteOfficiel + '"\nDictée élève : "' + texteEleve + '"';
-  try {
-    const txt = await callIA(system, user);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
-  } catch(e) {
-    corrDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
-  }
-}
-
-async function corrigerExo(idTextarea, reponseAttendue, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
-  if (btn) btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication courte"}';
-  const user = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
-  try {
-    const txt = await callIA(system, user);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
-  } catch(e) {
-    alert('Erreur : ' + e.message);
-  }
-  if (btn) btn.textContent = 'Corriger avec IA';
-}
-
-async function corrigerRedaction(idTextarea, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
-  if (btn) btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
-  const user = 'Rédaction :\n' + texte;
-  try {
-    const txt = await callIA(system, user);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
-  } catch(e) {
-    alert('Erreur : ' + e.message);
-  }
-  if (btn) btn.textContent = 'Corriger la rédaction avec IA';
-}
-
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
-}
-
-// ── RENDU ───────────────────────────────────────────────────────────────
+// ============================================================
+// RENDU DES SUJETS
+// ============================================================
 
 function afficherSujets() {
   const container = document.getElementById('sujets');
