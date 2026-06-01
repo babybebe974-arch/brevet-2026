@@ -19,8 +19,6 @@
     .matiere-nom{font-size:1.3rem;font-weight:700;}
     .stats-ligne{display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.75rem;color:#aaa;}
     .moyenne{font-size:1.8rem;font-weight:800;margin-top:0.25rem;}
-    .progression-barre{background:#0a0a0f;border-radius:999px;height:6px;margin:0.5rem 0;overflow:hidden;}
-    .progression-fill{height:100%;border-radius:999px;transition:width 0.5s;}
     
     .sessions-table{width:100%;border-collapse:collapse;font-size:0.7rem;}
     .sessions-table th,.sessions-table td{border-bottom:1px solid #333;padding:0.5rem;text-align:left;}
@@ -50,98 +48,32 @@
     <button id="exportBtn" style="border-color:#e8c87a;color:#e8c87a;">📤 Exporter tout (JSON)</button>
     <button id="resetBtn" class="btn-danger">⚠️ Réinitialiser toutes les données</button>
   </div>
-  <footer>💡 Les scores viennent des exercices "Automatismes". Le % du programme = chapitres étudiés / chapitres totaux.</footer>
+  <footer>💡 Les scores viennent des exercices "Automatismes".</footer>
 </div>
 
 <script>
-  // ==================== LISTE DES CHAPITRES PAR MATIÈRE ====================
-  const CHAPITRES_PAR_MATIERE = {
-    francais: {
-      nom: "Français",
-      couleur: "#ffcc00",
-      storageKey: "automatismes_sessions_francais",
-      chapitresKey: "automatismes_chapitres_francais",
-      totalChapitres: 26,
-      chapitresListe: [
-        "Classes grammaticales", "Fonctions grammaticales", "La phrase", "Temps et modes verbaux",
-        "Les accords", "Homophones", "Conjugaison", "Valeurs des temps", "Formation des mots",
-        "Figures de style", "Champs lexicaux", "Synonymes/antonymes", "Genres littéraires",
-        "Mouvements littéraires", "Registres littéraires", "Le récit", "La rédaction",
-        "Contraction de texte", "Commentaire composé", "Oral : présentation", "Oral : expression",
-        "Oral : échange", "Dictée", "Grammaire (analyse)", "Réécriture", "Essai"
-      ]
-    },
-    maths: {
-      nom: "Mathématiques",
-      couleur: "#2ecc71",
-      storageKey: "automatismes_sessions_maths",
-      chapitresKey: "automatismes_chapitres_maths",
-      totalChapitres: 18,
-      chapitresListe: [
-        "Nombres premiers et PGCD", "Nombres relatifs", "Fractions", "Puissances", "Calcul littéral",
-        "Équations", "Proportionnalité", "Statistiques", "Probabilités", "Fonctions",
-        "Fonctions (suite)", "Pythagore", "Thalès", "Trigonométrie", "Géométrie (angles)",
-        "Transformations", "Solides", "Scratch"
-      ]
-    },
-    histoire: {
-      nom: "Histoire-Géo & EMC",
-      couleur: "#e74c3c",
-      storageKey: "automatismes_sessions_histoire",
-      chapitresKey: "automatismes_chapitres_histoire",
-      totalChapitres: 21,
-      chapitresListe: [
-        "Première Guerre mondiale", "Sortie de guerre", "Totalitarismes", "Guerre-éclair",
-        "Guerre d'anéantissement", "Libération et bilan", "Guerre froide", "Construction européenne",
-        "Décolonisation", "Après-guerre froide", "Aires urbaines", "Espaces productifs",
-        "Espaces de faible densité", "UE (géographie)", "Mondialisation", "Inégalités de développement",
-        "Défis XXIe siècle", "Valeurs République", "Citoyenneté", "Justice", "Débat démocratique"
-      ]
-    },
-    sciences: {
-      nom: "Sciences",
-      couleur: "#3498db",
-      storageKey: "automatismes_sessions_sciences",
-      chapitresKey: "automatismes_chapitres_sciences",
-      totalChapitres: 28,
-      chapitresListe: [
-        "Réchauffement climatique", "Cellule", "Génétique", "Évolution", "Reproduction",
-        "Système nerveux", "Hormones", "Nutrition", "Respiration", "Microbes",
-        "Vaccination", "Sexualité", "Défenses immunitaires", "Atomes", "Mélanges",
-        "Réactions chimiques", "Solutions", "Mouvement", "Forces", "Lois de Newton",
-        "Pression", "Sources d'énergie", "Formes d'énergie", "Conversions", "Circuits électriques",
-        "Sécurité électrique", "Son et lumière", "Caractéristiques des ondes"
-      ]
-    }
+  // ==================== LISTE DES MATIÈRES PAR ÉLÈVE ====================
+  const MATIERES = {
+    // WASSIL
+    francais_wassil: { nom: "🇫🇷 Français (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_francais_wassil" },
+    maths_wassil: { nom: "📐 Mathématiques (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_maths_wassil" },
+    histoire_wassil: { nom: "🌍 Histoire-Géo (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_histoire_wassil" },
+    sciences_wassil: { nom: "🔬 Sciences (Wassil)", couleur: "#7eb8f5", storageKey: "automatismes_sessions_sciences_wassil" },
+    // NAWAL
+    francais_nawal: { nom: "🇫🇷 Français (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_francais_nawal" },
+    maths_nawal: { nom: "📐 Mathématiques (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_maths_nawal" },
+    histoire_nawal: { nom: "🌍 Histoire-Géo (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_histoire_nawal" },
+    sciences_nawal: { nom: "🔬 Sciences (Nawal)", couleur: "#f59eb8", storageKey: "automatismes_sessions_sciences_nawal" }
   };
 
-  // Récupérer toutes les sessions d'une matière
   function getSessions(matiereId) {
-    const key = CHAPITRES_PAR_MATIERE[matiereId].storageKey;
+    const key = MATIERES[matiereId].storageKey;
     const saved = localStorage.getItem(key);
     if (!saved) return [];
     try { return JSON.parse(saved); }
     catch(e) { return []; }
   }
 
-  // Récupérer les chapitres étudiés
-  function getChapitresEtudies(matiereId) {
-    const key = CHAPITRES_PAR_MATIERE[matiereId].chapitresKey;
-    const saved = localStorage.getItem(key);
-    if (!saved) return [];
-    try { return JSON.parse(saved); }
-    catch(e) { return []; }
-  }
-
-  // Calculer le pourcentage du programme couvert
-  function getPourcentageProgramme(matiereId) {
-    const etudies = getChapitresEtudies(matiereId);
-    const total = CHAPITRES_PAR_MATIERE[matiereId].totalChapitres;
-    if (total === 0) return 0;
-    return Math.round((etudies.length / total) * 100);
-  }
-
-  // Calculer la moyenne des 5 dernières sessions
   function moyenneRecente(sessions) {
     const dernieres = sessions.slice(0, 5);
     if (dernieres.length === 0) return null;
@@ -149,7 +81,6 @@
     return Math.round(sum / dernieres.length);
   }
 
-  // Formater une date
   function formatDate(dateStr) {
     try {
       const d = new Date(dateStr);
@@ -157,24 +88,14 @@
     } catch(e) { return dateStr; }
   }
 
-  // Afficher toutes les matières
   function afficherSuivi() {
     const grid = document.getElementById("matieresGrid");
     grid.innerHTML = "";
     
-    for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
+    for (const [id, mat] of Object.entries(MATIERES)) {
       const sessions = getSessions(id);
       const moyenne = moyenneRecente(sessions);
-      const pourcentageProg = getPourcentageProgramme(id);
-      const couleur = mat.couleur;
       
-      // Couleur de la barre selon pourcentage
-      let barreCouleur = '#e74c3c';
-      if (pourcentageProg >= 75) barreCouleur = '#2ecc71';
-      else if (pourcentageProg >= 50) barreCouleur = '#ffcc00';
-      else if (pourcentageProg >= 25) barreCouleur = '#f39c12';
-      
-      // Construction du tableau des 5 dernières sessions
       let sessionsHtml = '';
       const cinqDernieres = sessions.slice(0, 5);
       if (cinqDernieres.length === 0) {
@@ -193,25 +114,14 @@
       card.className = "matiere-card";
       card.innerHTML = `
         <div class="matiere-header">
-          <div class="matiere-nom" style="color:${couleur}">📚 ${mat.nom}</div>
-          <div class="stats-ligne">
-            <span>📖 ${pourcentageProg}% du programme</span>
-            <span>📊 ${getChapitresEtudies(id).length}/${mat.totalChapitres} chapitres</span>
-          </div>
-          <div class="progression-barre">
-            <div class="progression-fill" style="width:${pourcentageProg}%;background:${barreCouleur}"></div>
-          </div>
-          <div class="moyenne" style="color:${couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
+          <div class="matiere-nom" style="color:${mat.couleur}">📚 ${mat.nom}</div>
+          <div class="moyenne" style="color:${mat.couleur}">${moyenne !== null ? moyenne + '%' : '—'}</div>
           <div class="stats-ligne">📈 Moyenne des 5 dernières sessions</div>
         </div>
         <div style="padding:0.8rem;">
           <table class="sessions-table">
-            <thead>
-              <tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr>
-            </thead>
-            <tbody>
-              ${sessionsHtml}
-            </tbody>
+            <thead><tr><th>📅 Date</th><th>📖 Chapitres</th><th>🎯 Score</th></tr></thead>
+            <tbody>${sessionsHtml}</tbody>
           </table>
         </div>
       `;
@@ -219,48 +129,29 @@
     }
   }
 
-  // Sauvegarder une session (appelé depuis automatismes)
   function sauvegarderSession(matiereId, chapitres, score) {
-    const mat = CHAPITRES_PAR_MATIERE[matiereId];
+    const mat = MATIERES[matiereId];
+    if (!mat) { console.error("Matière inconnue:", matiereId); return; }
     const key = mat.storageKey;
     const sessions = getSessions(matiereId);
-    
-    const nouvelleSession = {
+    sessions.unshift({
       id: Date.now(),
       date: new Date().toISOString(),
       chapitres: chapitres,
       score: score,
       pourcentage: Math.round((score.bonnes / score.total) * 100)
-    };
-    sessions.unshift(nouvelleSession);
+    });
     while(sessions.length > 100) sessions.pop();
     localStorage.setItem(key, JSON.stringify(sessions));
-    
-    // Mettre à jour les chapitres étudiés
-    const chapitresKey = mat.chapitresKey;
-    const etudies = getChapitresEtudies(matiereId);
-    const nouveauxChapitres = Array.isArray(chapitres) ? chapitres : [chapitres];
-    nouveauxChapitres.forEach(c => {
-      if (!etudies.includes(c)) etudies.push(c);
-    });
-    localStorage.setItem(chapitresKey, JSON.stringify(etudies));
-    
-    return nouvelleSession;
+    console.log(`✅ Sauvegardé dans ${key}:`, sessions[0]);
   }
 
-  // Exporter toutes les données
   function exporterJSON() {
     const allData = {};
-    for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
-      allData[id] = {
-        sessions: getSessions(id),
-        chapitresEtudies: getChapitresEtudies(id)
-      };
+    for (const [id, mat] of Object.entries(MATIERES)) {
+      allData[id] = getSessions(id);
     }
-    const blob = new Blob([JSON.stringify({
-      exportDate: new Date().toISOString(),
-      data: allData
-    }, null, 2)], {type: "application/json"});
+    const blob = new Blob([JSON.stringify({ exportDate: new Date().toISOString(), data: allData }, null, 2)], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -269,30 +160,23 @@
     URL.revokeObjectURL(url);
   }
 
-  // Réinitialiser tout
   function resetAll() {
-    if (confirm("⚠️ Supprimer TOUTES les sessions et progression de TOUTES les matières ?")) {
-      for (const [id, mat] of Object.entries(CHAPITRES_PAR_MATIERE)) {
+    if (confirm("⚠️ Supprimer TOUTES les sessions ?")) {
+      for (const [id, mat] of Object.entries(MATIERES)) {
         localStorage.removeItem(mat.storageKey);
-        localStorage.removeItem(mat.chapitresKey);
       }
       afficherSuivi();
     }
   }
 
-  // Exposer la fonction de sauvegarde pour les fichiers automatismes
-  window.SuiviParental = {
-    sauvegarderSession: sauvegarderSession,
-    getSessions: getSessions
-  };
+  window.SuiviParental = { sauvegarderSession, getSessions };
 
-  // Événements
   document.getElementById("refreshBtn").addEventListener("click", afficherSuivi);
   document.getElementById("exportBtn").addEventListener("click", exporterJSON);
   document.getElementById("resetBtn").addEventListener("click", resetAll);
   
-  // Afficher au chargement
   afficherSuivi();
+  console.log("Suivi parental chargé. Clés disponibles:", Object.keys(MATIERES));
 </script>
 </body>
 </html>
