@@ -7,291 +7,373 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
     h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
     .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #ffcc00;padding-left:1rem;}
     .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
     .flashcard:hover{border-color:#ffcc00;}
-    .question{font-size:1.1rem;margin-bottom:1rem;}
-    .answer{font-size:1rem;color:#ffcc00;margin-top:1rem;display:none;}
+    .question{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    .answer{font-size:1rem;color:#ffcc00;margin-top:1rem;display:none;line-height:1.5;}
     .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
     .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
     button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
     button:hover{background:#2a3652;}
     .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
+    .selector-group{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;align-items:center;}
+    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.5rem 1rem;color:white;font-size:0.8rem;cursor:pointer;flex:1;min-width:200px;}
     .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
+    hr{border-color:#333;margin:1rem 0;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>🇫🇷 Flashcards Français</h1>
-  <div class="sub">Brevet 2026 • Mémorisation active • 180 cartes</div>
+  <div class="sub">Brevet 2026 • Mémorisation active • 27 chapitres</div>
+
+  <div class="selector-group">
+    <select id="chapitreSelect"></select>
+    <button id="changerBtn">📚 Charger chapitre</button>
+    <button id="resetChapitreBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Reset chapitre</button>
+  </div>
+
   <div class="stats" id="stats">📊 Chargement...</div>
   <div id="card-area"></div>
   <div id="session-stats" class="progress"></div>
-  <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;margin-top:1rem;">🔄 Réinitialiser</button>
+  <button id="resetAllBtn" style="border-color:#e74c3c;color:#e74c3c;margin-top:1rem;">⚠️ Réinitialiser TOUTE progression</button>
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-  const flashcards = [
-    // Chapitre 1 : Les classes grammaticales (8 cartes)
-    { question: "Quelles sont les 9 classes grammaticales ?", reponse: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
-    { question: "Donnez 3 déterminants.", reponse: "Définis : le, la, les ; indéfinis : un, une, des ; possessifs : mon, ton, son." },
-    { question: "Donnez 3 pronoms.", reponse: "Personnels : je, tu, il ; relatifs : qui, que, dont ; démonstratifs : ce, cela." },
-    { question: "Différence entre adverbe et préposition ?", reponse: "Adverbe modifie un verbe ou un adjectif (ex: rapidement). Préposition introduit un complément (ex: à, de, par)." },
-    { question: "Citez les 7 conjonctions de coordination.", reponse: "Mais, ou, et, donc, or, ni, car." },
-    { question: "À quoi reconnaît-on un nom ?", reponse: "On peut mettre un déterminant devant (le chat, une table)." },
-    { question: "À quoi reconnaît-on un verbe ?", reponse: "On peut le conjuguer (je mange, tu mangais)." },
-    { question: "Différence entre leur et leurs ?", reponse: "Leur = pronom invariable (je leur donne). Leurs = déterminant pluriel (leurs livres)." },
-    { question: "Quelles sont les 4 natures possibles de « tout » ?", reponse: "Déterminant (tout le monde), pronom (tout va bien), adverbe (elle est tout heureuse), nom (le tout)." },
-    // Chapitre 2 : Les fonctions grammaticales (8 cartes)
-    { question: "Qu'est-ce que le sujet ?", reponse: "La personne, l'animal ou la chose qui fait l'action. Il commande l'accord du verbe." },
-    { question: "Qu'est-ce que le COD ?", reponse: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'. Ex: Je mange UNE POMME." },
-    { question: "Qu'est-ce que le COI ?", reponse: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'. Ex: Je parle À MARIE." },
-    { question: "Qu'est-ce qu'un complément circonstanciel ?", reponse: "Donne des précisions : temps, lieu, manière, cause, but. Ex: Il court LE MATIN." },
-    { question: "Qu'est-ce que l'attribut du sujet ?", reponse: "Donne une qualité au sujet, relié par un verbe d'état (être, paraître, sembler). Ex: Il est GRAND." },
-    { question: "Qu'est-ce qu'une épithète ?", reponse: "Adjectif qui qualifie directement un nom. Ex: Une GRANDE maison." },
-    { question: "Qu'est-ce qu'une apposition ?", reponse: "Nom ou adjectif placé à côté d'un nom pour le qualifier. Ex: Paris, CAPITALE DE LA FRANCE." },
-    { question: "Qu'est-ce qu'un complément du nom ?", reponse: "Groupe de mots qui complète un nom. Ex: La maison DE MA GRAND-MÈRE." },
-    // Chapitre 3 : La phrase (6 cartes)
-    { question: "Qu'est-ce qu'une phrase simple ?", reponse: "Une phrase qui contient une seule proposition (un seul verbe conjugué). Ex: Je mange." },
-    { question: "Qu'est-ce qu'une phrase complexe ?", reponse: "Une phrase qui contient plusieurs propositions. Ex: Je mange quand j'ai faim." },
-    { question: "Qu'est-ce qu'une proposition indépendante ?", reponse: "Proposition qui ne dépend d'aucune autre. Ex: Je chante. Il pleut." },
-    { question: "Qu'est-ce qu'une proposition principale ?", reponse: "Proposition dont dépend une subordonnée. Ex: Je pense QUE TU AS RAISON." },
-    { question: "Qu'est-ce qu'une proposition subordonnée relative ?", reponse: "Introduite par un pronom relatif (qui, que, dont, où). Ex: Le livre QUE JE LIS est intéressant." },
-    { question: "Qu'est-ce qu'une proposition subordonnée conjonctive ?", reponse: "Introduite par une conjonction de subordination (que, parce que, lorsque). Ex: Je veux QUE TU VIENNES." },
-    // Chapitre 4 : Temps et modes verbaux (8 cartes)
-    { question: "Quels sont les 4 modes personnels ?", reponse: "Indicatif, subjonctif, conditionnel, impératif." },
-    { question: "À quoi sert l'imparfait ?", reponse: "Description ou habitude dans le passé. Ex: Quand j'étais petit, je jouais au foot." },
-    { question: "À quoi sert le passé simple ?", reponse: "Action ponctuelle et achevée (récit écrit). Ex: Il entra dans la pièce." },
-    { question: "À quoi sert le passé composé ?", reponse: "Action ponctuelle ou bilan (oral). Ex: Hier, j'ai mangé une pizza." },
-    { question: "À quoi sert le plus-que-parfait ?", reponse: "Antériorité par rapport à une action passée. Ex: Quand je suis arrivé, il était déjà parti." },
-    { question: "À quoi sert le futur simple ?", reponse: "Action à venir. Ex: Demain, j'irai au cinéma." },
-    { question: "À quoi sert le subjonctif ?", reponse: "Doute, souhait, émotion, obligation. Ex: Il faut que tu viennes." },
-    { question: "À quoi sert le conditionnel ?", reponse: "Hypothèse, condition. Ex: Si j'avais de l'argent, je voyagerais." },
-    // Chapitre 5 : Accords (6 cartes)
-    { question: "Règle d'accord sujet-verbe.", reponse: "Le verbe s'accorde en personne et en nombre avec le sujet. Ex: Les enfants JOUENT." },
-    { question: "Règle d'accord dans le groupe nominal.", reponse: "Déterminant, nom et adjectif s'accordent en genre et en nombre. Ex: Une GRANDE maison BLEUE." },
-    { question: "Règle d'accord du participe passé avec être.", reponse: "S'accorde en genre et en nombre avec le sujet. Ex: Elle EST ALLÉE." },
-    { question: "Règle d'accord du participe passé avec avoir.", reponse: "S'accorde avec le COD si celui-ci est placé avant. Ex: Les pommes que j'ai MANGÉES." },
-    { question: "Accord des noms composés : règle générale.", reponse: "Dépend de la nature des mots. Ex: des après-midi (invariable), des chefs-d'œuvre." },
-    { question: "Quand l'adjectif de couleur est-il invariable ?", reponse: "Lorsqu'il est formé à partir d'un nom (marron, orange, cerise). Ex: des yeux marron." },
-    // Chapitre 6 : Homophones (8 cartes)
-    { question: "Différence entre a et à.", reponse: "a = verbe avoir (peut être remplacé par avait). à = préposition." },
-    { question: "Différence entre ce et se.", reponse: "ce = déterminant démonstratif. se = pronom personnel." },
-    { question: "Différence entre ces et ses.", reponse: "ces = déterminant démonstratif pluriel. ses = déterminant possessif." },
-    { question: "Différence entre ou et où.", reponse: "ou = conjonction de coordination. où = pronom ou adverbe." },
-    { question: "Différence entre on et ont.", reponse: "on = pronom indéfini. ont = verbe avoir (3e personne pluriel)." },
-    { question: "Différence entre son et sont.", reponse: "son = déterminant possessif. sont = verbe être (3e personne pluriel)." },
-    { question: "Différence entre peu, peut et peuvent.", reponse: "peu = adverbe. peut = verbe pouvoir (3e singulier). peuvent = verbe pouvoir (3e pluriel)." },
-    { question: "Différence entre quel et qu'elle.", reponse: "quel = déterminant interrogatif. qu'elle = que + elle." },
-    // Chapitre 7 : Conjugaison (8 cartes)
-    { question: "Quels sont les 3 groupes de verbes ?", reponse: "1er groupe : verbes en -er (sauf aller). 2e groupe : verbes en -ir avec -iss-. 3e groupe : tous les autres." },
-    { question: "Citez 3 verbes du 3e groupe.", reponse: "Être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir." },
-    { question: "Terminaisons du présent (1er groupe).", reponse: "je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent." },
-    { question: "Terminaisons de l'imparfait.", reponse: "je -ais, tu -ais, il/elle -ait, nous -ions, vous -iez, ils/elles -aient." },
-    { question: "Terminaisons du futur simple.", reponse: "je -ai, tu -as, il/elle -a, nous -ons, vous -ez, ils/elles -ont." },
-    { question: "Terminaisons du passé simple (1er groupe).", reponse: "je -ai, tu -as, il/elle -a, nous -âmes, vous -âtes, ils/elles -èrent." },
-    { question: "Conjuguez 'être' au présent.", reponse: "je suis, tu es, il est, nous sommes, vous êtes, ils sont." },
-    { question: "Conjuguez 'avoir' au présent.", reponse: "j'ai, tu as, il a, nous avons, vous avez, ils ont." },
-    // Chapitre 8 : Valeurs des temps (6 cartes)
-    { question: "Valeur de l'imparfait.", reponse: "Description ou habitude dans le passé." },
-    { question: "Valeur du passé simple.", reponse: "Action ponctuelle et achevée (récit littéraire)." },
-    { question: "Valeur du passé composé.", reponse: "Action ponctuelle ou bilan (oral)." },
-    { question: "Valeur du plus-que-parfait.", reponse: "Antériorité par rapport à une action passée." },
-    { question: "Valeur du présent.", reponse: "Actualité, vérité générale, habitude." },
-    { question: "Valeur du conditionnel.", reponse: "Hypothèse, condition, souhait." },
-    // Chapitre 9 : Formation des mots (6 cartes)
-    { question: "Qu'est-ce qu'un radical ?", reponse: "Partie du mot qui porte le sens principal (ex: PORT dans porter)." },
-    { question: "Qu'est-ce qu'un préfixe ?", reponse: "Élément placé avant le radical pour modifier le sens (re-, in-, dé-)." },
-    { question: "Qu'est-ce qu'un suffixe ?", reponse: "Élément placé après le radical (ex: -able, -age, -tion)." },
-    { question: "Donnez 3 exemples de préfixes et leur sens.", reponse: "RE- (répétition), IN- (contraire), DÉ- (suppression)." },
-    { question: "Qu'est-ce qu'une famille de mots ?", reponse: "Ensemble des mots formés à partir du même radical. Ex: terre, terrestre, atterrir." },
-    { question: "Qu'est-ce qu'un néologisme ?", reponse: "Mot nouveau créé dans une langue (ex: smartphone, télétravail)." },
-    // Chapitre 10 : Figures de style (8 cartes)
-    { question: "Qu'est-ce qu'une comparaison ?", reponse: "Figure d'analogie avec outil de comparaison (comme, tel). Ex: Il est fort comme un lion." },
-    { question: "Qu'est-ce qu'une métaphore ?", reponse: "Figure d'analogie sans outil. Ex: Cet homme est un lion." },
-    { question: "Qu'est-ce qu'une personnification ?", reponse: "Attribuer des qualités humaines à un objet ou un animal. Ex: La lune sourit." },
-    { question: "Qu'est-ce qu'une antithèse ?", reponse: "Rapprochement de deux termes opposés. Ex: Je vis, je meurs." },
-    { question: "Qu'est-ce qu'un oxymore ?", reponse: "Rapprochement de deux mots contradictoires. Ex: Une obscure clarté." },
-    { question: "Qu'est-ce qu'une hyperbole ?", reponse: "Exagération. Ex: Je t'ai dit mille fois." },
-    { question: "Qu'est-ce qu'une litote ?", reponse: "Dire moins pour suggérer plus. Ex: Ce n'est pas bête (= c'est intelligent)." },
-    { question: "Qu'est-ce qu'une énumération ?", reponse: "Succession de mots ou expressions. Ex: Elle aimait les chiens, les chats, les oiseaux." },
-    // Chapitre 11 : Champs lexicaux (6 cartes)
-    { question: "Qu'est-ce qu'un champ lexical ?", reponse: "Ensemble des mots liés à un même thème (ex: mer → vague, bateau)." },
-    { question: "Qu'est-ce qu'un champ sémantique ?", reponse: "Ensemble des sens d'un même mot (ex: voler = air ou dérober)." },
-    { question: "Quels sont les 3 registres de langue ?", reponse: "Soutenu, courant, familier." },
-    { question: "Donnez un exemple de registre familier.", reponse: "C'est un chouette mec (au lieu de 'c'est un garçon sympathique')." },
-    { question: "Donnez un exemple de registre soutenu.", reponse: "Il est malaisé de... (au lieu de 'c'est difficile de...')." },
-    { question: "Qu'est-ce que l'argot ?", reponse: "Langage propre à un groupe (jeunes, métiers). Ex: flic (policier)." },
-    // Chapitre 12 : Synonymes, antonymes, homonymes (6 cartes)
-    { question: "Qu'est-ce qu'un synonyme ?", reponse: "Mot de sens proche. Ex: joie / bonheur." },
-    { question: "Qu'est-ce qu'un antonyme ?", reponse: "Mot de sens contraire. Ex: chaud / froid." },
-    { question: "Qu'est-ce qu'un homonyme ?", reponse: "Même prononciation, sens différent. Ex: vert / verre / vers." },
-    { question: "Qu'est-ce qu'un paronyme ?", reponse: "Sons proches, sens différent. Ex: collision / collusion." },
-    { question: "Donnez 3 exemples d'homonymes grammaticaux.", reponse: "a/à, ou/où, ce/se, on/ont, son/sont." },
-    { question: "Comment trouver le synonyme d'un mot ?", reponse: "Utiliser un dictionnaire des synonymes ou identifier des mots de la même famille." },
-    // Chapitre 13 : Genres littéraires (6 cartes)
-    { question: "Quels sont les 4 grands genres littéraires ?", reponse: "Roman, théâtre, poésie, argumentation." },
-    { question: "Qu'est-ce qu'un roman épistolaire ?", reponse: "Roman composé de lettres. Ex: Les Liaisons dangereuses." },
-    { question: "Quels sont les 3 genres théâtraux principaux ?", reponse: "Tragédie, comédie, drame." },
-    { question: "Qu'est-ce qu'une fable ?", reponse: "Courte histoire, souvent en vers, avec une morale. Ex: Les Fables de La Fontaine." },
-    { question: "Qu'est-ce qu'une autobiographie ?", reponse: "Récit où l'auteur raconte sa propre vie. Ex: Les Confessions de Rousseau." },
-    { question: "Qu'est-ce qu'un calligramme ?", reponse: "Poème dont les mots forment un dessin." },
-    // Chapitre 14 : Mouvements littéraires (8 cartes)
-    { question: "Quel mouvement littéraire du XVIe siècle ?", reponse: "Humanisme (Rabelais, Montaigne)." },
-    { question: "Quels sont les mouvements du XVIIe siècle ?", reponse: "Baroque et Classicisme (Molière, Racine, La Fontaine)." },
-    { question: "Quel mouvement littéraire du XVIIIe siècle ?", reponse: "Les Lumières (Voltaire, Rousseau, Diderot)." },
-    { question: "Quels sont les mouvements du XIXe siècle ?", reponse: "Romantisme, Réalisme, Naturalisme, Symbolisme." },
-    { question: "Quels sont les mouvements du XXe siècle ?", reponse: "Surréalisme, Existentialisme." },
-    { question: "Quelles sont les idées des Lumières ?", reponse: "Raison, liberté, tolérance, progrès." },
-    { question: "Quelles sont les idées du Romantisme ?", reponse: "Sentiments, nature, mélancolie." },
-    { question: "Quelles sont les idées du Réalisme ?", reponse: "Représenter la réalité, sans idéalisation." },
-    // Chapitre 15 : Registres littéraires (8 cartes)
-    { question: "Qu'est-ce que le registre comique ?", reponse: "Provoque le rire. Ex: Les Fourberies de Scapin." },
-    { question: "Qu'est-ce que le registre tragique ?", reponse: "Inspire terreur et pitié face à un destin fatal. Ex: Phèdre." },
-    { question: "Qu'est-ce que le registre épique ?", reponse: "Célèbre des héros, des exploits. Ex: La Chanson de Roland." },
-    { question: "Qu'est-ce que le registre lyrique ?", reponse: "Exprime des sentiments personnels (amour, nostalgie)." },
-    { question: "Qu'est-ce que le registre pathétique ?", reponse: "Suscite l'émotion, la tristesse, la compassion." },
-    { question: "Qu'est-ce que le registre fantastique ?", reponse: "Hésitation entre réel et irréel. Ex: La Vénus d'Ille." },
-    { question: "Qu'est-ce que le registre satirique ?", reponse: "Tourne en ridicule les défauts." },
-    { question: "Qu'est-ce que le registre polémique ?", reponse: "Attaque vigoureusement un adversaire." },
-    // Chapitre 16 : Le récit (8 cartes)
-    { question: "Quelles sont les 5 étapes du schéma narratif ?", reponse: "1. Situation initiale, 2. Élément perturbateur, 3. Péripéties, 4. Résolution, 5. Situation finale." },
-    { question: "Qu'est-ce que le schéma actantiel ?", reponse: "Sujet, objet, adjuvant, opposant, destinateur, destinataire." },
-    { question: "Qu'est-ce que le point de vue interne ?", reponse: "Le récit est vu à travers les yeux d'un personnage." },
-    { question: "Qu'est-ce que le point de vue externe ?", reponse: "Le narrateur ne connaît que les actions (caméra)." },
-    { question: "Qu'est-ce que le point de vue omniscient ?", reponse: "Le narrateur sait tout (pensées, passé, futur)." },
-    { question: "Qu'est-ce qu'un récit ultérieur ?", reponse: "Raconte des événements passés." },
-    { question: "Qu'est-ce qu'un récit simultané ?", reponse: "Récit en direct (ex: journal intime)." },
-    { question: "Qu'est-ce que le rythme du récit ?", reponse: "Relation entre temps de l'histoire et temps du récit." }
-  ];
+  // ==================== FRANÇAIS – 27 CHAPITRES ====================
+  const chapitres = {
+    1: { titre: "Les classes grammaticales", flashcards: [
+      { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
+      { q: "Donnez 3 déterminants.", r: "Définis : le, la, les ; indéfinis : un, une, des ; possessifs : mon, ton, son." },
+      { q: "Donnez 3 pronoms.", r: "Personnels : je, tu, il ; relatifs : qui, que, dont ; démonstratifs : ce, cela." },
+      { q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie verbe/adjectif (rapidement). Préposition introduit complément (à, de, par)." },
+      { q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." },
+      { q: "À quoi reconnaît-on un nom ?", r: "On peut mettre un déterminant devant (le chat, une table)." },
+      { q: "À quoi reconnaît-on un verbe ?", r: "On peut le conjuguer (je mange, tu mangais)." },
+      { q: "Différence entre leur et leurs ?", r: "Leur = pronom invariable (je leur donne). Leurs = déterminant pluriel (leurs livres)." }
+    ]},
+    2: { titre: "Les fonctions grammaticales", flashcards: [
+      { q: "Qu'est-ce que le sujet ?", r: "La personne, l'animal ou la chose qui fait l'action. Commande l'accord du verbe." },
+      { q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'. Ex: Je mange UNE POMME." },
+      { q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'. Ex: Je parle À MARIE." },
+      { q: "Qu'est-ce qu'un complément circonstanciel ?", r: "Donne des précisions : temps, lieu, manière, cause, but. Ex: Il court LE MATIN." },
+      { q: "Qu'est-ce que l'attribut du sujet ?", r: "Donne une qualité au sujet, relié par verbe d'état (être, paraître). Ex: Il est GRAND." },
+      { q: "Qu'est-ce qu'une épithète ?", r: "Adjectif qui qualifie directement un nom. Ex: Une GRANDE maison." },
+      { q: "Qu'est-ce qu'une apposition ?", r: "Nom/adjectif placé à côté d'un nom. Ex: Paris, CAPITALE DE LA FRANCE." },
+      { q: "Qu'est-ce qu'un complément du nom ?", r: "Groupe de mots qui complète un nom. Ex: La maison DE MA GRAND-MÈRE." }
+    ]},
+    3: { titre: "La phrase", flashcards: [
+      { q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe). Ex: Je mange." },
+      { q: "Qu'est-ce qu'une phrase complexe ?", r: "Plusieurs propositions. Ex: Je mange quand j'ai faim." },
+      { q: "Qu'est-ce qu'une proposition indépendante ?", r: "Ne dépend d'aucune autre. Ex: Je chante. Il pleut." },
+      { q: "Qu'est-ce qu'une proposition principale ?", r: "Dont dépend une subordonnée. Ex: Je pense QUE TU AS RAISON." },
+      { q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où. Ex: Le livre QUE JE LIS." },
+      { q: "Qu'est-ce qu'une subordonnée conjonctive ?", r: "Introduite par que, parce que, lorsque. Ex: Je veux QUE TU VIENNES." }
+    ]},
+    4: { titre: "Temps et modes verbaux", flashcards: [
+      { q: "Quels sont les 4 modes personnels ?", r: "Indicatif, subjonctif, conditionnel, impératif." },
+      { q: "À quoi sert l'imparfait ?", r: "Description ou habitude dans le passé. Ex: Quand j'étais petit..." },
+      { q: "À quoi sert le passé simple ?", r: "Action ponctuelle (récit écrit). Ex: Il entra." },
+      { q: "À quoi sert le passé composé ?", r: "Action ponctuelle (oral). Ex: J'ai mangé." },
+      { q: "À quoi sert le plus-que-parfait ?", r: "Antériorité. Ex: Il était déjà parti." },
+      { q: "À quoi sert le futur simple ?", r: "Action à venir. Ex: J'irai." },
+      { q: "À quoi sert le subjonctif ?", r: "Doute, souhait, émotion, obligation. Ex: Il faut que tu viennes." },
+      { q: "À quoi sert le conditionnel ?", r: "Hypothèse, condition. Ex: Si j'avais de l'argent, je voyagerais." }
+    ]},
+    5: { titre: "Les accords", flashcards: [
+      { q: "Règle d'accord sujet-verbe.", r: "Le verbe s'accorde en personne et nombre avec le sujet. Ex: Les enfants JOUENT." },
+      { q: "Règle d'accord dans le groupe nominal.", r: "Déterminant, nom et adjectif s'accordent. Ex: Une GRANDE maison BLEUE." },
+      { q: "Participe passé avec être.", r: "S'accorde avec le sujet. Ex: Elle EST ALLÉE." },
+      { q: "Participe passé avec avoir.", r: "S'accorde avec le COD si placé avant. Ex: Les pommes que j'ai MANGÉES." },
+      { q: "Accord des noms composés ?", r: "Dépend de la nature des mots. Ex: des après-midi (invariable), des chefs-d'œuvre." },
+      { q: "Quand l'adjectif de couleur est-il invariable ?", r: "Lorsqu'il est formé à partir d'un nom (marron, orange). Ex: des yeux marron." }
+    ]},
+    6: { titre: "Les homophones", flashcards: [
+      { q: "Différence entre a et à.", r: "a = avoir (peut être remplacé par avait). à = préposition." },
+      { q: "Différence entre ce et se.", r: "ce = déterminant démonstratif. se = pronom personnel." },
+      { q: "Différence entre ces et ses.", r: "ces = déterminant démonstratif pluriel. ses = déterminant possessif." },
+      { q: "Différence entre ou et où.", r: "ou = conjonction de coordination. où = pronom ou adverbe." },
+      { q: "Différence entre on et ont.", r: "on = pronom indéfini. ont = verbe avoir (3e pluriel)." },
+      { q: "Différence entre son et sont.", r: "son = déterminant possessif. sont = verbe être (3e pluriel)." }
+    ]},
+    7: { titre: "Conjugaison", flashcards: [
+      { q: "Quels sont les 3 groupes de verbes ?", r: "1er groupe : -er (sauf aller). 2e groupe : -ir avec -iss-. 3e groupe : tous les autres." },
+      { q: "Citez 3 verbes du 3e groupe.", r: "Être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir." },
+      { q: "Terminaisons du présent (1er groupe).", r: "je -e, tu -es, il/elle -e, nous -ons, vous -ez, ils/elles -ent." },
+      { q: "Terminaisons de l'imparfait.", r: "je -ais, tu -ais, il/elle -ait, nous -ions, vous -iez, ils/elles -aient." },
+      { q: "Terminaisons du futur simple.", r: "je -ai, tu -as, il/elle -a, nous -ons, vous -ez, ils/elles -ont." },
+      { q: "Conjuguez 'être' au présent.", r: "je suis, tu es, il est, nous sommes, vous êtes, ils sont." },
+      { q: "Conjuguez 'avoir' au présent.", r: "j'ai, tu as, il a, nous avons, vous avez, ils ont." }
+    ]},
+    8: { titre: "Valeurs des temps", flashcards: [
+      { q: "Valeur de l'imparfait.", r: "Description ou habitude dans le passé." },
+      { q: "Valeur du passé simple.", r: "Action ponctuelle et achevée (récit littéraire)." },
+      { q: "Valeur du passé composé.", r: "Action ponctuelle ou bilan (oral)." },
+      { q: "Valeur du plus-que-parfait.", r: "Antériorité par rapport à une action passée." },
+      { q: "Valeur du présent.", r: "Actualité, vérité générale, habitude." },
+      { q: "Valeur du conditionnel.", r: "Hypothèse, condition, souhait." }
+    ]},
+    9: { titre: "Formation des mots", flashcards: [
+      { q: "Qu'est-ce qu'un radical ?", r: "Partie du mot qui porte le sens principal (ex: PORT dans porter)." },
+      { q: "Qu'est-ce qu'un préfixe ?", r: "Élément placé avant le radical pour modifier le sens (re-, in-, dé-)." },
+      { q: "Qu'est-ce qu'un suffixe ?", r: "Élément placé après le radical (ex: -able, -age, -tion)." },
+      { q: "Donnez 3 exemples de préfixes.", r: "RE- (répétition), IN- (contraire), DÉ- (suppression)." },
+      { q: "Qu'est-ce qu'une famille de mots ?", r: "Mots formés à partir du même radical. Ex: terre, terrestre, atterrir." }
+    ]},
+    10: { titre: "Figures de style", flashcards: [
+      { q: "Qu'est-ce qu'une comparaison ?", r: "Analogie avec outil (comme, tel). Ex: Il est fort comme un lion." },
+      { q: "Qu'est-ce qu'une métaphore ?", r: "Analogie sans outil. Ex: Cet homme est un lion." },
+      { q: "Qu'est-ce qu'une personnification ?", r: "Qualités humaines à un objet. Ex: La lune sourit." },
+      { q: "Qu'est-ce qu'une antithèse ?", r: "Rapprochement de deux termes opposés. Ex: Je vis, je meurs." },
+      { q: "Qu'est-ce qu'un oxymore ?", r: "Mots contradictoires. Ex: Une obscure clarté." },
+      { q: "Qu'est-ce qu'une hyperbole ?", r: "Exagération. Ex: Je t'ai dit mille fois." },
+      { q: "Qu'est-ce qu'une litote ?", r: "Dire moins pour suggérer plus. Ex: Ce n'est pas bête." },
+      { q: "Qu'est-ce qu'une énumération ?", r: "Succession de mots. Ex: Elle aimait les chiens, les chats." }
+    ]},
+    11: { titre: "Champs lexicaux", flashcards: [
+      { q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème (mer → vague, bateau)." },
+      { q: "Quels sont les 3 registres de langue ?", r: "Soutenu, courant, familier." },
+      { q: "Donnez un exemple de registre familier.", r: "C'est un chouette mec (au lieu de 'garçon sympathique')." },
+      { q: "Donnez un exemple de registre soutenu.", r: "Il est malaisé de... (au lieu de 'c'est difficile')." }
+    ]},
+    12: { titre: "Synonymes, antonymes, homonymes", flashcards: [
+      { q: "Qu'est-ce qu'un synonyme ?", r: "Mot de sens proche. Ex: joie / bonheur." },
+      { q: "Qu'est-ce qu'un antonyme ?", r: "Mot de sens contraire. Ex: chaud / froid." },
+      { q: "Qu'est-ce qu'un homonyme ?", r: "Même prononciation, sens différent. Ex: vert / verre / vers." },
+      { q: "Qu'est-ce qu'un paronyme ?", r: "Sons proches, sens différent. Ex: collision / collusion." }
+    ]},
+    13: { titre: "Genres littéraires", flashcards: [
+      { q: "Quels sont les 4 grands genres littéraires ?", r: "Roman, théâtre, poésie, argumentation." },
+      { q: "Qu'est-ce qu'un roman épistolaire ?", r: "Roman composé de lettres. Ex: Les Liaisons dangereuses." },
+      { q: "Quels sont les 3 genres théâtraux principaux ?", r: "Tragédie, comédie, drame." },
+      { q: "Qu'est-ce qu'une fable ?", r: "Courte histoire avec une morale. Ex: Les Fables de La Fontaine." }
+    ]},
+    14: { titre: "Mouvements littéraires", flashcards: [
+      { q: "Quel mouvement littéraire du XVIe siècle ?", r: "Humanisme (Rabelais, Montaigne)." },
+      { q: "Quels sont les mouvements du XVIIe siècle ?", r: "Baroque et Classicisme (Molière, Racine, La Fontaine)." },
+      { q: "Quel mouvement littéraire du XVIIIe siècle ?", r: "Les Lumières (Voltaire, Rousseau, Diderot)." },
+      { q: "Quels sont les mouvements du XIXe siècle ?", r: "Romantisme, Réalisme, Naturalisme, Symbolisme." },
+      { q: "Quels sont les mouvements du XXe siècle ?", r: "Surréalisme, Existentialisme." }
+    ]},
+    15: { titre: "Registres littéraires", flashcards: [
+      { q: "Qu'est-ce que le registre comique ?", r: "Provoque le rire. Ex: Les Fourberies de Scapin." },
+      { q: "Qu'est-ce que le registre tragique ?", r: "Inspire terreur et pitié face à un destin fatal. Ex: Phèdre." },
+      { q: "Qu'est-ce que le registre épique ?", r: "Célèbre des héros, des exploits. Ex: La Chanson de Roland." },
+      { q: "Qu'est-ce que le registre lyrique ?", r: "Exprime des sentiments personnels (amour, nostalgie)." },
+      { q: "Qu'est-ce que le registre fantastique ?", r: "Hésitation entre réel et irréel. Ex: La Vénus d'Ille." }
+    ]},
+    16: { titre: "Le récit", flashcards: [
+      { q: "Quelles sont les 5 étapes du schéma narratif ?", r: "1. SI, 2. Élément perturbateur, 3. Péripéties, 4. Résolution, 5. SF." },
+      { q: "Qu'est-ce que le point de vue interne ?", r: "Récit vu à travers les yeux d'un personnage." },
+      { q: "Qu'est-ce que le point de vue externe ?", r: "Narrateur ne connaît que les actions (caméra)." },
+      { q: "Qu'est-ce que le point de vue omniscient ?", r: "Narrateur sait tout (pensées, passé, futur)." }
+    ]},
+    17: { titre: "La rédaction", flashcards: [
+      { q: "Quelle est la structure d'une introduction ?", r: "Amorce, présentation, problématique, annonce du plan." },
+      { q: "Citez 3 connecteurs de cause.", r: "car, parce que, puisque." },
+      { q: "Citez 3 connecteurs de conséquence.", r: "donc, ainsi, par conséquent." },
+      { q: "Citez 3 connecteurs d'opposition.", r: "mais, cependant, pourtant." }
+    ]},
+    18: { titre: "Contraction de texte", flashcards: [
+      { q: "Quelle est la règle d'or de la contraction ?", r: "Ne pas commenter, ne pas juger, ne pas ajouter." },
+      { q: "À combien de mots doit-on réduire un texte ?", r: "Au 1/3 (environ) du texte original." },
+      { q: "Que faut-il absolument conserver ?", r: "Les idées essentielles, l'ordre logique." }
+    ]},
+    19: { titre: "Commentaire composé", flashcards: [
+      { q: "Structure du commentaire composé.", r: "Introduction, développement (2-3 axes), conclusion." },
+      { q: "Que ne faut-il pas faire dans un commentaire ?", r: "Ne pas résumer le texte." },
+      { q: "Comment justifier son analyse ?", r: "Citer le texte, nommer les procédés, expliquer l'effet." }
+    ]},
+    20: { titre: "Oral : présentation", flashcards: [
+      { q: "Durée de l'oral du brevet.", r: "5 min exposé + 10 min échange avec le jury." },
+      { q: "Structure recommandée pour l'exposé.", r: "Introduction, développement (2-3 parties), conclusion." },
+      { q: "Peut-on lire son texte ?", r: "Non, il faut utiliser des notes (mots-clés)." }
+    ]},
+    21: { titre: "Oral : expression", flashcards: [
+      { q: "Comment bien utiliser sa voix ?", r: "Articuler, parler fort, débit calme." },
+      { q: "Où regarder pendant l'oral ?", r: "Regarder le jury, pas ses notes." },
+      { q: "Quelle posture adopter ?", r: "Debout, gestes naturels." }
+    ]},
+    22: { titre: "Oral : échange avec le jury", flashcards: [
+      { q: "Que faire si on ne comprend pas la question ?", r: "Demander une reformulation poliment." },
+      { q: "Que faire si on ne sait pas répondre ?", r: "L'admettre honnêtement." },
+      { q: "Comment bien argumenter ?", r: "Utiliser des exemples précis et des citations." }
+    ]},
+    23: { titre: "Dictée du brevet", flashcards: [
+      { q: "Comment se préparer à la dictée ?", r: "Lire le texte, identifier les difficultés." },
+      { q: "Que vérifier en priorité pendant la relecture ?", r: "Accords, homophones, terminaisons." },
+      { q: "Comment vérifier les homophones a/à ?", r: "Remplacer par 'avait' → a." }
+    ]},
+    24: { titre: "Grammaire (analyse de phrase)", flashcards: [
+      { q: "Qu'est-ce que la nature d'un mot ?", r: "Sa classe grammaticale (nom, verbe, adjectif...)." },
+      { q: "Qu'est-ce que la fonction d'un mot ?", r: "Son rôle dans la phrase (sujet, COD, CC...)." },
+      { q: "Comment trouver le COD ?", r: "Poser la question 'quoi ?' ou 'qui ?' après le verbe." }
+    ]},
+    25: { titre: "Réécriture", flashcards: [
+      { q: "Que faire si la consigne dit 'changer je en nous' ?", r: "Mettre le verbe à la 1ère personne du pluriel." },
+      { q: "Que vérifier après une réécriture ?", r: "Les accords, les terminaisons, les homophones." }
+    ]},
+    26: { titre: "Essai (sujet de réflexion)", flashcards: [
+      { q: "Structure de l'essai.", r: "Introduction, développement (thèse/antithèse ou plan logique), conclusion." },
+      { q: "Comment trouver des idées ?", r: "Brainstorming, les classer." },
+      { q: "Comment illustrer ses arguments ?", r: "Exemples précis (œuvres littéraires, films, expériences)." }
+    ]}
+  };
 
-  let index = 0;
+  let currentChapitre = 1;
+  let currentCartes = [];
+  let currentIndex = 0;
   let currentCard = null;
-  let progression = JSON.parse(localStorage.getItem("flashcards_francais") || "{}");
+  let progression = {};
 
-  function sauvegarder() { localStorage.setItem("flashcards_francais", JSON.stringify(progression)); }
-  function melanger(tab) { for (let i=tab.length-1; i>0; i--) { let j=Math.floor(Math.random()*(i+1)); [tab[i],tab[j]]=[tab[j],tab[i]]; } return tab; }
-
-  function demarrer() {
-    let cartes = flashcards.filter(c => !progression[c.question] || progression[c.question] < 3);
-    cartes = melanger(cartes);
-    if (cartes.length === 0) {
-      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes sont maîtrisées.</div>';
-      document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
-      return;
-    }
-    index = 0;
-    afficher(cartes);
+  function getStorageKey() { return `flashcards_francais_ch${currentChapitre}`; }
+  function sauvegarderProgression() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
+  function chargerProgression() {
+    const saved = localStorage.getItem(getStorageKey());
+    if (saved) progression = JSON.parse(saved);
+    else progression = {};
   }
 
-  function afficher(cartes) {
-    if (index >= cartes.length) { demarrer(); return; }
-    currentCard = cartes[index];
+  function getCardKey(question) { return question.substring(0, 60); }
+
+  function getCartesChapitre() { return chapitres[currentChapitre]?.flashcards || []; }
+
+  function initProgression() {
+    const cartes = getCartesChapitre();
+    let modif = false;
+    for (const c of cartes) {
+      const key = getCardKey(c.q);
+      if (!progression[key]) {
+        progression[key] = { score: 0, etat: "nouvelle" };
+        modif = true;
+      }
+    }
+    if (modif) sauvegarderProgression();
+  }
+
+  function melanger(tab) {
+    for (let i = tab.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tab[i], tab[j]] = [tab[j], tab[i]];
+    }
+    return tab;
+  }
+
+  function selectionnerCartesDuJour() {
+    const cartes = getCartesChapitre();
+    const nouvelles = cartes.filter(c => progression[getCardKey(c.q)]?.score === 0).slice(0, 20);
+    const erreurs = cartes.filter(c => progression[getCardKey(c.q)]?.score > 0 && progression[getCardKey(c.q)]?.score < 3).slice(0, 10);
+    const revoir = cartes.filter(c => progression[getCardKey(c.q)]?.score >= 3).slice(0, 5);
+    let selected = [...nouvelles, ...erreurs, ...revoir];
+    const ids = new Set();
+    selected = selected.filter(c => { const k = getCardKey(c.q); if (ids.has(k)) return false; ids.add(k); return true; });
+    return melanger(selected);
+  }
+
+  function mettreAJourStats() {
+    const cartes = getCartesChapitre();
+    let total = cartes.length;
+    let maitrisees = 0;
+    for (const c of cartes) {
+      if (progression[getCardKey(c.q)]?.score >= 3) maitrisees++;
+    }
+    document.getElementById("stats").innerHTML = `📚 Français – Chapitre ${currentChapitre} : ${chapitres[currentChapitre]?.titre || ""}<br>✅ ${maitrisees}/${total} cartes maîtrisées (${Math.round(maitrisees/total*100)}%)`;
+  }
+
+  function afficherCarte() {
+    if (currentIndex >= currentCartes.length) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Bravo ! Chapitre terminé. Change de chapitre ou reviens plus tard.</div>';
+      document.getElementById("session-stats").innerHTML = `✅ Session terminée ! ${currentCartes.length} cartes revues.`;
+      mettreAJourStats();
+      return;
+    }
+    currentCard = currentCartes[currentIndex];
+    const key = getCardKey(currentCard.q);
+    const score = progression[key]?.score || 0;
     document.getElementById("card-area").innerHTML = `
-      <div class="flashcard" onclick="reveler()">
-        <div class="question">${currentCard.question}</div>
-        <div class="answer" id="answer">${currentCard.reponse}</div>
+      <div class="flashcard" onclick="revelerReponse()">
+        <div class="question">📖 ${currentCard.q}</div>
+        <div class="answer" id="answer">📌 ${currentCard.r}</div>
         <div class="show-answer">👆 Cliquez pour voir la réponse</div>
       </div>
       <div class="btn-group" id="btns" style="display:none;">
-        <button onclick="repondre(true)">✅ Je sais</button>
+        <button onclick="repondre(true)">✅ Je sais (${score}/3)</button>
         <button onclick="repondre(false)">❌ Je ne sais pas</button>
       </div>
     `;
-    document.getElementById("session-stats").innerHTML = `📌 Carte ${index+1}/${cartes.length}`;
-    document.getElementById("stats").innerHTML = `✅ Maîtrisées : ${flashcards.filter(c => progression[c.question] >= 3).length}/${flashcards.length}`;
+    document.getElementById("session-stats").innerHTML = `📌 Carte ${currentIndex+1}/${currentCartes.length} · Score: ${score}/3`;
   }
 
-  window.reveler = function() { document.getElementById("answer").style.display = "block"; document.getElementById("btns").style.display = "flex"; };
-  window.repondre = function(reussi) {
-    if (reussi) progression[currentCard.question] = (progression[currentCard.question] || 0) + 1;
-    else progression[currentCard.question] = 0;
-    sauvegarder();
-    index++;
-    demarrer();
+  window.revelerReponse = function() {
+    document.getElementById("answer").style.display = "block";
+    document.getElementById("btns").style.display = "flex";
   };
-  document.getElementById("resetBtn").onclick = () => { if (confirm("Réinitialiser ?")) { localStorage.removeItem("flashcards_francais"); progression = {}; demarrer(); } };
-  demarrer();
+
+  window.repondre = function(reussi) {
+    const key = getCardKey(currentCard.q);
+    let score = progression[key]?.score || 0;
+    if (reussi) score = Math.min(score + 1, 3);
+    else score = 0;
+    progression[key] = { score: score, etat: score >= 3 ? "maitrisee" : (score > 0 ? "en_cours" : "nouvelle") };
+    sauvegarderProgression();
+    currentIndex++;
+    afficherCarte();
+    mettreAJourStats();
+  };
+
+  function demarrerSession() {
+    chargerProgression();
+    initProgression();
+    currentCartes = selectionnerCartesDuJour();
+    currentIndex = 0;
+    mettreAJourStats();
+    if (currentCartes.length === 0) {
+      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes de ce chapitre sont maîtrisées.</div>';
+      return;
+    }
+    afficherCarte();
+  }
+
+  function remplirChapitreSelect() {
+    const select = document.getElementById("chapitreSelect");
+    select.innerHTML = "";
+    for (const [num, data] of Object.entries(chapitres)) {
+      const option = document.createElement("option");
+      option.value = num;
+      option.textContent = `${num}. ${data.titre}`;
+      select.appendChild(option);
+    }
+    select.value = currentChapitre;
+  }
+
+  document.getElementById("changerBtn").addEventListener("click", () => {
+    currentChapitre = parseInt(document.getElementById("chapitreSelect").value);
+    demarrerSession();
+  });
+
+  document.getElementById("resetChapitreBtn").addEventListener("click", () => {
+    if (confirm(`Réinitialiser le chapitre ${currentChapitre} (${chapitres[currentChapitre]?.titre}) ?`)) {
+      localStorage.removeItem(getStorageKey());
+      demarrerSession();
+    }
+  });
+
+  document.getElementById("resetAllBtn").addEventListener("click", () => {
+    if (confirm("⚠️ Supprimer TOUTE progression dans TOUS les chapitres de français ?")) {
+      for (const chap of Object.keys(chapitres)) {
+        localStorage.removeItem(`flashcards_francais_ch${chap}`);
+      }
+      demarrerSession();
+    }
+  });
+
+  remplirChapitreSelect();
+  demarrerSession();
 </script>
 </body>
 </html>
-    // Chapitre 17 : La rédaction (8 cartes)
-    { question: "Quelles sont les 4 étapes de la rédaction ?", reponse: "1. Planifier, 2. Rédiger, 3. Relire, 4. Corriger." },
-    { question: "Que doit contenir une introduction ?", reponse: "Amorce (accroche), présentation du sujet, problématique, annonce du plan." },
-    { question: "Que doit contenir une conclusion ?", reponse: "Rappel de la réponse à la problématique, synthèse, ouverture." },
-    { question: "Quels sont les connecteurs logiques d'addition ?", reponse: "Et, de plus, en outre, également, puis." },
-    { question: "Quels sont les connecteurs logiques de cause ?", reponse: "Car, parce que, puisque, étant donné que." },
-    { question: "Quels sont les connecteurs logiques de conséquence ?", reponse: "Donc, ainsi, par conséquent, c'est pourquoi." },
-    { question: "Quels sont les connecteurs logiques d'opposition ?", reponse: "Mais, cependant, pourtant, néanmoins, en revanche." },
-    { question: "Que faut-il vérifier lors de la relecture ?", reponse: "Orthographe, accords, homophones, répétitions, sens." },
-    // Chapitre 18 : La contraction de texte (8 cartes)
-    { question: "Qu'est-ce que la contraction de texte ?", reponse: "Réduction d'un texte au tiers de sa longueur, en respectant le contenu et les idées essentielles." },
-    { question: "Quelle est la règle d'or de la contraction ?", reponse: "Ne pas commenter, ne pas juger, ne pas ajouter d'idées extérieures." },
-    { question: "Comment procéder pour une contraction ?", reponse: "1. Lire le texte, 2. Relever les idées essentielles, 3. Reformuler avec ses mots, 4. Compter les mots." },
-    { question: "Quelles sont les erreurs à éviter dans une contraction ?", reponse: "Changer l'ordre logique, oublier des idées importantes, citer trop longuement." },
-    { question: "Que doit-on respecter dans une contraction ?", reponse: "La longueur (1/3), le ton, l'ordre logique, la thèse de l'auteur." },
-    { question: "Comment reformuler sans copier le texte ?", reponse: "Utiliser des synonymes, changer la structure des phrases (actif/passif)." },
-    { question: "Que faire si un mot est difficile à remplacer ?", reponse: "Le garder s'il est indispensable, ou utiliser un synonyme proche." },
-    { question: "À quoi sert la contraction de texte ?", reponse: "À vérifier la compréhension d'un texte et la capacité à aller à l'essentiel." },
-    // Chapitre 19 : Le commentaire composé (8 cartes)
-    { question: "Qu'est-ce qu'un commentaire composé ?", reponse: "Analyse méthodique d'un texte littéraire pour en montrer les significations et les procédés." },
-    { question: "Quelle est la structure du commentaire ?", reponse: "Introduction, développement en 2-3 axes, conclusion." },
-    { question: "Que contient l'introduction du commentaire ?", reponse: "Présentation de l'œuvre et du passage, problématique, annonce du plan." },
-    { question: "Que contient le développement du commentaire ?", reponse: "Axes de lecture (2 ou 3), sous-parties, citations analysées, procédés stylistiques." },
-    { question: "Que contient la conclusion du commentaire ?", reponse: "Bilan des axes, réponse à la problématique, ouverture (autre œuvre, contexte)." },
-    { question: "Comment intégrer une citation ?", reponse: "Entre guillemets, intégrée grammaticalement dans la phrase." },
-    { question: "Qu'est-ce qu'une analyse de citation ?", reponse: "Expliquer le sens, le procédé (figure de style, champ lexical), l'effet produit." },
-    { question: "Que faut-il éviter dans un commentaire ?", reponse: "Le résumé, le jugement subjectif (j'aime, c'est bien), le hors-sujet." },
-    // Chapitre 20 : L'oral – présentation (6 cartes)
-    { question: "Quelle est la durée de l'oral du brevet ?", reponse: "15 minutes au total : 5 minutes d'exposé, 10 minutes d'échange." },
-    { question: "Quels sujets peut-on présenter à l'oral ?", reponse: "Un EPI (projet interdisciplinaire), une œuvre d'art, un livre, un stage, un engagement." },
-    { question: "Quelle est la structure de l'exposé ?", reponse: "Introduction, développement, conclusion. Avec des transitions claires." },
-    { question: "Quels supports peut-on utiliser pour l'oral ?", reponse: "PowerPoint, affiche, diaporama, extraits (livre, vidéo), note personnelle (pas de texte lu)." },
-    { question: "Comment gérer son temps lors de l'oral ?", reponse: "S'entraîner chronométré. Ne pas dépasser 5 minutes d'exposé." },
-    { question: "Faut-il apprendre son exposé par cœur ?", reponse: "Non, il faut le connaître mais parler naturellement, avec des notes." },
-    // Chapitre 21 : L'oral – expression (6 cartes)
-    { question: "Comment bien articuler à l'oral ?", reponse: "Parler distinctement, sans avaler les fins de mots." },
-    { question: "Quel doit être le débit de parole ?", reponse: "Ni trop rapide (inaudible), ni trop lent (endormant). Un rythme calme et régulier." },
-    { question: "Comment gérer sa voix ?", reponse: "Parler fort et clair. Projeter sa voix jusqu'au fond de la salle." },
-    { question: "Comment gérer son regard ?", reponse: "Regarder le jury, pas ses notes. Balayer du regard tous les membres." },
-    { question: "Quelle posture adopter à l'oral ?", reponse: "Debout (si possible), pieds ancrés, gestes naturels (pas excessifs)." },
-    { question: "Comment gérer son stress ?", reponse: "Respirer, bien dormir la veille, préparer plusieurs fois, avoir une boisson d'eau." },
-    // Chapitre 22 : L'oral – échange avec le jury (6 cartes)
-    { question: "Que faire si on n'a pas compris une question du jury ?", reponse: "Demander poliment une reformulation : 'Pourriez-vous reformuler votre question ?'" },
-    { question: "Comment répondre aux questions du jury ?", reponse: "Écouter, reformuler la question pour montrer qu'on a compris, répondre précisément." },
-    { question: "Que faire si on ne sait pas répondre ?", reponse: "L'admettre honnêtement : 'Je ne sais pas, mais je pense que...' ou 'Je peux vous dire que...'" },
-    { question: "Comment défendre son point de vue ?", reponse: "S'appuyer sur des exemples précis, des citations, des faits." },
-    { question: "Pourquoi ne pas couper la parole du jury ?", reponse: "Par respect et pour bien comprendre la question. Attendez la fin." },
-    { question: "Que faire si le jury me corrige ?", reponse: "Accepter la correction poliment, ne pas argumenter. 'Merci, je ne le savais pas.'" },
-    // Chapitre 23 : La dictée (6 cartes)
-    { question: "Comment se déroule la dictée du brevet ?", reponse: "Lecture lente du texte, dictée phrase par phrase, relecture, puis relecture finale." },
-    { question: "Que vérifier en priorité pendant la dictée ?", reponse: "Accords (sujet-verbe, GN), homophones (a/à, on/ont), terminaisons des verbes." },
-    { question: "Comment gérer le stress pendant la dictée ?", reponse: "Respirer, se concentrer sur la voix du correcteur, ne pas bloquer sur un mot difficile." },
-    { question: "Comment vérifier les homophones ?", reponse: "Remplacer par un mot du même temps (pour les verbes) ou par un autre mot (a→avait)." },
-    { question: "Comment vérifier les accords dans le groupe nominal ?", reponse: "Repérer le nom noyau, puis vérifier déterminant et adjectif." },
-    { question: "À quoi sert la relecture finale ?", reponse: "À corriger les erreurs d'étourderie, vérifier tous les accords." },
-    // Chapitre 24 : La grammaire (analyse de phrase) (6 cartes)
-    { question: "Qu'est-ce que la nature d'un mot ?", reponse: "Sa classe grammaticale (nom, verbe, adjectif, adverbe, pronom, etc.)." },
-    { question: "Qu'est-ce que la fonction d'un mot ?", reponse: "Son rôle dans la phrase (sujet, COD, COI, etc.)." },
-    { question: "Comment justifier la nature d'un mot ?", reponse: "On peut mettre un déterminant devant (pour un nom), ou on peut le conjuguer (pour un verbe)." },
-    { question: "Comment justifier la fonction d'un mot ?", reponse: "Poser la question correspondante (qui ? quoi ? à qui ? etc.)." },
-    { question: "Quels sont les verbes d'état ?", reponse: "Être, paraître, sembler, devenir, rester, avoir l'air." },
-    { question: "Quels sont les verbes d'action ?", reponse: "Tous les autres. Ex: manger, courir, donner, recevoir." },
-    // Chapitre 25 : La réécriture (6 cartes)
-    { question: "Qu'est-ce que la réécriture au brevet ?", reponse: "Transformer un passage (changer le temps, la personne, le genre, le nombre)." },
-    { question: "Comment réussir une réécriture ?", reponse: "Lire toute la consigne, repérer les changements à appliquer, transformer étape par étape, relire." },
-    { question: "Changer 'je' en 'nous', que devient le verbe ?", reponse: "Le verbe passe de la 1ère personne singulier à la 1ère personne pluriel." },
-    { question: "Changer le présent en imparfait, comment accorder ?", reponse: "Remplacer les terminaisons du présent par celles de l'imparfait." },
-    { question: "Changer le masculin en féminin, que faut-il accorder ?", reponse: "Les noms, les adjectifs, les participes passés (si accord avec être)." },
-    { question: "Comment relire sa réécriture ?", reponse: "Relire la phrase complète pour vérifier le sens, les accords, les terminaisons." },
-    // Chapitre 26 : L'essai (sujet de réflexion) (6 cartes)
-    { question: "Qu'est-ce que l'essai au brevet ?", reponse: "Sujet de réflexion sur un thème (souvent lié à l'un des parcours du programme)." },
-    { question: "Quelle est la structure de l'essai ?", reponse: "Introduction, développement (3 paragraphes argumentés), conclusion." },
-    { question: "Que contient l'introduction de l'essai ?", reponse: "Explication du sujet, problématique, annonce du plan." },
-    { question: "Que contient le développement de l'essai ?", reponse: "Thèse, arguments, exemples précis (œuvres littéraires, artistiques, personnelles)." },
-    { question: "Que contient la conclusion de l'essai ?", reponse: "Rappel de la réponse à la problématique, synthèse, ouverture." },
-    { question: "Quelle est l'erreur à éviter dans l'essai ?", reponse: "Donner son avis subjectif sans le justifier. Toujours argumenter." }
