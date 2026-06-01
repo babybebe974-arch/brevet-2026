@@ -41,10 +41,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ch-warn{margin-left:auto;font-size:10px;color:var(--red);}
 
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
-.btn{padding:8px 16px;border-radius:8px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:12px;cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;}
+.btn{padding:8px 16px;border-radius:8px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:12px;cursor:pointer;transition:.15s;}
 .btn:hover{border-color:var(--teal);color:var(--teal);}
 .btn-primary{background:var(--teal);border-color:var(--teal);color:#09090f;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 28px;border-radius:10px;}
-.btn-primary:hover{background:#3aad91;border-color:#3aad91;}
+.btn-primary:hover{background:#3aad91;}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
 
 .info-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem;}
@@ -58,18 +58,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .prog-bar{flex:1;height:6px;background:var(--br);border-radius:3px;margin:0 16px;overflow:hidden;}
 .prog-fill{height:100%;background:var(--teal);border-radius:3px;transition:width .3s;}
 
-.q-card{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:1.5rem;margin-bottom:1rem;animation:fi .3s ease;}
-@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.q-card{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:1.5rem;margin-bottom:1rem;}
 .q-meta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .q-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;}
 .q-badge.ch{background:var(--s2);border:1px solid var(--br);color:var(--dim);}
 .q-badge.tp{background:rgba(94,207,177,.1);border:1px solid rgba(94,207,177,.2);color:var(--teal);}
 .q-badge.rt{background:rgba(232,122,122,.1);border:1px solid rgba(232,122,122,.2);color:var(--red);}
 .q-text{font-size:15px;font-weight:500;margin-bottom:1rem;line-height:1.5;}
-textarea.rep{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;}
+textarea.rep{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;resize:vertical;min-height:70px;outline:none;}
 textarea.rep:focus{border-color:var(--teal);}
-textarea.rep::placeholder{color:var(--muted);}
-
 .feedback{display:none;margin-top:10px;border-radius:8px;overflow:hidden;}
 .feedback.show{display:block;}
 .fb-res{padding:10px 14px;font-size:13px;font-weight:600;}
@@ -85,7 +82,7 @@ textarea.rep::placeholder{color:var(--muted);}
 .score-big.bi{color:var(--gold);}
 .score-big.ef{color:var(--red);}
 .faibles-box{background:var(--s2);border:1px solid rgba(232,122,122,.3);border-radius:8px;padding:12px;margin:1rem 0;text-align:left;}
-.faibles-box h4{color:var(--red);font-size:12px;font-family:'Syne',sans-serif;margin-bottom:6px;}
+.faibles-box h4{color:var(--red);font-size:12px;margin-bottom:6px;}
 .faibles-box li{font-size:12px;color:var(--dim);padding:2px 0;}
 </style>
 </head>
@@ -94,7 +91,7 @@ textarea.rep::placeholder{color:var(--muted);}
   <div class="header">
     <div>
       <h1>⚡ Automatismes <span>Français</span></h1>
-      <p>Règle 20-10-10 · Spaced repetition · 40 questions max</p>
+      <p>26 chapitres · Règle 20-10-10 · 40 questions max</p>
     </div>
     <a href="index.html" class="back-link">← Hub</a>
   </div>
@@ -104,7 +101,6 @@ textarea.rep::placeholder{color:var(--muted);}
     <button class="eleve-btn" id="btnN" onclick="setEleve('nawal')">⚡ Nawal</button>
   </div>
 
-  <!-- PHASE SELECT -->
   <div class="phase active" id="phaseSelect">
     <div class="section-title">Chapitres à réviser</div>
     <div class="chapitres-grid" id="chapGrid"></div>
@@ -121,7 +117,6 @@ textarea.rep::placeholder{color:var(--muted);}
     <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer</button>
   </div>
 
-  <!-- PHASE SESSION -->
   <div class="phase" id="phaseSession">
     <div class="timer-bar">
       <span class="timer-val" id="timerVal">45:00</span>
@@ -135,7 +130,6 @@ textarea.rep::placeholder{color:var(--muted);}
     </div>
   </div>
 
-  <!-- PHASE RESULTATS -->
   <div class="phase" id="phaseRes">
     <div class="resultats">
       <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Session terminée</p>
@@ -152,7 +146,7 @@ textarea.rep::placeholder{color:var(--muted);}
 </div>
 
 <script>
-// ==================== CHAPITRES ET CARTES ====================
+// ==================== 26 CHAPITRES COMPLETS ====================
 const CHAPITRES = {
   1:{ titre:"Classes grammaticales", cartes:[
     {q:"Quelles sont les 9 classes grammaticales ?", r:"Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection."},
@@ -166,7 +160,7 @@ const CHAPITRES = {
   2:{ titre:"Fonctions grammaticales", cartes:[
     {q:"Qu'est-ce que le COD ?", r:"Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'"},
     {q:"Qu'est-ce que le COI ?", r:"Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'"},
-    {q:"Qu'est-ce que l'attribut du sujet ?", r:"Donne une qualité au sujet, relié par verbe d'état (être, paraître)."},
+    {q:"Qu'est-ce que l'attribut du sujet ?", r:"Donne une qualité au sujet, relié par verbe d'état."},
     {q:"Qu'est-ce qu'un complément d'agent ?", r:"Dans une phrase passive, indique qui fait l'action."},
     {q:"Qu'est-ce qu'un complément circonstanciel de but ?", r:"Indique dans quel but (pour, afin de)."},
     {q:"Qu'est-ce qu'un complément circonstanciel de concession ?", r:"Indique une opposition (malgré, bien que)."}
@@ -181,8 +175,8 @@ const CHAPITRES = {
   4:{ titre:"Temps et modes verbaux", cartes:[
     {q:"À quoi sert l'imparfait ?", r:"Description ou habitude dans le passé."},
     {q:"À quoi sert le passé composé ?", r:"Action ponctuelle ou bilan (oral)."},
-    {q:"À quoi sert le passé simple ?", r:"Action ponctuelle et achevée (récit littéraire)."},
-    {q:"À quoi sert le subjonctif ?", r:"Exprime le doute, le souhait, l'émotion, l'obligation."},
+    {q:"À quoi sert le passé simple ?", r:"Action ponctuelle (récit littéraire)."},
+    {q:"À quoi sert le subjonctif ?", r:"Doute, souhait, émotion, obligation."},
     {q:"À quoi sert le conditionnel ?", r:"Hypothèse, condition, souhait."}
   ]},
   5:{ titre:"Les accords", cartes:[
@@ -211,7 +205,7 @@ const CHAPITRES = {
     {q:"Valeur du présent.", r:"Actualité, vérité générale, habitude."},
     {q:"Valeur du conditionnel.", r:"Hypothèse, condition, souhait."},
     {q:"Valeur du subjonctif.", r:"Doute, souhait, émotion, obligation."},
-    {q:"Valeur du passé simple.", r:"Action ponctuelle et achevée (récit littéraire)."},
+    {q:"Valeur du passé simple.", r:"Action ponctuelle (récit littéraire)."},
     {q:"Valeur du plus-que-parfait.", r:"Antériorité par rapport à une action passée."}
   ]},
   9:{ titre:"Formation des mots", cartes:[
@@ -232,6 +226,118 @@ const CHAPITRES = {
     {q:"Qu'est-ce que l'euphémisme ?", r:"Atténuer une réalité désagréable."},
     {q:"Qu'est-ce qu'une énumération ?", r:"Succession de mots."},
     {q:"Qu'est-ce qu'une gradation ?", r:"Suite de mots d'intensité croissante."}
+  ]},
+  11:{ titre:"Champs lexicaux", cartes:[
+    {q:"Qu'est-ce qu'un champ lexical ?", r:"Ensemble des mots liés à un même thème."},
+    {q:"Citez 3 registres de langue.", r:"Soutenu, courant, familier."},
+    {q:"Qu'est-ce que l'argot ?", r:"Langage propre à un groupe."},
+    {q:"3 mots du champ lexical de la mer.", r:"vague, bateau, pêche, marée."},
+    {q:"3 mots du champ lexical de la guerre.", r:"combat, arme, soldat, bataille."}
+  ]},
+  12:{ titre:"Synonymes, antonymes", cartes:[
+    {q:"Qu'est-ce qu'un synonyme ?", r:"Mot de sens proche."},
+    {q:"Qu'est-ce qu'un antonyme ?", r:"Mot de sens contraire."},
+    {q:"Qu'est-ce qu'un homonyme ?", r:"Même prononciation, sens différent."},
+    {q:"Synonyme de 'rapidement'.", r:"vite, promptement."},
+    {q:"Antonyme de 'grand'.", r:"petit, minuscule."}
+  ]},
+  13:{ titre:"Genres littéraires", cartes:[
+    {q:"Citez 4 genres littéraires.", r:"Roman, théâtre, poésie, argumentation."},
+    {q:"Qu'est-ce que la littérature d'idées ?", r:"Genres qui transmettent un message."},
+    {q:"Qu'est-ce qu'une fable ?", r:"Courte histoire avec une morale."},
+    {q:"Qu'est-ce qu'une autobiographie ?", r:"Récit où l'auteur raconte sa vie."},
+    {q:"Qu'est-ce qu'une tragédie ?", r:"Pièce où les personnages subissent un destin fatal."}
+  ]},
+  14:{ titre:"Mouvements littéraires", cartes:[
+    {q:"Mouvement du XVIIIe siècle ?", r:"Les Lumières."},
+    {q:"Mouvement du XIXe siècle ?", r:"Romantisme, Réalisme, Naturalisme."},
+    {q:"Mouvement du XXe siècle ?", r:"Surréalisme, Existentialisme."},
+    {q:"Idées des Lumières ?", r:"Raison, liberté, tolérance, progrès."},
+    {q:"Idées du Romantisme ?", r:"Exaltation des sentiments, de la nature."}
+  ]},
+  15:{ titre:"Registres littéraires", cartes:[
+    {q:"Registre comique ?", r:"Provoque le rire."},
+    {q:"Registre tragique ?", r:"Inspire terreur et pitié."},
+    {q:"Registre épique ?", r:"Célèbre des héros."},
+    {q:"Registre lyrique ?", r:"Exprime des sentiments personnels."},
+    {q:"Registre satirique ?", r:"Critique de manière moqueuse."}
+  ]},
+  16:{ titre:"Le récit", cartes:[
+    {q:"Étapes du schéma narratif ?", r:"SI → perturbateur → péripéties → résolution → SF."},
+    {q:"Narrateur omniscient ?", r:"Sait tout des personnages."},
+    {q:"Narrateur externe ?", r:"Ne décrit que les actions."},
+    {q:"Narrateur interne ?", r:"Raconte à la 1ère personne."},
+    {q:"Qu'est-ce qu'une analepse ?", r:"Retour en arrière (flashback)."}
+  ]},
+  17:{ titre:"La rédaction", cartes:[
+    {q:"Structure d'une introduction ?", r:"Amorce, présentation, problématique, annonce du plan."},
+    {q:"Connecteurs de cause ?", r:"car, parce que, puisque."},
+    {q:"Connecteurs de conséquence ?", r:"donc, ainsi, par conséquent."},
+    {q:"Connecteurs d'opposition ?", r:"mais, cependant, pourtant."},
+    {q:"Connecteurs d'addition ?", r:"et, de plus, en outre."}
+  ]},
+  18:{ titre:"Contraction de texte", cartes:[
+    {q:"Règle d'or de la contraction ?", r:"Ne pas commenter, ne pas juger."},
+    {q:"À combien réduire un texte ?", r:"Au 1/3 environ."},
+    {q:"Comment compter les mots ?", r:"Chaque mot compte, 'c'est' = 2 mots."},
+    {q:"Que conserver dans une contraction ?", r:"Idées essentielles, thèse, ordre logique."},
+    {q:"Que supprimer dans une contraction ?", r:"Exemples trop détaillés, répétitions."}
+  ]},
+  19:{ titre:"Commentaire composé", cartes:[
+    {q:"Structure du commentaire ?", r:"Introduction, développement (2-3 axes), conclusion."},
+    {q:"Que ne faut-il pas faire ?", r:"Ne pas résumer le texte."},
+    {q:"Comment justifier son analyse ?", r:"Citer, nommer le procédé, expliquer l'effet."},
+    {q:"Que contient la conclusion ?", r:"Bilan, réponse à la problématique, ouverture."},
+    {q:"Comment nommer les procédés ?", r:"Comparaison, métaphore, champ lexical."}
+  ]},
+  20:{ titre:"Oral : présentation", cartes:[
+    {q:"Durée de l'oral du brevet ?", r:"5 min exposé + 10 min échange."},
+    {q:"Peut-on lire son texte ?", r:"Non, utiliser des notes (mots-clés)."},
+    {q:"Peut-on utiliser un PowerPoint ?", r:"Oui, mais sobre."},
+    {q:"Que préparer pour l'oral ?", r:"Plan détaillé, notes, exemples précis."},
+    {q:"Comment gérer son stress ?", r:"Respirer, bien dormir, bien préparer."}
+  ]},
+  21:{ titre:"Oral : expression", cartes:[
+    {q:"Posture à l'oral ?", r:"Debout, gestes naturels, regarder le jury."},
+    {q:"Comment bien utiliser sa voix ?", r:"Articuler, parler fort, débit calme."},
+    {q:"Comment bien articuler ?", r:"Ouvrir la bouche, parler lentement."},
+    {q:"Trou de mémoire ?", r:"Inspirer, regarder ses notes, reformuler."},
+    {q:"Comment regarder le jury ?", r:"Regarder toutes les personnes."}
+  ]},
+  22:{ titre:"Oral : échange", cartes:[
+    {q:"Que faire si on ne sait pas ?", r:"L'admettre honnêtement."},
+    {q:"Question incomprise ?", r:"Demander une reformulation poliment."},
+    {q:"Ne pas couper la parole ?", r:"Attendre que le jury ait fini."},
+    {q:"Question difficile ?", r:"Prendre le temps de réfléchir, reformuler."},
+    {q:"Peut-on dire 'je ne sais pas' ?", r:"Oui, en montrant qu'on a réfléchi."}
+  ]},
+  23:{ titre:"Dictée", cartes:[
+    {q:"Que vérifier en priorité ?", r:"Accords, homophones, terminaisons."},
+    {q:"Vérifier a/à ?", r:"Remplacer par 'avait'."},
+    {q:"Vérifier on/ont ?", r:"Remplacer par 'avaient'."},
+    {q:"Accords du participe passé ?", r:"Avec être : accord sujet. Avec avoir : accord COD si avant."},
+    {q:"Vérifier les homophones ?", r:"Remplacer par un autre mot équivalent."}
+  ]},
+  24:{ titre:"Grammaire (analyse)", cartes:[
+    {q:"Différence nature/fonction ?", r:"Nature = classe grammaticale, fonction = rôle."},
+    {q:"Trouver le COD ?", r:"Poser 'quoi ?' après le verbe."},
+    {q:"Trouver le COI ?", r:"Poser 'à qui ?' ou 'de quoi ?'."},
+    {q:"Trouver le sujet ?", r:"Poser 'qui est-ce qui ?' avant le verbe."},
+    {q:"Trouver le complément circonstanciel ?", r:"Poser 'quand ?', 'où ?', 'comment ?', 'pourquoi ?'."}
+  ]},
+  25:{ titre:"Réécriture", cartes:[
+    {q:"Changer 'je' en 'nous' ?", r:"Verbe à la 1ère personne du pluriel."},
+    {q:"Changer féminin en masculin ?", r:"Modifier déterminants, adjectifs et participes."},
+    {q:"Changer singulier en pluriel ?", r:"Ajouter 's' ou 'x', adapter le verbe."},
+    {q:"Présent en imparfait ?", r:"Terminaisons -ais, -ais, -ait, -ions, -iez, -aient."},
+    {q:"Présent en futur ?", r:"Terminaisons -ai, -as, -a, -ons, -ez, -ont."}
+  ]},
+  26:{ titre:"Essai", cartes:[
+    {q:"Structure de l'essai ?", r:"Introduction, développement (thèse/antithèse), conclusion."},
+    {q:"Trouver des idées ?", r:"Brainstorming."},
+    {q:"Illustrer ses arguments ?", r:"Exemples précis (œuvres, films, expériences)."},
+    {q:"Structure d'un paragraphe argumentatif ?", r:"1. Idée. 2. Exemple. 3. Explication."},
+    {q:"Conclure un essai ?", r:"Rappeler la réponse, ouvrir sur une question plus large."}
   ]}
 };
 
@@ -405,7 +511,7 @@ function fin(){
   Object.entries(score.chTaux).forEach(([ch,d])=>{chTaux[ch]=Math.round(d.ok/d.t*100);});
   const chapitresNoms = getSelected().map(n=>CHAPITRES[n]?.titre).filter(Boolean);
 
-  // ==== SAUVEGARDE POUR SUIVI PARENTAL (CLÉ CORRECTE) ====
+  // ===== SAUVEGARDE POUR SUIVI PARENTAL =====
   const keyP = `suivi_sessions_francais_${eleve}`;
   const sp = JSON.parse(localStorage.getItem(keyP) || '[]');
   sp.unshift({
@@ -434,7 +540,7 @@ function fin(){
   document.getElementById('msgFin').textContent=msg;
   const faibles=Object.entries(chTaux).filter(([,t])=>t<60).map(([ch])=>CHAPITRES[ch]?.titre).filter(Boolean);
   if(faibles.length){
-    document.getElementById('faiblesRes').innerHTML=`<div class="faibles-box"><h4>⚠ Chapitres à retravailler (< 60%)</h4><ul>${faibles.map(f=>`<li>• ${f}</li>`).join('')}</ul></div>`;
+    document.getElementById('faiblesRes').innerHTML=`<div class="faibles-box"><h4>⚠ Chapitres à retravailler (&lt; 60%)</h4><ul>${faibles.map(f=>`<li>• ${f}</li>`).join('')}</ul></div>`;
   }
 }
 
@@ -444,7 +550,6 @@ function showPhase(id){
   });
 }
 
-// INIT
 buildGrid();
 updateInfo();
 </script>
