@@ -56,7 +56,7 @@ h1 em{color:var(--teal);font-style:italic;}
 .redac-ta{min-height:300px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.9;}
 .ai-btn{background:linear-gradient(135deg,#e8c87a,#d4a840);border:none;border-radius:40px;padding:6px 14px;font-size:11px;color:#080600;font-weight:700;cursor:pointer;margin-right:8px;margin-top:4px;transition:all 0.2s;}
 .ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,200,122,0.3);}
-.ai-loading{display:none;margin-left:8px;font-size:11px;color:#e8c87a;}
+.ai-loading{display:inline-block;margin-left:8px;font-size:11px;color:#e8c87a;}
 .corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
 .corr-btn:hover{background:rgba(94,207,177,0.12);}
 .corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
@@ -117,9 +117,9 @@ h1 em{color:var(--teal);font-style:italic;}
 
 <script>
 // ============================================================
-// TON PROXY GOOGLE APPS SCRIPT (remplace par TA vraie URL)
+// TON NOUVEAU PROXY
 // ============================================================
-const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycbyHAjDC0a-UowQA9LfeQ-0rNLGjNBThNmlRDBgVvdxLU0q19RcOB0xBr9J72ToYqzJ7ZQ/exec';
 
 async function callIA(prompt, system) {
   try {
@@ -134,7 +134,7 @@ async function callIA(prompt, system) {
     if (result.content) return result.content;
     throw new Error('Réponse inattendue');
   } catch(e) {
-    console.error('Erreur callIA:', e);
+    console.error(e);
     throw e;
   }
 }
@@ -142,7 +142,6 @@ async function callIA(prompt, system) {
 // ============================================================
 // CORRECTIONS IA
 // ============================================================
-
 async function corrigerQuestion(taId, reponseAttendue, pts, btnId) {
   const texte = document.getElementById(taId).value.trim();
   if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
@@ -150,10 +149,8 @@ async function corrigerQuestion(taId, reponseAttendue, pts, btnId) {
   const loadingSpan = document.getElementById(btnId + '_loading');
   if (loadingSpan) loadingSpan.style.display = 'inline-block';
   btn.disabled = true;
-  
   const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse. Réponds UNIQUEMENT en JSON : {"note": X, "commentaire": "..."}';
   const prompt = `Réponse attendue : "${reponseAttendue}"\n\nRéponse élève : "${texte}"\n\nNote sur ${pts} points.`;
-  
   try {
     const result = await callIA(prompt, system);
     const clean = result.replace(/```json|```/g, '').trim();
@@ -173,10 +170,8 @@ async function corrigerRedaction(taId, pts, btnId) {
   const loadingSpan = document.getElementById(btnId + '_loading');
   if (loadingSpan) loadingSpan.style.display = 'inline-block';
   btn.disabled = true;
-  
-  const system = `Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ${pts} points (pertinence, structure, style, orthographe). Réponds UNIQUEMENT en JSON : {"note": X, "commentaire": "détail des points forts et axes d'amélioration"}`;
+  const system = `Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ${pts} points. Réponds UNIQUEMENT en JSON : {"note": X, "commentaire": "..."}`;
   const prompt = `Rédaction :\n${texte}`;
-  
   try {
     const result = await callIA(prompt, system);
     const clean = result.replace(/```json|```/g, '').trim();
@@ -190,67 +185,54 @@ async function corrigerRedaction(taId, pts, btnId) {
 }
 
 // ============================================================
-// DONNÉES SUJETS (2 sujets pour l'exemple)
+// DONNÉES SUJETS (version simplifiée pour test)
 // ============================================================
 const SUJETS = [
-  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant. Thomas avançait entre les arbres centenaires, leurs troncs couverts de mousse humide, leurs branches formant une voûte impénétrable au-dessus de sa tête. Il avait fui la ville depuis trois jours maintenant, laissant derrière lui les écrans, les notifications, le bruit constant de la vie moderne.`,auteur:'Texte original — type DNB 2026',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ? Relevez trois éléments du texte qui décrivent ce lieu.',c:'Thomas est dans une forêt. Éléments : "arbres centenaires", "troncs couverts de mousse humide", "branches formant une voûte impénétrable".'}],grammaire:[{n:'1',pts:2,q:'Donnez la nature et la fonction de "silencieuse" dans la première phrase.',c:'Nature : adjectif qualificatif. Fonction : attribut du sujet "La forêt".'}],redaction:{pts:20,sujet1:'Racontez un moment où vous vous êtes senti proche de la nature.',sujet2:'La nature est-elle importante pour l\'homme ? Argumentez.',criteres:'Pertinence (4), structure (4), style (4), orthographe (4)'}}
+  {id:1,titre:'La nature et l\'identité',texte:`La forêt était silencieuse ce matin-là, d'un silence épais et vivant...`,auteur:'Texte original',comprehension:[{n:'1',pts:2,q:'Où se trouve Thomas ?',c:'Dans une forêt.'}],grammaire:[{n:'1',pts:2,q:'Nature de "silencieuse" ?',c:'Adjectif qualificatif, attribut.'}],redaction:{pts:20,sujet1:'Racontez...',sujet2:'Argumentez...',criteres:'Pertinence, structure, style, orthographe'}}
 ];
 
 let who = null, currentIdx = 0, chronoSecs = 9000, running = false, chronoInterval = null;
 
 function selWho(w) { who = w; document.getElementById('wb-w').className = 'who-btn' + (w === 'W' ? ' aw' : ''); document.getElementById('wb-n').className = 'who-btn' + (w === 'N' ? ' an' : ''); renderHome(); }
-function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('fr_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); const isDone = done.includes(s.id); d.innerHTML = `<div class="sc-num">Sujet ${s.id} / 10</div><div class="sc-title">${s.titre}</div><div class="sc-info">Compréhension · Grammaire · Rédaction</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
+function renderHome() { const g = document.getElementById('sujets-grid'); g.innerHTML = ''; const done = JSON.parse(localStorage.getItem('fr_done_' + (who || 'X')) || '[]'); SUJETS.forEach((s, i) => { const d = document.createElement('div'); d.className = 'sujet-card'; d.onclick = () => openSujet(i); const isDone = done.includes(s.id); d.innerHTML = `<div class="sc-num">Sujet ${s.id}</div><div class="sc-title">${s.titre}</div><div class="sc-info">Compréhension · Grammaire · Rédaction</div><div class="sc-done" style="display:${isDone ? 'flex' : 'none'}">✓</div>`; g.appendChild(d); }); }
 function openSujet(idx) { currentIdx = idx; const s = SUJETS[idx]; document.getElementById('home').style.display = 'none'; document.getElementById('sujet-page').style.display = 'block'; document.getElementById('s-meta').textContent = 'Sujet ' + s.id + '/10 — ' + (who === 'W' ? 'Wassil' : 'Nawal'); renderSujet(s); chronoSecs = 9000; running = false; clearInterval(chronoInterval); updateChrono(); window.scrollTo(0,0); }
 function goHome() { document.getElementById('sujet-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; clearInterval(chronoInterval); }
 
 function renderSujet(s) {
   let h = '';
-  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension du texte</span><span class="partie-time">45 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
-  h += `<div class="texte-box">${s.texte.replace(/\n/g, '<br>')}<div class="auteur">${s.auteur}</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 1 — Compréhension</span><span class="partie-pts">20 pts</span></div><div class="partie-body"><div class="texte-box">${s.texte}<div class="auteur">${s.auteur}</div></div>`;
   s.comprehension.forEach((q, i) => {
     const btnId = `btn_c_${i}`;
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('c_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button></div><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="c_${i}"></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('c_${i}', \`${q.c}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('cc${i}')">📖 Voir correction</button></div><div class="corr-box" id="cc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
-  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire et langue</span><span class="partie-time">30 min</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 2 — Grammaire</span><span class="partie-pts">16 pts</span></div><div class="partie-body">`;
   s.grammaire.forEach((q, i) => {
     const btnId = `btn_g_${i}`;
-    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g_${i}" placeholder="Ta réponse..."></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('g_${i}', \`${q.c.replace(/`/g, '\\`')}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button></div><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
+    h += `<div class="q-block"><div class="q-line"><span class="q-label">${q.n}.</span><span class="q-text">${q.q}</span><span class="q-pts-sm">${q.pts}pts</span></div><textarea class="answer-ta" id="g_${i}"></textarea><div><button id="${btnId}" class="ai-btn" onclick="corrigerQuestion('g_${i}', \`${q.c}\`, ${q.pts}, '${btnId}')">🤖 Corriger avec IA</button><span id="${btnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('gc${i}')">📖 Voir correction</button></div><div class="corr-box" id="gc${i}"><strong>✓</strong> ${q.c}</div></div>`;
   });
   h += `</div></div>`;
-  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-time">1h15 min</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
-  h += `<p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Choisissez UN sujet parmi les deux proposés. Minimum 300 mots.</p>`;
-  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px;border-left:2px solid var(--gold)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet A — Texte narratif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet1}</div></div>`;
-  h += `<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border-left:2px solid var(--purple)"><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sujet B — Texte argumentatif</div><div style="font-size:13px;color:var(--text)">${s.redaction.sujet2}</div></div>`;
+  h += `<div class="partie"><div class="partie-header"><span class="partie-label">PARTIE 3 — Rédaction</span><span class="partie-pts">20 pts</span></div><div class="partie-body">`;
+  h += `<p>Choisissez UN sujet :<br>A. ${s.redaction.sujet1}<br>B. ${s.redaction.sujet2}</p>`;
+  h += `<textarea class="answer-ta redac-ta" id="redac"></textarea><div id="wc-redac">0 mots</div>`;
   const redacBtnId = 'btn_redac';
-  h += `<textarea class="answer-ta redac-ta" id="redac" placeholder="Écris ta rédaction ici... (minimum 300 mots)"></textarea>`;
-  h += `<div id="wc-redac" style="text-align:right;font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:8px;">0 mot</div>`;
-  h += `<div><button id="${redacBtnId}" class="ai-btn" onclick="corrigerRedaction('redac', 20, '${redacBtnId}')">🤖 Corriger la rédaction avec IA</button><span id="${redacBtnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('rc')">📖 Voir les critères</button></div>`;
-  h += `<div class="corr-box" id="rc">${s.redaction.criteres.replace(/\n/g, '<br>')}</div>`;
+  h += `<div><button id="${redacBtnId}" class="ai-btn" onclick="corrigerRedaction('redac', 20, '${redacBtnId}')">🤖 Corriger la rédaction</button><span id="${redacBtnId}_loading" class="ai-loading">⏳</span><button class="corr-btn" onclick="tog('rc')">📖 Critères</button></div>`;
+  h += `<div class="corr-box" id="rc">${s.redaction.criteres}</div>`;
   h += `</div></div>`;
-  h += `<div class="auto-eval"><div class="ae-title">— Auto-évaluation</div>
-    <div class="ae-row"><span class="ae-label">Compréhension</span><input type="number" class="ae-input" id="ae1" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
-    <div class="ae-row"><span class="ae-label">Grammaire</span><input type="number" class="ae-input" id="ae2" min="0" max="16" value="0" oninput="updateTotal()"><span class="ae-max">/ 16</span></div>
-    <div class="ae-row"><span class="ae-label">Rédaction</span><input type="number" class="ae-input" id="ae3" min="0" max="20" value="0" oninput="updateTotal()"><span class="ae-max">/ 20</span></div>
-    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/56</div></div>
-  </div>`;
-  h += `<div class="nav-btns">
-    ${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}
-    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>
-    ${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}
-  </div>`;
+  h += `<div class="auto-eval"><div class="ae-title">Auto-évaluation</div><div class="ae-row"><span class="ae-label">Compréhension</span><input id="ae1" class="ae-input" type="number" value="0" oninput="updateTotal()"><span>/20</span></div><div class="ae-row"><span class="ae-label">Grammaire</span><input id="ae2" class="ae-input" type="number" value="0" oninput="updateTotal()"><span>/16</span></div><div class="ae-row"><span class="ae-label">Rédaction</span><input id="ae3" class="ae-input" type="number" value="0" oninput="updateTotal()"><span>/20</span></div><div class="ae-total"><div class="ae-total-num" id="ae-total">0/56</div></div></div>`;
+  h += `<div class="nav-btns">${currentIdx > 0 ? `<button class="nav-btn" onclick="openSujet(${currentIdx - 1})">← Précédent</button>` : ''}<button class="save-btn" onclick="saveSujet()">💾 Sauvegarder</button>${currentIdx < SUJETS.length - 1 ? `<button class="nav-btn primary" onclick="openSujet(${currentIdx + 1})">Sujet suivant →</button>` : `<button class="nav-btn primary" onclick="goHome()">🏠 Accueil</button>`}</div>`;
   document.getElementById('s-body').innerHTML = h;
   const redac = document.getElementById('redac');
-  if(redac) redac.addEventListener('input', function() { const n = this.value.trim() ? this.value.trim().split(/\s+/).length : 0; document.getElementById('wc-redac').textContent = n + ' mot' + (n > 1 ? 's' : ''); });
+  if(redac) redac.addEventListener('input', function() { const n = this.value.trim().split(/\s+/).filter(w=>w.length).length; document.getElementById('wc-redac').innerHTML = n + ' mots'; });
 }
 
 function tog(id) { document.getElementById(id).classList.toggle('show'); }
-function updateTotal() { const a = parseInt(document.getElementById('ae1').value) || 0; const b = parseInt(document.getElementById('ae2').value) || 0; const c = parseInt(document.getElementById('ae3').value) || 0; const t = Math.min(a,20) + Math.min(b,16) + Math.min(c,20); const el = document.getElementById('ae-total'); el.textContent = t + '/56'; el.style.color = t >= 45 ? 'var(--green)' : t >= 36 ? 'var(--gold)' : t >= 28 ? 'var(--coral)' : 'var(--red)'; }
-function saveSujet() { if (!who) { showToast('Sélectionne Wassil ou Nawal', 'err'); return; } showToast('✓ Sauvegardé', 'ok'); }
-function startChrono() { if (running) return; running = true; chronoInterval = setInterval(() => { if (chronoSecs <= 0) { clearInterval(chronoInterval); running = false; showToast('⏱ Temps écoulé !', 'err'); return; } chronoSecs--; updateChrono(); }, 1000); }
-function resetChrono() { clearInterval(chronoInterval); running = false; chronoSecs = 9000; updateChrono(); }
-function updateChrono() { const h = Math.floor(chronoSecs / 3600); const m = Math.floor((chronoSecs % 3600) / 60); const s = chronoSecs % 60; const el = document.getElementById('chrono'); el.textContent = `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; el.className = 'chrono-time' + (chronoSecs < 600 ? ' urgent' : ''); }
-function showToast(msg, t) { const el = document.getElementById('toast'); el.textContent = msg; el.className = 'toast show ' + t; setTimeout(() => el.className = 'toast', 3500); }
+function updateTotal() { const a = parseInt(document.getElementById('ae1').value)||0; const b = parseInt(document.getElementById('ae2').value)||0; const c = parseInt(document.getElementById('ae3').value)||0; const t = Math.min(a,20)+Math.min(b,16)+Math.min(c,20); document.getElementById('ae-total').innerHTML = t+'/56'; }
+function saveSujet() { if(!who) { showToast('Choisis Wassil ou Nawal','err'); return; } showToast('✓ Sauvegardé','ok'); }
+function startChrono() { if(running) return; running=true; chronoInterval=setInterval(()=>{if(chronoSecs<=0){clearInterval(chronoInterval);running=false;showToast('Temps écoulé','err');return;}chronoSecs--;updateChrono();},1000); }
+function resetChrono() { clearInterval(chronoInterval); running=false; chronoSecs=9000; updateChrono(); }
+function updateChrono() { const h=Math.floor(chronoSecs/3600); const m=Math.floor((chronoSecs%3600)/60); const s=chronoSecs%60; document.getElementById('chrono').textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+function showToast(msg,t) { const el=document.getElementById('toast'); el.textContent=msg; el.className='toast show '+t; setTimeout(()=>el.className='toast',3500); }
 window.addEventListener('DOMContentLoaded', () => renderHome());
 </script>
 </body>
