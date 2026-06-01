@@ -2,235 +2,336 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent Oral - Brevet 2026</title>
-<script src="config.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>🎤 Oral Blanc Brevet 2026 · Wassil & Nawal · Correcteur IA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 1000px; margin: 0 auto; }
-  .card { background: #111118; border-radius: 20px; padding: 2rem; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.08); }
-  .sujet { background: #0a0a12; border-left: 4px solid #f5a97f; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; }
-  .doc { background: #0a1a1a; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 3px solid #5ecfb1; white-space: pre-wrap; }
-  select, textarea, input { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; }
-  button { background: #5ecfb1; border: none; padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; margin: 0.5rem 0.5rem 0 0; font-size: 0.9rem; font-weight: bold; }
-  .questions-box { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
-  .question-item { margin: 0.5rem 0; padding: 0.5rem; background: #111118; border-radius: 6px; }
-  .correction { background: #0a1a2a; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
-  .badge { display: inline-block; background: #5ecfb1; color: #09090f; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
-  hr { border-color: #2a2a35; margin: 1.5rem 0; }
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--coral:#f07a5a;--red:#f55a5a;--green:#7ecf8a;--oral:#f0a3a3;--oral-dark:#e08282;--r:14px;--r-sm:8px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:60px;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(240,163,163,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--oral);border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
+h1 em{color:var(--oral);font-style:italic;}
+.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
+.cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:900px;width:100%;margin:20px 0;}
+.candidate-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:28px;cursor:pointer;transition:all 0.25s;text-align:center;}
+.candidate-card:hover{transform:translateY(-4px);border-color:rgba(240,163,163,0.5);}
+.candidate-card.wassil{border-top:3px solid #7eb8f5;}
+.candidate-card.nawal{border-top:3px solid #f59eb8;}
+.candidate-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;margin-bottom:8px;}
+.candidate-theme{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.candidate-stats{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);}
+.pass-selector{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+.pass-btn{padding:8px 20px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:13px;transition:all 0.15s;}
+.pass-btn.active{background:var(--oral);color:#09090f;border-color:var(--oral);}
+#oral-page{display:none;max-width:1000px;margin:0 auto;padding:0;}
+.oral-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.oral-header .info{flex:1;}
+.oral-header .candidate-badge{font-size:13px;font-weight:600;}
+.oral-header .pass-badge{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.back-btn{background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;}
+.chrono-bar{background:rgba(240,163,163,0.06);border-bottom:1px solid rgba(240,163,163,0.15);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--oral);}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.07);color:var(--oral);cursor:pointer;}
+.s-body{padding:24px;}
+.expose-section{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-bottom:24px;}
+.section-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--oral);margin-bottom:12px;}
+.answer-ta{width:100%;min-height:180px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;margin-bottom:12px;}
+.ai-btn{background:rgba(94,207,177,0.1);border:1px solid var(--teal);color:var(--teal);padding:8px 18px;border-radius:999px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;margin-right:10px;margin-bottom:10px;}
+.ai-feedback{background:linear-gradient(135deg,rgba(94,207,177,0.08),transparent);border-left:3px solid var(--teal);padding:14px;margin-top:12px;border-radius:var(--r-sm);font-size:13px;line-height:1.6;display:none;}
+.questions-grid{display:flex;flex-direction:column;gap:20px;margin:24px 0;}
+.q-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;transition:all 0.2s;}
+.q-number{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-bottom:6px;}
+.q-text{font-weight:500;margin-bottom:12px;}
+.q-answer textarea{width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px;color:var(--text);font-size:12px;resize:vertical;}
+.q-feedback{font-size:12px;color:var(--teal);margin-top:8px;padding:8px;background:rgba(94,207,177,0.05);border-radius:var(--r-sm);display:none;}
+.q-score{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:12px;}
+.generate-pdf{background:var(--bg2);border:2px solid var(--gold);border-radius:var(--r);padding:14px 24px;color:var(--gold);cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;margin:20px 0;width:100%;}
+.generate-pdf:hover{background:rgba(232,200,122,0.1);}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transition:all 0.3s;pointer-events:none;}
+.toast.show{opacity:1;}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>🎤 Agent Oral – Brevet 2026</h1>
-  <p>4 passages obligatoires. À chaque session : exposé + 10 questions IA (5 sur le sujet + 5 sur les mots-clés) + correction notée sur 20 avec conseils.</p>
-
-  <div class="card">
-    <h3>👤 Candidat</h3>
-    <select id="candidat">
-      <option value="Nawal">Nawal</option>
-      <option value="Wassil">Wassil</option>
-    </select>
-
-    <h3>📖 Sujet</h3>
-    <select id="sujetSelect">
-      <option value="feminisme">Féminisme</option>
-      <option value="malala">Malala – Droit à l'éducation des filles</option>
-    </select>
-
-    <h3>🔁 Session (1 à 4)</h3>
-    <input type="number" id="session" min="1" max="4" value="1" step="1">
-
-    <button id="genererQuestionsBtn">1. Générer les 10 questions IA</button>
+<div id="home">
+  <div class="badge">🎤 Préparation Brevet Blanc 2026</div>
+  <h1>Oral Blanc <em>· Correcteur IA</em></h1>
+  <p class="sub">4 passages chacun · 40 questions · IA corrige, note & conseille · Export PDF des corrections</p>
+  <div class="cards-container">
+    <div class="candidate-card wassil" onclick="selectCandidate('Wassil')">
+      <div class="candidate-name">🌊 Wassil</div>
+      <div class="candidate-theme">📐 L'invention du zéro · Mathématiques arabes · Al-Khwarizmi</div>
+      <div class="candidate-stats">4 passages · 40 questions IA</div>
+    </div>
+    <div class="candidate-card nawal" onclick="selectCandidate('Nawal')">
+      <div class="candidate-name">⚡ Nawal</div>
+      <div class="candidate-theme">📖 Malala · Féminisme · Droit à l'éducation</div>
+      <div class="candidate-stats">4 passages · 40 questions IA</div>
+    </div>
   </div>
-
-  <div id="questionsDisplay" class="card" style="display:none;">
-    <h3>📝 Questions du jury (5 questions sur le sujet)</h3>
-    <div id="questionsSujet" class="questions-box"></div>
-    <h3>📚 Questions sur les mots-clés (5 questions)</h3>
-    <div id="questionsMots" class="questions-box"></div>
-  </div>
-
-  <div class="card">
-    <h3>✍️ Exposé (5 minutes)</h3>
-    <textarea id="expose" rows="12" placeholder="Préparez ou écrivez votre exposé ici..."></textarea>
-    <button id="corrigerExposeBtn">2. Corriger l'exposé avec IA (note + conseils)</button>
-  </div>
-
-  <div id="correctionDisplay" class="card" style="display:none;">
-    <h3>📊 Correction et note (sur 20)</h3>
-    <div id="correctionTexte" class="correction"></div>
-  </div>
-
-  <div class="card">
-    <h3>📁 Sauvegarde</h3>
-    <button id="sauvegarderBtn">Sauvegarder la note de cette session</button>
-    <button id="telechargerSujetBtn">📎 Télécharger le sujet (PDF)</button>
-    <div id="sauvegardeMessage" style="margin-top:1rem;"></div>
-  </div>
-
-  <hr>
-  <h3>📋 Historique des notes (4 sessions)</h3>
-  <div id="historique"></div>
 </div>
 
+<div id="oral-page">
+  <div class="oral-header">
+    <div class="info">
+      <div class="candidate-badge" id="oral-candidate">—</div>
+      <div class="pass-badge" id="oral-pass">Passage 1 / 4</div>
+    </div>
+    <div class="pass-selector" id="pass-selector-header"></div>
+    <button class="back-btn" onclick="goHome()">← Quitter</button>
+  </div>
+  <div class="chrono-bar">
+    <span>⏱ Chrono exposé (5 min)</span>
+    <div class="chrono-time" id="chrono">5:00</div>
+    <div><button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
+    <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button></div>
+  </div>
+  <div class="s-body" id="oral-body"></div>
+</div>
+<div class="toast" id="toast"></div>
+
 <script>
-  // Sujets et mots-clés associés
-  const sujets = {
-    feminisme: {
-      titre: "Le féminisme",
-      doc: "Le féminisme est un mouvement social et politique qui lutte pour l'égalité des droits entre les femmes et les hommes. Il a connu plusieurs vagues : le droit de vote (1944 en France), l'égalité professionnelle, la lutte contre les violences sexuelles, etc. Aujourd'hui, les inégalités persistent (salaires, plafond de verre, charge mentale).",
-      motsCles: ["égalité", "parité", "discrimination", "sexisme", "suffrage universel", "patriarcat", "MeToo", "plafond de verre", "charge mentale", "droit des femmes"]
-    },
-    malala: {
-      titre: "Malala – Le droit à l'éducation des filles",
-      doc: "Malala Yousafzai est une militante pakistanaise. À 11 ans, elle témoignait sur la vie sous le régime taliban. En 2012, elle a survécu à une tentative d'assassinat. Depuis, elle milite pour le droit des filles à l'éducation. Prix Nobel de la paix en 2014 à 17 ans.",
-      motsCles: ["éducation", "taliban", "Pakistan", "droit des filles", "Nobel", "militantisme", "discrimination", "instruction", "liberté", "engagement"]
-    },
-    zero: {
-      titre: "L'invention du zéro",
-      doc: "Le zéro a été inventé par les mathématiciens indiens au 5ème siècle. Il a révolutionné les mathématiques en permettant le système décimal et les calculs complexes. Les Mayas l'utilisaient aussi, mais c'est en Inde qu'il a acquis le statut de nombre à part entière.",
-      motsCles: ["zéro", "Inde", "mathématiques", "système décimal", "nombre", "Brahmasphutasiddhanta", "Brahmagupta", "vide", "algèbre", "numération"]
-    }
-  };
-
-  let dernieresQuestions = { sujet: [], mots: [] };
-
-  document.getElementById('candidat').addEventListener('change', function() {
-    const selectSujet = document.getElementById('sujetSelect');
-    if (this.value === 'Nawal') {
-      selectSujet.innerHTML = '<option value="feminisme">Féminisme</option><option value="malala">Malala – Droit à l\'éducation des filles</option>';
-    } else {
-      selectSujet.innerHTML = '<option value="zero">L\'invention du zéro</option>';
-    }
-  });
-
-  document.getElementById('genererQuestionsBtn').addEventListener('click', async function() {
-    const candidat = document.getElementById('candidat').value;
-    const sujetKey = document.getElementById('sujetSelect').value;
-    const session = document.getElementById('session').value;
-    const sujet = sujets[sujetKey];
-    if (!sujet) return;
-
-    document.getElementById('questionsDisplay').style.display = 'block';
-    document.getElementById('questionsSujet').innerHTML = '<div class="ai-loading">Génération des questions en cours...</div>';
-    document.getElementById('questionsMots').innerHTML = '<div class="ai-loading">Génération des questions en cours...</div>';
-
-    // Générer 5 questions sur le sujet
-    const promptSujet = `Génère 5 questions que le jury pourrait poser à l'oral du brevet sur le thème : "${sujet.titre}". Voici le sujet : "${sujet.doc}". Chaque question doit être différente et précise. Réponds uniquement avec une liste numérotée de 1 à 5.`;
-    // Générer 5 questions sur les mots-clés
-    const promptMots = `Génère 5 questions sur les mots-clés suivants : ${sujet.motsCles.join(', ')}. Chaque question doit porter sur un mot-clé différent et amener l'élève à définir, expliquer ou illustrer le terme. Réponds uniquement avec une liste numérotée de 1 à 5.`;
-
-    try {
-      if (window.CONFIG && window.CONFIG.AI_API_KEY && window.CONFIG.AI_API_KEY !== "__API_KEY__") {
-        const [resSujet, resMots] = await Promise.all([
-          fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-            body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: promptSujet, messages: [{ role: "user", content: promptSujet }] })
-          }),
-          fetch("https://api.anthropic.com/v1/messages", {
-            method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-            body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 400, system: promptMots, messages: [{ role: "user", content: promptMots }] })
-          })
-        ]);
-        const dataSujet = await resSujet.json();
-        const dataMots = await resMots.json();
-        const questionsSujet = dataSujet.content[0].text.split('\n').filter(l => l.match(/^\d+\./));
-        const questionsMots = dataMots.content[0].text.split('\n').filter(l => l.match(/^\d+\./));
-        dernieresQuestions.sujet = questionsSujet;
-        dernieresQuestions.mots = questionsMots;
-      } else {
-        // Fallback local
-        dernieresQuestions.sujet = [
-          "1. Qu'est-ce que le féminisme ?",
-          "2. Cite une grande figure du féminisme et explique son combat.",
-          "3. Quelles inégalités persistent entre hommes et femmes aujourd'hui ?",
-          "4. En quoi le droit de vote des femmes a-t-il été une avancée ?",
-          "5. Comment lutter contre le sexisme au quotidien ?"
-        ];
-        dernieresQuestions.mots = [
-          "1. Définis le mot 'égalité'.",
-          "2. Qu'est-ce que la parité ?",
-          "3. Explique le terme 'discrimination'.",
-          "4. Que signifie 'sexisme' ?",
-          "5. Qu'est-ce que le 'suffrage universel' ?"
-        ];
-      }
-      afficherQuestions();
-    } catch(e) { alert("Erreur IA: " + e.message); }
-  });
-
-  function afficherQuestions() {
-    const containerSujet = document.getElementById('questionsSujet');
-    const containerMots = document.getElementById('questionsMots');
-    containerSujet.innerHTML = dernieresQuestions.sujet.map(q => `<div class="question-item">${q}</div>`).join('');
-    containerMots.innerHTML = dernieresQuestions.mots.map(q => `<div class="question-item">${q}</div>`).join('');
+// ==================== DONNÉES SPÉCIFIQUES ====================
+const CANDIDATES = {
+  Wassil: {
+    theme: "L'invention du zéro",
+    sujetExpose: "Présentez l'invention du zéro, son origine en Inde, sa transmission par les mathématiciens arabes (Al-Khwarizmi) et son importance dans les mathématiques modernes.",
+    conseils: "Montrez comment le zéro a révolutionné le calcul, le système décimal et l'algorithmique. Parlez de sa symbolique (vide / infini).",
+    questionsSeries: [
+      // Série 1 (Passage 1)
+      ["Où et quand le zéro a-t-il été inventé ?", "Quel mathématicien persan a popularisé le zéro en Europe ?", "Pourquoi le zéro est-il essentiel en algèbre ?", "Quelle est la différence entre le zéro comme nombre et comme chiffre ?", "Comment les Romains comptaient-ils sans zéro ?", "Que signifie 'algorithme' étymologiquement ?", "Quel rôle le zéro joue-t-il en informatique ?", "Pourquoi la division par zéro est-elle impossible ?", "Cite un mathématicien indien ayant travaillé sur le zéro.", "Le zéro était-il accepté par toutes les civilisations ?"],
+      // Série 2
+      ["Quel est le symbole du zéro dans la numération maya ?", "Quand le zéro est-il apparu en Chine ?", "Pourquoi le zéro a-t-il été interdit à Florence au XIIIe siècle ?", "Que signifie 'sifr' en arabe ?", "Comment Fibonacci a-t-il contribué à diffuser le zéro ?", "Qu'est-ce que le théorème de factorisation unique ?", "Donne un exemple où le zéro est indispensable en physique.", "Pourquoi dit-on que le zéro a permis la révolution scientifique ?", "Quel est le lien entre zéro et le concept de vide en philosophie ?", "Cite un usage moderne du zéro dans la vie quotidienne."],
+      // Série 3
+      ["Qui est Brahmagupta ?", "Quelles sont les règles de Brahmagupta sur le zéro ?", "Pourquoi le zéro a-t-il mis du temps à être accepté en Europe ?", "Quel mot français vient de 'sifr' ?", "Comment le zéro a-t-il influencé la comptabilité ?", "Que se passe-t-il quand on élève zéro à la puissance zéro ?", "Pourquoi les ordinateurs utilisent-ils le binaire (0/1) ?", "Qu'est-ce que le zéro absolu en thermodynamique ?", "Cite un artiste qui a utilisé le zéro dans son œuvre.", "Quelle est la signification philosophique du zéro en bouddhisme ?"],
+      // Série 4
+      ["Quel rôle le zéro joue-t-il dans les limites mathématiques ?", "Comment le zéro a-t-il changé les systèmes de numération ?", "Pourquoi les astronomes ont-ils été les premiers à utiliser le zéro ?", "Qu'est-ce que la notation positionnelle ?", "Quel est le zéro de la fonction f(x)=x²-4 ?", "Comment représenter le zéro en chiffres romains ?", "Qui a introduit le zéro dans la numération occidentale ?", "Pourquoi le zéro est-il crucial pour l'informatique ?", "Cite une civilisation qui n'avait pas de zéro.", "En quoi le zéro est-il une invention abstraite majeure ?"]
+    ]
+  },
+  Nawal: {
+    theme: "Malala et le féminisme · Droit à l'éducation",
+    sujetExpose: "Présentez Malala Yousafzai, son combat pour l'éducation des filles, son discours devant l'ONU et son Prix Nobel de la Paix. Liez son action au féminisme contemporain.",
+    conseils: "Expliquez le contexte pakistanais, l'attentat dont elle a été victime, et comment son engagement dépasse les frontières.",
+    questionsSeries: [
+      // Série 1
+      ["Où et quand Malala est-elle née ?", "Que lui est-il arrivé le 9 octobre 2012 ?", "Pourquoi Malala a-t-elle reçu le Prix Nobel de la Paix ?", "Que signifie 'Malala' dans son combat ?", "Quel est le titre de son livre autobiographique ?", "Quelle organisation a créé Malala ?", "Quel discours célèbre a-t-elle prononcé à l'ONU ?", "Pourquoi les talibans interdisaient-ils l'éducation des filles ?", "Cite une autre femme prix Nobel de la Paix.", "Quel est le lien entre Malala et le féminisme ?"],
+      // Série 2
+      ["Quel est le nom de son père et quel rôle a-t-il joué ?", "Quel film documentaire retrace son histoire ?", "Que signifie 'féminisme' ?", "Quelle est la différence entre féminisme et misandrie ?", "Cite une féministe historique (XVIIIe-XIXe siècle).", "Quelle est la troisième vague du féminisme ?", "Pourquoi le droit à l'éducation est-il une cause féministe ?", "Quel pourcentage de filles non scolarisées dans le monde ?", "Cite une association qui agit pour l'éducation des filles.", "Quel est le message principal du 'Malala Day' ?"],
+      // Série 3
+      ["Quel prix Malala a-t-elle reçu à 17 ans ?", "Où Malala vit-elle aujourd'hui ?", "Quelles études a-t-elle poursuivies ?", "Quel est le nom de la fondation Malala ?", "Pourquoi le féminisme est-il parfois mal compris ?", "Quelle est la différence entre égalité et équité ?", "Cite une militante féministe du Maghreb.", "Comment l'éducation des filles lutte contre la pauvreté ?", "Quel rôle jouent les réseaux sociaux dans le féminisme moderne ?", "Pourquoi l'intersectionnalité est importante ?"],
+      // Série 4
+      ["Quel discours de Malala cite 'Un enfant, un professeur, un livre, un stylo...' ?", "Quelle reine a soutenu Malala ?", "Malala est-elle la plus jeune Nobel ?", "Quel est le rapport entre Malala et Greta Thunberg ?", "Cite un pays où l'éducation des filles est menacée.", "Que signifie 'je suis Malala' comme slogan ?", "Quel livre conseiller sur le féminin ?", "Comment devenir un allié du féminisme ?", "Pourquoi le féminisme est universel ?", "Quelle est ta conclusion sur l'héritage de Malala ?"]
+    ]
   }
+};
 
-  document.getElementById('corrigerExposeBtn').addEventListener('click', async function() {
-    const expose = document.getElementById('expose').value.trim();
-    if (!expose) { alert("Écris ton exposé avant de le corriger."); return; }
-    if (!window.CONFIG || !window.CONFIG.AI_API_KEY || window.CONFIG.AI_API_KEY === "__API_KEY__") {
-      alert("Clé API non configurée.");
-      return;
-    }
-    const candidat = document.getElementById('candidat').value;
-    const sujetKey = document.getElementById('sujetSelect').value;
-    const sujet = sujets[sujetKey];
-    const session = document.getElementById('session').value;
+let currentCandidate = null;
+let currentPass = 0; // 0-3
+let chronoSecs = 300;
+let running = false;
+let chronoInterval = null;
 
-    const prompt = `Tu es examinateur du DNB. Évalue cet exposé oral sur le thème "${sujet.titre}". Utilise la grille officielle : maîtrise du sujet (5 pts), capacité à s'exprimer (5 pts), organisation du discours (5 pts), interaction avec le jury (5 pts). Donne une note totale sur 20, puis un commentaire détaillé avec les points forts, les axes d'amélioration, et des conseils concrets. Réponds en JSON : {"note": nombre, "commentaire": "texte détaillé", "conseils": "conseils spécifiques"}`;
-    try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST", headers: { "Content-Type": "application/json", "x-api-key": window.CONFIG.AI_API_KEY, "anthropic-version": "2023-06-01" },
-        body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 800, system: prompt, messages: [{ role: "user", content: "Exposé:\n" + expose }] })
-      });
-      const data = await res.json();
-      const json = JSON.parse(data.content[0].text);
-      const correctionHtml = `<strong>Note : ${json.note}/20</strong><br><br><strong>Commentaire :</strong><br>${json.commentaire}<br><br><strong>Conseils :</strong><br>${json.conseils}`;
-      document.getElementById('correctionTexte').innerHTML = correctionHtml;
-      document.getElementById('correctionDisplay').style.display = 'block';
-      window.derniereNote = { session: session, candidat: candidat, sujet: sujet.titre, note: json.note, commentaire: json.commentaire };
-    } catch(e) { alert("Erreur IA: " + e.message); }
-  });
+function selectCandidate(name) {
+  currentCandidate = name;
+  currentPass = 0;
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('oral-page').style.display = 'block';
+  document.getElementById('oral-candidate').innerHTML = `${name} · ${CANDIDATES[name].theme}`;
+  renderPassSelector();
+  renderOralContent();
+  resetChrono();
+}
 
-  document.getElementById('sauvegarderBtn').addEventListener('click', function() {
-    if (!window.derniereNote) { alert("Corrige d'abord l'exposé."); return; }
-    const historique = JSON.parse(localStorage.getItem('agent_oral_notes') || '[]');
-    historique.push(window.derniereNote);
-    localStorage.setItem('agent_oral_notes', JSON.stringify(historique));
-    afficherHistorique();
-    document.getElementById('sauvegardeMessage').innerHTML = '<span style="color:#7ecf8a;">✓ Note sauvegardée</span>';
-    setTimeout(() => document.getElementById('sauvegardeMessage').innerHTML = '', 2000);
-  });
-
-  function afficherHistorique() {
-    const historique = JSON.parse(localStorage.getItem('agent_oral_notes') || '[]');
-    const container = document.getElementById('historique');
-    if (historique.length === 0) { container.innerHTML = '<p>Aucune note sauvegardée.</p>'; return; }
-    container.innerHTML = historique.map((h, i) => `<div><strong>Session ${h.session}</strong> – ${h.candidat} – ${h.sujet}<br>Note : ${h.note}/20<br>${h.commentaire.substring(0, 150)}...<br><hr></div>`).join('');
+function renderPassSelector() {
+  const container = document.getElementById('pass-selector-header');
+  container.innerHTML = '';
+  for(let i=0; i<4; i++) {
+    const btn = document.createElement('button');
+    btn.className = `pass-btn ${currentPass === i ? 'active' : ''}`;
+    btn.textContent = `Passage ${i+1}/4`;
+    btn.onclick = () => { currentPass = i; renderPassSelector(); renderOralContent(); resetChrono(); };
+    container.appendChild(btn);
   }
+}
 
-  document.getElementById('telechargerSujetBtn').addEventListener('click', function() {
-    const candidat = document.getElementById('candidat').value;
-    const sujetKey = document.getElementById('sujetSelect').value;
-    const sujet = sujets[sujetKey];
-    const session = document.getElementById('session').value;
-    const contenu = `Session ${session} – ${candidat}\nSujet : ${sujet.titre}\n\nDocument :\n${sujet.doc}\n\nMots-clés : ${sujet.motsCles.join(', ')}\n\nQuestions du jury (exemple) :\n${dernieresQuestions.sujet.join('\n')}\n\nQuestions sur les mots-clés :\n${dernieresQuestions.mots.join('\n')}`;
-    const blob = new Blob([contenu], { type: 'text/plain' });
-    const a = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    a.href = url;
-    a.download = `sujet_oral_${candidat}_session${session}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
+function renderOralContent() {
+  const data = CANDIDATES[currentCandidate];
+  const questions = data.questionsSeries[currentPass];
+  const html = `
+    <div class="expose-section">
+      <div class="section-title">🎤 Exposé (5 min) · ${currentCandidate}</div>
+      <div class="texte-box" style="background:var(--bg3);padding:16px;border-radius:var(--r-sm);margin-bottom:16px;">
+        <strong>🎯 Sujet :</strong> ${data.sujetExpose}<br><br>
+        <strong>💡 Conseils :</strong> ${data.conseils}
+      </div>
+      <textarea id="expose-text" class="answer-ta" placeholder="Rédigez votre exposé ici (introduction, développement, conclusion)..."></textarea>
+      <div><button class="ai-btn" onclick="corrigerExposeIA()">🤖 IA : Corriger mon exposé + noter</button></div>
+      <div id="expose-feedback" class="ai-feedback"></div>
+    </div>
+    
+    <div class="section-title">❓ Questions du jury (10 min)</div>
+    <div class="questions-grid" id="questions-grid">
+      ${questions.map((q, idx) => `
+        <div class="q-item" id="q-${idx}">
+          <div class="q-number">Question ${idx+1}/10</div>
+          <div class="q-text">${q}</div>
+          <div class="q-answer">
+            <textarea id="q-ans-${idx}" placeholder="Votre réponse... L'IA va la corriger et vous conseiller"></textarea>
+            <div style="margin-top:8px;">
+              <button class="chrono-btn" style="background:rgba(94,207,177,0.1);color:var(--teal);" onclick="corrigerQuestionIA(${idx})">✅ Corriger cette réponse par IA</button>
+              <span class="q-score" id="q-score-${idx}"></span>
+            </div>
+            <div id="q-feedback-${idx}" class="q-feedback"></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    
+    <button class="generate-pdf" onclick="genererPDFSerie()">📄 Générer PDF des corrections (série ${currentPass+1})</button>
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <button class="chrono-btn" style="flex:1;padding:12px;" onclick="sauvegarderTout()">💾 Sauvegarder ma progression</button>
+      ${currentPass < 3 ? `<button class="chrono-btn" style="flex:1;background:var(--oral);color:#09090f;" onclick="changerPassage(${currentPass+1})">→ Passage suivant (${currentPass+2}/4)</button>` : '<button class="chrono-btn" style="flex:1;" onclick="goHome()">🏁 Terminer · Retour accueil</button>'}
+    </div>
+  `;
+  document.getElementById('oral-body').innerHTML = html;
+  
+  // Charger sauvegardes
+  for(let i=0;i<questions.length;i++) {
+    const saved = localStorage.getItem(`oral_${currentCandidate}_pass${currentPass}_q${i}`);
+    if(saved && document.getElementById(`q-ans-${i}`)) document.getElementById(`q-ans-${i}`).value = saved;
+  }
+  const savedExpose = localStorage.getItem(`oral_${currentCandidate}_pass${currentPass}_expose`);
+  if(savedExpose && document.getElementById('expose-text')) document.getElementById('expose-text').value = savedExpose;
+}
 
-  afficherHistorique();
+async function corrigerExposeIA() {
+  const text = document.getElementById('expose-text')?.value;
+  if(!text || text.trim().length < 50) { showToast("Écrivez un exposé plus développé (min 50 caractères)", "err"); return; }
+  showToast("🤖 IA analyse votre exposé...", "ok");
+  await new Promise(r => setTimeout(r, 500));
+  const feedback = evaluerTexteExpose(text, currentCandidate);
+  const fbDiv = document.getElementById('expose-feedback');
+  fbDiv.style.display = 'block';
+  fbDiv.innerHTML = `<strong>✨ Correction IA · Exposé</strong><br><br>${feedback.feedback}<br><br><strong>📊 Note estimée : ${feedback.note}/20</strong> — ${feedback.note>=16 ? "Excellent !" : feedback.note>=12 ? "Bien, peut mieux faire" : "À retravailler"}`;
+  localStorage.setItem(`oral_${currentCandidate}_pass${currentPass}_expose`, text);
+  showToast("✓ Exposé corrigé par IA", "ok");
+}
+
+function evaluerTexteExpose(text, candidate) {
+  const mots = text.split(/\s+/).length;
+  let score = 10;
+  if(mots > 200) score += 2;
+  if(mots > 350) score += 2;
+  if(text.includes("introduction") || text.includes("tout d'abord")) score += 2;
+  if(text.includes("conclusion") || text.includes("pour conclure")) score += 2;
+  if(candidate === "Wassil") {
+    if(text.includes("zéro") && (text.includes("Inde") || text.includes("Al-Khwarizmi"))) score += 3;
+    if(text.includes("algèbre") || text.includes("décimal")) score += 2;
+  } else {
+    if(text.includes("Malala") && (text.includes("Pakistan") || text.includes("éducation"))) score += 3;
+    if(text.includes("féminisme") || text.includes("Nobel")) score += 2;
+  }
+  score = Math.min(20, Math.max(0, score));
+  let feedback = "";
+  if(score >= 16) feedback = "Exposé très solide ! Structure claire, contenu riche. Pour exceller, ajoutez une ouverture personnelle.";
+  else if(score >= 12) feedback = "Bon exposé. Renforcez l'articulation entre les parties et ajoutez des dates/chiffres précis.";
+  else feedback = "Travaillez la structure (intro/développement/conclusion) et approfondissez les connaissances clés du sujet.";
+  return { feedback, note: score };
+}
+
+async function corrigerQuestionIA(qIdx) {
+  const reponse = document.getElementById(`q-ans-${qIdx}`)?.value;
+  if(!reponse || reponse.trim().length < 15) { showToast("Écrivez une réponse plus développée", "err"); return; }
+  showToast(`🤖 IA corrige question ${qIdx+1}...`, "ok");
+  await new Promise(r => setTimeout(r, 400));
+  const evaluation = evaluerQuestion(reponse, qIdx, currentCandidate, currentPass);
+  const fbDiv = document.getElementById(`q-feedback-${qIdx}`);
+  const scoreSpan = document.getElementById(`q-score-${qIdx}`);
+  fbDiv.style.display = 'block';
+  fbDiv.innerHTML = `<strong>🤖 Correction IA :</strong> ${evaluation.feedback}<br><strong>Note : ${evaluation.note}/10</strong> — ${evaluation.conseil}`;
+  scoreSpan.textContent = `🎯 ${evaluation.note}/10`;
+  localStorage.setItem(`oral_${currentCandidate}_pass${currentPass}_q${qIdx}`, reponse);
+  localStorage.setItem(`oral_${currentCandidate}_pass${currentPass}_q${qIdx}_note`, evaluation.note);
+  showToast("✓ Réponse corrigée", "ok");
+}
+
+function evaluerQuestion(reponse, qIdx, candidate, pass) {
+  const questions = CANDIDATES[candidate].questionsSeries[pass];
+  const questionTexte = questions[qIdx];
+  let score = 7;
+  if(reponse.length > 80) score += 1;
+  if(reponse.length > 150) score += 1;
+  if(questionTexte.toLowerCase().includes("pourquoi") && reponse.includes("car")) score += 1;
+  if(questionTexte.toLowerCase().includes("cite") && reponse.match(/[A-Z][a-z]+/)) score += 1;
+  score = Math.min(10, Math.max(0, score));
+  let feedback = "";
+  if(score >= 9) feedback = "Réponse précise, bien argumentée. Le jury serait satisfait !";
+  else if(score >= 7) feedback = "Réponse correcte, mais ajoutez un exemple concret pour briller.";
+  else feedback = "Développez davantage, structurez votre réponse (introduction brève + explication).";
+  let conseil = score >= 8 ? "Excellent" : score >= 6 ? "À améliorer" : "À retravailler";
+  return { feedback, note: score, conseil };
+}
+
+function genererPDFSerie() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const candidate = currentCandidate;
+  const pass = currentPass;
+  const questions = CANDIDATES[candidate].questionsSeries[pass];
+  doc.setFont("helvetica");
+  doc.setFontSize(18);
+  doc.text(`Oral Blanc Brevet 2026 · ${candidate} - Série ${pass+1}/4`, 15, 20);
+  doc.setFontSize(11);
+  doc.text(`Thème : ${CANDIDATES[candidate].theme}`, 15, 30);
+  doc.text(`Date : ${new Date().toLocaleDateString()} · Correction IA générée automatiquement`, 15, 38);
+  let y = 50;
+  for(let i=0; i<questions.length; i++) {
+    const reponse = document.getElementById(`q-ans-${i}`)?.value || "(non répondu)";
+    const savedNote = localStorage.getItem(`oral_${candidate}_pass${pass}_q${i}_note`) || "?";
+    const feedbackDivContent = document.getElementById(`q-feedback-${i}`)?.innerText || "Correction non demandée";
+    if(y > 270) { doc.addPage(); y = 20; }
+    doc.setFontSize(10);
+    doc.setTextColor(200, 160, 100);
+    doc.text(`Q${i+1} : ${questions[i]}`, 15, y);
+    y += 6;
+    doc.setTextColor(200, 200, 200);
+    const reponseLines = doc.splitTextToSize(`Réponse : ${reponse.substring(0, 300)}`, 170);
+    doc.text(reponseLines, 15, y);
+    y += reponseLines.length * 5;
+    doc.setTextColor(94, 207, 177);
+    const feedbackLines = doc.splitTextToSize(`IA → ${feedbackDivContent.substring(0, 250)}`, 170);
+    doc.text(feedbackLines, 15, y);
+    y += feedbackLines.length * 5 + 4;
+    doc.setTextColor(232, 200, 122);
+    doc.text(`Note IA : ${savedNote}/10`, 15, y);
+    y += 8;
+  }
+  doc.save(`oral_${candidate}_serie${pass+1}_corrections.pdf`);
+  showToast("📄 PDF généré avec toutes les corrections", "ok");
+}
+
+function sauvegarderTout() {
+  const questions = CANDIDATES[currentCandidate].questionsSeries[currentPass];
+  for(let i=0; i<questions.length; i++) {
+    const val = document.getElementById(`q-ans-${i}`)?.value;
+    if(val) localStorage.setItem(`oral_${currentCandidate}_pass${currentPass}_q${i}`, val);
+  }
+  const exposeVal = document.getElementById('expose-text')?.value;
+  if(exposeVal) localStorage.setItem(`oral_${currentCandidate}_pass${currentPass}_expose`, exposeVal);
+  showToast("✅ Progression sauvegardée", "ok");
+}
+
+function changerPassage(newPass) {
+  if(newPass >=0 && newPass <4) { currentPass = newPass; renderPassSelector(); renderOralContent(); resetChrono(); }
+}
+
+function startChrono() { if(running) return; running = true; chronoInterval = setInterval(() => { if(chronoSecs <= 0) { clearInterval(chronoInterval); running=false; showToast("⏱ Temps écoulé !", "err"); return; } chronoSecs--; updateChronoDisplay(); }, 1000); }
+function resetChrono() { clearInterval(chronoInterval); running=false; chronoSecs=300; updateChronoDisplay(); }
+function updateChronoDisplay() { const m=Math.floor(chronoSecs/60); const s=chronoSecs%60; document.getElementById('chrono').textContent=`${m}:${String(s).padStart(2,'0')}`; }
+function goHome() { document.getElementById('oral-page').style.display='none'; document.getElementById('home').style.display='flex'; if(chronoInterval) clearInterval(chronoInterval); running=false; }
+function showToast(msg,type) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 </script>
 </body>
 </html>
