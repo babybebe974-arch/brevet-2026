@@ -2,506 +2,351 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>📖 Français – 10 sujets blancs DNB 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Automatismes – Français</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-  .header { background: linear-gradient(135deg,#09090f,#12121f); border-bottom: 1px solid rgba(94,207,177,0.2); padding: 20px 24px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-  .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-  .header-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
-  .header-title span { color: #5ecfb1; }
-  .hero { max-width: 1100px; margin: 0 auto; padding: 40px 24px 24px; }
-  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px,6vw,42px); font-weight: 800; line-height: 1.15; margin-bottom: 12px; }
-  .hero h1 em { font-style: normal; color: #5ecfb1; }
-  .hero p { color: #9aaec9; font-size: 14px; max-width: 560px; }
-  .sujets-grid { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-  .sujet-card { background: #111118; border: 1px solid #2a2a38; border-radius: 16px; padding: 18px; cursor: pointer; transition: all 0.2s; }
-  .sujet-card:hover { border-color: #5ecfb1; transform: translateY(-3px); background: #181820; }
-  .sujet-annee { font-family: 'Syne', sans-serif; font-size: 11px; color: #5ecfb1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-  .sujet-titre { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-  .sujet-session { font-size: 12px; color: #9aaec9; margin-bottom: 10px; }
-  .sujet-themes { font-size: 11px; color: #e8c87a; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .tag { background: #1e2a3e; padding: 2px 8px; border-radius: 20px; font-size: 10px; }
-  .pdf-link-small { font-size: 10px; color: #5ecfb1; text-decoration: none; margin-top: 10px; display: inline-block; }
-  .sujet-page { display: none; max-width: 1000px; margin: 0 auto; padding: 0 24px 60px; }
-  .sujet-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #2a2a38; }
-  .sujet-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
-  .sujet-title span { color: #5ecfb1; }
-  .btn-back { background: none; border: 1px solid #5ecfb1; border-radius: 40px; padding: 8px 20px; color: #5ecfb1; cursor: pointer; font-size: 13px; }
-  .btn-back:hover { background: #1e2a3e; }
-  .dl-btn-pdf { background: #5ecfb1; color: #09090f; padding: 8px 16px; border-radius: 40px; text-decoration: none; font-size: 12px; font-weight: 600; }
-  .texte { background: #0a0a12; padding: 1rem; border-radius: 12px; margin: 1rem 0; white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem; border-left: 3px solid #5ecfb1; max-height: 400px; overflow-y: auto; }
-  .auteur { font-size: 0.8rem; color: #9aaec9; margin-top: 0.5rem; text-align: right; }
-  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; border-left: 3px solid #5ecfb1; }
-  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.85rem; font-family: 'DM Mono', monospace; resize: vertical; }
-  textarea.dictee { min-height: 180px; }
-  textarea.redaction { min-height: 300px; }
-  button { background: #5ecfb1; border: none; padding: 0.4rem 1rem; border-radius: 40px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.75rem; color: #09090f; font-weight: 600; }
-  button:hover { background: #7edcb8; }
-  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.85rem; }
-  .feedback-buttons { margin-top: 0.4rem; display: flex; gap: 0.5rem; }
-  .btn-copy { background: #1a1a26; border: 1px solid #5ecfb1; color: #5ecfb1; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.7rem; cursor: pointer; }
-  .btn-copy:hover { background: #2a2a36; }
-  .save-all-btn { background: #1a1a26; border: 1px solid #5ecfb1; color: #5ecfb1; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.75rem; cursor: pointer; margin-top: 1rem; width: 100%; }
-  .save-all-btn:hover { background: #2a2a36; }
-  .correction-officielle { color: #e87a7a; margin-top: 12px; padding: 8px; background: rgba(232,122,122,0.1); border-radius: 6px; font-size: 0.8rem; }
-  hr { border-color: #2a2a35; margin: 1rem 0; }
-  .question { margin-top: 1rem; }
-  .loading { color: #5ecfb1; font-style: italic; }
-  .hidden { display: none; }
-  @media print {
-    .no-print { display: none; }
-    body * { visibility: hidden; }
-    .print-correction, .print-correction * { visibility: visible; }
-    .print-correction { position: absolute; top: 0; left: 0; width: 100%; }
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#000;font-family:'DM Sans',sans-serif;padding:1rem;color:#fff;}
+.container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
+h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;}
+.sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+.choix-eleve{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;text-align:center;}
+.choix-eleve button{padding:0.5rem 1.5rem;margin:0 0.5rem;border-radius:40px;cursor:pointer;font-weight:600;border:none;font-size:1rem;}
+.btn-wassil{background:#7eb8f5;color:#000;}
+.btn-nawal{background:#f59eb8;color:#000;}
+.btn-wassil.active{background:#3a6ea5;color:#fff;border:2px solid #fff;}
+.btn-nawal.active{background:#c06a8a;color:#fff;border:2px solid #fff;}
+.chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;max-height:400px;overflow-y:auto;padding:0.5rem;background:#2a2a2a;border-radius:1rem;margin-bottom:1rem;}
+.chapitre-check{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;padding:0.3rem;}
+button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;color:#5ecfb1;cursor:pointer;}
+.btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
+.btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;}
+.resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
+.back-link{display:inline-block;margin-top:1rem;color:#5ecfb1;text-decoration:none;}
+.info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;}
+.question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;}
+.question-text{font-size:1rem;margin-bottom:1rem;font-weight:500;}
+textarea{width:100%;min-height:80px;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-family:'DM Sans',sans-serif;resize:vertical;}
+.feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
+.feedback.show{display:block;}
+.reponse-modele{background:#1a2a1a;border-left:3px solid #ffcc00;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;}
+.progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;text-align:center;}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-inner">
-    <div class="header-title">Français <span>DNB 2026</span></div>
+<div class="container">
+  <h1>⚡ Automatismes – Français</h1>
+  <div class="sub">Choisis ton prénom et tes chapitres</div>
+  
+  <div class="choix-eleve">
+    <p style="margin-bottom:0.5rem;">👤 Qui travaille ?</p>
+    <button id="btnWassil" class="btn-wassil active">🌊 Wassil</button>
+    <button id="btnNawal" class="btn-nawal">⚡ Nawal</button>
   </div>
+
+  <div class="info-bar">
+    <span>📅 Session <span id="sessionDate">--</span></span>
+    <span class="timer" id="timer">⏱️ 45:00</span>
+  </div>
+
+  <div id="chapitreSelector">
+    <div class="chapitres-grid" id="chapitresGrid"></div>
+    <div class="btn-group">
+      <button id="selectAllBtn">✅ Tout sélectionner</button>
+      <button id="deselectAllBtn">❌ Tout désélectionner</button>
+    </div>
+    <div class="btn-group">
+      <button id="demarrerBtn" class="btn-primary">🎯 Démarrer la session (40 questions)</button>
+    </div>
+  </div>
+
+  <div id="sessionArea" style="display:none;">
+    <div id="questionArea"></div>
+    <div id="sessionStats" class="progress"></div>
+  </div>
+
+  <div id="resultatsArea" class="resultats" style="display:none;"></div>
+
+  <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
-
-<div class="hero" id="landingHero">
-  <h1>10 sujets blancs<br><em>Français</em></h1>
-  <p>Clique sur un sujet pour t'entraîner. Dictée, compréhension, grammaire, rédaction — correction IA incluse.</p>
-</div>
-
-<div class="sujets-grid" id="sujetsGrid"></div>
-
-<div id="sujetPage" class="sujet-page"></div>
 
 <script>
-const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwOGUebP39z8WqcGgsNz0lmxFe3dQPW6gy3fV9KcmbbojP2RUpsbXiO0I7s8OQzuTGrsw/exec';
+// ==================== 26 CHAPITRES AVEC 2-3 CARTES CHACUN ====================
+const FLASHCARDS = {
+  1: { titre: "Classes grammaticales", cartes: [
+    { id: "f1_1", q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
+    { id: "f1_2", q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
+    { id: "f1_3", q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." }
+  ]},
+  2: { titre: "Fonctions grammaticales", cartes: [
+    { id: "f2_1", q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
+    { id: "f2_2", q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" }
+  ]},
+  3: { titre: "La phrase", cartes: [
+    { id: "f3_1", q: "Qu'est-ce qu'une phrase simple ?", r: "Une phrase avec un seul verbe conjugué." },
+    { id: "f3_2", q: "Donnez un exemple de phrase simple.", r: "Je mange une pomme." }
+  ]},
+  4: { titre: "Temps et modes verbaux", cartes: [
+    { id: "f4_1", q: "À quoi sert l'imparfait ?", r: "Description ou habitude dans le passé." },
+    { id: "f4_2", q: "À quoi sert le passé composé ?", r: "Action ponctuelle ou bilan (oral)." }
+  ]},
+  5: { titre: "Les accords", cartes: [
+    { id: "f5_1", q: "Règle d'accord sujet-verbe.", r: "Le verbe s'accorde en personne et nombre avec le sujet." }
+  ]},
+  6: { titre: "Les homophones", cartes: [
+    { id: "f6_1", q: "Différence a/à ?", r: "a = avoir ; à = préposition" }
+  ]},
+  7: { titre: "Conjugaison", cartes: [
+    { id: "f7_1", q: "Terminaisons du présent (1er groupe).", r: "e, es, e, ons, ez, ent" }
+  ]},
+  8: { titre: "Valeurs des temps", cartes: [
+    { id: "f8_1", q: "Valeur du présent.", r: "Actualité, vérité générale, habitude." }
+  ]},
+  9: { titre: "Formation des mots", cartes: [
+    { id: "f9_1", q: "Qu'est-ce qu'un préfixe ?", r: "Élément avant le radical." }
+  ]},
+  10: { titre: "Figures de style", cartes: [
+    { id: "f10_1", q: "Qu'est-ce qu'une métaphore ?", r: "Analogie sans outil." }
+  ]},
+  11: { titre: "Champs lexicaux", cartes: [
+    { id: "f11_1", q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème." }
+  ]},
+  12: { titre: "Synonymes, antonymes", cartes: [
+    { id: "f12_1", q: "Qu'est-ce qu'un synonyme ?", r: "Mot de sens proche." }
+  ]}
+};
 
-async function callIA(prompt, system) {
-  const response = await fetch(PROXY_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ prompt, system }),
-    redirect: 'follow'
-  });
-  if (!response.ok) throw new Error('HTTP ' + response.status);
-  const result = await response.json();
-  if (result.success && result.content) return result.content;
-  throw new Error(result.error || 'Réponse inattendue');
-}
-
-function safeParseJSON(txt) {
-  try { return JSON.parse(txt.replace(/```json|```/g, '').trim()); } catch(e) { return null; }
-}
-
-let correctionsIA = {};
-
-function stockerCorrection(sujetId, type, num, contenu) {
-  if (!correctionsIA[sujetId]) correctionsIA[sujetId] = {};
-  if (!correctionsIA[sujetId][type]) correctionsIA[sujetId][type] = {};
-  correctionsIA[sujetId][type][num] = contenu;
-}
-
-async function copierTexte(texte, btn) {
-  try {
-    await navigator.clipboard.writeText(texte);
-    btn.textContent = '✓ Copié !';
-    setTimeout(() => btn.textContent = '📋 Copier', 1500);
-  } catch(e) { alert('Impossible de copier'); }
-}
-
-async function sauvegarderTout(sujetId, annee, session, titre, questions, dictTexte, grammaire) {
-  const data = {
-    sujet: sujetId, annee, session, titre, date: new Date().toISOString(),
-    corrections: {
-      dictee: correctionsIA[sujetId]?.dictee?.[1] || "Non corrigée",
-      comprehension: {},
-      grammaire: {},
-      redaction: correctionsIA[sujetId]?.redaction?.[1] || "Non corrigée"
-    }
-  };
-  for (let i = 0; i < questions.length; i++) data.corrections.comprehension[i+1] = correctionsIA[sujetId]?.comprehension?.[i+1] || "Non corrigée";
-  for (let i = 0; i < grammaire.length; i++) data.corrections.grammaire[i+1] = correctionsIA[sujetId]?.grammaire?.[i+1] || "Non corrigée";
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Sujet_${sujetId}_${annee}_${session.replace(/[()]/g, '').replace(/ /g, '_')}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  
-  const printDiv = document.createElement('div');
-  printDiv.className = 'print-correction';
-  printDiv.style.cssText = 'padding: 20px; font-family: "DM Sans", sans-serif;';
-  let html = `<h1>Sujet ${sujetId} - ${annee} (${session})</h1><h2>${titre}</h2><hr>
-    <h3>📝 Dictée</h3><p>🤖 IA: ${data.corrections.dictee}</p><p style="color:#e74c3c;">📖 Officiel: ${dictTexte}</p><hr>
-    <h3>📖 Compréhension</h3>`;
-  for (let i = 0; i < questions.length; i++) html += `<div><strong>Q${i+1}</strong><br>🤖: ${data.corrections.comprehension[i+1]}<br><span style="color:#e74c3c;">📖: ${questions[i].reponse}</span></div>`;
-  html += `<h3>📝 Grammaire</h3>`;
-  for (let i = 0; i < grammaire.length; i++) html += `<div><strong>Q${i+1}</strong><br>🤖: ${data.corrections.grammaire[i+1]}<br><span style="color:#e74c3c;">📖: ${grammaire[i].reponse}</span></div>`;
-  html += `<h3>✍️ Rédaction</h3><p>🤖 IA: ${data.corrections.redaction}</p><p style="color:#e74c3c;">📖 Critères officiels: Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4)</p>`;
-  printDiv.innerHTML = html;
-  document.body.appendChild(printDiv);
-  document.title = `Sujet_${sujetId}_${annee}_${session.replace(/[()]/g, '').replace(/ /g, '_')}.pdf`;
-  window.print();
-  document.body.removeChild(printDiv);
-  alert(`✅ ${Object.keys(correctionsIA[sujetId] || {}).length} corrections sauvegardées`);
-}
-
-// ============================================================
-// 10 SUJETS COMPLETS AVEC VRAIS TEXTES
-// ============================================================
-const SUJETS = [
-  { id:"s1", annee:"2024", session:"Métropole (juin)", titre:"Simone de Beauvoir – La Force de l'âge", pdf:"https://www.education.gouv.fr/sites/default/files/document/Dipl%C3%B4me%20national%20du%20brevet%202024%20-%20Fran%C3%A7ais-401861.pdf",
-    texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
-    auteur:"Simone de Beauvoir, La Force de l'âge (1960)",
-    dictee:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent. Dans les vieux escaliers, une vie toujours neuve me remplissait les yeux. J'étais contente de moi. Il fallait que je sorte, que je marche.",
-    questions:[
-      { texte:"Où se passe cette scène ? Relevez deux éléments du texte.", pts:3, reponse:"À Marseille (Vieux-Port, Notre-Dame-de-la-Garde, jetée)." },
-      { texte:"Quelle est l'attitude du narrateur ? Justifiez.", pts:3, reponse:"Il est heureux, content de lui. Citation : 'J'étais contente de moi'." },
-      { texte:"Relevez une figure de style et nommez-la.", pts:4, reponse:"Métaphore : 'une vie toujours neuve me remplissait les yeux'." },
-      { texte:"Différence avec la vie à Paris ?", pts:3, reponse:"À Paris : 'brouhaha'. À Marseille : liberté, calme." }
-    ],
-    grammaire:[
-      { texte:"Analysez 'Je ne pouvais pas rester' (sujet, verbe, négation).", pts:2, reponse:"Sujet: Je, verbe: pouvais, négation: ne...pas." },
-      { texte:"Réécrivez 'Je montais' à l'imparfait, 1ère pers. pluriel.", pts:2, reponse:"Nous montions." },
-      { texte:"Nature de 'mélancoliques' ?", pts:2, reponse:"Adjectif qualificatif, épithète." }
-    ],
-    redaction:{ sujet1:"Racontez une découverte d'une nouvelle ville.", sujet2:"Voyager seul permet-il de mieux se connaître ?" }
-  },
-  { id:"s2", annee:"2024", session:"Amérique du Nord", titre:"Marc Dugain – La Chambre des officiers", pdf:"https://www.education.gouv.fr/media/195317/download",
-    texte:"Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables.",
-    auteur:"Marc Dugain, La Chambre des officiers (1998)",
-    dictee:"Marguerite devint le centre de nos préoccupations. Pour lui parler, nous nous adressions à Penanster. Elle redoutait de parler trop fort. Penanster se sentait utile. Il traduisait nos paroles avec patience.",
-    questions:[
-      { texte:"Pourquoi Penanster est-il indispensable ?", pts:3, reponse:"Il sert d'intermédiaire car Marguerite est sourde." },
-      { texte:"Quels sont les sentiments de Penanster ?", pts:4, reponse:"Utile, essentiel, épanoui." },
-      { texte:"Quelle est la qualité de Marguerite ?", pts:2, reponse:"Sa voix douce." }
-    ],
-    grammaire:[
-      { texte:"Proposition relative dans 'qui lui répétait'.", pts:2, reponse:"Subordonnée relative, antécédent 'Penanster'." },
-      { texte:"Conjuguez 's'intégrer' au passé simple, 3e pers.", pts:2, reponse:"elle s'intégra." },
-      { texte:"Réécrivez 'Marguerite souriait' au présent, 1ère pers. pluriel.", pts:2, reponse:"Nous sourions." }
-    ],
-    redaction:{ sujet1:"Racontez l'histoire d'une personne qui surmonte un handicap.", sujet2:"La solidarité est-elle une valeur essentielle ?" }
-  },
-  { id:"s3", annee:"2024", session:"Asie Pacifique", titre:"George Sand – Histoire de ma vie", pdf:"https://www.education.gouv.fr/media/195315/download",
-    texte:"Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine.",
-    auteur:"George Sand, Histoire de ma vie (1855)",
-    dictee:"Je n'avais pas encore douze ans lorsque mon frère mourut d'un accident. Sa mort fut un grand chagrin. Ma mère tomba dans une tristesse profonde. Je la voyais pleurer en silence. Mon père, lui, ne pleurait pas.",
-    questions:[
-      { texte:"Quel événement tragique est raconté ?", pts:2, reponse:"La mort de son frère." },
-      { texte:"Réaction de la mère et du père ?", pts:4, reponse:"Mère pleure, père cache sa douleur." },
-      { texte:"Pourquoi le narrateur n'ose-t-il pas parler à sa mère ?", pts:3, reponse:"Par crainte ou respect, mais il reste près d'elle." }
-    ],
-    grammaire:[
-      { texte:"Analysez 'Je la voyais pleurer' (COD, infinitif).", pts:2, reponse:"'la' = COD, 'pleurer' = infinitif." },
-      { texte:"Conjuguez 'cacher' au plus-que-parfait, 3e pers.", pts:2, reponse:"il avait caché." },
-      { texte:"Discours indirect: 'Je compris : mon père cachait sa douleur.'", pts:2, reponse:"Je compris que mon père cachait sa douleur." }
-    ],
-    redaction:{ sujet1:"Racontez un événement douloureux de l'enfance.", sujet2:"Faut-il montrer ses émotions ou les cacher ?" }
-  },
-  { id:"s4", annee:"2023", session:"Métropole (juin)", titre:"Albert Camus – L'Étranger", pdf:"https://www.education.gouv.fr/sites/default/files/document/Dipl%C3%B4me%20national%20du%20brevet%202023%20-%20Fran%C3%A7ais-365146.pdf",
-    texte:"Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. L'asile est à Marengo, à quatre-vingts kilomètres d'Alger. Je prendrai le bus à deux heures et j'arriverai dans l'après-midi. Ainsi, je pourrai veiller et rentrer demain soir. J'ai demandé deux jours de congé à mon patron. Il ne pouvait pas me les refuser.",
-    auteur:"Albert Camus, L'Étranger (1942)",
-    dictee:"Aujourd'hui, maman est morte. J'ai reçu un télégramme de l'asile. Cela ne veut rien dire. C'était peut-être hier. Je prendrai le bus à deux heures.",
-    questions:[
-      { texte:"Quelle nouvelle le narrateur apprend-il ?", pts:2, reponse:"La mort de sa mère." },
-      { texte:"Que suggère 'Ou peut-être hier' ?", pts:4, reponse:"L'indifférence, le détachement émotionnel." },
-      { texte:"Quels sont ses projets ?", pts:3, reponse:"Prendre le bus, veiller sa mère, rentrer." }
-    ],
-    grammaire:[
-      { texte:"Nature de 'que je ne sais pas'.", pts:2, reponse:"Proposition subordonnée relative." },
-      { texte:"Conjuguez 'pouvoir' au conditionnel présent, 3e pers.", pts:2, reponse:"il pourrait." },
-      { texte:"Discours indirect: 'Il me dit : \"Je prendrai le bus\"'", pts:2, reponse:"Il me dit qu'il prendrait le bus." }
-    ],
-    redaction:{ sujet1:"Racontez une nouvelle qui a changé votre vie.", sujet2:"Le détachement émotionnel est-il une force ?" }
-  },
-  { id:"s5", annee:"2023", session:"Amérique du Nord", titre:"Molière – Le Malade imaginaire", pdf:"https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-    texte:"Mon cher frère, vous ne sauriez croire combien je suis troublé. Argan, notre malade imaginaire, vient de me consulter. Il souffre de tous les maux et ne veut entendre parler que de sa médecine. Il veut se faire saigner, purger, traiter pour la moindre vapeur. Je lui ai conseillé le repos, mais il préfère ses apothicaires. Que voulez-vous, l'homme est ainsi fait : il se plaît à être malade. Je crains qu'il ne finisse par se rendre vraiment malade à force de vouloir se soigner.",
-    auteur:"Molière, Le Malade imaginaire (1673)",
-    dictee:"Argan, notre malade imaginaire, vient de me consulter. Il ne veut entendre parler que de sa médecine. Je lui ai conseillé le repos, mais il préfère ses apothicaires.",
-    questions:[
-      { texte:"Qui est Argan et quel est son comportement ?", pts:3, reponse:"Un malade imaginaire qui consulte pour tout." },
-      { texte:"Que craint le narrateur pour Argan ?", pts:4, reponse:"Qu'Argan ne devienne vraiment malade." },
-      { texte:"Relevez une hyperbole dans le texte.", pts:3, reponse:"'Il souffre de tous les maux'." }
-    ],
-    grammaire:[
-      { texte:"Proposition 'qu'Argan ne finisse' (mode ?)", pts:2, reponse:"Subordonnée conjonctive, subjonctif." },
-      { texte:"Conjuguez 'consulter' au passé simple, 1ère pers.", pts:2, reponse:"je consultai." },
-      { texte:"Forme négative de la dernière phrase.", pts:2, reponse:"Je ne crains pas qu'il ne finisse par se rendre malade." }
-    ],
-    redaction:{ sujet1:"Racontez l'histoire d'une personne qui se croit toujours malade.", sujet2:"La médecine guérit-elle tous les maux ?" }
-  },
-  { id:"s6", annee:"2023", session:"Polynésie", titre:"Victor Hugo – Les Misérables", pdf:"https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-    texte:"Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.",
-    auteur:"Victor Hugo, Les Misérables (1862)",
-    dictee:"Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde.",
-    questions:[
-      { texte:"Décrivez l'état d'esprit du personnage.", pts:3, reponse:"Fatigué, seul, désespéré." },
-      { texte:"Trois éléments du décor qui renforcent cette impression.", pts:4, reponse:"Rues sombres, nuit profonde, vent froid." },
-      { texte:"Pourquoi personne ne lui ouvre-t-il ?", pts:3, reponse:"Pauvreté, peur des inconnus." }
-    ],
-    grammaire:[
-      { texte:"Analysez 'Pas une étoile ne brillait'.", pts:2, reponse:"Négation totale, insiste sur le vide." },
-      { texte:"Conjuguez 'frapper' au plus-que-parfait, 3e pers.", pts:2, reponse:"il avait frappé." },
-      { texte:"Réécrivez 'Il marchait lentement' à l'imparfait, 1ère pers. pluriel.", pts:2, reponse:"Nous marchions lentement." }
-    ],
-    redaction:{ sujet1:"Racontez une nuit difficile.", sujet2:"La pauvreté et la solitude sont-elles liées ?" }
-  },
-  { id:"s7", annee:"2022", session:"Métropole (juin)", titre:"Alain-René Lesage – Gil Blas", pdf:"https://www.education.gouv.fr/media/115743/download",
-    texte:"Ce cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : « Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde. » Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.",
-    auteur:"Alain-René Lesage, Gil Blas (1715)",
-    dictee:"Le cavalier s'approcha de moi d'un air empressé. Il m'apprit que j'étais l'ornement d'Oviedo. Je ne pus lui répondre. Je compris plus tard qu'il voulait seulement manger à mes dépens.",
-    questions:[
-      { texte:"Trois éloges du cavalier.", pts:4, reponse:"Ornement d'Oviedo, flambeau de la philosophie, huitième merveille." },
-      { texte:"Intention réelle du cavalier ?", pts:3, reponse:"Manger aux dépens de Gil Blas." }
-    ],
-    grammaire:[
-      { texte:"Hyperbole dans le texte ?", pts:2, reponse:"'la huitième merveille du monde'." },
-      { texte:"Conjuguez 'comprendre' au passé simple, 1ère pers.", pts:2, reponse:"je compris." },
-      { texte:"Proposition 'qu'il voulait seulement manger' (nature).", pts:2, reponse:"Subordonnée conjonctive complétive." }
-    ],
-    redaction:{ sujet1:"Racontez l'histoire d'un flatteur.", sujet2:"Faut-il se méfier des compliments ?" }
-  },
-  { id:"s8", annee:"2022", session:"Amérique du Nord", titre:"Guy de Maupassant – La Parure", pdf:"https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-    texte:"C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.",
-    auteur:"Guy de Maupassant, La Parure (1884)",
-    dictee:"C'était une de ces jolies filles nées par erreur dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances. Elle épousa un petit commis. Leur beauté tient lieu de naissance.",
-    questions:[
-      { texte:"Pourquoi cette fille est-elle malheureuse ?", pts:3, reponse:"Née pauvre mais se sent faite pour la richesse." },
-      { texte:"Qui épouse-t-elle ?", pts:2, reponse:"Un petit commis." },
-      { texte:"Que signifie la dernière phrase sur la beauté ?", pts:3, reponse:"Pour les femmes, la beauté est plus importante que l'origine sociale." }
-    ],
-    grammaire:[
-      { texte:"Analysez 'connue, comprise, aimée, épousée'.", pts:2, reponse:"Gradation ascendante." },
-      { texte:"Conjuguez 'se résigner' au passé simple, 3e pers.", pts:2, reponse:"elle se résigna." },
-      { texte:"Forme affirmative de la dernière phrase.", pts:2, reponse:"Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance." }
-    ],
-    redaction:{ sujet1:"Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2:"L'apparence est-elle plus importante que l'origine ?" }
-  },
-  { id:"s9", annee:"2022", session:"Polynésie", titre:"Émile Zola – Germinal", pdf:"https://www.apmep.fr/IMG/pdf/Annee_2025_Brevet.pdf",
-    texte:"Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.",
-    auteur:"Émile Zola, Germinal (1885)",
-    dictee:"Dans la plaine désolée, un homme marchait seul le long de la route. Il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Seul le vent soufflait, lugubre.",
-    questions:[
-      { texte:"Où se passe la scène ?", pts:2, reponse:"Dans une plaine déserte, de nuit." },
-      { texte:"Quels sentiments dominent ?", pts:3, reponse:"Solitude, abandon, tristesse." },
-      { texte:"Trois répétitions qui renforcent la solitude.", pts:3, reponse:"'seul', 'pas une maison, pas un arbre', 'il ne voyait rien, il ne connaissait personne'." }
-    ],
-    grammaire:[
-      { texte:"Analysez 'Pas une maison, pas un arbre'.", pts:2, reponse:"Négations totales." },
-      { texte:"Conjuguez 'marcher' au plus-que-parfait, 3e pers.", pts:2, reponse:"il avait marché." },
-      { texte:"Réécrivez 'Il était seul' à l'imparfait, 1ère pers. pluriel.", pts:2, reponse:"Nous étions seuls." }
-    ],
-    redaction:{ sujet1:"Racontez un voyage solitaire.", sujet2:"La solitude est-elle une chance ou une punition ?" }
-  },
-  { id:"s10", annee:"2021", session:"Métropole", titre:"Jules Verne – Vingt Mille Lieues sous les mers", pdf:"https://www.education.gouv.fr/media/67838/download",
-    texte:"Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.",
-    auteur:"Jules Verne, Vingt Mille Lieues sous les mers (1870)",
-    dictee:"Le commandant prononça des paroles solennelles. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait la surface des flots. Soudain, une trombe d'eau jaillit.",
-    questions:[
-      { texte:"Que se passe-t-il dans ce texte ?", pts:3, reponse:"On se prépare à pêcher un monstre marin." },
-      { texte:"Quelle est la réaction des marins ?", pts:3, reponse:"Ils s'élancent aux engins." },
-      { texte:"Éléments du décor décrits.", pts:3, reponse:"Mer calme, lune, flots, trombe d'eau." }
-    ],
-    grammaire:[
-      { texte:"Verbes d'action dans la dernière phrase.", pts:2, reponse:"jaillit, émergea." },
-      { texte:"Conjuguez 'comprendre' au passé simple, 1ère pers.", pts:2, reponse:"je compris." },
-      { texte:"Proposition 'qu'il ordonnait la pêche' (nature).", pts:2, reponse:"Subordonnée conjonctive complétive, COD." }
-    ],
-    redaction:{ sujet1:"Racontez une aventure en mer.", sujet2:"L'aventure est-elle nécessaire à l'homme ?" }
+// Générer toutes les cartes
+let TOUTES_CARTES = [];
+for (let ch in FLASHCARDS) {
+  for (let c of FLASHCARDS[ch].cartes) {
+    TOUTES_CARTES.push({ ...c, chapitre: parseInt(ch), chapitreTitre: FLASHCARDS[ch].titre });
   }
-];
-
-// ============================================================
-// FONCTIONS DE CORRECTION
-// ============================================================
-async function corrigerDictee(textareaId, texteOfficiel, sujetId) {
-  const texte = document.getElementById(textareaId).value.trim();
-  if (!texte) { alert("Écris la dictée"); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  try {
-    const txt = await callIA(`Compare la dictée de l'élève avec le texte officiel. Compte les erreurs. Note sur 10. Réponds UNIQUEMENT en JSON : {"note": nombre, "commentaire": "...", "conseil": "..."}.\n\nTexte officiel : "${texteOfficiel}"\n\nDictée élève : "${texte}"`, "");
-    const json = safeParseJSON(txt);
-    let contenu = json ? `Note : ${json.note}/10\n\n${json.commentaire}\n\n💡 Conseil : ${json.conseil}` : txt;
-    stockerCorrection(sujetId, "dictee", 1, contenu);
-    const div = document.getElementById(`corr-${textareaId}`);
-    if (div) {
-      div.innerHTML = contenu;
-      const off = document.createElement('div');
-      off.className = 'correction-officielle';
-      off.innerHTML = `<strong>📖 Texte officiel :</strong><br>${texteOfficiel}`;
-      div.appendChild(off);
-      const btnCopy = document.createElement('button');
-      btnCopy.className = 'btn-copy';
-      btnCopy.textContent = '📋 Copier';
-      btnCopy.onclick = () => copierTexte(contenu, btnCopy);
-      div.appendChild(btnCopy);
-      div.style.display = 'block';
-    }
-  } catch(e) { alert("Erreur: " + e.message); }
-  btn.disabled = false;
-  btn.textContent = 'Corriger la dictée';
 }
 
-async function corrigerQuestion(textareaId, reponseAttendue, pts, sujetId, type, num, texteQuestion) {
-  const texte = document.getElementById(textareaId).value.trim();
-  if (!texte) { alert("Écris ta réponse"); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  try {
-    const txt = await callIA(`Corrige cette réponse. Réponds en JSON : {"note": nombre, "commentaire": "...", "conseil": "..."}.\n\nQuestion : "${texteQuestion}"\nRéponse attendue : "${reponseAttendue}"\nRéponse élève : "${texte}"\nNote sur ${pts} points.`, "");
-    const json = safeParseJSON(txt);
-    let contenu = json ? `Note : ${json.note}/${pts}\n\n${json.commentaire}\n\n💡 Conseil : ${json.conseil}` : txt;
-    stockerCorrection(sujetId, type, num, contenu);
-    const div = document.getElementById(`corr-${textareaId}`);
-    if (div) {
-      div.innerHTML = contenu;
-      const off = document.createElement('div');
-      off.className = 'correction-officielle';
-      off.innerHTML = `<strong>📖 Correction officielle :</strong><br>${reponseAttendue}`;
-      div.appendChild(off);
-      const btnCopy = document.createElement('button');
-      btnCopy.className = 'btn-copy';
-      btnCopy.textContent = '📋 Copier';
-      btnCopy.onclick = () => copierTexte(contenu, btnCopy);
-      div.appendChild(btnCopy);
-      div.style.display = 'block';
-    }
-  } catch(e) { alert("Erreur: " + e.message); }
-  btn.disabled = false;
-  btn.textContent = 'Corriger avec IA';
+// Dupliquer pour avoir assez de cartes (40 questions)
+while (TOUTES_CARTES.length < 60) {
+  TOUTES_CARTES = [...TOUTES_CARTES, ...TOUTES_CARTES.slice(0, 20)];
+}
+TOUTES_CARTES = TOUTES_CARTES.slice(0, 60);
+
+const CHAPITRES_LISTE = Object.keys(FLASHCARDS).map(n => ({ numero: parseInt(n), titre: FLASHCARDS[n].titre }));
+
+let currentEleve = "Wassil";
+let sessionCartes = [];
+let sessionIndex = 0;
+let sessionScore = { bonnes: 0, total: 0 };
+let currentCard = null;
+let timerInterval = null;
+let tempsRestant = 45 * 60;
+
+function setEleve(eleve) {
+  currentEleve = eleve;
+  const btnW = document.getElementById("btnWassil");
+  const btnN = document.getElementById("btnNawal");
+  if (eleve === "Wassil") {
+    btnW.classList.add("active");
+    btnN.classList.remove("active");
+  } else {
+    btnN.classList.add("active");
+    btnW.classList.remove("active");
+  }
 }
 
-async function corrigerRedaction(textareaId, pts, sujetId) {
-  const texte = document.getElementById(textareaId).value.trim();
-  if (!texte) { alert("Écris ta rédaction"); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  try {
-    const txt = await callIA(`Corrige cette rédaction DNB. Note sur ${pts} points. Critères: Pertinence (4), Structure (4), Richesse (4), Style (4), Orthographe (4). Réponds en JSON : {"note": nombre, "commentaire": "...", "conseil": "..."}.\n\nRédaction :\n${texte}`, "");
-    const json = safeParseJSON(txt);
-    let contenu = json ? `Note : ${json.note}/${pts}\n\n${json.commentaire}\n\n💡 Conseil : ${json.conseil}` : txt;
-    stockerCorrection(sujetId, "redaction", 1, contenu);
-    const div = document.getElementById(`corr-${textareaId}`);
-    if (div) {
-      div.innerHTML = contenu;
-      const off = document.createElement('div');
-      off.className = 'correction-officielle';
-      off.innerHTML = `<strong>📖 Critères officiels :</strong><br>Pertinence (4) | Structure (4) | Richesse (4) | Style (4) | Orthographe (4) = 20 points`;
-      div.appendChild(off);
-      const btnCopy = document.createElement('button');
-      btnCopy.className = 'btn-copy';
-      btnCopy.textContent = '📋 Copier';
-      btnCopy.onclick = () => copierTexte(contenu, btnCopy);
-      div.appendChild(btnCopy);
-      div.style.display = 'block';
-    }
-  } catch(e) { alert("Erreur: " + e.message); }
-  btn.disabled = false;
-  btn.textContent = 'Corriger la rédaction';
+function afficherChapitres() {
+  const grid = document.getElementById("chapitresGrid");
+  grid.innerHTML = "";
+  for (const ch of CHAPITRES_LISTE) {
+    const div = document.createElement("div");
+    div.className = "chapitre-check";
+    div.innerHTML = `<input type="checkbox" id="ch_${ch.numero}" value="${ch.numero}"><label for="ch_${ch.numero}">${ch.numero}. ${ch.titre}</label>`;
+    grid.appendChild(div);
+  }
 }
 
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+function getChapitresSelectionnes() {
+  const cbs = document.querySelectorAll("#chapitresGrid input:checked");
+  return Array.from(cbs).map(cb => parseInt(cb.value));
 }
 
-function afficherSujets() {
-  const grid = document.getElementById('sujetsGrid');
-  grid.innerHTML = '';
-  SUJETS.forEach((s, idx) => {
-    const card = document.createElement('div');
-    card.className = 'sujet-card';
-    card.innerHTML = `
-      <div class="sujet-annee">${s.annee}</div>
-      <div class="sujet-titre">${s.titre}</div>
-      <div class="sujet-session">${s.session}</div>
-      <div class="sujet-themes"><span class="tag">Dictée</span><span class="tag">Compréhension</span><span class="tag">Grammaire</span><span class="tag">Rédaction</span></div>
-      <a href="${s.pdf}" target="_blank" class="pdf-link-small">📎 PDF officiel</a>
-    `;
-    card.onclick = (e) => { if (!e.target.classList.contains('pdf-link-small')) afficherSujet(idx); };
-    grid.appendChild(card);
-  });
+function melanger(tab) {
+  for (let i = tab.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [tab[i], tab[j]] = [tab[j], tab[i]];
+  }
+  return tab;
 }
 
-function afficherSujet(index) {
-  const s = SUJETS[index];
-  document.getElementById('landingHero').style.display = 'none';
-  document.getElementById('sujetsGrid').style.display = 'none';
-  const container = document.getElementById('sujetPage');
-  container.style.display = 'block';
+function genererSession(chapitresChoisis) {
+  // 20 questions des chapitres choisis
+  let cartesChoisies = TOUTES_CARTES.filter(c => chapitresChoisis.includes(c.chapitre));
+  let vingt = melanger([...cartesChoisies]).slice(0, 20);
   
-  let html = `
-    <div class="sujet-header">
-      <div><div class="sujet-title"><span>${s.annee}</span> — ${s.session}</div>
-      <div style="font-size:14px; margin-top:4px;">${s.titre}</div></div>
-      <div><button class="btn-back" onclick="retourAccueil()">← Retour aux sujets</button>
-      <a href="${s.pdf}" target="_blank" class="dl-btn-pdf">📎 PDF officiel</a></div>
+  // 10 questions aléatoires
+  let autres = TOUTES_CARTES.filter(c => !chapitresChoisis.includes(c.chapitre));
+  let dixAutres = melanger([...autres]).slice(0, 10);
+  
+  // 10 questions de révision
+  let dixRevision = melanger([...TOUTES_CARTES]).slice(0, 10);
+  
+  let session = [...vingt, ...dixAutres, ...dixRevision];
+  let ids = new Set();
+  session = session.filter(c => { if (ids.has(c.id)) return false; ids.add(c.id); return true; });
+  
+  // Ajuster à 40 questions
+  while (session.length < 40) {
+    session.push(...TOUTES_CARTES.slice(0, 10));
+  }
+  session = session.slice(0, 40);
+  
+  return melanger(session);
+}
+
+// Notation bienveillante : accepte les réponses proches
+function evaluerReponseBienveillante(reponse, attendue) {
+  if (!reponse || reponse.trim().length === 0) return { valide: false, taux: 0, message: "Il faut écrire une réponse." };
+  
+  const reponseClean = reponse.toLowerCase().trim();
+  const attendueClean = attendue.toLowerCase();
+  
+  // Vérification exacte ou très proche
+  if (reponseClean === attendueClean) return { valide: true, taux: 100, message: "Parfait !" };
+  
+  // Vérification des mots-clés (au moins 70% des mots importants)
+  const motsAttendus = attendueClean.split(/\s+/).filter(m => m.length > 3);
+  const motsEleve = reponseClean.split(/\s+/);
+  let trouves = 0;
+  for (let mot of motsAttendus) {
+    if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
+  }
+  const taux = motsAttendus.length > 0 ? (trouves / motsAttendus.length) * 100 : 50;
+  
+  if (taux >= 60) return { valide: true, taux: Math.round(taux), message: "Bien ! Tu as compris l'essentiel." };
+  if (taux >= 40) return { valide: true, taux: Math.round(taux), message: "Presque ! Regarde la correction pour t'améliorer." };
+  return { valide: false, taux: Math.round(taux), message: "Revois cette notion." };
+}
+
+function afficherQuestion() {
+  if (sessionIndex >= sessionCartes.length) {
+    terminerSession();
+    return;
+  }
+  currentCard = sessionCartes[sessionIndex];
+  const qa = document.getElementById("questionArea");
+  qa.innerHTML = `
+    <div class="question-card">
+      <div class="question-text">📖 ${currentCard.q}</div>
+      <textarea id="reponseInput" rows="3" placeholder="Écris ta réponse..."></textarea>
+      <div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div>
+      <div id="feedback" class="feedback"></div>
     </div>
-    <div class="texte"><strong>Texte :</strong><br>${s.texte}<div class="auteur">${s.auteur}</div></div>
-    
-    <div class="document"><strong>📝 Dictée (10 points)</strong><br><em>Le professeur lira le texte à voix haute.</em></div>
-    <textarea id="dictee-${s.id}" class="dictee" placeholder="Écris la dictée..."></textarea>
-    <button onclick="corrigerDictee('dictee-${s.id}', \`${s.dictee.replace(/`/g, '\\`')}\`, '${s.id}')">Corriger la dictée</button>
-    <div id="corr-dictee-${s.id}" class="correction"></div>
-    
-    <div style="margin-top:20px;"><strong>📖 Compréhension (${s.questions.reduce((a,q)=>a+q.pts,0)} points)</strong></div>`;
-  
-  s.questions.forEach((q, i) => {
-    const taId = `comp-${s.id}-${i}`;
-    html += `<div class="question"><strong>Question ${i+1}</strong> (${q.pts} points)<br>${q.texte}</div>
-      <textarea id="${taId}" rows="3" placeholder="Votre réponse..."></textarea>
-      <button onclick="corrigerQuestion('${taId}', '${q.reponse.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}', ${q.pts}, '${s.id}', 'comprehension', ${i+1}, '${q.texte.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}')">Corriger avec IA</button>
-      <button onclick="afficherCorrection('corr-off-${taId}')">📖 Voir correction officielle</button>
-      <div id="corr-off-${taId}" class="correction"><strong>✓ Correction officielle :</strong><br>${q.reponse}</div>
-      <div id="corr-${taId}" class="correction"></div>`;
-  });
-  
-  html += `<div style="margin-top:20px;"><strong>📝 Grammaire (${s.grammaire.reduce((a,g)=>a+g.pts,0)} points)</strong></div>`;
-  s.grammaire.forEach((g, i) => {
-    const taId = `gram-${s.id}-${i}`;
-    html += `<div class="question"><strong>Question ${i+1}</strong> (${g.pts} points)<br>${g.texte}</div>
-      <textarea id="${taId}" rows="3" placeholder="Votre réponse..."></textarea>
-      <button onclick="corrigerQuestion('${taId}', '${g.reponse.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}', ${g.pts}, '${s.id}', 'grammaire', ${i+1}, '${g.texte.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}')">Corriger avec IA</button>
-      <button onclick="afficherCorrection('corr-off-${taId}')">📖 Voir correction officielle</button>
-      <div id="corr-off-${taId}" class="correction"><strong>✓ Correction officielle :</strong><br>${g.reponse}</div>
-      <div id="corr-${taId}" class="correction"></div>`;
-  });
-  
-  html += `<div style="margin-top:20px;"><strong>✍️ Rédaction (20 points)</strong><br>Choix A : ${s.redaction.sujet1}<br>Choix B : ${s.redaction.sujet2}</div>
-    <textarea id="redac-${s.id}" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>
-    <button onclick="corrigerRedaction('redac-${s.id}', 20, '${s.id}')">Corriger la rédaction</button>
-    <div id="corr-redac-${s.id}" class="correction"></div>
-    <button class="save-all-btn" onclick="sauvegarderTout('${s.id}', '${s.annee}', '${s.session}', '${s.titre}', ${JSON.stringify(s.questions).replace(/"/g, '&quot;')}, \`${s.dictee.replace(/`/g, '\\`')}\`, ${JSON.stringify(s.grammaire).replace(/"/g, '&quot;')})">💾 Sauvegarder toutes les corrections (JSON + PDF)</button>
-    <hr>`;
-  
-  container.innerHTML = html;
+  `;
+  document.getElementById("validerBtn").onclick = () => verifierReponse();
+  document.getElementById("reponseInput").focus();
+  document.getElementById("sessionStats").innerHTML = `📌 Question ${sessionIndex+1}/${sessionCartes.length} · Élève: ${currentEleve}`;
 }
 
-function retourAccueil() {
-  document.getElementById('landingHero').style.display = 'block';
-  document.getElementById('sujetsGrid').style.display = 'grid';
-  document.getElementById('sujetPage').style.display = 'none';
-  correctionsIA = {};
+function verifierReponse() {
+  const reponse = document.getElementById("reponseInput")?.value.trim();
+  if (!reponse) { alert("Écris une réponse."); return; }
+  
+  const ev = evaluerReponseBienveillante(reponse, currentCard.r);
+  if (ev.valide) sessionScore.bonnes++;
+  sessionScore.total++;
+  
+  const fb = document.getElementById("feedback");
+  fb.innerHTML = ev.valide 
+    ? `<span style="color:#2ecc71;">✅ ${ev.message} (${ev.taux}%)</span><br><div class="reponse-modele">📖 ${currentCard.r}</div>`
+    : `<span style="color:#ffcc00;">⚠️ ${ev.message} (${ev.taux}%)</span><br><div class="reponse-modele">📖 ${currentCard.r}</div>`;
+  fb.classList.add("show");
+  
+  sessionIndex++;
+  setTimeout(() => afficherQuestion(), 1500);
 }
 
-window.corrigerDictee = corrigerDictee;
-window.corrigerQuestion = corrigerQuestion;
-window.corrigerRedaction = corrigerRedaction;
-window.afficherCorrection = afficherCorrection;
-window.retourAccueil = retourAccueil;
-window.sauvegarderTout = sauvegarderTout;
+function arreterTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
+function demarrerTimer() {
+  arreterTimer();
+  timerInterval = setInterval(() => {
+    if (tempsRestant <= 0) { arreterTimer(); terminerSession(); return; }
+    tempsRestant--;
+    const m = Math.floor(tempsRestant / 60), s = tempsRestant % 60;
+    const te = document.getElementById("timer");
+    if (te) te.innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+  }, 1000);
+}
 
-afficherSujets();
+function terminerSession() {
+  arreterTimer();
+  const pct = sessionScore.total > 0 ? Math.round(sessionScore.bonnes / sessionScore.total * 100) : 0;
+  const chapitresEtudies = getChapitresSelectionnes();
+  const chapitresNoms = chapitresEtudies.map(n => FLASHCARDS[n]?.titre || `Chapitre ${n}`);
+  
+  // Envoi au suivi parental
+  const sessionData = { bonnes: sessionScore.bonnes, total: sessionScore.total };
+  if (window.SuiviParental && window.SuiviParental.sauvegarderSession) {
+    window.SuiviParental.sauvegarderSession(`francais_${currentEleve.toLowerCase()}`, chapitresNoms, sessionData);
+  } else {
+    if (!window.SuiviParental) window.SuiviParental = {};
+    window.SuiviParental.sauvegarderSession = function(matiere, chapitres, score) {
+      const key = `automatismes_sessions_${matiere}`;
+      const sessions = JSON.parse(localStorage.getItem(key) || "[]");
+      sessions.unshift({ id: Date.now(), date: new Date().toISOString(), chapitres: chapitres, score: score, pourcentage: Math.round(score.bonnes / score.total * 100) });
+      localStorage.setItem(key, JSON.stringify(sessions.slice(0, 100)));
+    };
+    window.SuiviParental.sauvegarderSession(`francais_${currentEleve.toLowerCase()}`, chapitresNoms, sessionData);
+  }
+  
+  // Sauvegarde des chapitres étudiés
+  const chKey = `automatismes_chapitres_francais_${currentEleve.toLowerCase()}`;
+  const existants = JSON.parse(localStorage.getItem(chKey) || "[]");
+  const nouveaux = chapitresNoms.filter(c => !existants.includes(c));
+  if (nouveaux.length) localStorage.setItem(chKey, JSON.stringify([...existants, ...nouveaux]));
+  
+  document.getElementById("sessionArea").style.display = "none";
+  const ra = document.getElementById("resultatsArea");
+  ra.style.display = "block";
+  let message = "";
+  if (pct >= 80) message = "🌟 Excellent travail ! Continue comme ça !";
+  else if (pct >= 60) message = "👍 Bien ! Tu progresses, encore un effort !";
+  else if (pct >= 40) message = "💪 Courage ! Revois les corrections et réessaie.";
+  else message = "📚 Continue à t'entraîner, tu vas y arriver !";
+  
+  ra.innerHTML = `<h3>🎉 Session terminée !</h3>
+    <p style="font-size:2rem;">${sessionScore.bonnes}/${sessionScore.total}</p>
+    <p>Soit ${pct}% de bonnes réponses</p>
+    <p style="color:#ffcc00;">${message}</p>
+    <p>👤 Élève : <strong>${currentEleve}</strong><br>📖 Chapitres révisés : ${chapitresNoms.join(', ')}</p>
+    <button id="reloadBtn" class="btn-primary">📚 Nouvelle session</button>`;
+  document.getElementById("reloadBtn").onclick = () => location.reload();
+}
+
+function demarrerSession() {
+  const chapitresChoisis = getChapitresSelectionnes();
+  if (chapitresChoisis.length === 0) { alert("Sélectionne au moins un chapitre !"); return; }
+  
+  sessionCartes = genererSession(chapitresChoisis);
+  sessionIndex = 0;
+  sessionScore = { bonnes: 0, total: 0 };
+  tempsRestant = 45 * 60;
+  
+  document.getElementById("chapitreSelector").style.display = "none";
+  document.getElementById("sessionArea").style.display = "block";
+  document.getElementById("resultatsArea").style.display = "none";
+  document.getElementById("sessionDate").innerText = new Date().toLocaleDateString();
+  demarrerTimer();
+  afficherQuestion();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  afficherChapitres();
+  document.getElementById("btnWassil").onclick = () => setEleve("Wassil");
+  document.getElementById("btnNawal").onclick = () => setEleve("Nawal");
+  document.getElementById("selectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = true);
+  document.getElementById("deselectAllBtn").onclick = () => document.querySelectorAll("#chapitresGrid input").forEach(cb => cb.checked = false);
+  document.getElementById("demarrerBtn").onclick = demarrerSession;
+  setEleve("Wassil");
+});
 </script>
 </body>
 </html>
