@@ -1,3 +1,4 @@
+// ==================== DONNÉES COMMUNES FRANÇAIS (260 CARTES – 26 CHAPITRES) ====================
 const CHAPITRES_FR = {
   1: { titre: "Classes grammaticales", cartes: [
     { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
@@ -118,13 +119,200 @@ const CHAPITRES_FR = {
     { q: "Qu'est-ce que l'euphémisme ?", r: "Atténuer une réalité désagréable" },
     { q: "Qu'est-ce qu'une énumération ?", r: "Succession de mots" },
     { q: "Qu'est-ce qu'une gradation ?", r: "Suite de mots d'intensité croissante" }
+  ]},
+  11: { titre: "Champs lexicaux", cartes: [
+    { q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème" },
+    { q: "Citez 3 registres de langue", r: "Soutenu, courant, familier" },
+    { q: "Qu'est-ce que l'argot ?", r: "Langage propre à un groupe" },
+    { q: "Donnez 3 mots du champ lexical de la mer", r: "vague, bateau, pêche, marée, port, plage" },
+    { q: "Donnez 3 mots du champ lexical de la guerre", r: "combat, arme, soldat, bataille, victoire, mort" },
+    { q: "Donnez 3 mots du champ lexical de l'amour", r: "cœur, passion, désir, tendresse, amoureux" },
+    { q: "Donnez 3 mots du champ lexical de la peur", r: "crainte, terreur, angoisse, panique, effroi" },
+    { q: "Donnez 3 mots du champ lexical de la joie", r: "bonheur, gaieté, sourire, plaisir, rire" },
+    { q: "Qu'est-ce qu'un champ sémantique ?", r: "Ensemble des sens d'un même mot" },
+    { q: "Différence entre champ lexical et champ sémantique", r: "Lexical = thème ; Sémantique = sens d'un mot" }
+  ]},
+  12: { titre: "Synonymes, antonymes, homonymes", cartes: [
+    { q: "Qu'est-ce qu'un synonyme ?", r: "Mot de sens proche" },
+    { q: "Qu'est-ce qu'un antonyme ?", r: "Mot de sens contraire" },
+    { q: "Qu'est-ce qu'un homonyme ?", r: "Même prononciation, sens différent" },
+    { q: "Qu'est-ce qu'un paronyme ?", r: "Sons proches, sens différent (collision/collusion)" },
+    { q: "Donnez un synonyme de 'rapidement'", r: "vite, promptement, prestement" },
+    { q: "Donnez un antonyme de 'grand'", r: "petit, minuscule, court" },
+    { q: "Donnez un homonyme de 'ver'", r: "vert, verre, vers" },
+    { q: "Donnez un homonyme de 'sang'", r: "cent, sans, sent" },
+    { q: "Donnez un homonyme de 'peau'", r: "pot, peau, paume" },
+    { q: "Donnez un paronyme de 'collision'", r: "collusion" }
+  ]},
+  13: { titre: "Genres littéraires", cartes: [
+    { q: "Citez 4 grands genres littéraires", r: "Roman, théâtre, poésie, argumentation" },
+    { q: "Qu'est-ce qu'un roman épistolaire ?", r: "Roman composé de lettres" },
+    { q: "Qu'est-ce qu'un roman d'aventures ?", r: "Récit d'actions palpitantes (Ex: L'Île au trésor)" },
+    { q: "Qu'est-ce qu'un roman policier ?", r: "Enquête autour d'un crime" },
+    { q: "Qu'est-ce qu'un roman fantastique ?", r: "Hésitation entre réel et irréel" },
+    { q: "Qu'est-ce qu'une tragédie ?", r: "Pièce où les personnages subissent un destin fatal" },
+    { q: "Qu'est-ce qu'une comédie ?", r: "Pièce qui fait rire, fin heureuse" },
+    { q: "Qu'est-ce qu'un poème lyrique ?", r: "Exprime des sentiments personnels" },
+    { q: "Qu'est-ce qu'une fable ?", r: "Courte histoire avec une morale" },
+    { q: "Qu'est-ce qu'un essai ?", r: "Texte argumentatif en prose" }
+  ]},
+  14: { titre: "Mouvements littéraires", cartes: [
+    { q: "Mouvement du XVIe siècle ?", r: "Humanisme (Rabelais, Montaigne)" },
+    { q: "Mouvement du XVIIe siècle ?", r: "Classicisme (Molière, Racine, La Fontaine)" },
+    { q: "Mouvement du XVIIIe siècle ?", r: "Les Lumières (Voltaire, Rousseau, Diderot)" },
+    { q: "Mouvement du XIXe siècle", r: "Romantisme, Réalisme, Naturalisme, Symbolisme" },
+    { q: "Mouvement du XXe siècle", r: "Surréalisme, Existentialisme, Nouveau Roman" },
+    { q: "Idées de l'Humanisme", r: "Exaltation de l'homme, confiance dans la raison" },
+    { q: "Idées des Lumières", r: "Raison, liberté, tolérance, progrès" },
+    { q: "Idées du Romantisme", r: "Exaltation des sentiments, de la nature, de la mélancolie" },
+    { q: "Idées du Réalisme", r: "Représenter la réalité, sans idéalisation" },
+    { q: "Idées du Surréalisme", r: "Rêve, inconscient, automatisme (Breton)" }
+  ]},
+  15: { titre: "Registres littéraires", cartes: [
+    { q: "Registre comique", r: "Provoque le rire" },
+    { q: "Registre tragique", r: "Inspire terreur et pitié" },
+    { q: "Registre épique", r: "Célèbre des héros, des exploits" },
+    { q: "Registre lyrique", r: "Exprime des sentiments personnels (amour, nostalgie)" },
+    { q: "Registre satirique", r: "Critique de manière moqueuse" },
+    { q: "Registre pathétique", r: "Suscite l'émotion, la tristesse" },
+    { q: "Registre fantastique", r: "Hésitation entre réel et irréel" },
+    { q: "Registre polémique", r: "Attaque vigoureusement un adversaire" },
+    { q: "Registre didactique", r: "Instruit, transmet un savoir" },
+    { q: "Registre élégiaque", r: "Exprime la plainte, la tristesse (souvent liée à la mort)" }
+  ]},
+  16: { titre: "Le récit", cartes: [
+    { q: "Étapes du schéma narratif", r: "SI → perturbateur → péripéties → résolution → SF" },
+    { q: "Qu'est-ce que l'élément perturbateur ?", r: "Événement qui déclenche l'histoire" },
+    { q: "Qu'est-ce que les péripéties ?", r: "Aventures, rebondissements" },
+    { q: "Qu'est-ce que la résolution ?", r: "Moment où le problème se résout" },
+    { q: "Qu'est-ce que la situation finale ?", r: "Situation après l'histoire" },
+    { q: "Narrateur omniscient", r: "Sait tout des personnages" },
+    { q: "Narrateur externe", r: "Ne décrit que les actions (caméra)" },
+    { q: "Narrateur interne", r: "Raconte à la 1ère personne" },
+    { q: "Qu'est-ce qu'une analepse ?", r: "Retour en arrière (flashback)" },
+    { q: "Qu'est-ce qu'une prolepse ?", r: "Anticipation (flashforward)" }
+  ]},
+  17: { titre: "La rédaction", cartes: [
+    { q: "Structure d'une introduction", r: "Amorce, présentation, problématique, annonce du plan" },
+    { q: "Qu'est-ce qu'une amorce ?", r: "Phrase d'accroche pour capter l'attention" },
+    { q: "Qu'est-ce que la problématique ?", r: "Question centrale du devoir" },
+    { q: "Connecteurs de cause", r: "car, parce que, puisque" },
+    { q: "Connecteurs de conséquence", r: "donc, ainsi, par conséquent" },
+    { q: "Connecteurs d'opposition", r: "mais, cependant, pourtant" },
+    { q: "Connecteurs d'addition", r: "et, de plus, en outre, également" },
+    { q: "Connecteurs d'illustration", r: "par exemple, comme, notamment" },
+    { q: "Structure de la conclusion", r: "Bilan, réponse à la problématique, ouverture" },
+    { q: "Qu'est-ce qu'une ouverture ?", r: "Élargir le sujet vers une question plus large" }
+  ]},
+  18: { titre: "Contraction de texte", cartes: [
+    { q: "Règle d'or de la contraction", r: "Ne pas commenter, ne pas juger" },
+    { q: "À combien réduire un texte ?", r: "Au 1/3 environ" },
+    { q: "Comment compter les mots ?", r: "Chaque mot compte, 'c'est' = 2 mots" },
+    { q: "Que conserver dans une contraction ?", r: "Les idées essentielles, la thèse, l'ordre logique" },
+    { q: "Que supprimer dans une contraction ?", r: "Les exemples trop détaillés, les répétitions" },
+    { q: "Peut-on ajouter des mots ?", r: "Non, seulement reformuler" },
+    { q: "Peut-on changer l'ordre des idées ?", r: "Non, respecter l'ordre de l'auteur" },
+    { q: "Doit-on citer l'auteur ?", r: "Oui, en introduction" },
+    { q: "Le titre compte-t-il dans le mot ?", r: "Non" },
+    { q: "Comment noter une contraction ?", r: "Sur 10 points (fond 6, forme 4)" }
+  ]},
+  19: { titre: "Commentaire composé", cartes: [
+    { q: "Structure du commentaire", r: "Introduction, développement (2-3 axes), conclusion" },
+    { q: "Que ne faut-il pas faire ?", r: "Ne pas résumer le texte" },
+    { q: "Comment justifier son analyse ?", r: "Citer, nommer le procédé, expliquer l'effet" },
+    { q: "Que contient la conclusion ?", r: "Bilan, réponse à la problématique, ouverture" },
+    { q: "Comment nommer les procédés ?", r: "Comparaison, métaphore, champ lexical, etc." },
+    { q: "Qu'est-ce qu'un axe de lecture ?", r: "Grande partie du commentaire (ex: 'Les figures de style')" },
+    { q: "Combien d'axes dans un commentaire ?", r: "2 ou 3 axes" },
+    { q: "Comment rédiger une transition ?", r: "Entre deux axes, phrase de liaison" },
+    { q: "Faut-il une accroche ?", r: "Oui, en introduction" },
+    { q: "Quelle est la différence avec la contraction ?", r: "Commentaire = analyse ; Contraction = résumé" }
+  ]},
+  20: { titre: "Oral : présentation", cartes: [
+    { q: "Durée de l'oral du brevet", r: "5 min exposé + 10 min échange" },
+    { q: "Peut-on lire son texte ?", r: "Non, utiliser des notes (mots-clés)" },
+    { q: "Peut-on utiliser un PowerPoint ?", r: "Oui, mais sobre (pas de texte lu)" },
+    { q: "Que faut-il préparer pour l'oral ?", r: "Un plan détaillé, des notes, des exemples précis" },
+    { q: "Comment gérer son stress ?", r: "Respirer, bien dormir, bien préparer" },
+    { q: "Structure de l'exposé", r: "Introduction, développement, conclusion" },
+    { q: "Que doit contenir l'introduction ?", r: "Présentation du sujet, annonce du plan" },
+    { q: "Que doit contenir le développement ?", r: "2 ou 3 parties argumentées" },
+    { q: "Que doit contenir la conclusion ?", r: "Bilan, ouverture" },
+    { q: "Peut-on avoir des notes ?", r: "Oui, mais discrètes (pas de feuille A4)" }
+  ]},
+  21: { titre: "Oral : expression", cartes: [
+    { q: "Posture à l'oral", r: "Debout, gestes naturels, regarder le jury" },
+    { q: "Comment bien utiliser sa voix ?", r: "Articuler, parler fort, débit calme" },
+    { q: "Comment bien articuler ?", r: "Ouvrir la bouche, parler lentement, détacher les syllabes" },
+    { q: "Que faire si on a un trou de mémoire ?", r: "Prendre une inspiration, regarder ses notes, reformuler" },
+    { q: "Comment regarder le jury ?", r: "Regarder toutes les personnes, pas seulement une" },
+    { q: "Faut-il sourire ?", r: "Oui, cela montre sa bonne volonté" },
+    { q: "Comment gérer sa respiration ?", r: "Respirer calmement avant de parler" },
+    { q: "Comment habillé ?", r: "Sobre et confortable" },
+    { q: "Faut-il faire des gestes ?", r: "Oui, mais naturels et mesurés" },
+    { q: "Comment réagir face au stress ?", r: "Le considérer comme une énergie positive" }
+  ]},
+  22: { titre: "Oral : échange", cartes: [
+    { q: "Que faire si on ne sait pas ?", r: "L'admettre honnêtement" },
+    { q: "Question incomprise ?", r: "Demander une reformulation poliment" },
+    { q: "Ne pas couper la parole", r: "Attendre que le jury ait fini de parler" },
+    { q: "Question difficile ?", r: "Prendre le temps de réfléchir, reformuler la question" },
+    { q: "Peut-on dire 'je ne sais pas' ?", r: "Oui, en montrant qu'on a réfléchi" },
+    { q: "Comment reformuler une question ?", r: "'Si je comprends bien, vous me demandez...'" },
+    { q: "Peut-on prendre des notes pendant l'échange ?", r: "Oui, rapidement" },
+    { q: "Comment argumenter ?", r: "Donner des exemples précis" },
+    { q: "Faut-il regarder le jury ?", r: "Oui, pour montrer qu'on s'adresse à eux" },
+    { q: "Comment terminer l'oral ?", r: "'Merci de votre attention'" }
+  ]},
+  23: { titre: "Dictée", cartes: [
+    { q: "Que vérifier en priorité ?", r: "Accords, homophones, terminaisons" },
+    { q: "Vérifier a/à", r: "Remplacer par 'avait'" },
+    { q: "Vérifier on/ont", r: "Remplacer par 'avaient'" },
+    { q: "Accords du participe passé avec être", r: "S'accorde avec le sujet" },
+    { q: "Accords du participe passé avec avoir", r: "S'accorde avec le COD si placé avant" },
+    { q: "Vérifier les homophones", r: "Remplacer par un autre mot équivalent" },
+    { q: "Comment vérifier les terminaisons en 'é'", r: "Remplacer par un verbe du 1er groupe (manger)" },
+    { q: "Comment vérifier les terminaisons en 'er'", r: "Remplacer par un verbe (vendre)" },
+    { q: "Comment vérifier le pluriel des noms", r: "Ajouter un 's' ou 'x'" },
+    { q: "Comment vérifier l'accord des adjectifs", r: "Regarder le nom qu'ils qualifient" }
+  ]},
+  24: { titre: "Grammaire (analyse)", cartes: [
+    { q: "Différence nature/fonction", r: "Nature = classe grammaticale, fonction = rôle dans la phrase" },
+    { q: "Trouver le COD", r: "Poser 'quoi ?' après le verbe" },
+    { q: "Trouver le COI", r: "Poser 'à qui ?' ou 'de quoi ?'" },
+    { q: "Trouver le sujet", r: "Poser 'qui est-ce qui ?' avant le verbe" },
+    { q: "Trouver le complément circonstanciel", r: "Poser 'quand ?', 'où ?', 'comment ?', 'pourquoi ?'" },
+    { q: "Nature de 'que'", r: "Conjonction de subordination ou pronom relatif" },
+    { q: "Nature de 'dont'", r: "Pronom relatif" },
+    { q: "Fonction d'un adjectif", r: "Épithète ou attribut" },
+    { q: "Fonction d'un nom", r: "Sujet, COD, COI, attribut, complément du nom" },
+    { q: "Comment justifier une fonction", r: "Poser la question adaptée" }
+  ]},
+  25: { titre: "Réécriture", cartes: [
+    { q: "Changer 'je' en 'nous'", r: "Verbe à la 1ère personne du pluriel" },
+    { q: "Changer féminin en masculin", r: "Modifier déterminants, adjectifs et participes" },
+    { q: "Changer singulier en pluriel", r: "Ajouter 's' ou 'x', adapter le verbe" },
+    { q: "Présent en imparfait", r: "Terminaisons -ais, -ais, -ait, -ions, -iez, -aient" },
+    { q: "Présent en futur", r: "Terminaisons -ai, -as, -a, -ons, -ez, -ont" },
+    { q: "Présent en passé composé", r: "Auxiliaire avoir/être au présent + participe passé" },
+    { q: "Phrase active en passive", r: "COD devient sujet, complément d'agent" },
+    { q: "Phrase passive en active", r: "Sujet devient COD, suppression du complément d'agent" },
+    { q: "Changer le discours direct en indirect", r: "Changer les pronoms et les temps" },
+    { q: "Vérifier les accords après réécriture", r: "Relire attentivement" }
+  ]},
+  26: { titre: "Essai", cartes: [
+    { q: "Structure de l'essai", r: "Introduction, développement (thèse/antithèse ou plan logique), conclusion" },
+    { q: "Comment trouver des idées ?", r: "Brainstorming" },
+    { q: "Comment illustrer ses arguments ?", r: "Exemples précis (œuvres, films, expériences)" },
+    { q: "Structure d'un paragraphe argumentatif", r: "1. Idée. 2. Exemple. 3. Explication du lien" },
+    { q: "Comment conclure un essai ?", r: "Rappeler la réponse, ouvrir sur une question plus large" },
+    { q: "Que faire si on n'a pas d'idée ?", r: "Chercher des exemples concrets, penser à des œuvres étudiées" },
+    { q: "Faut-il donner son avis ?", r: "Oui, mais justifié" },
+    { q: "Faut-il des connecteurs logiques ?", r: "Oui, pour structurer" },
+    { q: "Combien de paragraphes dans le développement ?", r: "2 ou 3 paragraphes" },
+    { q: "Peut-on utiliser le 'je' ?", r: "Oui, mais avec modération" }
   ]}
 };
-for (let i = 11; i <= 26; i++) {
-  CHAPITRES_FR[i] = { titre: "Chapitre " + i, cartes: [
-    { q: "Question 1 du chapitre " + i, r: "Réponse 1" },
-    { q: "Question 2 du chapitre " + i, r: "Réponse 2" },
-    { q: "Question 3 du chapitre " + i, r: "Réponse 3" },
-    { q: "Question 4 du chapitre " + i, r: "Réponse 4" }
-  ]};
-}
+
+// Vérification : 26 chapitres
+console.log("Chapitres chargés :", Object.keys(CHAPITRES_FR).length);
