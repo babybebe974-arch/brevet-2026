@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>📖 Fiches de révision – Brevet 2026</title>
+  <script src="data-francais.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
@@ -59,346 +60,88 @@
 </div>
 
 <script>
-// ==================== FRANÇAIS – 26 CHAPITRES COMPLETS ====================
-const francaisChapitres = [
-  { numero:1, titre:"Classes grammaticales", 
-    objectif:"Identifier la <span class='notion'>nature (classe grammaticale)</span> de n'importe quel mot.",
-    tableau:[
-      ["Nom","Être, chose, idée. On peut mettre « le » ou « un » devant.","chat, table, liberté"],
-      ["Déterminant","Précède le nom, indique genre/nombre.","le, la, les, un, une, des, ce, mon, ton, son"],
-      ["Adjectif qualificatif","Qualifie le nom (accorde en genre/nombre).","grand, belle, intéressant"],
-      ["Pronom","Remplace un nom ou un GN.","je, tu, il, elle, on, nous, vous, ils, elles, le, lui, y, en, que, qui, dont, où"],
-      ["Verbe","Action ou état. Se conjugue.","manger, courir, être, avoir, sembler"],
-      ["Adverbe","Modifie un verbe, un adjectif ou un adverbe. Invariable.","rapidement, très, bien, mal, hier, trop"],
-      ["Préposition","Introduit un complément. Invariable.","à, de, pour, par, avec, sans, dans, sur, sous, chez"],
-      ["Conjonction","Relie des mots ou propositions.","mais, ou, et, donc, or, ni, car (coordination) ; que, parce que, lorsque, puisque, comme, si (subordination)"],
-      ["Interjection","Mot-phrase exprimant une émotion.","Ah ! Oh ! Hélas ! Bravo ! Zut !"]
-    ],
-    pieges:"<span class='notion'>Leur / leurs</span> : <em>leur</em> = pronom invariable ; <em>leurs</em> = déterminant pluriel.<br>• <span class='notion'>Tout</span> peut être : déterminant, pronom, adverbe ou nom.<br>• Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait dans la phrase).",
-    exemple:"« <span class='notion'>L'immense</span> forêt <span class='notion'>s'étendait</span> <span class='notion'>silencieusement</span> <span class='notion'>devant</span> <span class='notion'>eux</span>. »",
-    flashcards:"<span class='notion'>9 classes grammaticales</span> – <span class='notion'>déterminants</span> – <span class='notion'>pronoms</span> – <span class='notion'>adverbe vs préposition</span> – <span class='notion'>7 conjonctions de coordination</span> – <span class='notion'>leur/leurs</span> – <span class='notion'>tout (4 natures)</span>"
-  },
-  { numero:2, titre:"Fonctions grammaticales", 
-    objectif:"Identifier la <span class='notion'>fonction</span> d'un mot dans la phrase.",
-    tableau:[
-      ["Sujet","qui est-ce qui ? quoi ?","Le chat dort."],
-      ["COD","quoi ? qui ? (sans préposition)","Je mange UNE POMME."],
-      ["COI","à qui ? à quoi ?","Je parle À MARIE."],
-      ["Complément circonstanciel","temps, lieu, manière, cause, but","Il court LE MATIN."],
-      ["Attribut du sujet","verbe d'état (être, paraître, sembler)","Il est GRAND."],
-      ["Épithète","adjectif qui qualifie directement un nom","Une GRANDE maison."],
-      ["Apposition","nom ou adjectif placé à côté d'un nom","Paris, CAPITALE DE LA FRANCE."],
-      ["Complément du nom","groupe de mots qui complète un nom","La maison DE MA GRAND-MÈRE."]
-    ],
-    pieges:"Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait).",
-    exemple:"« Marie <span class='notion'>mange</span> <span class='notion'>une pomme</span> <span class='notion'>dans la cuisine</span>. » → Marie = sujet, mange = verbe, une pomme = COD, dans la cuisine = CC de lieu.",
-    flashcards:"<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>CC</span> – <span class='notion'>attribut du sujet</span> – <span class='notion'>épithète</span> – <span class='notion'>apposition</span> – <span class='notion'>complément du nom</span>"
-  },
-  { numero:3, titre:"La phrase", 
-    objectif:"Analyser la structure d'une phrase.",
-    tableau:[
-      ["Phrase simple","Une seule proposition (1 verbe).","Je mange."],
-      ["Phrase complexe","Plusieurs propositions.","Je mange quand j'ai faim."],
-      ["Proposition indépendante","Ne dépend d'aucune autre.","Je chante."],
-      ["Proposition principale","Dont dépend une subordonnée.","Je pense QUE TU AS RAISON."],
-      ["Subordonnée relative","Introduite par qui, que, dont, où","Le livre QUE JE LIS est intéressant."],
-      ["Subordonnée conjonctive","Introduite par que, parce que, etc.","Je veux QUE TU VIENNES."]
-    ],
-    pieges:"La relative complète un nom (antécédent). La conjonctive complète le verbe.",
-    exemple:"« Je prends mon parapluie <span class='notion'>parce qu'il pleut</span>. » → subordonnée conjonctive de cause.",
-    flashcards:"<span class='notion'>phrase simple</span> – <span class='notion'>phrase complexe</span> – <span class='notion'>proposition indépendante</span> – <span class='notion'>principale</span> – <span class='notion'>subordonnée relative</span> – <span class='notion'>subordonnée conjonctive</span>"
-  },
-  { numero:4, titre:"Temps et modes verbaux", 
-    objectif:"Maîtriser les temps et leurs valeurs.",
-    tableau:[
-      ["Indicatif","Mode de la réalité.","présent, imparfait, passé simple, passé composé, plus-que-parfait, futur"],
-      ["Subjonctif","Mode du doute, souhait, émotion.","Il faut que tu VIENNES."],
-      ["Conditionnel","Mode de l'hypothèse.","Si j'avais de l'argent, je VOYAGERAIS."],
-      ["Impératif","Mode de l'ordre.","Viens !"]
-    ],
-    pieges:"Ne pas confondre conditionnel et futur (mêmes terminaisons mais contextes différents).",
-    exemple:"Imparfait = description/habitude (Quand j'étais petit, je jouais). Passé simple = action ponctuelle (Il entra).",
-    flashcards:"<span class='notion'>indicatif</span> – <span class='notion'>subjonctif</span> – <span class='notion'>conditionnel</span> – <span class='notion'>impératif</span>"
-  },
-  { numero:5, titre:"Les accords", 
-    objectif:"Maîtriser les accords essentiels.",
-    tableau:[
-      ["Accord sujet-verbe","Le verbe s'accorde en personne et nombre avec le sujet.","Les enfants JOUENT."],
-      ["Accord dans le GN","Déterminant, nom et adjectif s'accordent.","Une GRANDE maison BLEUE."],
-      ["Participe passé avec être","S'accorde avec le sujet.","Elle EST ALLÉE."],
-      ["Participe passé avec avoir","S'accorde avec le COD si placé avant.","Les pommes que j'ai MANGÉES."]
-    ],
-    pieges:"Avec avoir, pas d'accord si le COD est après le verbe.",
-    exemple:"La lettre que j'ai REÇUE (COD placé avant). J'ai REÇU une lettre (COD après).",
-    flashcards:"<span class='notion'>accord sujet-verbe</span> – <span class='notion'>accord GN</span> – <span class='notion'>participe passé avec être</span> – <span class='notion'>participe passé avec avoir</span>"
-  },
-  { numero:6, titre:"Les homophones", 
-    objectif:"Distinguer les homophones grammaticaux.",
-    tableau:[
-      ["a / à","a = avoir ; à = préposition","Il a faim. Je vais à Paris."],
-      ["ce / se","ce = démonstratif ; se = pronom","Ce livre. Il se lave."],
-      ["ces / ses","ces = démonstratif pluriel ; ses = possessif","Ces enfants. Ses parents."],
-      ["ou / où","ou = conjonction ; où = pronom/adverbe","Thé ou café ? Où vas-tu ?"],
-      ["on / ont","on = pronom indéfini ; ont = avoir","On mange. Ils ont faim."],
-      ["son / sont","son = possessif ; sont = être","Son chien. Ils sont contents."]
-    ],
-    pieges:"Pour vérifier : remplacer par 'avait' → a ; par 'étaient' → sont ; par 'et' → ou.",
-    exemple:"Il a (avait) raison. Elles sont (étaient) fatiguées.",
-    flashcards:"<span class='notion'>a/à</span> – <span class='notion'>ce/se</span> – <span class='notion'>ces/ses</span> – <span class='notion'>ou/où</span> – <span class='notion'>on/ont</span> – <span class='notion'>son/sont</span>"
-  },
-  { numero:7, titre:"Conjugaison", 
-    objectif:"Connaître les terminaisons des principaux temps.",
-    tableau:[
-      ["1er groupe (-er)","Présent : -e, -es, -e, -ons, -ez, -ent","je chante, nous chantons"],
-      ["2e groupe (-ir avec -iss-)","Présent : -is, -is, -it, -issons, -issez, -issent","je finis, nous finissons"],
-      ["3e groupe","Verbes irréguliers : être, avoir, aller, faire, dire, prendre, venir, voir, pouvoir, vouloir","je suis, j'ai, je vais, je fais"],
-      ["Imparfait","-ais, -ais, -ait, -ions, -iez, -aient","je chantais"],
-      ["Futur simple","-ai, -as, -a, -ons, -ez, -ont","je chanterai"]
-    ],
-    pieges:"Apprendre par cœur les verbes du 3e groupe les plus fréquents.",
-    exemplo:"Être au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.",
-    flashcards:"<span class='notion'>1er groupe</span> – <span class='notion'>2e groupe</span> – <span class='notion'>3e groupe</span> – <span class='notion'>imparfait</span> – <span class='notion'>futur simple</span>"
-  },
-  { numero:8, titre:"Valeurs des temps", 
-    objectif:"Comprendre la valeur des temps dans un récit.",
-    tableau:[
-      ["Imparfait","Description, habitude, action qui dure.","Il faisait beau. Il jouait tous les jours."],
-      ["Passé simple","Action ponctuelle, début ou fin (récit écrit).","Il entra dans la pièce."],
-      ["Passé composé","Action ponctuelle passée, bilan (oral).","Hier, j'ai mangé une pizza."],
-      ["Plus-que-parfait","Antériorité par rapport à une action passée.","Il était déjà parti."],
-      ["Présent","Actualité, vérité générale, habitude.","L'eau bout à 100°C."]
-    ],
-    pieges:"Ne pas utiliser le passé simple à l'oral.",
-    exemplo:"Imparfait : 'Il regardait la mer' (description). Passé simple : 'Il cria' (action).",
-    flashcards:"<span class='notion'>imparfait</span> – <span class='notion'>passé simple</span> – <span class='notion'>passé composé</span> – <span class='notion'>plus-que-parfait</span> – <span class='notion'>présent</span>"
-  },
-  { numero:9, titre:"Formation des mots", 
-    objectif:"Comprendre comment se forment les mots.",
-    tableau:[
-      ["Radical","Partie qui porte le sens principal.","PORT dans porter, transport, porteur"],
-      ["Préfixe","Élément avant le radical (modifie le sens).","re-, in-, dé-, pré-, anti-"],
-      ["Suffixe","Élément après le radical (modifie sens ou nature).","-able, -age, -tion, -eur, -ette"],
-      ["Famille de mots","Mots avec le même radical.","terre, terrestre, atterrir"]
-    ],
-    pieges:"Ne pas confondre radical et racine.",
-    exemplo:"Préfixe 're-' = répétition (refaire). Suffixe '-able' = possible (portable).",
-    flashcards:"<span class='notion'>radical</span> – <span class='notion'>préfixe</span> – <span class='notion'>suffixe</span> – <span class='notion'>famille de mots</span>"
-  },
-  { numero:10, titre:"Figures de style", 
-    objectif:"Reconnaître les principales figures de style.",
-    tableau:[
-      ["Comparaison","Rapprochement avec outil (comme, tel).","Fort comme un lion."],
-      ["Métaphore","Rapprochement sans outil.","C'est un lion."],
-      ["Personnification","Qualités humaines à un objet.","La lune sourit."],
-      ["Antithèse","Rapprochement de deux termes opposés.","Je vis, je meurs."],
-      ["Oxymore","Mots contradictoires.","Une obscure clarté."],
-      ["Hyperbole","Exagération.","Je t'ai dit mille fois."],
-      ["Litote","Dire moins pour suggérer plus.","Ce n'est pas bête."],
-      ["Énumération","Succession de mots.","Elle aimait les chiens, les chats."]
-    ],
-    pieges:"Ne pas confondre comparaison et métaphore.",
-    exemplo:"Oxymore : 'un silence assourdissant'.",
-    flashcards:"<span class='notion'>comparaison</span> – <span class='notion'>métaphore</span> – <span class='notion'>personnification</span> – <span class='notion'>antithèse</span> – <span class='notion'>oxymore</span> – <span class='notion'>hyperbole</span> – <span class='notion'>litote</span> – <span class='notion'>énumération</span>"
-  },
-  { numero:11, titre:"Champs lexicaux", 
-    objectif:"Identifier le champ lexical d'un texte.",
-    tableau:[
-      ["Champ lexical","Ensemble des mots liés à un même thème.","mer → vague, bateau, pêche"],
-      ["Registres de langue","Soutenu, courant, familier, argotique.","Il est malaisé / difficile / c'est dur / c'est chaud"]
-    ],
-    pieges:"Ne pas confondre champ lexical (thème) et champ sémantique (sens d'un mot).",
-    exemplo:"Texte sur la guerre : champ lexical de la violence (combat, arme, mort).",
-    flashcards:"<span class='notion'>champ lexical</span> – <span class='notion'>registre soutenu</span> – <span class='notion'>registre familier</span>"
-  },
-  { numero:12, titre:"Synonymes, antonymes, homonymes", 
-    objectif:"Utiliser les relations entre les mots.",
-    tableau:[
-      ["Synonyme","Mots de sens proche.","joie / bonheur"],
-      ["Antonyme","Mots de sens contraire.","chaud / froid"],
-      ["Homonyme","Même prononciation, sens différent.","vert / verre / vers"],
-      ["Paronyme","Sons proches, sens différent.","collision / collusion"]
-    ],
-    pieges:"Les homonymes sont source d'erreurs orthographiques.",
-    exemplo:"a/à, ou/où, on/ont, son/sont.",
-    flashcards:"<span class='notion'>synonyme</span> – <span class='notion'>antonyme</span> – <span class='notion'>homonyme</span> – <span class='notion'>paronyme</span>"
-  },
-  { numero:13, titre:"Genres littéraires", 
-    objectif:"Reconnaître les grands genres littéraires.",
-    tableau:[
-      ["Roman","récit en prose (aventures, policier, fantastique, SF, autobiographie)","Les Misérables"],
-      ["Théâtre","texte joué (tragédie, comédie, drame)","Phèdre, Le Cid"],
-      ["Poésie","vers ou prose rythmée (lyrique, engagée)","Les Fleurs du mal"],
-      ["Argumentation","essai, fable, pamphlet","Les Fables de La Fontaine"]
-    ],
-    pieges:"Un même texte peut appartenir à plusieurs genres.",
-    exemplo:"Fable = récit + morale (argumentation).",
-    flashcards:"<span class='notion'>roman</span> – <span class='notion'>théâtre</span> – <span class='notion'>poésie</span> – <span class='notion'>argumentation</span>"
-  },
-  { numero:14, titre:"Mouvements littéraires", 
-    objectif:"Situer une œuvre dans son époque.",
-    tableau:[
-      ["Humanisme (XVIe)","Rabelais, Montaigne → exaltation de l'homme","Gargantua"],
-      ["Classicisme (XVIIe)","Molière, Racine → règles, bienséance","Le Tartuffe"],
-      ["Lumières (XVIIIe)","Voltaire, Rousseau → raison, liberté","Candide"],
-      ["Romantisme (XIXe)","Hugo → émotion, nature","Les Misérables"],
-      ["Réalisme (XIXe)","Balzac → réalité","Le Père Goriot"],
-      ["Naturalisme (XIXe)","Zola → déterminisme","Germinal"],
-      ["Surréalisme (XXe)","Breton → rêve, inconscient","Nadja"]
-    ],
-    pieges:"Ne pas confondre Romantisme et Réalisme.",
-    exemplo:"Lumières : critique de l'absolutisme (Voltaire, Montesquieu).",
-    flashcards:"<span class='notion'>Humanisme</span> – <span class='notion'>Classicisme</span> – <span class='notion'>Lumières</span> – <span class='notion'>Romantisme</span> – <span class='notion'>Réalisme</span> – <span class='notion'>Naturalisme</span> – <span class='notion'>Surréalisme</span>"
-  },
-  { numero:15, titre:"Registres littéraires", 
-    objectif:"Identifier l'effet recherché par l'auteur.",
-    tableau:[
-      ["Comique","rire (satire, farce, comédie)","Les Fourberies de Scapin"],
-      ["Tragique","terreur, pitié, fatalité","Phèdre"],
-      ["Épique","héros, exploits, grandeur","La Chanson de Roland"],
-      ["Lyrique","sentiments personnels (amour, mort)","Les Méditations"],
-      ["Pathétique","émotion, souffrance","(textes sur la mort)"],
-      ["Fantastique","hésitation réel/irréel","La Vénus d'Ille"]
-    ],
-    pieges:"Le registre dépend de l'effet produit, pas du genre.",
-    exemplo:"Un roman peut être à la fois comique et tragique.",
-    flashcards:"<span class='notion'>comique</span> – <span class='notion'>tragique</span> – <span class='notion'>épique</span> – <span class='notion'>lyrique</span> – <span class='notion'>pathétique</span> – <span class='notion'>fantastique</span>"
-  },
-  { numero:16, titre:"Le récit", 
-    objectif:"Analyser la structure d'un récit.",
-    tableau:[
-      ["Schéma narratif","situation initiale → élément perturbateur → péripéties → résolution → situation finale","(contes, romans)"],
-      ["Schéma actantiel","sujet, objet, adjuvant, opposant, destinateur, destinataire","(quête, héros, aide)"],
-      ["Point de vue","interne (par un personnage), externe (caméra), omniscient (tout savoir)",""],
-      ["Rythme du récit","accélération (ellipse), ralentissement (pause descriptive)",""]
-    ],
-    pieges:"Ne pas confondre auteur et narrateur.",
-    exemplo:"Point de vue interne : on sait ce que pense le personnage (il, elle, je).",
-    flashcards:"<span class='notion'>schéma narratif</span> – <span class='notion'>schéma actantiel</span> – <span class='notion'>point de vue</span> – <span class='notion'>rythme du récit</span>"
-  },
-  { numero:17, titre:"La rédaction", 
-    objectif:"Rédiger un texte structuré.",
-    tableau:[
-      ["Plan","introduction (amorce, problématique, plan) / développement (paragraphes) / conclusion (réponse, ouverture)",""],
-      ["Connecteurs","addition (et, de plus), cause (car, parce que), conséquence (donc, ainsi), opposition (mais, cependant)",""]
-    ],
-    pieges:"Ne pas sauter de ligne entre introduction, développement et conclusion.",
-    exemplo:"Introduction : accroche + présentation du sujet + problématique + annonce du plan.",
-    flashcards:"<span class='notion'>introduction</span> – <span class='notion'>développement</span> – <span class='notion'>conclusion</span> – <span class='notion'>connecteurs</span>"
-  },
-  { numero:18, titre:"Contraction de texte", 
-    objectif:"Résumer un texte au 1/3.",
-    tableau:[
-      ["Règle d'or","ne pas commenter, ne pas juger, ne pas ajouter",""],
-      ["Étapes","lire, relever les idées essentielles, reformuler, compter les mots",""]
-    ],
-    pieges:"Ne pas changer l'ordre logique.",
-    exemplo:"Respecter la thèse de l'auteur, même si on n'est pas d'accord.",
-    flashcards:"<span class='notion'>1/3</span> – <span class='notion'>reformuler</span> – <span class='notion'>ne pas commenter</span>"
-  },
-  { numero:19, titre:"Commentaire composé", 
-    objectif:"Analyser un texte littéraire.",
-    tableau:[
-      ["Structure","introduction / développement (2-3 axes) / conclusion",""],
-      ["Analyse","identifier les procédés (figures de style, champs lexicaux) et leur effet",""]
-    ],
-    pieges:"Ne pas résumer le texte.",
-    exemplo:"Chaque axe = plusieurs paragraphes (sous-parties).",
-    flashcards:"<span class='notion'>commentaire composé</span> – <span class='notion'>axes de lecture</span> – <span class='notion'>citation</span> – <span class='notion'>analyse</span>"
-  },
-  { numero:20, titre:"Oral : présentation", 
-    objectif:"Préparer son oral du brevet.",
-    tableau:[
-      ["Durée","5 min exposé + 10 min échange",""],
-      ["Structure","introduction, développement, conclusion",""],
-      ["Supports","PowerPoint, affiche, extraits (pas de texte lu)",""]
-    ],
-    pieges:"Ne pas apprendre par cœur, mais connaître son plan.",
-    exemplo:"S'entraîner chronométré.",
-    flashcards:"<span class='notion'>5 min exposé</span> – <span class='notion'>structure</span> – <span class='notion'>supports</span> – <span class='notion'>s'entraîner</span>"
-  },
-  { numero:21, titre:"Oral : expression", 
-    objectif:"Bien s'exprimer devant le jury.",
-    tableau:[
-      ["Voix","articuler, parler fort, débit calme",""],
-      ["Regard","regarder le jury, pas ses notes",""],
-      ["Posture","debout, gestes naturels",""],
-      ["Stress","respirer, bien dormir, préparer",""]
-    ],
-    pieges:"Ne pas lire son texte.",
-    exemplo:"Utiliser des notes (mots-clés).",
-    flashcards:"<span class='notion'>articuler</span> – <span class='notion'>regarder le jury</span> – <span class='notion'>posture</span> – <span class='notion'>gérer le stress</span>"
-  },
-  { numero:22, titre:"Oral : échange", 
-    objectif:"Répondre aux questions du jury.",
-    tableau:[
-      ["Ne pas comprendre","demander une reformulation poliment",""],
-      ["Ne pas savoir","l'admettre honnêtement",""],
-      ["Argumenter","exemples précis, citations",""]
-    ],
-    pieges:"Ne pas couper la parole du jury.",
-    exemplo:"Reformuler la question pour montrer qu'on a compris.",
-    flashcards:"<span class='notion'>reformuler</span> – <span class='notion'>admettre ne pas savoir</span> – <span class='notion'>ne pas couper</span>"
-  },
-  { numero:23, titre:"Dictée du brevet", 
-    objectif:"Réussir la dictée.",
-    tableau:[
-      ["Préparation","lire le texte, identifier les difficultés",""],
-      ["Pendant","écouter, repérer les accords et les homophones",""],
-      ["Relecture","vérifier les accords, les terminaisons, le sens",""]
-    ],
-    pieges:"Vérifier les homophones (a/à, on/ont, son/sont).",
-    exemplo:"Remplacer a par avait pour vérifier.",
-    flashcards:"<span class='notion'>préparation</span> – <span class='notion'>relecture</span> – <span class='notion'>homophones</span>"
-  },
-  { numero:24, titre:"Grammaire (analyse de phrase)", 
-    objectif:"Réussir l'analyse grammaticale.",
-    tableau:[
-      ["Nature","classe grammaticale (nom, verbe, adjectif…)",""],
-      ["Fonction","rôle dans la phrase (sujet, COD, COI, CC…)",""],
-      ["Justifier","poser la question (qui ? quoi ? à qui ?)",""]
-    ],
-    pieges:"Ne pas confondre nature et fonction.",
-    exemplo:"COD : on pose la question 'quoi ?' après le verbe.",
-    flashcards:"<span class='notion'>nature</span> – <span class='notion'>fonction</span> – <span class='notion'>justifier</span>"
-  },
-  { numero:25, titre:"Réécriture", 
-    objectif:"Réussir la réécriture.",
-    tableau:[
-      ["Consigne","changer temps, personne, genre, nombre",""],
-      ["Appliquer","transformer étape par étape",""],
-      ["Vérifier","accords, terminaisons, homophones",""]
-    ],
-    pieges:"Vérifier l'accord du participe passé après transformation.",
-    exemplo:"Changer 'je' en 'nous' → verbes à la 1ère personne du pluriel.",
-    flashcards:"<span class='notion'>changer temps</span> – <span class='notion'>changer personne</span> – <span class='notion'>vérifier accords</span>"
-  },
-  { numero:26, titre:"Essai (sujet de réflexion)", 
-    objectif:"Réussir l'essai.",
-    tableau:[
-      ["Plan","introduction / développement (thèse, arguments, exemples) / conclusion",""],
-      ["Brainstorming","trouver des idées, puis les classer",""],
-      ["Exemples","œuvres littéraires, films, expériences personnelles",""]
-    ],
-    pieges:"Ne pas donner son avis sans le justifier.",
-    exemplo:"Pour illustrer, citer des œuvres connues (Les Misérables, Candide).",
-    flashcards:"<span class='notion'>essai</span> – <span class='notion'>brainstorming</span> – <span class='notion'>exemples</span> – <span class='notion'>justifier</span>"
+// ==================== GÉNÉRATION DES FICHES À PARTIR DE DATA-FRANCAIS.JS ====================
+// Cette fonction construit les fiches de révision à partir des données des flashcards
+
+function genererFicheDepuisData(chapitreId) {
+  const chapitreData = CHAPITRES_FR[chapitreId];
+  if (!chapitreData) return null;
+  
+  // Extraire les questions des flashcards pour les mettre en rouge dans la section "Flashcards"
+  const questionsFlashcards = chapitreData.cartes.map(c => c.q).slice(0, 8);
+  const flashcardsHtml = questionsFlashcards.map(q => `<span class="notion">${q.substring(0, 50)}${q.length>50?'…':''}</span>`).join(' – ');
+  
+  // Générer le tableau des notions (à personnaliser par chapitre)
+  let tableauHtml = '';
+  if (chapitreId <= 10) {
+    // Pour les chapitres 1 à 10, on utilise un tableau générique basé sur les flashcards
+    tableauHtml = `<tr><thead><tr><th>Notion clé</th><th>Définition / Astuce</th><th>Exemple</th></tr></thead><tbody>`;
+    for (let i = 0; i < Math.min(5, chapitreData.cartes.length); i++) {
+      const c = chapitreData.cartes[i];
+      tableauHtml += `<tr><td class="notion">${c.q.substring(0, 40)}${c.q.length>40?'…':''}</td><td>${c.r.substring(0, 80)}${c.r.length>80?'…':''}</td><td>—</td></tr>`;
+    }
+    tableauHtml += `</tbody></table>`;
+  } else {
+    tableauHtml = `<div class="pieges">📖 ${chapitreData.cartes.length} flashcards disponibles dans ce chapitre.</div>`;
   }
-];
+  
+  return {
+    objectif: `Maîtriser les notions du chapitre <span class="notion">${chapitreData.titre}</span>`,
+    tableauHtml: tableauHtml,
+    pieges: "Relis attentivement les flashcards pour éviter les erreurs courantes.",
+    exemple: "Entraîne-toi avec les flashcards et les automatismes.",
+    flashcards: flashcardsHtml
+  };
+}
 
-const mathsChapitres = []; // À compléter
-const histoireChapitres = []; // À compléter
-const sciencesChapitres = []; // À compléter
+// ==================== DONNÉES POUR MATHS, HISTOIRE, SCIENCES (à compléter) ====================
+// Pour l'instant, on utilise CHAPITRES_FR uniquement pour le français
 
-const fichesData = {
-  francais: { chapitres: francaisChapitres },
-  maths: { chapitres: mathsChapitres },
-  histoire: { chapitres: histoireChapitres },
-  sciences: { chapitres: sciencesChapitres }
+// Construction des listes de chapitres pour chaque matière
+const matieresData = {
+  francais: { chapitres: [] },
+  maths: { chapitres: [] },
+  histoire: { chapitres: [] },
+  sciences: { chapitres: [] }
 };
+
+// Remplir les chapitres français à partir de CHAPITRES_FR (venant de data-francais.js)
+for (let i = 1; i <= 26; i++) {
+  if (CHAPITRES_FR[i]) {
+    matieresData.francais.chapitres.push({
+      numero: i,
+      titre: CHAPITRES_FR[i].titre,
+      generateur: () => genererFicheDepuisData(i)
+    });
+  }
+}
+
+// Pour maths, histoire, sciences (à compléter avec vos données)
+for (let i = 1; i <= 18; i++) {
+  matieresData.maths.chapitres.push({
+    numero: i,
+    titre: "Chapitre " + i,
+    generateur: () => ({ objectif: "À compléter", tableauHtml: "", pieges: "", exemple: "", flashcards: "" })
+  });
+}
+for (let i = 1; i <= 21; i++) {
+  matieresData.histoire.chapitres.push({
+    numero: i,
+    titre: "Chapitre " + i,
+    generateur: () => ({ objectif: "À compléter", tableauHtml: "", pieges: "", exemple: "", flashcards: "" })
+  });
+}
+for (let i = 1; i <= 28; i++) {
+  matieresData.sciences.chapitres.push({
+    numero: i,
+    titre: "Chapitre " + i,
+    generateur: () => ({ objectif: "À compléter", tableauHtml: "", pieges: "", exemple: "", flashcards: "" })
+  });
+}
 
 function updateChapitreSelect() {
   const matiere = document.getElementById('matiereSelect').value;
-  const chapitres = fichesData[matiere].chapitres;
+  const chapitres = matieresData[matiere].chapitres;
   const select = document.getElementById('chapitreSelect');
   select.innerHTML = '';
   chapitres.forEach(ch => {
@@ -413,24 +156,17 @@ function updateChapitreSelect() {
 function afficherFiche() {
   const matiere = document.getElementById('matiereSelect').value;
   const chapitreNum = parseInt(document.getElementById('chapitreSelect').value);
-  const chapitre = fichesData[matiere].chapitres.find(c => c.numero === chapitreNum);
-  if (!chapitre) return;
-
-  let tableauHtml = '';
-  if (chapitre.tableau && chapitre.tableau.length > 0) {
-    tableauHtml = '<table><thead><tr><th>Notion</th><th>Astuce / Définition</th><th>Exemples</th></tr></thead><tbody>';
-    for (const row of chapitre.tableau) {
-      tableauHtml += `<tr><td class="notion">${row[0]}</td><td>${row[1]}</td><td>${row[2] || ''}</td></tr>`;
-    }
-    tableauHtml += '</tbody></table>';
-  }
-
+  const chapitre = matieresData[matiere].chapitres.find(c => c.numero === chapitreNum);
+  if (!chapitre || !chapitre.generateur) return;
+  
+  const fiche = chapitre.generateur();
+  
   const html = `
-    <div class="objectif">🎯 ${chapitre.objectif}</div>
-    ${tableauHtml}
-    <div class="pieges">⚠️ ${chapitre.pieges}</div>
-    <div class="exemple">✍️ ${chapitre.exemple}</div>
-    <div class="flashcards">🃏 Flashcards : ${chapitre.flashcards}</div>
+    <div class="objectif">🎯 ${fiche.objectif}</div>
+    ${fiche.tableauHtml}
+    <div class="pieges">⚠️ ${fiche.pieges}</div>
+    <div class="exemple">✍️ ${fiche.exemple}</div>
+    <div class="flashcards">🃏 Flashcards : ${fiche.flashcards}</div>
   `;
   document.getElementById('ficheContainer').innerHTML = html;
 }
