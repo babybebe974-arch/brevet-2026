@@ -132,8 +132,8 @@ textarea.rep::placeholder{color:var(--muted);}
     <div class="page-title"><span>Automatismes</span> Français</div>
     <span class="flag">🇫🇷</span>
     <div class="eleve-bar">
-      <button class="eleve-btn aw" id="btnW" onclick="setEleve('wassil')">🌊 Wassil</button>
-      <button class="eleve-btn" id="btnN" onclick="setEleve('nawal')">⚡ Nawal</button>
+      <button class="eleve-btn aw" id="btnW">🌊 Wassil</button>
+      <button class="eleve-btn" id="btnN">⚡ Nawal</button>
     </div>
   </div>
 </div>
@@ -154,10 +154,10 @@ textarea.rep::placeholder{color:var(--muted);}
     <div class="chapitres-grid" id="chapGrid"></div>
 
     <div class="btn-row">
-      <button class="btn" onclick="selectAll(true)">✅ Tout</button>
-      <button class="btn" onclick="selectAll(false)">❌ Aucun</button>
-      <button class="btn" style="border-color:rgba(232,66,74,.4);color:var(--acc2)" onclick="selFaibles()">⚠ Faibles</button>
-      <button class="btn" onclick="resetProg()">🔄 Reset progression</button>
+      <button class="btn" id="btnAll">✅ Tout</button>
+      <button class="btn" id="btnNone">❌ Aucun</button>
+      <button class="btn" id="btnFaibles" style="border-color:rgba(232,66,74,.4);color:var(--acc2)">⚠ Faibles</button>
+      <button class="btn" id="btnReset">🔄 Reset progression</button>
     </div>
 
     <div class="info-strip">
@@ -167,7 +167,7 @@ textarea.rep::placeholder{color:var(--muted);}
       <div class="pill">📊 → <b>Suivi parental</b></div>
     </div>
 
-    <button class="btn-primary" id="btnStart" onclick="demarrer()" disabled>🎯 Démarrer la session</button>
+    <button class="btn-primary" id="btnStart" disabled>🎯 Démarrer la session</button>
   </div>
 
   <!-- PHASE SESSION -->
@@ -662,13 +662,18 @@ function evaluer(rep, att) {
 
 // ══════════════ SESSION ══════════════
 function demarrer() {
-  session = genSession();
-  if (!session.length) return;
-  idx=0; score={ok:0,total:0,chTaux:{}};
-  tps=45*60;
-  showPhase('phaseSession');
-  startTimer();
-  affQ();
+  try {
+    session = genSession();
+    if (!session.length) { alert('Aucune carte disponible.'); return; }
+    idx=0; score={ok:0,total:0,chTaux:{}};
+    tps=45*60;
+    showPhase('phaseSession');
+    startTimer();
+    affQ();
+  } catch(e) {
+    alert('Erreur démarrage: ' + e.message);
+    console.error(e);
+  }
 }
 
 function affQ() {
@@ -790,7 +795,22 @@ function showPhase(id){
 }
 
 // INIT
-document.addEventListener('DOMContentLoaded',()=>{setEleve('wassil');});
+function initApp() {
+  setEleve('wassil');
+  document.getElementById('btnStart').addEventListener('click', demarrer);
+  document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
+  document.getElementById('btnNone').addEventListener('click', () => selectAll(false));
+  document.getElementById('btnFaibles').addEventListener('click', selFaibles);
+  document.getElementById('btnReset').addEventListener('click', resetProg);
+  document.getElementById('btnW').addEventListener('click', () => setEleve('wassil'));
+  document.getElementById('btnN').addEventListener('click', () => setEleve('nawal'));
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 </script>
 </body>
 </html>
