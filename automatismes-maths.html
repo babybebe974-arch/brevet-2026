@@ -1,253 +1,372 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ Automatismes – Mathématiques (Brevet 2026)</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:800px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #2ecc71;}
-    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#2ecc71;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #2ecc71;padding-left:1rem;font-size:0.8rem;}
-    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
-    .question-text{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
-    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
-    .btn-group{display:flex;gap:1rem;justify-content:center;margin:1rem 0;flex-wrap:wrap;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .progress{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.7rem;color:#aaa;text-align:center;}
-    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
-    .feedback.show{display:block;}
-    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#2ecc71;}
-    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    .reponse-modele{background:#1a2a1a;border-left:3px solid #2ecc71;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.8rem;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automatismes Maths — Brevet 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;padding:1rem;}
+.box{max-width:900px;margin:0 auto;background:#111118;border:2px solid #e8c87a;border-radius:16px;padding:1.5rem;}
+h1{color:#e8c87a;margin-bottom:.3rem;}
+.sub{color:#9090a8;font-size:.85rem;margin-bottom:1.5rem;border-left:3px solid #e8c87a;padding-left:.8rem;}
+.eleve-bar{display:flex;gap:8px;margin-bottom:1.5rem;}
+.ebtn{padding:8px 24px;border-radius:50px;border:2px solid #2a2a38;cursor:pointer;font-weight:700;font-size:13px;background:#1a1a24;color:#9090a8;}
+.ebtn.w{background:#7eb8f5;color:#09090f;border-color:#7eb8f5;}
+.ebtn.n{background:#f59eb8;color:#09090f;border-color:#f59eb8;}
+.stats{display:flex;gap:10px;margin-bottom:1.2rem;flex-wrap:wrap;}
+.stat{background:#1a1a24;border:1px solid #2a2a38;border-radius:8px;padding:10px 16px;}
+.stat-v{font-size:1.4rem;font-weight:800;color:#e8c87a;}
+.stat-l{font-size:10px;color:#9090a8;text-transform:uppercase;}
+.chap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:7px;max-height:320px;overflow-y:auto;margin-bottom:1rem;}
+.ch{display:flex;align-items:center;gap:8px;background:#1a1a24;border:1px solid #2a2a38;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12px;user-select:none;}
+.ch:hover{border-color:#e8c87a;}
+.ch.sel{border-color:#e8c87a;background:rgba(232,200,122,.1);}
+.ch.faible{border-color:rgba(232,66,74,.4);}
+.chn{font-size:10px;color:#5a5a72;min-width:22px;}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
+.btn{padding:7px 16px;border-radius:8px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:12px;cursor:pointer;}
+.btn:hover{border-color:#e8c87a;color:#e8c87a;}
+.btn-go{background:#e8c87a;border-color:#e8c87a;color:#09090f;font-weight:700;font-size:14px;padding:10px 28px;border-radius:10px;}
+.btn-go:hover{background:#d4b468;}
+.btn-go:disabled{opacity:.4;cursor:not-allowed;}
+.timer-bar{display:flex;align-items:center;justify-content:space-between;background:#1a1a24;border:1px solid #2a2a38;border-radius:10px;padding:10px 16px;margin-bottom:1rem;}
+.timer{font-family:monospace;font-size:1.4rem;color:#e8c87a;}
+.prog{flex:1;height:5px;background:#2a2a38;border-radius:3px;margin:0 16px;overflow:hidden;}
+.prog-f{height:100%;background:#e8c87a;border-radius:3px;transition:width .3s;}
+.qcard{background:#1a1a24;border:1px solid #2a2a38;border-radius:12px;padding:18px;margin-bottom:12px;}
+.qmeta{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.qbadge{font-size:10px;padding:2px 8px;border-radius:4px;background:#0a0a12;border:1px solid #2a2a38;color:#9090a8;}
+.qbadge.r{border-color:rgba(232,66,74,.4);color:#e84249;}
+.qbadge.v{border-color:rgba(94,207,177,.4);color:#5ecfb1;}
+.qbadge.b{border-color:rgba(232,200,122,.4);color:#e8c87a;}
+.qtxt{font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.5;}
+textarea{width:100%;background:#0a0a12;border:1px solid #2a2a38;border-radius:8px;color:#e8e8f0;font-size:14px;padding:10px;resize:vertical;min-height:60px;outline:none;}
+textarea:focus{border-color:#e8c87a;}
+.btn-v{background:#e8c87a;color:#09090f;border:none;border-radius:7px;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;margin-top:8px;}
+.btn-v:disabled{opacity:.4;}
+.fb{display:none;margin-top:10px;border-radius:8px;overflow:hidden;}
+.fb.show{display:block;}
+.fb-ok{padding:10px 14px;background:rgba(94,207,177,.1);border-left:3px solid #5ecfb1;color:#5ecfb1;font-weight:600;font-size:13px;}
+.fb-bad{padding:10px 14px;background:rgba(232,66,74,.1);border-left:3px solid #e84249;color:#e87a7a;font-weight:600;font-size:13px;}
+.fb-mid{padding:10px 14px;background:rgba(232,200,122,.1);border-left:3px solid #e8c87a;color:#e8c87a;font-weight:600;font-size:13px;}
+.fb-rep{background:#0a0a12;padding:10px 14px;font-size:13px;border-top:1px solid #2a2a38;}
+.fb-rep b{color:#e8c87a;display:block;font-size:11px;margin-bottom:3px;}
+.btn-next{background:#e8c87a;color:#09090f;border:none;border-radius:7px;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;margin-top:8px;}
+.res{background:#1a1a24;border:1px solid #2a2a38;border-radius:14px;padding:2rem;text-align:center;}
+.res-score{font-size:4rem;font-weight:800;margin:12px 0;}
+.faibles{background:#0a0a12;border:1px solid rgba(232,66,74,.3);border-radius:8px;padding:12px;margin:12px 0;text-align:left;}
+.faibles h4{color:#e84249;font-size:12px;margin-bottom:6px;}
+.faibles li{font-size:12px;color:#9090a8;padding:2px 0;}
+a.back{display:inline-block;margin-top:1rem;color:#5ecfb1;text-decoration:none;font-size:13px;}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>⚡ Automatismes – Mathématiques</h1>
-  <div class="sub">45 min • Reformule avec tes mots</div>
-  <div class="info-bar">
-    <span>📅 Jour J-<span id="jourActuel">--</span></span>
-    <span class="timer" id="timer">⏱️ 45:00</span>
+<div class="box">
+  <h1>⚡ Automatismes Maths 📐</h1>
+  <div class="sub">26 chapitres · 260 cartes · Règle 20-10-10 · → Suivi parental</div>
+
+  <div class="eleve-bar">
+    <button class="ebtn w" id="btnW">🌊 Wassil</button>
+    <button class="ebtn" id="btnN">⚡ Nawal</button>
   </div>
-  <div id="sessionInfo" class="progress">📊 Chargement...</div>
-  <div id="questionArea"></div>
-  <div class="btn-group">
-    <button id="resetBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser</button>
-    <button id="nextDayBtn" style="border-color:#ffcc00;color:#ffcc00;">📅 Jour suivant</button>
+
+  <div id="phaseSelect">
+    <div class="stats">
+      <div class="stat"><div class="stat-v" id="stC">0</div><div class="stat-l">Cartes sél.</div></div>
+      <div class="stat"><div class="stat-v" id="stM" style="color:#5ecfb1">0</div><div class="stat-l">Maîtrisées</div></div>
+      <div class="stat"><div class="stat-v" id="stP" style="color:#e8c87a">0%</div><div class="stat-l">Progression</div></div>
+    </div>
+    <div class="chap-grid" id="chapGrid"></div>
+    <div class="btns">
+      <button class="btn" id="btnAll">✅ Tout</button>
+      <button class="btn" id="btnNone">❌ Aucun</button>
+      <button class="btn" id="btnFaibles" style="border-color:rgba(232,66,74,.4);color:#e84249">⚠ Faibles</button>
+      <button class="btn" id="btnReset">🔄 Reset</button>
+    </div>
+    <button class="btn-go" id="btnGo" disabled>🎯 Démarrer</button>
   </div>
-  <a href="index.html" class="back-link">← Retour au hub</a>
+
+  <div id="phaseSession" style="display:none">
+    <div class="timer-bar">
+      <span class="timer" id="timerVal">45:00</span>
+      <div class="prog"><div class="prog-f" id="progF" style="width:0%"></div></div>
+      <span id="qCnt" style="font-size:13px;color:#9090a8">Q 0/0</span>
+    </div>
+    <div id="qArea"></div>
+    <div id="fbArea"></div>
+    <div id="nextWrap" style="display:none">
+      <button class="btn-next" id="btnNext">Question suivante →</button>
+    </div>
+  </div>
+
+  <div id="phaseRes" style="display:none">
+    <div class="res">
+      <p style="font-size:12px;color:#9090a8;text-transform:uppercase;letter-spacing:.1em">Session terminée</p>
+      <div class="res-score" id="resScore">0%</div>
+      <div id="resDetail" style="font-size:14px;color:#9090a8;margin-bottom:8px"></div>
+      <div id="resFaibles"></div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:1rem;flex-wrap:wrap">
+        <button class="btn-go" id="btnNouv">📚 Nouvelle session</button>
+        <button class="btn" id="btnSuivi">📊 Suivi parental</button>
+      </div>
+    </div>
+  </div>
+
+  <a href="index.html" class="back">← Retour au hub</a>
 </div>
 
 <script>
-  // Fonction d'évaluation par compréhension
-  function extraireMotsCles(texte) {
-    const stopWords = ["le","la","les","un","une","des","et","ou","donc","or","ni","car","de","du","des","à","dans","par","pour","avec","sans","sur","sous","chez","est","sont","ce","cet","cette","ces","il","elle","ils","elles","on","nous","vous","je","tu","ce","que","qui","dont","où","ce","cet","cette","ces","mon","ton","son"];
-    const mots = texte.toLowerCase().replace(/[^\w\sàâäéèêëîïôöùûüç]/g, ' ').split(/\s+/).filter(m => m.length > 2 && !stopWords.includes(m));
-    return [...new Set(mots)];
+// ══════ DONNÉES 260 CARTES MATHS (identiques à revisions-maths) ══════
+var CHAPITRES_MA = {
+  1:{titre:"Nombres entiers et décimaux",cartes:[{q:"Nombre premier ?",r:"Exactement 2 diviseurs : 1 et lui-même."},{q:"Divisibilité par 2",r:"Dernier chiffre : 0,2,4,6,8"},{q:"Divisibilité par 3",r:"Somme des chiffres divisible par 3"},{q:"Divisibilité par 9",r:"Somme des chiffres divisible par 9"},{q:"Divisibilité par 5",r:"Dernier chiffre : 0 ou 5"},{q:"PGCD ?",r:"Plus Grand Commun Diviseur"},{q:"PPCM ?",r:"Plus Petit Commun Multiple"},{q:"60 en facteurs premiers",r:"2² x 3 x 5"},{q:"72 en facteurs premiers",r:"2³ x 3²"},{q:"Nombre rationnel ?",r:"S'écrit p/q avec q différent de 0"}]},
+  2:{titre:"Nombres relatifs",cartes:[{q:"(-) x (-) = ?",r:"(+)"},{q:"(+) x (-) = ?",r:"(-)"},{q:"(-7) + (+3) = ?",r:"-4"},{q:"(-5) - (-3) = ?",r:"-2"},{q:"(-2)³ = ?",r:"-8"},{q:"Valeur absolue de -7",r:"7"},{q:"Comparer -3 et -5",r:"-3 > -5"},{q:"(-4) x (+3) = ?",r:"-12"},{q:"(-12) ÷ (-4) = ?",r:"+3"},{q:"(-3)+(-5) = ?",r:"-8"}]},
+  3:{titre:"Fractions",cartes:[{q:"1/3 + 1/4 = ?",r:"7/12"},{q:"2/5 + 1/3 = ?",r:"11/15"},{q:"2/3 x 3/4 = ?",r:"1/2"},{q:"2/3 ÷ 4/5 = ?",r:"5/6"},{q:"Simplifier 18/24",r:"3/4"},{q:"Fraction irréductible",r:"PGCD(num, dénom) = 1"},{q:"0,75 en fraction",r:"3/4"},{q:"1/8 en décimal",r:"0,125"},{q:"Comparer 3/4 et 5/7",r:"3/4 > 5/7"},{q:"Même dénominateur : additionner",r:"Additionner les numérateurs"}]},
+  4:{titre:"Puissances",cartes:[{q:"10⁻² = ?",r:"0,01"},{q:"10³ = ?",r:"1000"},{q:"45000 en notation sci.",r:"4,5 x 10⁴"},{q:"0,0032 en notation sci.",r:"3,2 x 10⁻³"},{q:"aⁿ x aᵐ = ?",r:"aⁿ⁺ᵐ"},{q:"aⁿ ÷ aᵐ = ?",r:"aⁿ⁻ᵐ"},{q:"2⁵ = ?",r:"32"},{q:"3⁴ = ?",r:"81"},{q:"a⁰ = ?",r:"1"},{q:"(aⁿ)ᵐ = ?",r:"aⁿˣᵐ"}]},
+  5:{titre:"Calcul littéral",cartes:[{q:"3(x+2) = ?",r:"3x+6"},{q:"(x+3)(x-2) = ?",r:"x²+x-6"},{q:"(2x+1)(3x-4) = ?",r:"6x²-5x-4"},{q:"Factoriser 6x+12",r:"6(x+2)"},{q:"Factoriser x²-9",r:"(x-3)(x+3)"},{q:"(a+b)² = ?",r:"a²+2ab+b²"},{q:"(a-b)² = ?",r:"a²-2ab+b²"},{q:"(a+b)(a-b) = ?",r:"a²-b²"},{q:"(x+5)² = ?",r:"x²+10x+25"},{q:"Factoriser x²-6x+9",r:"(x-3)²"}]},
+  6:{titre:"Équations",cartes:[{q:"2x-3=7",r:"x=5"},{q:"3x+5=14",r:"x=3"},{q:"(x-3)(x+4)=0",r:"x=3 ou x=-4"},{q:"x²=25",r:"x=5 ou x=-5"},{q:"2x+3=x-1",r:"x=-4"},{q:"x/3=4",r:"x=12"},{q:"5x-2=3x+8",r:"x=5"},{q:"Règle produit nul",r:"AxB=0 => A=0 ou B=0"},{q:"4(x-1)=2(x+3)",r:"x=5"},{q:"(2x-1)(x+3)=0",r:"x=1/2 ou x=-3"}]},
+  7:{titre:"Proportionnalité",cartes:[{q:"30% de 80",r:"24"},{q:"+15% de 200",r:"230"},{q:"-20% de 150",r:"120"},{q:"Échelle 1/500 : 8cm -> réel",r:"40 m"},{q:"Taux 80 à 100",r:"+25%"},{q:"Taux 100 à 80",r:"-20%"},{q:"2 hausses 10%",r:"+21%"},{q:"HT=200, TVA 20% -> TTC",r:"240"},{q:"Coeff. pour +35%",r:"1,35"},{q:"Coeff. pour -25%",r:"0,75"}]},
+  8:{titre:"Statistiques",cartes:[{q:"Moy. de 12,15,18,9,6",r:"12"},{q:"Médiane de 3,7,9,12,15",r:"9"},{q:"Médiane de 2,4,6,8",r:"5"},{q:"Étendue de 3,7,9,12,15",r:"12"},{q:"Moyenne pondérée",r:"Somme(val x eff) / eff total"},{q:"Diagramme en bâtons",r:"Données discrètes"},{q:"Histogramme",r:"Données continues"},{q:"Fréquence relative",r:"Effectif / effectif total"},{q:"Q1 ?",r:"25% des données inférieures"},{q:"Q3 ?",r:"75% des données inférieures"}]},
+  9:{titre:"Probabilités",cartes:[{q:"P(A) = ?",r:"cas favorables / cas totaux"},{q:"P(4) avec un dé",r:"1/6"},{q:"P(pair) avec un dé",r:"1/2"},{q:"Événement certain",r:"P=1"},{q:"Événement impossible",r:"P=0"},{q:"P(A') = ?",r:"1-P(A)"},{q:"P(A ou B) incompatibles",r:"P(A)+P(B)"},{q:"P(A et B) indépendants",r:"P(A)xP(B)"},{q:"Règle de l'arbre",r:"Multiplier branche, additionner branches"},{q:"Tirage avec remise",r:"Probabilité constante"}]},
+  10:{titre:"Fonctions : généralités",cartes:[{q:"f(3) pour f(x)=2x+1",r:"7"},{q:"f(-2) pour f(x)=x²-3",r:"1"},{q:"Antécédent de 5 par f(x)=2x+1",r:"x=2"},{q:"Image de x par f",r:"f(x)"},{q:"Fonction croissante",r:"f augmente quand x augmente"},{q:"Fonction décroissante",r:"f diminue quand x augmente"},{q:"Maximum",r:"Valeur la plus haute"},{q:"Minimum",r:"Valeur la plus basse"},{q:"Domaine de définition",r:"Ensemble des x où f(x) existe"},{q:"Tableau de valeurs",r:"x en haut, f(x) en bas"}]},
+  11:{titre:"Fonctions linéaires et affines",cartes:[{q:"f(x)=ax : droite ?",r:"Par l'origine"},{q:"f(x)=ax+b",r:"a=pente, b=ordonnée origine"},{q:"Coeff directeur a",r:"(y2-y1)/(x2-x1)"},{q:"Ordonnée origine b",r:"f(0)=b"},{q:"Droites parallèles",r:"Même a, b différent"},{q:"Intersection 2 droites",r:"Résoudre f(x)=g(x)"},{q:"Droite par (0;3) et (2;7)",r:"f(x)=2x+3"},{q:"Droite horizontale",r:"f(x)=b"},{q:"Équation réduite",r:"y=ax+b"},{q:"Droites perpendiculaires",r:"Produit des a = -1"}]},
+  12:{titre:"Théorème de Pythagore",cartes:[{q:"Pythagore",r:"hyp²=a²+b²"},{q:"Réciproque Pythagore",r:"Si hyp²=a²+b² alors rectangle"},{q:"3,4,5 rectangle ?",r:"Oui : 25=9+16"},{q:"Hyp si a=6 b=8",r:"10"},{q:"Côté si hyp=13 a=5",r:"12"},{q:"Contrapposée",r:"Si différent alors non rectangle"},{q:"Diagonale carré côté a",r:"a x racine(2)"},{q:"Hauteur éqlatéral côté a",r:"a x racine(3) / 2"},{q:"Erreur classique",r:"Hypoténuse = PLUS GRAND côté"},{q:"Aire triangle rectangle a=6 b=8",r:"24"}]},
+  13:{titre:"Théorème de Thalès",cartes:[{q:"Thalès D//BC",r:"AM/AB=AN/AC=MN/BC"},{q:"Réciproque",r:"Rapports égaux => parallèles"},{q:"Théorème des milieux",r:"DE//BC et DE=BC/2"},{q:"Homothétie k : longueurs",r:"Multipliées par |k|"},{q:"Homothétie k : aires",r:"Multipliées par k²"},{q:"Agrandissement",r:"k>1"},{q:"Réduction",r:"0<k<1"},{q:"Condition réciproque",r:"Points alignés + rapports égaux"},{q:"Configuration Thalès",r:"2 sécantes + 2 parallèles"},{q:"Calculer longueur inconnue",r:"Mettre en place le rapport"}]},
+  14:{titre:"Trigonométrie",cartes:[{q:"cos = ?",r:"adjacent / hypoténuse"},{q:"sin = ?",r:"opposé / hypoténuse"},{q:"tan = ?",r:"opposé / adjacent"},{q:"SOH CAH TOA",r:"Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj"},{q:"cos(30°)",r:"racine(3)/2"},{q:"sin(30°)",r:"0,5"},{q:"cos(45°)",r:"racine(2)/2"},{q:"sin(60°)",r:"racine(3)/2"},{q:"tan(45°)",r:"1"},{q:"sin²A+cos²A",r:"1"}]},
+  15:{titre:"Géométrie : cercle",cartes:[{q:"Circonférence",r:"2πr"},{q:"Aire disque",r:"πr²"},{q:"Angle inscrit demi-cercle",r:"90°"},{q:"Angle centre vs inscrit",r:"Centre = 2 x inscrit"},{q:"Tangente cercle",r:"Perpendiculaire au rayon"},{q:"Diamètre",r:"2r"},{q:"Secteur 90° r=6 : aire",r:"9π"},{q:"Arc 60° r=10 : longueur",r:"10π/3"},{q:"Angles alternes-internes",r:"Égaux si droites parallèles"},{q:"Angles correspondants",r:"Égaux si droites parallèles"}]},
+  16:{titre:"Solides et volumes",cartes:[{q:"Volume pavé",r:"LxlxH"},{q:"Volume cube a",r:"a³"},{q:"Volume cylindre",r:"πr²h"},{q:"Volume cône",r:"(1/3)πr²h"},{q:"Volume sphère",r:"(4/3)πr³"},{q:"Volume pyramide",r:"(1/3)xAirexh"},{q:"Aire lat. cylindre",r:"2πrh"},{q:"1 litre = ?",r:"1 dm³"},{q:"1 m³ = ?",r:"1000 L"},{q:"Patron cylindre",r:"2 disques + 1 rectangle"}]},
+  17:{titre:"Transformations géométriques",cartes:[{q:"Translation",r:"Glissement, même forme"},{q:"Symétrie axiale",r:"Reflet par rapport à une droite"},{q:"Symétrie centrale",r:"Rotation 180°"},{q:"Conservation isométrie",r:"Distances, angles, aires"},{q:"Homothétie",r:"Centre + rapport k"},{q:"Homothétie k=-1",r:"Symétrie centrale"},{q:"Vecteur translation",r:"Direction, sens, longueur"},{q:"Image symétrie axiale",r:"Même distance, autre côté"},{q:"2 translations successives",r:"Une seule translation"},{q:"Rotation",r:"Même forme, angle donné"}]},
+  18:{titre:"Repérage et vecteurs",cartes:[{q:"Milieu de AB",r:"((xA+xB)/2;(yA+yB)/2)"},{q:"Distance AB",r:"racine((x2-x1)²+(y2-y1)²)"},{q:"Vecteur AB",r:"(xB-xA;yB-yA)"},{q:"Norme (a;b)",r:"racine(a²+b²)"},{q:"Vecteurs égaux",r:"Même direction, sens, norme"},{q:"Vecteurs opposés",r:"Même norme, sens contraire"},{q:"Vecteur nul",r:"(0;0)"},{q:"(a;b)+(c;d)",r:"(a+c;b+d)"},{q:"Colinéarité (a;b)(c;d)",r:"ad-bc=0"},{q:"Vect. dir. y=ax+b",r:"(1;a)"}]},
+  19:{titre:"Systèmes d'équations",cartes:[{q:"Substitution",r:"Exprimer une inconnue, substituer"},{q:"Combinaison",r:"Additionner/soustraire"},{q:"x+y=5 et x-y=1",r:"x=3, y=2"},{q:"2x+y=7 et x-y=2",r:"x=3, y=1"},{q:"Sans solution",r:"Droites parallèles"},{q:"Infinité solutions",r:"Droites confondues"},{q:"Interprétation graphique",r:"Point d'intersection"},{q:"x+y=10 et 2x+y=15",r:"x=5, y=5"},{q:"3x-y=4 et x+2y=6",r:"x=2, y=2"},{q:"Solution unique",r:"Droites sécantes"}]},
+  20:{titre:"Algorithmique et Scratch",cartes:[{q:"Algorithme ?",r:"Suite finie d'instructions"},{q:"SI condition ALORS",r:"Structure conditionnelle"},{q:"Boucle Pour",r:"Répétitions connues"},{q:"Boucle Tant que",r:"Répétitions inconnues"},{q:"Variable",r:"Emplacement mémoire"},{q:"Affectation",r:"x = valeur"},{q:"Scratch : avancer 10 pas",r:"Déplace le lutin"},{q:"Scratch : centre écran",r:"(0;0)"},{q:"Scratch : carré",r:"Répéter 4 : avancer + tourner 90°"},{q:"Scratch : tourner 90°",r:"Pivote sens horaire"}]},
+  21:{titre:"Calcul numérique",cartes:[{q:"Priorité des opérations",r:"Parenthèses, puissances, x÷, +−"},{q:"a(b+c)",r:"ab+ac"},{q:"15% de 60",r:"9"},{q:"2/3 de 90",r:"60"},{q:"13² = ?",r:"169"},{q:"15² = ?",r:"225"},{q:"Racine(144)",r:"12"},{q:"Racine(225)",r:"15"},{q:"0,1² = ?",r:"0,01"},{q:"1,5² = ?",r:"2,25"}]},
+  22:{titre:"Grandeurs et mesures",cartes:[{q:"3,5 km en m",r:"3500"},{q:"2h30 en min",r:"150"},{q:"Vitesse = ?",r:"d/t"},{q:"72 km/h en m/s",r:"20"},{q:"15 m/s en km/h",r:"54"},{q:"Masse volumique",r:"m/V"},{q:"1 litre = ?",r:"1 dm³"},{q:"1 m³ = ?",r:"1000 L"},{q:"5 cm² en mm²",r:"500"},{q:"2 m² en cm²",r:"20000"}]},
+  23:{titre:"Droites remarquables",cartes:[{q:"Médiane",r:"Sommet -> milieu côté, centre G"},{q:"Médiatrice",r:"Perp. milieu côté, centre cercle"},{q:"Hauteur",r:"Perp. sommet, orthocentre H"},{q:"Centre de gravité G",r:"2/3 de chaque médiane"},{q:"Cercle circonscrit",r:"Passe par les 3 sommets"},{q:"Cercle inscrit",r:"Tangent aux 3 côtés"},{q:"Orthocentre triangle rect.",r:"Au sommet de l'angle droit"},{q:"Bissectrice",r:"Coupe l'angle en 2 égaux"},{q:"Triangle éqlatéral G,H,O",r:"Confondus"},{q:"Somme angles triangle",r:"180°"}]},
+  24:{titre:"Inéquations et intervalles",cartes:[{q:"2x-3>7",r:"x>5"},{q:"-3x>=9",r:"x<=-3"},{q:"[2;5] = ?",r:"2<=x<=5"},{q:"]2;5[ = ?",r:"2<x<5"},{q:"3x+1<=7",r:"x<=2"},{q:"-x+4<10",r:"x>-6"},{q:"[1;3]∪[5;7]",r:"x dans [1;3] ou [5;7]"},{q:"[1;5]∩[3;8]",r:"[3;5]"},{q:"|x|<3",r:"-3<x<3"},{q:"|x-2|<=1",r:"1<=x<=3"}]},
+  25:{titre:"Suites numériques",cartes:[{q:"Suite arithmétique",r:"+ raison r"},{q:"Suite géométrique",r:"x raison q"},{q:"Terme général arith.",r:"u0 + n x r"},{q:"Terme général géom.",r:"u0 x q^n"},{q:"Reconnaître arith.",r:"Différence constante"},{q:"Reconnaître géom.",r:"Rapport constant"},{q:"1,4,9,16,25...",r:"Carrés des entiers"},{q:"Suite arith. croissante",r:"r>0"},{q:"Suite arith. décroissante",r:"r<0"},{q:"Suite géom. q>1 u0>0",r:"Croissante"}]},
+  26:{titre:"Révision générale DNB",cartes:[{q:"Problème géométrie : 1er réflexe",r:"Faire un schéma"},{q:"Vérifier un résultat",r:"Ordre de grandeur + substituer"},{q:"-10% puis +10%",r:"Pas le même : 0,9x1,1=0,99"},{q:"Erreur Pythagore",r:"Hypoténuse = plus grand côté"},{q:"Erreur fractions",r:"On simplifie x÷, pas +−"},{q:"Rédiger démo.",r:"Hypo, théorème, calcul, concl."},{q:"Arrondir 3,4567 au centième",r:"3,46"},{q:"Valeur exacte",r:"Ex: 2 racine(3)"},{q:"Unité aire",r:"cm², m²..."},{q:"Unité volume",r:"cm³, m³..."}]}
+};
+
+// ══════ APP ══════
+var eleve = 'wassil', session = [], idx = 0;
+var scoreOk = 0, scoreTotal = 0, chTaux = {};
+var timerInt = null, tps = 2700;
+
+function kProg()  { return 'ama_p_' + eleve; }
+function kRat()   { return 'ama_r_' + eleve; }
+function kSuivi() { return 'suivi_sessions_maths_' + eleve; }
+function getProg(){ try{return JSON.parse(localStorage.getItem(kProg())||'{}');}catch(e){return{};} }
+function getRat() { try{return JSON.parse(localStorage.getItem(kRat()) ||'{}');}catch(e){return{};} }
+function getScore(ch,q){ return (getProg()[ch+'_'+q.substring(0,25)]||{score:0}).score; }
+function setScore(ch,q,v){ var p=getProg(); p[ch+'_'+q.substring(0,25)]={score:Math.min(3,Math.max(0,v))}; localStorage.setItem(kProg(),JSON.stringify(p)); }
+
+function getFaibles(){
+  try{
+    var ss=JSON.parse(localStorage.getItem(kSuivi())||'[]').slice(0,5);
+    var t={};
+    ss.forEach(function(s){ if(s.chapitresTaux) Object.keys(s.chapitresTaux).forEach(function(ch){ if(!t[ch])t[ch]=[]; t[ch].push(s.chapitresTaux[ch]); }); });
+    return Object.keys(t).filter(function(ch){ return t[ch].reduce(function(a,b){return a+b},0)/t[ch].length<60; }).map(Number);
+  }catch(e){return[];}
+}
+
+function setEleve(e){
+  eleve=e;
+  document.getElementById('btnW').className='ebtn'+(e==='wassil'?' w':'');
+  document.getElementById('btnN').className='ebtn'+(e==='nawal'?' n':'');
+  buildGrid(); updateStats();
+}
+
+function buildGrid(){
+  var faibles=getFaibles();
+  var g=document.getElementById('chapGrid'); g.innerHTML='';
+  Object.keys(CHAPITRES_MA).forEach(function(n){
+    var ch=CHAPITRES_MA[n];
+    var d=document.createElement('div');
+    var isFaible=faibles.indexOf(parseInt(n))>=0;
+    d.className='ch'+(isFaible?' faible':'');
+    d.id='ci'+n;
+    d.innerHTML='<span class="chn">'+n+'</span><span>'+ch.titre+'</span>'+(isFaible?'<span style="margin-left:auto;font-size:10px;color:#e84249">⚠</span>':'');
+    d.onclick=function(){this.classList.toggle('sel');updateStats();}.bind(d);
+    g.appendChild(d);
+  });
+}
+
+function getSel(){ return Array.from(document.querySelectorAll('#chapGrid .ch.sel')).map(function(el){return parseInt(el.id.replace('ci',''));}); }
+function selectAll(v){ Object.keys(CHAPITRES_MA).forEach(function(n){var el=document.getElementById('ci'+n);if(el){if(v)el.classList.add('sel');else el.classList.remove('sel');}}); updateStats(); }
+function selFaibles(){ selectAll(false); getFaibles().forEach(function(n){var el=document.getElementById('ci'+n);if(el)el.classList.add('sel');}); updateStats(); }
+function resetProg(){ if(confirm('Reset progression maths ?')){ localStorage.removeItem(kProg()); localStorage.removeItem(kRat()); updateStats(); } }
+
+function updateStats(){
+  var sel=getSel();
+  var toutes=[];
+  sel.forEach(function(n){(CHAPITRES_MA[n]||{cartes:[]}).cartes.forEach(function(c){toutes.push({ch:n,q:c.q});});});
+  var mait=toutes.filter(function(c){return getScore(c.ch,c.q)>=3;}).length;
+  var pct=toutes.length?Math.round(mait/toutes.length*100):0;
+  document.getElementById('stC').textContent=toutes.length;
+  document.getElementById('stM').textContent=mait;
+  document.getElementById('stP').textContent=pct+'%';
+  document.getElementById('btnGo').disabled=toutes.length===0;
+}
+
+function melanger(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function genSession(){
+  var sel=getSel();
+  var principal=[];
+  sel.forEach(function(n){(CHAPITRES_MA[n]||{cartes:[]}).cartes.forEach(function(c){principal.push({q:c.q,r:c.r,ch:n,type:'p'});});});
+  var ids={}; var uniq=[];
+  principal.forEach(function(c){if(!ids[c.q]){ids[c.q]=1;uniq.push(c);}});
+  if(uniq.length<=40) return melanger(uniq);
+
+  var nouv=uniq.filter(function(c){return getScore(c.ch,c.q)===0;});
+  var enc=uniq.filter(function(c){var s=getScore(c.ch,c.q);return s>0&&s<3;});
+  var mait=uniq.filter(function(c){return getScore(c.ch,c.q)>=3;});
+  var vingt=melanger(nouv.concat(enc).concat(mait)).slice(0,20);
+
+  var rat=getRat();
+  var dixR=[];
+  Object.keys(rat).sort(function(a,b){return rat[b].count-rat[a].count;}).slice(0,10).forEach(function(id){if(rat[id]&&rat[id].carte)dixR.push(Object.assign({},rat[id].carte,{type:'r'}));});
+  if(dixR.length<10){var deja={};vingt.concat(dixR).forEach(function(c){deja[c.q]=1;});enc.filter(function(c){return !deja[c.q];}).slice(0,10-dixR.length).forEach(function(c){dixR.push(Object.assign({},c,{type:'r'}));});}
+
+  var autresSel={};sel.forEach(function(n){autresSel[n]=1;});
+  var autres=[];
+  Object.keys(CHAPITRES_MA).forEach(function(n){if(!autresSel[n])CHAPITRES_MA[n].cartes.forEach(function(c){autres.push({q:c.q,r:c.r,ch:parseInt(n),type:'v'});});});
+  var dixV=melanger(autres).slice(0,10);
+  if(dixV.length<10){var deja2={};vingt.concat(dixR).forEach(function(c){deja2[c.q]=1;});uniq.filter(function(c){return !deja2[c.q];}).slice(0,10-dixV.length).forEach(function(c){dixV.push(Object.assign({},c,{type:'v'}));});}
+
+  var all=vingt.concat(dixR).concat(dixV);
+  var ids2={};var res=[];
+  all.forEach(function(c){if(!ids2[c.q]){ids2[c.q]=1;res.push(c);}});
+  return melanger(res).slice(0,40);
+}
+
+function evaluer(rep,att){
+  if(!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
+  var r=rep.toLowerCase().trim(), a=att.toLowerCase();
+  if(r===a) return{ok:true,t:100,m:'Parfait !'};
+  var mA=a.split(/[\s,;.=+÷x²³()]+/).filter(function(m){return m.length>1;});
+  var mR=r.split(/[\s,;.=+÷x²³()]+/);
+  var ok=0;
+  mA.forEach(function(ma){if(mR.some(function(mr){return mr===ma||mr.indexOf(ma.slice(0,3))>=0;}))ok++;});
+  var t=mA.length?Math.round(ok/mA.length*100):50;
+  if(mR.length<=3&&t>=35) t=Math.min(100,t+25);
+  if(t>=55) return{ok:true,t:t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
+  return{ok:false,t:t,m:'À retravailler.'};
+}
+
+function show(id){['phaseSelect','phaseSession','phaseRes'].forEach(function(p){document.getElementById(p).style.display=p===id?'block':'none';});}
+
+function demarrer(){
+  session=genSession();
+  if(!session.length){alert('Sélectionne des chapitres.');return;}
+  idx=0;scoreOk=0;scoreTotal=0;chTaux={};tps=2700;
+  show('phaseSession');startTimer();affQ();
+}
+
+function affQ(){
+  if(idx>=session.length){fin();return;}
+  var c=session[idx];
+  var pct=Math.round(idx/session.length*100);
+  document.getElementById('progF').style.width=pct+'%';
+  document.getElementById('qCnt').textContent='Q '+(idx+1)+'/'+session.length;
+  var tLabel=c.type==='r'?'🔴 À retravailler':c.type==='v'?'🔵 Révision':'🟡 Chapitre choisi';
+  var tCls=c.type==='r'?'r':c.type==='v'?'v':'b';
+  var nom=CHAPITRES_MA[c.ch]?CHAPITRES_MA[c.ch].titre:'Ch'+c.ch;
+  document.getElementById('qArea').innerHTML=
+    '<div class="qcard">'
+    +'<div class="qmeta"><span class="qbadge b">'+nom+'</span><span class="qbadge '+tCls+'">'+tLabel+'</span></div>'
+    +'<div class="qtxt">'+c.q+'</div>'
+    +'<textarea id="repIn" placeholder="Ta réponse..." rows="2"></textarea>'
+    +'<button class="btn-v" id="btnV">✔ Vérifier</button>'
+    +'</div>';
+  document.getElementById('fbArea').innerHTML='';
+  document.getElementById('nextWrap').style.display='none';
+  document.getElementById('btnV').onclick=verif;
+  setTimeout(function(){var el=document.getElementById('repIn');if(el)el.focus();},80);
+}
+
+function verif(){
+  var repEl=document.getElementById('repIn');
+  if(!repEl)return;
+  var rep=repEl.value.trim();
+  if(!rep){alert('Écris une réponse.');return;}
+  var c=session[idx];
+  var ev=evaluer(rep,c.r);
+  if(ev.ok)scoreOk++;
+  scoreTotal++;
+  if(!chTaux[c.ch])chTaux[c.ch]={ok:0,t:0};
+  chTaux[c.ch].t++;
+  if(ev.ok)chTaux[c.ch].ok++;
+
+  var s=getScore(c.ch,c.q);
+  setScore(c.ch,c.q,ev.ok?Math.min(s+1,3):Math.max(0,s-1));
+
+  var rat=getRat();
+  var id=c.q.slice(0,38);
+  if(!ev.ok){rat[id]={count:((rat[id]||{count:0}).count)+1,carte:c};}
+  else if(rat[id]){rat[id].count=Math.max(0,rat[id].count-1);if(!rat[id].count)delete rat[id];}
+  localStorage.setItem(kRat(),JSON.stringify(rat));
+
+  var cls=ev.t>=65?'fb-ok':ev.t>=40?'fb-mid':'fb-bad';
+  var ico=ev.t>=65?'✅':ev.t>=40?'⚠️':'❌';
+  document.getElementById('fbArea').innerHTML=
+    '<div class="fb show"><div class="'+cls+'">'+ico+' '+ev.m+' — '+ev.t+'%</div>'
+    +'<div class="fb-rep"><b>Réponse attendue</b>'+c.r+'</div></div>';
+  idx++;
+  document.getElementById('nextWrap').style.display='block';
+  document.getElementById('btnV').disabled=true;
+}
+
+function startTimer(){
+  clearInterval(timerInt);
+  timerInt=setInterval(function(){
+    if(tps<=0){clearInterval(timerInt);fin();return;}
+    tps--;
+    var m=Math.floor(tps/60),s=tps%60;
+    var el=document.getElementById('timerVal');
+    if(el)el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  },1000);
+}
+
+function fin(){
+  clearInterval(timerInt);
+  var pct=scoreTotal?Math.round(scoreOk/scoreTotal*100):0;
+  var chapitres=getSel().map(function(n){return CHAPITRES_MA[n]?CHAPITRES_MA[n].titre:'Ch'+n;});
+  var chapitresTaux={};
+  Object.keys(chTaux).forEach(function(ch){
+    chapitresTaux[CHAPITRES_MA[ch]?CHAPITRES_MA[ch].titre:'Ch'+ch]=Math.round(chTaux[ch].ok/chTaux[ch].t*100);
+  });
+
+  var sessions=[];
+  try{sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');}catch(e){}
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve:eleve,pourcentage:pct,chapitres:chapitres,chapitresTaux:chapitresTaux});
+  localStorage.setItem(kSuivi(),JSON.stringify(sessions.slice(0,200)));
+
+  show('phaseRes');
+  var cls=pct>=80?'#5ecfb1':pct>=60?'#e8c87a':'#e84249';
+  var msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
+  document.getElementById('resScore').style.color=cls;
+  document.getElementById('resScore').textContent=pct+'%';
+  document.getElementById('resDetail').textContent=scoreOk+' bonnes réponses sur '+scoreTotal+' — '+msg;
+  var faibles=Object.keys(chapitresTaux).filter(function(ch){return chapitresTaux[ch]<60;});
+  if(faibles.length){
+    document.getElementById('resFaibles').innerHTML='<div class="faibles"><h4>⚠ À retravailler (&lt;60%)</h4><ul>'+faibles.map(function(f){return '<li>• '+f+'</li>';}).join('')+'</ul></div>';
   }
-  function evaluerComprehension(reponseEleve, reponseAttendue) {
-    const motsClesAttendus = extraireMotsCles(reponseAttendue);
-    const motsEleve = extraireMotsCles(reponseEleve);
-    if (motsClesAttendus.length === 0) return { valide: true, taux: 1 };
-    let trouves = 0;
-    for (const mot of motsClesAttendus) {
-      if (motsEleve.some(m => m.includes(mot) || mot.includes(m))) trouves++;
-    }
-    const taux = trouves / motsClesAttendus.length;
-    return { valide: taux >= 0.5, taux: Math.round(taux * 100) };
-  }
+}
 
-  // ==================== TOUTES LES FLASHCARDS MATHS (176 cartes) ====================
-  const flashcards = [
-    { question: "Qu'est-ce qu'un nombre premier ?", reponse: "Nombre qui a exactement deux diviseurs : 1 et lui-même. Ex: 2,3,5,7,11,13..." },
-    { question: "Critère de divisibilité par 2 ?", reponse: "Un nombre est divisible par 2 s'il se termine par 0, 2, 4, 6 ou 8." },
-    { question: "Critère de divisibilité par 3 ?", reponse: "Un nombre est divisible par 3 si la somme de ses chiffres est divisible par 3." },
-    { question: "Critère de divisibilité par 5 ?", reponse: "Un nombre est divisible par 5 s'il se termine par 0 ou 5." },
-    { question: "Critère de divisibilité par 9 ?", reponse: "Un nombre est divisible par 9 si la somme de ses chiffres est divisible par 9." },
-    { question: "Critère de divisibilité par 10 ?", reponse: "Un nombre est divisible par 10 s'il se termine par 0." },
-    { question: "Décomposer 72 en facteurs premiers.", reponse: "72 = 2³ × 3²" },
-    { question: "Qu'est-ce que le PGCD ?", reponse: "Plus Grand Diviseur Commun. PGCD(12,18)=6" },
-    { question: "Addition de deux nombres négatifs.", reponse: "On additionne leurs distances à zéro, on garde le signe négatif. Ex: (-3)+(-5)=-8." },
-    { question: "Calculer (-7) + (+3).", reponse: "-4" },
-    { question: "Règle des signes pour la multiplication : (-) × (-) = ?", reponse: "(+). Ex: (-2)×(-3)=+6" },
-    { question: "Règle des signes pour la multiplication : (-) × (+) = ?", reponse: "(-). Ex: (-2)×(+3)=-6" },
-    { question: "Calculer (-15) ÷ (-3).", reponse: "+5" },
-    { question: "Opposé de -8 ?", reponse: "+8" },
-    { question: "Ranger dans l'ordre croissant : -5, 3, -1, 0, -2.", reponse: "-5 < -2 < -1 < 0 < 3" },
-    { question: "Distance entre -3 et +4 ?", reponse: "7" },
-    { question: "Additionner 2/5 + 1/3.", reponse: "11/15" },
-    { question: "Soustraire 3/4 - 1/2.", reponse: "1/4" },
-    { question: "Multiplier 2/3 × 4/5.", reponse: "8/15" },
-    { question: "Diviser 2/3 ÷ 4/5.", reponse: "(2/3)×(5/4)=10/12=5/6" },
-    { question: "Comparer 3/4 et 5/6.", reponse: "3/4 < 5/6 (9/12 < 10/12)" },
-    { question: "Rendre irréductible 18/24.", reponse: "3/4" },
-    { question: "Calculer 2/3 × 6/5.", reponse: "4/5" },
-    { question: "Calculer 5/8 ÷ 3/4.", reponse: "5/6" },
-    { question: "Que signifie 2³ ?", reponse: "2×2×2 = 8" },
-    { question: "Que vaut 10⁻² ?", reponse: "0,01" },
-    { question: "Notation scientifique de 15000.", reponse: "1,5 × 10⁴" },
-    { question: "Notation scientifique de 0,00025.", reponse: "2,5 × 10⁻⁴" },
-    { question: "Règle aⁿ × aᵖ = ?", reponse: "aⁿ⁺ᵖ" },
-    { question: "Règle (aⁿ)ᵖ = ?", reponse: "aⁿˣᵖ" },
-    { question: "Règle aⁿ / aᵖ = ?", reponse: "aⁿ⁻ᵖ" },
-    { question: "Calculer 2⁴ × 2⁻².", reponse: "2² = 4" },
-    { question: "Réduire 3x+5-2x+2.", reponse: "x+7" },
-    { question: "Développer k(a+b).", reponse: "k×a + k×b" },
-    { question: "Développer (a+b)(c+d).", reponse: "ac+ad+bc+bd" },
-    { question: "Factoriser 6x+12.", reponse: "6(x+2)" },
-    { question: "Factoriser x²-4.", reponse: "(x-2)(x+2)" },
-    { question: "Développer (2x+3)².", reponse: "4x²+12x+9" },
-    { question: "Développer (3x-2)².", reponse: "9x²-12x+4" },
-    { question: "Résoudre 2x-3=7.", reponse: "x=5" },
-    { question: "Résoudre -3x+5=2x-10.", reponse: "x=3" },
-    { question: "Résoudre (x-3)(x+4)=0.", reponse: "x=3 ou x=-4" },
-    { question: "Résoudre x-3 ≤ 5.", reponse: "x ≤ 8" },
-    { question: "Résoudre -2x+1 < 5.", reponse: "x > -2" },
-    { question: "Traduire : un nombre augmenté de 8 vaut 15.", reponse: "x+8=15 → x=7" },
-    { question: "Traduire : le double diminué de 3 égale 5.", reponse: "2x-3=5 → x=4" },
-    { question: "Produit en croix.", reponse: "a/b = c/d → ad = bc" },
-    { question: "30% de 80.", reponse: "24" },
-    { question: "Augmentation de 15% de 200.", reponse: "200×1,15=230" },
-    { question: "Diminution de 20% de 50.", reponse: "50×0,8=40" },
-    { question: "Échelle 1/500 : 8cm → réel ?", reponse: "4000 cm = 40 m" },
-    { question: "Formule de la vitesse moyenne.", reponse: "v = d/t" },
-    { question: "Convertir 10 m/s en km/h.", reponse: "36 km/h" },
-    { question: "Moyenne de 12,15,18.", reponse: "15" },
-    { question: "Médiane de 3,7,9,12,15.", reponse: "9" },
-    { question: "Médiane de 2,5,8,11.", reponse: "(5+8)/2 = 6,5" },
-    { question: "Étendue de 5,12,8,20,3.", reponse: "20-3=17" },
-    { question: "P(A) = ?", reponse: "nb issues favorables / nb total" },
-    { question: "P(4) avec un dé à 6 faces.", reponse: "1/6" },
-    { question: "P(nombre pair) avec un dé.", reponse: "3/6 = 1/2" },
-    { question: "P(rouge) avec 3R et 5B.", reponse: "3/8" },
-    { question: "Calculer f(4) pour f(x)=2x+3.", reponse: "11" },
-    { question: "Antécédent de 7 par f(x)=2x+3.", reponse: "x=2" },
-    { question: "Fonction linéaire.", reponse: "f(x)=ax (droite passant par l'origine)" },
-    { question: "Fonction affine.", reponse: "f(x)=ax+b" },
-    { question: "Coefficient directeur a = ?", reponse: "(y₂-y₁)/(x₂-x₁)" },
-    { question: "Ordonnée à l'origine b = ?", reponse: "f(0)" },
-    { question: "Aire du carré (côté c).", reponse: "c²" },
-    { question: "Aire du rectangle (L,l).", reponse: "L×l" },
-    { question: "Aire du triangle (b,h).", reponse: "(b×h)/2" },
-    { question: "Aire du disque (r).", reponse: "π×r²" },
-    { question: "Périmètre du cercle (r).", reponse: "2πr" },
-    { question: "Volume du pavé droit (L,l,h).", reponse: "L×l×h" },
-    { question: "Volume du cylindre (r,h).", reponse: "π×r²×h" },
-    { question: "Théorème de Pythagore.", reponse: "Si triangle rectangle, alors hyp² = a² + b²" },
-    { question: "Réciproque de Pythagore.", reponse: "Si hyp² = a²+b², alors triangle rectangle" },
-    { question: "Triangle 5,12,13 ?", reponse: "13²=169, 5²+12²=169 → rectangle" },
-    { question: "Diagonale d'un carré de côté 5.", reponse: "5√2 ≈ 7,07" },
-    { question: "Théorème de Thalès.", reponse: "AM/AB = AN/AC = MN/BC (configuration)" },
-    { question: "Calculer MN si AM=3, AB=5, BC=10.", reponse: "MN=6" },
-    { question: "Calculer AN si AM=4, AB=12, AC=9.", reponse: "AN=3" },
-    { question: "Cosinus = ?", reponse: "adjacent / hypoténuse (SOH CAH TOA)" },
-    { question: "Sinus = ?", reponse: "opposé / hypoténuse (SOH CAH TOA)" },
-    { question: "Tangente = ?", reponse: "opposé / adjacent (SOH CAH TOA)" },
-    { question: "cos(30°) = ?", reponse: "√3/2" },
-    { question: "sin(30°) = ?", reponse: "1/2" },
-    { question: "tan(45°) = ?", reponse: "1" },
-    { question: "Translation.", reponse: "Glisse, même forme, même orientation" },
-    { question: "Symétrie axiale.", reponse: "Reflet par rapport à une droite, orientation inversée" },
-    { question: "Symétrie centrale.", reponse: "Rotation 180°, orientation inversée" },
-    { question: "Volume d'une pyramide.", reponse: "(Aire base × hauteur) / 3" },
-    { question: "Volume d'un cône.", reponse: "(π × r² × h) / 3" },
-    { question: "Scratch : orientation 90° signifie ?", reponse: "Vers la droite" },
-    { question: "Scratch : tracer un carré de côté 50.", reponse: "répéter 4 fois : avancer 50, tourner 90°" },
-    { question: "Scratch : condition.", reponse: "si ... alors ... sinon ..." }
-  ];
-
-  let planning = { jour: 26, termine: false };
-  let progression = {};
-  let questionsSession = [];
-  let indexActuel = 0;
-  let currentQuestion = null;
-  let timerInterval = null;
-  let tempsRestant = 45 * 60;
-
-  function sauvegarderPlanning() { localStorage.setItem("planning_automatismes_maths", JSON.stringify(planning)); }
-  function sauvegarderProgression() { localStorage.setItem("automatismes_maths", JSON.stringify(progression)); }
-
-  function chargerDonnees() {
-    const savedPlanning = localStorage.getItem("planning_automatismes_maths");
-    if (savedPlanning) planning = JSON.parse(savedPlanning);
-    else planning = { jour: 26, termine: false };
-    const savedProg = localStorage.getItem("automatismes_maths");
-    if (savedProg) progression = JSON.parse(savedProg);
-    else progression = {};
-    document.getElementById("jourActuel").innerText = planning.jour;
-  }
-
-  function selectionnerQuestions() {
-    const nouvelles = flashcards.filter(c => !progression[c.question] || progression[c.question].etat === "nouvelle").slice(0, 30);
-    const erreurs = flashcards.filter(c => progression[c.question] && progression[c.question].nbErreurs > 0).slice(0, 10);
-    const rebrassage = flashcards.filter(c => progression[c.question] && progression[c.question].etat === "maitrisee").slice(0, 5);
-    let selected = [...nouvelles, ...erreurs, ...rebrassage];
-    const ids = new Set();
-    selected = selected.filter(c => { if (ids.has(c.question)) return false; ids.add(c.question); return true; });
-    for (let i=selected.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [selected[i], selected[j]] = [selected[j], selected[i]]; }
-    return selected;
-  }
-
-  function demarrerSession() {
-    questionsSession = selectionnerQuestions();
-    indexActuel = 0;
-    document.getElementById("sessionInfo").innerHTML = `📌 ${questionsSession.length} questions (30 nouvelles + 10 erreurs + 5 rebrassage)`;
-    if (questionsSession.length === 0) {
-      document.getElementById("questionArea").innerHTML = '<div class="progress">🎉 Félicitations ! Plus de questions.</div>';
-      return;
-    }
-    afficherQuestion();
-    demarrerTimer();
-  }
-
-  function afficherQuestion() {
-    if (indexActuel >= questionsSession.length) { terminerSession(); return; }
-    currentQuestion = questionsSession[indexActuel];
-    document.getElementById("questionArea").innerHTML = `
-      <div class="question-card">
-        <div class="question-text">${currentQuestion.question}</div>
-        <textarea id="reponseInput" rows="3" placeholder="Explique avec tes propres mots..."></textarea>
-        <div class="btn-group"><button id="validerBtn">✔️ Vérifier</button></div>
-        <div id="feedback" class="feedback"></div>
-      </div>
-    `;
-    document.getElementById("validerBtn").onclick = () => verifierReponse();
-    document.getElementById("reponseInput").focus();
-    document.getElementById("sessionInfo").innerHTML = `📌 ${indexActuel+1}/${questionsSession.length}`;
-  }
-
-  function verifierReponse() {
-    const userReponse = document.getElementById("reponseInput").value.trim();
-    if (userReponse === "") { alert("Écris une réponse."); return; }
-    const evaluation = evaluerComprehension(userReponse, currentQuestion.reponse);
-    const state = progression[currentQuestion.question] || { nbErreurs: 0, etat: "nouvelle" };
-    if (evaluation.valide) {
-      state.nbErreurs = 0; state.etat = "maitrisee";
-      document.getElementById("feedback").innerHTML = `✅ Bien compris ! (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
-    } else {
-      state.nbErreurs = (state.nbErreurs || 0) + 1; state.etat = "en_erreur";
-      document.getElementById("feedback").innerHTML = `⚠️ Revoir (${evaluation.taux}%)<br><div class="reponse-modele">📖 ${currentQuestion.reponse}</div>`;
-    }
-    progression[currentQuestion.question] = state;
-    sauvegarderProgression();
-    document.getElementById("feedback").classList.add("show");
-    indexActuel++;
-    setTimeout(() => afficherQuestion(), 2000);
-  }
-
-  function terminerSession() { clearInterval(timerInterval); document.getElementById("questionArea").innerHTML = '<div class="progress">✅ Session terminée.</div>'; planning.termine = true; sauvegarderPlanning(); }
-  function demarrerTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { if (tempsRestant <= 0) { terminerSession(); return; } tempsRestant--; const m = Math.floor(tempsRestant/60), s = tempsRestant%60; document.getElementById("timer").innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }, 1000); }
-  function reinitialiser() { if (confirm("Réinitialiser ?")) { localStorage.removeItem("automatismes_maths"); localStorage.removeItem("planning_automatismes_maths"); chargerDonnees(); demarrerSession(); } }
-  function passerJour() { if (planning.jour <= 0) { alert("Planning terminé"); return; } planning.jour--; sauvegarderPlanning(); chargerDonnees(); demarrerSession(); }
-
-  document.getElementById("resetBtn").onclick = reinitialiser;
-  document.getElementById("nextDayBtn").onclick = passerJour;
-  chargerDonnees();
-  demarrerSession();
+window.onload=function(){
+  document.getElementById('btnW').addEventListener('click',function(){setEleve('wassil');});
+  document.getElementById('btnN').addEventListener('click',function(){setEleve('nawal');});
+  document.getElementById('btnAll').addEventListener('click',function(){selectAll(true);});
+  document.getElementById('btnNone').addEventListener('click',function(){selectAll(false);});
+  document.getElementById('btnFaibles').addEventListener('click',selFaibles);
+  document.getElementById('btnReset').addEventListener('click',resetProg);
+  document.getElementById('btnGo').addEventListener('click',demarrer);
+  document.getElementById('btnNext').addEventListener('click',function(){document.getElementById('nextWrap').style.display='none';affQ();});
+  document.getElementById('btnNouv').addEventListener('click',function(){location.reload();});
+  document.getElementById('btnSuivi').addEventListener('click',function(){window.location.href='suivi-parent.html';});
+  setEleve('wassil');
+};
 </script>
 </body>
 </html>
