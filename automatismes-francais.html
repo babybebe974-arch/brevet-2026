@@ -2,134 +2,75 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ Automatismes – Français (Brevet 2026)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚡ Automatismes – Français</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
-    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;font-size:0.8rem;}
-    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;}
-    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
-
-    .eleve-bar{display:flex;gap:10px;margin-bottom:1.5rem;background:#2a2a2a;border-radius:50px;padding:5px;width:fit-content;}
-    .eleve-btn{padding:8px 24px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:13px;background:transparent;color:#aaa;}
+    body{background:#000;font-family:'DM Sans',sans-serif;padding:1rem;color:#fff;}
+    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
+    h1{font-size:1.6rem;color:#ffcc00;margin-bottom:0.5rem;}
+    .sub{color:#aaa;font-size:0.8rem;margin-bottom:1rem;}
+    .eleve-bar{display:flex;gap:10px;margin-bottom:1rem;}
+    .eleve-btn{padding:6px 20px;border-radius:40px;border:none;cursor:pointer;font-weight:700;background:transparent;color:#aaa;}
     .eleve-btn.aw{background:#7eb8f5;color:#000;}
     .eleve-btn.an{background:#f59eb8;color:#000;}
-
-    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;font-size:0.75rem;}
-
-    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;max-height:320px;overflow-y:auto;padding:4px;margin-bottom:1rem;background:#2a2a2a;border-radius:1rem;}
-    .ch-item{display:flex;align-items:center;gap:8px;background:#111118;border:1px solid #333;border-radius:8px;padding:8px 12px;cursor:pointer;transition:.15s;font-size:12px;}
-    .ch-item:hover{border-color:#ffcc00;}
+    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin-bottom:1rem;max-height:300px;overflow-y:auto;}
+    .ch-item{background:#111118;border:1px solid #333;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12px;}
     .ch-item.selected{border-color:#ffcc00;background:rgba(255,204,0,0.1);}
-    .ch-num{font-family:'DM Mono',monospace;font-size:10px;color:#aaa;min-width:28px;}
-
-    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:8px 16px;font-size:12px;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
+    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:8px 16px;color:#5ecfb1;cursor:pointer;margin-top:8px;}
     .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
-    .btn-primary:disabled{opacity:0.4;}
-
-    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;}
-    .question-text{font-size:1rem;margin-bottom:1rem;font-weight:500;}
-    textarea{width:100%;min-height:100px;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:10px;color:white;resize:vertical;}
-    .feedback{background:#0a0a0f;border-radius:1rem;padding:8px;margin-top:8px;display:none;}
-    .feedback.show{display:block;}
-    .reponse-modele{background:#1a2a1a;border-left:3px solid #ffcc00;padding:8px;margin-top:8px;border-radius:8px;}
+    .question-card{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1rem;}
+    textarea{width:100%;min-height:80px;background:#0a0a0f;border:1px solid #333;border-radius:0.5rem;padding:8px;color:#fff;resize:vertical;}
+    .feedback{margin-top:8px;padding:8px;background:#0a0a0f;border-radius:0.5rem;display:none;}
+    .reponse-modele{margin-top:6px;padding:6px;background:#1a2a1a;border-left:3px solid #ffcc00;border-radius:0.5rem;}
     .resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;text-align:center;}
-    .progress{background:#2a2a2a;border-radius:1rem;padding:8px;margin-top:8px;text-align:center;font-size:0.75rem;}
-    .back-link{display:inline-block;margin-top:1rem;color:#5ecfb1;text-decoration:none;}
+    .back-link{display:block;margin-top:1rem;color:#5ecfb1;text-decoration:none;font-size:0.8rem;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>⚡ Automatismes – Français</h1>
-  <div class="sub">Choisis tes chapitres • Questions adaptées • Évaluation bienveillante</div>
+  <div class="sub">Choisis tes chapitres • 20/10/10 • Évaluation bienveillante</div>
 
   <div class="eleve-bar">
     <button id="btnW" class="eleve-btn aw">🌊 Wassil</button>
     <button id="btnN" class="eleve-btn">⚡ Nawal</button>
   </div>
 
-  <div class="stats">
-    <span>📚 <b id="nbCartes">0</b> cartes sélectionnées</span>
-    <span>✅ <b id="nbMaitrisees">0</b> maîtrisées</span>
-    <span>📈 <b id="nbProgress">0</b>%</span>
-  </div>
+  <div id="chapitresGrid" class="chapitres-grid"></div>
 
-  <div class="chapitres-grid" id="chapitresGrid"></div>
-
-  <div class="btn-row">
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1rem;">
     <button id="selectAll">✅ Tout sélectionner</button>
     <button id="deselectAll">❌ Tout désélectionner</button>
-    <button id="resetProg" style="border-color:#e87a7a;color:#e87a7a;">🔄 Réinitialiser progression</button>
+    <button id="resetProg" style="border-color:#e87a7a;color:#e87a7a;">🔄 Reset progression</button>
   </div>
 
   <button id="demarrer" class="btn-primary" disabled>🎯 Démarrer la session</button>
 
   <div id="sessionArea" style="display:none; margin-top:1rem;">
-    <div class="info-bar"><span>⏱️ <span id="timer">45:00</span></span><span id="qCount">Q 0/0</span></div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
+      <span>⏱️ <span id="timer">45:00</span></span>
+      <span id="qCount">Q 0/0</span>
+    </div>
     <div id="questionArea"></div>
-    <div id="sessionStats" class="progress"></div>
+    <div id="sessionStats" style="background:#2a2a2a; padding:6px; border-radius:0.5rem; text-align:center; font-size:0.7rem;"></div>
   </div>
 
-  <div id="resultatsArea" class="resultats" style="display:none;"></div>
+  <div id="resultatsArea" style="display:none;"></div>
 
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-// ==================== 26 CHAPITRES – 260 CARTES (simplifiées pour lisibilité) ====================
+// ==================== CHAPITRES (titres uniquement) ====================
 const CHAPITRES = {
-  1: { titre: "Classes grammaticales", cartes: [
-    { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
-    { q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
-    { q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." },
-    { q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie un verbe/adjectif. Préposition introduit un complément." },
-    { q: "Qu'est-ce qu'un déterminant possessif ?", r: "mon, ton, son, notre, votre, leur" },
-    { q: "Qu'est-ce qu'un déterminant démonstratif ?", r: "ce, cet, cette, ces" },
-    { q: "Qu'est-ce qu'un pronom personnel ?", r: "je, tu, il, elle, on, nous, vous, ils, elles, me, te, se, le, la, lui, y, en" },
-    { q: "Qu'est-ce qu'un pronom relatif ?", r: "qui, que, quoi, dont, où, lequel" },
-    { q: "Qu'est-ce qu'un pronom démonstratif ?", r: "celui, celle, ceux, celles, ce, ceci, cela" },
-    { q: "Qu'est-ce qu'une interjection ?", r: "Mot-phrase exprimant une émotion (Ah ! Oh ! Hélas !)" }
-  ]},
-  2: { titre: "Fonctions grammaticales", cartes: [
-    { q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
-    { q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" },
-    { q: "Qu'est-ce que l'attribut du sujet ?", r: "Donne une qualité au sujet, relié par verbe d'état" },
-    { q: "Qu'est-ce qu'un complément d'agent ?", r: "Dans une phrase passive, indique qui fait l'action" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de temps ?", r: "Indique quand l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de lieu ?", r: "Indique où l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de manière ?", r: "Indique comment l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de cause ?", r: "Indique pourquoi l'action se passe" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de but ?", r: "Indique dans quel but" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de concession ?", r: "Indique une opposition" }
-  ]},
-  3: { titre: "La phrase", cartes: [
-    { q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)" },
-    { q: "Qu'est-ce qu'une phrase complexe ?", r: "Plusieurs propositions" },
-    { q: "Qu'est-ce qu'une proposition indépendante ?", r: "Ne dépend d'aucune autre" },
-    { q: "Qu'est-ce qu'une proposition principale ?", r: "Dont dépend une subordonnée" },
-    { q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où" },
-    { q: "Qu'est-ce qu'une subordonnée complétive ?", r: "Introduite par 'que'" },
-    { q: "Subordonnée circonstancielle de cause", r: "parce que, puisque, comme" },
-    { q: "Subordonnée circonstancielle de conséquence", r: "si bien que, de sorte que" },
-    { q: "Subordonnée circonstancielle de but", r: "pour que, afin que" },
-    { q: "Subordonnée circonstancielle de temps", r: "quand, lorsque, pendant que" }
-  ]}
+  1:"Classes grammaticales",2:"Fonctions grammaticales",3:"La phrase",4:"Temps et modes verbaux",
+  5:"Les accords",6:"Les homophones",7:"Conjugaison",8:"Valeurs des temps",9:"Formation des mots",
+  10:"Figures de style",11:"Champs lexicaux",12:"Synonymes, antonymes",13:"Genres littéraires",
+  14:"Mouvements littéraires",15:"Registres littéraires",16:"Le récit",17:"La rédaction",
+  18:"Contraction de texte",19:"Commentaire composé",20:"Oral : présentation",21:"Oral : expression",
+  22:"Oral : échange",23:"Dictée",24:"Grammaire (analyse)",25:"Réécriture",26:"Essai"
 };
-
-// Ajouter les chapitres 4 à 26 avec des cartes
-for (let i = 4; i <= 26; i++) {
-  CHAPITRES[i] = { titre: "Chapitre " + i, cartes: [
-    { q: "Question 1 du chapitre " + i, r: "Réponse 1" },
-    { q: "Question 2 du chapitre " + i, r: "Réponse 2" },
-    { q: "Question 3 du chapitre " + i, r: "Réponse 3" },
-    { q: "Question 4 du chapitre " + i, r: "Réponse 4" }
-  ]};
-}
 
 // ==================== ÉTAT ====================
 let eleve = 'wassil';
@@ -139,7 +80,9 @@ let currentIndex = 0;
 let sessionScore = { bonnes: 0, total: 0 };
 let timerInterval = null;
 let tempsRestant = 45 * 60;
+let currentCard = null;
 
+// ==================== STOCKAGE ====================
 function getStorageKey() { return `auto_fr_${eleve}`; }
 function saveProgress() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
 function loadProgress() {
@@ -150,6 +93,42 @@ function loadProgress() {
 function getCardKey(c) { return `${c.chapitre}_${c.q.substring(0,30)}`; }
 function getScore(id) { return progression[id]?.score || 0; }
 function setScore(id, val) { progression[id] = { score: Math.min(3, val), date: new Date().toISOString() }; saveProgress(); }
+
+// ==================== CHARGEMENT DES CARTES DEPUIS flashcards-francais.html ====================
+// ATTENTION : Ce script doit être exécuté APRÈS le chargement de flashcards-francais.html
+// Pour que cela fonctionne, il faut que flashcards-francais.html ait déjà chargé les cartes dans localStorage
+// Ou on utilise un fichier data-francais.js commun
+
+// Version de secours : cartes minimales (pour que ça fonctionne immédiatement)
+const CARTES_MINIMALES = {
+  1: [
+    { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
+    { q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
+    { q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." }
+  ],
+  2: [
+    { q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
+    { q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" }
+  ],
+  3: [
+    { q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)" },
+    { q: "Qu'est-ce qu'une phrase complexe ?", r: "Plusieurs propositions" }
+  ]
+};
+for (let i = 4; i <= 26; i++) {
+  CARTES_MINIMALES[i] = [{ q: "Question du chapitre " + i, r: "Réponse du chapitre " + i }];
+}
+
+function getAllCartesFromChapitres(chapitres) {
+  let cartes = [];
+  for (let ch of chapitres) {
+    let src = CARTES_MINIMALES[ch] || [];
+    for (let c of src) {
+      cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES[ch] });
+    }
+  }
+  return cartes;
+}
 
 // ==================== INTERFACE ====================
 function setEleve(e) {
@@ -164,7 +143,6 @@ function setEleve(e) {
     btnW.className = 'eleve-btn';
   }
   loadProgress();
-  updateStats();
 }
 
 function getSelected() {
@@ -176,30 +154,9 @@ function getSelected() {
   return selected;
 }
 
-function getAllCartes() {
+function updateStartButton() {
   const selected = getSelected();
-  const cartes = [];
-  for (let ch of selected) {
-    if (CHAPITRES[ch] && CHAPITRES[ch].cartes) {
-      for (let c of CHAPITRES[ch].cartes) {
-        cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES[ch].titre });
-      }
-    }
-  }
-  return cartes;
-}
-
-function updateStats() {
-  const cartes = getAllCartes();
-  let maitrisees = 0;
-  for (let c of cartes) {
-    if (getScore(getCardKey(c)) >= 3) maitrisees++;
-  }
-  const pct = cartes.length ? Math.round(maitrisees / cartes.length * 100) : 0;
-  document.getElementById('nbCartes').textContent = cartes.length;
-  document.getElementById('nbMaitrisees').textContent = maitrisees;
-  document.getElementById('nbProgress').textContent = pct + '%';
-  document.getElementById('demarrer').disabled = cartes.length === 0;
+  document.getElementById('demarrer').disabled = selected.length === 0;
 }
 
 function buildGrid() {
@@ -209,13 +166,13 @@ function buildGrid() {
     const div = document.createElement('div');
     div.className = 'ch-item';
     div.id = `ch_${i}`;
-    div.onclick = () => { div.classList.toggle('selected'); updateStats(); };
-    div.innerHTML = `<span class="ch-num">${i}</span><span>${CHAPITRES[i].titre}</span>`;
+    div.onclick = () => { div.classList.toggle('selected'); updateStartButton(); };
+    div.innerHTML = `<span style="font-family:'DM Mono',monospace;color:#aaa;margin-right:6px;">${i}</span>${CHAPITRES[i]}`;
     grid.appendChild(div);
   }
 }
 
-// ==================== GÉNÉRATION SESSION ====================
+// ==================== GÉNÉRATION SESSION (20/10/10 avec spaced repetition) ====================
 function melanger(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -225,9 +182,10 @@ function melanger(arr) {
 }
 
 function genererSession() {
-  let toutes = getAllCartes();
+  const selected = getSelected();
+  const toutes = getAllCartesFromChapitres(selected);
   
-  // Supprimer les doublons
+  // Supprimer doublons
   const uniques = [];
   const seen = new Set();
   for (let c of toutes) {
@@ -236,20 +194,11 @@ function genererSession() {
   
   if (uniques.length === 0) return [];
   
-  // Cas particulier : uniquement chapitres 1,2,3
-  const selectedChapitres = getSelected();
-  const onlyThreeFirst = selectedChapitres.length === 3 && 
-    selectedChapitres.includes(1) && 
-    selectedChapitres.includes(2) && 
-    selectedChapitres.includes(3);
-  
+  // Cas particulier : chapitres 1,2,3 uniquement → 30 questions
+  const onlyThreeFirst = selected.length === 3 && selected.includes(1) && selected.includes(2) && selected.includes(3);
   if (onlyThreeFirst) {
-    // Prendre toutes les 30 cartes (max 30)
     return melanger(uniques).slice(0, 30);
   }
-  
-  // Si moins de 20 cartes, on prend tout
-  if (uniques.length <= 20) return melanger(uniques);
   
   // Règle 20/10/10
   const nouvelles = uniques.filter(c => getScore(getCardKey(c)) === 0).slice(0, 20);
@@ -263,7 +212,7 @@ function genererSession() {
   return melanger(session);
 }
 
-// ==================== ÉVALUATION ====================
+// ==================== ÉVALUATION (bienveillante, seuil 40%) ====================
 function evaluer(reponse, attendue) {
   if (!reponse || reponse.length < 2) return { ok: false, taux: 0, msg: "Écris une réponse." };
   const r = reponse.toLowerCase().trim();
@@ -283,16 +232,13 @@ function evaluer(reponse, attendue) {
 }
 
 // ==================== SESSION ====================
-let currentCard = null;
-
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (tempsRestant <= 0) { clearInterval(timerInterval); terminer(); return; }
     tempsRestant--;
     const m = Math.floor(tempsRestant / 60), s = tempsRestant % 60;
-    const timerEl = document.getElementById('timer');
-    if (timerEl) timerEl.innerHTML = `${m}:${s.toString().padStart(2,'0')}`;
+    document.getElementById('timer').textContent = `${m}:${s.toString().padStart(2,'0')}`;
   }, 1000);
 }
 
@@ -302,16 +248,17 @@ function afficherQuestion() {
   const niveau = getScore(getCardKey(currentCard));
   document.getElementById('questionArea').innerHTML = `
     <div class="question-card">
-      <div style="font-size:0.7rem;color:#aaa;margin-bottom:8px;">${currentCard.chapitreTitre} • Niveau: ${niveau}/3</div>
-      <div class="question-text">📖 ${currentCard.q}</div>
+      <div style="font-size:0.7rem;color:#aaa;">${currentCard.chapitreTitre} • Niveau: ${niveau}/3</div>
+      <div style="font-size:1rem; margin:8px 0;">📖 ${currentCard.q}</div>
       <textarea id="reponse" rows="3" placeholder="Écris ta réponse..."></textarea>
-      <button id="validerBtn" style="margin-top:8px;">✔ Vérifier</button>
+      <button id="validerBtn">✔ Vérifier</button>
       <div id="feedback" class="feedback"></div>
     </div>
   `;
   document.getElementById('validerBtn').onclick = () => verifierReponse();
   document.getElementById('reponse').focus();
-  document.getElementById('qCount').innerHTML = `Q ${currentIndex+1}/${sessionCartes.length}`;
+  document.getElementById('qCount').textContent = `Q ${currentIndex+1}/${sessionCartes.length}`;
+  document.getElementById('sessionStats').innerHTML = `📌 ${currentIndex+1}/${sessionCartes.length}`;
 }
 
 function verifierReponse() {
@@ -339,7 +286,7 @@ function verifierReponse() {
 function terminer() {
   clearInterval(timerInterval);
   const pct = sessionScore.total ? Math.round(sessionScore.bonnes / sessionScore.total * 100) : 0;
-  const chapitres = getSelected().map(n => CHAPITRES[n]?.titre);
+  const chapitresNoms = getSelected().map(n => CHAPITRES[n]);
   
   // Envoi vers suivi-parental
   const keyP = `suivi_sessions_francais_${eleve}`;
@@ -347,7 +294,7 @@ function terminer() {
   sessions.unshift({
     id: Date.now(),
     date: new Date().toISOString(),
-    chapitres: chapitres,
+    chapitres: chapitresNoms,
     score: { bonnes: sessionScore.bonnes, total: sessionScore.total },
     pourcentage: pct
   });
@@ -362,7 +309,7 @@ function terminer() {
     <p style="font-size:2rem;">${sessionScore.bonnes}/${sessionScore.total}</p>
     <p>Soit ${pct}% de bonnes réponses</p>
     <p style="color:#ffcc00;">${msg}</p>
-    <p>👤 Élève : <strong>${eleve === 'wassil' ? 'Wassil' : 'Nawal'}</strong><br>📖 Chapitres : ${chapitres.join(', ')}</p>
+    <p>👤 Élève : <strong>${eleve === 'wassil' ? 'Wassil' : 'Nawal'}</strong><br>📖 Chapitres : ${chapitresNoms.join(', ')}</p>
     <button id="reloadBtn" class="btn-primary">📚 Nouvelle session</button>
   `;
   document.getElementById('reloadBtn').onclick = () => location.reload();
@@ -370,11 +317,11 @@ function terminer() {
 
 function demarrer() {
   sessionCartes = genererSession();
-  if (!sessionCartes.length) { alert("Aucune carte disponible pour les chapitres sélectionnés."); return; }
+  if (!sessionCartes.length) { alert("Sélectionne des chapitres."); return; }
   currentIndex = 0;
   sessionScore = { bonnes: 0, total: sessionCartes.length };
   tempsRestant = 45 * 60;
-  document.getElementById('chapitresGrid').parentElement.style.display = 'none';
+  document.getElementById('chapitresGrid').style.display = 'none';
   document.getElementById('selectAll').style.display = 'none';
   document.getElementById('deselectAll').style.display = 'none';
   document.getElementById('resetProg').style.display = 'none';
@@ -388,20 +335,19 @@ function resetProgression() {
   if (confirm(`Supprimer toute la progression de ${eleve === 'wassil' ? 'Wassil' : 'Nawal'} ?`)) {
     localStorage.removeItem(getStorageKey());
     loadProgress();
-    updateStats();
   }
 }
 
 document.getElementById('btnW').onclick = () => setEleve('wassil');
 document.getElementById('btnN').onclick = () => setEleve('nawal');
-document.getElementById('selectAll').onclick = () => { document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.add('selected')); updateStats(); };
-document.getElementById('deselectAll').onclick = () => { document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.remove('selected')); updateStats(); };
+document.getElementById('selectAll').onclick = () => { document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.add('selected')); updateStartButton(); };
+document.getElementById('deselectAll').onclick = () => { document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.remove('selected')); updateStartButton(); };
 document.getElementById('resetProg').onclick = resetProgression;
 document.getElementById('demarrer').onclick = demarrer;
 
 buildGrid();
 loadProgress();
-updateStats();
+updateStartButton();
 setEleve('wassil');
 </script>
 </body>
