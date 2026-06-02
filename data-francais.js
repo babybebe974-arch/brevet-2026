@@ -1,4 +1,3 @@
-// ==================== DONNÉES COMMUNES FRANÇAIS (260 CARTES) ====================
 const CHAPITRES_FR = {
   1: { titre: "Classes grammaticales", cartes: [
     { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
@@ -119,23 +118,9 @@ const CHAPITRES_FR = {
     { q: "Qu'est-ce que l'euphémisme ?", r: "Atténuer une réalité désagréable" },
     { q: "Qu'est-ce qu'une énumération ?", r: "Succession de mots" },
     { q: "Qu'est-ce qu'une gradation ?", r: "Suite de mots d'intensité croissante" }
-  ]},
-  11: { titre: "Champs lexicaux", cartes: [
-    { q: "Qu'est-ce qu'un champ lexical ?", r: "Ensemble des mots liés à un même thème" },
-    { q: "Citez 3 registres de langue", r: "Soutenu, courant, familier" },
-    { q: "Qu'est-ce que l'argot ?", r: "Langage propre à un groupe" },
-    { q: "Donnez 3 mots du champ lexical de la mer", r: "vague, bateau, pêche, marée, port, plage" },
-    { q: "Donnez 3 mots du champ lexical de la guerre", r: "combat, arme, soldat, bataille, victoire, mort" },
-    { q: "Donnez 3 mots du champ lexical de l'amour", r: "cœur, passion, désir, tendresse, amoureux" },
-    { q: "Donnez 3 mots du champ lexical de la peur", r: "crainte, terreur, angoisse, panique, effroi" },
-    { q: "Donnez 3 mots du champ lexical de la joie", r: "bonheur, gaieté, sourire, plaisir, rire" },
-    { q: "Qu'est-ce qu'un champ sémantique ?", r: "Ensemble des sens d'un même mot" },
-    { q: "Différence entre champ lexical et champ sémantique", r: "Lexical = thème ; Sémantique = sens d'un mot" }
   ]}
 };
-
-// Chapitres 12 à 26 avec structure minimale (à compléter avec les vraies cartes)
-for (let i = 12; i <= 26; i++) {
+for (let i = 11; i <= 26; i++) {
   CHAPITRES_FR[i] = { titre: "Chapitre " + i, cartes: [
     { q: "Question 1 du chapitre " + i, r: "Réponse 1" },
     { q: "Question 2 du chapitre " + i, r: "Réponse 2" },
