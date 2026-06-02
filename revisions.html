@@ -1,4 +1,65 @@
-// ==================== FRANÇAIS – 26 CHAPITRES ====================
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>📖 Fiches de révision – Brevet 2026</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
+    .container{max-width:1200px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
+    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
+    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #ffcc00;padding-left:1rem;}
+    
+    .nav-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;align-items:flex-end;}
+    .nav-group{flex:1;min-width:200px;}
+    .nav-group label{display:block;font-size:0.7rem;color:#aaa;margin-bottom:0.2rem;}
+    select{width:100%;background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.6rem 1rem;color:#ffffff;font-size:0.9rem;cursor:pointer;}
+    select:focus{outline:none;border-color:#ffcc00;}
+    
+    .fiche-content{background:#1a1a1a;border-radius:1rem;padding:1.2rem;border:1px solid #333;}
+    .objectif{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin-bottom:1rem;border-left:4px solid #ffcc00;}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.85rem;}
+    th,td{border:1px solid #333;padding:0.6rem;vertical-align:top;text-align:left;color:#ffffff;}
+    th{background:#2a2a2a;color:#ffcc00;}
+    tr:nth-child(even) td{background:#222;}
+    .notion{color:#ff3b3b;font-weight:600;background:rgba(255,59,59,0.15);padding:0.1rem 0.2rem;border-radius:4px;display:inline-block;}
+    .pieges,.exemple,.flashcards{background:#2a2a2a;padding:0.8rem;border-radius:1rem;margin:1rem 0;}
+    .flashcards{border-left:3px solid #ff3b3b;}
+    .footer{font-size:0.7rem;color:#aaa;text-align:center;margin-top:1rem;}
+    strong{color:#ffcc00;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>📖 Fiches de révision</h1>
+  <div class="sub">Brevet 2026 – Choisis ta matière et ton chapitre</div>
+
+  <div class="nav-row">
+    <div class="nav-group">
+      <label>📚 Matière</label>
+      <select id="matiereSelect">
+        <option value="francais">🇫🇷 Français</option>
+        <option value="maths">📐 Mathématiques</option>
+        <option value="histoire">🌍 Histoire-Géo & EMC</option>
+        <option value="sciences">🔬 Sciences</option>
+      </select>
+    </div>
+    <div class="nav-group">
+      <label>📖 Chapitre</label>
+      <select id="chapitreSelect"></select>
+    </div>
+  </div>
+
+  <div id="ficheContainer" class="fiche-content">
+    <!-- Le contenu de la fiche s'affichera ici dynamiquement -->
+  </div>
+
+  <div class="footer">📌 Notions en <span class="notion">rouge</span> = flashcards à maîtriser.</div>
+</div>
+
+<script>
+// ==================== FRANÇAIS – 26 CHAPITRES COMPLETS ====================
 const francaisChapitres = [
   { numero:1, titre:"Classes grammaticales", 
     objectif:"Identifier la <span class='notion'>nature (classe grammaticale)</span> de n'importe quel mot.",
@@ -15,7 +76,7 @@ const francaisChapitres = [
     ],
     pieges:"<span class='notion'>Leur / leurs</span> : <em>leur</em> = pronom invariable ; <em>leurs</em> = déterminant pluriel.<br>• <span class='notion'>Tout</span> peut être : déterminant, pronom, adverbe ou nom.<br>• Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait dans la phrase).",
     exemple:"« <span class='notion'>L'immense</span> forêt <span class='notion'>s'étendait</span> <span class='notion'>silencieusement</span> <span class='notion'>devant</span> <span class='notion'>eux</span>. »",
-    flashcards:"<span class='notion'>9 classes grammaticales</span> – <span class='notion'>déterminants</span> – <span class='notion'>pronoms</span> – <span class='notion'>adverbe vs préposition</span> – <span class='notion'>7 conjonctions</span>"
+    flashcards:"<span class='notion'>9 classes grammaticales</span> – <span class='notion'>déterminants</span> – <span class='notion'>pronoms</span> – <span class='notion'>adverbe vs préposition</span> – <span class='notion'>7 conjonctions de coordination</span> – <span class='notion'>leur/leurs</span> – <span class='notion'>tout (4 natures)</span>"
   },
   { numero:2, titre:"Fonctions grammaticales", 
     objectif:"Identifier la <span class='notion'>fonction</span> d'un mot dans la phrase.",
@@ -31,7 +92,7 @@ const francaisChapitres = [
     ],
     pieges:"Ne pas confondre <span class='notion'>nature</span> (ce qu'un mot est) et <span class='notion'>fonction</span> (ce qu'il fait).",
     exemple:"« Marie <span class='notion'>mange</span> <span class='notion'>une pomme</span> <span class='notion'>dans la cuisine</span>. » → Marie = sujet, mange = verbe, une pomme = COD, dans la cuisine = CC de lieu.",
-    flashcards:"<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>CC</span> – <span class='notion'>attribut</span> – <span class='notion'>épithète</span> – <span class='notion'>apposition</span> – <span class='notion'>complément du nom</span>"
+    flashcards:"<span class='notion'>sujet</span> – <span class='notion'>COD</span> – <span class='notion'>COI</span> – <span class='notion'>CC</span> – <span class='notion'>attribut du sujet</span> – <span class='notion'>épithète</span> – <span class='notion'>apposition</span> – <span class='notion'>complément du nom</span>"
   },
   { numero:3, titre:"La phrase", 
     objectif:"Analyser la structure d'une phrase.",
@@ -95,7 +156,7 @@ const francaisChapitres = [
       ["Futur simple","-ai, -as, -a, -ons, -ez, -ont","je chanterai"]
     ],
     pieges:"Apprendre par cœur les verbes du 3e groupe les plus fréquents.",
-    exemple:"Être au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.",
+    exemplo:"Être au présent : je suis, tu es, il est, nous sommes, vous êtes, ils sont.",
     flashcards:"<span class='notion'>1er groupe</span> – <span class='notion'>2e groupe</span> – <span class='notion'>3e groupe</span> – <span class='notion'>imparfait</span> – <span class='notion'>futur simple</span>"
   },
   { numero:8, titre:"Valeurs des temps", 
@@ -108,7 +169,7 @@ const francaisChapitres = [
       ["Présent","Actualité, vérité générale, habitude.","L'eau bout à 100°C."]
     ],
     pieges:"Ne pas utiliser le passé simple à l'oral.",
-    exemple:"Imparfait : 'Il regardait la mer' (description). Passé simple : 'Il cria' (action).",
+    exemplo:"Imparfait : 'Il regardait la mer' (description). Passé simple : 'Il cria' (action).",
     flashcards:"<span class='notion'>imparfait</span> – <span class='notion'>passé simple</span> – <span class='notion'>passé composé</span> – <span class='notion'>plus-que-parfait</span> – <span class='notion'>présent</span>"
   },
   { numero:9, titre:"Formation des mots", 
@@ -120,7 +181,7 @@ const francaisChapitres = [
       ["Famille de mots","Mots avec le même radical.","terre, terrestre, atterrir"]
     ],
     pieges:"Ne pas confondre radical et racine.",
-    exemple:"Préfixe 're-' = répétition (refaire). Suffixe '-able' = possible (portable).",
+    exemplo:"Préfixe 're-' = répétition (refaire). Suffixe '-able' = possible (portable).",
     flashcards:"<span class='notion'>radical</span> – <span class='notion'>préfixe</span> – <span class='notion'>suffixe</span> – <span class='notion'>famille de mots</span>"
   },
   { numero:10, titre:"Figures de style", 
@@ -136,7 +197,7 @@ const francaisChapitres = [
       ["Énumération","Succession de mots.","Elle aimait les chiens, les chats."]
     ],
     pieges:"Ne pas confondre comparaison et métaphore.",
-    exemple:"Oxymore : 'un silence assourdissant'.",
+    exemplo:"Oxymore : 'un silence assourdissant'.",
     flashcards:"<span class='notion'>comparaison</span> – <span class='notion'>métaphore</span> – <span class='notion'>personnification</span> – <span class='notion'>antithèse</span> – <span class='notion'>oxymore</span> – <span class='notion'>hyperbole</span> – <span class='notion'>litote</span> – <span class='notion'>énumération</span>"
   },
   { numero:11, titre:"Champs lexicaux", 
@@ -146,7 +207,7 @@ const francaisChapitres = [
       ["Registres de langue","Soutenu, courant, familier, argotique.","Il est malaisé / difficile / c'est dur / c'est chaud"]
     ],
     pieges:"Ne pas confondre champ lexical (thème) et champ sémantique (sens d'un mot).",
-    exemple:"Texte sur la guerre : champ lexical de la violence (combat, arme, mort).",
+    exemplo:"Texte sur la guerre : champ lexical de la violence (combat, arme, mort).",
     flashcards:"<span class='notion'>champ lexical</span> – <span class='notion'>registre soutenu</span> – <span class='notion'>registre familier</span>"
   },
   { numero:12, titre:"Synonymes, antonymes, homonymes", 
@@ -158,7 +219,7 @@ const francaisChapitres = [
       ["Paronyme","Sons proches, sens différent.","collision / collusion"]
     ],
     pieges:"Les homonymes sont source d'erreurs orthographiques.",
-    exemple:"a/à, ou/où, on/ont, son/sont.",
+    exemplo:"a/à, ou/où, on/ont, son/sont.",
     flashcards:"<span class='notion'>synonyme</span> – <span class='notion'>antonyme</span> – <span class='notion'>homonyme</span> – <span class='notion'>paronyme</span>"
   },
   { numero:13, titre:"Genres littéraires", 
@@ -170,7 +231,7 @@ const francaisChapitres = [
       ["Argumentation","essai, fable, pamphlet","Les Fables de La Fontaine"]
     ],
     pieges:"Un même texte peut appartenir à plusieurs genres.",
-    exemple:"Fable = récit + morale (argumentation).",
+    exemplo:"Fable = récit + morale (argumentation).",
     flashcards:"<span class='notion'>roman</span> – <span class='notion'>théâtre</span> – <span class='notion'>poésie</span> – <span class='notion'>argumentation</span>"
   },
   { numero:14, titre:"Mouvements littéraires", 
@@ -185,7 +246,7 @@ const francaisChapitres = [
       ["Surréalisme (XXe)","Breton → rêve, inconscient","Nadja"]
     ],
     pieges:"Ne pas confondre Romantisme et Réalisme.",
-    exemple:"Lumières : critique de l'absolutisme (Voltaire, Montesquieu).",
+    exemplo:"Lumières : critique de l'absolutisme (Voltaire, Montesquieu).",
     flashcards:"<span class='notion'>Humanisme</span> – <span class='notion'>Classicisme</span> – <span class='notion'>Lumières</span> – <span class='notion'>Romantisme</span> – <span class='notion'>Réalisme</span> – <span class='notion'>Naturalisme</span> – <span class='notion'>Surréalisme</span>"
   },
   { numero:15, titre:"Registres littéraires", 
@@ -199,7 +260,7 @@ const francaisChapitres = [
       ["Fantastique","hésitation réel/irréel","La Vénus d'Ille"]
     ],
     pieges:"Le registre dépend de l'effet produit, pas du genre.",
-    exemple:"Un roman peut être à la fois comique et tragique.",
+    exemplo:"Un roman peut être à la fois comique et tragique.",
     flashcards:"<span class='notion'>comique</span> – <span class='notion'>tragique</span> – <span class='notion'>épique</span> – <span class='notion'>lyrique</span> – <span class='notion'>pathétique</span> – <span class='notion'>fantastique</span>"
   },
   { numero:16, titre:"Le récit", 
@@ -211,7 +272,7 @@ const francaisChapitres = [
       ["Rythme du récit","accélération (ellipse), ralentissement (pause descriptive)",""]
     ],
     pieges:"Ne pas confondre auteur et narrateur.",
-    exemple:"Point de vue interne : on sait ce que pense le personnage (il, elle, je).",
+    exemplo:"Point de vue interne : on sait ce que pense le personnage (il, elle, je).",
     flashcards:"<span class='notion'>schéma narratif</span> – <span class='notion'>schéma actantiel</span> – <span class='notion'>point de vue</span> – <span class='notion'>rythme du récit</span>"
   },
   { numero:17, titre:"La rédaction", 
@@ -221,7 +282,7 @@ const francaisChapitres = [
       ["Connecteurs","addition (et, de plus), cause (car, parce que), conséquence (donc, ainsi), opposition (mais, cependant)",""]
     ],
     pieges:"Ne pas sauter de ligne entre introduction, développement et conclusion.",
-    exemple:"Introduction : accroche + présentation du sujet + problématique + annonce du plan.",
+    exemplo:"Introduction : accroche + présentation du sujet + problématique + annonce du plan.",
     flashcards:"<span class='notion'>introduction</span> – <span class='notion'>développement</span> – <span class='notion'>conclusion</span> – <span class='notion'>connecteurs</span>"
   },
   { numero:18, titre:"Contraction de texte", 
@@ -231,7 +292,7 @@ const francaisChapitres = [
       ["Étapes","lire, relever les idées essentielles, reformuler, compter les mots",""]
     ],
     pieges:"Ne pas changer l'ordre logique.",
-    exemple:"Respecter la thèse de l'auteur, même si on n'est pas d'accord.",
+    exemplo:"Respecter la thèse de l'auteur, même si on n'est pas d'accord.",
     flashcards:"<span class='notion'>1/3</span> – <span class='notion'>reformuler</span> – <span class='notion'>ne pas commenter</span>"
   },
   { numero:19, titre:"Commentaire composé", 
@@ -241,7 +302,7 @@ const francaisChapitres = [
       ["Analyse","identifier les procédés (figures de style, champs lexicaux) et leur effet",""]
     ],
     pieges:"Ne pas résumer le texte.",
-    exemple:"Chaque axe = plusieurs paragraphes (sous-parties).",
+    exemplo:"Chaque axe = plusieurs paragraphes (sous-parties).",
     flashcards:"<span class='notion'>commentaire composé</span> – <span class='notion'>axes de lecture</span> – <span class='notion'>citation</span> – <span class='notion'>analyse</span>"
   },
   { numero:20, titre:"Oral : présentation", 
@@ -252,7 +313,7 @@ const francaisChapitres = [
       ["Supports","PowerPoint, affiche, extraits (pas de texte lu)",""]
     ],
     pieges:"Ne pas apprendre par cœur, mais connaître son plan.",
-    exemple:"S'entraîner chronométré.",
+    exemplo:"S'entraîner chronométré.",
     flashcards:"<span class='notion'>5 min exposé</span> – <span class='notion'>structure</span> – <span class='notion'>supports</span> – <span class='notion'>s'entraîner</span>"
   },
   { numero:21, titre:"Oral : expression", 
@@ -264,7 +325,7 @@ const francaisChapitres = [
       ["Stress","respirer, bien dormir, préparer",""]
     ],
     pieges:"Ne pas lire son texte.",
-    exemple:"Utiliser des notes (mots-clés).",
+    exemplo:"Utiliser des notes (mots-clés).",
     flashcards:"<span class='notion'>articuler</span> – <span class='notion'>regarder le jury</span> – <span class='notion'>posture</span> – <span class='notion'>gérer le stress</span>"
   },
   { numero:22, titre:"Oral : échange", 
@@ -275,7 +336,7 @@ const francaisChapitres = [
       ["Argumenter","exemples précis, citations",""]
     ],
     pieges:"Ne pas couper la parole du jury.",
-    exemple:"Reformuler la question pour montrer qu'on a compris.",
+    exemplo:"Reformuler la question pour montrer qu'on a compris.",
     flashcards:"<span class='notion'>reformuler</span> – <span class='notion'>admettre ne pas savoir</span> – <span class='notion'>ne pas couper</span>"
   },
   { numero:23, titre:"Dictée du brevet", 
@@ -286,7 +347,7 @@ const francaisChapitres = [
       ["Relecture","vérifier les accords, les terminaisons, le sens",""]
     ],
     pieges:"Vérifier les homophones (a/à, on/ont, son/sont).",
-    exemple:"Remplacer a par avait pour vérifier.",
+    exemplo:"Remplacer a par avait pour vérifier.",
     flashcards:"<span class='notion'>préparation</span> – <span class='notion'>relecture</span> – <span class='notion'>homophones</span>"
   },
   { numero:24, titre:"Grammaire (analyse de phrase)", 
@@ -297,7 +358,7 @@ const francaisChapitres = [
       ["Justifier","poser la question (qui ? quoi ? à qui ?)",""]
     ],
     pieges:"Ne pas confondre nature et fonction.",
-    exemple:"COD : on pose la question 'quoi ?' après le verbe.",
+    exemplo:"COD : on pose la question 'quoi ?' après le verbe.",
     flashcards:"<span class='notion'>nature</span> – <span class='notion'>fonction</span> – <span class='notion'>justifier</span>"
   },
   { numero:25, titre:"Réécriture", 
@@ -308,7 +369,7 @@ const francaisChapitres = [
       ["Vérifier","accords, terminaisons, homophones",""]
     ],
     pieges:"Vérifier l'accord du participe passé après transformation.",
-    exemple:"Changer 'je' en 'nous' → verbes à la 1ère personne du pluriel.",
+    exemplo:"Changer 'je' en 'nous' → verbes à la 1ère personne du pluriel.",
     flashcards:"<span class='notion'>changer temps</span> – <span class='notion'>changer personne</span> – <span class='notion'>vérifier accords</span>"
   },
   { numero:26, titre:"Essai (sujet de réflexion)", 
@@ -319,7 +380,65 @@ const francaisChapitres = [
       ["Exemples","œuvres littéraires, films, expériences personnelles",""]
     ],
     pieges:"Ne pas donner son avis sans le justifier.",
-    exemple:"Pour illustrer, citer des œuvres connues (Les Misérables, Candide).",
+    exemplo:"Pour illustrer, citer des œuvres connues (Les Misérables, Candide).",
     flashcards:"<span class='notion'>essai</span> – <span class='notion'>brainstorming</span> – <span class='notion'>exemples</span> – <span class='notion'>justifier</span>"
   }
 ];
+
+const mathsChapitres = []; // À compléter
+const histoireChapitres = []; // À compléter
+const sciencesChapitres = []; // À compléter
+
+const fichesData = {
+  francais: { chapitres: francaisChapitres },
+  maths: { chapitres: mathsChapitres },
+  histoire: { chapitres: histoireChapitres },
+  sciences: { chapitres: sciencesChapitres }
+};
+
+function updateChapitreSelect() {
+  const matiere = document.getElementById('matiereSelect').value;
+  const chapitres = fichesData[matiere].chapitres;
+  const select = document.getElementById('chapitreSelect');
+  select.innerHTML = '';
+  chapitres.forEach(ch => {
+    const option = document.createElement('option');
+    option.value = ch.numero;
+    option.textContent = `Chapitre ${ch.numero} : ${ch.titre}`;
+    select.appendChild(option);
+  });
+  afficherFiche();
+}
+
+function afficherFiche() {
+  const matiere = document.getElementById('matiereSelect').value;
+  const chapitreNum = parseInt(document.getElementById('chapitreSelect').value);
+  const chapitre = fichesData[matiere].chapitres.find(c => c.numero === chapitreNum);
+  if (!chapitre) return;
+
+  let tableauHtml = '';
+  if (chapitre.tableau && chapitre.tableau.length > 0) {
+    tableauHtml = '<table><thead><tr><th>Notion</th><th>Astuce / Définition</th><th>Exemples</th></tr></thead><tbody>';
+    for (const row of chapitre.tableau) {
+      tableauHtml += `<tr><td class="notion">${row[0]}</td><td>${row[1]}</td><td>${row[2] || ''}</td></tr>`;
+    }
+    tableauHtml += '</tbody></table>';
+  }
+
+  const html = `
+    <div class="objectif">🎯 ${chapitre.objectif}</div>
+    ${tableauHtml}
+    <div class="pieges">⚠️ ${chapitre.pieges}</div>
+    <div class="exemple">✍️ ${chapitre.exemple}</div>
+    <div class="flashcards">🃏 Flashcards : ${chapitre.flashcards}</div>
+  `;
+  document.getElementById('ficheContainer').innerHTML = html;
+}
+
+document.getElementById('matiereSelect').addEventListener('change', updateChapitreSelect);
+document.getElementById('chapitreSelect').addEventListener('change', afficherFiche);
+
+updateChapitreSelect();
+</script>
+</body>
+</html>
