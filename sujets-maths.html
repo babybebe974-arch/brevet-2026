@@ -3,711 +3,1280 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📐 Sujets Blancs Maths — Brevet 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Sujets Maths — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--muted2:rgba(240,237,232,0.2);--gold:#e8c87a;--gold2:#f5dfa0;--blue:#6ab4f5;--green:#7ecf8a;--coral:#f07a5a;--red:#f55a5a;--purple:#a98af5;--teal:#5ecfb1;--r:14px;--r-sm:8px;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(106,180,245,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--blue);border:1px solid rgba(106,180,245,0.3);background:rgba(106,180,245,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
-h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;letter-spacing:-1px;margin-bottom:8px;}
-h1 span{color:var(--blue);}
-.sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
-.sujets-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:600px;width:100%;margin-bottom:28px;}
-.sujet-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:18px;cursor:pointer;transition:all 0.2s;position:relative;}
-.sujet-card:hover{border-color:rgba(106,180,245,0.4);transform:translateY(-2px);}
-.sc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.sc-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;}
-.sc-info{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.sc-done{position:absolute;top:12px;right:12px;width:18px;height:18px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;font-size:9px;color:#060f0a;}
+  :root {
+    --bg: #09090f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a38;
+    --gold: #e8c87a;
+    --gold-dim: #c4a655;
+    --teal: #5ecfb1;
+    --teal-dim: #3aad91;
+    --red: #e87a7a;
+    --text: #e8e8f0;
+    --text-dim: #9090a8;
+    --text-muted: #5a5a72;
+    --radius: 12px;
+  }
 
-.who-row{display:flex;gap:10px;margin-bottom:20px;}
-.who-btn{padding:8px 22px;border-radius:999px;border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all 0.18s;}
-.who-btn.aw{border-color:#7eb8f5;background:rgba(126,184,245,0.1);color:#7eb8f5;}
-.who-btn.an{border-color:#f59eb8;background:rgba(245,158,184,0.1);color:#f59eb8;}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* SUJET PAGE */
-#sujet-page{display:none;max-width:760px;margin:0 auto;padding:0;}
-.s-header{position:sticky;top:0;z-index:10;background:rgba(9,9,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:14px;}
-.s-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--blue);}
-.s-meta{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
-.back{margin-left:auto;background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;font-size:11px;font-family:'DM Mono',monospace;transition:all 0.15s;text-transform:uppercase;}
-.back:hover{background:rgba(255,255,255,0.04);}
-.chrono-bar{background:rgba(232,200,122,0.08);border-bottom:1px solid rgba(232,200,122,0.2);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;}
-.chrono-label{font-size:11px;color:var(--gold);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--gold);}
-.chrono-time.urgent{color:var(--red);animation:blink 0.8s infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.chrono-btns{display:flex;gap:8px;}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(232,200,122,0.3);background:rgba(232,200,122,0.07);color:var(--gold);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
-.chrono-btn:hover{background:rgba(232,200,122,0.15);}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
 
-.s-body{padding:24px;}
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #09090f 0%, #12121f 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .back-btn {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color .2s;
+  }
+  .back-btn:hover { color: var(--teal); }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .header-title span { color: var(--gold); }
+  .counter {
+    margin-left: auto;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .counter b { color: var(--teal); }
 
-/* Parties */
-.partie{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);margin-bottom:20px;overflow:hidden;}
-.partie-header{background:var(--bg3);padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.partie-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--blue);}
-.partie-pts{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-left:auto;}
-.partie-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);}
-.partie-body{padding:20px;}
+  /* HERO */
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 24px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 5vw, 38px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+  .hero p {
+    color: var(--text-dim);
+    max-width: 560px;
+    font-size: 14px;
+  }
 
-/* Exercice */
-.exo{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);}
-.exo:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-.exo-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
-.exo-pts{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);border:1px solid rgba(232,200,122,0.3);background:rgba(232,200,122,0.07);padding:2px 8px;border-radius:999px;}
-.context{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:14px;font-size:13px;color:var(--muted);line-height:1.7;border-left:2px solid var(--blue);}
-.context strong{color:var(--text);}
+  /* SUJET LIST */
+  .sujet-list {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-/* Questions */
-.q-block{margin-bottom:14px;}
-.q-line{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-.q-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);font-weight:700;min-width:24px;margin-top:2px;}
-.q-text{font-size:13px;color:var(--text);line-height:1.6;flex:1;}
-.q-pts-sm{font-size:10px;color:var(--gold);font-family:'DM Mono',monospace;white-space:nowrap;}
-.answer-ta{width:100%;min-height:64px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.6;outline:none;resize:vertical;transition:border-color 0.2s;margin-bottom:6px;}
-.answer-ta:focus{border-color:rgba(106,180,245,0.4);}
-.corr-btn{font-size:11px;padding:5px 12px;border-radius:999px;border:1px solid rgba(94,207,177,0.25);background:rgba(94,207,177,0.06);color:var(--teal);cursor:pointer;font-family:'DM Mono',monospace;transition:all 0.15s;}
-.corr-btn:hover{background:rgba(94,207,177,0.12);}
-.corr-box{display:none;margin-top:8px;padding:12px 14px;background:rgba(126,207,138,0.06);border:1px solid rgba(126,207,138,0.2);border-radius:var(--r-sm);font-size:13px;color:var(--muted);line-height:1.7;}
-.corr-box.show{display:block;}
-.corr-box strong{color:var(--text);}
+  /* SUJET CARD */
+  .sujet-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .sujet-card:hover { border-color: var(--gold-dim); }
 
-/* Auto-éval */
-.auto-eval{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-top:20px;}
-.ae-title{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;}
-.ae-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.ae-label{font-size:13px;flex:1;}
-.ae-input{width:60px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;text-align:center;outline:none;}
-.ae-max{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
-.ae-total{background:linear-gradient(135deg,rgba(232,200,122,0.12),rgba(232,200,122,0.06));border:1px solid rgba(232,200,122,0.3);border-radius:var(--r-sm);padding:14px 18px;text-align:center;margin-top:14px;}
-.ae-total-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--gold);}
-.ae-total-lbl{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+  .sujet-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .sujet-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--border);
+    min-width: 40px;
+    line-height: 1;
+  }
+  .sujet-card.open .sujet-num { color: var(--gold); }
+  .sujet-meta { flex: 1; }
+  .sujet-titre {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .sujet-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .sujet-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .tag.gold { border-color: var(--gold-dim); color: var(--gold); }
+  .tag.teal { border-color: var(--teal-dim); color: var(--teal); }
 
-.save-btn{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:12px;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;margin-top:12px;}
-.save-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btns{display:flex;gap:10px;margin-top:12px;}
-.nav-btn{flex:1;padding:12px;border-radius:var(--r);border:1px solid var(--border2);background:var(--bg2);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;transition:all 0.15s;}
-.nav-btn:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-btn.primary{background:linear-gradient(135deg,var(--blue),#4a8fd4);border:none;color:#fff;font-weight:700;}
+  .sujet-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--gold);
+    color: #09090f;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+  }
+  .dl-btn:hover { background: #f0d48a; transform: translateY(-1px); }
+  .warning-tip {
+    font-size: 11px;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
+  .chevron {
+    color: var(--text-muted);
+    transition: transform .3s;
+    font-size: 18px;
+  }
+  .sujet-card.open .chevron { transform: rotate(180deg); }
 
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;font-family:'DM Mono',monospace;}
-.toast.show{opacity:1;transform:translateY(0);}
-.toast.ok{border-color:rgba(94,207,177,0.4);color:var(--teal);}
-.toast.err{border-color:rgba(245,90,90,0.4);color:var(--red);}
-@media(max-width:480px){.sujets-grid{grid-template-columns:1fr;}.ae-row{flex-wrap:wrap;}}
+  /* SUJET BODY */
+  .sujet-body {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 0;
+  }
+  .sujet-card.open .sujet-body { display: block; }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    padding: 12px 24px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 2px;
+    transition: width .4s ease;
+  }
+
+  /* EXERCICE */
+  .exercice {
+    border-bottom: 1px solid var(--border);
+  }
+  .exercice:last-child { border-bottom: none; }
+  .exo-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    padding: 14px 24px 0;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .exo-pts {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    font-family: 'DM Sans', sans-serif;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* QUESTION */
+  .question-block {
+    padding: 16px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .question-block:last-child { border-bottom: none; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .q-num {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .q-num.done {
+    background: rgba(94,207,177,.12);
+    border-color: var(--teal-dim);
+    color: var(--teal);
+  }
+  .q-text {
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.55;
+  }
+  .q-text strong { color: var(--gold); }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: transparent;
+  }
+  .upload-zone:hover {
+    border-color: var(--teal-dim);
+    background: rgba(94,207,177,.04);
+  }
+  .upload-zone.has-file {
+    border-color: var(--teal-dim);
+    background: rgba(94,207,177,.06);
+  }
+  .upload-zone input { display: none; }
+  .upload-icon { font-size: 20px; flex-shrink: 0; }
+  .upload-label { font-size: 13px; color: var(--text-dim); }
+  .upload-label b { color: var(--teal); display: block; font-size: 12px; }
+  .upload-filename { font-size: 12px; color: var(--teal); margin-top: 4px; }
+
+  /* ANSWER INPUT */
+  .answer-input-wrap {
+    margin-top: 10px;
+    position: relative;
+  }
+  .answer-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 100px 10px 14px;
+    resize: none;
+    min-height: 60px;
+    transition: border-color .2s;
+    outline: none;
+  }
+  .answer-input:focus { border-color: var(--teal-dim); }
+  .answer-input::placeholder { color: var(--text-muted); }
+
+  .send-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: var(--teal);
+    color: #09090f;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+  }
+  .send-btn:hover { background: var(--teal-dim); transform: translateY(-1px); }
+  .send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+  /* CORRECTION PANEL */
+  .correction-panel {
+    margin-top: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: none;
+  }
+  .correction-panel.visible { display: block; }
+  .correction-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .ctab {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-align: center;
+    transition: color .2s, background .2s;
+    border: none;
+    background: none;
+  }
+  .ctab.active {
+    color: var(--gold);
+    background: rgba(232,200,122,.06);
+    border-bottom: 2px solid var(--gold);
+  }
+  .correction-body {
+    padding: 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 60px;
+    display: none;
+  }
+  .correction-body.active { display: block; }
+  .correction-body .loading {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot-pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: .3; transform: scale(.8); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(94,207,177,.12);
+    border: 1px solid var(--teal-dim);
+    color: var(--teal);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .score-badge.wrong {
+    background: rgba(232,122,122,.1);
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .conseil-block {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(232,200,122,.06);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .conseil-block strong { color: var(--gold); display: block; margin-bottom: 4px; }
+
+  /* GLOBAL SCORE */
+  .global-score {
+    padding: 16px 24px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    display: none;
+  }
+  .global-score.visible { display: flex; }
+  .score-ring {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: conic-gradient(var(--teal) 0%, var(--surface) 0%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--teal);
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+  }
+  .score-text { font-size: 13px; color: var(--text-dim); }
+  .score-text strong { color: var(--text); display: block; font-size: 15px; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--teal-dim);
+    color: var(--teal);
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    z-index: 999;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* LOCKED overlay */
+  .locked-msg {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .locked-msg span { font-size: 28px; display: block; margin-bottom: 8px; }
 </style>
 </head>
 <body>
 
-<div id="home">
-  <div class="badge">📐 Sujets blancs complets — Mathématiques</div>
-  <h1>Brevet Blanc <span>Maths</span></h1>
-  <p class="sub">10 sujets complets format DNB 2026. Partie 1 automatismes (20 min) + Partie 2 problèmes (1h40). Corrections intégrales.</p>
-  <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Qui révise ?</div>
-  <div class="who-row">
-    <button class="who-btn" id="wb-w" onclick="selWho('W')">Wassil</button>
-    <button class="who-btn" id="wb-n" onclick="selWho('N')">Nawal</button>
+<div class="header">
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">← Hub</a>
+    <div class="header-title">Sujets <span>Maths</span></div>
+    <div class="counter">Sujet <b id="openCount">0</b>/10 fait</div>
   </div>
-  <div class="sujets-grid" id="sujets-grid"></div>
-  <a href="index.html" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;text-decoration:none;margin-top:8px;">← Hub Central</a>
 </div>
 
-<div id="sujet-page">
-  <div class="s-header">
-    <div><div class="s-logo">📐 Brevet Blanc Maths</div><div class="s-meta" id="s-meta">—</div></div>
-    <button class="back" onclick="goHome()">← Retour</button>
-  </div>
-  <div class="chrono-bar">
-    <div class="chrono-label">⏱ Chronomètre</div>
-    <div class="chrono-time" id="chrono">2:00:00</div>
-    <div class="chrono-btns">
-      <button class="chrono-btn" onclick="startChrono()">▶ Démarrer</button>
-      <button class="chrono-btn" onclick="resetChrono()">↺ Reset</button>
+<div class="hero">
+  <h1>10 vrais sujets<br><em>DNB Mathématiques</em></h1>
+  <p>Télécharge le sujet, réponds question par question. L'IA corrige ta copie et te donne des conseils personnalisés.</p>
+</div>
+
+<div class="sujet-list" id="sujetList">
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SUJET 1 — 2024 Métropole juin                -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div class="sujet-card" id="sujet-1">
+    <div class="sujet-header" onclick="toggleSujet('sujet-1')">
+      <div class="sujet-num">01</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2024 — Métropole (juin)</div>
+        <div class="sujet-desc">100 pts · 5 exercices · 2h · Série générale</div>
+        <div class="sujet-tags">
+          <span class="tag">Statistiques</span>
+          <span class="tag">Fonctions</span>
+          <span class="tag">Géométrie</span>
+          <span class="tag">Scratch</span>
+          <span class="tag teal">2024</span>
+        </div>
+      </div>
+      <div class="sujet-actions">
+        <div>
+          <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/24GENMATAN1.pdf" target="_blank" download>
+            ⬇ Télécharger le sujet
+          </a>
+          <div class="warning-tip" style="margin-top:5px">⚠ Ne regarde pas le corrigé !</div>
+        </div>
+        <span class="chevron">▾</span>
+      </div>
+    </div>
+
+    <div class="sujet-body">
+      <div class="progress-bar-wrap">
+        <span>Progression</span>
+        <div class="progress-bar"><div class="progress-fill" id="prog-sujet-1" style="width:0%"></div></div>
+        <span id="prog-label-sujet-1">0 / 19</span>
+      </div>
+
+      <!-- ── EXERCICE 1 ── -->
+      <div class="exercice">
+        <div class="exo-title">Exercice 1 <span class="exo-pts">— 20 points · Affirmations V/F</span></div>
+
+        <!-- Q1-1 -->
+        <div class="question-block" id="q_1_1_1">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_1_1">1a</div>
+            <div class="q-text">
+              Les prix d'un vêtement en euros sont : <strong>12 ; 15 ; 10 ; 7 ; 13</strong><br>
+              <strong>Affirmation A :</strong> La moyenne des prix est <strong>11,40 €</strong>. Vrai ou Faux ? Justifie.
+            </div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_1_1')">
+            <input type="file" id="file_1_1_1" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_1_1')">
+            <span class="upload-icon">📎</span>
+            <div class="upload-label">
+              Colle ou importe ta feuille (photo, scan)
+              <b id="fname_1_1_1">Optionnel — si le sujet demande un document annexe</b>
+            </div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="ans_1_1_1" placeholder="Écris ta réponse ici... Ex: Vrai, car (12+15+10+7+13)/5 = 57/5 = 11,4"></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('sujet-1', 1, '1a', 'ans_1_1_1', 'file_1_1_1', 'panel_1_1_1', 'qnum_1_1_1')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="panel_1_1_1">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="switchTab('panel_1_1_1','tab-corr')">✓ Correction</button>
+              <button class="ctab" onclick="switchTab('panel_1_1_1','tab-conseil')">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="panel_1_1_1-tab-corr"></div>
+            <div class="correction-body" id="panel_1_1_1-tab-conseil"></div>
+          </div>
+        </div>
+
+        <!-- Q1-2 -->
+        <div class="question-block" id="q_1_1_2">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_1_2">1b</div>
+            <div class="q-text">
+              Même série de prix : <strong>12 ; 15 ; 10 ; 7 ; 13</strong><br>
+              <strong>Affirmation B :</strong> La médiane des prix est <strong>10 €</strong>. Vrai ou Faux ? Justifie.
+            </div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_1_2')">
+            <input type="file" id="file_1_1_2" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_1_2')">
+            <span class="upload-icon">📎</span>
+            <div class="upload-label">Colle ou importe ta feuille <b id="fname_1_1_2">Optionnel</b></div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="ans_1_1_2" placeholder="Vrai ou Faux ? Classe les valeurs dans l'ordre croissant..."></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('sujet-1', 1, '1b', 'ans_1_1_2', 'file_1_1_2', 'panel_1_1_2', 'qnum_1_1_2')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="panel_1_1_2">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="switchTab('panel_1_1_2','tab-corr')">✓ Correction</button>
+              <button class="ctab" onclick="switchTab('panel_1_1_2','tab-conseil')">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="panel_1_1_2-tab-corr"></div>
+            <div class="correction-body" id="panel_1_1_2-tab-conseil"></div>
+          </div>
+        </div>
+
+        <!-- Q1-3 -->
+        <div class="question-block" id="q_1_1_3">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_1_3">1c</div>
+            <div class="q-text">
+              Une élève court <strong>20 m en 6 secondes</strong>.<br>
+              <strong>Affirmation C :</strong> Sa vitesse moyenne était de <strong>14 km/h</strong>. Vrai ou Faux ? Justifie (convertis bien les unités).
+            </div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_1_3')">
+            <input type="file" id="file_1_1_3" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_1_3')">
+            <span class="upload-icon">📎</span>
+            <div class="upload-label">Colle ou importe ta feuille <b id="fname_1_1_3">Optionnel</b></div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="ans_1_1_3" placeholder="Calcule la vitesse en m/s puis convertis en km/h..."></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('sujet-1', 1, '1c', 'ans_1_1_3', 'file_1_1_3', 'panel_1_1_3', 'qnum_1_1_3')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="panel_1_1_3">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="switchTab('panel_1_1_3','tab-corr')">✓ Correction</button>
+              <button class="ctab" onclick="switchTab('panel_1_1_3','tab-conseil')">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="panel_1_1_3-tab-corr"></div>
+            <div class="correction-body" id="panel_1_1_3-tab-conseil"></div>
+          </div>
+        </div>
+
+        <!-- Q1-4 -->
+        <div class="question-block" id="q_1_1_4">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_1_4">1d</div>
+            <div class="q-text">
+              Une urne contient <strong>15 boules</strong> numérotées de 1 à 15.<br>
+              <strong>Affirmation D :</strong> La probabilité de tirer un <strong>nombre premier</strong> est <strong>7/15</strong>. Vrai ou Faux ? Justifie en listant les nombres premiers.
+            </div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_1_4')">
+            <input type="file" id="file_1_1_4" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_1_4')">
+            <span class="upload-icon">📎</span>
+            <div class="upload-label">Colle ou importe ta feuille <b id="fname_1_1_4">Optionnel</b></div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="ans_1_1_4" placeholder="Liste les nombres premiers entre 1 et 15, puis calcule la probabilité..."></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('sujet-1', 1, '1d', 'ans_1_1_4', 'file_1_1_4', 'panel_1_1_4', 'qnum_1_1_4')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="panel_1_1_4">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="switchTab('panel_1_1_4','tab-corr')">✓ Correction</button>
+              <button class="ctab" onclick="switchTab('panel_1_1_4','tab-conseil')">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="panel_1_1_4-tab-corr"></div>
+            <div class="correction-body" id="panel_1_1_4-tab-conseil"></div>
+          </div>
+        </div>
+
+        <!-- Q1-5 -->
+        <div class="question-block" id="q_1_1_5">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_1_5">1e</div>
+            <div class="q-text">
+              Le triangle A'B'C' est l'image du triangle ABC par une <strong>homothétie de rapport (−3)</strong>.<br>
+              <strong>Affirmation E :</strong> L'aire du triangle A'B'C' est <strong>3 fois</strong> l'aire du triangle ABC. Vrai ou Faux ? Justifie (rappel : si les longueurs sont multipliées par k, les aires sont multipliées par k²).
+            </div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_1_5')">
+            <input type="file" id="file_1_1_5" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_1_5')">
+            <span class="upload-icon">📎</span>
+            <div class="upload-label">Colle ou importe ta feuille <b id="fname_1_1_5">Optionnel</b></div>
+          </div>
+          <div class="answer-input-wrap">
+            <textarea class="answer-input" id="ans_1_1_5" placeholder="L'aire est multipliée par |k|², donc..."></textarea>
+            <button class="send-btn" onclick="corrigerQuestion('sujet-1', 1, '1e', 'ans_1_1_5', 'file_1_1_5', 'panel_1_1_5', 'qnum_1_1_5')">Corriger ↗</button>
+          </div>
+          <div class="correction-panel" id="panel_1_1_5">
+            <div class="correction-tabs">
+              <button class="ctab active" onclick="switchTab('panel_1_1_5','tab-corr')">✓ Correction</button>
+              <button class="ctab" onclick="switchTab('panel_1_1_5','tab-conseil')">💡 Conseils</button>
+            </div>
+            <div class="correction-body active" id="panel_1_1_5-tab-corr"></div>
+            <div class="correction-body" id="panel_1_1_5-tab-conseil"></div>
+          </div>
+        </div>
+      </div><!-- /exercice 1 -->
+
+      <!-- ── EXERCICE 2 ── -->
+      <div class="exercice">
+        <div class="exo-title">Exercice 2 <span class="exo-pts">— 20 points · Programme de calcul</span></div>
+
+        <div class="question-block" id="q_1_2_1">
+          <div class="q-header">
+            <div class="q-num" id="qnum_1_2_1">2-1</div>
+            <div class="q-text">Programme de calcul (voir PDF p.3) : Ajouter 2 → ×4 / ×5 → −3 → multiplier.<br>Montre que si le nombre de départ est <strong>2</strong>, le résultat est <strong>112</strong>.</div>
+          </div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_2_1')"><input type="file" id="file_1_2_1" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_2_1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_2_1">Optionnel</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_2_1" placeholder="Détaille chaque étape du calcul..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 2, '1', 'ans_1_2_1', 'file_1_2_1', 'panel_1_2_1', 'qnum_1_2_1')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_2_1"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_2_1','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_2_1','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_2_1-tab-corr"></div><div class="correction-body" id="panel_1_2_1-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_2_2">
+          <div class="q-header"><div class="q-num" id="qnum_1_2_2">2-2</div><div class="q-text">Quel est le résultat obtenu avec le nombre de départ <strong>−3</strong> ?</div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_2_2')"><input type="file" id="file_1_2_2" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_2_2')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_2_2">Optionnel</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_2_2" placeholder="Calcule chaque étape avec −3..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 2, '2', 'ans_1_2_2', 'file_1_2_2', 'panel_1_2_2', 'qnum_1_2_2')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_2_2"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_2_2','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_2_2','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_2_2-tab-corr"></div><div class="correction-body" id="panel_1_2_2-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_2_3">
+          <div class="q-header"><div class="q-num" id="qnum_1_2_3">2-3</div><div class="q-text">Avec <em>x</em> comme départ, parmi A=(x+2×4)(x×5−3), B=(4x+2)(5x−3), C=(4x+8)(5x−3), D=(x+2)×4×(5x−3) : quelles expressions donnent le résultat du programme ? (sans justification)</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_2_3" placeholder="Ex: C et D"></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 2, '3', 'ans_1_2_3', 'file_1_2_3', 'panel_1_2_3', 'qnum_1_2_3')">Corriger ↗</button></div>
+          <input type="file" id="file_1_2_3" style="display:none">
+          <div class="correction-panel" id="panel_1_2_3"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_2_3','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_2_3','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_2_3-tab-corr"></div><div class="correction-body" id="panel_1_2_3-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_2_4">
+          <div class="q-header"><div class="q-num" id="qnum_1_2_4">2-4</div><div class="q-text">Trouve les <strong>deux nombres de départ</strong> qui donnent 0 à l'arrivée. Explique ta démarche.</div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_2_4')"><input type="file" id="file_1_2_4" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_2_4')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_2_4">Optionnel</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_2_4" placeholder="Pour que le produit soit nul, un des facteurs doit être nul..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 2, '4', 'ans_1_2_4', 'file_1_2_4', 'panel_1_2_4', 'qnum_1_2_4')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_2_4"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_2_4','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_2_4','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_2_4-tab-corr"></div><div class="correction-body" id="panel_1_2_4-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_2_5">
+          <div class="q-header"><div class="q-num" id="qnum_1_2_5">2-5</div><div class="q-text"><strong>Développer et réduire</strong> l'expression B = (4x+2)(5x−3).</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_2_5" placeholder="Double distributivité : (4x+2)(5x−3) = ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 2, '5', 'ans_1_2_5', 'file_1_2_5', 'panel_1_2_5', 'qnum_1_2_5')">Corriger ↗</button></div>
+          <input type="file" id="file_1_2_5" style="display:none">
+          <div class="correction-panel" id="panel_1_2_5"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_2_5','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_2_5','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_2_5-tab-corr"></div><div class="correction-body" id="panel_1_2_5-tab-conseil"></div></div>
+        </div>
+      </div><!-- /exercice 2 -->
+
+      <!-- ── EXERCICE 3 ── -->
+      <div class="exercice">
+        <div class="exo-title">Exercice 3 <span class="exo-pts">— 20 points · Tarifs cinéma / Fonctions</span></div>
+
+        <div class="question-block" id="q_1_3_1">
+          <div class="q-header"><div class="q-num" id="qnum_1_3_1">3-1</div><div class="q-text">Tarif <strong>Classique</strong> : 11 €/entrée. Combien paye-t-on pour <strong>3 entrées</strong> ?</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_3_1" placeholder="Calcul simple..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 3, '1', 'ans_1_3_1', 'file_1_3_1', 'panel_1_3_1', 'qnum_1_3_1')">Corriger ↗</button></div>
+          <input type="file" id="file_1_3_1" style="display:none">
+          <div class="correction-panel" id="panel_1_3_1"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_3_1','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_3_1','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_3_1-tab-corr"></div><div class="correction-body" id="panel_1_3_1-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_3_2">
+          <div class="q-header"><div class="q-num" id="qnum_1_3_2">3-2</div><div class="q-text">Tarif <strong>Essentiel</strong> : 50 € d'abonnement + 5 €/entrée. Montre qu'aller <strong>8 fois</strong> coûte <strong>90 €</strong>.</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_3_2" placeholder="50 + 8 × 5 = ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 3, '2', 'ans_1_3_2', 'file_1_3_2', 'panel_1_3_2', 'qnum_1_3_2')">Corriger ↗</button></div>
+          <input type="file" id="file_1_3_2" style="display:none">
+          <div class="correction-panel" id="panel_1_3_2"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_3_2','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_3_2','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_3_2-tab-corr"></div><div class="correction-body" id="panel_1_3_2-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_3_3">
+          <div class="q-header"><div class="q-num" id="qnum_1_3_3">3-3</div><div class="q-text">Associe (sans justifier) chaque fonction f(x)=50+5x, g(x)=240, h(x)=11x à son tarif (Classique, Essentiel, Liberté).</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_3_3" placeholder="f → ... , g → ... , h → ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 3, '3', 'ans_1_3_3', 'file_1_3_3', 'panel_1_3_3', 'qnum_1_3_3')">Corriger ↗</button></div>
+          <input type="file" id="file_1_3_3" style="display:none">
+          <div class="correction-panel" id="panel_1_3_3"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_3_3','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_3_3','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_3_3-tab-corr"></div><div class="correction-body" id="panel_1_3_3-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_3_4">
+          <div class="q-header"><div class="q-num" id="qnum_1_3_4">3-4</div><div class="q-text">Quel tarif propose un prix <strong>proportionnel</strong> au nombre d'entrées ? Pourquoi ?</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_3_4" placeholder="Un prix est proportionnel quand la fonction est linéaire, c'est-à-dire..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 3, '4', 'ans_1_3_4', 'file_1_3_4', 'panel_1_3_4', 'qnum_1_3_4')">Corriger ↗</button></div>
+          <input type="file" id="file_1_3_4" style="display:none">
+          <div class="correction-panel" id="panel_1_3_4"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_3_4','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_3_4','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_3_4-tab-corr"></div><div class="correction-body" id="panel_1_3_4-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_3_5">
+          <div class="q-header"><div class="q-num" id="qnum_1_3_5">3-5</div><div class="q-text">
+            Sans justification (lecture graphique ou calcul) :<br>
+            a) Avec 150 €, combien d'entrées max avec le tarif Essentiel ?<br>
+            b) À partir de combien d'entrées le tarif Liberté est le plus intéressant ?<br>
+            c) Budget 200 € : quel tarif permet le plus d'entrées ?
+          </div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_3_5" placeholder="a) ... entrées  b) à partir de ... entrées  c) tarif ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 3, '5', 'ans_1_3_5', 'file_1_3_5', 'panel_1_3_5', 'qnum_1_3_5')">Corriger ↗</button></div>
+          <input type="file" id="file_1_3_5" style="display:none">
+          <div class="correction-panel" id="panel_1_3_5"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_3_5','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_3_5','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_3_5-tab-corr"></div><div class="correction-body" id="panel_1_3_5-tab-conseil"></div></div>
+        </div>
+      </div><!-- /exercice 3 -->
+
+      <!-- ── EXERCICE 4 ── -->
+      <div class="exercice">
+        <div class="exo-title">Exercice 4 <span class="exo-pts">— 21 points · Terrasse en béton</span></div>
+
+        <div class="question-block" id="q_1_4_1">
+          <div class="q-header"><div class="q-num" id="qnum_1_4_1">4-1</div><div class="q-text">📄 Ouvre le PDF pour consulter la figure de la terrasse.<br>Montre que <strong>FJ = 4 m</strong>.</div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_4_1')"><input type="file" id="file_1_4_1" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_4_1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille avec calcul <b id="fname_1_4_1">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_4_1" placeholder="Utilise les dimensions de la figure pour montrer FJ = 4 m..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 4, '1', 'ans_1_4_1', 'file_1_4_1', 'panel_1_4_1', 'qnum_1_4_1')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_4_1"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_4_1','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_4_1','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_4_1-tab-corr"></div><div class="correction-body" id="panel_1_4_1-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_4_2">
+          <div class="q-header"><div class="q-num" id="qnum_1_4_2">4-2</div><div class="q-text">Quelle longueur de planches faut-il acheter au minimum pour délimiter la terrasse ?</div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_4_2')"><input type="file" id="file_1_4_2" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_4_2')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_4_2">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_4_2" placeholder="Calcule le périmètre de la terrasse (Pythagore pour le côté GJ)..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 4, '2', 'ans_1_4_2', 'file_1_4_2', 'panel_1_4_2', 'qnum_1_4_2')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_4_2"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_4_2','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_4_2','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_4_2-tab-corr"></div><div class="correction-body" id="panel_1_4_2-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_4_3">
+          <div class="q-header"><div class="q-num" id="qnum_1_4_3">4-3</div><div class="q-text">
+            Pour réaliser <strong>4 m³ de béton</strong> :<br>
+            a) Montre que le volume de la terrasse est &lt; 4 m³.<br>
+            b) Masse de ciment nécessaire (250 kg/m³) pour 4 m³ ?<br>
+            c) Ratio ciment : gravier : sable = 2 : 7 : 5. Détermine les masses de gravier et sable.
+          </div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_4_3')"><input type="file" id="file_1_4_3" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_4_3')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_4_3">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_4_3" placeholder="a) V = aire × hauteur = ...   b) masse = ...   c) gravier = ..., sable = ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 4, '3', 'ans_1_4_3', 'file_1_4_3', 'panel_1_4_3', 'qnum_1_4_3')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_4_3"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_4_3','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_4_3','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_4_3-tab-corr"></div><div class="correction-body" id="panel_1_4_3-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_4_4">
+          <div class="q-header"><div class="q-num" id="qnum_1_4_4">4-4</div><div class="q-text">
+            Peinture (voir Documents 1, 2, 3 dans le PDF) : 2 couches, 1L couvre 5m², Pot A=5L/79,90€, Pot B=10L/129,90€, promo −50% sur 2ᵉ article identique.<br>
+            Détermine le <strong>type et nombre de pots</strong> pour un coût minimum.
+          </div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_4_4')"><input type="file" id="file_1_4_4" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_4_4')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta feuille <b id="fname_1_4_4">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_4_4" placeholder="Surface à peindre = ... m², litres nécessaires = ..., compare les options..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 4, '4', 'ans_1_4_4', 'file_1_4_4', 'panel_1_4_4', 'qnum_1_4_4')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_4_4"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_4_4','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_4_4','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_4_4-tab-corr"></div><div class="correction-body" id="panel_1_4_4-tab-conseil"></div></div>
+        </div>
+      </div><!-- /exercice 4 -->
+
+      <!-- ── EXERCICE 5 ── -->
+      <div class="exercice">
+        <div class="exo-title">Exercice 5 <span class="exo-pts">— 19 points · Géométrie + Scratch</span></div>
+
+        <div class="question-block" id="q_1_5_1">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_1">5-A1</div><div class="q-text">📄 Figure dans le PDF : points A,C,E alignés ; B,C,D alignés ; AB=240mm ; CE=80mm.<br><strong>Montre que le triangle ABC est équilatéral.</strong></div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_5_1')"><input type="file" id="file_1_5_1" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_5_1')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta démonstration <b id="fname_1_5_1">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_1" placeholder="Utilise les angles codés sur la figure..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'A1', 'ans_1_5_1', 'file_1_5_1', 'panel_1_5_1', 'qnum_1_5_1')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_5_1"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_1','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_1','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_1-tab-corr"></div><div class="correction-body" id="panel_1_5_1-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_5_2">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_2">5-A2</div><div class="q-text"><strong>Montre que les droites (DE) et (AB) sont parallèles.</strong> (Utilise le théorème de Thalès réciproque)</div></div>
+          <div class="upload-zone" onclick="triggerUpload('file_1_5_2')"><input type="file" id="file_1_5_2" accept="image/*,.pdf" onchange="fileSelected(this,'q_1_5_2')"><span class="upload-icon">📎</span><div class="upload-label">Photo de ta démonstration <b id="fname_1_5_2">Recommandé</b></div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_2" placeholder="Calcule les rapports CA/CE et CB/CD, puis conclue..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'A2', 'ans_1_5_2', 'file_1_5_2', 'panel_1_5_2', 'qnum_1_5_2')">Corriger ↗</button></div>
+          <div class="correction-panel" id="panel_1_5_2"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_2','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_2','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_2-tab-corr"></div><div class="correction-body" id="panel_1_5_2-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_5_3">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_3">5-B1</div><div class="q-text">📄 Programme Scratch (voir PDF p.8).<br>Quelles sont les <strong>coordonnées du point de départ</strong> du lutin ? (sans justification)</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_3" placeholder="(x ; y) = ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'B1', 'ans_1_5_3', 'file_1_5_3', 'panel_1_5_3', 'qnum_1_5_3')">Corriger ↗</button></div>
+          <input type="file" id="file_1_5_3" style="display:none">
+          <div class="correction-panel" id="panel_1_5_3"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_3','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_3','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_3-tab-corr"></div><div class="correction-body" id="panel_1_5_3-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_5_4">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_4">5-B2</div><div class="q-text">Quelle valeur saisir à la <strong>ligne 4</strong> du programme ? (sans justification)</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_4" placeholder="La valeur est..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'B2', 'ans_1_5_4', 'file_1_5_4', 'panel_1_5_4', 'qnum_1_5_4')">Corriger ↗</button></div>
+          <input type="file" id="file_1_5_4" style="display:none">
+          <div class="correction-panel" id="panel_1_5_4"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_4','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_4','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_4-tab-corr"></div><div class="correction-body" id="panel_1_5_4-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_5_5">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_5">5-B3</div><div class="q-text">Le lutin démarre case D8. Dans quelle case se trouve-t-il après la <strong>ligne 7</strong> ? (sans justification)</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_5" placeholder="Case ..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'B3', 'ans_1_5_5', 'file_1_5_5', 'panel_1_5_5', 'qnum_1_5_5')">Corriger ↗</button></div>
+          <input type="file" id="file_1_5_5" style="display:none">
+          <div class="correction-panel" id="panel_1_5_5"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_5','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_5','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_5-tab-corr"></div><div class="correction-body" id="panel_1_5_5-tab-conseil"></div></div>
+        </div>
+
+        <div class="question-block" id="q_1_5_6">
+          <div class="q-header"><div class="q-num" id="qnum_1_5_6">5-B4</div><div class="q-text">Explique l'instruction <strong>« côté / 3 »</strong> à la ligne 8 pour le tracé de la figure.</div></div>
+          <div class="answer-input-wrap"><textarea class="answer-input" id="ans_1_5_6" placeholder="Cette instruction permet de..."></textarea><button class="send-btn" onclick="corrigerQuestion('sujet-1', 5, 'B4', 'ans_1_5_6', 'file_1_5_6', 'panel_1_5_6', 'qnum_1_5_6')">Corriger ↗</button></div>
+          <input type="file" id="file_1_5_6" style="display:none">
+          <div class="correction-panel" id="panel_1_5_6"><div class="correction-tabs"><button class="ctab active" onclick="switchTab('panel_1_5_6','tab-corr')">✓ Correction</button><button class="ctab" onclick="switchTab('panel_1_5_6','tab-conseil')">💡 Conseils</button></div><div class="correction-body active" id="panel_1_5_6-tab-corr"></div><div class="correction-body" id="panel_1_5_6-tab-conseil"></div></div>
+        </div>
+      </div><!-- /exercice 5 -->
+
+      <!-- SCORE GLOBAL -->
+      <div class="global-score" id="global-sujet-1">
+        <div class="score-ring" id="ring-sujet-1">—</div>
+        <div class="score-text">
+          <strong>Score estimé</strong>
+          <span id="score-text-sujet-1">Réponds à toutes les questions pour voir ton score.</span>
+        </div>
+      </div>
+
+    </div><!-- /sujet-body -->
+  </div><!-- /sujet-card 1 -->
+
+  <!-- SUJETS 2-10 : À VENIR -->
+  <div class="sujet-card" id="sujet-2" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">02</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2024 — Asie Pacifique</div>
+        <div class="sujet-desc">Strasbourg–Marseille, location voiture, fonctions affines, Scratch</div>
+        <div class="sujet-tags"><span class="tag teal">2024</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/24GENMATAA1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
     </div>
   </div>
-  <div class="s-body" id="s-body"></div>
-</div>
+
+  <div class="sujet-card" id="sujet-3" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">03</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2023 — Métropole (juin)</div>
+        <div class="sujet-desc">Lunettes, escalier, programmes de calcul, fonctions</div>
+        <div class="sujet-tags"><span class="tag gold">2023</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATMEAG1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-4" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">04</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2023 — Amérique du Nord</div>
+        <div class="sujet-desc">Hippodrome, Scratch fleur, probabilités, statistiques</div>
+        <div class="sujet-tags"><span class="tag gold">2023</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATAN1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-5" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">05</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2023 — Polynésie</div>
+        <div class="sujet-desc">Panneaux solaires, karting, PGCD</div>
+        <div class="sujet-tags"><span class="tag gold">2023</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATPO1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-6" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">06</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2023 — Centres étrangers</div>
+        <div class="sujet-desc">Cabane jardin, bac à sable, bateaux location</div>
+        <div class="sujet-tags"><span class="tag gold">2023</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATG11.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-7" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">07</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2022 — Métropole (juin)</div>
+        <div class="sujet-desc">Sport/statistiques, Scratch jeu hasard, programme de calcul</div>
+        <div class="sujet-tags"><span class="tag">2022</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/22GENMATAN1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-8" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">08</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2022 — Amérique du Nord</div>
+        <div class="sujet-desc">ISS/Thomas Pesquet, photos boutique, Thalès</div>
+        <div class="sujet-tags"><span class="tag">2022</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/22GENMATAA1.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-9" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">09</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2022 — Amérique du Sud</div>
+        <div class="sujet-desc">Six affirmations, énergie solaire, carré potager</div>
+        <div class="sujet-tags"><span class="tag">2022</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/22GENMATAS.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sujet-card" id="sujet-10" style="opacity:.5">
+    <div class="sujet-header">
+      <div class="sujet-num">10</div>
+      <div class="sujet-meta">
+        <div class="sujet-titre">DNB 2022 — Polynésie</div>
+        <div class="sujet-desc">Géométrie, Scratch</div>
+        <div class="sujet-tags"><span class="tag">2022</span><span class="tag">Bientôt</span></div>
+      </div>
+      <div class="sujet-actions">
+        <a class="dl-btn" href="https://pi.ac3j.fr/wp-content/uploads/Brevets/22GENMATAS.pdf" target="_blank" download>⬇ Sujet</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sujet-list -->
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEETS={W:'https://script.google.com/macros/s/AKfycbyak5HZqHjMtAUB2lsfA_tKHmQipCjpfFUE6jN0OTf0GmlFt7ScHrOHkcitGw_5sZc2/exec',N:'https://script.google.com/macros/s/AKfycbxf_F8OOvL7QvtWFcNEHw-ErjYOw7MkQn3d7X-QeS6aqkEDZlVVytTxw3KVbhhszfcs/exec'};
+// ── CONFIG ────────────────────────────────────────────────────────────────
+const PROXY_URL = 'https://script.google.com/macros/s/AKfycby9xan87KYJf0vtJw_umfYusxVse6OpxXK8gyieeGoaXknPrRjNdpzAkOUOzrpkK1-gMg/exec';
 
-const SUJETS=[
-{id:1,titre:'Pythagore, probabilités et fonctions',themes:['Pythagore','Probabilités','Fonctions affines'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Quel est le carré de 13 ?',c:'13² = 169'},
-  {n:'2',pts:0.5,q:'Simplifier la fraction 18/24.',c:'18/24 = 3/4 (on divise par 6)'},
-  {n:'3',pts:0.5,q:'Calculer 15% de 80.',c:'15% × 80 = 0,15 × 80 = 12'},
-  {n:'4',pts:0.5,q:'Vrai ou faux : √25 = 5',c:'Vrai. 5 × 5 = 25 donc √25 = 5'},
-  {n:'5',pts:0.5,q:'Quel est le périmètre d\'un carré de côté 7 cm ?',c:'P = 4 × 7 = 28 cm'},
-  {n:'6',pts:0.5,q:'Résoudre : 3x = 21',c:'x = 21/3 = 7'},
-  {n:'7',pts:0.5,q:'Donner les coordonnées de l\'origine d\'un repère.',c:'O(0 ; 0)'},
-  {n:'8',pts:0.5,q:'Un dé à 6 faces. Quelle est la probabilité d\'obtenir un nombre impair ?',c:'P = 3/6 = 1/2. Nombres impairs : 1, 3, 5'},
-  {n:'9',pts:0.5,q:'Convertir 2,5 heures en minutes.',c:'2,5 × 60 = 150 minutes'},
-  {n:'10',pts:0.5,q:'Calculer l\'aire d\'un rectangle de longueur 9 cm et largeur 4 cm.',c:'A = 9 × 4 = 36 cm²'},
-  {n:'11',pts:0.5,q:'Vrai ou faux : 0 est un nombre pair.',c:'Vrai. 0 = 2 × 0, donc divisible par 2'},
-  {n:'12',pts:0.5,q:'Combien y a-t-il de faces dans un cube ?',c:'6 faces'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Pythagore',pts:5,
-  context:'Un terrain de football rectangulaire mesure 90 m de longueur et 60 m de largeur.',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer la longueur de la diagonale du terrain.',c:'diagonale² = 90² + 60² = 8100 + 3600 = 11700. diagonale = √11700 ≈ 108,2 m'},
-    {n:'2.',pts:3,q:'Un joueur court du coin A au coin B (diagonale), puis du coin B au coin C (largeur). Quelle distance totale parcourt-il ? Arrondir au dixième.',c:'Distance = diagonale + largeur = 108,2 + 60 = 168,2 m'},
-  ]},
-  {titre:'Exercice 2 — Probabilités',pts:4,
-  context:'Une urne contient 4 boules rouges, 3 boules bleues et 2 boules vertes. On tire une boule au hasard.',
-  questions:[
-    {n:'1.',pts:1,q:'Calculer P(rouge).',c:'P(rouge) = 4/9'},
-    {n:'2.',pts:1,q:'Calculer P(verte).',c:'P(verte) = 2/9'},
-    {n:'3.',pts:2,q:'On tire 2 boules successivement avec remise. Calculer la probabilité d\'obtenir 2 boules rouges.',c:'P = 4/9 × 4/9 = 16/81 ≈ 0,198'},
-  ]},
-  {titre:'Exercice 3 — Fonctions',pts:5,
-  context:'Une piscine se remplit à raison de 3 m³ par heure. Au départ, elle contient déjà 5 m³ d\'eau.',
-  questions:[
-    {n:'1.',pts:1,q:'Exprimer le volume V (en m³) en fonction du temps t (en heures).',c:'V(t) = 3t + 5'},
-    {n:'2.',pts:2,q:'Quel est le volume d\'eau après 4 heures ? Après 10 heures ?',c:'V(4) = 3×4+5 = 17 m³. V(10) = 3×10+5 = 35 m³'},
-    {n:'3.',pts:2,q:'La piscine a une capacité de 50 m³. Au bout de combien d\'heures sera-t-elle pleine ?',c:'3t + 5 = 50 → 3t = 45 → t = 15 heures'},
-  ]},
-]}},
+// Contexte sujet pour l'IA
+const SUJET_CONTEXT = {
+  'sujet-1': `Tu es un professeur de mathématiques bienveillant qui corrige le sujet DNB 2024 Mathématiques Métropole.
+  
+Voici les éléments de correction par exercice et question :
+- Ex1/1a (Affirmation A) : VRAIE. Moyenne = (12+15+10+7+13)/5 = 57/5 = 11,4 ✓
+- Ex1/1b (Affirmation B) : FAUSSE. Classement : 7;10;12;13;15 → médiane = 12 (valeur centrale), pas 10.
+- Ex1/1c (Affirmation C) : FAUSSE. Vitesse = 20m/6s × 3600 = 12 km/h, pas 14.
+- Ex1/1d (Affirmation D) : FAUSSE. Nombres premiers entre 1 et 15 : 2,3,5,7,11,13 → 6 nombres, probabilité = 6/15, pas 7/15.
+- Ex1/1e (Affirmation E) : FAUSSE. Rapport homothétie = -3, donc |k|=3, aire multipliée par k²=9, pas par 3.
+- Ex2/1 : Partir de 2 → +2=4 → ×4=16, et ×5=10 → -3=7. 16×7=112 ✓
+- Ex2/2 : Partir de -3 → +2=-1 → ×4=-4, et ×5=-15 → -3=-18. (-4)×(-18)=72.
+- Ex2/3 : Expressions C et D (= (4x+8)(5x-3) et (x+2)×4×(5x-3))
+- Ex2/4 : (4x+8)=0 → x=-2 ; (5x-3)=0 → x=3/5=0,6. Les deux nombres sont -2 et 0,6.
+- Ex2/5 : B=(4x+2)(5x-3) = 20x²-12x+10x-6 = 20x²-2x-6.
+- Ex3/1 : 3×11=33 €
+- Ex3/2 : 50+8×5=90 € ✓
+- Ex3/3 : h(x)=11x → Classique ; f(x)=50+5x → Essentiel ; g(x)=240 → Liberté
+- Ex3/4 : Tarif Classique (h est linéaire, passe par l'origine)
+- Ex3/5 : a) 20 entrées b) 39 entrées c) Tarif Essentiel (30 entrées)
+- Ex4/1 : FJ = 10-6 = 4 m (EF=10m, EH=HG=3m, GF=6m → EFGH rectangle donc FJ=EF-EH-HG ? Voir figure PDF)
+- Ex4/2 : Périmètre = 24 m (Pythagore pour GJ : GJ²=4²+3²=25, GJ=5 ; puis 10+5+6+3=24 m)
+- Ex4/3a : V=aire×hauteur. Aire base=18+6=24m². V=24×0,15=3,6 m³ < 4 m³ ✓
+- Ex4/3b : 4×250=1000 kg de ciment
+- Ex4/3c : ratio 2:7:5, total=14. Gravier=7/2×1000=3500kg, sable=5/2×1000=2500kg
+- Ex4/4 : Surface=24m². 2 couches → 48m². 48÷5=9,6L. Option 2 pots A (2e à -50%) : 79,90+39,95=119,85€. Option 1 pot B : 129,90€. → 2 pots A = 119,85€ moins cher.
+- Ex5/A1 : Triangle ABC équilatéral car les 3 angles codés valent 60° (somme=180°)
+- Ex5/A2 : CA/CE = 240/80 = 3 et CB/CD = 240/80 = 3, rapports égaux, points alignés → Thalès réciproque → (DE)//(AB)
+- Ex5/B1 : Coordonnées (-180 ; -150)
+- Ex5/B2 : Valeur 240 (= AB en mm)
+- Ex5/B3 : Case G3
+- Ex5/B4 : Divise la longueur du côté par 3 pour tracer le petit triangle équilatéral (DEC a des côtés = 80mm = 240/3mm)`
+};
 
-{id:2,titre:'Statistiques, géométrie et proportionnalité',themes:['Statistiques','Aires et volumes','Proportionnalité'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Calculer la moyenne de : 8, 12, 6, 14, 10',c:'Moyenne = (8+12+6+14+10)/5 = 50/5 = 10'},
-  {n:'2',pts:0.5,q:'Donner la médiane de : 3, 7, 9, 11, 15',c:'Médiane = 9 (valeur centrale, 5 valeurs)'},
-  {n:'3',pts:0.5,q:'Un article coûte 80 €. Après 20% de réduction, quel est son prix ?',c:'80 × 0,8 = 64 €'},
-  {n:'4',pts:0.5,q:'Quelle est la formule de l\'aire d\'un triangle ?',c:'A = (base × hauteur) / 2'},
-  {n:'5',pts:0.5,q:'Calculer 2³ × 3²',c:'8 × 9 = 72'},
-  {n:'6',pts:0.5,q:'Vrai ou faux : tout carré est un rectangle.',c:'Vrai. Un carré est un rectangle particulier (4 côtés égaux).'},
-  {n:'7',pts:0.5,q:'Résoudre : 2x + 3 = 11',c:'2x = 8 → x = 4'},
-  {n:'8',pts:0.5,q:'Combien vaut x si x/4 = 7 ?',c:'x = 28'},
-  {n:'9',pts:0.5,q:'Convertir 3 km en mètres.',c:'3 km = 3000 m'},
-  {n:'10',pts:0.5,q:'Quel est le volume d\'un cube de côté 4 cm ?',c:'V = 4³ = 64 cm³'},
-  {n:'11',pts:0.5,q:'Calculer 3/4 + 1/2',c:'3/4 + 2/4 = 5/4'},
-  {n:'12',pts:0.5,q:'Donner le double de 37.',c:'74'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Statistiques',pts:6,
-  context:'Les notes de 10 élèves à un contrôle sont : 8, 12, 15, 7, 11, 14, 9, 13, 10, 11.',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer la moyenne de la classe.',c:'Somme = 110. Moyenne = 110/10 = 11'},
-    {n:'2.',pts:2,q:'Déterminer la médiane.',c:'Valeurs triées : 7,8,9,10,11,11,12,13,14,15. Médiane = (11+11)/2 = 11'},
-    {n:'3.',pts:2,q:'Quel est l\'étendue de cette série ?',c:'Étendue = max - min = 15 - 7 = 8'},
-  ]},
-  {titre:'Exercice 2 — Géométrie',pts:4,
-  context:'Un cône a une hauteur de 12 cm et un rayon de base de 5 cm. (V = πr²h/3)',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer le volume du cône. (π ≈ 3,14)',c:'V = π × 5² × 12 / 3 = 3,14 × 25 × 4 = 314 cm³'},
-    {n:'2.',pts:2,q:'Un cylindre de même rayon et même hauteur. Quel est le rapport de leurs volumes ?',c:'V_cylindre = π×25×12 = 942 cm³. Rapport = 942/314 = 3. Le cylindre a un volume 3 fois plus grand.'},
-  ]},
-  {titre:'Exercice 3 — Proportionnalité',pts:4,
-  context:'Pour fabriquer 5 gâteaux, une recette nécessite 750 g de farine, 6 œufs et 300 g de beurre.',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer les quantités nécessaires pour 8 gâteaux.',c:'Coefficient : 8/5 = 1,6. Farine : 750 × 1,6 = 1200 g. Œufs : 6 × 1,6 = 9,6 ≈ 10 œufs. Beurre : 300 × 1,6 = 480 g.'},
-    {n:'2.',pts:2,q:'On dispose de 1 kg de farine. Combien de gâteaux peut-on faire ?',c:'1000/750 × 5 = 6,67 → 6 gâteaux (on arrondit à l\'entier inférieur).'},
-  ]},
-]}},
+// ── STATE ─────────────────────────────────────────────────────────────────
+const state = {
+  answered: {},    // qId -> true
+  files: {}        // fileId -> base64
+};
 
-{id:3,titre:'Nombres relatifs, puissances et équations',themes:['Nombres relatifs','Puissances','Équations 2nd degré'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Calculer : (-3) × (-5)',c:'(-3) × (-5) = +15. Deux négatifs → positif.'},
-  {n:'2',pts:0.5,q:'Calculer : (-8) + 3',c:'-8 + 3 = -5'},
-  {n:'3',pts:0.5,q:'Donner le résultat de 10⁰',c:'10⁰ = 1. Tout nombre (non nul) à la puissance 0 vaut 1.'},
-  {n:'4',pts:0.5,q:'Écrire en notation scientifique : 45 000',c:'4,5 × 10⁴'},
-  {n:'5',pts:0.5,q:'Résoudre : x² = 49',c:'x = 7 ou x = -7'},
-  {n:'6',pts:0.5,q:'Calculer : 2⁵',c:'2⁵ = 32'},
-  {n:'7',pts:0.5,q:'Vrai ou faux : (-2)² = -4',c:'Faux. (-2)² = (-2)×(-2) = +4'},
-  {n:'8',pts:0.5,q:'Simplifier : 5x + 3x - 2x',c:'6x'},
-  {n:'9',pts:0.5,q:'Développer : 3(2x - 5)',c:'6x - 15'},
-  {n:'10',pts:0.5,q:'Factoriser : 4x + 12',c:'4(x + 3)'},
-  {n:'11',pts:0.5,q:'Calculer : 3/5 × 10/9',c:'30/45 = 2/3'},
-  {n:'12',pts:0.5,q:'Donner le PGCD de 24 et 36.',c:'PGCD = 12. (24 = 12×2, 36 = 12×3)'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Nombres relatifs et cotations',pts:4,
-  context:'Un plongeur se trouve à -15 m sous la surface. Un sous-marin est à -48 m. Un bateau est à +3 m.',
-  questions:[
-    {n:'1.',pts:1,q:'Quelle est la distance entre le plongeur et le sous-marin ?',c:'|-15 - (-48)| = |-15 + 48| = |33| = 33 m'},
-    {n:'2.',pts:1,q:'Quelle est la distance entre le bateau et le plongeur ?',c:'|3 - (-15)| = |18| = 18 m'},
-    {n:'3.',pts:2,q:'Le plongeur descend de 12 m puis remonte de 5 m. Quelle est sa nouvelle position ?',c:'-15 - 12 + 5 = -22 m'},
-  ]},
-  {titre:'Exercice 2 — Puissances et notation scientifique',pts:4,
-  context:'La distance Terre-Soleil est d\'environ 1,5 × 10⁸ km. La lumière parcourt 3 × 10⁵ km/s.',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer le temps (en secondes) que met la lumière pour aller du Soleil à la Terre.',c:'t = d/v = (1,5 × 10⁸)/(3 × 10⁵) = 0,5 × 10³ = 500 secondes'},
-    {n:'2.',pts:2,q:'Convertir ce temps en minutes et secondes.',c:'500 s = 8 min 20 s'},
-  ]},
-  {titre:'Exercice 3 — Équations et inéquations',pts:6,
-  context:'Un rectangle a un périmètre de 56 cm. Sa longueur est le double de sa largeur.',
-  questions:[
-    {n:'1.',pts:2,q:'En notant x la largeur, écrire une équation traduisant le problème.',c:'Périmètre = 2(longueur + largeur) = 2(2x + x) = 6x = 56'},
-    {n:'2.',pts:2,q:'Résoudre l\'équation et donner les dimensions.',c:'6x = 56 → x = 56/6 ≈ 9,33 cm. Largeur ≈ 9,33 cm, Longueur ≈ 18,67 cm.'},
-    {n:'3.',pts:2,q:'Calculer l\'aire du rectangle.',c:'A = longueur × largeur ≈ 18,67 × 9,33 ≈ 174,2 cm²'},
-  ]},
-]}},
-
-{id:4,titre:'Trigonométrie, suites et statistiques',themes:['Trigonométrie','Suites','Statistiques'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Dans un triangle rectangle, cos(angle) = adjacent/hypoténuse. Vrai ou faux ?',c:'Vrai. C\'est la définition du cosinus dans un triangle rectangle.'},
-  {n:'2',pts:0.5,q:'Calculer sin(30°).',c:'sin(30°) = 0,5 = 1/2'},
-  {n:'3',pts:0.5,q:'Donner cos(0°).',c:'cos(0°) = 1'},
-  {n:'4',pts:0.5,q:'Quelle est la somme des angles d\'un triangle ?',c:'180°'},
-  {n:'5',pts:0.5,q:'Un triangle équilatéral a des angles de combien de degrés ?',c:'60° chacun (180/3 = 60)'},
-  {n:'6',pts:0.5,q:'Calculer la médiane de : 2, 5, 8, 11, 14',c:'Médiane = 8 (valeur centrale)'},
-  {n:'7',pts:0.5,q:'Donner le premier terme et la raison de la suite : 3, 7, 11, 15...',c:'Premier terme : 3. Raison : 4 (on ajoute 4 à chaque fois). Suite arithmétique.'},
-  {n:'8',pts:0.5,q:'Quel est le 5ème terme de cette suite ?',c:'15 + 4 = 19'},
-  {n:'9',pts:0.5,q:'Calculer 5! (factorielle 5)',c:'5! = 5×4×3×2×1 = 120'},
-  {n:'10',pts:0.5,q:'Simplifier : (3x²)/(x)',c:'3x'},
-  {n:'11',pts:0.5,q:'Vrai ou faux : tan(45°) = 1',c:'Vrai. tan(45°) = sin(45°)/cos(45°) = 1'},
-  {n:'12',pts:0.5,q:'Convertir 90° en radians.',c:'π/2 radians'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Trigonométrie',pts:6,
-  context:'Une échelle de 5 m fait un angle de 65° avec le sol.',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer la hauteur h atteinte par le haut de l\'échelle. (sin 65° ≈ 0,906)',c:'sin(65°) = h/5 → h = 5 × 0,906 = 4,53 m'},
-    {n:'2.',pts:2,q:'Calculer la distance d entre le pied de l\'échelle et le mur. (cos 65° ≈ 0,423)',c:'cos(65°) = d/5 → d = 5 × 0,423 = 2,115 m'},
-    {n:'3.',pts:2,q:'Vérifier par Pythagore que les résultats sont cohérents.',c:'h² + d² = 4,53² + 2,115² = 20,52 + 4,47 ≈ 25 = 5² ✓'},
-  ]},
-  {titre:'Exercice 2 — Suites arithmétiques',pts:4,
-  context:'Un nageur s\'entraîne chaque jour. Il nage 500 m le premier jour, puis augmente de 50 m chaque jour.',
-  questions:[
-    {n:'1.',pts:1,q:'Quelle distance nage-t-il le 7ème jour ?',c:'u₇ = 500 + (7-1)×50 = 500 + 300 = 800 m'},
-    {n:'2.',pts:3,q:'Quelle est la distance totale nage sur 10 jours ?',c:'Somme = n/2 × (u₁ + u₁₀). u₁₀ = 500 + 9×50 = 950. Somme = 10/2 × (500+950) = 5 × 1450 = 7250 m'},
-  ]},
-  {titre:'Exercice 3 — Statistiques avancées',pts:4,
-  context:'Tableau de notes d\'une classe : Note 6(2 élèves), 8(4), 10(6), 12(8), 14(5), 16(3), 18(2)',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer la moyenne pondérée.',c:'Total élèves = 30. Somme = 6×2+8×4+10×6+12×8+14×5+16×3+18×2 = 12+32+60+96+70+48+36 = 354. Moyenne = 354/30 = 11,8'},
-    {n:'2.',pts:2,q:'Déterminer la classe modale.',c:'La classe modale est 12 (8 élèves, fréquence maximale).'},
-  ]},
-]}},
-
-{id:5,titre:'Algèbre, géométrie dans l\'espace et probabilités',themes:['Identités remarquables','Volume sphère','Probabilités conditionnelles'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Développer (x+4)²',c:'x² + 8x + 16'},
-  {n:'2',pts:0.5,q:'Factoriser x² - 9',c:'(x-3)(x+3). Identité : a²-b² = (a-b)(a+b)'},
-  {n:'3',pts:0.5,q:'Calculer l\'aire d\'un disque de rayon 3 cm. (π≈3,14)',c:'A = π×3² = 9π ≈ 28,26 cm²'},
-  {n:'4',pts:0.5,q:'Quelle est la formule du volume d\'une sphère de rayon r ?',c:'V = (4/3)πr³'},
-  {n:'5',pts:0.5,q:'Résoudre : x/3 = 5',c:'x = 15'},
-  {n:'6',pts:0.5,q:'Vrai ou faux : un losange est un parallélogramme.',c:'Vrai. Un losange est un parallélogramme avec 4 côtés égaux.'},
-  {n:'7',pts:0.5,q:'Calculer : 4/5 ÷ 2/3',c:'4/5 × 3/2 = 12/10 = 6/5'},
-  {n:'8',pts:0.5,q:'Donner l\'équation d\'une droite passant par (0,2) avec une pente de 3.',c:'y = 3x + 2'},
-  {n:'9',pts:0.5,q:'Résoudre : |x| = 6',c:'x = 6 ou x = -6'},
-  {n:'10',pts:0.5,q:'Calculer le discriminant de x² + 2x - 3 (Δ = b²-4ac)',c:'Δ = 4 - 4×1×(-3) = 4+12 = 16'},
-  {n:'11',pts:0.5,q:'Donner les solutions de x² + 2x - 3 = 0',c:'x = (-2±4)/2. x₁ = 1, x₂ = -3'},
-  {n:'12',pts:0.5,q:'Donner un multiple commun de 4 et 6.',c:'PPCM = 12 (4×3 = 6×2 = 12)'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Identités remarquables',pts:4,
-  context:'Soit l\'expression E = (2x+3)² - (x-1)(x+1)',
-  questions:[
-    {n:'1.',pts:2,q:'Développer et réduire E.',c:'E = 4x²+12x+9 - (x²-1) = 4x²+12x+9-x²+1 = 3x²+12x+10'},
-    {n:'2.',pts:2,q:'Calculer E pour x = 2.',c:'E = 3×4+12×2+10 = 12+24+10 = 46'},
-  ]},
-  {titre:'Exercice 2 — Volume et surface sphère',pts:4,
-  context:'Une boule de pétanque est une sphère de rayon 3,5 cm. (V=(4/3)πr³, S=4πr²)',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer le volume de la boule. (π≈3,14)',c:'V = (4/3)×3,14×3,5³ = (4/3)×3,14×42,875 ≈ 179,5 cm³'},
-    {n:'2.',pts:2,q:'Calculer l\'aire de la surface de la boule.',c:'S = 4×3,14×3,5² = 4×3,14×12,25 ≈ 153,9 cm²'},
-  ]},
-  {titre:'Exercice 3 — Problème ouvert',pts:6,
-  context:'Une voiture roule à 90 km/h. Elle freine et s\'arrête en 4 secondes.',
-  questions:[
-    {n:'1.',pts:2,q:'Convertir 90 km/h en m/s.',c:'90 km/h = 90000/3600 = 25 m/s'},
-    {n:'2.',pts:2,q:'En supposant le freinage uniforme, calculer la distance de freinage.',c:'Distance = (v_ini + v_fin)/2 × temps = (25+0)/2 × 4 = 50 m'},
-    {n:'3.',pts:2,q:'À 130 km/h dans les mêmes conditions (4s), quelle serait la distance d\'arrêt ?',c:'130 km/h ≈ 36,1 m/s. Distance = 36,1/2 × 4 ≈ 72,2 m. Nettement plus dangereux.'},
-  ]},
-]}},
-
-{id:6,titre:'Suites géométriques, repérage et systèmes',themes:['Suites géométriques','Repérage dans le plan','Systèmes d\'équations'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Donner le terme suivant : 2, 6, 18, 54, ...',c:'162 (on multiplie par 3 — suite géométrique de raison 3)'},
-  {n:'2',pts:0.5,q:'Calculer la distance entre A(0,0) et B(3,4).',c:'AB = √(3²+4²) = √25 = 5'},
-  {n:'3',pts:0.5,q:'Donner les coordonnées du milieu de [AB] avec A(2,4) et B(6,8).',c:'M = ((2+6)/2 ; (4+8)/2) = (4 ; 6)'},
-  {n:'4',pts:0.5,q:'Résoudre le système : x+y=10 et x-y=4',c:'x=7, y=3 (addition des équations : 2x=14)'},
-  {n:'5',pts:0.5,q:'Une suite géométrique a u₁=5 et raison q=2. Donner u₃.',c:'u₃ = 5×2² = 20'},
-  {n:'6',pts:0.5,q:'Vrai ou faux : f(x)=x² est une fonction linéaire.',c:'Faux. f(x)=x² est une fonction du 2nd degré, pas linéaire.'},
-  {n:'7',pts:0.5,q:'Donner l\'image de -3 par f(x) = x² - 1',c:'f(-3) = 9 - 1 = 8'},
-  {n:'8',pts:0.5,q:'Résoudre : 5x - 8 > 2',c:'5x > 10 → x > 2'},
-  {n:'9',pts:0.5,q:'Calculer le taux d\'évolution de 80 à 100.',c:'(100-80)/80 × 100 = 25%'},
-  {n:'10',pts:0.5,q:'Donner l\'antécédent de 7 par f(x) = 2x + 1',c:'2x+1=7 → x=3'},
-  {n:'11',pts:0.5,q:'Quelle est la pente de la droite y = -3x + 5 ?',c:'Pente = -3'},
-  {n:'12',pts:0.5,q:'Calculer : √(16×25)',c:'√400 = 20 (ou √16 × √25 = 4×5 = 20)'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Géométrie analytique',pts:5,
-  context:'Dans un repère orthonormé, on donne A(1,2), B(5,2) et C(3,6).',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer les longueurs AB, BC et AC.',c:'AB = |5-1| = 4. BC = √((5-3)²+(2-6)²) = √(4+16) = √20 ≈ 4,47. AC = √((1-3)²+(2-6)²) = √20 ≈ 4,47'},
-    {n:'2.',pts:1,q:'Quel type de triangle est ABC ?',c:'BC = AC donc triangle isocèle en C.'},
-    {n:'3.',pts:2,q:'Calculer l\'aire du triangle ABC.',c:'Base AB = 4. Hauteur depuis C = |6-2| = 4. Aire = (4×4)/2 = 8 unités²'},
-  ]},
-  {titre:'Exercice 2 — Systèmes d\'équations',pts:5,
-  context:'Un marchand vend des pommes à 2€ la pièce et des poires à 3€ la pièce. Il en vend 20 au total pour 48€.',
-  questions:[
-    {n:'1.',pts:2,q:'Écrire le système d\'équations (x = pommes, y = poires).',c:'x + y = 20 et 2x + 3y = 48'},
-    {n:'2.',pts:3,q:'Résoudre le système et interpréter.',c:'De la 1ère : x = 20-y. Substituer : 2(20-y)+3y=48 → 40+y=48 → y=8. x=12. Il vend 12 pommes et 8 poires.'},
-  ]},
-  {titre:'Exercice 3 — Suite géométrique',pts:4,
-  context:'Une bactérie se divise en 2 toutes les heures. Au départ, il y en a 10.',
-  questions:[
-    {n:'1.',pts:1,q:'Combien y a-t-il de bactéries après 5 heures ?',c:'u₅ = 10 × 2⁵ = 10 × 32 = 320 bactéries'},
-    {n:'2.',pts:3,q:'Au bout de combien d\'heures dépassera-t-on 1000 bactéries ?',c:'10 × 2ⁿ > 1000 → 2ⁿ > 100. 2⁶=64, 2⁷=128 > 100. Donc après 7 heures.'},
-  ]},
-]}},
-
-{id:7,titre:'Cercles, angles et transformations',themes:['Cercles et angles inscrits','Transformations','Vecteurs'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Quelle est la mesure d\'un angle inscrit qui intercepte un demi-cercle ?',c:'90° (angle droit). Théorème de l\'angle inscrit dans un demi-cercle.'},
-  {n:'2',pts:0.5,q:'Un angle au centre mesure 80°. Quel est l\'angle inscrit interceptant le même arc ?',c:'40° (l\'angle inscrit = moitié de l\'angle au centre)'},
-  {n:'3',pts:0.5,q:'Décrire la symétrie centrale de centre O d\'un point A.',c:'A\' est tel que O est le milieu de [AA\']. O = milieu de AA\'.'},
-  {n:'4',pts:0.5,q:'Un vecteur AB a pour coordonnées (3,-2). Donner les coordonnées de BA.',c:'BA = (-3, 2). BA = -AB'},
-  {n:'5',pts:0.5,q:'Calculer la norme du vecteur v(4,3).',c:'||v|| = √(16+9) = √25 = 5'},
-  {n:'6',pts:0.5,q:'Quelle transformation conserve les distances mais pas les angles ?',c:'Aucune — les isométries conservent distances ET angles. (Les homothéties conservent les angles mais pas les distances)'},
-  {n:'7',pts:0.5,q:'Vrai ou faux : une translation conserve les longueurs.',c:'Vrai. Une translation est une isométrie.'},
-  {n:'8',pts:0.5,q:'Calculer l\'angle manquant dans un triangle avec 40° et 75°.',c:'180 - 40 - 75 = 65°'},
-  {n:'9',pts:0.5,q:'Donner les coordonnées de l\'image de A(3,5) par la translation de vecteur (2,-1).',c:'A\' = (3+2 ; 5-1) = (5 ; 4)'},
-  {n:'10',pts:0.5,q:'La circonférence d\'un cercle est 31,4 cm. Quel est son rayon ? (π≈3,14)',c:'2πr = 31,4 → r = 5 cm'},
-  {n:'11',pts:0.5,q:'Donner l\'image de (2,3) par la symétrie d\'axe x.',c:'(2,-3). Axe x = axe des abscisses, on change le signe de y.'},
-  {n:'12',pts:0.5,q:'Calculer AB + BC si A(0,0), B(3,1), C(5,4).',c:'AB=(3,1), BC=(2,3). AB+BC = (5,4) = AC. ✓'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Cercle et angles',pts:5,
-  context:'Dans un cercle de centre O et rayon 5 cm, AB est un diamètre. C est un point du cercle tel que AC = 3 cm.',
-  questions:[
-    {n:'1.',pts:1,q:'Quelle est la mesure de l\'angle ACB ?',c:'ACB = 90° car AB est diamètre (théorème de l\'angle inscrit dans un demi-cercle)'},
-    {n:'2.',pts:2,q:'Calculer BC.',c:'BC² = AB² - AC² = 10² - 3² = 100-9 = 91. BC = √91 ≈ 9,54 cm'},
-    {n:'3.',pts:2,q:'Calculer cos(BAC).',c:'cos(BAC) = AC/AB = 3/10 = 0,3. Angle BAC ≈ 72,5°'},
-  ]},
-  {titre:'Exercice 2 — Vecteurs et translations',pts:5,
-  context:'ABCD est un parallélogramme avec A(1,1), B(4,2), C(5,5).',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer les coordonnées de D.',c:'Dans un parallélogramme, AB = DC. AB = (3,1). D = C - AB = (5-3 ; 5-1) = (2,4)'},
-    {n:'2.',pts:3,q:'Calculer les coordonnées du centre du parallélogramme (intersection des diagonales).',c:'Milieu de AC = ((1+5)/2 ; (1+5)/2) = (3,3). Vérification : milieu de BD = ((4+2)/2 ; (2+4)/2) = (3,3) ✓'},
-  ]},
-  {titre:'Exercice 3 — Transformations',pts:4,
-  context:'Un triangle ABC a pour sommets A(0,0), B(4,0), C(2,3).',
-  questions:[
-    {n:'1.',pts:2,q:'Donner les coordonnées des images A\', B\', C\' par la symétrie d\'axe y.',c:'A\'(0,0), B\'(-4,0), C\'(-2,3). On change le signe de x.'},
-    {n:'2.',pts:2,q:'Donner les coordonnées des images par la translation de vecteur (1,2).',c:'A\'\'(1,2), B\'\'(5,2), C\'\'(3,5).'},
-  ]},
-]}},
-
-{id:8,titre:'Fonctions du 2nd degré et statistiques bivariées',themes:['Fonctions 2nd degré','Nuage de points','Droite des moindres carrés'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Signe du discriminant si f(x)=x²+1 (a>0). Combien de racines ?',c:'Δ = 0 - 4×1 = -4 < 0. Pas de racine réelle. La parabole ne coupe pas l\'axe x.'},
-  {n:'2',pts:0.5,q:'Donner les racines de x² - 5x + 6 = 0',c:'Δ = 25-24 = 1. x = (5±1)/2. x₁=3, x₂=2'},
-  {n:'3',pts:0.5,q:'Pour f(x)=2x²-8, donner les antécédents de 0.',c:'2x²=8 → x²=4 → x=2 ou x=-2'},
-  {n:'4',pts:0.5,q:'Donner les coordonnées du sommet de f(x)=x²-4x+3.',c:'Sommet : x_s = -b/2a = 4/2 = 2. y_s = f(2) = 4-8+3 = -1. Sommet (2,-1)'},
-  {n:'5',pts:0.5,q:'Une parabole a-t-elle un axe de symétrie ?',c:'Oui — l\'axe de symétrie passe par le sommet, équation x = -b/2a'},
-  {n:'6',pts:0.5,q:'Vrai ou faux : si a<0, la parabole est tournée vers le bas.',c:'Vrai. Si a>0 → U (bas), a<0 → ∩ (haut)'},
-  {n:'7',pts:0.5,q:'Calculer la corrélation (sens) : quand x augmente, y diminue.',c:'Corrélation négative'},
-  {n:'8',pts:0.5,q:'Qu\'est-ce qu\'un nuage de points ?',c:'Représentation graphique d\'une série statistique à deux variables (xi, yi) dans un repère.'},
-  {n:'9',pts:0.5,q:'Donner le tableau des signes de f(x) = (x-2)(x+3)',c:'f<0 pour x∈]-3;2[, f>0 pour x<-3 ou x>2, f=0 en x=-3 et x=2'},
-  {n:'10',pts:0.5,q:'Résoudre x²-4 ≥ 0',c:'(x-2)(x+2)≥0 → x≤-2 ou x≥2'},
-  {n:'11',pts:0.5,q:'Donner le maximum de f(x) = -x² + 6x - 5',c:'x_s = 3. f(3) = -9+18-5 = 4. Maximum = 4 en x=3'},
-  {n:'12',pts:0.5,q:'Calculer 3/4 - 1/6',c:'9/12 - 2/12 = 7/12'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Fonction du 2nd degré',pts:6,
-  context:'Un projectile suit la trajectoire h(t) = -5t² + 20t + 2 (h en mètres, t en secondes).',
-  questions:[
-    {n:'1.',pts:1,q:'Quelle est la hauteur initiale du projectile (t=0) ?',c:'h(0) = 2 m'},
-    {n:'2.',pts:2,q:'À quel moment le projectile atteint-il sa hauteur maximale ?',c:'t_max = -b/2a = -20/(2×(-5)) = 2 secondes'},
-    {n:'3.',pts:2,q:'Quelle est la hauteur maximale ?',c:'h(2) = -5×4+20×2+2 = -20+40+2 = 22 m'},
-    {n:'4.',pts:1,q:'Le projectile touche-t-il le sol avant t=5s ?',c:'h(5) = -125+100+2 = -23 < 0. Oui, il touche le sol avant t=5s.'},
-  ]},
-  {titre:'Exercice 2 — Statistiques bivariées',pts:4,
-  context:'Tableau taille/poids : (160cm,55kg), (165cm,60kg), (170cm,65kg), (175cm,72kg), (180cm,78kg).',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer les moyennes x̄ et ȳ.',c:'x̄ = (160+165+170+175+180)/5 = 170 cm. ȳ = (55+60+65+72+78)/5 = 66 kg'},
-    {n:'2.',pts:2,q:'Le point moyen G est-il sur la droite y = 1,2x - 138 ? Vérifier.',c:'y = 1,2×170 - 138 = 204-138 = 66 = ȳ. Oui, G(170,66) est sur la droite. ✓'},
-  ]},
-  {titre:'Exercice 3 — Étude complète de fonction',pts:4,
-  context:'f(x) = x² - 6x + 5',
-  questions:[
-    {n:'1.',pts:1,q:'Trouver les racines de f(x) = 0.',c:'Δ = 36-20 = 16. x = (6±4)/2. x₁=5, x₂=1'},
-    {n:'2.',pts:1,q:'Donner les coordonnées du sommet.',c:'x_s = 3. f(3) = 9-18+5 = -4. Sommet S(3,-4)'},
-    {n:'3.',pts:2,q:'Résoudre f(x) ≤ 0.',c:'f(x) ≤ 0 entre les racines : solution x ∈ [1;5]'},
-  ]},
-]}},
-
-{id:9,titre:'Arithmétique, fractions et démonstrations',themes:['Divisibilité','Fractions','Démonstrations'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Décomposer 360 en facteurs premiers.',c:'360 = 2³ × 3² × 5'},
-  {n:'2',pts:0.5,q:'Calculer PPCM(12, 18).',c:'PPCM = 36. (12=2²×3, 18=2×3². PPCM=2²×3²=36)'},
-  {n:'3',pts:0.5,q:'Est-ce que 147 est divisible par 7 ?',c:'147 ÷ 7 = 21. Oui.'},
-  {n:'4',pts:0.5,q:'Simplifier : (2x² + 4x)/(2x)',c:'(2x(x+2))/(2x) = x+2'},
-  {n:'5',pts:0.5,q:'Calculer : 3/7 + 2/7',c:'5/7'},
-  {n:'6',pts:0.5,q:'Démontrer que 2n+2n est pair pour tout entier n.',c:'2n+2n = 4n = 2×(2n). C\'est un multiple de 2 → pair.'},
-  {n:'7',pts:0.5,q:'Vrai ou faux : la somme de deux nombres impairs est impaire.',c:'Faux. (2k+1) + (2m+1) = 2k+2m+2 = 2(k+m+1) → pair.'},
-  {n:'8',pts:0.5,q:'Calculer : 5/6 × 3/10',c:'15/60 = 1/4'},
-  {n:'9',pts:0.5,q:'Un nombre est divisible par 9 si... (règle)',c:'La somme de ses chiffres est divisible par 9. Ex: 729 → 7+2+9=18 → oui.'},
-  {n:'10',pts:0.5,q:'Simplifier au maximum : 48/72',c:'PGCD(48,72)=24. 48/72 = 2/3'},
-  {n:'11',pts:0.5,q:'Calculer : 1/2 + 1/3 + 1/6',c:'3/6 + 2/6 + 1/6 = 6/6 = 1'},
-  {n:'12',pts:0.5,q:'n est entier. Montrer que n(n+1) est pair.',c:'Parmi deux entiers consécutifs, l\'un est pair. Donc leur produit est pair.'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Arithmétique',pts:5,
-  context:'Un professeur dispose de 48 crayons et 36 cahiers à distribuer en lots identiques.',
-  questions:[
-    {n:'1.',pts:2,q:'Quel est le nombre maximum de lots identiques qu\'il peut faire ?',c:'PGCD(48,36) = 12 lots maximum'},
-    {n:'2.',pts:1,q:'Combien y a-t-il de crayons et de cahiers par lot ?',c:'48/12 = 4 crayons. 36/12 = 3 cahiers.'},
-    {n:'3.',pts:2,q:'Si on ajoute 12 stylos, peut-on toujours faire 12 lots identiques ?',c:'12/12 = 1 stylo par lot. Oui, on peut toujours faire 12 lots (1 stylo, 4 crayons, 3 cahiers).'},
-  ]},
-  {titre:'Exercice 2 — Fractions et calculs',pts:5,
-  context:'',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer et simplifier : (3/4 + 1/6) × 12/5',c:'3/4+1/6 = 9/12+2/12 = 11/12. (11/12) × (12/5) = 132/60 = 11/5'},
-    {n:'2.',pts:3,q:'Un réservoir contient 3/5 de sa capacité totale de 200L. On ajoute 1/4 de la capacité. Quelle fraction du réservoir est maintenant remplie ?',c:'3/5 + 1/4 = 12/20 + 5/20 = 17/20 du réservoir. Volume : 17/20 × 200 = 170 L'},
-  ]},
-  {titre:'Exercice 3 — Démonstration',pts:4,
-  context:'',
-  questions:[
-    {n:'1.',pts:2,q:'Démontrer que le produit de 3 entiers consécutifs est divisible par 6.',c:'Soit n, n+1, n+2. Parmi 3 consécutifs : l\'un est multiple de 3, et au moins un est pair (multiple de 2). Donc produit divisible par 2×3=6.'},
-    {n:'2.',pts:2,q:'Démontrer que n²-n est toujours pair.',c:'n²-n = n(n-1). Ce sont deux entiers consécutifs, donc l\'un est pair → produit pair.'},
-  ]},
-]}},
-
-{id:10,titre:'Sujet complet type DNB — synthèse générale',themes:['Tous thèmes','Synthèse','Conditions réelles'],
-partie1:{titre:'Automatismes',pts:6,temps:'20 min',
-questions:[
-  {n:'1',pts:0.5,q:'Calculer : 17 × 3 + 17 × 7',c:'17 × (3+7) = 17 × 10 = 170. Factorisation.'},
-  {n:'2',pts:0.5,q:'Donner la valeur exacte de sin(60°).',c:'sin(60°) = √3/2 ≈ 0,866'},
-  {n:'3',pts:0.5,q:'Résoudre dans ℝ : x² = -4',c:'Pas de solution dans ℝ (le carré est toujours ≥ 0)'},
-  {n:'4',pts:0.5,q:'Calculer le pourcentage d\'évolution de 120 à 90.',c:'(90-120)/120 × 100 = -25%. Baisse de 25%.'},
-  {n:'5',pts:0.5,q:'Écrire 0,00042 en notation scientifique.',c:'4,2 × 10⁻⁴'},
-  {n:'6',pts:0.5,q:'Donner l\'équation de la droite passant par (0,0) et (3,6).',c:'Pente = 6/3 = 2. Équation : y = 2x'},
-  {n:'7',pts:0.5,q:'Calculer l\'image de x=4 par f(x) = √x + 1',c:'f(4) = 2 + 1 = 3'},
-  {n:'8',pts:0.5,q:'Un événement a une probabilité de 0,3. Quelle est la probabilité de l\'événement contraire ?',c:'P(contraire) = 1 - 0,3 = 0,7'},
-  {n:'9',pts:0.5,q:'Résoudre : √x = 5',c:'x = 25 (on met au carré les deux membres)'},
-  {n:'10',pts:0.5,q:'Donner le tableau de variation de f(x) = -2x + 5.',c:'f est décroissante (a = -2 < 0). Droite de pente négative.'},
-  {n:'11',pts:0.5,q:'Calculer la valeur absolue de -7,5.',c:'|-7,5| = 7,5'},
-  {n:'12',pts:0.5,q:'Vrai ou faux : π est un nombre rationnel.',c:'Faux. π est irrationnel (ne peut pas s\'écrire comme fraction).'},
-]},
-partie2:{titre:'Résolution de problèmes',pts:14,temps:'1h40',
-exercices:[
-  {titre:'Exercice 1 — Problème de vie courante',pts:5,
-  context:'Une offre de téléphone propose : Forfait A = 15€/mois + 0,05€/min. Forfait B = 25€/mois appels illimités.',
-  questions:[
-    {n:'1.',pts:1,q:'Exprimer le coût mensuel CA du forfait A en fonction du nombre de minutes n.',c:'CA(n) = 15 + 0,05n'},
-    {n:'2.',pts:2,q:'À partir de combien de minutes le forfait B devient-il plus avantageux ?',c:'25 < 15 + 0,05n → 10 < 0,05n → n > 200 minutes. Au-delà de 200 min/mois.'},
-    {n:'3.',pts:2,q:'Pour 300 minutes, calculer l\'économie réalisée avec le forfait B.',c:'CA(300) = 15+15 = 30€. CB = 25€. Économie = 5€.'},
-  ]},
-  {titre:'Exercice 2 — Géométrie dans l\'espace',pts:5,
-  context:'Une pyramide à base carrée a une base de côté 6 cm et une hauteur de 8 cm. (V = (1/3) × base × hauteur)',
-  questions:[
-    {n:'1.',pts:2,q:'Calculer le volume de la pyramide.',c:'V = (1/3) × 6² × 8 = (1/3) × 36 × 8 = 96 cm³'},
-    {n:'2.',pts:3,q:'On double toutes les dimensions. Comment évolue le volume ?',c:'V\' = (1/3) × 12² × 16 = (1/3) × 144 × 16 = 768 cm³. V\'/V = 768/96 = 8. Le volume est multiplié par 8 = 2³.'},
-  ]},
-  {titre:'Exercice 3 — Raisonnement et démonstration',pts:4,
-  context:'',
-  questions:[
-    {n:'1.',pts:2,q:'Démontrer que pour tout entier n, l\'expression 3n² + 3n est un multiple de 6.',c:'3n²+3n = 3n(n+1). n et n+1 sont consécutifs → l\'un est pair → n(n+1) est pair → 3n(n+1) est multiple de 6.'},
-    {n:'2.',pts:2,q:'Trouver deux entiers consécutifs dont le produit est 272.',c:'n(n+1) = 272. n²+n-272=0. Δ=1+1088=1089=33². n=(-1+33)/2=16. Les entiers sont 16 et 17. (16×17=272 ✓)'},
-  ]},
-]}}
-];
-
-let who=null, currentIdx=0;
-let chronoInterval=null, chronoSecs=7200, running=false;
-
-function selWho(w){
-  who=w;
-  document.getElementById('wb-w').className='who-btn'+(w==='W'?' aw':'');
-  document.getElementById('wb-n').className='who-btn'+(w==='N'?' an':'');
-  renderHome();
+// ── TOGGLE SUJET ──────────────────────────────────────────────────────────
+function toggleSujet(id) {
+  const card = document.getElementById(id);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.sujet-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
 }
 
-function renderHome(){
-  const g=document.getElementById('sujets-grid');
-  g.innerHTML='';
-  const done=JSON.parse(localStorage.getItem('maths_done_'+(who||'X'))||'[]');
-  SUJETS.forEach((s,i)=>{
-    const d=document.createElement('div');
-    d.className='sujet-card';
-    d.onclick=()=>openSujet(i);
-    const isDone=done.includes(s.id);
-    d.innerHTML=`<div class="sc-num">Sujet ${s.id} / 10</div>
-    <div class="sc-title">${s.titre}</div>
-    <div class="sc-info">${s.themes.join(' · ')}</div>
-    <div class="sc-done" style="display:${isDone?'flex':'none'}">✓</div>`;
-    g.appendChild(d);
-  });
+// ── UPLOAD ────────────────────────────────────────────────────────────────
+function triggerUpload(inputId) {
+  document.getElementById(inputId).click();
 }
 
-function openSujet(idx){
-  currentIdx=idx;
-  const s=SUJETS[idx];
-  document.getElementById('home').style.display='none';
-  document.getElementById('sujet-page').style.display='block';
-  document.getElementById('s-meta').textContent='Sujet '+s.id+'/10 — '+(who==='W'?'Wassil':'Nawal');
-  renderSujet(s);
-  chronoSecs=7200;running=false;
-  clearInterval(chronoInterval);
-  updateChrono();
-  window.scrollTo(0,0);
+function fileSelected(input, qId) {
+  if (!input.files[0]) return;
+  const fname = input.files[0].name;
+  const fnameEl = document.getElementById('fname_' + input.id.replace('file_',''));
+  if (fnameEl) { fnameEl.textContent = '📎 ' + fname; }
+  
+  const zone = input.closest('.upload-zone');
+  if (zone) zone.classList.add('has-file');
+  
+  // Lire en base64
+  const reader = new FileReader();
+  reader.onload = e => { state.files[input.id] = e.target.result; };
+  reader.readAsDataURL(input.files[0]);
+  
+  showToast('Fichier prêt : ' + fname);
 }
 
-function goHome(){
-  document.getElementById('sujet-page').style.display='none';
-  document.getElementById('home').style.display='flex';
-  clearInterval(chronoInterval);
+// ── SWITCH TAB ────────────────────────────────────────────────────────────
+function switchTab(panelId, tab) {
+  const panel = document.getElementById(panelId);
+  panel.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  panel.querySelectorAll('.correction-body').forEach(b => b.classList.remove('active'));
+  
+  const tabs = panel.querySelectorAll('.ctab');
+  const bodies = panel.querySelectorAll('.correction-body');
+  
+  if (tab === 'tab-corr') {
+    tabs[0].classList.add('active');
+    bodies[0].classList.add('active');
+  } else {
+    tabs[1].classList.add('active');
+    bodies[1].classList.add('active');
+  }
 }
 
-function renderSujet(s){
-  let html='';
-  // PARTIE 1
-  html+=`<div class="partie">
-    <div class="partie-header">
-      <span class="partie-label">PARTIE 1 — ${s.partie1.titre}</span>
-      <span class="partie-time">${s.partie1.temps}</span>
-      <span class="partie-pts">${s.partie1.pts} pts</span>
-    </div>
-    <div class="partie-body">
-      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;font-family:'DM Mono',monospace;">Sans calculatrice · Réponses directes · 0,5 point par question</p>
-      <div class="questions-list" style="display:grid;gap:12px;">`;
+// ── CORRIGER QUESTION ─────────────────────────────────────────────────────
+async function corrigerQuestion(sujetId, exoNum, qNum, ansId, fileId, panelId, qNumId) {
+  const ansEl = document.getElementById(ansId);
+  const reponse = ansEl ? ansEl.value.trim() : '';
+  const panel = document.getElementById(panelId);
+  const btn = ansEl ? ansEl.parentElement.querySelector('.send-btn') : null;
+  
+  if (!reponse && !state.files[fileId]) {
+    showToast('Écris ta réponse ou importe ta feuille !'); return;
+  }
+  
+  // Show panel + loading
+  panel.classList.add('visible');
+  const corrBody = document.getElementById(panelId + '-tab-corr');
+  const consBody = document.getElementById(panelId + '-tab-conseil');
+  corrBody.innerHTML = '<div class="loading"><div class="dot-pulse"></div> L\'IA corrige...</div>';
+  consBody.innerHTML = '<div class="loading"><div class="dot-pulse"></div> Préparation des conseils...</div>';
+  if (btn) btn.disabled = true;
+  
+  // Build prompt
+  const context = SUJET_CONTEXT[sujetId] || '';
+  
+  let userContent = `Exercice ${exoNum}, Question ${qNum} — Réponse de l'élève :\n"${reponse}"`;
+  if (state.files[fileId]) userContent += `\n\n[L'élève a également fourni une image de sa feuille]`;
 
-  s.partie1.questions.forEach((q,i)=>{
-    html+=`<div class="q-block">
-      <div class="q-line">
-        <span class="q-label">${q.n}.</span>
-        <span class="q-text">${q.q}</span>
-        <span class="q-pts-sm">${q.pts}pt</span>
-      </div>
-      <textarea class="answer-ta" style="min-height:44px" id="p1-${i}" placeholder="Réponse..."></textarea>
-      <button class="corr-btn" onclick="toggleCorr('c1-${i}')">Correction</button>
-      <div class="corr-box" id="c1-${i}"><strong>✓</strong> ${q.c}</div>
-    </div>`;
-  });
-  html+=`</div></div></div>`;
+  const systemPrompt = `${context}
 
-  // PARTIE 2
-  html+=`<div class="partie">
-    <div class="partie-header">
-      <span class="partie-label">PARTIE 2 — ${s.partie2.titre}</span>
-      <span class="partie-time">${s.partie2.temps}</span>
-      <span class="partie-pts">${s.partie2.pts} pts</span>
-    </div>
-    <div class="partie-body">`;
+Tu es un correcteur IA bienveillant pour des élèves de 3ème préparant le brevet (DNB).
 
-  s.partie2.exercices.forEach((e,ei)=>{
-    html+=`<div class="exo">
-      <div class="exo-title">${e.titre} <span class="exo-pts">${e.pts} pts</span></div>`;
-    if(e.context) html+=`<div class="context">${e.context}</div>`;
-    e.questions.forEach((q,qi)=>{
-      html+=`<div class="q-block">
-        <div class="q-line">
-          <span class="q-label">${q.n}</span>
-          <span class="q-text">${q.q}</span>
-          <span class="q-pts-sm">${q.pts}pt${q.pts>1?'s':''}</span>
-        </div>
-        <textarea class="answer-ta" id="p2-${ei}-${qi}" placeholder="Détaille ta démarche..."></textarea>
-        <button class="corr-btn" onclick="toggleCorr('c2-${ei}-${qi}')">Correction</button>
-        <div class="corr-box" id="c2-${ei}-${qi}"><strong>✓</strong> ${q.c}</div>
-      </div>`;
+Règles de correction :
+1. Analyse la réponse de l'élève par rapport à la correction officielle.
+2. Commence par indiquer si c'est correct ✓ ou incorrect ✗ (ou partiellement correct ~).
+3. Donne l'estimation du nombre de points obtenus sur les points disponibles pour cette question.
+4. Explique clairement l'erreur s'il y en a une, sans être condescendant.
+5. Donne la correction exacte avec la démarche complète.
+6. IMPORTANT : ne révèle PAS les réponses des autres questions.
+
+Format de réponse (2 sections séparées par ---CONSEILS---) :
+
+SECTION 1 - CORRECTION :
+[Badge ✓/✗/~ + points] 
+[Analyse de la réponse]
+[Correction détaillée]
+
+---CONSEILS---
+
+SECTION 2 - CONSEILS PERSONNALISÉS :
+[1-3 conseils de méthode liés à cette question]
+[Lien avec d'autres notions du programme DNB]
+[Encouragement personnalisé]`;
+
+  try {
+    const messages = [{ role: 'user', content: userContent }];
+    
+    // Si fichier image
+    if (state.files[fileId] && state.files[fileId].startsWith('data:image')) {
+      const b64 = state.files[fileId].split(',')[1];
+      const mime = state.files[fileId].split(';')[0].replace('data:','');
+      messages[0] = {
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+          { type: 'text', text: userContent }
+        ]
+      };
+    }
+    
+    // Construire le prompt complet pour le proxy
+    const promptComplet = typeof messages[0].content === 'string'
+      ? messages[0].content
+      : messages[0].content.map(c => c.text || '[image]').join('\n');
+
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ prompt: promptComplet, system: systemPrompt }),
+      redirect: 'follow'
     });
-    html+=`</div>`;
-  });
-  html+=`</div></div>`;
-
-  // AUTO-ÉVAL
-  html+=`<div class="auto-eval">
-    <div class="ae-title">— Auto-évaluation — Note ce sujet</div>
-    <div class="ae-row"><span class="ae-label">Partie 1 — Automatismes</span><input type="number" class="ae-input" id="ae1" min="0" max="6" value="0" oninput="updateTotal()"><span class="ae-max">/ 6</span></div>
-    <div class="ae-row"><span class="ae-label">Partie 2 — Problèmes</span><input type="number" class="ae-input" id="ae2" min="0" max="14" value="0" oninput="updateTotal()"><span class="ae-max">/ 14</span></div>
-    <div class="ae-total"><div class="ae-total-lbl">Note totale</div><div class="ae-total-num" id="ae-total">0/20</div></div>
-  </div>`;
-
-  // NAV
-  html+=`<div class="nav-btns">
-    ${currentIdx>0?`<button class="nav-btn" onclick="openSujet(${currentIdx-1})">← Sujet précédent</button>`:''}
-    <button class="save-btn" onclick="saveSujet()">💾 Sauvegarder ma note</button>
-    ${currentIdx<SUJETS.length-1?`<button class="nav-btn primary" onclick="openSujet(${currentIdx+1})">Sujet suivant →</button>`:`<button class="nav-btn primary" onclick="goHome()">🏠 Retour accueil</button>`}
-  </div>`;
-
-  document.getElementById('s-body').innerHTML=html;
+    
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const fullText = (data.success && data.content) ? data.content : (data.error || 'Erreur proxy');
+    
+    const parts = fullText.split('---CONSEILS---');
+    const corrText = parts[0] ? parts[0].trim() : fullText;
+    const conseilText = parts[1] ? parts[1].trim() : 'Relis le cours sur ce point et refais un exercice similaire.';
+    
+    // Determine si correct
+    const isOk = corrText.includes('✓') || corrText.toLowerCase().includes('correct');
+    const isWrong = corrText.includes('✗') || corrText.toLowerCase().includes('incorrect');
+    
+    const badge = isOk && !isWrong
+      ? '<span class="score-badge">✓ Bonne réponse</span>'
+      : isWrong
+        ? '<span class="score-badge wrong">✗ À revoir</span>'
+        : '<span class="score-badge" style="border-color:var(--gold-dim);color:var(--gold)">~ Partiellement correct</span>';
+    
+    corrBody.innerHTML = badge + '<br>' + formatText(corrText);
+    consBody.innerHTML = '<div class="conseil-block"><strong>💡 Conseils méthode</strong>' + formatText(conseilText) + '</div>';
+    
+    // Mark as answered
+    state.answered[panelId] = true;
+    const qNumEl = document.getElementById(qNumId);
+    if (qNumEl) qNumEl.classList.add('done');
+    
+    updateProgress(sujetId);
+    if (btn) btn.disabled = false;
+    
+  } catch(e) {
+    corrBody.innerHTML = '<span style="color:var(--red)">Erreur de connexion. Vérifie le proxy Apps Script.</span>';
+    if (btn) btn.disabled = false;
+  }
 }
 
-function toggleCorr(id){
-  const b=document.getElementById(id);
-  b.classList.toggle('show');
+// ── FORMAT TEXT ───────────────────────────────────────────────────────────
+function formatText(txt) {
+  return txt
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
 }
 
-function updateTotal(){
-  const a=parseInt(document.getElementById('ae1').value)||0;
-  const b=parseInt(document.getElementById('ae2').value)||0;
-  const t=Math.min(a,6)+Math.min(b,14);
-  const el=document.getElementById('ae-total');
-  el.textContent=t+'/20';
-  el.style.color=t>=14?'var(--green)':t>=10?'var(--gold)':t>=8?'var(--coral)':'var(--red)';
+// ── UPDATE PROGRESS ───────────────────────────────────────────────────────
+const TOTAL_QUESTIONS = { 'sujet-1': 19 };
+
+function updateProgress(sujetId) {
+  const total = TOTAL_QUESTIONS[sujetId] || 19;
+  const done = Object.keys(state.answered).filter(k => k.startsWith('panel_1')).length;
+  const pct = Math.round((done/total)*100);
+  
+  const fill = document.getElementById('prog-' + sujetId);
+  const label = document.getElementById('prog-label-' + sujetId);
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = done + ' / ' + total;
+  
+  if (done >= total) {
+    document.getElementById('global-' + sujetId)?.classList.add('visible');
+  }
 }
 
-async function saveSujet(){
-  const a=parseInt(document.getElementById('ae1').value)||0;
-  const b=parseInt(document.getElementById('ae2').value)||0;
-  const t=Math.min(a,6)+Math.min(b,14);
-  const s=SUJETS[currentIdx];
-
-  // Marquer comme fait
-  const done=JSON.parse(localStorage.getItem('maths_done_'+(who||'X'))||'[]');
-  if(!done.includes(s.id)){done.push(s.id);localStorage.setItem('maths_done_'+(who||'X'),JSON.stringify(done));}
-
-  const url=SHEETS[who];
-  try{
-    const res=await fetch(url,{method:'POST',mode:'cors',body:JSON.stringify({action:'logAnnale',matiere:'Mathématiques',annee:'Sujet blanc '+s.id,exercice:s.titre,score:t,pointsPerdus:'Partie1:'+a+'/6 Partie2:'+b+'/14',bloque:'',aRetravailler:''})});
-    if(res.ok)showToast('✓ Note '+t+'/20 sauvegardée','ok');
-    else throw 0;
-  }catch(e){showToast('⚠ Sauvegarde impossible','err');}
+// ── TOAST ─────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// CHRONO
-function startChrono(){
-  if(running)return;
-  running=true;
-  chronoInterval=setInterval(()=>{
-    if(chronoSecs<=0){clearInterval(chronoInterval);running=false;showToast('⏱ Temps écoulé !','err');return;}
-    chronoSecs--;updateChrono();
-  },1000);
-}
-
-function resetChrono(){clearInterval(chronoInterval);running=false;chronoSecs=7200;updateChrono();}
-
-function updateChrono(){
-  const h=Math.floor(chronoSecs/3600);
-  const m=Math.floor((chronoSecs%3600)/60);
-  const s=chronoSecs%60;
-  const el=document.getElementById('chrono');
-  el.textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  el.className='chrono-time'+(chronoSecs<600?' urgent':'');
-}
-
-function showToast(msg,t){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show '+t;setTimeout(()=>el.className='toast',3500);}
-
-window.addEventListener('DOMContentLoaded',()=>renderHome());
+// ── INIT ──────────────────────────────────────────────────────────────────
+// Auto-ouvrir sujet 1
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => toggleSujet('sujet-1'), 300);
+});
 </script>
 </body>
 </html>
