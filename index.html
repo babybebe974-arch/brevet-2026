@@ -14,7 +14,7 @@
   h1{font-family:'Playfair Display',serif;font-size:clamp(48px,12vw,88px);font-weight:800;letter-spacing:-0.02em;margin-bottom:16px;color:#f39c12;text-shadow:0 0 10px rgba(243,156,18,0.2);}
   h1 em{color:#f39c12;font-style:italic;}
   .sub{color:rgba(240,237,232,0.55);font-size:18px;max-width:560px;margin-bottom:48px;line-height:1.6;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:20px;margin-bottom:48px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px;margin-bottom:48px;}
   .card{background:#111118;border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:24px 20px;text-decoration:none;transition:all 0.25s ease;display:block;}
   .card:hover{transform:translateY(-4px);border-color:rgba(243,156,18,0.4);background:#181820;}
   .card-icon{font-size:42px;margin-bottom:16px;}
@@ -30,13 +30,13 @@
   <h1>BREVET <em>2026</em></h1>
   <p class="sub">Sujets blancs, flashcards, fiches de révision, automatismes, correcteur IA, suivi parental. Tout pour réussir.</p>
 
-  <!-- PARTIE 1 : SUJETS BLANCS -->
-  <div class="section-title">📝 SUJETS BLANCS (DNB)</div>
+  <!-- PARTIE 1 : SUJETS BLANCS (avec correction IA) -->
+  <div class="section-title">📝 SUJETS BLANCS AVEC CORRECTION IA</div>
   <div class="grid">
-    <a href="sujets-francais.html" class="card"><div class="card-icon">📖</div><div class="card-title">Français</div><div class="card-desc">Compréhension · Grammaire · Dictée · Rédaction</div></a>
-    <a href="sujets-maths.html" class="card"><div class="card-icon">🧮</div><div class="card-title">Mathématiques</div><div class="card-desc">10 sujets blancs avec corrections</div></a>
-    <a href="sujets-sciences.html" class="card"><div class="card-icon">🔬</div><div class="card-title">Sciences</div><div class="card-desc">Physique-Chimie · SVT</div></a>
-    <a href="sujets-histgeo.html" class="card"><div class="card-icon">🌍</div><div class="card-title">Histoire-Géo & EMC</div><div class="card-desc">Analyse de documents · Paragraphe argumenté</div></a>
+    <a href="sujets-francais.html" class="card"><div class="card-icon">📖</div><div class="card-title">Français</div><div class="card-desc">Compréhension · Grammaire · Dictée · Rédaction · IA corrige</div></a>
+    <a href="sujets-maths.html" class="card"><div class="card-icon">🧮</div><div class="card-title">Mathématiques</div><div class="card-desc">10 sujets blancs · IA corrige et note</div></a>
+    <a href="sujets-sciences.html" class="card"><div class="card-icon">🔬</div><div class="card-title">Sciences</div><div class="card-desc">Physique-Chimie · SVT · IA corrige</div></a>
+    <a href="sujets-histgeo.html" class="card"><div class="card-icon">🌍</div><div class="card-title">Histoire-Géo & EMC</div><div class="card-desc">Analyse de documents · Paragraphe argumenté · IA corrige</div></a>
   </div>
 
   <!-- PARTIE 2 : FLASHCARDS -->
@@ -63,17 +63,23 @@
     <a href="automatismes-histgeo.html" class="card"><div class="card-icon">🌍</div><div class="card-title">Histoire-Géo & EMC</div><div class="card-desc">30 min/jour · Dates, repères</div></a>
   </div>
 
-  <!-- PARTIE 5 : OUTILS SPÉCIFIQUES -->
+  <!-- PARTIE 5 : CORRECTEUR IA -->
+  <div class="section-title">🤖 CORRECTEUR IA</div>
+  <div class="grid">
+    <a href="correcteur.html" class="card"><div class="card-icon">✨</div><div class="card-title">Correcteur IA</div><div class="card-desc">Correction automatique de textes · Note + conseils</div></a>
+  </div>
+
+  <!-- PARTIE 6 : OUTILS SPÉCIFIQUES -->
   <div class="section-title">🎯 OUTILS SPÉCIFIQUES</div>
   <div class="grid">
     <a href="agent-oral.html" class="card"><div class="card-icon">🎙️</div><div class="card-title">Agent Oral</div><div class="card-desc">Exposé + 10 questions · IA corrige et note</div></a>
     <a href="suivi-parental.html" class="card"><div class="card-icon">👪</div><div class="card-title">Suivi Parental</div><div class="card-desc">Progression, scores, chapitres étudiés</div></a>
-    <a href="correcteur.html" class="card"><div class="card-icon">🤖</div><div class="card-title">Correcteur IA</div><div class="card-desc">Correction automatique de textes</div></a>
   </div>
 
   <div class="footer">
     ✅ Sauvegarde automatique dans ton navigateur (localStorage)<br>
-    📊 Les scores des automatismes alimentent le suivi parental
+    📊 Les scores des automatismes alimentent le suivi parental<br>
+    🤖 Les corrections IA utilisent une analyse intelligente (sans clé API externe)
   </div>
 </div>
 </body>
