@@ -1,389 +1,358 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ Automatismes – Français (Brevet 2026)</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #ffcc00;}
-    h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #ffcc00;padding-left:1rem;font-size:0.8rem;}
-    .info-bar{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .timer{font-family:'DM Mono',monospace;font-size:1.2rem;color:#ffcc00;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi Parental — Brevet 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;padding:1rem;}
+.box{max-width:1000px;margin:0 auto;}
 
-    .eleve-bar{display:flex;gap:10px;margin-bottom:1.5rem;background:#2a2a2a;border-radius:50px;padding:5px;width:fit-content;}
-    .eleve-btn{padding:8px 24px;border-radius:50px;border:none;cursor:pointer;font-weight:700;font-size:13px;transition:.2s;background:transparent;color:#aaa;}
-    .eleve-btn.aw{background:#7eb8f5;color:#000;}
-    .eleve-btn.an{background:#f59eb8;color:#000;}
+/* HEADER */
+.header{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.header h1{font-size:1.4rem;color:#e8c87a;}
+.header p{font-size:12px;color:#9090a8;margin-top:3px;}
+a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 
-    .chapitre-selector{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-bottom:1.5rem;}
-    .chapitre-selector h3{font-size:0.9rem;margin-bottom:0.8rem;color:#ffcc00;}
-    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem;max-height:320px;overflow-y:auto;padding:0.5rem;}
-    .ch-item{display:flex;align-items:center;gap:8px;background:#111118;border:1px solid #333;border-radius:8px;padding:8px 12px;cursor:pointer;transition:.15s;font-size:12px;}
-    .ch-item:hover{border-color:#ffcc00;}
-    .ch-item.selected{border-color:#ffcc00;background:rgba(255,204,0,0.1);}
-    .ch-num{font-family:'DM Mono',monospace;font-size:10px;color:#aaa;min-width:28px;}
+/* ELEVE TABS */
+.eleve-tabs{display:flex;gap:8px;margin-bottom:1.5rem;}
+.etab{padding:8px 28px;border-radius:50px;border:2px solid #2a2a38;cursor:pointer;font-weight:700;font-size:13px;background:#111118;color:#9090a8;}
+.etab.w{border-color:#7eb8f5;color:#7eb8f5;background:rgba(126,184,245,.08);}
+.etab.n{border-color:#f59eb8;color:#f59eb8;background:rgba(245,158,184,.08);}
 
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
-    .btn-primary:disabled{opacity:0.4;cursor:not-allowed;}
-    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
+/* ALERTE */
+.alerte{background:rgba(232,122,122,.1);border:1px solid rgba(232,122,122,.3);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:13px;color:#e87a7a;display:none;}
 
-    .question-card{background:#2a2a2a;border-radius:1.5rem;padding:1.5rem;margin-bottom:1rem;border:1px solid #333;}
-    .question-text{font-size:1rem;margin-bottom:1rem;font-weight:500;}
-    textarea{width:100%;min-height:100px;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:0.8rem;color:white;font-size:0.9rem;font-family:'DM Sans',sans-serif;resize:vertical;margin-bottom:1rem;}
-    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
-    .feedback{background:#0a0a0f;border-radius:1rem;padding:0.6rem;margin-top:0.5rem;font-size:0.75rem;display:none;}
-    .feedback.show{display:block;}
-    .reponse-modele{background:#1a2a1a;border-left:3px solid #ffcc00;padding:0.5rem;margin-top:0.5rem;border-radius:0.5rem;font-size:0.75rem;}
-    .resultats{background:#0a0a0f;border-radius:1rem;padding:1rem;margin-top:1rem;text-align:center;}
-    .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;font-size:0.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;}
-  </style>
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem;}
+.stat{background:#111118;border:1px solid #2a2a38;border-radius:10px;padding:14px;text-align:center;}
+.stat-v{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:4px;}
+.stat-l{font-size:10px;color:#9090a8;text-transform:uppercase;letter-spacing:.05em;}
+
+/* STREAK DAYS */
+.streak-days{display:flex;gap:5px;margin-top:10px;justify-content:center;}
+.sday{width:22px;height:22px;border-radius:5px;border:1px solid #2a2a38;display:flex;align-items:center;justify-content:center;font-size:9px;color:#5a5a72;}
+.sday.done{background:#5ecfb1;border-color:#5ecfb1;color:#09090f;}
+.sday.today{border-color:#e8c87a;}
+
+/* SECTIONS */
+.section{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
+.section-head{padding:12px 18px;border-bottom:1px solid #2a2a38;display:flex;align-items:center;justify-content:space-between;}
+.section-head h3{font-size:12px;color:#e8c87a;text-transform:uppercase;letter-spacing:.08em;}
+.section-head span{font-size:11px;color:#5a5a72;}
+.section-body{padding:16px 18px;}
+
+/* PROGRESSION MATIERES */
+.mat-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mat-row:last-child{margin-bottom:0;}
+.mat-nom{font-size:13px;min-width:110px;color:#9090a8;}
+.mat-bar{flex:1;height:7px;background:#2a2a38;border-radius:4px;overflow:hidden;}
+.mat-fill{height:100%;border-radius:4px;transition:width .5s;}
+.mat-pct{font-size:12px;font-family:monospace;min-width:36px;text-align:right;}
+.mat-nb{font-size:11px;color:#5a5a72;min-width:60px;text-align:right;}
+
+/* GRAPHIQUE */
+.graph{display:flex;align-items:flex-end;gap:5px;height:70px;padding:0 4px;}
+.gbar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.gbar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height .4s;}
+.glabel{font-size:8px;color:#5a5a72;font-family:monospace;writing-mode:vertical-rl;transform:rotate(180deg);max-height:36px;overflow:hidden;}
+
+/* CHAPITRES FAIBLES */
+.faibles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+.faible-item{background:#1a1a24;border:1px solid rgba(232,122,122,.3);border-radius:8px;padding:10px 12px;}
+.faible-nom{font-size:12px;color:#e8e8f0;margin-bottom:3px;}
+.faible-taux{font-size:11px;color:#e87a7a;font-family:monospace;}
+
+/* SESSIONS TABLE */
+.stab{width:100%;border-collapse:collapse;font-size:12px;}
+.stab th{color:#e8c87a;font-size:10px;font-weight:400;text-align:left;padding:6px 10px;border-bottom:1px solid #2a2a38;text-transform:uppercase;letter-spacing:.05em;}
+.stab td{padding:8px 10px;border-bottom:1px solid #1a1a24;color:#9090a8;}
+.stab tr:last-child td{border-bottom:none;}
+.stab tr:hover td{background:#1a1a24;}
+.ok{color:#5ecfb1;font-weight:600;}
+.mid{color:#e8c87a;font-weight:600;}
+.bad{color:#e87a7a;font-weight:600;}
+
+/* VIDE */
+.vide{text-align:center;padding:2rem;color:#5a5a72;font-size:13px;}
+
+/* BTNS */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem;}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:12px;cursor:pointer;}
+.btn:hover{border-color:#5ecfb1;color:#5ecfb1;}
+.btn-danger{border-color:rgba(232,122,122,.4);color:#e87a7a;}
+.btn-danger:hover{background:rgba(232,122,122,.1);}
+</style>
 </head>
 <body>
-<div class="container">
-  <h1>⚡ Automatismes – Français</h1>
-  <div class="sub">Choisis tes chapitres • 40 questions adaptées</div>
+<div class="box">
 
-  <div class="eleve-bar">
-    <button id="btnWassil" class="eleve-btn aw">🌊 Wassil</button>
-    <button id="btnNawal" class="eleve-btn">⚡ Nawal</button>
+  <div class="header">
+    <div>
+      <h1>📊 Suivi Parental — Brevet 2026</h1>
+      <p>Progression des automatismes en temps réel</p>
+    </div>
+    <a href="index.html" class="back">← Hub</a>
   </div>
 
-  <div class="info-bar">
-    <span>📅 Session <span id="sessionDate">--</span></span>
-    <span class="timer" id="timer">⏱️ 45:00</span>
+  <!-- ELEVE TABS -->
+  <div class="eleve-tabs">
+    <button class="etab w" id="tabW">🌊 Wassil</button>
+    <button class="etab" id="tabN">⚡ Nawal</button>
   </div>
 
-  <div class="stats">
-    <span>📚 <b id="nbCartes">0</b> cartes sélectionnées</span>
-    <span>✅ <b id="nbMaitrisees">0</b> maîtrisées</span>
-    <span>📈 <b id="nbProgress">0</b>%</span>
-  </div>
+  <!-- ALERTE -->
+  <div class="alerte" id="alerte"></div>
 
-  <div class="chapitre-selector">
-    <h3>📚 Choisis les chapitres à réviser :</h3>
-    <div class="chapitres-grid" id="chapitresGrid"></div>
-    <div class="btn-row">
-      <button id="selectAllBtn">✅ Tout sélectionner</button>
-      <button id="deselectAllBtn">❌ Tout désélectionner</button>
+  <!-- STATS RAPIDES -->
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <!-- STREAK + GRAPHIQUE -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;">
+    <div class="section">
+      <div class="section-head"><h3>🔥 Streak</h3></div>
+      <div class="section-body" id="streakBody"></div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h3>📈 10 dernières sessions</h3></div>
+      <div class="section-body" id="graphBody"></div>
     </div>
   </div>
 
+  <!-- COMPARAISON MATIERES -->
+  <div class="section">
+    <div class="section-head"><h3>📚 Comparaison par matière</h3></div>
+    <div class="section-body" id="matBody"></div>
+  </div>
+
+  <!-- CHAPITRES FAIBLES -->
+  <div class="section">
+    <div class="section-head">
+      <h3>⚠ Chapitres faibles (&lt;60%)</h3>
+      <span>Sur les 5 dernières sessions</span>
+    </div>
+    <div class="section-body" id="faiblesBody"></div>
+  </div>
+
+  <!-- SESSIONS RECENTES -->
+  <div class="section">
+    <div class="section-head"><h3>🕐 Sessions récentes</h3></div>
+    <div class="section-body" id="sessionsBody"></div>
+  </div>
+
   <div class="btn-row">
-    <button id="demarrerBtn" class="btn-primary" disabled>🎯 Démarrer la session</button>
+    <button class="btn" id="btnRefresh">🔄 Actualiser</button>
+    <button class="btn" id="btnExport">📤 Exporter JSON</button>
+    <button class="btn btn-danger" id="btnReset">⚠ Réinitialiser</button>
   </div>
 
-  <div id="sessionArea" style="display:none;">
-    <div id="questionArea"></div>
-    <div id="sessionStats" class="progress"></div>
-  </div>
-
-  <div id="resultatsArea" class="resultats" style="display:none;"></div>
-
-  <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-// ==================== 26 CHAPITRES – 260 CARTES ====================
-const CHAPITRES = {
-  1: { titre: "Classes grammaticales", cartes: [
-    { q: "Quelles sont les 9 classes grammaticales ?", r: "Nom, déterminant, adjectif, pronom, verbe, adverbe, préposition, conjonction, interjection." },
-    { q: "Donnez 3 déterminants.", r: "le, la, les / un, une, des / mon, ton, son" },
-    { q: "Citez les 7 conjonctions de coordination.", r: "Mais, ou, et, donc, or, ni, car." },
-    { q: "Différence entre adverbe et préposition ?", r: "Adverbe modifie un verbe/adjectif. Préposition introduit un complément." }
-  ]},
-  2: { titre: "Fonctions grammaticales", cartes: [
-    { q: "Qu'est-ce que le COD ?", r: "Complément d'objet direct. Répond à 'quoi ?' ou 'qui ?'" },
-    { q: "Qu'est-ce que le COI ?", r: "Complément d'objet indirect. Répond à 'à qui ?' ou 'de quoi ?'" },
-    { q: "Qu'est-ce que l'attribut du sujet ?", r: "Donne une qualité au sujet, relié par verbe d'état" },
-    { q: "Qu'est-ce qu'un complément circonstanciel de temps ?", r: "Indique quand l'action se passe" }
-  ]},
-  3: { titre: "La phrase", cartes: [
-    { q: "Qu'est-ce qu'une phrase simple ?", r: "Une seule proposition (un verbe)" },
-    { q: "Qu'est-ce qu'une phrase complexe ?", r: "Plusieurs propositions" },
-    { q: "Qu'est-ce qu'une proposition indépendante ?", r: "Ne dépend d'aucune autre" },
-    { q: "Qu'est-ce qu'une subordonnée relative ?", r: "Introduite par qui, que, dont, où" }
-  ]}
-};
+var eleve = 'wassil';
+var MATIERES = [
+  {id:'francais', nom:'🇫🇷 Français',    couleur:'#5ecfb1'},
+  {id:'maths',    nom:'📐 Maths',         couleur:'#e8c87a'},
+  {id:'histoire', nom:'🌍 Histoire-Géo',  couleur:'#f5a623'},
+  {id:'sciences', nom:'🔬 Sciences',      couleur:'#5eaacf'}
+];
 
-// Ajouter les chapitres 4 à 26 avec des cartes par défaut
-for (let i = 4; i <= 26; i++) {
-  CHAPITRES[i] = { titre: "Chapitre " + i, cartes: [
-    { q: "Question type du chapitre " + i, r: "Réponse type du chapitre " + i },
-    { q: "Deuxième question du chapitre " + i, r: "Deuxième réponse du chapitre " + i },
-    { q: "Troisième question du chapitre " + i, r: "Troisième réponse du chapitre " + i },
-    { q: "Quatrième question du chapitre " + i, r: "Quatrième réponse du chapitre " + i }
-  ]};
+function getSessions(matiere) {
+  try { return JSON.parse(localStorage.getItem('suivi_sessions_'+matiere+'_'+eleve)||'[]'); }
+  catch(e){ return []; }
 }
 
-// ==================== ÉLÈVE ====================
-let eleve = 'wassil';
-let progression = {};
-let sessionCartes = [];
-let currentIndex = 0;
-let currentCard = null;
-let sessionScore = { bonnes: 0, total: 0 };
-let tempsRestant = 45 * 60;
-let timerInterval = null;
-
-function getStorageKey() { return `auto_fr_progress_${eleve}`; }
-function sauvegarderProgression() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
-function chargerProgression() {
-  const saved = localStorage.getItem(getStorageKey());
-  if (saved) progression = JSON.parse(saved);
-  else progression = {};
+function getAllSessions() {
+  var all = [];
+  MATIERES.forEach(function(m){
+    getSessions(m.id).forEach(function(s){ all.push(Object.assign({},s,{matiere:m.id})); });
+  });
+  all.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
+  return all;
 }
 
-function getCardKey(carte) { return `${carte.chapitre}_${carte.q.substring(0,30)}`; }
-function getNiveau(carteId) { return progression[carteId]?.score || 0; }
-function setNiveau(carteId, val) {
-  progression[carteId] = { score: Math.min(3, val), derniereRevision: new Date().toISOString() };
-  sauvegarderProgression();
+function calcStreak(sessions) {
+  if(!sessions.length) return 0;
+  var jours = {};
+  sessions.forEach(function(s){ jours[new Date(s.date).toDateString()]=1; });
+  var streak=0, d=new Date();
+  while(jours[d.toDateString()]){ streak++; d.setDate(d.getDate()-1); }
+  return streak;
+}
+
+function fmtDate(str) {
+  try {
+    var d = new Date(str);
+    return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  } catch(e){ return str; }
 }
 
 function setEleve(e) {
   eleve = e;
-  const btnW = document.getElementById('btnWassil');
-  const btnN = document.getElementById('btnNawal');
-  if (e === 'wassil') {
-    btnW.className = 'eleve-btn aw';
-    btnN.className = 'eleve-btn';
+  document.getElementById('tabW').className = 'etab' + (e==='wassil'?' w':'');
+  document.getElementById('tabN').className = 'etab' + (e==='nawal'?' n':'');
+  render();
+}
+
+function render() {
+  renderAlerte();
+  renderStats();
+  renderStreak();
+  renderGraph();
+  renderMatieres();
+  renderFaibles();
+  renderSessions();
+}
+
+function renderAlerte() {
+  var all = getAllSessions();
+  var el = document.getElementById('alerte');
+  if(!all.length){ el.style.display='none'; return; }
+  var diff = Math.floor((Date.now()-new Date(all[0].date))/(1000*60*60*24));
+  if(diff>=2){
+    el.style.display='block';
+    el.textContent = '⚠️ Dernière session il y a '+diff+' jour'+(diff>1?'s':'')+'. '+(eleve==='wassil'?'Wassil':'Nawal')+' doit travailler aujourd\'hui !';
   } else {
-    btnN.className = 'eleve-btn an';
-    btnW.className = 'eleve-btn';
+    el.style.display='none';
   }
-  chargerProgression();
-  mettreAJourStats();
 }
 
-function getSelectedChapitres() {
-  let selected = [];
-  for (let i = 1; i <= 26; i++) {
-    const el = document.getElementById(`ch_${i}`);
-    if (el && el.classList.contains('selected')) selected.push(i);
-  }
-  return selected;
+function renderStats() {
+  var all = getAllSessions();
+  var streak = calcStreak(all);
+  var moy = all.length ? Math.round(all.slice(0,10).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(all.length,10)) : 0;
+  var meilleur = all.length ? Math.max.apply(null,all.map(function(s){return s.pourcentage;})) : 0;
+  var dern5 = all.slice(0,5).map(function(s){return s.pourcentage;});
+  var tendance = dern5.length>=2 ? (dern5[0]>dern5[dern5.length-1]?'↑':dern5[0]<dern5[dern5.length-1]?'↓':'→') : '—';
+  var tCoul = tendance==='↑'?'#5ecfb1':tendance==='↓'?'#e87a7a':'#9090a8';
+
+  document.getElementById('statsGrid').innerHTML =
+    '<div class="stat"><div class="stat-v" style="color:#e8c87a">'+streak+'</div><div class="stat-l">🔥 Streak</div></div>'
+    +'<div class="stat"><div class="stat-v" style="color:#5ecfb1">'+(all.length?moy+'%':'—')+'</div><div class="stat-l">Moyenne</div></div>'
+    +'<div class="stat"><div class="stat-v" style="color:#a07af5">'+(all.length?meilleur+'%':'—')+'</div><div class="stat-l">Meilleur</div></div>'
+    +'<div class="stat"><div class="stat-v" style="color:#5eaacf">'+all.length+'</div><div class="stat-l">Sessions</div></div>'
+    +'<div class="stat"><div class="stat-v" style="color:'+tCoul+'">'+tendance+'</div><div class="stat-l">Tendance</div></div>';
 }
 
-function getCartesSelectionnees() {
-  const selected = getSelectedChapitres();
-  let cartes = [];
-  for (let ch of selected) {
-    if (CHAPITRES[ch] && CHAPITRES[ch].cartes) {
-      for (let c of CHAPITRES[ch].cartes) {
-        cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES[ch].titre });
-      }
+function renderStreak() {
+  var all = getAllSessions();
+  var streak = calcStreak(all);
+  var jours = {};
+  all.forEach(function(s){ jours[new Date(s.date).toDateString()]=1; });
+  var msg = streak===0?'Commence dès aujourd\'hui !':streak<3?'Bon départ !':streak<7?'Continue !':'🔥 Incroyable !';
+
+  var days = '';
+  for(var i=6;i>=0;i--){
+    var d=new Date(); d.setDate(d.getDate()-i);
+    var done=jours[d.toDateString()]?'done':'';
+    var today=i===0?' today':'';
+    var letter=d.toLocaleDateString('fr-FR',{weekday:'short'}).charAt(0).toUpperCase();
+    days+='<div class="sday '+done+today+'">'+letter+'</div>';
+  }
+
+  document.getElementById('streakBody').innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;">'
+    +'<div style="font-size:2.2rem;font-weight:800;color:#e8c87a;font-family:monospace">'+streak+'</div>'
+    +'<div><div style="font-size:13px;color:#e8e8f0">jours consécutifs</div><div style="font-size:11px;color:#9090a8">'+msg+'</div></div>'
+    +'</div>'
+    +'<div class="streak-days" style="margin-top:12px">'+days+'</div>';
+}
+
+function renderGraph() {
+  var all = getAllSessions().slice(0,10).reverse();
+  if(!all.length){ document.getElementById('graphBody').innerHTML='<div class="vide">Pas encore de données.</div>'; return; }
+  var bars = all.map(function(s){
+    var col = s.pourcentage>=80?'#5ecfb1':s.pourcentage>=60?'#e8c87a':'#e87a7a';
+    var h = Math.max(4, Math.round(s.pourcentage*0.65));
+    var mat = MATIERES.filter(function(m){return m.id===s.matiere;})[0];
+    var nom = mat ? mat.nom.slice(0,3) : '';
+    return '<div class="gbar-wrap"><div class="gbar" style="height:'+h+'px;background:'+col+'" title="'+s.pourcentage+'%"></div><div class="glabel">'+nom+' '+s.pourcentage+'%</div></div>';
+  }).join('');
+  document.getElementById('graphBody').innerHTML='<div class="graph">'+bars+'</div>';
+}
+
+function renderMatieres() {
+  var html = '';
+  MATIERES.forEach(function(m){
+    var sessions = getSessions(m.id);
+    if(!sessions.length){
+      html+='<div class="mat-row"><span class="mat-nom">'+m.nom+'</span><div class="mat-bar"><div class="mat-fill" style="width:0%;background:'+m.couleur+'"></div></div><span class="mat-pct" style="color:#5a5a72">—</span><span class="mat-nb">0 session</span></div>';
+      return;
     }
-  }
-  return cartes;
-}
-
-function mettreAJourStats() {
-  const cartes = getCartesSelectionnees();
-  let maitrisees = 0;
-  for (let c of cartes) {
-    if (getNiveau(getCardKey(c)) >= 3) maitrisees++;
-  }
-  const pct = cartes.length > 0 ? Math.round(maitrisees / cartes.length * 100) : 0;
-  document.getElementById('nbCartes').textContent = cartes.length;
-  document.getElementById('nbMaitrisees').textContent = maitrisees;
-  document.getElementById('nbProgress').textContent = pct + '%';
-  document.getElementById('demarrerBtn').disabled = cartes.length === 0;
-}
-
-function buildChapitresGrid() {
-  const grid = document.getElementById('chapitresGrid');
-  grid.innerHTML = '';
-  for (let i = 1; i <= 26; i++) {
-    const div = document.createElement('div');
-    div.className = 'ch-item';
-    div.id = `ch_${i}`;
-    div.onclick = () => { div.classList.toggle('selected'); mettreAJourStats(); };
-    div.innerHTML = `<span class="ch-num">${i}</span><span>${CHAPITRES[i]?.titre || 'Chapitre ' + i}</span>`;
-    grid.appendChild(div);
-  }
-}
-
-function melanger(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function genererSession() {
-  let toutes = getCartesSelectionnees();
-  
-  // Supprimer les doublons
-  const unique = [];
-  const seen = new Set();
-  for (let c of toutes) {
-    if (!seen.has(c.q)) {
-      seen.add(c.q);
-      unique.push(c);
-    }
-  }
-  
-  if (unique.length === 0) return [];
-  
-  // Si moins de 20 cartes, on prend tout
-  if (unique.length <= 20) {
-    return melanger(unique);
-  }
-  
-  // Règle 20/10/10
-  const nouvelles = unique.filter(c => getNiveau(getCardKey(c)) === 0).slice(0, 20);
-  const erreurs = unique.filter(c => getNiveau(getCardKey(c)) > 0 && getNiveau(getCardKey(c)) < 3).slice(0, 10);
-  const revision = unique.filter(c => getNiveau(getCardKey(c)) >= 3).slice(0, 10);
-  
-  let session = [...nouvelles, ...erreurs, ...revision];
-  const ids = new Set();
-  session = session.filter(c => { const k = getCardKey(c); if (ids.has(k)) return false; ids.add(k); return true; });
-  
-  return melanger(session);
-}
-
-function evaluerReponse(reponse, attendue) {
-  if (!reponse || reponse.trim().length < 2) return { valide: false, taux: 0, message: "Écris une réponse." };
-  const rep = reponse.toLowerCase().trim();
-  const att = attendue.toLowerCase();
-  
-  if (rep === att) return { valide: true, taux: 100, message: "Parfait !" };
-  
-  const motsAtt = att.split(/[\s,;.]+/).filter(m => m.length > 3);
-  const motsRep = rep.split(/[\s,;.]+/);
-  let trouve = 0;
-  for (let ma of motsAtt) {
-    for (let mr of motsRep) {
-      if (mr.includes(ma.substring(0,3)) || ma.includes(mr.substring(0,3))) { trouve++; break; }
-    }
-  }
-  let taux = motsAtt.length ? Math.round(trouve / motsAtt.length * 100) : 50;
-  
-  if (taux >= 40) return { valide: true, taux: taux, message: taux >= 70 ? "Bien !" : "Presque !" };
-  return { valide: false, taux: taux, message: "À retravailler." };
-}
-
-function afficherQuestion() {
-  if (currentIndex >= sessionCartes.length) { terminerSession(); return; }
-  currentCard = sessionCartes[currentIndex];
-  const niveau = getNiveau(getCardKey(currentCard));
-  document.getElementById('questionArea').innerHTML = `
-    <div class="question-card">
-      <div style="font-size:0.7rem;color:#aaa;margin-bottom:8px;">${currentCard.chapitreTitre} • Niveau: ${niveau}/3</div>
-      <div class="question-text">📖 ${currentCard.q}</div>
-      <textarea id="reponseInput" rows="3" placeholder="Écris ta réponse..."></textarea>
-      <div class="btn-row"><button id="validerBtn">✔ Vérifier</button></div>
-      <div id="feedback" class="feedback"></div>
-    </div>
-  `;
-  document.getElementById('validerBtn').onclick = () => verifierReponse();
-  document.getElementById('reponseInput').focus();
-  document.getElementById('sessionStats').innerHTML = `📌 Question ${currentIndex+1}/${sessionCartes.length}`;
-}
-
-function verifierReponse() {
-  const reponse = document.getElementById('reponseInput').value.trim();
-  if (!reponse) { alert("Écris une réponse."); return; }
-  const ev = evaluerReponse(reponse, currentCard.r);
-  if (ev.valide) sessionScore.bonnes++;
-  sessionScore.total++;
-  
-  const key = getCardKey(currentCard);
-  let nouveauNiveau = getNiveau(key);
-  if (ev.valide) nouveauNiveau = Math.min(nouveauNiveau + 1, 3);
-  else nouveauNiveau = Math.max(0, nouveauNiveau - 1);
-  setNiveau(key, nouveauNiveau);
-  
-  const fbDiv = document.getElementById('feedback');
-  fbDiv.innerHTML = ev.valide 
-    ? `<div class="feedback show"><span style="color:#2ecc71;">✅ ${ev.message} (${ev.taux}%)</span><div class="reponse-modele">📖 ${currentCard.r}</div></div>`
-    : `<div class="feedback show"><span style="color:#ffcc00;">⚠️ ${ev.message} (${ev.taux}%)</span><div class="reponse-modele">📖 ${currentCard.r}</div></div>`;
-  fbDiv.classList.add('show');
-  
-  currentIndex++;
-  setTimeout(() => afficherQuestion(), 1800);
-}
-
-function demarrerTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if (tempsRestant <= 0) { clearInterval(timerInterval); terminerSession(); return; }
-    tempsRestant--;
-    const m = Math.floor(tempsRestant / 60), s = tempsRestant % 60;
-    const timerEl = document.getElementById('timer');
-    if (timerEl) timerEl.innerHTML = `⏱️ ${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-  }, 1000);
-}
-
-function demarrerSession() {
-  sessionCartes = genererSession();
-  if (sessionCartes.length === 0) { alert("Aucune carte disponible pour les chapitres sélectionnés."); return; }
-  currentIndex = 0;
-  sessionScore = { bonnes: 0, total: sessionCartes.length };
-  tempsRestant = 45 * 60;
-  document.getElementById('chapitreSelector').style.display = 'none';
-  document.getElementById('demarrerBtn').style.display = 'none';
-  document.getElementById('sessionArea').style.display = 'block';
-  document.getElementById('resultatsArea').style.display = 'none';
-  document.getElementById('sessionDate').innerText = new Date().toLocaleDateString();
-  demarrerTimer();
-  afficherQuestion();
-}
-
-function terminerSession() {
-  clearInterval(timerInterval);
-  const pct = sessionScore.total > 0 ? Math.round(sessionScore.bonnes / sessionScore.total * 100) : 0;
-  const chapitresNoms = getSelectedChapitres().map(n => CHAPITRES[n]?.titre || 'Chapitre ' + n);
-  
-  // Envoi vers suivi-parental
-  const keyP = `suivi_sessions_francais_${eleve}`;
-  const sessions = JSON.parse(localStorage.getItem(keyP) || '[]');
-  sessions.unshift({
-    id: Date.now(),
-    date: new Date().toISOString(),
-    chapitres: chapitresNoms,
-    score: { bonnes: sessionScore.bonnes, total: sessionScore.total },
-    pourcentage: pct
+    var moy = Math.round(sessions.slice(0,10).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(sessions.length,10));
+    html+='<div class="mat-row"><span class="mat-nom">'+m.nom+'</span><div class="mat-bar"><div class="mat-fill" style="width:'+moy+'%;background:'+m.couleur+'"></div></div><span class="mat-pct" style="color:'+m.couleur+'">'+moy+'%</span><span class="mat-nb">'+sessions.length+' session'+(sessions.length>1?'s':'')+'</span></div>';
   });
-  localStorage.setItem(keyP, JSON.stringify(sessions.slice(0, 200)));
-  
-  document.getElementById('sessionArea').style.display = 'none';
-  const ra = document.getElementById('resultatsArea');
-  ra.style.display = 'block';
-  ra.innerHTML = `
-    <h3>🎉 Session terminée !</h3>
-    <p style="font-size:2rem;">${sessionScore.bonnes}/${sessionScore.total}</p>
-    <p>Soit ${pct}% de bonnes réponses</p>
-    <p>👤 Élève : <strong>${eleve === 'wassil' ? 'Wassil' : 'Nawal'}</strong><br>📖 Chapitres révisés : ${chapitresNoms.join(', ')}</p>
-    <button id="reloadBtn" class="btn-primary">📚 Nouvelle session</button>
-  `;
-  document.getElementById('reloadBtn').onclick = () => location.reload();
+  document.getElementById('matBody').innerHTML = html || '<div class="vide">Aucune session.</div>';
 }
 
-// INIT
-document.getElementById('btnWassil').onclick = () => setEleve('wassil');
-document.getElementById('btnNawal').onclick = () => setEleve('nawal');
-document.getElementById('selectAllBtn').onclick = () => {
-  document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.add('selected'));
-  mettreAJourStats();
-};
-document.getElementById('deselectAllBtn').onclick = () => {
-  document.querySelectorAll('#chapitresGrid .ch-item').forEach(el => el.classList.remove('selected'));
-  mettreAJourStats();
-};
-document.getElementById('demarrerBtn').onclick = demarrerSession;
+function renderFaibles() {
+  var all = getAllSessions();
+  if(!all.length){ document.getElementById('faiblesBody').innerHTML='<div class="vide">Pas encore de données.</div>'; return; }
 
-buildChapitresGrid();
-chargerProgression();
-mettreAJourStats();
-setEleve('wassil');
+  var taux = {};
+  all.slice(0,5).forEach(function(s){
+    if(s.chapitresTaux) Object.keys(s.chapitresTaux).forEach(function(ch){
+      if(!taux[ch]) taux[ch]=[];
+      taux[ch].push(s.chapitresTaux[ch]);
+    });
+  });
+
+  var faibles = Object.keys(taux).filter(function(ch){
+    return taux[ch].reduce(function(a,b){return a+b;},0)/taux[ch].length < 60;
+  }).map(function(ch){
+    return {ch:ch, moy:Math.round(taux[ch].reduce(function(a,b){return a+b;},0)/taux[ch].length)};
+  }).sort(function(a,b){return a.moy-b.moy;});
+
+  if(!faibles.length){ document.getElementById('faiblesBody').innerHTML='<div class="vide">✅ Aucun chapitre faible. Bravo !</div>'; return; }
+
+  var html = '<div class="faibles-grid">';
+  faibles.forEach(function(f){ html+='<div class="faible-item"><div class="faible-nom">'+f.ch+'</div><div class="faible-taux">'+f.moy+'% de réussite</div></div>'; });
+  html+='</div>';
+  document.getElementById('faiblesBody').innerHTML = html;
+}
+
+function renderSessions() {
+  var all = getAllSessions().slice(0,15);
+  if(!all.length){ document.getElementById('sessionsBody').innerHTML='<div class="vide">Aucune session.</div>'; return; }
+
+  var rows = all.map(function(s){
+    var pct = s.pourcentage;
+    var cls = pct>=80?'ok':pct>=60?'mid':'bad';
+    var mat = MATIERES.filter(function(m){return m.id===s.matiere;})[0];
+    var matNom = mat?mat.nom:'—';
+    var chapitres = Array.isArray(s.chapitres)?s.chapitres.slice(0,2).join(', ')+(s.chapitres.length>2?'…':''):'—';
+    return '<tr><td>'+fmtDate(s.date)+'</td><td>'+matNom+'</td><td style="font-size:11px">'+chapitres+'</td><td class="'+cls+'">'+pct+'%</td></tr>';
+  }).join('');
+
+  document.getElementById('sessionsBody').innerHTML =
+    '<table class="stab"><thead><tr><th>Date</th><th>Matière</th><th>Chapitres</th><th>Score</th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+
+function exporterJSON() {
+  var data = {};
+  MATIERES.forEach(function(m){ data[m.id]=getSessions(m.id); });
+  var blob = new Blob([JSON.stringify({date:new Date().toISOString(),eleve:eleve,data:data},null,2)],{type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href=url; a.download='suivi_'+eleve+'_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function reinitialiser() {
+  if(!confirm('Supprimer toutes les données de '+(eleve==='wassil'?'Wassil':'Nawal')+' ?')) return;
+  MATIERES.forEach(function(m){ localStorage.removeItem('suivi_sessions_'+m.id+'_'+eleve); });
+  render();
+}
+
+window.onload = function() {
+  document.getElementById('tabW').addEventListener('click', function(){ setEleve('wassil'); });
+  document.getElementById('tabN').addEventListener('click', function(){ setEleve('nawal'); });
+  document.getElementById('btnRefresh').addEventListener('click', render);
+  document.getElementById('btnExport').addEventListener('click', exporterJSON);
+  document.getElementById('btnReset').addEventListener('click', reinitialiser);
+  setEleve('wassil');
+};
 </script>
 </body>
 </html>
