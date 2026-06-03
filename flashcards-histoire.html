@@ -4,465 +4,232 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>🌍 Flashcards Histoire-Géo & EMC – Brevet 2026</title>
+  <script src="data-histgeo.js"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #e74c3c;}
+    .container{max-width:1000px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:1.5rem;border:1px solid #e74c3c;}
     h1{font-family:'Playfair Display',serif;font-size:2rem;color:#e74c3c;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:1.5rem;border-left:3px solid #e74c3c;padding-left:1rem;font-size:0.8rem;}
-    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;font-size:0.8rem;}
-    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;transition:0.2s;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
-    .flashcard:hover{border-color:#e74c3c;}
-    .question{font-size:1.2rem;margin-bottom:1rem;font-weight:500;}
-    .answer{font-size:1rem;color:#e74c3c;margin-top:1rem;display:none;}
-    .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
-    .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+    .sub{color:#aaa;margin-bottom:1rem;border-left:3px solid #e74c3c;padding-left:1rem;font-size:0.8rem;}
+    .stats{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;font-size:0.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;}
+    .selector-group{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;align-items:center;}
+    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.5rem 1rem;color:white;font-size:0.8rem;flex:1;min-width:200px;}
     button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
     button:hover{background:#2a3652;}
-    .progress{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-top:1rem;font-size:0.75rem;color:#aaa;text-align:center;}
-    .chapter-selector{background:#2a2a2a;border-radius:1rem;padding:0.8rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
-    .chapter-selector select{background:#0a0a0f;border:1px solid #e74c3c;border-radius:40px;padding:0.4rem 1rem;color:white;font-size:0.8rem;}
+    .flashcard{background:#2a2a2a;border:1px solid #333;border-radius:1.5rem;padding:2rem;text-align:center;cursor:pointer;min-height:280px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+    .flashcard:hover{border-color:#e74c3c;}
+    .question{font-size:1.1rem;margin-bottom:1rem;font-weight:500;}
+    .answer{font-size:1rem;color:#e74c3c;margin-top:1rem;display:none;line-height:1.5;}
+    .show-answer{color:#5ecfb1;font-size:0.8rem;margin-top:1rem;}
+    .btn-group{display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;}
+    .progress{background:#2a2a2a;border-radius:1rem;padding:0.6rem;margin-top:1rem;font-size:0.7rem;color:#aaa;text-align:center;}
     .back-link{display:inline-block;margin-top:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    .chapitre-badge{background:#e74c3c;color:#fff;border-radius:999px;padding:2px 8px;font-size:0.7rem;margin-bottom:10px;display:inline-block;}
+    .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;max-height:400px;overflow-y:auto;padding:4px;margin-bottom:1rem;background:#2a2a2a;border-radius:1rem;}
+    .ch-item{display:flex;align-items:center;gap:8px;background:#111118;border:1px solid #333;border-radius:8px;padding:8px 12px;cursor:pointer;transition:.15s;font-size:12px;}
+    .ch-item:hover{border-color:#e74c3c;}
+    .ch-item.selected{border-color:#e74c3c;background:rgba(231,76,60,0.1);}
+    .ch-num{font-family:'DM Mono',monospace;font-size:10px;color:#aaa;min-width:28px;}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
+    .btn-primary{background:#ffcc00;border-color:#ffcc00;color:#000;font-weight:700;}
   </style>
 </head>
 <body>
 <div class="container">
   <h1>🌍 Flashcards Histoire-Géo & EMC</h1>
-  <div class="sub">Brevet 2026 • Chapitres 10 à 30 • 186 cartes</div>
-  
-  <div class="chapter-selector">
-    <span>📖 Chapitre :</span>
-    <select id="chapterSelect"></select>
-    <button id="loadChapterBtn" style="border-color:#e74c3c;color:#e74c3c;">📚 Charger ce chapitre</button>
-    <button id="resetChapterBtn" style="border-color:#e8c87a;color:#e8c87a;">🔄 Réinitialiser chapitre</button>
+  <div class="sub">Sélectionne plusieurs chapitres • 32 chapitres • 276 cartes</div>
+
+  <div class="stats" id="stats">
+    <span>📚 <b id="nbCartes">0</b> cartes sélectionnées</span>
+    <span>✅ <b id="nbMaitrisees">0</b> maîtrisées</span>
+    <span>📈 <b id="nbProgress">0</b>%</span>
   </div>
-  
-  <div class="stats" id="stats">📊 Chargement...</div>
+
+  <div class="chapitres-grid" id="chapitresGrid"></div>
+
+  <div class="btn-row">
+    <button onclick="selectAll(true)">✅ Tout sélectionner</button>
+    <button onclick="selectAll(false)">❌ Tout désélectionner</button>
+    <button onclick="resetProgression()" style="border-color:#e87a7a;color:#e87a7a;">🔄 Réinitialiser progression</button>
+  </div>
+
+  <div class="btn-row">
+    <button id="btnStart" class="btn-primary" onclick="demarrerSession()" disabled>🎯 Démarrer la session</button>
+  </div>
+
   <div id="card-area"></div>
   <div id="session-stats" class="progress"></div>
-  <button id="resetAllBtn" style="border-color:#e74c3c;color:#e74c3c;margin-top:1rem;">⚠️ Réinitialiser TOUTE la progression</button>
+
   <a href="index.html" class="back-link">← Retour au hub</a>
 </div>
 
 <script>
-  // ==================== FLASHCARDS PAR CHAPITRE (Chapitres 10 à 30) ====================
-  const flashcardsParChapitre = {
-    // CHAPITRE 10 : Première Guerre mondiale (1914-1918) – 10 cartes
-    10: [
-      {q:"Quelles sont les causes de la Première Guerre mondiale ?", r:"Les rivalités coloniales, le nationalisme, le système d'alliances (Triple Entente/Triple Alliance), l'assassinat de François-Ferdinand (28 juin 1914)."},
-      {q:"Quelles étaient les deux alliances avant 1914 ?", r:"Triple Entente (France, Royaume-Uni, Russie) / Triple Alliance (Allemagne, Autriche-Hongrie, Italie)."},
-      {q:"Qu'est-ce que la guerre des tranchées ?", r:"Une guerre de position où les soldats vivent dans des tranchées boueuses, sous les bombardements, dans des conditions sanitaires horribles."},
-      {q:"Que s'est-il passé à Verdun en 1916 ?", r:"Bataille emblématique de la guerre des tranchées, symbole de la résistance française. 'Ils ne passeront pas !'"},
-      {q:"Que s'est-il passé à la bataille de la Somme (1916) ?", r:"Bataille britannique avec des pertes massives (1 million de morts/blessés). Première utilisation de chars."},
-      {q:"Qu'est-ce que le génocide arménien (1915-1916) ?", r:"Extermination des Arméniens par l'Empire ottoman : 1,2 à 1,5 million de morts, déportations, marches de la mort."},
-      {q:"Pourquoi les États-Unis entrent-ils en guerre en 1917 ?", r:"Guerre sous-marine allemande (torpillage du Lusitania) et volonté de faire respecter le droit international."},
-      {q:"Quand l'armistice de la Première Guerre mondiale est-il signé ?", r:"11 novembre 1918, dans le wagon du maréchal Foch (forêt de Rethondes)."},
-      {q:"Quel est le bilan humain de la Première Guerre mondiale ?", r:"10 millions de morts, 20 millions de blessés (mutilés, gueules cassées)."},
-      {q:"Que sont les mutineries de 1917 ?", r:"Révoltes de soldats français (Chemin des Dames). Les mutins refusent les attaques suicidaires."}
-    ],
-    // CHAPITRE 11 : Sortie de guerre et traités – 8 cartes
-    11: [
-      {q:"Quand le traité de Versailles est-il signé ?", r:"28 juin 1919, dans la galerie des Glaces (Versailles)."},
-      {q:"Que sont les '14 points' du président Wilson ?", r:"Programme de paix américain : liberté des mers, réduction des armements, création de la SDN, droit des peuples à disposer d'eux-mêmes."},
-      {q:"Qu'est-ce que la SDN ?", r:"Société des Nations, ancêtre de l'ONU, créée en 1920 pour maintenir la paix. Échec dans les années 1930."},
-      {q:"Quelles sont les clauses du traité de Versailles ?", r:"Culpabilité allemande, réparations (132 milliards de marks or), pertes territoriales (Alsace-Lorraine à la France), démilitarisation."},
-      {q:"Pourquoi dit-on que le traité de Versailles est un 'diktat' ?", r:"L'Allemagne n'a pas participé aux négociations. Elle est forcée de signer sous la menace d'une invasion."},
-      {q:"Quels nouveaux États apparaissent après 1918 ?", r:"Pologne, Tchécoslovaquie, Yougoslavie, Hongrie, Autriche, Finlande, Estonie, Lettonie, Lituanie."},
-      {q:"Pourquoi la SDN a-t-elle échoué dans les années 1930 ?", r:"Pas d'armée propre, absence des États-Unis, montée des totalitarismes (Allemagne, Italie, Japon)."},
-      {q:"Quel est le traumatisme français après 1918 ?", r:"La 'gueule cassée' (blessés), la peur de l'Allemagne, volonté de sécurité (ligne Maginot)."}
-    ],
-    // CHAPITRE 12 : Montée des totalitarismes (années 1920-1930) – 10 cartes
-    12: [
-      {q:"Qu'est-ce qu'un régime totalitaire ?", r:"Parti unique, culte du chef, police politique, propagande, contrôle de l'économie et de la société, absence de libertés."},
-      {q:"Décris l'URSS de Staline.", r:"Collectivisation des terres (kolkhozes), plans quinquennaux (industrialisation forcée), Goulag (camps de travail). 10 millions de morts."},
-      {q:"Décris l'Allemagne de Hitler.", r:"Nazisme, antisémitisme (Mein Kampf), Lebensraum (espace vital), racisme, Führerprinzip (culte du chef)."},
-      {q:"Décris l'Italie de Mussolini.", r:"Fascisme, marche sur Rome (1922), culte du Duce, État corporatiste, propagande."},
-      {q:"Qu'est-ce que le culte de la personnalité ?", r:"Mise en scène omniprésente du dictateur, présenté comme guide infaillible (Staline, Hitler, Mussolini)."},
-      {q:"Comment fonctionne la propagande totalitaire ?", r:"Contrôle des médias, affiches, cinéma (Riefenstahl), meetings de masse, Jeunesses hitlériennes, Komsomol."},
-      {q:"Quels sont les instruments de la terreur totalitaire ?", r:"Police politique (NKVD, Gestapo, OVRA), camps de concentration, dénonciation, épuration."},
-      {q:"Quand les premiers camps de concentration sont-ils créés ?", r:"Dès 1933 en Allemagne (Dachau). Destinés d'abord aux opposants politiques."},
-      {q:"Qu'est-ce que le Front populaire (1936) en France ?", r:"Gouvernement de gauche (Léon Blum) : congés payés (2 semaines), semaine de 40h, conventions de Grenelle."},
-      {q:"Pourquoi les Jeux olympiques de Berlin (1936) sont-ils importants ?", r:"Hitler utilise les JO comme vitrine du régime nazi. Jesse Owens (Noir américain) remporte 4 médailles."}
-    ],
-    // CHAPITRE 13 : Guerre-éclair (1939-1941) – 8 cartes
-    13: [
-      {q:"Quand la Seconde Guerre mondiale commence-t-elle ?", r:"1er septembre 1939 : invasion de la Pologne par l'Allemagne."},
-      {q:"Qu'est-ce que la 'drôle de guerre' (septembre 1939 – mai 1940) ?", r:"Période d'inactivité militaire en France. Pas de combats, les soldats s'ennuient."},
-      {q:"Qu'est-ce que la Blitzkrieg (guerre-éclair) ?", r:"Tactique allemande : attaque surprise avec avions, chars, infanterie motorisée. Percée rapide et encerclement."},
-      {q:"Quand l'Allemagne envahit-elle la France ?", r:"Mai-juin 1940. Percée dans les Ardennes, contournement de la ligne Maginot."},
-      {q:"Quand l'armistice est-il signé ?", r:"22 juin 1940 à Rethondes (même wagon que 1918)."},
-      {q:"Comment la France est-elle coupée après l'armistice ?", r:"Zone occupée (Nord, côtes atlantiques) par les Allemands. Zone libre (Sud) dirigée par le maréchal Pétain (régime de Vichy)."},
-      {q:"Qu'est-ce que l'appel du 18 juin 1940 ?", r:"Appel du général de Gaulle sur la BBC (Londres). Refus de l'armistice, naissance de la France libre."},
-      {q:"Que s'est-il passé lors de la bataille d'Angleterre (1940) ?", r:"Victoire britannique (Churchill) face à l'aviation allemande (Luftwaffe). Hitler renonce à envahir l'Angleterre."}
-    ],
-    // CHAPITRE 14 : Guerre d'anéantissement (1941-1945) – 12 cartes
-    14: [
-      {q:"Qu'est-ce que l'opération Barbarossa ?", r:"Invasion de l'URSS par l'Allemagne (22 juin 1941). Rupture du pacte germano-soviétique."},
-      {q:"Que s'est-il passé à Pearl Harbor (7 décembre 1941) ?", r:"Attaque surprise japonaise contre la flotte américaine. Entrée en guerre des États-Unis."},
-      {q:"Qu'est-ce qu'une 'guerre totale' ?", r:"Mobilisation de toutes les ressources (humaines, économiques, culturelles) pour la guerre. Civils ciblés."},
-      {q:"Pourquoi la bataille de Stalingrad (1942-1943) est-elle un tournant ?", r:"Première grande défaite allemande (reddition de l'armée allemande). L'URSS repasse à l'offensive."},
-      {q:"Quand a lieu le débarquement de Normandie ?", r:"6 juin 1944 (opération Overlord). Ouverture du front de l'Ouest."},
-      {q:"Quand Paris est-elle libérée ?", r:"Août 1944 (capitulation allemande le 25 août)."},
-      {q:"Qu'est-ce que la Shoah ?", r:"Extermination des Juifs par les nazis. 6 millions de morts."},
-      {q:"Quels sont les camps d'extermination nazis ?", r:"Auschwitz-Birkenau, Treblinka, Sobibor, Belzec, Chelmno, Majdanek."},
-      {q:"Que sont les Einsatzgruppen ?", r:"Unités mobiles d'extermination en URSS. Fosses communes (Babi Yar : 33 000 Juifs)."},
-      {q:"Qu'est-ce que la conférence de Wannsee (1942) ?", r:"Réunion des hauts dignitaires nazis pour organiser la 'solution finale'."},
-      {q:"Quand sont larguées les bombes atomiques sur Hiroshima et Nagasaki ?", r:"6 et 9 août 1945. Capitulation japonaise le 2 septembre 1945."},
-      {q:"Quand l'Allemagne capitule-t-elle ?", r:"8 mai 1945."}
-    ],
-    // CHAPITRE 15 : Libération et bilan (1944-1945) – 6 cartes
-    15: [
-      {q:"Quel est le bilan humain de la Seconde Guerre mondiale ?", r:"Environ 60 millions de morts (civils et militaires). L'URSS la plus touchée (27 millions)."},
-      {q:"Que sont les procès de Nuremberg (1945-1946) ?", r:"Procès internationaux des criminels nazis pour 'crimes contre l'humanité'."},
-      {q:"Que signifie 'crime contre l'humanité' ?", r:"Acte inhumain (extermination, esclavage, torture) commis systématiquement contre une population civile."},
-      {q:"Quand l'ONU est-elle créée ?", r:"1945, remplace la SDN. Siège à New York. Objectif : maintenir la paix."},
-      {q:"Qu'est-ce que la Déclaration universelle des droits de l'homme (1948) ?", r:"Texte fondamental proclamé par l'ONU. Droits inaliénables de tout être humain."},
-      {q:"Qu'est-ce que le plan Marshall (1947) ?", r:"Aide américaine massive (13 milliards de dollars) pour reconstruire l'Europe."}
-    ],
-    // CHAPITRE 16 : Guerre froide (1947-1991) – 12 cartes
-    16: [
-      {q:"Qu'est-ce que le 'rideau de fer' ?", r:"Frontière idéologique et physique entre démocraties libérales (Ouest) et régimes communistes (Est). Discours de Churchill (1946)."},
-      {q:"Qu'est-ce que la doctrine Truman ?", r:"Endiguement du communisme. Aide militaire et économique aux pays menacés par l'URSS."},
-      {q:"Qu'est-ce que le plan Marshall (1947) ?", r:"Aide américaine pour reconstruire l'Europe (Ouest). Refusé par l'URSS."},
-      {q:"Comment l'Allemagne est-elle coupée après 1945 ?", r:"RFA (Ouest, capitale Bonn) et RDA (Est, capitale Berlin-Est). Berlin divisée en 4 secteurs."},
-      {q:"Qu'est-ce que le blocus de Berlin (1948-1949) ?", r:"URSS bloque Berlin-Ouest. Les États-Unis organisent un pont aérien pour ravitailler la ville."},
-      {q:"Qu'est-ce que l'OTAN (1949) ?", r:"Organisation du traité de l'Atlantique Nord. Alliance militaire des pays capitalistes (dirigée par les États-Unis)."},
-      {q:"Qu'est-ce que le pacte de Varsovie (1955) ?", r:"Alliance militaire des pays communistes (dirigée par l'URSS)."},
-      {q:"Qu'est-ce que la crise de Cuba (1962) ?", r:"Installation de missiles soviétiques à Cuba. Le monde frôle la guerre nucléaire."},
-      {q:"Qu'est-ce qu'une 'guerre par procuration' ?", r:"Guerre où les deux superpuissances s'affrontent par pays interposés (ex: guerre du Vietnam)."},
-      {q:"Qu'est-ce que la détente (années 1970) ?", r:"Période d'apaisement : accords SALT (limitation armements), Helsinki (1975)."},
-      {q:"Quand le mur de Berlin tombe-t-il ?", r:"9 novembre 1989."},
-      {q:"Quand l'URSS disparaît-elle ?", r:"1991. Fin de la guerre froide."}
-    ],
-    // CHAPITRE 17 : Construction européenne – 10 cartes
-    17: [
-      {q:"Qu'est-ce que la CECA (1951) ?", r:"Communauté européenne du charbon et de l'acier. Mise en commun des ressources pour éviter les guerres."},
-      {q:"Qu'est-ce que la CEE (1957) ?", r:"Communauté économique européenne (traité de Rome). Marché commun, libre circulation des marchandises."},
-      {q:"Quels sont les 6 pays fondateurs de la CEE ?", r:"France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg."},
-      {q:"Qu'est-ce que la PAC ?", r:"Politique agricole commune. Subventions aux agriculteurs européens."},
-      {q:"Qu'est-ce que l'Acte unique européen (1986) ?", r:"Création du marché unique (suppression des barrières douanières entre pays de l'UE)."},
-      {q:"Qu'est-ce que le traité de Maastricht (1992) ?", r:"Création de l'Union européenne, citoyenneté européenne, prépare l'euro."},
-      {q:"Quand l'euro entre-t-il en circulation ?", r:"2002 (monnaie unique pour 20 pays)."},
-      {q:"Qu'est-ce que l'espace Schengen ?", r:"Zone de libre circulation des personnes (suppression des contrôles aux frontières intérieures)."},
-      {q:"Qu'est-ce que le Brexit (2020) ?", r:"Sortie du Royaume-Uni de l'Union européenne (vote de 2016, effectif 2020)."},
-      {q:"Qu'est-ce que le programme Erasmus+ ?", r:"Mobilité étudiante européenne. Permet d'étudier à l'étranger."}
-    ],
-    // CHAPITRE 18 : Décolonisation (1945-1975) – 10 cartes
-    18: [
-      {q:"Qu'est-ce que la conférence de Bandung (1955) ?", r:"Conférence des pays d'Asie et d'Afrique indépendants. Création du mouvement des non-alignés."},
-      {q:"Qu'est-ce que la guerre d'Indochine (1946-1954) ?", r:"Conflit entre la France et le Viet Minh (indépendance). Défaite française à Diên Biên Phu."},
-      {q:"Qu'est-ce que la guerre d'Algérie (1954-1962) ?", r:"Conflit entre la France et le FLN (indépendance). Accords d'Évian (1962)."},
-      {q:"Qu'est-ce que le FLN ?", r:"Front de libération nationale. Principal mouvement indépendantiste algérien."},
-      {q:"Que s'est-il passé en 1960 en Afrique ?", r:"Année de l'Afrique : 17 colonies françaises deviennent indépendantes."},
-      {q:"Comment l'Inde devient-elle indépendante (1947) ?", r:"Indépendance négociée avec Gandhi. Partition avec le Pakistan (violences)."},
-      {q:"Qu'est-ce que la guerre du Vietnam (1955-1975) ?", r:"Indépendance du Vietnam (Nord communiste, Sud capitaliste). Victoire du Nord (1975)."},
-      {q:"Quand la décolonisation portugaise a-t-elle lieu ?", r:"1974-1975 (révolution des Œillets). Indépendance de l'Angola, Mozambique, Guinée-Bissau."},
-      {q:"Qu'est-ce que la 'Françafrique' ?", r:"Réseau d'influence politique et économique de la France en Afrique après les indépendances."},
-      {q:"Pourquoi les mémoires de la colonisation sont-elles douloureuses ?", r:"Travail de mémoire : reconnaissance des crimes coloniaux, restitution d'œuvres d'art."}
-    ],
-    // CHAPITRE 19 : Après-guerre froide (1991 à nos jours) – 10 cartes
-    19: [
-      {q:"Qu'est-ce que la guerre du Golfe (1990-1991) ?", r:"Intervention internationale contre l'Irak (Saddam Hussein) après l'invasion du Koweït."},
-      {q:"Que sont les guerres de Yougoslavie (1991-2001) ?", r:"Guerres civiles après l'éclatement de la Yougoslavie. Nettoyage ethnique (Bosnie, Kosovo)."},
-      {q:"Qu'est-ce que le génocide au Rwanda (1994) ?", r:"Extermination des Tutsis par les Hutus. 800 000 morts en 3 mois."},
-      {q:"Que s'est-il passé le 11 septembre 2001 ?", r:"Attentats terroristes d'Al-Qaïda : destruction des tours jumelles (New York)."},
-      {q:"Qu'est-ce que la 'guerre contre le terrorisme' ?", r:"Invasion de l'Afghanistan (2001), guerre d'Irak (2003)."},
-      {q:"Que sont les BRICS ?", r:"Brésil, Russie, Inde, Chine, Afrique du Sud. Pays émergents, nouvelles puissances économiques."},
-      {q:"Pourquoi y a-t-il une crise des migrants (2015 →) ?", r:"Guerres (Syrie), pauvreté, changements climatiques. Réfugiés tentent de rejoindre l'Europe."},
-      {q:"Qu'est-ce que l'Accord de Paris (2015) ?", r:"Traité international sur le climat : limiter le réchauffement à +2°C (idéal 1,5°C)."},
-      {q:"Qu'est-ce que la pandémie de Covid-19 (2020) ?", r:"Pandémie mondiale. Confinements, télétravail, vaccins. Conséquences économiques et sociales."},
-      {q:"Quels sont les défis actuels ?", r:"Réchauffement climatique, migrations, montée des populismes, nouvelles technologies (IA)."}
-    ],
-    // CHAPITRE 20 : Aires urbaines (géographie) – 8 cartes
-    20: [
-      {q:"Qu'est-ce que la métropolisation ?", r:"Concentration des activités et de la population dans les grandes métropoles."},
-      {q:"Qu'est-ce qu'une aire urbaine ?", r:"Ensemble formé par un pôle urbain (ville-centre + banlieue) et sa couronne périurbaine."},
-      {q:"Qu'est-ce que la ségrégation socio-spatiale ?", r:"Séparation des populations selon leur revenu (centres riches / banlieues défavorisées)."},
-      {q:"Qu'est-ce que l'étalement urbain ?", r:"Consommation d'espaces naturels et agricoles par les villes. Lotissements, zones commerciales."},
-      {q:"Qu'est-ce que la périurbanisation ?", r:"Mouvement des citadins vers les communes périurbaines (maison individuelle, voiture)."},
-      {q:"Quels sont les problèmes des transports en milieu urbain ?", r:"Dépendance à la voiture, embouteillages, pollution. Développement des transports en commun."},
-      {q:"Quel est le sort des villes moyennes ?", r:"En difficulté face aux métropoles : perte d'emplois, désertification médicale, fermeture de services."},
-      {q:"Qu'est-ce qu'un éco-quartier ?", r:"Quartier conçu selon les principes du développement durable (bâtiments basse consommation, espaces verts)."}
-    ],
-    // CHAPITRE 21 : Espaces productifs – 8 cartes
-    21: [
-      {q:"Quels sont les espaces agricoles ?", r:"Espaces dédiés à l'agriculture (céréales, élevage). Opposent agriculture intensive (grandes plaines) et biologique."},
-      {q:"Qu'est-ce que la désindustrialisation ?", r:"Baisse de l'emploi industriel (délocalisations, gains de productivité). Apparition de friches industrielles."},
-      {q:"Qu'est-ce que la tertiarisation ?", r:"Augmentation de la part des services dans l'économie (commerces, banques, tourisme)."},
-      {q:"Qu'est-ce qu'un pôle de compétitivité ?", r:"Regroupement d'entreprises, de centres de recherche et d'universités pour innover."},
-      {q:"Qu'est-ce qu'une zone industrialo-portuaire ?", r:"Zone où industrie et port sont liés (Le Havre, Fos-sur-Mer, Dunkerque)."},
-      {q:"Pourquoi le tourisme est-il un espace productif ?", r:"Génère des emplois (hôtellerie, restauration, guides) et des revenus."},
-      {q:"Quels sont les espaces des énergies renouvelables ?", r:"Parcs éoliens (vents), centrales solaires (ensoleillement), barrages hydrauliques."},
-      {q:"Comment les espaces productifs se reconvertissent-ils ?", r:"Anciennes friches industrielles deviennent sites numériques, culturels ou logistiques."}
-    ],
-    // CHAPITRE 22 : Espaces de faible densité – 6 cartes
-    22: [
-      {q:"Quels sont les atouts des espaces ruraux ?", r:"Cadre de vie, tourisme vert, production agricole, énergies renouvelables."},
-      {q:"Quelles sont les fragilités des espaces ruraux ?", r:"Vieillissement de la population, enclavement (éloignement des services), fermeture des commerces."},
-      {q:"Que sont les néoruraux ?", r:"Citadins qui s'installent à la campagne pour changer de vie (qualité de vie, télétravail)."},
-      {q:"Que sont les ZRR ?", r:"Zones de revitalisation rurale. Bénéficient d'aides fiscales pour attirer habitants et entreprises."},
-      {q:"Comment le télétravail transforme-t-il les espaces ruraux ?", r:"Permet de concilier emploi urbain et vie à la campagne. Dynamise certains territoires."},
-      {q:"Quelles sont les spécificités des espaces de montagne ?", r:"Contraintes (froid, pente, enclavement) et atouts (tourisme hiver/été, hydroélectricité)."}
-    ],
-    // CHAPITRE 23 : Union européenne (géographie) – 8 cartes
-    23: [
-      {q:"Combien de pays comptent l'Union européenne ?", r:"27 (depuis le Brexit, 2020)."},
-      {q:"Qu'est-ce que la PAC ?", r:"Politique agricole commune. Subventions aux agriculteurs, régulation des marchés."},
-      {q:"Que sont les fonds structurels de l'UE ?", r:"FEDER (développement régional), FSE (emploi). Réduisent les inégalités entre régions."},
-      {q:"Qu'est-ce que l'espace Schengen ?", r:"Espace de libre circulation des personnes (suppression des contrôles aux frontières intérieures)."},
-      {q:"Quelles sont les inégalités territoriales dans l'UE ?", r:"Opposition Est/Ouest (PIB), métropoles dynamiques / périphéries en déclin."},
-      {q:"Qu'est-ce que le corridor Rhin-Rhône ?", r:"Infrastructure de transport (voie navigable, autoroute, LGV) traversant l'Europe."},
-      {q:"Quelles sont les capitales européennes ?", r:"Bruxelles (Commission), Strasbourg (Parlement), Luxembourg (Justice)."},
-      {q:"Que sont les régions ultrapériphériques ?", r:"Territoires européens hors du continent (Guadeloupe, Guyane, Réunion, Martinique, Mayotte, Açores, Madère, Canaries)."}
-    ],
-    // CHAPITRE 24 : Mondialisation – 10 cartes
-    24: [
-      {q:"Qu'est-ce que la mondialisation ?", r:"Mise en relation des différentes parties du monde par les échanges (marchandises, capitaux, informations, personnes)."},
-      {q:"Qu'est-ce qu'une FMN ?", r:"Firme multinationale (Apple, Total, Nestlé). Possède des filiales dans plusieurs pays."},
-      {q:"Quels sont les trois piliers institutionnels de la mondialisation ?", r:"OMC (commerce), FMI (finance), Banque mondiale (développement)."},
-      {q:"Quels sont les flux de la mondialisation ?", r:"Marchandises (conteneurs), capitaux (bourses), informations (Internet), personnes (touristes, migrants)."},
-      {q:"Qu'est-ce qu'un hub ?", r:"Plateforme de transport (aéroport, port) où transitent les flux mondiaux (Dubaï, Singapour, Rotterdam)."},
-      {q:"Qu'est-ce qu'une mégalopole ?", r:"Région urbaine très peuplée et connectée (Tokyo, New York, Londres, Shanghai, Paris)."},
-      {q:"Que sont les pays émergents ?", r:"Pays en développement dont l'économie connaît une forte croissance (BRICS)."},
-      {q:"Quelles sont les inégalités spatiales de la mondialisation ?", r:"Métropoles gagnantes / territoires perdants (désindustrialisation, périphéries abandonnées)."},
-      {q:"Qu'est-ce qu'une ZES (zone économique spéciale) ?", r:"Zone où les entreprises bénéficient d'avantages fiscaux et douaniers (Shenzhen en Chine)."},
-      {q:"Qu'est-ce que la mondialisation culturelle ?", r:"Diffusion mondiale de modes de vie, de produits, de valeurs (fast-food, cinéma américain, réseaux sociaux)."}
-    ],
-    // CHAPITRE 25 : Inégalités de développement – 8 cartes
-    25: [
-      {q:"Qu'est-ce que l'IDH ?", r:"Indice de développement humain. Mesure le développement d'un pays (PIB, santé, éducation)."},
-      {q:"Qu'est-ce que la distinction Nord/Sud ?", r:"Nord = pays développés (fort IDH). Sud = pays en développement (IDH faible)."},
-      {q:"Que sont les PMA (pays les moins avancés) ?", r:"Pays avec un IDH très faible (Afrique subsaharienne, Afghanistan, Haïti)."},
-      {q:"Pourquoi le taux d'alphabétisation est-il un indicateur de développement ?", r:"Permet de mesurer l'accès à l'éducation, facteur de développement économique."},
-      {q:"Qu'est-ce que l'espérance de vie ?", r:"Durée de vie moyenne dans un pays. Reflète la qualité du système de santé."},
-      {q:"Que sont les OMD (objectifs du millénaire) ?", r:"Objectifs fixés par l'ONU en 2000 (réduire la pauvreté, lutter contre les maladies)."},
-      {q:"Que sont les ODD (objectifs de développement durable) ?", r:"17 objectifs adoptés par l'ONU en 2015 pour 2030 (climat, inégalités, paix)."},
-      {q:"Qu'est-ce que la fracture numérique ?", r:"Inégalité d'accès à Internet et aux technologies numériques entre pays et entre populations."}
-    ],
-    // CHAPITRE 26 : Défis du XXIe siècle – 10 cartes
-    26: [
-      {q:"Qu'est-ce que le changement climatique ?", r:"Augmentation de la température moyenne (GES). Conséquences : fonte des glaces, montée des eaux, catastrophes."},
-      {q:"Qu'est-ce que la transition énergétique ?", r:"Passage des énergies fossiles (charbon, pétrole) aux énergies renouvelables."},
-      {q:"Quels sont les types de migrations ?", r:"Économiques (travail), politiques (réfugiés, guerres), climatiques (sécheresses, inondations)."},
-      {q:"Qu'est-ce qu'un conflit asymétrique ?", r:"Conflit entre armée régulière et groupes non étatiques (terrorisme, guérilla)."},
-      {q:"Qu'est-ce que le développement durable ?", r:"Développement qui répond aux besoins actuels sans compromettre la capacité des générations futures."},
-      {q:"Qu'est-ce que l'économie circulaire ?", r:"Économie qui recycle, répare, réutilise pour limiter les déchets."},
-      {q:"Quels sont les défis de l'intelligence artificielle ?", r:"Éthique, suppression d'emplois, surveillance des populations, désinformation."},
-      {q:"Qu'est-ce que la désinformation (fake news) ?", r:"Fausses informations diffusées intentionnellement (réseaux sociaux, médias) pour manipuler l'opinion."},
-      {q:"Qu'est-ce que la pandémie de Covid-19 ?", r:"Maladie virale apparue en 2019. Confinements, télétravail, vaccins, conséquences économiques."},
-      {q:"Qu'est-ce que la perte de biodiversité ?", r:"Disparition massive des espèces (sixième extinction). Causes : déforestation, pollution, climat."}
-    ],
-    // CHAPITRE 27 : Valeurs de la République (EMC) – 8 cartes
-    27: [
-      {q:"Que signifie 'liberté' dans la devise républicaine ?", r:"Liberté d'expression, de presse, de conscience, de réunion. Limites : diffamation, incitation à la haine."},
-      {q:"Que signifie 'égalité' dans la devise républicaine ?", r:"Égalité des droits, égalité homme/femme, lutte contre les discriminations."},
-      {q:"Que signifie 'fraternité' dans la devise républicaine ?", r:"Solidarité (sécurité sociale, impôt). Aide aux plus faibles."},
-      {q:"Qu'est-ce que la laïcité en France ?", r:"Principe de neutralité de l'État. Séparation des Églises et de l'État (loi de 1905). Liberté de conscience."},
-      {q:"Quelle est la devise de la République française ?", r:"Liberté, Égalité, Fraternité."},
-      {q:"Que signifie la neutralité des agents publics ?", r:"Les fonctionnaires (enseignants, policiers, juges) ne doivent pas manifester leurs opinions religieuses."},
-      {q:"Qu'est-ce que la charte de la laïcité (2013) ?", r:"Texte rappelant les règles de la laïcité à l'école. Affiché dans tous les établissements scolaires."},
-      {q:"Quelles sont les limites à la liberté d'expression ?", r:"Diffamation, incitation à la haine, négationnisme, apologie du terrorisme."}
-    ],
-    // CHAPITRE 28 : Citoyenneté française (EMC) – 8 cartes
-    28: [
-      {q:"Qu'est-ce que le droit du sol ?", r:"Obtention de la nationalité par naissance sur le territoire français."},
-      {q:"Qu'est-ce que le droit du sang ?", r:"Obtention de la nationalité par filiation (parents français)."},
-      {q:"Qu'est-ce que la naturalisation ?", r:"Procédure pour devenir français quand on ne remplit pas les conditions du droit du sol ou du sang."},
-      {q:"Quelles sont les conditions pour voter ?", r:"Être majeur (18 ans), de nationalité française, jouir de ses droits civils."},
-      {q:"Qu'est-ce que le devoir de défense ?", r:"JDC (journée défense citoyenneté). Obligatoire pour les jeunes (16-18 ans)."},
-      {q:"Qu'est-ce que le SNU ?", r:"Service national universel (séjour de cohésion de 12 jours). Obligatoire (sauf dispense)."},
-      {q:"Qu'est-ce que le service civique ?", r:"Engagement volontaire (6-12 mois) dans une association. Indemnisé."},
-      {q:"Quels sont les trois niveaux des institutions françaises ?", r:"Communes (mairies), départements (conseils départementaux), régions (conseils régionaux). L'État (Président, Parlement)."}
-    ],
-    // CHAPITRE 29 : Justice en France (EMC) – 8 cartes
-    29: [
-      {q:"Quels sont les trois grands principes de la justice française ?", r:"Indépendance (juges indépendants), égalité devant la loi, présomption d'innocence."},
-      {q:"Qu'est-ce que la présomption d'innocence ?", r:"Toute personne est considérée innocente tant qu'elle n'a pas été jugée coupable."},
-      {q:"Quelle est la différence entre justice civile et justice pénale ?", r:"Civile : litiges entre personnes (divorce, contrat). Pénale : infractions (délits, crimes)."},
-      {q:"Qu'est-ce que la cour d'assises ?", r:"Juridiction qui juge les crimes (meurtre, viol). Juges + jury populaire de 6 citoyens."},
-      {q:"Qu'est-ce que le TIG (travail d'intérêt général) ?", r:"Peine alternative à l'emprisonnement. Le condamné effectue un travail non rémunéré pour la collectivité."},
-      {q:"Qu'est-ce que le juge des enfants ?", r:"Magistrat spécialisé dans la protection des mineurs en danger ou délinquants."},
-      {q:"Qu'est-ce que le tribunal de proximité ?", r:"Juge les petits litiges (moins de 10 000 €) rapidement."},
-      {q:"Qu'est-ce que l'aide juridictionnelle ?", r:"Prise en charge par l'État des frais de justice pour les personnes aux revenus modestes."}
-    ],
-    // CHAPITRE 30 : Débat démocratique et médias (EMC) – 8 cartes
-    30: [
-      {q:"Quels sont les trois rôles des médias en démocratie ?", r:"Informer les citoyens, permettre le débat public, contrôler le pouvoir (contre-pouvoir)."},
-      {q:"Qu'est-ce que la liberté de la presse ?", r:"Droit d'informer sans censure préalable. Garantie par la loi de 1881."},
-      {q:"Que sont les fake news ?", r:"Fausses informations diffusées intentionnellement pour manipuler l'opinion publique."},
-      {q:"Qu'est-ce que le fact-checking ?", r:"Vérification des faits par des journalistes pour lutter contre la désinformation."},
-      {q:"Quels sont les dangers des réseaux sociaux ?", r:"Bulles de filtre (enfermement idéologique), harcèlement, diffusion de fake news, radicalisation."},
-      {q:"Qu'est-ce que la loi de 1881 sur la liberté de la presse ?", r:"Loi fondamentale qui garantit la liberté d'expression et de publication en France."},
-      {q:"Qu'est-ce que le droit de grève ?", r:"Droit des salariés de cesser le travail pour défendre leurs revendications. Reconnu par la Constitution."},
-      {q:"Que sont les associations loi 1901 ?", r:"Associations à but non lucratif. Permettent l'expression citoyenne (sport, culture, humanitaire)."}
-    ]
-  };
+// ==================== LOGIQUE FLASHCARDS ====================
+let progression = {};
+let sessionCartes = [];
+let currentIndex = 0;
+let currentCard = null;
 
-  // Stockage de la progression
-  let progression = JSON.parse(localStorage.getItem("flashcards_histoire")) || {};
-  let currentChapter = 10;
-  let currentCards = [];
-  let currentIndex = 0;
-  let currentCardObj = null;
+function getStorageKey() { return 'flashcards_histgeo_progression'; }
+function sauvegarderProgression() { localStorage.setItem(getStorageKey(), JSON.stringify(progression)); }
+function chargerProgression() {
+  const saved = localStorage.getItem(getStorageKey());
+  if (saved) progression = JSON.parse(saved);
+  else progression = {};
+}
 
-  function sauvegarderProgression() { localStorage.setItem("flashcards_histoire", JSON.stringify(progression)); }
+function getCardKey(carte) { return `${carte.chapitre}_${carte.q.substring(0,50)}`; }
 
-  function getCardKey(chapitre, question) { return `ch${chapitre}_${question}`; }
+function getNiveau(carteId) { return progression[carteId]?.score || 0; }
+function setNiveau(carteId, val) { 
+  progression[carteId] = { score: Math.min(3, val), etat: val >= 3 ? "maitrisee" : (val > 0 ? "en_cours" : "nouvelle") }; 
+  sauvegarderProgression(); 
+}
 
-  function melanger(tableau) {
-    for (let i = tableau.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [tableau[i], tableau[j]] = [tableau[j], tableau[i]];
-    }
-    return tableau;
+function getSelectedChapitres() {
+  let selected = [];
+  for (let i = 1; i <= 32; i++) {
+    const el = document.getElementById(`ch_${i}`);
+    if (el && el.classList.contains('selected')) selected.push(i);
   }
+  return selected;
+}
 
-  function chargerChapitre(chapitre) {
-    currentChapter = chapitre;
-    const cartesSource = flashcardsParChapitre[chapitre];
-    if (!cartesSource) { document.getElementById("card-area").innerHTML = '<div class="progress">Chapitre introuvable.</div>'; return; }
-    
-    // Filtrer les cartes non maîtrisées (score < 3)
-    let cartes = cartesSource.filter(c => {
-      const key = getCardKey(chapitre, c.q);
-      return !progression[key] || progression[key] < 3;
-    });
-    
-    if (cartes.length === 0) {
-      document.getElementById("card-area").innerHTML = '<div class="progress">🎉 Félicitations ! Toutes les cartes de ce chapitre sont maîtrisées. Passez au chapitre suivant !</div>';
-      document.getElementById("stats").innerHTML = `✅ Chapitre ${chapitre} : maîtrisé !`;
-      return;
-    }
-    
-    currentCards = melanger([...cartes]);
-    currentIndex = 0;
-    afficherCarteCourante();
-    mettreAJourStats(chapitre);
-  }
-
-  function afficherCarteCourante() {
-    if (currentIndex >= currentCards.length) {
-      chargerChapitre(currentChapter);
-      return;
-    }
-    currentCardObj = currentCards[currentIndex];
-    const key = getCardKey(currentChapter, currentCardObj.q);
-    const score = progression[key] || 0;
-    
-    document.getElementById("card-area").innerHTML = `
-      <div class="flashcard" onclick="revelerReponse()">
-        <div class="question">📖 ${currentCardObj.q}</div>
-        <div class="answer" id="answer">📌 ${currentCardObj.r}</div>
-        <div class="show-answer">👆 Cliquez pour voir la réponse</div>
-      </div>
-      <div class="btn-group" id="btns" style="display:none;">
-        <button onclick="repondre(true)">✅ Je sais (${score}/3)</button>
-        <button onclick="repondre(false)">❌ Je ne sais pas</button>
-      </div>
-    `;
-    document.getElementById("session-stats").innerHTML = `📌 Carte ${currentIndex+1}/${currentCards.length} · Chapitre ${currentChapter}`;
-  }
-
-  window.revelerReponse = function() {
-    document.getElementById("answer").style.display = "block";
-    document.getElementById("btns").style.display = "flex";
-  };
-
-  window.repondre = function(reussi) {
-    const key = getCardKey(currentChapter, currentCardObj.q);
-    let score = progression[key] || 0;
-    if (reussi) { score = Math.min(score + 1, 3); }
-    else { score = 0; }
-    progression[key] = score;
-    sauvegarderProgression();
-    currentIndex++;
-    afficherCarteCourante();
-    mettreAJourStats(currentChapter);
-  };
-
-  function mettreAJourStats(chapitre) {
-    const cartesSource = flashcardsParChapitre[chapitre];
-    if (!cartesSource) return;
-    let total = cartesSource.length;
-    let maitrisees = 0;
-    for (let c of cartesSource) {
-      const key = getCardKey(chapitre, c.q);
-      if (progression[key] >= 3) maitrisees++;
-    }
-    document.getElementById("stats").innerHTML = `📊 Chapitre ${chapitre} : ${maitrisees}/${total} cartes maîtrisées · ${Math.round(maitrisees/total*100)}%`;
-  }
-
-  function reinitialiserChapitre() {
-    if (confirm(`Réinitialiser le chapitre ${currentChapter} ?`)) {
-      const cartesSource = flashcardsParChapitre[currentChapter];
-      if (cartesSource) {
-        for (let c of cartesSource) {
-          const key = getCardKey(currentChapter, c.q);
-          delete progression[key];
-        }
-        sauvegarderProgression();
-        chargerChapitre(currentChapter);
+function getCartesSelectionnees() {
+  const selected = getSelectedChapitres();
+  let cartes = [];
+  for (let ch of selected) {
+    if (CHAPITRES_HG[ch] && CHAPITRES_HG[ch].cartes) {
+      for (let c of CHAPITRES_HG[ch].cartes) {
+        cartes.push({ ...c, chapitre: ch, chapitreTitre: CHAPITRES_HG[ch].titre });
       }
     }
   }
+  return cartes;
+}
 
-  function reinitialiserTout() {
-    if (confirm("⚠️ Attention : cela supprimera TOUTE progression dans TOUS les chapitres. Êtes-vous sûr ?")) {
-      localStorage.removeItem("flashcards_histoire");
-      progression = {};
-      chargerChapitre(currentChapter);
+function mettreAJourStats() {
+  const cartes = getCartesSelectionnees();
+  let total = cartes.length;
+  let maitrisees = 0;
+  for (let c of cartes) {
+    if (getNiveau(getCardKey(c)) >= 3) maitrisees++;
+  }
+  const pct = total > 0 ? Math.round(maitrisees / total * 100) : 0;
+  document.getElementById('nbCartes').textContent = total;
+  document.getElementById('nbMaitrisees').textContent = maitrisees;
+  document.getElementById('nbProgress').textContent = pct + '%';
+  document.getElementById('btnStart').disabled = total === 0;
+}
+
+function buildChapitresGrid() {
+  const grid = document.getElementById('chapitresGrid');
+  grid.innerHTML = '';
+  for (let i = 1; i <= 32; i++) {
+    if (!CHAPITRES_HG[i]) continue;
+    const div = document.createElement('div');
+    div.className = 'ch-item';
+    div.id = `ch_${i}`;
+    div.onclick = () => { div.classList.toggle('selected'); mettreAJourStats(); };
+    div.innerHTML = `<span class="ch-num">${i}</span><span>${CHAPITRES_HG[i].titre}</span>`;
+    grid.appendChild(div);
+  }
+}
+
+function selectAll(val) {
+  for (let i = 1; i <= 32; i++) {
+    const el = document.getElementById(`ch_${i}`);
+    if (el) {
+      if (val) el.classList.add('selected');
+      else el.classList.remove('selected');
     }
   }
+  mettreAJourStats();
+}
 
-  function remplirSelecteur() {
-    const select = document.getElementById("chapterSelect");
-    select.innerHTML = "";
-    for (let i = 10; i <= 30; i++) {
-      if (flashcardsParChapitre[i]) {
-        const option = document.createElement("option");
-        option.value = i;
-        let titre = "";
-        if (i===10) titre = "10. Première Guerre mondiale";
-        else if (i===11) titre = "11. Sortie de guerre et traités";
-        else if (i===12) titre = "12. Montée des totalitarismes";
-        else if (i===13) titre = "13. Guerre-éclair (1939-1941)";
-        else if (i===14) titre = "14. Guerre d'anéantissement (1941-1945)";
-        else if (i===15) titre = "15. Libération et bilan";
-        else if (i===16) titre = "16. Guerre froide (1947-1991)";
-        else if (i===17) titre = "17. Construction européenne";
-        else if (i===18) titre = "18. Décolonisation";
-        else if (i===19) titre = "19. Après-guerre froide (1991→)";
-        else if (i===20) titre = "20. Aires urbaines (géographie)";
-        else if (i===21) titre = "21. Espaces productifs";
-        else if (i===22) titre = "22. Espaces de faible densité";
-        else if (i===23) titre = "23. Union européenne (géographie)";
-        else if (i===24) titre = "24. Mondialisation";
-        else if (i===25) titre = "25. Inégalités de développement";
-        else if (i===26) titre = "26. Défis du XXIe siècle";
-        else if (i===27) titre = "27. Valeurs de la République (EMC)";
-        else if (i===28) titre = "28. Citoyenneté française (EMC)";
-        else if (i===29) titre = "29. Justice en France (EMC)";
-        else if (i===30) titre = "30. Débat démocratique et médias (EMC)";
-        else titre = `${i}. Chapitre ${i}`;
-        option.textContent = titre;
-        select.appendChild(option);
-      }
-    }
-    select.value = "10";
+function resetProgression() {
+  if (confirm('⚠️ Supprimer toute la progression des flashcards histoire-géo ?')) {
+    localStorage.removeItem(getStorageKey());
+    progression = {};
+    mettreAJourStats();
+    alert('✅ Progression réinitialisée');
   }
+}
 
-  // Événements
-  document.getElementById("loadChapterBtn").addEventListener("click", () => {
-    const chap = parseInt(document.getElementById("chapterSelect").value);
-    currentChapter = chap;
-    chargerChapitre(currentChapter);
-  });
-  document.getElementById("resetChapterBtn").addEventListener("click", reinitialiserChapitre);
-  document.getElementById("resetAllBtn").addEventListener("click", reinitialiserTout);
-  
-  remplirSelecteur();
-  chargerChapitre(10);
+function melanger(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function selectionnerCartesDuJour() {
+  const toutes = getCartesSelectionnees();
+  const nouvelles = toutes.filter(c => getNiveau(getCardKey(c)) === 0).slice(0, 20);
+  const erreurs = toutes.filter(c => getNiveau(getCardKey(c)) > 0 && getNiveau(getCardKey(c)) < 3).slice(0, 10);
+  const revoir = toutes.filter(c => getNiveau(getCardKey(c)) >= 3).slice(0, 5);
+  let selected = [...nouvelles, ...erreurs, ...revoir];
+  const ids = new Set();
+  selected = selected.filter(c => { const k = getCardKey(c); if (ids.has(k)) return false; ids.add(k); return true; });
+  return melanger(selected);
+}
+
+function demarrerSession() {
+  sessionCartes = selectionnerCartesDuJour();
+  if (sessionCartes.length === 0) {
+    alert('Aucune carte disponible pour les chapitres sélectionnés.');
+    return;
+  }
+  currentIndex = 0;
+  document.getElementById('card-area').style.display = 'block';
+  document.getElementById('session-stats').style.display = 'block';
+  afficherCarte();
+}
+
+function afficherCarte() {
+  if (currentIndex >= sessionCartes.length) {
+    document.getElementById('card-area').innerHTML = '<div class="progress">🎉 Bravo ! Session terminée.</div>';
+    document.getElementById('session-stats').innerHTML = `✅ Session terminée ! ${sessionCartes.length} cartes revues.`;
+    mettreAJourStats();
+    return;
+  }
+  currentCard = sessionCartes[currentIndex];
+  const niveau = getNiveau(getCardKey(currentCard));
+  document.getElementById('card-area').innerHTML = `
+    <div class="flashcard" onclick="revelerReponse()">
+      <div style="font-size:0.7rem;color:#aaa;margin-bottom:8px;">${currentCard.chapitreTitre}</div>
+      <div class="question">📖 ${currentCard.q}</div>
+      <div class="answer" id="answer">📌 ${currentCard.r}</div>
+      <div class="show-answer">👆 Cliquez pour voir la réponse</div>
+    </div>
+    <div class="btn-group" id="btns" style="display:none;">
+      <button onclick="repondre(true)">✅ Je sais (${niveau}/3)</button>
+      <button onclick="repondre(false)">❌ Je ne sais pas</button>
+    </div>
+  `;
+  document.getElementById('session-stats').innerHTML = `📌 Carte ${currentIndex+1}/${sessionCartes.length} · Score: ${niveau}/3`;
+}
+
+window.revelerReponse = function() {
+  document.getElementById("answer").style.display = "block";
+  document.getElementById("btns").style.display = "flex";
+};
+
+window.repondre = function(reussi) {
+  const key = getCardKey(currentCard);
+  let niveau = getNiveau(key);
+  if (reussi) niveau = Math.min(niveau + 1, 3);
+  else niveau = Math.max(0, niveau - 1);
+  setNiveau(key, niveau);
+  currentIndex++;
+  afficherCarte();
+  mettreAJourStats();
+};
+
+// INIT
+chargerProgression();
+buildChapitresGrid();
+mettreAJourStats();
 </script>
 </body>
 </html>
