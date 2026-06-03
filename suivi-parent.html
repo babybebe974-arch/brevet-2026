@@ -9,75 +9,79 @@
 body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;padding:1rem;}
 .box{max-width:1000px;margin:0 auto;}
 
-/* HEADER */
 .header{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
 .header h1{font-size:1.4rem;color:#e8c87a;}
 .header p{font-size:12px;color:#9090a8;margin-top:3px;}
 a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 
-/* ELEVE TABS */
+/* ONGLETS ELEVE */
 .eleve-tabs{display:flex;gap:8px;margin-bottom:1.5rem;}
-.etab{padding:8px 28px;border-radius:50px;border:2px solid #2a2a38;cursor:pointer;font-weight:700;font-size:13px;background:#111118;color:#9090a8;}
-.etab.w{border-color:#7eb8f5;color:#7eb8f5;background:rgba(126,184,245,.08);}
-.etab.n{border-color:#f59eb8;color:#f59eb8;background:rgba(245,158,184,.08);}
+.etab{padding:10px 32px;border-radius:50px;border:2px solid #2a2a38;cursor:pointer;font-weight:700;font-size:14px;background:#111118;color:#9090a8;}
+.etab.w{border-color:#7eb8f5;color:#09090f;background:#7eb8f5;}
+.etab.n{border-color:#f59eb8;color:#09090f;background:#f59eb8;}
 
 /* ALERTE */
-.alerte{background:rgba(232,122,122,.1);border:1px solid rgba(232,122,122,.3);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:13px;color:#e87a7a;display:none;}
+.alerte{background:rgba(232,122,122,.15);border:2px solid #e87a7a;border-radius:10px;padding:14px 18px;margin-bottom:1.5rem;font-size:14px;color:#e87a7a;display:none;}
 
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem;}
-.stat{background:#111118;border:1px solid #2a2a38;border-radius:10px;padding:14px;text-align:center;}
-.stat-v{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:4px;}
-.stat-l{font-size:10px;color:#9090a8;text-transform:uppercase;letter-spacing:.05em;}
+/* NOTE GLOBALE */
+.note-globale{background:#111118;border:1px solid #2a2a38;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.note-cercle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;}
+.note-num{font-size:2.4rem;font-weight:800;line-height:1;}
+.note-denom{font-size:13px;color:#9090a8;}
+.note-infos{flex:1;}
+.note-titre{font-size:15px;font-weight:700;margin-bottom:6px;}
+.note-sub{font-size:13px;color:#9090a8;line-height:1.6;}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:8px;}
 
-/* STREAK DAYS */
-.streak-days{display:flex;gap:5px;margin-top:10px;justify-content:center;}
-.sday{width:22px;height:22px;border-radius:5px;border:1px solid #2a2a38;display:flex;align-items:center;justify-content:center;font-size:9px;color:#5a5a72;}
-.sday.done{background:#5ecfb1;border-color:#5ecfb1;color:#09090f;}
-.sday.today{border-color:#e8c87a;}
+/* CARTES MATIERES */
+.matieres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:1.5rem;}
+.matiere-card{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem;position:relative;overflow:hidden;}
+.matiere-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.mat-fr::before{background:#4f8ef7;}
+.mat-ma::before{background:#e8c87a;}
+.mat-hi::before{background:#f5a623;}
+.mat-sc::before{background:#5eaacf;}
+.mat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.mat-nom{font-size:13px;font-weight:700;}
+.mat-note{font-size:1.6rem;font-weight:800;line-height:1;}
+.mat-note-label{font-size:10px;color:#9090a8;}
+.mat-bar-wrap{margin-bottom:8px;}
+.mat-bar{height:8px;background:#2a2a38;border-radius:4px;overflow:hidden;margin-bottom:4px;}
+.mat-fill{height:100%;border-radius:4px;}
+.mat-bar-label{display:flex;justify-content:space-between;font-size:10px;color:#9090a8;}
+.mat-sessions{font-size:11px;color:#5a5a72;margin-top:4px;}
 
-/* SECTIONS */
-.section{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
-.section-head{padding:12px 18px;border-bottom:1px solid #2a2a38;display:flex;align-items:center;justify-content:space-between;}
-.section-head h3{font-size:12px;color:#e8c87a;text-transform:uppercase;letter-spacing:.08em;}
-.section-head span{font-size:11px;color:#5a5a72;}
-.section-body{padding:16px 18px;}
+/* CHAPITRES */
+.chapitres-section{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
+.chap-head{padding:14px 18px;border-bottom:1px solid #2a2a38;display:flex;align-items:center;gap:10px;}
+.chap-head h3{font-size:13px;font-weight:700;}
+.chap-body{padding:14px 18px;}
+.chap-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.ctab{padding:5px 14px;border-radius:20px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:11px;cursor:pointer;}
+.ctab.active{border-color:#e8c87a;color:#e8c87a;background:rgba(232,200,122,.08);}
+.chap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;}
+.chap-item{border-radius:8px;padding:10px 12px;border:1px solid;}
+.chap-item.faible{background:rgba(232,122,122,.08);border-color:rgba(232,122,122,.3);}
+.chap-item.fort{background:rgba(94,207,177,.08);border-color:rgba(94,207,177,.3);}
+.chap-item.moyen{background:rgba(232,200,122,.08);border-color:rgba(232,200,122,.3);}
+.chap-nom{font-size:12px;margin-bottom:4px;color:#e8e8f0;}
+.chap-note{font-size:13px;font-weight:700;}
+.chap-note.rouge{color:#e87a7a;}
+.chap-note.vert{color:#5ecfb1;}
+.chap-note.orange{color:#e8c87a;}
 
-/* PROGRESSION MATIERES */
-.mat-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.mat-row:last-child{margin-bottom:0;}
-.mat-nom{font-size:13px;min-width:110px;color:#9090a8;}
-.mat-bar{flex:1;height:7px;background:#2a2a38;border-radius:4px;overflow:hidden;}
-.mat-fill{height:100%;border-radius:4px;transition:width .5s;}
-.mat-pct{font-size:12px;font-family:monospace;min-width:36px;text-align:right;}
-.mat-nb{font-size:11px;color:#5a5a72;min-width:60px;text-align:right;}
+/* SESSIONS */
+.sessions-table{width:100%;border-collapse:collapse;font-size:13px;}
+.sessions-table th{color:#9090a8;font-size:11px;font-weight:400;text-align:left;padding:8px 12px;border-bottom:1px solid #2a2a38;text-transform:uppercase;}
+.sessions-table td{padding:10px 12px;border-bottom:1px solid #1a1a24;vertical-align:top;}
+.sessions-table tr:last-child td{border-bottom:none;}
+.sessions-table tr:hover td{background:#1a1a24;}
+.score-ok{color:#5ecfb1;font-weight:700;font-size:15px;}
+.score-mid{color:#e8c87a;font-weight:700;font-size:15px;}
+.score-bad{color:#e87a7a;font-weight:700;font-size:15px;}
+.mat-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;margin-bottom:3px;}
 
-/* GRAPHIQUE */
-.graph{display:flex;align-items:flex-end;gap:5px;height:70px;padding:0 4px;}
-.gbar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.gbar{width:100%;border-radius:4px 4px 0 0;min-height:4px;transition:height .4s;}
-.glabel{font-size:8px;color:#5a5a72;font-family:monospace;writing-mode:vertical-rl;transform:rotate(180deg);max-height:36px;overflow:hidden;}
-
-/* CHAPITRES FAIBLES */
-.faibles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
-.faible-item{background:#1a1a24;border:1px solid rgba(232,122,122,.3);border-radius:8px;padding:10px 12px;}
-.faible-nom{font-size:12px;color:#e8e8f0;margin-bottom:3px;}
-.faible-taux{font-size:11px;color:#e87a7a;font-family:monospace;}
-
-/* SESSIONS TABLE */
-.stab{width:100%;border-collapse:collapse;font-size:12px;}
-.stab th{color:#e8c87a;font-size:10px;font-weight:400;text-align:left;padding:6px 10px;border-bottom:1px solid #2a2a38;text-transform:uppercase;letter-spacing:.05em;}
-.stab td{padding:8px 10px;border-bottom:1px solid #1a1a24;color:#9090a8;}
-.stab tr:last-child td{border-bottom:none;}
-.stab tr:hover td{background:#1a1a24;}
-.ok{color:#5ecfb1;font-weight:600;}
-.mid{color:#e8c87a;font-weight:600;}
-.bad{color:#e87a7a;font-weight:600;}
-
-/* VIDE */
 .vide{text-align:center;padding:2rem;color:#5a5a72;font-size:13px;}
-
-/* BTNS */
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1.5rem;}
 .btn{padding:8px 18px;border-radius:8px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:12px;cursor:pointer;}
 .btn:hover{border-color:#5ecfb1;color:#5ecfb1;}
@@ -91,59 +95,48 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
   <div class="header">
     <div>
       <h1>📊 Suivi Parental — Brevet 2026</h1>
-      <p>Progression des automatismes en temps réel</p>
+      <p>Note sur 10 · Chapitres faibles et forts · Dernières sessions</p>
     </div>
     <a href="index.html" class="back">← Hub</a>
   </div>
 
-  <!-- ELEVE TABS -->
   <div class="eleve-tabs">
     <button class="etab w" id="tabW">🌊 Wassil</button>
     <button class="etab" id="tabN">⚡ Nawal</button>
   </div>
 
-  <!-- ALERTE -->
   <div class="alerte" id="alerte"></div>
 
-  <!-- STATS RAPIDES -->
-  <div class="stats-grid" id="statsGrid"></div>
+  <!-- NOTE GLOBALE -->
+  <div class="note-globale" id="noteGlobale"></div>
 
-  <!-- STREAK + GRAPHIQUE -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.2rem;">
-    <div class="section">
-      <div class="section-head"><h3>🔥 Streak</h3></div>
-      <div class="section-body" id="streakBody"></div>
-    </div>
-    <div class="section">
-      <div class="section-head"><h3>📈 10 dernières sessions</h3></div>
-      <div class="section-body" id="graphBody"></div>
-    </div>
-  </div>
+  <!-- CARTES PAR MATIERE -->
+  <div class="matieres-grid" id="matieresGrid"></div>
 
-  <!-- COMPARAISON MATIERES -->
-  <div class="section">
-    <div class="section-head"><h3>📚 Comparaison par matière</h3></div>
-    <div class="section-body" id="matBody"></div>
-  </div>
-
-  <!-- CHAPITRES FAIBLES -->
-  <div class="section">
-    <div class="section-head">
-      <h3>⚠ Chapitres faibles (&lt;60%)</h3>
-      <span>Sur les 5 dernières sessions</span>
+  <!-- CHAPITRES FAIBLES ET FORTS -->
+  <div class="chapitres-section">
+    <div class="chap-head">
+      <span style="font-size:1.2rem">📋</span>
+      <h3>Chapitres par matière</h3>
     </div>
-    <div class="section-body" id="faiblesBody"></div>
+    <div class="chap-body">
+      <div class="chap-tabs" id="chapTabs"></div>
+      <div id="chapContent"></div>
+    </div>
   </div>
 
   <!-- SESSIONS RECENTES -->
-  <div class="section">
-    <div class="section-head"><h3>🕐 Sessions récentes</h3></div>
-    <div class="section-body" id="sessionsBody"></div>
+  <div class="chapitres-section">
+    <div class="chap-head">
+      <span style="font-size:1.2rem">🕐</span>
+      <h3>Dernières sessions</h3>
+    </div>
+    <div class="chap-body" id="sessionsBody"></div>
   </div>
 
   <div class="btn-row">
     <button class="btn" id="btnRefresh">🔄 Actualiser</button>
-    <button class="btn" id="btnExport">📤 Exporter JSON</button>
+    <button class="btn" id="btnExport">📤 Exporter</button>
     <button class="btn btn-danger" id="btnReset">⚠ Réinitialiser</button>
   </div>
 
@@ -151,182 +144,235 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 
 <script>
 var eleve = 'wassil';
+var chapMatiere = 'francais';
+
 var MATIERES = [
-  {id:'francais', nom:'🇫🇷 Français',    couleur:'#5ecfb1'},
-  {id:'maths',    nom:'📐 Maths',         couleur:'#e8c87a'},
-  {id:'histoire', nom:'🌍 Histoire-Géo',  couleur:'#f5a623'},
-  {id:'sciences', nom:'🔬 Sciences',      couleur:'#5eaacf'}
+  {id:'francais', nom:'Français',     ico:'🇫🇷', couleur:'#4f8ef7', cls:'mat-fr'},
+  {id:'maths',    nom:'Maths',        ico:'📐', couleur:'#e8c87a', cls:'mat-ma'},
+  {id:'histoire', nom:'Histoire-Géo', ico:'🌍', couleur:'#f5a623', cls:'mat-hi'},
+  {id:'sciences', nom:'Sciences',     ico:'🔬', couleur:'#5eaacf', cls:'mat-sc'}
 ];
 
+// ─── Lecture localStorage ───
 function getSessions(matiere) {
   try { return JSON.parse(localStorage.getItem('suivi_sessions_'+matiere+'_'+eleve)||'[]'); }
   catch(e){ return []; }
 }
-
 function getAllSessions() {
   var all = [];
   MATIERES.forEach(function(m){
-    getSessions(m.id).forEach(function(s){ all.push(Object.assign({},s,{matiere:m.id})); });
+    getSessions(m.id).forEach(function(s){ all.push(Object.assign({},s,{matiereId:m.id,matiereNom:m.nom,matiereIco:m.ico,couleur:m.couleur})); });
   });
-  all.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
-  return all;
+  return all.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
 }
 
-function calcStreak(sessions) {
-  if(!sessions.length) return 0;
-  var jours = {};
-  sessions.forEach(function(s){ jours[new Date(s.date).toDateString()]=1; });
-  var streak=0, d=new Date();
-  while(jours[d.toDateString()]){ streak++; d.setDate(d.getDate()-1); }
-  return streak;
+// ─── Note sur 10 : 1 bonne réponse ≥ 50% ───
+function pctToNote(pct) {
+  return Math.round(pct / 10);
 }
-
+function noteClass(n) {
+  return n >= 8 ? 'vert' : n >= 5 ? 'orange' : 'rouge';
+}
+function noteBg(n) {
+  return n >= 8 ? 'rgba(94,207,177,.15)' : n >= 5 ? 'rgba(232,200,122,.15)' : 'rgba(232,122,122,.15)';
+}
+function noteBorder(n) {
+  return n >= 8 ? '#5ecfb1' : n >= 5 ? '#e8c87a' : '#e87a7a';
+}
+function noteLibelle(n) {
+  return n >= 9 ? '🌟 Excellent' : n >= 8 ? '👍 Très bien' : n >= 6 ? '👌 Bien' : n >= 5 ? '💪 Passable' : '📚 À retravailler';
+}
 function fmtDate(str) {
-  try {
-    var d = new Date(str);
-    return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  } catch(e){ return str; }
+  try { var d=new Date(str); return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
+  catch(e){ return str; }
 }
 
-function setEleve(e) {
-  eleve = e;
-  document.getElementById('tabW').className = 'etab' + (e==='wassil'?' w':'');
-  document.getElementById('tabN').className = 'etab' + (e==='nawal'?' n':'');
-  render();
-}
-
-function render() {
-  renderAlerte();
-  renderStats();
-  renderStreak();
-  renderGraph();
-  renderMatieres();
-  renderFaibles();
-  renderSessions();
-}
-
+// ─── Alerte ───
 function renderAlerte() {
   var all = getAllSessions();
   var el = document.getElementById('alerte');
   if(!all.length){ el.style.display='none'; return; }
   var diff = Math.floor((Date.now()-new Date(all[0].date))/(1000*60*60*24));
-  if(diff>=2){
+  if(diff >= 2) {
     el.style.display='block';
-    el.textContent = '⚠️ Dernière session il y a '+diff+' jour'+(diff>1?'s':'')+'. '+(eleve==='wassil'?'Wassil':'Nawal')+' doit travailler aujourd\'hui !';
+    el.innerHTML = '⚠️ <strong>'+(eleve==='wassil'?'Wassil':'Nawal')+'</strong> n\'a pas travaillé depuis <strong>'+diff+' jours</strong>. Dernière session : '+fmtDate(all[0].date);
   } else {
     el.style.display='none';
   }
 }
 
-function renderStats() {
-  var all = getAllSessions();
-  var streak = calcStreak(all);
-  var moy = all.length ? Math.round(all.slice(0,10).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(all.length,10)) : 0;
-  var meilleur = all.length ? Math.max.apply(null,all.map(function(s){return s.pourcentage;})) : 0;
-  var dern5 = all.slice(0,5).map(function(s){return s.pourcentage;});
-  var tendance = dern5.length>=2 ? (dern5[0]>dern5[dern5.length-1]?'↑':dern5[0]<dern5[dern5.length-1]?'↓':'→') : '—';
-  var tCoul = tendance==='↑'?'#5ecfb1':tendance==='↓'?'#e87a7a':'#9090a8';
-
-  document.getElementById('statsGrid').innerHTML =
-    '<div class="stat"><div class="stat-v" style="color:#e8c87a">'+streak+'</div><div class="stat-l">🔥 Streak</div></div>'
-    +'<div class="stat"><div class="stat-v" style="color:#5ecfb1">'+(all.length?moy+'%':'—')+'</div><div class="stat-l">Moyenne</div></div>'
-    +'<div class="stat"><div class="stat-v" style="color:#a07af5">'+(all.length?meilleur+'%':'—')+'</div><div class="stat-l">Meilleur</div></div>'
-    +'<div class="stat"><div class="stat-v" style="color:#5eaacf">'+all.length+'</div><div class="stat-l">Sessions</div></div>'
-    +'<div class="stat"><div class="stat-v" style="color:'+tCoul+'">'+tendance+'</div><div class="stat-l">Tendance</div></div>';
-}
-
-function renderStreak() {
-  var all = getAllSessions();
-  var streak = calcStreak(all);
-  var jours = {};
-  all.forEach(function(s){ jours[new Date(s.date).toDateString()]=1; });
-  var msg = streak===0?'Commence dès aujourd\'hui !':streak<3?'Bon départ !':streak<7?'Continue !':'🔥 Incroyable !';
-
-  var days = '';
-  for(var i=6;i>=0;i--){
-    var d=new Date(); d.setDate(d.getDate()-i);
-    var done=jours[d.toDateString()]?'done':'';
-    var today=i===0?' today':'';
-    var letter=d.toLocaleDateString('fr-FR',{weekday:'short'}).charAt(0).toUpperCase();
-    days+='<div class="sday '+done+today+'">'+letter+'</div>';
+// ─── Note globale ───
+function renderNoteGlobale() {
+  var all = getAllSessions().slice(0,10);
+  var el = document.getElementById('noteGlobale');
+  if(!all.length) {
+    el.innerHTML = '<div class="vide" style="width:100%">Aucune session enregistrée pour l\'instant.</div>';
+    return;
   }
+  var moy = Math.round(all.reduce(function(a,s){return a+s.pourcentage;},0)/all.length);
+  var note = pctToNote(moy);
+  var coulBg = noteBg(note);
+  var coulBord = noteBorder(note);
+  var libelle = noteLibelle(note);
+  var nb = getAllSessions().length;
+  var dern = all[0];
+  var diff = Math.floor((Date.now()-new Date(dern.date))/(1000*60*60*24));
+  var diffTxt = diff===0?'aujourd\'hui':diff===1?'hier':il+' y a '+diff+' jours';
+  // tendance
+  var t5 = all.slice(0,5).map(function(s){return s.pourcentage;});
+  var tend = t5.length>=2?(t5[0]>t5[t5.length-1]?'↑ En progression':t5[0]<t5[t5.length-1]?'↓ En baisse':'→ Stable'):'—';
+  var tendCol = tend.includes('↑')?'#5ecfb1':tend.includes('↓')?'#e87a7a':'#9090a8';
 
-  document.getElementById('streakBody').innerHTML =
-    '<div style="display:flex;align-items:center;gap:12px;">'
-    +'<div style="font-size:2.2rem;font-weight:800;color:#e8c87a;font-family:monospace">'+streak+'</div>'
-    +'<div><div style="font-size:13px;color:#e8e8f0">jours consécutifs</div><div style="font-size:11px;color:#9090a8">'+msg+'</div></div>'
+  el.innerHTML =
+    '<div class="note-cercle" style="background:'+coulBg+';border:3px solid '+coulBord+'">'
+    +'<div class="note-num" style="color:'+coulBord+'">'+note+'</div>'
+    +'<div class="note-denom">/10</div>'
     +'</div>'
-    +'<div class="streak-days" style="margin-top:12px">'+days+'</div>';
+    +'<div class="note-infos">'
+    +'<div class="note-titre">Note globale de '+(eleve==='wassil'?'Wassil':'Nawal')+' — moyenne des 10 dernières sessions</div>'
+    +'<div class="note-sub">'
+    +'<strong>'+moy+'%</strong> de bonnes réponses (≥50% = bonne réponse)<br>'
+    +'<strong>'+nb+'</strong> session'+(nb>1?'s':'')+' enregistrée'+(nb>1?'s':'')+' · Dernière : <strong>'+fmtDate(dern.date)+'</strong><br>'
+    +'<span style="color:'+tendCol+'"><strong>'+tend+'</strong></span> sur les 5 dernières sessions'
+    +'</div>'
+    +'<span class="badge" style="background:'+coulBg+';color:'+coulBord+';border:1px solid '+coulBord+'">'+libelle+'</span>'
+    +'</div>';
 }
 
-function renderGraph() {
-  var all = getAllSessions().slice(0,10).reverse();
-  if(!all.length){ document.getElementById('graphBody').innerHTML='<div class="vide">Pas encore de données.</div>'; return; }
-  var bars = all.map(function(s){
-    var col = s.pourcentage>=80?'#5ecfb1':s.pourcentage>=60?'#e8c87a':'#e87a7a';
-    var h = Math.max(4, Math.round(s.pourcentage*0.65));
-    var mat = MATIERES.filter(function(m){return m.id===s.matiere;})[0];
-    var nom = mat ? mat.nom.slice(0,3) : '';
-    return '<div class="gbar-wrap"><div class="gbar" style="height:'+h+'px;background:'+col+'" title="'+s.pourcentage+'%"></div><div class="glabel">'+nom+' '+s.pourcentage+'%</div></div>';
-  }).join('');
-  document.getElementById('graphBody').innerHTML='<div class="graph">'+bars+'</div>';
-}
-
+// ─── Cartes matières ───
 function renderMatieres() {
   var html = '';
   MATIERES.forEach(function(m){
     var sessions = getSessions(m.id);
-    if(!sessions.length){
-      html+='<div class="mat-row"><span class="mat-nom">'+m.nom+'</span><div class="mat-bar"><div class="mat-fill" style="width:0%;background:'+m.couleur+'"></div></div><span class="mat-pct" style="color:#5a5a72">—</span><span class="mat-nb">0 session</span></div>';
+    if(!sessions.length) {
+      html += '<div class="matiere-card '+m.cls+'">'
+        +'<div class="mat-head"><span class="mat-nom">'+m.ico+' '+m.nom+'</span>'
+        +'<div style="text-align:right"><div class="mat-note" style="color:#5a5a72">—</div><div class="mat-note-label">/10</div></div></div>'
+        +'<div class="mat-bar-wrap"><div class="mat-bar"><div class="mat-fill" style="width:0%;background:'+m.couleur+'"></div></div>'
+        +'<div class="mat-bar-label"><span>0%</span><span>100%</span></div></div>'
+        +'<div class="mat-sessions">0 session</div></div>';
       return;
     }
-    var moy = Math.round(sessions.slice(0,10).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(sessions.length,10));
-    html+='<div class="mat-row"><span class="mat-nom">'+m.nom+'</span><div class="mat-bar"><div class="mat-fill" style="width:'+moy+'%;background:'+m.couleur+'"></div></div><span class="mat-pct" style="color:'+m.couleur+'">'+moy+'%</span><span class="mat-nb">'+sessions.length+' session'+(sessions.length>1?'s':'')+'</span></div>';
+    var moy = Math.round(sessions.slice(0,5).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(sessions.length,5));
+    var note = pctToNote(moy);
+    var col = noteBorder(note);
+    html += '<div class="matiere-card '+m.cls+'">'
+      +'<div class="mat-head"><span class="mat-nom">'+m.ico+' '+m.nom+'</span>'
+      +'<div style="text-align:right"><div class="mat-note" style="color:'+col+'">'+note+'</div><div class="mat-note-label">/10</div></div></div>'
+      +'<div class="mat-bar-wrap"><div class="mat-bar"><div class="mat-fill" style="width:'+moy+'%;background:'+m.couleur+'"></div></div>'
+      +'<div class="mat-bar-label"><span style="color:'+col+'">'+moy+'%</span><span style="color:#5a5a72">100%</span></div></div>'
+      +'<div class="mat-sessions">'+sessions.length+' session'+(sessions.length>1?'s':'')+' · '+noteLibelle(note)+'</div></div>';
   });
-  document.getElementById('matBody').innerHTML = html || '<div class="vide">Aucune session.</div>';
+  document.getElementById('matieresGrid').innerHTML = html || '<div class="vide">Aucune donnée.</div>';
 }
 
-function renderFaibles() {
-  var all = getAllSessions();
-  if(!all.length){ document.getElementById('faiblesBody').innerHTML='<div class="vide">Pas encore de données.</div>'; return; }
+// ─── Chapitres faibles / forts ───
+function buildChapTabs() {
+  var html = '';
+  MATIERES.forEach(function(m){
+    html += '<button class="ctab'+(m.id===chapMatiere?' active':'')
+      +'" data-id="'+m.id+'">'+m.ico+' '+m.nom+'</button>';
+  });
+  document.getElementById('chapTabs').innerHTML = html;
+  document.querySelectorAll('.ctab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      chapMatiere = this.dataset.id;
+      document.querySelectorAll('.ctab').forEach(function(b){b.classList.remove('active');});
+      this.classList.add('active');
+      renderChapitres();
+    });
+  });
+}
 
+function renderChapitres() {
+  var sessions = getSessions(chapMatiere).slice(0,5);
+  var el = document.getElementById('chapContent');
+  if(!sessions.length){
+    el.innerHTML='<div class="vide">Pas encore de données pour cette matière.</div>';
+    return;
+  }
+  // Calculer la moyenne par chapitre sur les 5 dernières sessions
   var taux = {};
-  all.slice(0,5).forEach(function(s){
+  sessions.forEach(function(s){
     if(s.chapitresTaux) Object.keys(s.chapitresTaux).forEach(function(ch){
       if(!taux[ch]) taux[ch]=[];
       taux[ch].push(s.chapitresTaux[ch]);
     });
   });
+  if(!Object.keys(taux).length){
+    el.innerHTML='<div class="vide">Pas encore de données chapitres.</div>';
+    return;
+  }
 
-  var faibles = Object.keys(taux).filter(function(ch){
-    return taux[ch].reduce(function(a,b){return a+b;},0)/taux[ch].length < 60;
-  }).map(function(ch){
-    return {ch:ch, moy:Math.round(taux[ch].reduce(function(a,b){return a+b;},0)/taux[ch].length)};
+  var items = Object.keys(taux).map(function(ch){
+    var moy = Math.round(taux[ch].reduce(function(a,b){return a+b;},0)/taux[ch].length);
+    return {ch:ch, moy:moy, note:pctToNote(moy)};
   }).sort(function(a,b){return a.moy-b.moy;});
 
-  if(!faibles.length){ document.getElementById('faiblesBody').innerHTML='<div class="vide">✅ Aucun chapitre faible. Bravo !</div>'; return; }
+  var faibles = items.filter(function(i){return i.moy<60;});
+  var moyens  = items.filter(function(i){return i.moy>=60&&i.moy<80;});
+  var forts   = items.filter(function(i){return i.moy>=80;});
 
-  var html = '<div class="faibles-grid">';
-  faibles.forEach(function(f){ html+='<div class="faible-item"><div class="faible-nom">'+f.ch+'</div><div class="faible-taux">'+f.moy+'% de réussite</div></div>'; });
-  html+='</div>';
-  document.getElementById('faiblesBody').innerHTML = html;
+  function renderGroupe(titre, liste, cls, coulNote) {
+    if(!liste.length) return '';
+    var cards = liste.map(function(i){
+      var nc = noteClass(i.note);
+      return '<div class="chap-item '+cls+'">'
+        +'<div class="chap-nom">'+i.ch+'</div>'
+        +'<div class="chap-note '+nc+'">'+i.note+'/10 <span style="font-size:10px;font-weight:400;color:#9090a8">('+i.moy+'%)</span></div>'
+        +'</div>';
+    }).join('');
+    return '<div style="margin-bottom:1rem">'
+      +'<div style="font-size:11px;color:#9090a8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">'+titre+'</div>'
+      +'<div class="chap-grid">'+cards+'</div>'
+      +'</div>';
+  }
+
+  el.innerHTML =
+    renderGroupe('⚠ À retravailler (note < 6/10)', faibles, 'faible', '#e87a7a')
+    + renderGroupe('💪 En progression (6-8/10)', moyens, 'moyen', '#e8c87a')
+    + renderGroupe('✅ Points forts (≥ 8/10)', forts, 'fort', '#5ecfb1');
 }
 
+// ─── Sessions récentes ───
 function renderSessions() {
   var all = getAllSessions().slice(0,15);
-  if(!all.length){ document.getElementById('sessionsBody').innerHTML='<div class="vide">Aucune session.</div>'; return; }
+  var el = document.getElementById('sessionsBody');
+  if(!all.length){ el.innerHTML='<div class="vide">Aucune session enregistrée.</div>'; return; }
 
   var rows = all.map(function(s){
-    var pct = s.pourcentage;
-    var cls = pct>=80?'ok':pct>=60?'mid':'bad';
-    var mat = MATIERES.filter(function(m){return m.id===s.matiere;})[0];
-    var matNom = mat?mat.nom:'—';
-    var chapitres = Array.isArray(s.chapitres)?s.chapitres.slice(0,2).join(', ')+(s.chapitres.length>2?'…':''):'—';
-    return '<tr><td>'+fmtDate(s.date)+'</td><td>'+matNom+'</td><td style="font-size:11px">'+chapitres+'</td><td class="'+cls+'">'+pct+'%</td></tr>';
+    var note = pctToNote(s.pourcentage);
+    var cls = note>=8?'score-ok':note>=5?'score-mid':'score-bad';
+    var chaps = Array.isArray(s.chapitres)?s.chapitres.slice(0,3).join(', ')+(s.chapitres.length>3?'…':''):'—';
+    return '<tr>'
+      +'<td style="white-space:nowrap">'+fmtDate(s.date)+'</td>'
+      +'<td><span class="mat-badge" style="background:rgba(232,200,122,.1);color:'+s.couleur+';border:1px solid '+s.couleur+'">'+s.matiereIco+' '+s.matiereNom+'</span></td>'
+      +'<td style="font-size:11px;color:#9090a8">'+chaps+'</td>'
+      +'<td><span class="'+cls+'">'+note+'/10</span><span style="font-size:11px;color:#5a5a72"> ('+s.pourcentage+'%)</span></td>'
+      +'</tr>';
   }).join('');
 
-  document.getElementById('sessionsBody').innerHTML =
-    '<table class="stab"><thead><tr><th>Date</th><th>Matière</th><th>Chapitres</th><th>Score</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  el.innerHTML = '<table class="sessions-table">'
+    +'<thead><tr><th>Date</th><th>Matière</th><th>Chapitres révisés</th><th>Note</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table>';
+}
+
+// ─── Main ───
+function setEleve(e) {
+  eleve = e;
+  document.getElementById('tabW').className='etab'+(e==='wassil'?' w':'');
+  document.getElementById('tabN').className='etab'+(e==='nawal'?' n':'');
+  chapMatiere = 'francais';
+  render();
+}
+
+function render() {
+  renderAlerte();
+  renderNoteGlobale();
+  renderMatieres();
+  buildChapTabs();
+  renderChapitres();
+  renderSessions();
 }
 
 function exporterJSON() {
@@ -334,8 +380,8 @@ function exporterJSON() {
   MATIERES.forEach(function(m){ data[m.id]=getSessions(m.id); });
   var blob = new Blob([JSON.stringify({date:new Date().toISOString(),eleve:eleve,data:data},null,2)],{type:'application/json'});
   var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href=url; a.download='suivi_'+eleve+'_'+new Date().toISOString().slice(0,10)+'.json';
+  var a=document.createElement('a'); a.href=url;
+  a.download='suivi_'+eleve+'_'+new Date().toISOString().slice(0,10)+'.json';
   a.click(); URL.revokeObjectURL(url);
 }
 
@@ -346,11 +392,11 @@ function reinitialiser() {
 }
 
 window.onload = function() {
-  document.getElementById('tabW').addEventListener('click', function(){ setEleve('wassil'); });
-  document.getElementById('tabN').addEventListener('click', function(){ setEleve('nawal'); });
-  document.getElementById('btnRefresh').addEventListener('click', render);
-  document.getElementById('btnExport').addEventListener('click', exporterJSON);
-  document.getElementById('btnReset').addEventListener('click', reinitialiser);
+  document.getElementById('tabW').addEventListener('click',function(){setEleve('wassil');});
+  document.getElementById('tabN').addEventListener('click',function(){setEleve('nawal');});
+  document.getElementById('btnRefresh').addEventListener('click',render);
+  document.getElementById('btnExport').addEventListener('click',exporterJSON);
+  document.getElementById('btnReset').addEventListener('click',reinitialiser);
   setEleve('wassil');
 };
 </script>
