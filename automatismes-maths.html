@@ -3,370 +3,753 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatismes Maths — Brevet 2026</title>
+<title>Automatismes Histoire-Géo-EMC — Brevet 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;padding:1rem;}
-.box{max-width:900px;margin:0 auto;background:#111118;border:2px solid #e8c87a;border-radius:16px;padding:1.5rem;}
-h1{color:#e8c87a;margin-bottom:.3rem;}
-.sub{color:#9090a8;font-size:.85rem;margin-bottom:1.5rem;border-left:3px solid #e8c87a;padding-left:.8rem;}
-.eleve-bar{display:flex;gap:8px;margin-bottom:1.5rem;}
-.ebtn{padding:8px 24px;border-radius:50px;border:2px solid #2a2a38;cursor:pointer;font-weight:700;font-size:13px;background:#1a1a24;color:#9090a8;}
-.ebtn.w{background:#7eb8f5;color:#09090f;border-color:#7eb8f5;}
-.ebtn.n{background:#f59eb8;color:#09090f;border-color:#f59eb8;}
-.stats{display:flex;gap:10px;margin-bottom:1.2rem;flex-wrap:wrap;}
-.stat{background:#1a1a24;border:1px solid #2a2a38;border-radius:8px;padding:10px 16px;}
-.stat-v{font-size:1.4rem;font-weight:800;color:#e8c87a;}
-.stat-l{font-size:10px;color:#9090a8;text-transform:uppercase;}
-.chap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:7px;max-height:320px;overflow-y:auto;margin-bottom:1rem;}
-.ch{display:flex;align-items:center;gap:8px;background:#1a1a24;border:1px solid #2a2a38;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12px;user-select:none;}
-.ch:hover{border-color:#e8c87a;}
-.ch.sel{border-color:#e8c87a;background:rgba(232,200,122,.1);}
-.ch.faible{border-color:rgba(232,66,74,.4);}
-.chn{font-size:10px;color:#5a5a72;min-width:22px;}
-.btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
-.btn{padding:7px 16px;border-radius:8px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:12px;cursor:pointer;}
-.btn:hover{border-color:#e8c87a;color:#e8c87a;}
-.btn-go{background:#e8c87a;border-color:#e8c87a;color:#09090f;font-weight:700;font-size:14px;padding:10px 28px;border-radius:10px;}
-.btn-go:hover{background:#d4b468;}
-.btn-go:disabled{opacity:.4;cursor:not-allowed;}
-.timer-bar{display:flex;align-items:center;justify-content:space-between;background:#1a1a24;border:1px solid #2a2a38;border-radius:10px;padding:10px 16px;margin-bottom:1rem;}
-.timer{font-family:monospace;font-size:1.4rem;color:#e8c87a;}
-.prog{flex:1;height:5px;background:#2a2a38;border-radius:3px;margin:0 16px;overflow:hidden;}
-.prog-f{height:100%;background:#e8c87a;border-radius:3px;transition:width .3s;}
-.qcard{background:#1a1a24;border:1px solid #2a2a38;border-radius:12px;padding:18px;margin-bottom:12px;}
-.qmeta{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
-.qbadge{font-size:10px;padding:2px 8px;border-radius:4px;background:#0a0a12;border:1px solid #2a2a38;color:#9090a8;}
-.qbadge.r{border-color:rgba(232,66,74,.4);color:#e84249;}
-.qbadge.v{border-color:rgba(94,207,177,.4);color:#5ecfb1;}
-.qbadge.b{border-color:rgba(232,200,122,.4);color:#e8c87a;}
-.qtxt{font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.5;}
-textarea{width:100%;background:#0a0a12;border:1px solid #2a2a38;border-radius:8px;color:#e8e8f0;font-size:14px;padding:10px;resize:vertical;min-height:60px;outline:none;}
-textarea:focus{border-color:#e8c87a;}
-.btn-v{background:#e8c87a;color:#09090f;border:none;border-radius:7px;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;margin-top:8px;}
-.btn-v:disabled{opacity:.4;}
-.fb{display:none;margin-top:10px;border-radius:8px;overflow:hidden;}
-.fb.show{display:block;}
-.fb-ok{padding:10px 14px;background:rgba(94,207,177,.1);border-left:3px solid #5ecfb1;color:#5ecfb1;font-weight:600;font-size:13px;}
-.fb-bad{padding:10px 14px;background:rgba(232,66,74,.1);border-left:3px solid #e84249;color:#e87a7a;font-weight:600;font-size:13px;}
-.fb-mid{padding:10px 14px;background:rgba(232,200,122,.1);border-left:3px solid #e8c87a;color:#e8c87a;font-weight:600;font-size:13px;}
-.fb-rep{background:#0a0a12;padding:10px 14px;font-size:13px;border-top:1px solid #2a2a38;}
-.fb-rep b{color:#e8c87a;display:block;font-size:11px;margin-bottom:3px;}
-.btn-next{background:#e8c87a;color:#09090f;border:none;border-radius:7px;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;margin-top:8px;}
-.res{background:#1a1a24;border:1px solid #2a2a38;border-radius:14px;padding:2rem;text-align:center;}
-.res-score{font-size:4rem;font-weight:800;margin:12px 0;}
-.faibles{background:#0a0a12;border:1px solid rgba(232,66,74,.3);border-radius:8px;padding:12px;margin:12px 0;text-align:left;}
-.faibles h4{color:#e84249;font-size:12px;margin-bottom:6px;}
-.faibles li{font-size:12px;color:#9090a8;padding:2px 0;}
-a.back{display:inline-block;margin-top:1rem;color:#5ecfb1;text-decoration:none;font-size:13px;}
+:root{--bg:#09090f;--s1:#111118;--s2:#1a1a24;--br:#2a2a38;--acc:#f5a623;--acc2:#c4831a;--teal:#5ecfb1;--gold:#e8c87a;--red:#e87a7a;--blue-w:#7eb8f5;--pink-n:#f59eb8;--text:#e8e8f0;--dim:#9090a8;--muted:#5a5a72;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.page-header{background:linear-gradient(135deg,#0a0a1a 0%,#101028 100%);border-bottom:2px solid var(--acc);padding:20px 24px;}
+.page-header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.page-back{color:var(--dim);text-decoration:none;font-size:13px;}
+.page-back:hover{color:var(--acc);}
+.page-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;flex:1;}
+.page-title span{color:var(--acc);}
+.eleve-bar{display:flex;gap:8px;background:var(--s2);border-radius:50px;padding:4px;width:fit-content;}
+.eleve-btn{padding:7px 22px;border-radius:50px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;background:transparent;color:var(--dim);}
+.eleve-btn.aw{background:var(--blue-w);color:#09090f;}
+.eleve-btn.an{background:var(--pink-n);color:#09090f;}
+.container{max-width:960px;margin:0 auto;padding:24px;}
+.phase{display:none;}.phase.active{display:block;}
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.stat{background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:10px 16px;display:flex;flex-direction:column;gap:2px;}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--acc);}
+.stat-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace;}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--br);}
+.chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;max-height:340px;overflow-y:auto;padding:2px;margin-bottom:14px;}
+.ch-item{display:flex;align-items:center;gap:8px;background:var(--s1);border:1px solid var(--br);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:12px;user-select:none;}
+.ch-item:hover{border-color:var(--acc);}
+.ch-item.selected{border-color:var(--acc);background:rgba(232,200,122,.08);}
+.ch-item.faible{border-color:rgba(232,66,74,.4);}
+.ch-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.ch-warn{margin-left:auto;font-size:10px;color:var(--acc2);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.btn{padding:7px 16px;border-radius:8px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:12px;cursor:pointer;}
+.btn:hover{border-color:var(--acc);color:var(--acc);}
+.btn-primary{background:var(--acc);border-color:var(--acc);color:#09090f;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:10px 28px;border-radius:10px;}
+.btn-primary:hover{opacity:.85;}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+.info-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.pill{background:var(--s2);border:1px solid var(--br);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px;}
+.pill b{color:var(--text);}
+.timer-bar{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:10px 16px;margin-bottom:20px;}
+.timer-val{font-family:'DM Mono',monospace;font-size:1.4rem;color:var(--acc);}
+.timer-val.urgent{color:var(--red);animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.prog-bar{flex:1;height:5px;background:var(--br);border-radius:3px;margin:0 16px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--acc);border-radius:3px;transition:width .3s;}
+.q-card{background:var(--s1);border:1px solid var(--br);border-radius:12px;padding:20px;margin-bottom:12px;animation:fi .3s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.q-meta{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+.q-badge{font-size:10px;padding:2px 8px;border-radius:4px;font-family:'DM Mono',monospace;}
+.q-badge.ch{background:rgba(232,200,122,.1);border:1px solid rgba(232,200,122,.2);color:var(--acc);}
+.q-badge.tp-r{background:rgba(232,66,74,.1);border:1px solid rgba(232,66,74,.2);color:var(--acc2);}
+.q-badge.tp-n{background:rgba(94,207,177,.1);border:1px solid rgba(94,207,177,.2);color:var(--teal);}
+.q-badge.tp-p{background:rgba(232,200,122,.08);border:1px solid rgba(232,200,122,.15);color:var(--acc);}
+.q-text{font-size:15px;font-weight:500;margin-bottom:12px;line-height:1.5;}
+textarea.rep{width:100%;background:var(--s2);border:1px solid var(--br);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;resize:vertical;min-height:60px;outline:none;}
+textarea.rep:focus{border-color:var(--acc);}
+textarea.rep::placeholder{color:var(--muted);}
+.q-btns{display:flex;gap:8px;margin-top:8px;}
+.btn-verif{background:var(--acc);color:#09090f;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;}
+.btn-verif:disabled{opacity:.4;cursor:not-allowed;}
+.feedback{display:none;margin-top:10px;border-radius:8px;overflow:hidden;}
+.feedback.show{display:block;}
+.fb-ok{padding:10px 14px;background:rgba(94,207,177,.1);border-left:3px solid var(--teal);font-size:13px;color:var(--teal);font-weight:600;}
+.fb-mid{padding:10px 14px;background:rgba(232,200,122,.1);border-left:3px solid var(--gold);font-size:13px;color:var(--gold);font-weight:600;}
+.fb-bad{padding:10px 14px;background:rgba(232,66,74,.1);border-left:3px solid var(--acc2);font-size:13px;color:var(--acc2);font-weight:600;}
+.fb-rep{background:var(--s2);padding:10px 14px;font-size:13px;border-top:1px solid var(--br);}
+.fb-rep strong{color:var(--gold);display:block;margin-bottom:3px;font-size:11px;}
+.btn-next{background:var(--acc);color:#09090f;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;padding:7px 18px;cursor:pointer;margin-top:8px;}
+.resultats-card{background:var(--s1);border:1px solid var(--br);border-radius:14px;padding:2rem;text-align:center;}
+.score-grand{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;margin:12px 0;}
+.score-grand.ex{color:var(--teal);}.score-grand.bi{color:var(--gold);}.score-grand.ef{color:var(--acc2);}
+.faibles-box{background:var(--s2);border:1px solid rgba(232,66,74,.3);border-radius:8px;padding:12px;margin:12px 0;text-align:left;}
+.faibles-box h4{color:var(--acc2);font-size:12px;font-family:'Syne',sans-serif;margin-bottom:6px;}
+.faibles-box li{font-size:12px;color:var(--dim);padding:2px 0;}
+.part-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.ptab{padding:5px 14px;border-radius:20px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:11px;cursor:pointer;font-family:'Syne',sans-serif;}
+.ptab.active{border-color:var(--acc);color:var(--acc);}
 </style>
 </head>
 <body>
-<div class="box">
-  <h1>⚡ Automatismes Maths 📐</h1>
-  <div class="sub">26 chapitres · 260 cartes · Règle 20-10-10 · → Suivi parental</div>
-
-  <div class="eleve-bar">
-    <button class="ebtn w" id="btnW">🌊 Wassil</button>
-    <button class="ebtn" id="btnN">⚡ Nawal</button>
-  </div>
-
-  <div id="phaseSelect">
-    <div class="stats">
-      <div class="stat"><div class="stat-v" id="stC">0</div><div class="stat-l">Cartes sél.</div></div>
-      <div class="stat"><div class="stat-v" id="stM" style="color:#5ecfb1">0</div><div class="stat-l">Maîtrisées</div></div>
-      <div class="stat"><div class="stat-v" id="stP" style="color:#e8c87a">0%</div><div class="stat-l">Progression</div></div>
+<div class="page-header">
+  <div class="page-header-inner">
+    <a href="index.html" class="page-back">← Hub</a>
+    <div class="page-title"><span>Automatismes</span> Histoire-Géo-EMC</div>
+    <span style="font-size:1.5rem">🌍</span>
+    <div class="eleve-bar">
+      <button class="eleve-btn aw" id="btnW">🌊 Wassil</button>
+      <button class="eleve-btn" id="btnN">⚡ Nawal</button>
     </div>
-    <div class="chap-grid" id="chapGrid"></div>
-    <div class="btns">
+  </div>
+</div>
+<div class="container">
+  <div class="phase active" id="phaseSelect">
+    <div class="stats-bar" style="margin-top:8px">
+      <div class="stat"><div class="stat-val" id="stCartes">0</div><div class="stat-label">Cartes sél.</div></div>
+      <div class="stat"><div class="stat-val" id="stMait" style="color:var(--teal)">0</div><div class="stat-label">Maîtrisées</div></div>
+      <div class="stat"><div class="stat-val" id="stPct" style="color:var(--gold)">0%</div><div class="stat-label">Progression</div></div>
+      <div class="stat"><div class="stat-val" id="stRegle" style="color:var(--dim);font-size:.9rem">—</div><div class="stat-label">Questions</div></div>
+    </div>
+    <div class="part-tabs">
+      <button class="ptab active" id="tabTout">Tout (32)</button>
+      <button class="ptab" id="tabHi" style="border-color:rgba(232,66,74,.4);color:#e84249">Histoire (1-10)</button>
+      <button class="ptab" id="tabGe" style="border-color:rgba(94,207,177,.4);color:#5ecfb1">Géo (11-22)</button>
+      <button class="ptab" id="tabEm">EMC (23-32)</button>
+    </div>
+    <div class="section-title">Chapitres à réviser</div>
+    <div class="chapitres-grid" id="chapGrid"></div>
+    <div class="btn-row">
       <button class="btn" id="btnAll">✅ Tout</button>
       <button class="btn" id="btnNone">❌ Aucun</button>
-      <button class="btn" id="btnFaibles" style="border-color:rgba(232,66,74,.4);color:#e84249">⚠ Faibles</button>
-      <button class="btn" id="btnReset">🔄 Reset</button>
+      <button class="btn" id="btnFaibles" style="border-color:rgba(232,66,74,.4);color:var(--acc2)">⚠ Faibles</button>
+      <button class="btn" id="btnReset">🔄 Reset progression</button>
     </div>
-    <button class="btn-go" id="btnGo" disabled>🎯 Démarrer</button>
+    <div class="info-strip">
+      <div class="pill">⏱ <b>45 min</b> max</div>
+      <div class="pill">📚 Règle <b>20-10-10</b></div>
+      <div class="pill">🔁 Spaced repetition</div>
+      <div class="pill">📊 → <b>Suivi parental</b></div>
+    </div>
+    <button class="btn-primary" id="btnStart" disabled>🎯 Démarrer la session</button>
   </div>
-
-  <div id="phaseSession" style="display:none">
+  <div class="phase" id="phaseSession">
     <div class="timer-bar">
-      <span class="timer" id="timerVal">45:00</span>
-      <div class="prog"><div class="prog-f" id="progF" style="width:0%"></div></div>
-      <span id="qCnt" style="font-size:13px;color:#9090a8">Q 0/0</span>
+      <span class="timer-val" id="timerVal">45:00</span>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <span id="qCount" style="font-family:'DM Mono',monospace;font-size:13px;color:var(--dim)">Q 0/0</span>
     </div>
     <div id="qArea"></div>
     <div id="fbArea"></div>
-    <div id="nextWrap" style="display:none">
+    <div id="nextWrap" style="display:none;margin-top:8px">
       <button class="btn-next" id="btnNext">Question suivante →</button>
     </div>
   </div>
-
-  <div id="phaseRes" style="display:none">
-    <div class="res">
-      <p style="font-size:12px;color:#9090a8;text-transform:uppercase;letter-spacing:.1em">Session terminée</p>
-      <div class="res-score" id="resScore">0%</div>
-      <div id="resDetail" style="font-size:14px;color:#9090a8;margin-bottom:8px"></div>
-      <div id="resFaibles"></div>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <button class="btn-go" id="btnNouv">📚 Nouvelle session</button>
+  <div class="phase" id="phaseRes">
+    <div class="resultats-card">
+      <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em">Session terminée</p>
+      <div class="score-grand" id="scoreGrand">0%</div>
+      <div id="scoreDetail" style="font-size:14px;color:var(--dim);margin-bottom:6px"></div>
+      <div id="msgFin" style="font-size:14px;color:var(--dim);margin-bottom:14px"></div>
+      <div id="faiblesRes"></div>
+      <div class="btn-row" style="justify-content:center;margin-top:14px">
+        <button class="btn-primary" id="btnNouv">📚 Nouvelle session</button>
         <button class="btn" id="btnSuivi">📊 Suivi parental</button>
       </div>
     </div>
   </div>
-
-  <a href="index.html" class="back">← Retour au hub</a>
 </div>
-
 <script>
-// ══════ DONNÉES 260 CARTES MATHS (identiques à revisions-maths) ══════
-var CHAPITRES_MA = {
-  1:{titre:"Nombres entiers et décimaux",cartes:[{q:"Nombre premier ?",r:"Exactement 2 diviseurs : 1 et lui-même."},{q:"Divisibilité par 2",r:"Dernier chiffre : 0,2,4,6,8"},{q:"Divisibilité par 3",r:"Somme des chiffres divisible par 3"},{q:"Divisibilité par 9",r:"Somme des chiffres divisible par 9"},{q:"Divisibilité par 5",r:"Dernier chiffre : 0 ou 5"},{q:"PGCD ?",r:"Plus Grand Commun Diviseur"},{q:"PPCM ?",r:"Plus Petit Commun Multiple"},{q:"60 en facteurs premiers",r:"2² x 3 x 5"},{q:"72 en facteurs premiers",r:"2³ x 3²"},{q:"Nombre rationnel ?",r:"S'écrit p/q avec q différent de 0"}]},
-  2:{titre:"Nombres relatifs",cartes:[{q:"(-) x (-) = ?",r:"(+)"},{q:"(+) x (-) = ?",r:"(-)"},{q:"(-7) + (+3) = ?",r:"-4"},{q:"(-5) - (-3) = ?",r:"-2"},{q:"(-2)³ = ?",r:"-8"},{q:"Valeur absolue de -7",r:"7"},{q:"Comparer -3 et -5",r:"-3 > -5"},{q:"(-4) x (+3) = ?",r:"-12"},{q:"(-12) ÷ (-4) = ?",r:"+3"},{q:"(-3)+(-5) = ?",r:"-8"}]},
-  3:{titre:"Fractions",cartes:[{q:"1/3 + 1/4 = ?",r:"7/12"},{q:"2/5 + 1/3 = ?",r:"11/15"},{q:"2/3 x 3/4 = ?",r:"1/2"},{q:"2/3 ÷ 4/5 = ?",r:"5/6"},{q:"Simplifier 18/24",r:"3/4"},{q:"Fraction irréductible",r:"PGCD(num, dénom) = 1"},{q:"0,75 en fraction",r:"3/4"},{q:"1/8 en décimal",r:"0,125"},{q:"Comparer 3/4 et 5/7",r:"3/4 > 5/7"},{q:"Même dénominateur : additionner",r:"Additionner les numérateurs"}]},
-  4:{titre:"Puissances",cartes:[{q:"10⁻² = ?",r:"0,01"},{q:"10³ = ?",r:"1000"},{q:"45000 en notation sci.",r:"4,5 x 10⁴"},{q:"0,0032 en notation sci.",r:"3,2 x 10⁻³"},{q:"aⁿ x aᵐ = ?",r:"aⁿ⁺ᵐ"},{q:"aⁿ ÷ aᵐ = ?",r:"aⁿ⁻ᵐ"},{q:"2⁵ = ?",r:"32"},{q:"3⁴ = ?",r:"81"},{q:"a⁰ = ?",r:"1"},{q:"(aⁿ)ᵐ = ?",r:"aⁿˣᵐ"}]},
-  5:{titre:"Calcul littéral",cartes:[{q:"3(x+2) = ?",r:"3x+6"},{q:"(x+3)(x-2) = ?",r:"x²+x-6"},{q:"(2x+1)(3x-4) = ?",r:"6x²-5x-4"},{q:"Factoriser 6x+12",r:"6(x+2)"},{q:"Factoriser x²-9",r:"(x-3)(x+3)"},{q:"(a+b)² = ?",r:"a²+2ab+b²"},{q:"(a-b)² = ?",r:"a²-2ab+b²"},{q:"(a+b)(a-b) = ?",r:"a²-b²"},{q:"(x+5)² = ?",r:"x²+10x+25"},{q:"Factoriser x²-6x+9",r:"(x-3)²"}]},
-  6:{titre:"Équations",cartes:[{q:"2x-3=7",r:"x=5"},{q:"3x+5=14",r:"x=3"},{q:"(x-3)(x+4)=0",r:"x=3 ou x=-4"},{q:"x²=25",r:"x=5 ou x=-5"},{q:"2x+3=x-1",r:"x=-4"},{q:"x/3=4",r:"x=12"},{q:"5x-2=3x+8",r:"x=5"},{q:"Règle produit nul",r:"AxB=0 => A=0 ou B=0"},{q:"4(x-1)=2(x+3)",r:"x=5"},{q:"(2x-1)(x+3)=0",r:"x=1/2 ou x=-3"}]},
-  7:{titre:"Proportionnalité",cartes:[{q:"30% de 80",r:"24"},{q:"+15% de 200",r:"230"},{q:"-20% de 150",r:"120"},{q:"Échelle 1/500 : 8cm -> réel",r:"40 m"},{q:"Taux 80 à 100",r:"+25%"},{q:"Taux 100 à 80",r:"-20%"},{q:"2 hausses 10%",r:"+21%"},{q:"HT=200, TVA 20% -> TTC",r:"240"},{q:"Coeff. pour +35%",r:"1,35"},{q:"Coeff. pour -25%",r:"0,75"}]},
-  8:{titre:"Statistiques",cartes:[{q:"Moy. de 12,15,18,9,6",r:"12"},{q:"Médiane de 3,7,9,12,15",r:"9"},{q:"Médiane de 2,4,6,8",r:"5"},{q:"Étendue de 3,7,9,12,15",r:"12"},{q:"Moyenne pondérée",r:"Somme(val x eff) / eff total"},{q:"Diagramme en bâtons",r:"Données discrètes"},{q:"Histogramme",r:"Données continues"},{q:"Fréquence relative",r:"Effectif / effectif total"},{q:"Q1 ?",r:"25% des données inférieures"},{q:"Q3 ?",r:"75% des données inférieures"}]},
-  9:{titre:"Probabilités",cartes:[{q:"P(A) = ?",r:"cas favorables / cas totaux"},{q:"P(4) avec un dé",r:"1/6"},{q:"P(pair) avec un dé",r:"1/2"},{q:"Événement certain",r:"P=1"},{q:"Événement impossible",r:"P=0"},{q:"P(A') = ?",r:"1-P(A)"},{q:"P(A ou B) incompatibles",r:"P(A)+P(B)"},{q:"P(A et B) indépendants",r:"P(A)xP(B)"},{q:"Règle de l'arbre",r:"Multiplier branche, additionner branches"},{q:"Tirage avec remise",r:"Probabilité constante"}]},
-  10:{titre:"Fonctions : généralités",cartes:[{q:"f(3) pour f(x)=2x+1",r:"7"},{q:"f(-2) pour f(x)=x²-3",r:"1"},{q:"Antécédent de 5 par f(x)=2x+1",r:"x=2"},{q:"Image de x par f",r:"f(x)"},{q:"Fonction croissante",r:"f augmente quand x augmente"},{q:"Fonction décroissante",r:"f diminue quand x augmente"},{q:"Maximum",r:"Valeur la plus haute"},{q:"Minimum",r:"Valeur la plus basse"},{q:"Domaine de définition",r:"Ensemble des x où f(x) existe"},{q:"Tableau de valeurs",r:"x en haut, f(x) en bas"}]},
-  11:{titre:"Fonctions linéaires et affines",cartes:[{q:"f(x)=ax : droite ?",r:"Par l'origine"},{q:"f(x)=ax+b",r:"a=pente, b=ordonnée origine"},{q:"Coeff directeur a",r:"(y2-y1)/(x2-x1)"},{q:"Ordonnée origine b",r:"f(0)=b"},{q:"Droites parallèles",r:"Même a, b différent"},{q:"Intersection 2 droites",r:"Résoudre f(x)=g(x)"},{q:"Droite par (0;3) et (2;7)",r:"f(x)=2x+3"},{q:"Droite horizontale",r:"f(x)=b"},{q:"Équation réduite",r:"y=ax+b"},{q:"Droites perpendiculaires",r:"Produit des a = -1"}]},
-  12:{titre:"Théorème de Pythagore",cartes:[{q:"Pythagore",r:"hyp²=a²+b²"},{q:"Réciproque Pythagore",r:"Si hyp²=a²+b² alors rectangle"},{q:"3,4,5 rectangle ?",r:"Oui : 25=9+16"},{q:"Hyp si a=6 b=8",r:"10"},{q:"Côté si hyp=13 a=5",r:"12"},{q:"Contrapposée",r:"Si différent alors non rectangle"},{q:"Diagonale carré côté a",r:"a x racine(2)"},{q:"Hauteur éqlatéral côté a",r:"a x racine(3) / 2"},{q:"Erreur classique",r:"Hypoténuse = PLUS GRAND côté"},{q:"Aire triangle rectangle a=6 b=8",r:"24"}]},
-  13:{titre:"Théorème de Thalès",cartes:[{q:"Thalès D//BC",r:"AM/AB=AN/AC=MN/BC"},{q:"Réciproque",r:"Rapports égaux => parallèles"},{q:"Théorème des milieux",r:"DE//BC et DE=BC/2"},{q:"Homothétie k : longueurs",r:"Multipliées par |k|"},{q:"Homothétie k : aires",r:"Multipliées par k²"},{q:"Agrandissement",r:"k>1"},{q:"Réduction",r:"0<k<1"},{q:"Condition réciproque",r:"Points alignés + rapports égaux"},{q:"Configuration Thalès",r:"2 sécantes + 2 parallèles"},{q:"Calculer longueur inconnue",r:"Mettre en place le rapport"}]},
-  14:{titre:"Trigonométrie",cartes:[{q:"cos = ?",r:"adjacent / hypoténuse"},{q:"sin = ?",r:"opposé / hypoténuse"},{q:"tan = ?",r:"opposé / adjacent"},{q:"SOH CAH TOA",r:"Sin=Opp/Hyp, Cos=Adj/Hyp, Tan=Opp/Adj"},{q:"cos(30°)",r:"racine(3)/2"},{q:"sin(30°)",r:"0,5"},{q:"cos(45°)",r:"racine(2)/2"},{q:"sin(60°)",r:"racine(3)/2"},{q:"tan(45°)",r:"1"},{q:"sin²A+cos²A",r:"1"}]},
-  15:{titre:"Géométrie : cercle",cartes:[{q:"Circonférence",r:"2πr"},{q:"Aire disque",r:"πr²"},{q:"Angle inscrit demi-cercle",r:"90°"},{q:"Angle centre vs inscrit",r:"Centre = 2 x inscrit"},{q:"Tangente cercle",r:"Perpendiculaire au rayon"},{q:"Diamètre",r:"2r"},{q:"Secteur 90° r=6 : aire",r:"9π"},{q:"Arc 60° r=10 : longueur",r:"10π/3"},{q:"Angles alternes-internes",r:"Égaux si droites parallèles"},{q:"Angles correspondants",r:"Égaux si droites parallèles"}]},
-  16:{titre:"Solides et volumes",cartes:[{q:"Volume pavé",r:"LxlxH"},{q:"Volume cube a",r:"a³"},{q:"Volume cylindre",r:"πr²h"},{q:"Volume cône",r:"(1/3)πr²h"},{q:"Volume sphère",r:"(4/3)πr³"},{q:"Volume pyramide",r:"(1/3)xAirexh"},{q:"Aire lat. cylindre",r:"2πrh"},{q:"1 litre = ?",r:"1 dm³"},{q:"1 m³ = ?",r:"1000 L"},{q:"Patron cylindre",r:"2 disques + 1 rectangle"}]},
-  17:{titre:"Transformations géométriques",cartes:[{q:"Translation",r:"Glissement, même forme"},{q:"Symétrie axiale",r:"Reflet par rapport à une droite"},{q:"Symétrie centrale",r:"Rotation 180°"},{q:"Conservation isométrie",r:"Distances, angles, aires"},{q:"Homothétie",r:"Centre + rapport k"},{q:"Homothétie k=-1",r:"Symétrie centrale"},{q:"Vecteur translation",r:"Direction, sens, longueur"},{q:"Image symétrie axiale",r:"Même distance, autre côté"},{q:"2 translations successives",r:"Une seule translation"},{q:"Rotation",r:"Même forme, angle donné"}]},
-  18:{titre:"Repérage et vecteurs",cartes:[{q:"Milieu de AB",r:"((xA+xB)/2;(yA+yB)/2)"},{q:"Distance AB",r:"racine((x2-x1)²+(y2-y1)²)"},{q:"Vecteur AB",r:"(xB-xA;yB-yA)"},{q:"Norme (a;b)",r:"racine(a²+b²)"},{q:"Vecteurs égaux",r:"Même direction, sens, norme"},{q:"Vecteurs opposés",r:"Même norme, sens contraire"},{q:"Vecteur nul",r:"(0;0)"},{q:"(a;b)+(c;d)",r:"(a+c;b+d)"},{q:"Colinéarité (a;b)(c;d)",r:"ad-bc=0"},{q:"Vect. dir. y=ax+b",r:"(1;a)"}]},
-  19:{titre:"Systèmes d'équations",cartes:[{q:"Substitution",r:"Exprimer une inconnue, substituer"},{q:"Combinaison",r:"Additionner/soustraire"},{q:"x+y=5 et x-y=1",r:"x=3, y=2"},{q:"2x+y=7 et x-y=2",r:"x=3, y=1"},{q:"Sans solution",r:"Droites parallèles"},{q:"Infinité solutions",r:"Droites confondues"},{q:"Interprétation graphique",r:"Point d'intersection"},{q:"x+y=10 et 2x+y=15",r:"x=5, y=5"},{q:"3x-y=4 et x+2y=6",r:"x=2, y=2"},{q:"Solution unique",r:"Droites sécantes"}]},
-  20:{titre:"Algorithmique et Scratch",cartes:[{q:"Algorithme ?",r:"Suite finie d'instructions"},{q:"SI condition ALORS",r:"Structure conditionnelle"},{q:"Boucle Pour",r:"Répétitions connues"},{q:"Boucle Tant que",r:"Répétitions inconnues"},{q:"Variable",r:"Emplacement mémoire"},{q:"Affectation",r:"x = valeur"},{q:"Scratch : avancer 10 pas",r:"Déplace le lutin"},{q:"Scratch : centre écran",r:"(0;0)"},{q:"Scratch : carré",r:"Répéter 4 : avancer + tourner 90°"},{q:"Scratch : tourner 90°",r:"Pivote sens horaire"}]},
-  21:{titre:"Calcul numérique",cartes:[{q:"Priorité des opérations",r:"Parenthèses, puissances, x÷, +−"},{q:"a(b+c)",r:"ab+ac"},{q:"15% de 60",r:"9"},{q:"2/3 de 90",r:"60"},{q:"13² = ?",r:"169"},{q:"15² = ?",r:"225"},{q:"Racine(144)",r:"12"},{q:"Racine(225)",r:"15"},{q:"0,1² = ?",r:"0,01"},{q:"1,5² = ?",r:"2,25"}]},
-  22:{titre:"Grandeurs et mesures",cartes:[{q:"3,5 km en m",r:"3500"},{q:"2h30 en min",r:"150"},{q:"Vitesse = ?",r:"d/t"},{q:"72 km/h en m/s",r:"20"},{q:"15 m/s en km/h",r:"54"},{q:"Masse volumique",r:"m/V"},{q:"1 litre = ?",r:"1 dm³"},{q:"1 m³ = ?",r:"1000 L"},{q:"5 cm² en mm²",r:"500"},{q:"2 m² en cm²",r:"20000"}]},
-  23:{titre:"Droites remarquables",cartes:[{q:"Médiane",r:"Sommet -> milieu côté, centre G"},{q:"Médiatrice",r:"Perp. milieu côté, centre cercle"},{q:"Hauteur",r:"Perp. sommet, orthocentre H"},{q:"Centre de gravité G",r:"2/3 de chaque médiane"},{q:"Cercle circonscrit",r:"Passe par les 3 sommets"},{q:"Cercle inscrit",r:"Tangent aux 3 côtés"},{q:"Orthocentre triangle rect.",r:"Au sommet de l'angle droit"},{q:"Bissectrice",r:"Coupe l'angle en 2 égaux"},{q:"Triangle éqlatéral G,H,O",r:"Confondus"},{q:"Somme angles triangle",r:"180°"}]},
-  24:{titre:"Inéquations et intervalles",cartes:[{q:"2x-3>7",r:"x>5"},{q:"-3x>=9",r:"x<=-3"},{q:"[2;5] = ?",r:"2<=x<=5"},{q:"]2;5[ = ?",r:"2<x<5"},{q:"3x+1<=7",r:"x<=2"},{q:"-x+4<10",r:"x>-6"},{q:"[1;3]∪[5;7]",r:"x dans [1;3] ou [5;7]"},{q:"[1;5]∩[3;8]",r:"[3;5]"},{q:"|x|<3",r:"-3<x<3"},{q:"|x-2|<=1",r:"1<=x<=3"}]},
-  25:{titre:"Suites numériques",cartes:[{q:"Suite arithmétique",r:"+ raison r"},{q:"Suite géométrique",r:"x raison q"},{q:"Terme général arith.",r:"u0 + n x r"},{q:"Terme général géom.",r:"u0 x q^n"},{q:"Reconnaître arith.",r:"Différence constante"},{q:"Reconnaître géom.",r:"Rapport constant"},{q:"1,4,9,16,25...",r:"Carrés des entiers"},{q:"Suite arith. croissante",r:"r>0"},{q:"Suite arith. décroissante",r:"r<0"},{q:"Suite géom. q>1 u0>0",r:"Croissante"}]},
-  26:{titre:"Révision générale DNB",cartes:[{q:"Problème géométrie : 1er réflexe",r:"Faire un schéma"},{q:"Vérifier un résultat",r:"Ordre de grandeur + substituer"},{q:"-10% puis +10%",r:"Pas le même : 0,9x1,1=0,99"},{q:"Erreur Pythagore",r:"Hypoténuse = plus grand côté"},{q:"Erreur fractions",r:"On simplifie x÷, pas +−"},{q:"Rédiger démo.",r:"Hypo, théorème, calcul, concl."},{q:"Arrondir 3,4567 au centième",r:"3,46"},{q:"Valeur exacte",r:"Ex: 2 racine(3)"},{q:"Unité aire",r:"cm², m²..."},{q:"Unité volume",r:"cm³, m³..."}]}
+// ============================================================
+// DATA-HISTGEO.JS — Source unique 276 cartes Histoire-Géo-EMC
+// Utilisé par : flashcards-histgeo.html + revisions-histgeo.html + automatismes-histgeo.html
+// Variable globale : CHAPITRES_HG
+// 32 chapitres : Histoire (1-10) + Géographie (11-22) + EMC (23-32)
+// ============================================================
+const CHAPITRES_HG = {
+  1: { titre: "Première Guerre mondiale (1914-1918)", cartes: [
+    { q: "Causes de la Première Guerre mondiale ?", r: "Rivalités coloniales, nationalisme, alliances (Triple Entente/Triple Alliance), assassinat de François-Ferdinand (28 juin 1914)." },
+    { q: "Triple Entente vs Triple Alliance ?", r: "Entente : France, Royaume-Uni, Russie. Alliance : Allemagne, Autriche-Hongrie, Italie." },
+    { q: "Guerre des tranchées ?", r: "Guerre de position, soldats dans des tranchées boueuses sous les bombardements." },
+    { q: "Bataille de Verdun 1916 ?", r: "Symbole de la résistance française. Ils ne passeront pas !" },
+    { q: "Bataille de la Somme 1916 ?", r: "1 million de pertes. Première utilisation de chars." },
+    { q: "Génocide arménien 1915-1916 ?", r: "Extermination des Arméniens par l'Empire ottoman : 1,2 à 1,5 million de morts." },
+    { q: "Pourquoi les USA entrent en guerre en 1917 ?", r: "Guerre sous-marine allemande + défense du droit international." },
+    { q: "Date de l'armistice de 1918 ?", r: "11 novembre 1918, dans le wagon du maréchal Foch." },
+    { q: "Bilan humain de la 1ère Guerre mondiale ?", r: "10 millions de morts, 20 millions de blessés." },
+    { q: "Mutineries de 1917 ?", r: "Révoltes de soldats français refusant les attaques suicidaires." }
+  ]},
+  2: { titre: "Sortie de guerre et traités", cartes: [
+    { q: "Date et lieu du traité de Versailles ?", r: "28 juin 1919, galerie des Glaces." },
+    { q: "14 points de Wilson ?", r: "Programme de paix américain : liberté des mers, SDN, droit des peuples." },
+    { q: "Qu'est-ce que la SDN ?", r: "Société des Nations, ancêtre de l'ONU, créée en 1920." },
+    { q: "Clauses du traité de Versailles ?", r: "Culpabilité allemande, réparations, pertes territoriales, démilitarisation." },
+    { q: "Pourquoi diktat pour l'Allemagne ?", r: "L'Allemagne n'a pas participé aux négociations, forcée de signer." },
+    { q: "Nouveaux États après 1918 ?", r: "Pologne, Tchécoslovaquie, Yougoslavie, Hongrie, Autriche, Finlande, pays baltes." },
+    { q: "Pourquoi la SDN a-t-elle échoué ?", r: "Pas d'armée, absence des USA, montée des totalitarismes." },
+    { q: "Traumatisme français après 1918 ?", r: "Gueules cassées, peur de l'Allemagne, ligne Maginot." },
+    { q: "Réparations allemandes ?", r: "132 milliards de marks-or à payer aux vainqueurs." },
+    { q: "Ligne Maginot ?", r: "Ligne de fortifications française contre une invasion allemande." }
+  ]},
+  3: { titre: "Montée des totalitarismes", cartes: [
+    { q: "Régime totalitaire : définition ?", r: "Parti unique, culte du chef, police politique, propagande, contrôle total." },
+    { q: "URSS de Staline ?", r: "Collectivisation, plans quinquennaux, Goulag (camps de travail)." },
+    { q: "Allemagne de Hitler ?", r: "Nazisme, antisémitisme, Lebensraum, Führerprinzip." },
+    { q: "Italie de Mussolini ?", r: "Fascisme, marche sur Rome 1922, culte du Duce." },
+    { q: "Culte de la personnalité ?", r: "Mise en scène du dictateur, présenté comme guide infaillible." },
+    { q: "Propagande totalitaire ?", r: "Contrôle des médias, affiches, cinéma, meetings de masse." },
+    { q: "Instruments de la terreur totalitaire ?", r: "Police politique (NKVD, Gestapo), camps, dénonciation." },
+    { q: "Premiers camps nazis ?", r: "Dès 1933 (Dachau), pour les opposants politiques." },
+    { q: "Front populaire 1936 ?", r: "Gouvernement Léon Blum : congés payés, semaine de 40h." },
+    { q: "JO de Berlin 1936 ?", r: "Hitler utilise les JO comme vitrine. Jesse Owens : 4 médailles." }
+  ]},
+  4: { titre: "Guerre-éclair (1939-1941)", cartes: [
+    { q: "Début de la 2e Guerre mondiale ?", r: "1er septembre 1939 : invasion de la Pologne." },
+    { q: "Drôle de guerre ?", r: "Inactivité militaire : sept. 1939 – mai 1940." },
+    { q: "Blitzkrieg ?", r: "Guerre-éclair : avions + chars + infanterie motorisée." },
+    { q: "Invasion de la France ?", r: "Mai-juin 1940, percée dans les Ardennes." },
+    { q: "Armistice de juin 1940 ?", r: "22 juin 1940 à Rethondes." },
+    { q: "France coupée en 1940 ?", r: "Zone occupée (Nord) par l'Allemagne / zone libre (Sud) par Vichy." },
+    { q: "Appel du 18 juin 1940 ?", r: "De Gaulle sur la BBC, naissance de la France libre." },
+    { q: "Bataille d'Angleterre 1940 ?", r: "Victoire britannique, Hitler renonce à envahir l'Angleterre." },
+    { q: "Winston Churchill ?", r: "Premier ministre britannique, symbole de la résistance." },
+    { q: "Régime de Vichy ?", r: "Régime collaborationniste dirigé par Pétain (1940-1944)." }
+  ]},
+  5: { titre: "Guerre d'anéantissement (1941-1945)", cartes: [
+    { q: "Opération Barbarossa ?", r: "Invasion de l'URSS par l'Allemagne, 22 juin 1941." },
+    { q: "Pearl Harbor ?", r: "Attaque japonaise, 7 déc. 1941, entrée en guerre des USA." },
+    { q: "Guerre totale ?", r: "Mobilisation de toutes les ressources, civils ciblés." },
+    { q: "Tournant de Stalingrad 1942-1943 ?", r: "Première grande défaite allemande, l'URSS repasse à l'offensive." },
+    { q: "Débarquement de Normandie ?", r: "6 juin 1944, opération Overlord." },
+    { q: "Libération de Paris ?", r: "Août 1944, capitulation allemande le 25 août." },
+    { q: "Shoah ?", r: "Extermination des Juifs par les nazis : 6 millions de morts." },
+    { q: "Camps d'extermination ?", r: "Auschwitz-Birkenau, Treblinka, Sobibor, Belzec." },
+    { q: "Conférence de Wannsee 1942 ?", r: "Organisation de la solution finale." },
+    { q: "Bombes atomiques ?", r: "Hiroshima 6 août 1945, Nagasaki 9 août 1945. Capitulation Allemagne : 8 mai 1945." }
+  ]},
+  6: { titre: "Libération et bilan", cartes: [
+    { q: "Bilan humain de la 2e Guerre mondiale ?", r: "60 millions de morts (URSS : 27 millions)." },
+    { q: "Procès de Nuremberg 1945-1946 ?", r: "Procès des criminels nazis pour crimes contre l'humanité." },
+    { q: "Crime contre l'humanité ?", r: "Acte inhumain contre une population civile." },
+    { q: "Création de l'ONU ?", r: "1945, remplace la SDN." },
+    { q: "DUDH 1948 ?", r: "Déclaration universelle des droits de l'homme." },
+    { q: "Plan Marshall 1947 ?", r: "Aide américaine pour reconstruire l'Europe (13 milliards de dollars)." },
+    { q: "Procès de Tokyo ?", r: "Jugement des criminels de guerre japonais." },
+    { q: "Génocide : définition ?", r: "Destruction d'un groupe national, ethnique, racial ou religieux." },
+    { q: "Résistance française ?", r: "Mouvements clandestins, maquis, réseaux d'évasion." },
+    { q: "Rôle des femmes pendant la guerre ?", r: "Main-d'œuvre, infirmières, résistantes." }
+  ]},
+  7: { titre: "Guerre froide (1947-1991)", cartes: [
+    { q: "Rideau de fer ?", r: "Frontière idéologique Est/Ouest (discours Churchill 1946)." },
+    { q: "Doctrine Truman ?", r: "Endiguement du communisme." },
+    { q: "Plan Marshall 1947 ?", r: "Aide américaine à l'Europe de l'Ouest (refusée par l'URSS)." },
+    { q: "Allemagne coupée ?", r: "RFA (Ouest) et RDA (Est). Berlin divisée en 4 secteurs." },
+    { q: "Blocus de Berlin 1948-1949 ?", r: "URSS bloque Berlin-Ouest, pont aérien américain." },
+    { q: "OTAN 1949 ?", r: "Alliance militaire des pays capitalistes." },
+    { q: "Pacte de Varsovie 1955 ?", r: "Alliance militaire des pays communistes." },
+    { q: "Crise de Cuba 1962 ?", r: "Missiles soviétiques à Cuba, monde frôle la guerre nucléaire." },
+    { q: "Guerre par procuration ?", r: "Superpuissances s'affrontent par pays interposés (Vietnam)." },
+    { q: "Chute du mur de Berlin ?", r: "9 novembre 1989. Fin de l'URSS : 1991." }
+  ]},
+  8: { titre: "Construction européenne", cartes: [
+    { q: "CECA 1951 ?", r: "Communauté européenne du charbon et de l'acier." },
+    { q: "CEE 1957 ?", r: "Communauté économique européenne, traité de Rome." },
+    { q: "6 pays fondateurs ?", r: "France, Allemagne, Italie, Belgique, Pays-Bas, Luxembourg." },
+    { q: "Traité de Maastricht 1992 ?", r: "Création de l'UE, citoyenneté européenne, prépare l'euro." },
+    { q: "Euro en circulation ?", r: "2002." },
+    { q: "Espace Schengen ?", r: "Libre circulation des personnes." },
+    { q: "Brexit 2020 ?", r: "Sortie du Royaume-Uni de l'UE." },
+    { q: "PAC ?", r: "Politique agricole commune." },
+    { q: "Acte unique européen 1986 ?", r: "Création du marché unique." },
+    { q: "Programme Erasmus+ ?", r: "Mobilité étudiante européenne." }
+  ]},
+  9: { titre: "Décolonisation (1945-1975)", cartes: [
+    { q: "Conférence de Bandung 1955 ?", r: "Conférence des non-alignés." },
+    { q: "Guerre d'Indochine 1946-1954 ?", r: "Défaite française à Diên Biên Phu." },
+    { q: "Guerre d'Algérie 1954-1962 ?", r: "Accords d'Évian 1962." },
+    { q: "FLN ?", r: "Front de libération nationale algérien." },
+    { q: "1960 en Afrique ?", r: "Année de l'Afrique : 17 indépendances." },
+    { q: "Indépendance de l'Inde 1947 ?", r: "Gandhi, partition avec le Pakistan." },
+    { q: "Guerre du Vietnam 1955-1975 ?", r: "Victoire du Nord communiste." },
+    { q: "Décolonisation portugaise ?", r: "1974-1975, révolution des Œillets." },
+    { q: "Françafrique ?", r: "Influence de la France en Afrique post-indépendances." },
+    { q: "Mémoires douloureuses de la colonisation ?", r: "Reconnaissance des crimes coloniaux, restitution d'œuvres." }
+  ]},
+  10: { titre: "Après-guerre froide (1991 à nos jours)", cartes: [
+    { q: "Guerre du Golfe 1990-1991 ?", r: "Intervention contre l'Irak après l'invasion du Koweït." },
+    { q: "Guerres de Yougoslavie 1991-2001 ?", r: "Guerres civiles, nettoyage ethnique (Bosnie, Kosovo)." },
+    { q: "Génocide au Rwanda 1994 ?", r: "Extermination des Tutsis, 800 000 morts." },
+    { q: "11 septembre 2001 ?", r: "Attentats d'Al-Qaïda sur les tours jumelles." },
+    { q: "Guerre contre le terrorisme ?", r: "Invasions de l'Afghanistan 2001 et de l'Irak 2003." },
+    { q: "BRICS ?", r: "Brésil, Russie, Inde, Chine, Afrique du Sud." },
+    { q: "Crise des migrants 2015 ?", r: "Guerres (Syrie), pauvreté, changements climatiques." },
+    { q: "Accord de Paris 2015 ?", r: "Lutter contre le réchauffement climatique." },
+    { q: "Pandémie Covid-19 2020 ?", r: "Pandémie mondiale, confinements, vaccins." },
+    { q: "Défis actuels ?", r: "Climat, migrations, IA, montée des populismes." }
+  ]},
+  11: { titre: "Aires urbaines françaises", cartes: [
+    { q: "Métropolisation ?", r: "Concentration des activités et population dans les grandes métropoles." },
+    { q: "Aire urbaine ?", r: "Pôle urbain + couronne périurbaine." },
+    { q: "Principales métropoles françaises ?", r: "Paris, Lyon, Marseille, Lille, Toulouse, Bordeaux, Nice, Nantes." },
+    { q: "Ségrégation socio-spatiale ?", r: "Séparation des populations selon leurs revenus." },
+    { q: "Étalement urbain ?", r: "Consommation d'espaces naturels par les villes." },
+    { q: "Périurbanisation ?", r: "Installation des citadins dans les communes périurbaines." },
+    { q: "Sort des villes moyennes ?", r: "En difficulté face aux métropoles." },
+    { q: "Éco-quartier ?", r: "Quartier durable (basse consommation, espaces verts)." },
+    { q: "Gentrification ?", r: "Remplacement des populations modestes par des classes aisées." },
+    { q: "QPV ?", r: "Quartiers prioritaires de la politique de la ville." }
+  ]},
+  12: { titre: "Les espaces productifs français", cartes: [
+    { q: "Espaces agricoles français ?", r: "Céréales (Bassin parisien), élevage (Massif central), viticulture." },
+    { q: "Désindustrialisation ?", r: "Baisse emploi industriel, friches." },
+    { q: "Tertiarisation ?", r: "Augmentation de la part des services." },
+    { q: "Pôle de compétitivité ?", r: "Regroupement d'entreprises, chercheurs et universités pour innover." },
+    { q: "Zone industrialo-portuaire ?", r: "Zone industrielle liée à un port (Le Havre, Fos-sur-Mer)." },
+    { q: "Tourisme en France ?", r: "1er pays touristique mondial (86M de visiteurs)." },
+    { q: "Énergies renouvelables en France ?", r: "Parcs éoliens, centrales solaires, barrages hydrauliques." },
+    { q: "Reconversion des friches industrielles ?", r: "Sites culturels, numériques ou logistiques." },
+    { q: "French Tech ?", r: "Écosystème des startups françaises." },
+    { q: "Grand Paris ?", r: "Projet d'aménagement de la métropole parisienne." }
+  ]},
+  13: { titre: "Les espaces de faible densité français", cartes: [
+    { q: "Atouts des espaces ruraux ?", r: "Cadre de vie, tourisme vert, agriculture, énergies renouvelables." },
+    { q: "Fragilités des espaces ruraux ?", r: "Vieillissement, enclavement, désertification médicale." },
+    { q: "Néoruraux ?", r: "Citadins s'installant à la campagne (télétravail)." },
+    { q: "ZRR ?", r: "Zones de revitalisation rurale (aides fiscales)." },
+    { q: "Télétravail et espaces ruraux ?", r: "Dynamise certains territoires." },
+    { q: "Espaces de montagne ?", r: "Contraintes (froid, pente) et atouts (tourisme, hydroélectricité)." },
+    { q: "Espaces littoraux ?", r: "Pression touristique, conflits d'usage, risques de submersion." },
+    { q: "Diagonale du vide ?", r: "Zone de faible densité traversant la France du nord-est au sud-ouest." },
+    { q: "Hyperruralité ?", r: "Espaces très peu denses, éloignés des services." },
+    { q: "Plan Action Cœur de Ville ?", r: "Revitaliser les centres-villes des villes moyennes." }
+  ]},
+  14: { titre: "Les espaces transfrontaliers français", cartes: [
+    { q: "Eurocité ?", r: "Coopération transfrontalière entre villes de pays différents." },
+    { q: "Principaux espaces transfrontaliers français ?", r: "Avec Allemagne, Suisse, Italie, Espagne, Belgique." },
+    { q: "Tunnel du Mont-Blanc ?", r: "Infrastructure reliant la France à l'Italie (1965)." },
+    { q: "Eurodistrict Strasbourg-Ortenau ?", r: "Coopération entre Strasbourg et l'Allemagne." },
+    { q: "Corridor Rhin-Rhône ?", r: "Infrastructure de transport majeure." },
+    { q: "Avantages coopération transfrontalière ?", r: "Échanges économiques, mobilité des travailleurs." },
+    { q: "Défis espaces transfrontaliers ?", r: "Harmonisation des lois, barrières linguistiques." },
+    { q: "ZIP de Dunkerque ?", r: "Zone industrialo-portuaire transfrontalière avec la Belgique." },
+    { q: "Frontières naturelles de la France ?", r: "Rhin, Alpes, Pyrénées, Méditerranée, Atlantique, Manche." },
+    { q: "Coopération France-Suisse ?", r: "Emploi frontalier, Arc lémanique." }
+  ]},
+  15: { titre: "Les régions ultramarines françaises", cartes: [
+    { q: "DROM ?", r: "Guadeloupe, Martinique, Guyane, La Réunion, Mayotte." },
+    { q: "COM ?", r: "Saint-Pierre-et-Miquelon, Saint-Barthélemy, Wallis-et-Futuna, Polynésie." },
+    { q: "Spécificités des DROM ?", r: "Mêmes lois que la métropole, régions européennes." },
+    { q: "Défis des régions ultramarines ?", r: "Éloignement, chômage élevé, dépendance économique." },
+    { q: "Atouts des régions ultramarines ?", r: "Biodiversité, tourisme, ZEE." },
+    { q: "ZEE ?", r: "Zone économique exclusive (droits d'exploitation des ressources maritimes)." },
+    { q: "Guyane stratégique ?", r: "Base de lancement de fusées (Kourou)." },
+    { q: "Plan Chlordécone ?", r: "Dépollution des sols en Guadeloupe et Martinique." },
+    { q: "La Réunion ?", r: "Île volcanique de l'océan Indien, 900 000 habitants." },
+    { q: "Mayotte ?", r: "101e département français, île de l'océan Indien." }
+  ]},
+  16: { titre: "L'Union européenne", cartes: [
+    { q: "Nombre de pays dans l'UE ?", r: "27 (depuis le Brexit 2020)." },
+    { q: "PAC ?", r: "Politique agricole commune." },
+    { q: "Fonds structurels de l'UE ?", r: "FEDER (développement régional), FSE (emploi)." },
+    { q: "Schengen ?", r: "Libre circulation des personnes." },
+    { q: "Inégalités territoriales dans l'UE ?", r: "Opposition Est/Ouest (PIB)." },
+    { q: "Capitales européennes ?", r: "Bruxelles (Commission), Strasbourg (Parlement), Luxembourg (Justice)." },
+    { q: "Régions ultrapériphériques ?", r: "Territoires européens hors continent (Guadeloupe, Guyane, Réunion)." },
+    { q: "Zone euro ?", r: "20 pays utilisant l'euro." },
+    { q: "Parlement européen ?", r: "Élu au suffrage universel direct." },
+    { q: "Conseil de l'Europe vs Conseil de l'UE ?", r: "Europe : droits de l'homme (47 pays). UE : décisions de l'Union." }
+  ]},
+  17: { titre: "La France dans la mondialisation", cartes: [
+    { q: "Principales FMN françaises ?", r: "TotalEnergies, LVMH, AXA, Carrefour, Airbus." },
+    { q: "Hubs français ?", r: "Roissy-CDG, Le Havre, Marseille-Fos." },
+    { q: "Territoires gagnants de la mondialisation ?", r: "Métropoles (Paris, Lyon), pôles de compétitivité." },
+    { q: "Territoires perdants ?", r: "Campagnes isolées, villes moyennes désindustrialisées." },
+    { q: "Rôle de Paris dans la mondialisation ?", r: "Ville mondiale (finance, mode, tourisme, culture)." },
+    { q: "Flux touristiques français ?", r: "1ère destination touristique mondiale (86M visiteurs)." },
+    { q: "PIB de la France ?", r: "Environ 2 800 milliards d'euros (7e économie mondiale)." },
+    { q: "Secteurs d'excellence français ?", r: "Aéronautique (Airbus), luxe (LVMH), nucléaire (EDF)." },
+    { q: "Défis économiques de la France ?", r: "Chômage, dette publique, transitions écologique et numérique." },
+    { q: "IDH de la France ?", r: "0,903 (très élevé, top 30 mondial)." }
+  ]},
+  18: { titre: "Les inégalités en France", cartes: [
+    { q: "Principales inégalités territoriales ?", r: "Opposition Est/Ouest, Nord/Sud, métropoles/périphéries." },
+    { q: "Chômage en France ?", r: "Environ 7-8%." },
+    { q: "Pauvreté en France ?", r: "14% sous le seuil de pauvreté (1 102 €/mois)." },
+    { q: "Fracture numérique ?", r: "Inégalité d'accès à Internet entre villes et campagnes." },
+    { q: "Politiques contre les inégalités ?", r: "Minima sociaux, allocations logement, services publics." },
+    { q: "Zonage prioritaire ?", r: "QPV (quartiers prioritaires), ZRR (zones rurales)." },
+    { q: "Revenu médian en France ?", r: "Environ 1 800 € par mois." },
+    { q: "Inégalités de genre ?", r: "Écart de salaire hommes/femmes (17%), plafond de verre." },
+    { q: "Inégalités scolaires ?", r: "Reproduction sociale, effet d'établissement." },
+    { q: "Mixité sociale ?", r: "Politique de mélange des catégories sociales." }
+  ]},
+  19: { titre: "La mondialisation", cartes: [
+    { q: "Mondialisation ?", r: "Mise en relation des différentes parties du monde par les échanges." },
+    { q: "FMN ?", r: "Firme multinationale (Apple, Total, Nestlé)." },
+    { q: "3 piliers institutionnels ?", r: "OMC (commerce), FMI (finance), Banque mondiale." },
+    { q: "Flux de la mondialisation ?", r: "Marchandises (conteneurs), capitaux, informations, personnes." },
+    { q: "Hub ?", r: "Plateforme où transitent les flux mondiaux." },
+    { q: "Mégalopole ?", r: "Région urbaine très peuplée (Tokyo, NY, Londres, Shanghai, Paris)." },
+    { q: "Pays émergents ?", r: "Pays à forte croissance (BRICS)." },
+    { q: "Inégalités de la mondialisation ?", r: "Métropoles gagnantes / territoires perdants." },
+    { q: "Délocalisation ?", r: "Transfert d'activités vers des pays à bas coûts." },
+    { q: "Relocalisation ?", r: "Retour d'activités dans le pays d'origine." }
+  ]},
+  20: { titre: "Les inégalités de développement", cartes: [
+    { q: "IDH ?", r: "Indice de développement humain (PIB, santé, éducation)." },
+    { q: "Distinction Nord/Sud ?", r: "Nord = pays développés, Sud = pays en développement." },
+    { q: "PMA ?", r: "Pays les moins avancés (Afrique subsaharienne, Afghanistan)." },
+    { q: "Taux d'alphabétisation ?", r: "Mesure l'accès à l'éducation." },
+    { q: "Espérance de vie ?", r: "Durée de vie moyenne, reflet de la santé." },
+    { q: "OMD ?", r: "Objectifs du millénaire pour le développement (ONU 2000)." },
+    { q: "ODD ?", r: "Objectifs de développement durable (ONU 2015, pour 2030)." },
+    { q: "Fracture numérique mondiale ?", r: "Inégalité d'accès à Internet entre pays." },
+    { q: "Aide publique au développement ?", r: "0,7% du PIB des pays riches (objectif ONU)." },
+    { q: "Dette des pays du Sud ?", r: "Frein au développement, dépendance envers les créanciers." }
+  ]},
+  21: { titre: "Les défis du XXIe siècle", cartes: [
+    { q: "Changement climatique ?", r: "Augmentation de la température due aux GES." },
+    { q: "Transition énergétique ?", r: "Passage des énergies fossiles aux renouvelables." },
+    { q: "Types de migrations ?", r: "Économiques, politiques (réfugiés), climatiques." },
+    { q: "Conflit asymétrique ?", r: "Armée régulière contre groupes non étatiques." },
+    { q: "Développement durable ?", r: "Répondre aux besoins actuels sans compromettre l'avenir." },
+    { q: "Économie circulaire ?", r: "Recycler, réparer, réutiliser." },
+    { q: "Défis de l'IA ?", r: "Éthique, emplois, désinformation." },
+    { q: "Désinformation ?", r: "Fausses informations diffusées pour manipuler." },
+    { q: "Accord de Paris 2015 ?", r: "Lutter contre le réchauffement, limiter à +1,5°C." },
+    { q: "COP ?", r: "Conférence des Parties, négociations climatiques." }
+  ]},
+  22: { titre: "Les aires urbaines mondiales", cartes: [
+    { q: "Mégalopole ?", r: "Région urbaine de plusieurs millions d'habitants." },
+    { q: "Ville mondiale ?", r: "Ville concentrant les fonctions de commandement mondial." },
+    { q: "Principales villes mondiales ?", r: "New York, Londres, Tokyo, Paris, Singapour." },
+    { q: "Urbanisation mondiale ?", r: "55% de la population mondiale vit en ville." },
+    { q: "Problèmes des mégapoles du Sud ?", r: "Bidonvilles, transports saturés, pollution." },
+    { q: "Étalement urbain mondial ?", r: "Consommation d'espaces naturels par les villes." },
+    { q: "Gentrification ?", r: "Remplacement des populations modestes par des classes aisées." },
+    { q: "Développement urbain durable ?", r: "Éco-quartiers, transports en commun, végétalisation." },
+    { q: "Bidonville ?", r: "Quartier informel sans équipements (favelas, shanty towns)." },
+    { q: "Smart city ?", r: "Ville intelligente utilisant les données numériques." }
+  ]},
+  23: { titre: "Valeurs de la République (EMC)", cartes: [
+    { q: "Liberté (valeur républicaine) ?", r: "Liberté d'expression, de presse, de conscience." },
+    { q: "Égalité (valeur républicaine) ?", r: "Égalité des droits, lutte contre les discriminations." },
+    { q: "Fraternité (valeur républicaine) ?", r: "Solidarité, sécurité sociale." },
+    { q: "Laïcité ?", r: "Neutralité de l'État, séparation Églises/État (loi 1905)." },
+    { q: "Devise de la République ?", r: "Liberté, Égalité, Fraternité." },
+    { q: "Neutralité des agents publics ?", r: "Les fonctionnaires ne manifestent pas leurs opinions religieuses." },
+    { q: "Charte de la laïcité 2013 ?", r: "Texte sur la laïcité à l'école." },
+    { q: "Limites à la liberté d'expression ?", r: "Diffamation, incitation à la haine, négationnisme." },
+    { q: "Loi 1905 ?", r: "Séparation des Églises et de l'État." },
+    { q: "Principes constitutionnels français ?", r: "République indivisible, laïque, démocratique et sociale." }
+  ]},
+  24: { titre: "Citoyenneté française (EMC)", cartes: [
+    { q: "Droit du sol ?", r: "Nationalité par naissance en France." },
+    { q: "Droit du sang ?", r: "Nationalité par filiation (parents français)." },
+    { q: "Naturalisation ?", r: "Procédure pour devenir français." },
+    { q: "Conditions pour voter ?", r: "Être majeur (18 ans), français, jouir de ses droits civils." },
+    { q: "Devoir de défense ?", r: "JDC (journée défense citoyenneté)." },
+    { q: "SNU ?", r: "Service national universel (12 jours)." },
+    { q: "Service civique ?", r: "Engagement volontaire dans une association." },
+    { q: "3 niveaux des institutions françaises ?", r: "Communes, départements, régions. État (Président, Parlement)." },
+    { q: "Suffrage universel ?", r: "Droit de vote pour tous les citoyens majeurs." },
+    { q: "Rôle du Conseil constitutionnel ?", r: "Vérifier la conformité des lois à la Constitution." }
+  ]},
+  25: { titre: "Justice en France (EMC)", cartes: [
+    { q: "3 grands principes de la justice ?", r: "Indépendance, égalité devant la loi, présomption d'innocence." },
+    { q: "Présomption d'innocence ?", r: "Innocent tant qu'il n'est pas jugé coupable." },
+    { q: "Justice civile vs pénale ?", r: "Civile : litiges entre personnes. Pénale : infractions." },
+    { q: "Cour d'assises ?", r: "Juge les crimes (juges + jury populaire)." },
+    { q: "TIG ?", r: "Travail d'intérêt général (peine alternative)." },
+    { q: "Juge des enfants ?", r: "Magistrat spécialisé dans la protection des mineurs." },
+    { q: "Aide juridictionnelle ?", r: "Prise en charge des frais de justice pour les revenus modestes." },
+    { q: "Tribunal correctionnel ?", r: "Juge les délits." },
+    { q: "Cour de cassation ?", r: "Plus haute juridiction civile et pénale." },
+    { q: "Conseil d'État ?", r: "Plus haute juridiction administrative." }
+  ]},
+  26: { titre: "Débat démocratique et médias (EMC)", cartes: [
+    { q: "3 rôles des médias ?", r: "Informer, permettre le débat, contrôler le pouvoir." },
+    { q: "Liberté de la presse ?", r: "Droit d'informer sans censure (loi 1881)." },
+    { q: "Fake news ?", r: "Fausses informations diffusées pour manipuler." },
+    { q: "Fact-checking ?", r: "Vérification des faits par les journalistes." },
+    { q: "Dangers des réseaux sociaux ?", r: "Bulles de filtre, harcèlement, fake news." },
+    { q: "Loi de 1881 ?", r: "Loi sur la liberté de la presse." },
+    { q: "Droit de grève ?", r: "Droit des salariés de cesser le travail." },
+    { q: "Associations loi 1901 ?", r: "Associations à but non lucratif." },
+    { q: "Bulle de filtre ?", r: "Enfermement dans des informations qui confirment nos opinions." },
+    { q: "Pluralisme médiatique ?", r: "Diversité des médias et des opinions." }
+  ]},
+  27: { titre: "La France et l'Europe", cartes: [
+    { q: "Poids démographique de la France ?", r: "2e pays le plus peuplé de l'UE (68M)." },
+    { q: "Rôle de la France dans l'UE ?", r: "Pays fondateur, membre du Conseil." },
+    { q: "1ère puissance agricole de l'UE ?", r: "France (blé, maïs, élevage)." },
+    { q: "Secteurs d'excellence français ?", r: "Aéronautique (Airbus), luxe (LVMH), nucléaire (EDF)." },
+    { q: "Défis de la France ?", r: "Chômage, dette publique, transitions écologique/numérique." },
+    { q: "Coopération transfrontalière ?", r: "Projets communs avec les pays voisins." },
+    { q: "France et OTAN ?", r: "Membre fondateur, retour dans le commandement intégré en 2009." },
+    { q: "Langue française dans le monde ?", r: "Langue officielle dans 29 pays, 300M locuteurs." },
+    { q: "Francophonie ?", r: "Organisation internationale de la francophonie (OIF)." },
+    { q: "Soft power français ?", r: "Influence culturelle (cinéma, gastronomie, mode)." }
+  ]},
+  28: { titre: "Défense et sécurité en France", cartes: [
+    { q: "Missions de l'armée française ?", r: "Défense du territoire, OPEX, sécurité." },
+    { q: "OTAN ?", r: "Alliance militaire des pays occidentaux." },
+    { q: "Dissuasion nucléaire ?", r: "Stratégie de défense basée sur l'arme atomique." },
+    { q: "JDC ?", r: "Journée défense et citoyenneté." },
+    { q: "OPEX récentes ?", r: "Mali (Serval/Barkhane), Sahel, Liban." },
+    { q: "Gendarmerie nationale ?", r: "Sécurité publique en zones rurales." },
+    { q: "Police nationale ?", r: "Sécurité publique en zones urbaines." },
+    { q: "Renseignement français ?", r: "DGSI (intérieur), DGSE (extérieur)." },
+    { q: "Budget de la défense française ?", r: "Objectif 2% du PIB (engagement OTAN)." },
+    { q: "Menaces actuelles pour la France ?", r: "Terrorisme, cyberattaques, désinformation." }
+  ]},
+  29: { titre: "Environnement et développement durable", cartes: [
+    { q: "Transition écologique ?", r: "Transformer l'économie pour réduire l'impact environnemental." },
+    { q: "Empreinte carbone ?", r: "Quantité de CO2 émise par une activité." },
+    { q: "Loi Grenelle 2009 ?", r: "Loi française sur l'environnement." },
+    { q: "ZAN ?", r: "Zéro artificialisation nette d'ici 2050." },
+    { q: "Convention citoyenne pour le climat ?", r: "Citoyens tirés au sort proposant des mesures." },
+    { q: "Accord de Paris 2015 ?", r: "Accord international limitant le réchauffement à +1,5°C." },
+    { q: "COP ?", r: "Conférence des Parties, négociations climatiques annuelles." },
+    { q: "GES ?", r: "Gaz à effet de serre (CO2, méthane)." },
+    { q: "Biodiversité ?", r: "Diversité des espèces vivantes." },
+    { q: "Économie circulaire ?", r: "Recycler, réparer, réutiliser." }
+  ]},
+  30: { titre: "Les espaces productifs mondiaux", cartes: [
+    { q: "Silicon Valley ?", r: "Pôle technologique mondial en Californie." },
+    { q: "ZES ?", r: "Zone économique spéciale (avantages fiscaux)." },
+    { q: "Grands espaces agricoles mondiaux ?", r: "Corn Belt (USA), soja (Brésil), rizières (Asie)." },
+    { q: "Grands espaces industriels mondiaux ?", r: "Chine (usine du monde), Europe, Amérique du Nord." },
+    { q: "Délocalisation ?", r: "Transfert d'activités vers des pays à bas coûts." },
+    { q: "Relocalisation ?", r: "Retour d'activités dans le pays d'origine." },
+    { q: "Principaux hubs mondiaux ?", r: "Atlanta, Dubaï, Londres, Tokyo, Paris CDG." },
+    { q: "Principaux ports mondiaux ?", r: "Shanghai, Singapour, Rotterdam, Anvers." },
+    { q: "Shenzhen (Chine) ?", r: "Première ZES chinoise, symbole de la croissance." },
+    { q: "Maquiladoras ?", r: "Usines d'assemblage à la frontière Mexique/USA." }
+  ]},
+  31: { titre: "Les mobilités humaines mondiales", cartes: [
+    { q: "Types de migrations ?", r: "Économiques, politiques (réfugiés), climatiques." },
+    { q: "Réfugié ?", r: "Personne fuyant la guerre ou les persécutions." },
+    { q: "Migrant économique ?", r: "Personne cherchant à améliorer ses conditions de vie." },
+    { q: "Principales routes migratoires ?", r: "Afrique/Asie vers Europe, Amérique latine vers USA." },
+    { q: "Effets sur les pays d'accueil ?", r: "Main-d'oeuvre, enrichissement culturel, tensions sociales." },
+    { q: "Effets sur les pays de départ ?", r: "Envois d'argent, fuite des cerveaux." },
+    { q: "Droit d'asile ?", r: "Droit d'être protégé pour une personne persécutée." },
+    { q: "Tourisme de masse ?", r: "Déplacements touristiques nombreux, impacts environnementaux." },
+    { q: "Migrations climatiques ?", r: "Déplacements dus aux catastrophes ou à la montée des eaux." },
+    { q: "HCR ?", r: "Haut-Commissariat aux réfugiés de l'ONU." }
+  ]},
+  32: { titre: "Les ressources mondiales", cartes: [
+    { q: "Ressources énergétiques mondiales ?", r: "Pétrole, gaz, charbon, uranium, solaire, éolien." },
+    { q: "Principaux producteurs de pétrole ?", r: "États-Unis, Arabie saoudite, Russie." },
+    { q: "Eau bleue ?", r: "Eau des rivières, lacs et nappes souterraines." },
+    { q: "Eau virtuelle ?", r: "Eau utilisée pour produire un bien." },
+    { q: "Minerais stratégiques ?", r: "Lithium, cobalt, terres rares (batteries, électronique)." },
+    { q: "OPEP ?", r: "Organisation des pays exportateurs de pétrole." },
+    { q: "Enjeux géopolitiques des ressources ?", r: "Conflits, dépendance, tensions." },
+    { q: "Transition énergétique ?", r: "Passage aux énergies renouvelables." },
+    { q: "Stress hydrique ?", r: "Manque d'eau disponible par rapport aux besoins." },
+    { q: "Terres rares ?", r: "Métaux essentiels aux technologies (monopole chinois)." }
+  ]}
 };
 
-// ══════ APP ══════
-var eleve = 'wassil', session = [], idx = 0;
-var scoreOk = 0, scoreTotal = 0, chTaux = {};
-var timerInt = null, tps = 2700;
+</script>
+<script>
 
-function kProg()  { return 'ama_p_' + eleve; }
-function kRat()   { return 'ama_r_' + eleve; }
-function kSuivi() { return 'suivi_sessions_maths_' + eleve; }
-function getProg(){ try{return JSON.parse(localStorage.getItem(kProg())||'{}');}catch(e){return{};} }
-function getRat() { try{return JSON.parse(localStorage.getItem(kRat()) ||'{}');}catch(e){return{};} }
-function getScore(ch,q){ return (getProg()[ch+'_'+q.substring(0,25)]||{score:0}).score; }
-function setScore(ch,q,v){ var p=getProg(); p[ch+'_'+q.substring(0,25)]={score:Math.min(3,Math.max(0,v))}; localStorage.setItem(kProg(),JSON.stringify(p)); }
+let eleve = 'wassil';
+let session = [], idx = 0;
+let score = { ok:0, total:0, chTaux:{} };
+let timerInt = null, tps = 45*60;
 
-function getFaibles(){
-  try{
-    var ss=JSON.parse(localStorage.getItem(kSuivi())||'[]').slice(0,5);
-    var t={};
-    ss.forEach(function(s){ if(s.chapitresTaux) Object.keys(s.chapitresTaux).forEach(function(ch){ if(!t[ch])t[ch]=[]; t[ch].push(s.chapitresTaux[ch]); }); });
-    return Object.keys(t).filter(function(ch){ return t[ch].reduce(function(a,b){return a+b},0)/t[ch].length<60; }).map(Number);
-  }catch(e){return[];}
+const DATA = CHAPITRES_HG;
+const kProg  = () => 'auto_hg_prog_' + eleve;
+const kRat   = () => 'auto_hg_rat_' + eleve;
+const kSuivi = () => 'suivi_sessions_histoire_' + eleve;
+
+function getProg()  { return JSON.parse(localStorage.getItem(kProg())  || '{}'); }
+function getRat()   { return JSON.parse(localStorage.getItem(kRat())   || '{}'); }
+function getScore(ch, q) { return getProg()[ch+'_'+q.substring(0,28)]?.score || 0; }
+function setScore(ch, q, v) {
+  const p = getProg();
+  p[ch+'_'+q.substring(0,28)] = { score:Math.min(3,Math.max(0,v)), date:new Date().toISOString() };
+  localStorage.setItem(kProg(), JSON.stringify(p));
 }
-
-function setEleve(e){
-  eleve=e;
-  document.getElementById('btnW').className='ebtn'+(e==='wassil'?' w':'');
-  document.getElementById('btnN').className='ebtn'+(e==='nawal'?' n':'');
+function getFaibles() {
+  const sessions = JSON.parse(localStorage.getItem(kSuivi())||'[]').slice(0,5);
+  const taux = {};
+  sessions.forEach(s => {
+    if (s.chapitresTaux) Object.entries(s.chapitresTaux).forEach(([ch,t]) => {
+      if (!taux[ch]) taux[ch] = []; taux[ch].push(t);
+    });
+  });
+  return Object.entries(taux).filter(([,v]) => v.reduce((a,b)=>a+b,0)/v.length < 60).map(([ch]) => parseInt(ch));
+}
+function setEleve(e) {
+  eleve = e;
+  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil'?' aw':'');
+  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal'?' an':'');
   buildGrid(); updateStats();
 }
-
-function buildGrid(){
-  var faibles=getFaibles();
-  var g=document.getElementById('chapGrid'); g.innerHTML='';
-  Object.keys(CHAPITRES_MA).forEach(function(n){
-    var ch=CHAPITRES_MA[n];
-    var d=document.createElement('div');
-    var isFaible=faibles.indexOf(parseInt(n))>=0;
-    d.className='ch'+(isFaible?' faible':'');
-    d.id='ci'+n;
-    d.innerHTML='<span class="chn">'+n+'</span><span>'+ch.titre+'</span>'+(isFaible?'<span style="margin-left:auto;font-size:10px;color:#e84249">⚠</span>':'');
-    d.onclick=function(){this.classList.toggle('sel');updateStats();}.bind(d);
+function buildGrid() {
+  const faibles = getFaibles();
+  const g = document.getElementById('chapGrid'); g.innerHTML = '';
+  Object.entries(DATA).forEach(([n, ch]) => {
+    const isFaible = faibles.includes(parseInt(n));
+    const d = document.createElement('div');
+    d.className = 'ch-item' + (isFaible?' faible':'');
+    d.id = 'ci'+n;
+    d.onclick = () => { d.classList.toggle('selected'); updateStats(); };
+    d.innerHTML = '<span class="ch-num">'+n+'</span><span style="font-size:12px">'+ch.titre+'</span>'+(isFaible?'<span class="ch-warn">⚠</span>':'');
     g.appendChild(d);
   });
 }
-
-function getSel(){ return Array.from(document.querySelectorAll('#chapGrid .ch.sel')).map(function(el){return parseInt(el.id.replace('ci',''));}); }
-function selectAll(v){ Object.keys(CHAPITRES_MA).forEach(function(n){var el=document.getElementById('ci'+n);if(el){if(v)el.classList.add('sel');else el.classList.remove('sel');}}); updateStats(); }
-function selFaibles(){ selectAll(false); getFaibles().forEach(function(n){var el=document.getElementById('ci'+n);if(el)el.classList.add('sel');}); updateStats(); }
-function resetProg(){ if(confirm('Reset progression maths ?')){ localStorage.removeItem(kProg()); localStorage.removeItem(kRat()); updateStats(); } }
-
-function updateStats(){
-  var sel=getSel();
-  var toutes=[];
-  sel.forEach(function(n){(CHAPITRES_MA[n]||{cartes:[]}).cartes.forEach(function(c){toutes.push({ch:n,q:c.q});});});
-  var mait=toutes.filter(function(c){return getScore(c.ch,c.q)>=3;}).length;
-  var pct=toutes.length?Math.round(mait/toutes.length*100):0;
-  document.getElementById('stC').textContent=toutes.length;
-  document.getElementById('stM').textContent=mait;
-  document.getElementById('stP').textContent=pct+'%';
-  document.getElementById('btnGo').disabled=toutes.length===0;
+function filterPart(from, to) {
+  selectAll(false);
+  for(let i=from;i<=to;i++) { document.getElementById('ci'+i)?.classList.add('selected'); }
+  updateStats();
 }
-
-function melanger(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
-
-function genSession(){
-  var sel=getSel();
-  var principal=[];
-  sel.forEach(function(n){(CHAPITRES_MA[n]||{cartes:[]}).cartes.forEach(function(c){principal.push({q:c.q,r:c.r,ch:n,type:'p'});});});
-  var ids={}; var uniq=[];
-  principal.forEach(function(c){if(!ids[c.q]){ids[c.q]=1;uniq.push(c);}});
-  if(uniq.length<=40) return melanger(uniq);
-
-  var nouv=uniq.filter(function(c){return getScore(c.ch,c.q)===0;});
-  var enc=uniq.filter(function(c){var s=getScore(c.ch,c.q);return s>0&&s<3;});
-  var mait=uniq.filter(function(c){return getScore(c.ch,c.q)>=3;});
-  var vingt=melanger(nouv.concat(enc).concat(mait)).slice(0,20);
-
-  var rat=getRat();
-  var dixR=[];
-  Object.keys(rat).sort(function(a,b){return rat[b].count-rat[a].count;}).slice(0,10).forEach(function(id){if(rat[id]&&rat[id].carte)dixR.push(Object.assign({},rat[id].carte,{type:'r'}));});
-  if(dixR.length<10){var deja={};vingt.concat(dixR).forEach(function(c){deja[c.q]=1;});enc.filter(function(c){return !deja[c.q];}).slice(0,10-dixR.length).forEach(function(c){dixR.push(Object.assign({},c,{type:'r'}));});}
-
-  var autresSel={};sel.forEach(function(n){autresSel[n]=1;});
-  var autres=[];
-  Object.keys(CHAPITRES_MA).forEach(function(n){if(!autresSel[n])CHAPITRES_MA[n].cartes.forEach(function(c){autres.push({q:c.q,r:c.r,ch:parseInt(n),type:'v'});});});
-  var dixV=melanger(autres).slice(0,10);
-  if(dixV.length<10){var deja2={};vingt.concat(dixR).forEach(function(c){deja2[c.q]=1;});uniq.filter(function(c){return !deja2[c.q];}).slice(0,10-dixV.length).forEach(function(c){dixV.push(Object.assign({},c,{type:'v'}));});}
-
-  var all=vingt.concat(dixR).concat(dixV);
-  var ids2={};var res=[];
-  all.forEach(function(c){if(!ids2[c.q]){ids2[c.q]=1;res.push(c);}});
-  return melanger(res).slice(0,40);
+function getSel() { return Array.from(document.querySelectorAll('#chapGrid .ch-item.selected')).map(el=>parseInt(el.id.replace('ci',''))); }
+function selectAll(v) { Object.keys(DATA).forEach(n=>document.getElementById('ci'+n)?.classList.toggle('selected',v)); updateStats(); }
+function selFaibles() { selectAll(false); getFaibles().forEach(n=>document.getElementById('ci'+n)?.classList.add('selected')); updateStats(); }
+function resetProg() { if(confirm('Reset progression ?')){ localStorage.removeItem(kProg()); localStorage.removeItem(kRat()); updateStats(); } }
+function updateStats() {
+  const sel = getSel();
+  const toutes = sel.flatMap(n=>(DATA[n]?.cartes||[]).map(c=>({...c,ch:n})));
+  const mait = toutes.filter(c=>getScore(c.ch,c.q)>=3).length;
+  const pct = toutes.length ? Math.round(mait/toutes.length*100) : 0;
+  document.getElementById('stCartes').textContent = toutes.length;
+  document.getElementById('stMait').textContent = mait;
+  document.getElementById('stPct').textContent = pct+'%';
+  document.getElementById('btnStart').disabled = toutes.length===0;
+  document.getElementById('stRegle').textContent = toutes.length<=40 ? toutes.length+' (toutes)' : '20-10-10';
 }
-
-function evaluer(rep,att){
-  if(!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
-  var r=rep.toLowerCase().trim(), a=att.toLowerCase();
-  if(r===a) return{ok:true,t:100,m:'Parfait !'};
-  var mA=a.split(/[\s,;.=+÷x²³()]+/).filter(function(m){return m.length>1;});
-  var mR=r.split(/[\s,;.=+÷x²³()]+/);
-  var ok=0;
-  mA.forEach(function(ma){if(mR.some(function(mr){return mr===ma||mr.indexOf(ma.slice(0,3))>=0;}))ok++;});
-  var t=mA.length?Math.round(ok/mA.length*100):50;
-  if(mR.length<=3&&t>=35) t=Math.min(100,t+25);
-  if(t>=55) return{ok:true,t:t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
-  return{ok:false,t:t,m:'À retravailler.'};
+function melanger(a) { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function genSession() {
+  const sel = getSel();
+  const principal = sel.flatMap(n=>(DATA[n]?.cartes||[]).map(c=>({...c,ch:n,type:'principal'})));
+  const dedup = arr => { const ids=new Set(); return arr.filter(c=>{if(ids.has(c.q))return false;ids.add(c.q);return true;}); };
+  if (principal.length<=40) return melanger(dedup(principal));
+  const nouv = principal.filter(c=>getScore(c.ch,c.q)===0);
+  const enCours = principal.filter(c=>getScore(c.ch,c.q)>0&&getScore(c.ch,c.q)<3);
+  const mait = principal.filter(c=>getScore(c.ch,c.q)>=3);
+  const vingt = melanger(dedup([...nouv,...enCours,...mait])).slice(0,20);
+  const rat = getRat();
+  let dixRat = Object.entries(rat).filter(([,d])=>d.count>=1).sort((a,b)=>b[1].count-a[1].count).slice(0,10).map(([,d])=>({...d.carte,type:'ratee'}));
+  if (dixRat.length<10) {
+    const deja = new Set([...vingt,...dixRat].map(c=>c.q));
+    dixRat = [...dixRat,...melanger([...enCours,...nouv]).filter(c=>!deja.has(c.q)).slice(0,10-dixRat.length).map(c=>({...c,type:'ratee'}))];
+  }
+  const autres = Object.entries(DATA).filter(([n])=>!sel.includes(parseInt(n))).flatMap(([n,ch])=>ch.cartes.map(c=>({...c,ch:parseInt(n),type:'revision'})));
+  let dixRev = melanger([...autres]).slice(0,10);
+  if (dixRev.length<10) {
+    const deja = new Set([...vingt,...dixRat].map(c=>c.q));
+    dixRev = [...dixRev,...melanger([...principal]).filter(c=>!deja.has(c.q)).slice(0,10-dixRev.length).map(c=>({...c,type:'revision'}))];
+  }
+  return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
-
-function show(id){['phaseSelect','phaseSession','phaseRes'].forEach(function(p){document.getElementById(p).style.display=p===id?'block':'none';});}
-
-function demarrer(){
-  session=genSession();
-  if(!session.length){alert('Sélectionne des chapitres.');return;}
-  idx=0;scoreOk=0;scoreTotal=0;chTaux={};tps=2700;
-  show('phaseSession');startTimer();affQ();
+function evaluer(rep, att) {
+  if (!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
+  const r=rep.toLowerCase().trim(), a=att.toLowerCase();
+  if (r===a) return{ok:true,t:100,m:'Parfait !'};
+  const mA=a.split(/[\s,;.()+->]+/).filter(m=>m.length>3);
+  const mR=r.split(/[\s,;.()+->]+/);
+  let ok=0; mA.forEach(ma=>{if(mR.some(mr=>mr.includes(ma.slice(0,4))||ma.includes(mr.slice(0,4))))ok++;});
+  let t=mA.length?Math.round(ok/mA.length*100):50;
+  if (mR.filter(m=>m.length>3).length<=5&&t>=35) t=Math.min(100,t+20);
+  const cles=mA.slice(0,3).filter(m=>mR.some(mr=>mr.includes(m.slice(0,4)))).length;
+  if (cles>=2) t=Math.min(100,t+10);
+  if (t>=55) return{ok:true,t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
+  return{ok:false,t,m:'À retravailler.'};
 }
-
-function affQ(){
-  if(idx>=session.length){fin();return;}
-  var c=session[idx];
-  var pct=Math.round(idx/session.length*100);
-  document.getElementById('progF').style.width=pct+'%';
-  document.getElementById('qCnt').textContent='Q '+(idx+1)+'/'+session.length;
-  var tLabel=c.type==='r'?'🔴 À retravailler':c.type==='v'?'🔵 Révision':'🟡 Chapitre choisi';
-  var tCls=c.type==='r'?'r':c.type==='v'?'v':'b';
-  var nom=CHAPITRES_MA[c.ch]?CHAPITRES_MA[c.ch].titre:'Ch'+c.ch;
-  document.getElementById('qArea').innerHTML=
-    '<div class="qcard">'
-    +'<div class="qmeta"><span class="qbadge b">'+nom+'</span><span class="qbadge '+tCls+'">'+tLabel+'</span></div>'
-    +'<div class="qtxt">'+c.q+'</div>'
-    +'<textarea id="repIn" placeholder="Ta réponse..." rows="2"></textarea>'
-    +'<button class="btn-v" id="btnV">✔ Vérifier</button>'
-    +'</div>';
+function demarrer() {
+  try {
+    session = genSession();
+    if (!session.length) { alert('Aucune carte disponible.'); return; }
+    idx=0; score={ok:0,total:0,chTaux:{}};
+    tps=45*60; showPhase('phaseSession'); startTimer(); affQ();
+  } catch(e) { alert('Erreur : ' + e.message); console.error(e); }
+}
+function affQ() {
+  if (idx>=session.length){fin();return;}
+  const c=session[idx];
+  document.getElementById('progFill').style.width=Math.round(idx/session.length*100)+'%';
+  document.getElementById('qCount').textContent='Q '+(idx+1)+'/'+session.length;
+  const tLabel=c.type==='ratee'?'🔴 À retravailler':c.type==='revision'?'🔵 Révision':'🟡 Chapitre choisi';
+  const tCls=c.type==='ratee'?'tp-r':c.type==='revision'?'tp-n':'tp-p';
+  document.getElementById('qArea').innerHTML =
+    '<div class="q-card"><div class="q-meta"><span class="q-badge ch">'+(DATA[c.ch]?.titre||'')+'</span>'
+    +'<span class="q-badge '+tCls+'">'+tLabel+'</span><span class="q-badge ch">Niv '+getScore(c.ch,c.q)+'/3</span></div>'
+    +'<div class="q-text">'+c.q+'</div>'
+    +'<textarea class="rep" id="repIn" placeholder="Ta réponse..." rows="3"></textarea>'
+    +'<div class="q-btns"><button class="btn-verif" id="btnVerif">✔ Vérifier</button></div></div>';
   document.getElementById('fbArea').innerHTML='';
   document.getElementById('nextWrap').style.display='none';
-  document.getElementById('btnV').onclick=verif;
-  setTimeout(function(){var el=document.getElementById('repIn');if(el)el.focus();},80);
+  document.getElementById('btnVerif').addEventListener('click', verif);
+  setTimeout(()=>document.getElementById('repIn')?.focus(),80);
+  document.getElementById('repIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)verif();});
 }
-
-function verif(){
-  var repEl=document.getElementById('repIn');
-  if(!repEl)return;
-  var rep=repEl.value.trim();
+function verif() {
+  const rep=document.getElementById('repIn')?.value.trim();
   if(!rep){alert('Écris une réponse.');return;}
-  var c=session[idx];
-  var ev=evaluer(rep,c.r);
-  if(ev.ok)scoreOk++;
-  scoreTotal++;
-  if(!chTaux[c.ch])chTaux[c.ch]={ok:0,t:0};
-  chTaux[c.ch].t++;
-  if(ev.ok)chTaux[c.ch].ok++;
-
-  var s=getScore(c.ch,c.q);
-  setScore(c.ch,c.q,ev.ok?Math.min(s+1,3):Math.max(0,s-1));
-
-  var rat=getRat();
-  var id=c.q.slice(0,38);
-  if(!ev.ok){rat[id]={count:((rat[id]||{count:0}).count)+1,carte:c};}
-  else if(rat[id]){rat[id].count=Math.max(0,rat[id].count-1);if(!rat[id].count)delete rat[id];}
+  const c=session[idx]; const ev=evaluer(rep,c.r);
+  if(ev.ok) score.ok++; score.total++;
+  if(!score.chTaux[c.ch]) score.chTaux[c.ch]={ok:0,t:0};
+  score.chTaux[c.ch].t++; if(ev.ok) score.chTaux[c.ch].ok++;
+  let s=getScore(c.ch,c.q); s=ev.ok?Math.min(s+1,3):Math.max(0,s-1); setScore(c.ch,c.q,s);
+  const rat=getRat(); const id=c.q.slice(0,40);
+  if(!ev.ok){rat[id]={count:(rat[id]?.count||0)+1,carte:c};}
+  else if(rat[id]){rat[id].count=Math.max(0,(rat[id].count||1)-1);if(!rat[id].count)delete rat[id];}
   localStorage.setItem(kRat(),JSON.stringify(rat));
-
-  var cls=ev.t>=65?'fb-ok':ev.t>=40?'fb-mid':'fb-bad';
-  var ico=ev.t>=65?'✅':ev.t>=40?'⚠️':'❌';
-  document.getElementById('fbArea').innerHTML=
-    '<div class="fb show"><div class="'+cls+'">'+ico+' '+ev.m+' — '+ev.t+'%</div>'
-    +'<div class="fb-rep"><b>Réponse attendue</b>'+c.r+'</div></div>';
-  idx++;
-  document.getElementById('nextWrap').style.display='block';
-  document.getElementById('btnV').disabled=true;
+  const cls=ev.t>=65?'fb-ok':ev.t>=40?'fb-mid':'fb-bad';
+  const ico=ev.t>=65?'✅':ev.t>=40?'⚠️':'❌';
+  document.getElementById('fbArea').innerHTML='<div class="feedback show"><div class="'+cls+'">'+ico+' '+ev.m+' — '+ev.t+'%</div><div class="fb-rep"><strong>📖 Réponse attendue</strong>'+c.r+'</div></div>';
+  idx++; document.getElementById('nextWrap').style.display='block';
+  document.getElementById('btnVerif').disabled=true;
 }
-
 function startTimer(){
   clearInterval(timerInt);
-  timerInt=setInterval(function(){
-    if(tps<=0){clearInterval(timerInt);fin();return;}
-    tps--;
-    var m=Math.floor(tps/60),s=tps%60;
-    var el=document.getElementById('timerVal');
-    if(el)el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  timerInt=setInterval(()=>{
+    if(tps<=0){clearInterval(timerInt);fin();return;} tps--;
+    const m=Math.floor(tps/60),s=tps%60;
+    const el=document.getElementById('timerVal');
+    if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');el.className='timer-val'+(tps<300?' urgent':'');}
   },1000);
 }
-
 function fin(){
   clearInterval(timerInt);
-  var pct=scoreTotal?Math.round(scoreOk/scoreTotal*100):0;
-  var chapitres=getSel().map(function(n){return CHAPITRES_MA[n]?CHAPITRES_MA[n].titre:'Ch'+n;});
-  var chapitresTaux={};
-  Object.keys(chTaux).forEach(function(ch){
-    chapitresTaux[CHAPITRES_MA[ch]?CHAPITRES_MA[ch].titre:'Ch'+ch]=Math.round(chTaux[ch].ok/chTaux[ch].t*100);
-  });
-
-  var sessions=[];
-  try{sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');}catch(e){}
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve:eleve,pourcentage:pct,chapitres:chapitres,chapitresTaux:chapitresTaux});
+  const pct=score.total?Math.round(score.ok/score.total*100):0;
+  const chapitres=getSel().map(n=>DATA[n]?.titre).filter(Boolean);
+  const chapitresTaux={};
+  Object.entries(score.chTaux).forEach(([ch,d])=>{chapitresTaux[DATA[ch]?.titre||'Ch'+ch]=Math.round(d.ok/d.t*100);});
+  const sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'histoire',eleve,pourcentage:pct,chapitres,chapitresTaux});
   localStorage.setItem(kSuivi(),JSON.stringify(sessions.slice(0,200)));
-
-  show('phaseRes');
-  var cls=pct>=80?'#5ecfb1':pct>=60?'#e8c87a':'#e84249';
-  var msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
-  document.getElementById('resScore').style.color=cls;
-  document.getElementById('resScore').textContent=pct+'%';
-  document.getElementById('resDetail').textContent=scoreOk+' bonnes réponses sur '+scoreTotal+' — '+msg;
-  var faibles=Object.keys(chapitresTaux).filter(function(ch){return chapitresTaux[ch]<60;});
+  showPhase('phaseRes');
+  const cls=pct>=80?'ex':pct>=60?'bi':'ef';
+  const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
+  document.getElementById('scoreGrand').className='score-grand '+cls;
+  document.getElementById('scoreGrand').textContent=pct+'%';
+  document.getElementById('scoreDetail').textContent=score.ok+' bonnes réponses sur '+score.total;
+  document.getElementById('msgFin').textContent=msg;
+  const faibles=Object.entries(chapitresTaux).filter(([,t])=>t<60).map(([ch])=>ch);
   if(faibles.length){
-    document.getElementById('resFaibles').innerHTML='<div class="faibles"><h4>⚠ À retravailler (&lt;60%)</h4><ul>'+faibles.map(function(f){return '<li>• '+f+'</li>';}).join('')+'</ul></div>';
+    document.getElementById('faiblesRes').innerHTML='<div class="faibles-box"><h4>⚠ Chapitres à retravailler (< 60%)</h4><ul>'+faibles.map(f=>'<li>• '+f+'</li>').join('')+'</ul></div>';
   }
 }
-
-window.onload=function(){
-  document.getElementById('btnW').addEventListener('click',function(){setEleve('wassil');});
-  document.getElementById('btnN').addEventListener('click',function(){setEleve('nawal');});
-  document.getElementById('btnAll').addEventListener('click',function(){selectAll(true);});
-  document.getElementById('btnNone').addEventListener('click',function(){selectAll(false);});
-  document.getElementById('btnFaibles').addEventListener('click',selFaibles);
-  document.getElementById('btnReset').addEventListener('click',resetProg);
-  document.getElementById('btnGo').addEventListener('click',demarrer);
-  document.getElementById('btnNext').addEventListener('click',function(){document.getElementById('nextWrap').style.display='none';affQ();});
-  document.getElementById('btnNouv').addEventListener('click',function(){location.reload();});
-  document.getElementById('btnSuivi').addEventListener('click',function(){window.location.href='suivi-parent.html';});
+function showPhase(id){['phaseSelect','phaseSession','phaseRes'].forEach(p=>document.getElementById(p).className='phase'+(p===id?' active':''));}
+function initApp() {
   setEleve('wassil');
-};
+  document.getElementById('btnStart').addEventListener('click', demarrer);
+  document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
+  document.getElementById('btnNone').addEventListener('click', () => selectAll(false));
+  document.getElementById('btnFaibles').addEventListener('click', selFaibles);
+  document.getElementById('btnReset').addEventListener('click', resetProg);
+  document.getElementById('btnW').addEventListener('click', () => setEleve('wassil'));
+  document.getElementById('btnN').addEventListener('click', () => setEleve('nawal'));
+  document.getElementById('btnNext').addEventListener('click', () => { document.getElementById('nextWrap').style.display='none'; affQ(); });
+  document.getElementById('btnNouv').addEventListener('click', () => location.reload());
+  document.getElementById('btnSuivi').addEventListener('click', () => window.location.href='suivi-parent.html');
+  // Onglets filtres Histoire/Géo/EMC
+  const setTab = (id) => { document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active')); document.getElementById(id).classList.add('active'); };
+  document.getElementById('tabTout').addEventListener('click', () => { selectAll(true); setTab('tabTout'); });
+  document.getElementById('tabHi').addEventListener('click', () => { filterPart(1,10); setTab('tabHi'); });
+  document.getElementById('tabGe').addEventListener('click', () => { filterPart(11,22); setTab('tabGe'); });
+  document.getElementById('tabEm').addEventListener('click', () => { filterPart(23,32); setTab('tabEm'); });
+}
+if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initApp); } else { initApp(); }
+
 </script>
 </body>
 </html>
