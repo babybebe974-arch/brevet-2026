@@ -20,22 +20,22 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px;}
 .pill{display:flex;align-items:center;gap:6px;background:var(--s2);border:1px solid var(--br);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--dim);}
 .pill span{color:var(--text);font-weight:500;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
-.card{background:var(--s1);border:1px solid var(--br);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s;}
-.card:hover{border-color:var(--teal);transform:translateY(-2px);}
-.card-top{padding:18px 20px 14px;}
-.card-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px;}
-.card-titre{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;margin-bottom:4px;}
-.card-session{font-size:12px;color:var(--dim);margin-bottom:10px;}
-.card-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.sujets-list{display:flex;flex-direction:column;gap:8px;max-width:680px;}
+.sitem{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .2s;}
+.sitem:hover{border-color:var(--teal);}
+.sitem-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-width:56px;}
+.sitem-info{flex:1;}
+.sitem-titre{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px;}
+.sitem-sub{font-size:11px;color:var(--dim);}
+.sitem-tags{display:flex;gap:4px;margin-top:4px;}
 .ctag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--s2);border:1px solid var(--br);color:var(--dim);}
 .ctag.y24{border-color:#e8c87a44;color:var(--gold);}
 .ctag.y23{border-color:#5ecfb144;color:var(--teal);}
 .ctag.y22{border-color:#a07af544;color:#a07af5;}
-.card-bottom{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 14px;border-top:1px solid var(--br);}
-.card-dl{display:flex;align-items:center;gap:5px;color:var(--teal);font-size:11px;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;background:rgba(94,207,177,.08);border:1px solid rgba(94,207,177,.2);border-radius:5px;padding:4px 10px;}
+.sitem-btns{display:flex;gap:6px;align-items:center;}
+.card-dl{display:flex;align-items:center;gap:5px;color:var(--teal);font-size:11px;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;background:rgba(94,207,177,.08);border:1px solid rgba(94,207,177,.2);border-radius:5px;padding:4px 10px;white-space:nowrap;}
 .card-dl:hover{background:rgba(94,207,177,.16);}
-.card-open{background:var(--teal);color:#09090f;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;border:none;border-radius:5px;padding:5px 12px;cursor:pointer;}
+.card-open{background:var(--teal);color:#09090f;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;border:none;border-radius:5px;padding:5px 12px;cursor:pointer;white-space:nowrap;}
 .card-open:hover{background:#3aad91;}
 
 /* SUJET VIEW */
@@ -94,17 +94,16 @@ textarea::placeholder{color:var(--muted);}
 <body>
 
 <!-- LANDING -->
-<div class="landing" id="landing">
+<div class="landing" id="landing" style="padding:28px 24px 40px;">
   <div class="eyebrow">Brevet 2026 · DNB</div>
-  <h1 class="h1">10 vrais sujets<br><em>Mathématiques</em></h1>
-  <p class="sub">Télécharge le sujet officiel, réponds question par question, l'IA corrige avec la correction officielle en rouge dessous.</p>
-  <div class="pills">
-    <div class="pill">⏱ <span>2h</span> par sujet</div>
-    <div class="pill">📊 <span>100 points</span></div>
-    <div class="pill">📅 Sujets <span>2022 → 2024</span></div>
-    <div class="pill">🤖 Correction <span>IA</span> + officielle</div>
+  <h1 class="h1" style="font-size:clamp(24px,4vw,36px);margin-bottom:8px;">10 vrais sujets — <em>Maths</em></h1>
+  <p class="sub" style="font-size:13px;margin-bottom:16px;">Sujet PDF + correction IA + correction officielle.</p>
+  <div class="pills" style="margin-bottom:20px;">
+    <div class="pill">⏱ <span>2h</span></div>
+    <div class="pill">📅 <span>2022–2024</span></div>
+    <div class="pill">🤖 <span>Correction IA</span></div>
   </div>
-  <div class="grid" id="grid"></div>
+  <div class="sujets-list" id="grid"></div>
 </div>
 
 <!-- SUJET VIEW -->
@@ -386,15 +385,15 @@ function buildLanding() {
   const grid = document.getElementById('grid');
   SUJETS.forEach((s, idx) => {
     const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = '<div class="card-top">'
-      + '<div class="card-num">SUJET ' + String(idx+1).padStart(2,'0') + '</div>'
-      + '<div class="card-titre">' + s.annee + ' — ' + s.session + '</div>'
-      + '<div class="card-session">' + s.titre + '</div>'
-      + '<div class="card-tags">' + s.tags.map(t=>'<span class="ctag ' + t.c + '">' + t.t + '</span>').join('') + '</div>'
+    div.className = 'sitem';
+    div.innerHTML = '<div class="sitem-num">S' + String(idx+1).padStart(2,'0') + ' · ' + s.annee + '</div>'
+      + '<div class="sitem-info">'
+      + '<div class="sitem-titre">' + s.session + '</div>'
+      + '<div class="sitem-sub">' + s.titre + '</div>'
+      + '<div class="sitem-tags">' + s.tags.map(t=>'<span class="ctag ' + t.c + '">' + t.t + '</span>').join('') + '</div>'
       + '</div>'
-      + '<div class="card-bottom">'
-      + '<a class="card-dl" href="' + s.pdf + '" target="_blank" onclick="event.stopPropagation()">⬇ Sujet PDF</a>'
+      + '<div class="sitem-btns">'
+      + '<a class="card-dl" href="' + s.pdf + '" target="_blank" onclick="event.stopPropagation()">⬇ PDF</a>'
       + '<button class="card-open" onclick="event.stopPropagation();ouvrirSujet(' + idx + ')">Commencer →</button>'
       + '</div>';
     grid.appendChild(div);
