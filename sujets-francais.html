@@ -14,299 +14,364 @@
   textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
   textarea.dictee { min-height: 200px; }
   textarea.redaction { min-height: 250px; }
-  button { background: #5ecfb1; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; }
+  button { background: #5ecfb1; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; color: #09090f; font-weight: 600; }
+  button:hover { background: #7edcb8; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
   .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
   hr { border-color: #2a2a35; margin: 1rem 0; }
   h3 { color: #5ecfb1; }
   .badge { display: inline-block; background: #5ecfb120; color: #5ecfb1; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
   .question { margin-top: 1rem; }
   .loading { color: #5ecfb1; font-style: italic; }
+  .erreur { color: #e87a7a; }
+
+.sujets-list{display:flex;flex-direction:column;gap:8px;max-width:720px;}
+.sitem{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:12px 16px;transition:border-color .2s;}
+.sitem:hover{border-color:var(--teal);}
+.sitem-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-width:60px;white-space:nowrap;}
+.sitem-info{flex:1;}
+.sitem-titre{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px;}
+.sitem-sub{font-size:11px;color:var(--dim);}
+.sitem-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;}
+.sitem-btns{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+
+/* ── Liste compacte sujets ── */
+.sujets-nav{display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem;}
+.snav-item{display:flex;align-items:center;gap:12px;background:#1a1a24;border:1px solid #2a2a38;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;}
+.snav-item:hover,.snav-item.active{border-color:#5ecfb1;}
+.snav-num{font-size:11px;color:#5a5a72;min-width:54px;font-family:monospace;}
+.snav-info{flex:1;}
+.snav-titre{font-size:13px;font-weight:700;margin-bottom:1px;}
+.snav-sub{font-size:11px;color:#9090a8;}
+.snav-btn{background:#5ecfb1;color:#09090f;border:none;border-radius:6px;font-weight:700;font-size:11px;padding:5px 12px;cursor:pointer;white-space:nowrap;}
+.sujet{display:none;}
+.sujet.visible{display:block;}
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>Français - 10 sujets blancs (DNB)</h1>
-  <div id="sujets"></div>
+  <h1>Français — 10 sujets blancs (DNB)</h1>
+  <div class="sujets-nav" id="sujetsNav"></div>
+<div id="sujets"></div>
 </div>
 <script>
 
-// ============================================================
-// 🔑 TON PROXY GOOGLE APPS SCRIPT (sans ?action=)
-// ============================================================
-const PROXY_URL = 'https://script.google.com/macros/s/AKfycbx07YT4JAPT3BvJExw2MQW5Gpf0xUu832FBTqhHWdcsWr-vgnBW7i1HeN6OrY-Lg7BVAA/exec';
-
-async function callIA(prompt, system = "Tu es un correcteur bienveillant pour le brevet.") {
-  try {
-    const response = await fetch(PROXY_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt, system })
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const result = await response.json();
-    
-    // Gère les différentes structures possibles du proxy
-    if (result.success && result.data) {
-      if (typeof result.data === 'string') return result.data;
-      if (result.data.content) return result.data.content;
-    }
-    if (typeof result === 'string') return result;
-    if (result.content) return result.content;
-    if (result.text) return result.text;
-    
-    console.error('Structure inattendue:', result);
-    throw new Error('Réponse inattendue du serveur');
-  } catch(e) {
-    console.error('Erreur callIA:', e);
-    throw e;
-  }
+const PROXY = 'https://script.google.com/macros/s/AKfycby9xan87KYJf0vtJw_umfYusxVse6OpxXK8gyieeGoaXknPrRjNdpzAkOUOzrpkK1-gMg/exec';
+const STORE = {};
+function sauvegarderCorrection(sujetId, type, question, correctionIA) {
+  if (!STORE[sujetId]) STORE[sujetId] = [];
+  STORE[sujetId].push({ type, question: question.substring(0,80), correctionIA, date: new Date().toISOString() });
+  const sessions = JSON.parse(localStorage.getItem('suivi_sessions_francais_wassil') || '[]');
+  sessions.unshift({ id: Date.now(), date: new Date().toISOString(), matiere: 'francais', sujetId, type });
+  localStorage.setItem('suivi_sessions_francais_wassil', JSON.stringify(sessions.slice(0, 200)));
 }
 
-// ============================================================
-// FONCTIONS DE CORRECTION
-// ============================================================
+async function callIA(prompt, system) {
+  const response = await fetch(PROXY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ prompt, system }),
+    redirect: 'follow'
+  });
+  if (!response.ok) throw new Error('HTTP ' + response.status);
+  const result = await response.json();
+  if (result.success && result.content) return result.content;
+  throw new Error(result.error || 'Réponse inattendue');
+}
 
+function safeParseJSON(txt) {
+  try {
+    return JSON.parse(txt.replace(/```json|```/g, '').trim());
+  } catch(e) { return null; }
+}
+
+const SUJETS = [
+  { id:1, annee:"2025", session:"Métropole (juin)", titre:"Simone de Beauvoir – La Force de l'âge",
+    texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
+    auteur:"Simone de Beauvoir, La Force de l'âge (1960)",
+    dictee:{ titre:"Dictée – Simone de Beauvoir", texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs. Dans les vieux escaliers, une vie toujours neuve me remplissait les yeux. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde." },
+    questions:[
+      {q:"1. Où se passe cette scène ? Relevez deux éléments du texte qui justifient votre réponse.", pts:3, rep:"À Marseille (Vieux-Port, Notre-Dame-de-la-Garde, jetée, pêcheurs)."},
+      {q:"2. Quelle est l'attitude du narrateur ? Justifiez par une citation.", pts:3, rep:"Il est heureux, content de lui, curieux. Citation : 'J'étais contente de moi' / 'Il fallait que je sorte, que je marche'."},
+      {q:"3. Relevez une figure de style dans le texte. Nommez-la et expliquez son effet.", pts:4, rep:"Métaphore : 'une vie toujours neuve me remplissait les yeux' (la vie est comparée à un liquide)."},
+      {q:"4. Quelle(s) différence(s) avec la vie à Paris ? Citez le texte.", pts:3, rep:"À Paris : 'brouhaha' (bruit, agitation). À Marseille : liberté, marche, mer, vie neuve."}
+    ],
+    grammaire:[
+      {q:"1. Analysez la phrase 'Je ne pouvais pas rester chez moi.' (sujet, verbe, négation).", pts:2, rep:"Sujet : 'Je', verbe : 'pouvais', négation : 'ne...pas'."},
+      {q:"2. Réécrivez 'Je montais' à l'imparfait de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous montions."},
+      {q:"3. Donnez la nature et la fonction de 'mélancoliques' dans la phrase.", pts:2, rep:"Adjectif qualificatif, épithète du nom 'fins d'après-midi'."}
+    ],
+    redaction:{sujet1:"Racontez un moment où vous avez découvert une nouvelle ville qui vous a plu.", sujet2:"Pensez-vous que voyager seul permet de mieux se connaître ? Argumentez.", pts:20}
+  },
+  { id:2, annee:"2025", session:"Métropole (septembre)", titre:"Marc Dugain – La Chambre des officiers",
+    texte:"Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables. Marguerite souriait, hochait la tête, et parfois elle nous surprenait par une repartie pleine d'humour.",
+    auteur:"Marc Dugain, La Chambre des officiers (1998)",
+    dictee:{ titre:"Dictée – Marc Dugain", texte:"Marguerite devint le centre de nos préoccupations. Pour lui parler, nous nous adressions à Penanster. Elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Penanster se sentait utile. Il traduisait nos paroles avec patience. Marguerite souriait et nous surprenait par son humour." },
+    questions:[
+      {q:"1. Pourquoi Penanster est-il indispensable dans ce groupe ?", pts:3, rep:"Il sert d'intermédiaire car Marguerite est sourde. Il traduit les paroles."},
+      {q:"2. Quels sont les sentiments de Penanster ? Justifiez avec deux citations.", pts:4, rep:"Il se sent utile, essentiel, épanoui. Citations : 'Il se sentait utile, essentiel' / 's'épanouissait'."},
+      {q:"3. Quelle est la qualité principale de Marguerite d'après le texte ?", pts:2, rep:"Sa voix douce et son humour."}
+    ],
+    grammaire:[
+      {q:"1. Identifiez la proposition subordonnée relative dans 'qui lui répétait nos propos'.", pts:2, rep:"'qui lui répétait nos propos' – subordonnée relative, antécédent 'Penanster'."},
+      {q:"2. Conjuguez 's'intégrer' au passé simple, 3e personne du singulier.", pts:2, rep:"elle s'intégra."},
+      {q:"3. Réécrivez 'Marguerite souriait' au présent de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous sourions."}
+    ],
+    redaction:{sujet1:"Racontez l'histoire d'une personne qui surmonte un handicap.", sujet2:"La solidarité est-elle une valeur essentielle dans notre société ?", pts:20}
+  },
+  { id:3, annee:"2024", session:"Métropole (juin)", titre:"George Sand – Histoire de ma vie",
+    texte:"Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine.",
+    auteur:"George Sand, Histoire de ma vie (1855)",
+    dictee:{ titre:"Dictée – George Sand", texte:"Je n'avais pas encore douze ans lorsque mon frère mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère tomba dans une tristesse profonde. Je la voyais pleurer en silence. Mon père, lui, ne pleurait pas. Il cachait sa douleur." },
+    questions:[
+      {q:"1. Quel est l'événement tragique raconté par le narrateur ?", pts:2, rep:"La mort de son frère, tué dans un accident."},
+      {q:"2. Décrivez la réaction de la mère et celle du père.", pts:4, rep:"La mère pleure, elle est profondément triste. Le père ne pleure pas, il reste silencieux devant la fenêtre, cachant sa douleur."},
+      {q:"3. Pourquoi le narrateur n'ose-t-il pas parler à sa mère ?", pts:3, rep:"Il n'ose pas, par crainte ou par respect, mais il reste près d'elle pour la réconforter."},
+      {q:"4. Que comprend le narrateur plus tard à propos de son père ?", pts:3, rep:"Que son père cachait sa douleur pour ne pas ajouter à la peine de la famille."}
+    ],
+    grammaire:[
+      {q:"1. Analysez la phrase 'Je la voyais pleurer en silence' (COD, infinitif).", pts:2, rep:"'la' = COD (la mère) ; 'pleurer' = infinitif complément du verbe voir."},
+      {q:"2. Conjuguez 'cacher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait caché."},
+      {q:"3. Réécrivez au discours indirect : 'Je compris : mon père cachait sa douleur.'", pts:3, rep:"Je compris que mon père cachait sa douleur."}
+    ],
+    redaction:{sujet1:"Racontez un événement douloureux qui a marqué votre enfance.", sujet2:"Faut-il montrer ses émotions ou les cacher ? Argumentez.", pts:20}
+  },
+  { id:4, annee:"2024", session:"Amérique du Nord", titre:"Albert Camus – L'Étranger",
+    texte:"Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. L'asile est à Marengo, à quatre-vingts kilomètres d'Alger. Je prendrai le bus à deux heures et j'arriverai dans l'après-midi. Ainsi, je pourrai veiller et rentrer demain soir. J'ai demandé deux jours de congé à mon patron. Il ne pouvait pas me les refuser.",
+    auteur:"Albert Camus, L'Étranger (1942)",
+    dictee:{ titre:"Dictée – Albert Camus", texte:"Aujourd'hui, maman est morte. J'ai reçu un télégramme de l'asile. Cela ne veut rien dire. C'était peut-être hier. Je prendrai le bus à deux heures. Ainsi, je pourrai veiller et rentrer demain soir." },
+    questions:[
+      {q:"1. Quelle nouvelle le narrateur apprend-il ?", pts:2, rep:"La mort de sa mère."},
+      {q:"2. Que suggère la répétition 'Ou peut-être hier' ?", pts:4, rep:"L'indifférence, le détachement émotionnel du narrateur, ou son incertitude."},
+      {q:"3. Quels sont les projets du narrateur ?", pts:3, rep:"Prendre le bus, veiller sa mère, rentrer le lendemain soir."},
+      {q:"4. Que demande-t-il à son patron ?", pts:3, rep:"Deux jours de congé."}
+    ],
+    grammaire:[
+      {q:"1. Identifiez la nature de la proposition 'que je ne sais pas'.", pts:2, rep:"Proposition subordonnée relative, antécédent 'hier'."},
+      {q:"2. Conjuguez 'pouvoir' au conditionnel présent, 3e personne du singulier.", pts:2, rep:"il pourrait."},
+      {q:"3. Réécrivez au discours indirect : 'Il me dit : \"Je prendrai le bus\".'", pts:3, rep:"Il me dit qu'il prendrait le bus."}
+    ],
+    redaction:{sujet1:"Racontez un moment où vous avez appris une nouvelle qui a changé votre vie.", sujet2:"Le détachement émotionnel est-il une force ou une faiblesse ?", pts:20}
+  },
+  { id:5, annee:"2023", session:"Métropole (juin)", titre:"Molière – Le Malade imaginaire",
+    texte:"Mon cher frère, vous ne sauriez croire combien je suis troublé. Argan, notre malade imaginaire, vient de me consulter. Il souffre de tous les maux et ne veut entendre parler que de sa médecine. Il veut se faire saigner, purger, traiter pour la moindre vapeur. Je lui ai conseillé le repos, mais il préfère ses apothicaires. Que voulez-vous, l'homme est ainsi fait : il se plaît à être malade. Je crains qu'il ne finisse par se rendre vraiment malade à force de vouloir se soigner.",
+    auteur:"Molière, Le Malade imaginaire (1673)",
+    dictee:{ titre:"Dictée – Molière", texte:"Argan, notre malade imaginaire, vient de me consulter. Il ne veut entendre parler que de sa médecine. Je lui ai conseillé le repos, mais il préfère ses apothicaires. L'homme se plaît à être malade." },
+    questions:[
+      {q:"1. Qui est Argan et quel est son comportement ?", pts:3, rep:"Argan est un malade imaginaire. Il consulte pour tout, veut se faire saigner et purger, se croit toujours malade."},
+      {q:"2. Que craint le narrateur pour Argan ?", pts:4, rep:"Il craint qu'Argan ne devienne vraiment malade à force de vouloir se soigner."},
+      {q:"3. Relevez une hyperbole dans le texte. Justifiez.", pts:3, rep:"'Il souffre de tous les maux' – exagération, Argan n'a rien."},
+      {q:"4. Quelle est la morale implicite de ce texte ?", pts:3, rep:"On peut se rendre malade par la peur d'être malade ou par l'abus de médecine."}
+    ],
+    grammaire:[
+      {q:"1. Analysez la proposition 'qu'Argan ne finisse par se rendre malade'.", pts:2, rep:"Proposition subordonnée conjonctive (complément du verbe 'craindre'), verbe au subjonctif."},
+      {q:"2. Conjuguez 'consulter' au passé simple, 1ère personne du singulier.", pts:2, rep:"je consultai."},
+      {q:"3. Réécrivez la dernière phrase à la forme négative.", pts:2, rep:"Je ne crains pas qu'il ne finisse par se rendre malade."}
+    ],
+    redaction:{sujet1:"Racontez l'histoire d'une personne qui se croit toujours malade.", sujet2:"La médecine guérit-elle tous les maux ? Argumentez.", pts:20}
+  },
+  { id:6, annee:"2023", session:"Polynésie", titre:"Victor Hugo – Les Misérables",
+    texte:"Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.",
+    auteur:"Victor Hugo, Les Misérables (1862)",
+    dictee:{ titre:"Dictée – Victor Hugo", texte:"Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. Le vent froid lui glaçait le visage." },
+    questions:[
+      {q:"1. Décrivez l'état d'esprit du personnage.", pts:3, rep:"Fatigué, seul, triste, désespéré, il cherche un abri."},
+      {q:"2. Relevez trois éléments du décor qui renforcent cette impression.", pts:4, rep:"Rues sombres et désertes, nuit profonde, pas d'étoiles, vent froid."},
+      {q:"3. Pourquoi personne ne lui ouvre-t-il ?", pts:3, rep:"Il est pauvre, les gens se méfient des pauvres, ou ils dorment."},
+      {q:"4. Quelle est la situation finale du personnage ?", pts:3, rep:"Il s'assied sur une borne, épuisé, sans avoir trouvé de gîte."}
+    ],
+    grammaire:[
+      {q:"1. Analysez la phrase 'Pas une étoile ne brillait' (négation, sens).", pts:2, rep:"Négation totale, insiste sur le vide et l'obscurité."},
+      {q:"2. Conjuguez 'frapper' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait frappé."},
+      {q:"3. Réécrivez 'Il marchait lentement' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous marchions lentement."}
+    ],
+    redaction:{sujet1:"Racontez une nuit difficile où vous vous êtes senti seul.", sujet2:"La pauvreté et la solitude sont-elles toujours liées ?", pts:20}
+  },
+  { id:7, annee:"2022", session:"Métropole", titre:"Alain-René Lesage – Gil Blas",
+    texte:"Ce cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : « Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde. » Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.",
+    auteur:"Alain-René Lesage, Gil Blas (1715)",
+    dictee:{ titre:"Dictée – Gil Blas", texte:"Le cavalier s'approcha de moi d'un air empressé. Il m'apprit que j'étais l'ornement d'Oviedo. Je ne pus lui répondre. Je compris plus tard qu'il voulait seulement manger à mes dépens." },
+    questions:[
+      {q:"1. Quels éloges le cavalier fait-il de Gil Blas ? Citez-en trois.", pts:4, rep:"'ornement d'Oviedo', 'flambeau de la philosophie', 'huitième merveille du monde'."},
+      {q:"2. Quelle est la véritable intention du cavalier ? Justifiez avec la fin du texte.", pts:3, rep:"Manger aux dépens de Gil Blas. Citation : 'qu'il voulait seulement manger à mes dépens'."},
+      {q:"3. Pourquoi Gil Blas ne peut-il pas répondre tout de suite ?", pts:2, rep:"Parce que le cavalier le serre trop fort (accolade)."}
+    ],
+    grammaire:[
+      {q:"1. Relevez une hyperbole et justifiez.", pts:2, rep:"'la huitième merveille du monde' – exagération élogieuse."},
+      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
+      {q:"3. Analysez la proposition 'qu'il voulait seulement manger à mes dépens'.", pts:2, rep:"Proposition subordonnée conjonctive complétive (COD du verbe 'compris')."}
+    ],
+    redaction:{sujet1:"Racontez l'histoire d'un flatteur qui cherche à profiter des autres.", sujet2:"Faut-il toujours se méfier des compliments ?", pts:20}
+  },
+  { id:8, annee:"2022", session:"Polynésie", titre:"Guy de Maupassant – La Parure",
+    texte:"C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.",
+    auteur:"Guy de Maupassant, La Parure (1884)",
+    dictee:{ titre:"Dictée – Maupassant", texte:"C'était une de ces jolies filles nées par erreur dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances. Elle épousa un petit commis. Leur beauté tient lieu de naissance aux femmes." },
+    questions:[
+      {q:"1. Pourquoi cette fille est-elle malheureuse ?", pts:3, rep:"Elle est née pauvre mais se sent faite pour la richesse. Elle n'a pas de dot, pas d'espérances."},
+      {q:"2. Qui épouse-t-elle ?", pts:2, rep:"Un petit commis du ministère."},
+      {q:"3. Que veulent dire les dernières phrases ?", pts:5, rep:"Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale."}
+    ],
+    grammaire:[
+      {q:"1. Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts:2, rep:"Gradation ascendante, le mariage est le but ultime pour une femme à l'époque."},
+      {q:"2. Conjuguez 'se résigner' au passé simple, 3e personne du singulier.", pts:2, rep:"elle se résigna."},
+      {q:"3. Réécrivez la dernière phrase à la forme affirmative.", pts:2, rep:"Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance."}
+    ],
+    redaction:{sujet1:"Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2:"L'apparence est-elle plus importante que l'origine sociale ?", pts:20}
+  },
+  { id:9, annee:"2021", session:"Métropole (juin)", titre:"Émile Zola – Germinal",
+    texte:"Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.",
+    auteur:"Émile Zola, Germinal (1885)",
+    dictee:{ titre:"Dictée – Zola", texte:"Dans la plaine désolée, un homme marchait seul le long de la route. Il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Seul le vent soufflait, lugubre. Il était seul, complètement seul." },
+    questions:[
+      {q:"1. Où se passe cette scène ?", pts:2, rep:"Dans une plaine déserte, de nuit."},
+      {q:"2. Quels sentiments dominent ?", pts:3, rep:"La solitude, l'abandon, la tristesse."},
+      {q:"3. Relevez trois répétitions qui renforcent le sentiment de solitude.", pts:4, rep:"'seul' (répété), 'pas une maison, pas un arbre' (négations), 'il ne voyait rien, il ne connaissait personne'."},
+      {q:"4. Que fait le personnage de temps en temps ?", pts:3, rep:"Il lève la tête et regarde le ciel noir."}
+    ],
+    grammaire:[
+      {q:"1. Analysez les négations dans 'Pas une maison, pas un arbre'.", pts:2, rep:"Négations totales, insistent sur le vide absolu."},
+      {q:"2. Conjuguez 'marcher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait marché."},
+      {q:"3. Réécrivez 'Il était seul' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous étions seuls."}
+    ],
+    redaction:{sujet1:"Racontez un voyage solitaire.", sujet2:"La solitude est-elle une chance ou une punition ?", pts:20}
+  },
+  { id:10, annee:"2026", session:"Sujet zéro", titre:"Jules Verne – Vingt Mille Lieues sous les mers",
+    texte:"Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.",
+    auteur:"Jules Verne, Vingt Mille Lieues sous les mers (1870)",
+    dictee:{ titre:"Dictée – Jules Verne", texte:"Le commandant prononça des paroles solennelles. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait la surface des flots. Soudain, une trombe d'eau jaillit. Une masse énorme émergea." },
+    questions:[
+      {q:"1. Que se passe-t-il ?", pts:3, rep:"On se prépare à pêcher un monstre marin."},
+      {q:"2. Quelle est la réaction des marins ?", pts:3, rep:"Ils s'élancent aux engins, prêts à agir."},
+      {q:"3. Quels éléments du décor sont décrits ?", pts:3, rep:"Mer calme, lune, flots, trombe d'eau."}
+    ],
+    grammaire:[
+      {q:"1. Relevez les verbes d'action dans la dernière phrase.", pts:2, rep:"jaillit, émergea."},
+      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
+      {q:"3. Analysez la proposition 'qu'il ordonnait la pêche du monstre'.", pts:2, rep:"Proposition subordonnée conjonctive complétive, COD du verbe 'devinai'."}
+    ],
+    redaction:{sujet1:"Racontez une aventure en mer.", sujet2:"L'aventure est-elle nécessaire à l'homme ?", pts:20}
+  }
+];
+
+// ── CORRECTION DICTÉE ──────────────────────────────────────────────────
 async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
   const texteEleve = document.getElementById(idTextarea).value.trim();
   if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
   const corrDiv = document.getElementById('correction-dictee-' + numSujet);
   corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
   corrDiv.style.display = 'block';
-  
-  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 points (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
-  const prompt = `Texte officiel : "${texteOfficiel}"\n\nDictée élève : "${texteEleve}"`;
-  
+  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
+  const prompt = 'Texte officiel : "' + texteOfficiel + '"\nDictée élève : "' + texteEleve + '"';
   try {
     const txt = await callIA(prompt, system);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
+    const json = safeParseJSON(txt);
+    if (json) {
+      corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
+  sauvegarderCorrection(numSujet, 'dictee', texteOfficiel, corrDiv.innerHTML);
+    } else {
+      corrDiv.innerHTML = txt;
+    }
   } catch(e) {
-    corrDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
+    corrDiv.innerHTML = '<span class="erreur">Erreur : ' + e.message + '</span>';
   }
 }
 
+// ── CORRECTION EXERCICE ────────────────────────────────────────────────
 async function corrigerExo(idTextarea, reponseAttendue, pts) {
   const texte = document.getElementById(idTextarea).value.trim();
   if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
-  if (btn) btn.textContent = '⏳...';
-  
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "explication courte"}';
-  const prompt = `Réponse attendue : "${reponseAttendue}"\n\nRéponse élève : "${texte}"\n\nNote sur ${pts} points.`;
-  
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳...';
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "explication courte"}';
+  const prompt = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
+  const feedbackId = 'feedback-' + idTextarea;
+  let feedbackDiv = document.getElementById(feedbackId);
+  if (!feedbackDiv) {
+    feedbackDiv = document.createElement('div');
+    feedbackDiv.id = feedbackId;
+    feedbackDiv.style.cssText = 'margin-top:0.5rem;background:#0a0a12;padding:0.8rem;border-radius:8px;font-size:0.9rem;border-left:3px solid #5ecfb1;';
+    btn.parentNode.insertBefore(feedbackDiv, btn.nextSibling);
+  }
   try {
     const txt = await callIA(prompt, system);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+    const json = safeParseJSON(txt);
+    if (json) {
+      feedbackDiv.innerHTML = '<strong style="color:#5ecfb1">Note : ' + json.note + '/' + pts + '</strong><br><br>' + json.commentaire;
+    } else {
+      feedbackDiv.innerHTML = txt;
+    }
   } catch(e) {
-    alert('Erreur : ' + e.message);
+    feedbackDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
   }
-  if (btn) btn.textContent = 'Corriger avec IA';
+  btn.disabled = false;
+  btn.textContent = 'Corriger avec IA';
 }
 
+// ── CORRECTION RÉDACTION ───────────────────────────────────────────────
 async function corrigerRedaction(idTextarea, pts) {
   const texte = document.getElementById(idTextarea).value.trim();
   if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  const btn = document.querySelector('[onclick*="' + idTextarea + '"]');
-  if (btn) btn.textContent = '⏳...';
-  
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳...';
+  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
   const prompt = 'Rédaction :\n' + texte;
-  
+  const feedbackId = 'feedback-' + idTextarea;
+  let feedbackDiv = document.getElementById(feedbackId);
+  if (!feedbackDiv) {
+    feedbackDiv = document.createElement('div');
+    feedbackDiv.id = feedbackId;
+    feedbackDiv.style.cssText = 'margin-top:0.5rem;background:#0a0a12;padding:0.8rem;border-radius:8px;font-size:0.9rem;border-left:3px solid #e8c87a;';
+    btn.parentNode.insertBefore(feedbackDiv, btn.nextSibling);
+  }
   try {
     const txt = await callIA(prompt, system);
-    const clean = txt.replace(/```json|```/g, '').trim();
-    const json = JSON.parse(clean);
-    alert('Note : ' + json.note + '/' + pts + '\n\n' + json.commentaire);
+    const json = safeParseJSON(txt);
+    if (json) {
+      feedbackDiv.innerHTML = '<strong style="color:#e8c87a">Note : ' + json.note + '/' + pts + '</strong><br><br>' + json.commentaire;
+    } else {
+      feedbackDiv.innerHTML = txt;
+    }
   } catch(e) {
-    alert('Erreur : ' + e.message);
+    feedbackDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
   }
-  if (btn) btn.textContent = 'Corriger la rédaction avec IA';
+  btn.disabled = false;
+  btn.textContent = 'Corriger la rédaction avec IA';
 }
 
 function afficherCorrection(id) {
   const el = document.getElementById(id);
-  el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
 }
 
-// ============================================================
-// DONNÉES SUJETS (10 sujets complets)
-// ============================================================
-
-const SUJETS = [
-  { id: 1, annee: "2025", session: "Métropole (juin)", titre: "Simone de Beauvoir – La Force de l'âge",
-    texte: "Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
-    auteur: "Simone de Beauvoir, La Force de l'âge (1960)",
-    dictee: { titre: "Dictée – Simone de Beauvoir", texte: "Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs. Dans les vieux escaliers, une vie toujours neuve me remplissait les yeux. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde." },
-    questions: [
-      { q: "1. Où se passe cette scène ? Relevez deux éléments du texte qui justifient votre réponse.", pts: 3, rep: "À Marseille (Vieux-Port, Notre-Dame-de-la-Garde, jetée, pêcheurs)." },
-      { q: "2. Quelle est l'attitude du narrateur ? Justifiez par une citation.", pts: 3, rep: "Il est heureux, content de lui, curieux. Citation : 'J'étais contente de moi' / 'Il fallait que je sorte, que je marche'." },
-      { q: "3. Relevez une figure de style dans le texte. Nommez-la et expliquez son effet.", pts: 4, rep: "Métaphore : 'une vie toujours neuve me remplissait les yeux' (la vie est comparée à un liquide)." },
-      { q: "4. Quelle(s) différence(s) avec la vie à Paris ? Citez le texte.", pts: 3, rep: "À Paris : 'brouhaha' (bruit, agitation). À Marseille : liberté, marche, mer, vie neuve." }
-    ],
-    grammaire: [
-      { q: "1. Analysez la phrase 'Je ne pouvais pas rester chez moi.' (sujet, verbe, négation).", pts: 2, rep: "Sujet : 'Je', verbe : 'pouvais', négation : 'ne...pas'." },
-      { q: "2. Réécrivez 'Je montais' à l'imparfait de l'indicatif, 1ère personne du pluriel.", pts: 2, rep: "Nous montions." },
-      { q: "3. Donnez la nature et la fonction de 'mélancoliques' dans la phrase.", pts: 2, rep: "Adjectif qualificatif, épithète du nom 'fins d'après-midi'." }
-    ],
-    redaction: { sujet1: "Racontez un moment où vous avez découvert une nouvelle ville qui vous a plu.", sujet2: "Pensez-vous que voyager seul permet de mieux se connaître ? Argumentez.", pts: 20 }
-  },
-  { id: 2, annee: "2025", session: "Métropole (septembre)", titre: "Marc Dugain – La Chambre des officiers",
-    texte: "Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables. Marguerite souriait, hochait la tête, et parfois elle nous surprenait par une repartie pleine d'humour.",
-    auteur: "Marc Dugain, La Chambre des officiers (1998)",
-    dictee: { titre: "Dictée – Marc Dugain", texte: "Marguerite devint le centre de nos préoccupations. Pour lui parler, nous nous adressions à Penanster. Elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Penanster se sentait utile. Il traduisait nos paroles avec patience. Marguerite souriait et nous surprenait par son humour." },
-    questions: [
-      { q: "1. Pourquoi Penanster est-il indispensable dans ce groupe ?", pts: 3, rep: "Il sert d'intermédiaire car Marguerite est sourde. Il traduit les paroles." },
-      { q: "2. Quels sont les sentiments de Penanster ? Justifiez avec deux citations.", pts: 4, rep: "Il se sent utile, essentiel, épanoui. Citations : 'Il se sentait utile, essentiel' / 's'épanouissait'." },
-      { q: "3. Quelle est la qualité principale de Marguerite d'après le texte ?", pts: 2, rep: "Sa voix douce et son humour." }
-    ],
-    grammaire: [
-      { q: "1. Identifiez la proposition subordonnée relative dans 'qui lui répétait nos propos'.", pts: 2, rep: "'qui lui répétait nos propos' – subordonnée relative, antécédent 'Penanster'." },
-      { q: "2. Conjuguez 's'intégrer' au passé simple, 3e personne du singulier.", pts: 2, rep: "elle s'intégra." },
-      { q: "3. Réécrivez 'Marguerite souriait' au présent de l'indicatif, 1ère personne du pluriel.", pts: 2, rep: "Nous sourions." }
-    ],
-    redaction: { sujet1: "Racontez l'histoire d'une personne qui surmonte un handicap.", sujet2: "La solidarité est-elle une valeur essentielle dans notre société ?", pts: 20 }
-  },
-  { id: 3, annee: "2024", session: "Métropole (juin)", titre: "George Sand – Histoire de ma vie",
-    texte: "Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine.",
-    auteur: "George Sand, Histoire de ma vie (1855)",
-    dictee: { titre: "Dictée – George Sand", texte: "Je n'avais pas encore douze ans lorsque mon frère mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère tomba dans une tristesse profonde. Je la voyais pleurer en silence. Mon père, lui, ne pleurait pas. Il cachait sa douleur." },
-    questions: [
-      { q: "1. Quel est l'événement tragique raconté par le narrateur ?", pts: 2, rep: "La mort de son frère, tué dans un accident." },
-      { q: "2. Décrivez la réaction de la mère et celle du père.", pts: 4, rep: "La mère pleure, elle est profondément triste. Le père ne pleure pas, il reste silencieux devant la fenêtre, cachant sa douleur." },
-      { q: "3. Pourquoi le narrateur n'ose-t-il pas parler à sa mère ?", pts: 3, rep: "Il n'ose pas, par crainte ou par respect, mais il reste près d'elle pour la réconforter." },
-      { q: "4. Que comprend le narrateur plus tard à propos de son père ?", pts: 3, rep: "Que son père cachait sa douleur pour ne pas ajouter à la peine de la famille." }
-    ],
-    grammaire: [
-      { q: "1. Analysez la phrase 'Je la voyais pleurer en silence' (COD, infinitif).", pts: 2, rep: "'la' = COD (la mère) ; 'pleurer' = infinitif complément du verbe voir." },
-      { q: "2. Conjuguez 'cacher' au plus-que-parfait, 3e personne du singulier.", pts: 2, rep: "il avait caché." },
-      { q: "3. Réécrivez au discours indirect : 'Je compris : mon père cachait sa douleur.'", pts: 3, rep: "Je compris que mon père cachait sa douleur." }
-    ],
-    redaction: { sujet1: "Racontez un événement douloureux qui a marqué votre enfance.", sujet2: "Faut-il montrer ses émotions ou les cacher ? Argumentez.", pts: 20 }
-  },
-  { id: 4, annee: "2024", session: "Amérique du Nord", titre: "Albert Camus – L'Étranger",
-    texte: "Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. L'asile est à Marengo, à quatre-vingts kilomètres d'Alger. Je prendrai le bus à deux heures et j'arriverai dans l'après-midi. Ainsi, je pourrai veiller et rentrer demain soir. J'ai demandé deux jours de congé à mon patron. Il ne pouvait pas me les refuser.",
-    auteur: "Albert Camus, L'Étranger (1942)",
-    dictee: { titre: "Dictée – Albert Camus", texte: "Aujourd'hui, maman est morte. J'ai reçu un télégramme de l'asile. Cela ne veut rien dire. C'était peut-être hier. Je prendrai le bus à deux heures. Ainsi, je pourrai veiller et rentrer demain soir." },
-    questions: [
-      { q: "1. Quelle nouvelle le narrateur apprend-il ?", pts: 2, rep: "La mort de sa mère." },
-      { q: "2. Que suggère la répétition 'Ou peut-être hier' ?", pts: 4, rep: "L'indifférence, le détachement émotionnel du narrateur, ou son incertitude." },
-      { q: "3. Quels sont les projets du narrateur ?", pts: 3, rep: "Prendre le bus, veiller sa mère, rentrer le lendemain soir." },
-      { q: "4. Que demande-t-il à son patron ?", pts: 3, rep: "Deux jours de congé." }
-    ],
-    grammaire: [
-      { q: "1. Identifiez la nature de la proposition 'que je ne sais pas'.", pts: 2, rep: "Proposition subordonnée relative, antécédent 'hier'." },
-      { q: "2. Conjuguez 'pouvoir' au conditionnel présent, 3e personne du singulier.", pts: 2, rep: "il pourrait." },
-      { q: "3. Réécrivez au discours indirect : 'Il me dit : \"Je prendrai le bus\".'", pts: 3, rep: "Il me dit qu'il prendrait le bus." }
-    ],
-    redaction: { sujet1: "Racontez un moment où vous avez appris une nouvelle qui a changé votre vie.", sujet2: "Le détachement émotionnel est-il une force ou une faiblesse ?", pts: 20 }
-  },
-  { id: 5, annee: "2023", session: "Métropole (juin)", titre: "Molière – Le Malade imaginaire",
-    texte: "Mon cher frère, vous ne sauriez croire combien je suis troublé. Argan, notre malade imaginaire, vient de me consulter. Il souffre de tous les maux et ne veut entendre parler que de sa médecine. Il veut se faire saigner, purger, traiter pour la moindre vapeur. Je lui ai conseillé le repos, mais il préfère ses apothicaires. Que voulez-vous, l'homme est ainsi fait : il se plaît à être malade. Je crains qu'il ne finisse par se rendre vraiment malade à force de vouloir se soigner.",
-    auteur: "Molière, Le Malade imaginaire (1673)",
-    dictee: { titre: "Dictée – Molière", texte: "Argan, notre malade imaginaire, vient de me consulter. Il ne veut entendre parler que de sa médecine. Je lui ai conseillé le repos, mais il préfère ses apothicaires. L'homme se plaît à être malade." },
-    questions: [
-      { q: "1. Qui est Argan et quel est son comportement ?", pts: 3, rep: "Argan est un malade imaginaire. Il consulte pour tout, veut se faire saigner et purger, se croit toujours malade." },
-      { q: "2. Que craint le narrateur pour Argan ?", pts: 4, rep: "Il craint qu'Argan ne devienne vraiment malade à force de vouloir se soigner." },
-      { q: "3. Relevez une hyperbole dans le texte. Justifiez.", pts: 3, rep: "'Il souffre de tous les maux' – exagération, Argan n'a rien." },
-      { q: "4. Quelle est la morale implicite de ce texte ?", pts: 3, rep: "On peut se rendre malade par la peur d'être malade ou par l'abus de médecine." }
-    ],
-    grammaire: [
-      { q: "1. Analysez la proposition 'qu'Argan ne finisse par se rendre malade'.", pts: 2, rep: "Proposition subordonnée conjonctive (complément du verbe 'craindre'), verbe au subjonctif." },
-      { q: "2. Conjuguez 'consulter' au passé simple, 1ère personne du singulier.", pts: 2, rep: "je consultai." },
-      { q: "3. Réécrivez la dernière phrase à la forme négative.", pts: 2, rep: "Je ne crains pas qu'il ne finisse par se rendre malade." }
-    ],
-    redaction: { sujet1: "Racontez l'histoire d'une personne qui se croit toujours malade.", sujet2: "La médecine guérit-elle tous les maux ? Argumentez.", pts: 20 }
-  },
-  { id: 6, annee: "2023", session: "Polynésie", titre: "Victor Hugo – Les Misérables",
-    texte: "Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.",
-    auteur: "Victor Hugo, Les Misérables (1862)",
-    dictee: { titre: "Dictée – Victor Hugo", texte: "Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. Le vent froid lui glaçait le visage." },
-    questions: [
-      { q: "1. Décrivez l'état d'esprit du personnage.", pts: 3, rep: "Fatigué, seul, triste, désespéré, il cherche un abri." },
-      { q: "2. Relevez trois éléments du décor qui renforcent cette impression.", pts: 4, rep: "Rues sombres et désertes, nuit profonde, pas d'étoiles, vent froid." },
-      { q: "3. Pourquoi personne ne lui ouvre-t-il ?", pts: 3, rep: "Il est pauvre, les gens se méfient des pauvres, ou ils dorment." },
-      { q: "4. Quelle est la situation finale du personnage ?", pts: 3, rep: "Il s'assied sur une borne, épuisé, sans avoir trouvé de gîte." }
-    ],
-    grammaire: [
-      { q: "1. Analysez la phrase 'Pas une étoile ne brillait' (négation, sens).", pts: 2, rep: "Négation totale, insiste sur le vide et l'obscurité." },
-      { q: "2. Conjuguez 'frapper' au plus-que-parfait, 3e personne du singulier.", pts: 2, rep: "il avait frappé." },
-      { q: "3. Réécrivez 'Il marchait lentement' à l'imparfait, 1ère personne du pluriel.", pts: 2, rep: "Nous marchions lentement." }
-    ],
-    redaction: { sujet1: "Racontez une nuit difficile où vous vous êtes senti seul.", sujet2: "La pauvreté et la solitude sont-elles toujours liées ?", pts: 20 }
-  },
-  { id: 7, annee: "2022", session: "Métropole", titre: "Alain-René Lesage – Gil Blas",
-    texte: "Ce cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : « Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde. » Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.",
-    auteur: "Alain-René Lesage, Gil Blas (1715)",
-    dictee: { titre: "Dictée – Gil Blas", texte: "Le cavalier s'approcha de moi d'un air empressé. Il m'apprit que j'étais l'ornement d'Oviedo. Je ne pus lui répondre. Je compris plus tard qu'il voulait seulement manger à mes dépens." },
-    questions: [
-      { q: "1. Quels éloges le cavalier fait-il de Gil Blas ? Citez-en trois.", pts: 4, rep: "'ornement d'Oviedo', 'flambeau de la philosophie', 'huitième merveille du monde'." },
-      { q: "2. Quelle est la véritable intention du cavalier ? Justifiez avec la fin du texte.", pts: 3, rep: "Manger aux dépens de Gil Blas. Citation : 'qu'il voulait seulement manger à mes dépens'." },
-      { q: "3. Pourquoi Gil Blas ne peut-il pas répondre tout de suite ?", pts: 2, rep: "Parce que le cavalier le serre trop fort (accolade)." }
-    ],
-    grammaire: [
-      { q: "1. Relevez une hyperbole et justifiez.", pts: 2, rep: "'la huitième merveille du monde' – exagération élogieuse." },
-      { q: "2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts: 2, rep: "je compris." },
-      { q: "3. Analysez la proposition 'qu'il voulait seulement manger à mes dépens'.", pts: 2, rep: "Proposition subordonnée conjonctive complétive (COD du verbe 'compris')." }
-    ],
-    redaction: { sujet1: "Racontez l'histoire d'un flatteur qui cherche à profiter des autres.", sujet2: "Faut-il toujours se méfier des compliments ?", pts: 20 }
-  },
-  { id: 8, annee: "2022", session: "Polynésie", titre: "Guy de Maupassant – La Parure",
-    texte: "C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.",
-    auteur: "Guy de Maupassant, La Parure (1884)",
-    dictee: { titre: "Dictée – Maupassant", texte: "C'était une de ces jolies filles nées par erreur dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances. Elle épousa un petit commis. Leur beauté tient lieu de naissance aux femmes." },
-    questions: [
-      { q: "1. Pourquoi cette fille est-elle malheureuse ?", pts: 3, rep: "Elle est née pauvre mais se sent faite pour la richesse. Elle n'a pas de dot, pas d'espérances." },
-      { q: "2. Qui épouse-t-elle ?", pts: 2, rep: "Un petit commis du ministère." },
-      { q: "3. Que veulent dire les dernières phrases : 'Les femmes n'ont point de caste... leur beauté leur tient lieu de naissance' ?", pts: 5, rep: "Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale." }
-    ],
-    grammaire: [
-      { q: "1. Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts: 2, rep: "Gradation ascendante, le mariage est le but ultime pour une femme à l'époque." },
-      { q: "2. Conjuguez 'se résigner' au passé simple, 3e personne du singulier.", pts: 2, rep: "elle se résigna." },
-      { q: "3. Réécrivez la dernière phrase à la forme affirmative.", pts: 2, rep: "Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance." }
-    ],
-    redaction: { sujet1: "Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2: "L'apparence est-elle plus importante que l'origine sociale ?", pts: 20 }
-  },
-  { id: 9, annee: "2021", session: "Métropole (juin)", titre: "Émile Zola – Germinal",
-    texte: "Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.",
-    auteur: "Émile Zola, Germinal (1885)",
-    dictee: { titre: "Dictée – Zola", texte: "Dans la plaine désolée, un homme marchait seul le long de la route. Il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Seul le vent soufflait, lugubre. Il était seul, complètement seul." },
-    questions: [
-      { q: "1. Où se passe cette scène ?", pts: 2, rep: "Dans une plaine déserte, de nuit." },
-      { q: "2. Quels sentiments dominent ?", pts: 3, rep: "La solitude, l'abandon, la tristesse." },
-      { q: "3. Relevez trois répétitions qui renforcent le sentiment de solitude.", pts: 4, rep: "'seul' (répété), 'pas une maison, pas un arbre' (négations), 'il ne voyait rien, il ne connaissait personne'." },
-      { q: "4. Que fait le personnage de temps en temps ?", pts: 3, rep: "Il lève la tête et regarde le ciel noir." }
-    ],
-    grammaire: [
-      { q: "1. Analysez les négations dans 'Pas une maison, pas un arbre'.", pts: 2, rep: "Négations totales, insistent sur le vide absolu." },
-      { q: "2. Conjuguez 'marcher' au plus-que-parfait, 3e personne du singulier.", pts: 2, rep: "il avait marché." },
-      { q: "3. Réécrivez 'Il était seul' à l'imparfait, 1ère personne du pluriel.", pts: 2, rep: "Nous étions seuls." }
-    ],
-    redaction: { sujet1: "Racontez un voyage solitaire.", sujet2: "La solitude est-elle une chance ou une punition ?", pts: 20 }
-  },
-  { id: 10, annee: "2026", session: "Sujet zéro", titre: "Jules Verne – Vingt Mille Lieues sous les mers",
-    texte: "Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.",
-    auteur: "Jules Verne, Vingt Mille Lieues sous les mers (1870)",
-    dictee: { titre: "Dictée – Jules Verne", texte: "Le commandant prononça des paroles solennelles. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait la surface des flots. Soudain, une trombe d'eau jaillit. Une masse énorme émergea." },
-    questions: [
-      { q: "1. Que se passe-t-il ?", pts: 3, rep: "On se prépare à pêcher un monstre marin." },
-      { q: "2. Quelle est la réaction des marins ?", pts: 3, rep: "Ils s'élancent aux engins, prêts à agir." },
-      { q: "3. Quels éléments du décor sont décrits ?", pts: 3, rep: "Mer calme, lune, flots, trombe d'eau." }
-    ],
-    grammaire: [
-      { q: "1. Relevez les verbes d'action dans la dernière phrase.", pts: 2, rep: "jaillit, émergea." },
-      { q: "2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts: 2, rep: "je compris." },
-      { q: "3. Analysez la proposition 'qu'il ordonnait la pêche du monstre'.", pts: 2, rep: "Proposition subordonnée conjonctive complétive, COD du verbe 'devinai'." }
-    ],
-    redaction: { sujet1: "Racontez une aventure en mer.", sujet2: "L'aventure est-elle nécessaire à l'homme ?", pts: 20 }
+// ── RENDU ──────────────────────────────────────────────────────────────
+function buildNav() {
+  const nav = document.getElementById('sujetsNav');
+  if (!nav) return;
+  SUJETS.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'snav-item';
+    div.id = 'nav' + i;
+    div.innerHTML = '<span class="snav-num">S' + String(i+1).padStart(2,'0') + ' · ' + s.annee + '</span>'
+      + '<div class="snav-info"><div class="snav-titre">' + s.session + '</div>'
+      + '<div class="snav-sub">' + s.titre + '</div></div>'
+      + '<button class="snav-btn" onclick="event.stopPropagation();selSujet(' + i + ')">Commencer →</button>';
+    div.onclick = () => selSujet(i);
+    nav.appendChild(div);
+  });
+}
+function selSujet(idx) {
+  document.querySelectorAll('.sujet').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('.snav-item').forEach(el => el.classList.remove('active'));
+  const sujets = document.querySelectorAll('.sujet');
+  if (sujets[idx]) {
+    sujets[idx].classList.add('visible');
+    document.getElementById('nav'+idx)?.classList.add('active');
+    sujets[idx].scrollIntoView({behavior:'smooth', block:'start'});
   }
-];
-
-// ============================================================
-// RENDU DES SUJETS
-// ============================================================
+}
 
 function afficherSujets() {
   const container = document.getElementById('sujets');
@@ -319,18 +384,19 @@ function afficherSujets() {
     html += '<div class="texte"><strong>Texte :</strong><br>' + s.texte + '<br><em>' + s.auteur + '</em></div>';
 
     // DICTÉE
+    const dicteeTexteEsc = s.dictee.texte.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
     html += '<div class="document"><strong>Dictée (10 points)</strong><br>' + s.dictee.titre + '<br><em>Le professeur lira le texte à voix haute. Écoutez et écrivez.</em></div>';
     html += '<textarea id="dictee-' + num + '" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>';
-    html += '<button onclick="corrigerDictee(\'dictee-' + num + '\', `' + s.dictee.texte.replace(/`/g, '\\`') + '`, ' + num + ')">Corriger la dictée avec IA</button>';
+    html += '<button onclick="corrigerDictee(\'dictee-' + num + '\', `' + dicteeTexteEsc + '`, ' + num + ')">Corriger la dictée avec IA</button>';
     html += '<div id="correction-dictee-' + num + '" class="correction"></div>';
 
     // COMPRÉHENSION
     const ptsComp = s.questions.reduce((a, q) => a + q.pts, 0);
-    html += '<div><strong>📖 Compréhension (' + ptsComp + ' points)</strong></div>';
+    html += '<br><div><strong>📖 Compréhension (' + ptsComp + ' points)</strong></div>';
     s.questions.forEach((q, i) => {
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.q + '</div>';
-      html += '<textarea id="comp-' + num + '-' + i + '" class="reponse" placeholder="Votre réponse..."></textarea>';
       const repEsc = q.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.q + '</div>';
+      html += '<textarea id="comp-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
       html += '<button onclick="corrigerExo(\'comp-' + num + '-' + i + '\', \'' + repEsc + '\', ' + q.pts + ')">Corriger avec IA</button>';
       html += '<button onclick="afficherCorrection(\'corr-comp-' + num + '-' + i + '\')">Voir correction</button>';
       html += '<div id="corr-comp-' + num + '-' + i + '" class="correction">' + q.rep + '</div>';
@@ -338,18 +404,18 @@ function afficherSujets() {
 
     // GRAMMAIRE
     const ptsGram = s.grammaire.reduce((a, g) => a + g.pts, 0);
-    html += '<div><strong>📝 Grammaire (' + ptsGram + ' points)</strong></div>';
+    html += '<br><div><strong>📝 Grammaire (' + ptsGram + ' points)</strong></div>';
     s.grammaire.forEach((g, i) => {
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + g.pts + ' points)<br>' + g.q + '</div>';
-      html += '<textarea id="gram-' + num + '-' + i + '" class="reponse" placeholder="Votre réponse..."></textarea>';
       const repEsc = g.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + g.pts + ' points)<br>' + g.q + '</div>';
+      html += '<textarea id="gram-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
       html += '<button onclick="corrigerExo(\'gram-' + num + '-' + i + '\', \'' + repEsc + '\', ' + g.pts + ')">Corriger avec IA</button>';
       html += '<button onclick="afficherCorrection(\'corr-gram-' + num + '-' + i + '\')">Voir correction</button>';
       html += '<div id="corr-gram-' + num + '-' + i + '" class="correction">' + g.rep + '</div>';
     });
 
     // RÉDACTION
-    html += '<div><strong>✍️ Rédaction (' + s.redaction.pts + ' points)</strong><br>';
+    html += '<br><div><strong>✍️ Rédaction (' + s.redaction.pts + ' points)</strong><br>';
     html += 'Choix A : ' + s.redaction.sujet1 + '<br>';
     html += 'Choix B : ' + s.redaction.sujet2 + '</div>';
     html += '<textarea id="redac-' + num + '" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>';
@@ -361,7 +427,20 @@ function afficherSujets() {
   });
 }
 
+buildNav();
 afficherSujets();
+
+function exportPDF() {
+  const data = Object.values(STORE).flat();
+  if (!data.length) { alert("Corrige au moins une question d'abord."); return; }
+  let html = '<html><head><meta charset="UTF-8"><style>body{font-family:Arial,font-size:13px;padding:2rem;}h2{color:#2a7a60;border-bottom:2px solid #5ecfb1;padding-bottom:4px;}.ia{background:#f0fff8;border-left:3px solid #5ecfb1;padding:8px;margin:8px 0;white-space:pre-wrap;}</style></head><body>';
+  html += '<h1>Corrections Français DNB</h1>';
+  data.forEach(c => { html += '<h2>' + c.type + '</h2><p><em>' + c.question + '</em></p><div class="ia">' + c.correctionIA + '</div>'; });
+  html += '</body></html>';
+  const win = window.open('', '_blank');
+  win.document.write(html); win.document.close();
+  win.onload = () => win.print();
+}
 </script>
 </body>
 </html>
