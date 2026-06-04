@@ -538,8 +538,15 @@ function exportPDF(sIdx) {
       + '<div class="rep-off">✅ ' + c.correctionOff + '</div>';
   });
   html += '</body></html>';
-  var win = window.open('','_blank');
-  if (win) { win.document.write(html); win.document.close(); win.print(); }
+    var blob = new Blob([html], {type:'text/html'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'corrections_' + s.annee + '_' + s.session.replace(/[^a-z0-9]/gi,'_') + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 window.onload = buildGrid;
