@@ -175,6 +175,10 @@ async function callIA(prompt, system) {
   return Promise.race([req, timeout]);
 }
 
+function safeJSON(t) {
+  try { return JSON.parse(t.replace(/```json|```/g, '').trim()); }
+  catch(e) { return null; }
+}
 
 const SUJETS = [
   {
