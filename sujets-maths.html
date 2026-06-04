@@ -36,6 +36,8 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 .sv-dl{color:#e8c87a;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(232,200,122,.1);border:1px solid rgba(232,200,122,.3);text-decoration:none;}
 .sv-dl:hover{background:rgba(232,200,122,.2);}
 .btn-pdf-export{color:#5ecfb1;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(94,207,177,.08);border:1px solid rgba(94,207,177,.25);cursor:pointer;}
+.btn-save-work{color:#e8c87a;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(232,200,122,.1);border:1px solid rgba(232,200,122,.3);cursor:pointer;}
+.btn-save-work:hover{background:rgba(232,200,122,.2);}
 
 /* EXERCICES */
 .exo{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
@@ -100,6 +102,7 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
     <div class="sv-actions">
       <a class="sv-dl" id="svDl" href="#" target="_blank" download>⬇ PDF officiel</a>
       <button class="btn-pdf-export" id="btnPdfExport">📄 Mes corrections</button>
+      <button class="btn-save-work" id="btnSaveWork">💾 Sauvegarder mon travail</button>
       <button class="btn-retour" onclick="retour()">← Retour</button>
     </div>
   </div>
@@ -112,9 +115,13 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 </div>
 
 <script>
-const PROXY = 'https://script.google.com/macros/s/AKfycbxWNuQnKJpEGh4n_BFLkTss1PppSDxyHnTCea-gkc5S041y3hd9Jpe4aWLtdyhD30qgkg/exec';
+const PROXY = 'https://script.google.com/macros/s/AKfycbxWNuQnKJpEG4n_BFLkTss1PppSDxyHnTCea-gkc5S041y3hd9Jpe4aWLtdyhD30qgkg/exec';
 const STORE = {};
 const _STORE_KEY = 'mat_corrections_ia';
+const _WORK_KEY = 'mat_full_work';
+
+let currentSujetIdx = null;
+
 try {
   const _saved = JSON.parse(localStorage.getItem(_STORE_KEY) || '{}');
   Object.assign(STORE, _saved);
@@ -608,12 +615,100 @@ function buildGrid() {
   document.getElementById('grid').innerHTML = html;
 }
 
+function saveFullWork() {
+  if (currentSujetIdx === null) return;
+  var s = SUJETS[currentSujetIdx];
+  var workData = {
+    sujetId: s.id,
+    annee: s.annee,
+    session: s.session,
+    reponses: {},
+    corrections: []
+  };
+  
+  // Récupérer toutes les réponses
+  var allTextareas = document.querySelectorAll('#svContent .answer-area');
+  allTextareas.forEach(function(ta, idx) {
+    var qid = ta.id.replace('ans_', '');
+    workData.reponses[qid] = ta.value;
+  });
+  
+  // Récupérer toutes les corrections déjà faites
+  if (STORE[s.id]) {
+    workData.corrections = STORE[s.id];
+  }
+  
+  // Récupérer les panneaux affichés (corrections IA déjà générées)
+  var allPanels = document.querySelectorAll('#svContent .panel');
+  allPanels.forEach(function(panel, idx) {
+    if (panel.classList.contains('show') && panel.innerHTML) {
+      var qid = panel.id.replace('panel_', '');
+      if (!workData.panelsContent) workData.panelsContent = {};
+      workData.panelsContent[qid] = panel.innerHTML;
+    }
+  });
+  
+  localStorage.setItem(_WORK_KEY + '_' + s.id, JSON.stringify(workData));
+  alert('✓ Travail sauvegardé !\n\n' + Object.keys(workData.reponses).length + ' réponses\n' + workData.corrections.length + ' corrections IA');
+}
+
+function loadFullWork() {
+  if (currentSujetIdx === null) return;
+  var s = SUJETS[currentSujetIdx];
+  var saved = localStorage.getItem(_WORK_KEY + '_' + s.id);
+  if (!saved) return false;
+  
+  try {
+    var workData = JSON.parse(saved);
+    
+    // Restaurer les réponses
+    for (var qid in workData.reponses) {
+      var ta = document.getElementById('ans_' + qid);
+      if (ta) ta.value = workData.reponses[qid];
+    }
+    
+    // Restaurer les corrections
+    if (workData.corrections && workData.corrections.length) {
+      if (!STORE[s.id]) STORE[s.id] = [];
+      STORE[s.id] = workData.corrections;
+      localStorage.setItem(_STORE_KEY, JSON.stringify(STORE));
+    }
+    
+    // Restaurer les panneaux
+    if (workData.panelsContent) {
+      for (var qid2 in workData.panelsContent) {
+        var panel = document.getElementById('panel_' + qid2);
+        if (panel) {
+          panel.innerHTML = workData.panelsContent[qid2];
+          panel.classList.add('show');
+        }
+      }
+    }
+    
+    return true;
+  } catch(e) { return false; }
+}
+
+function askReloadWork() {
+  if (currentSujetIdx === null) return;
+  var s = SUJETS[currentSujetIdx];
+  var saved = localStorage.getItem(_WORK_KEY + '_' + s.id);
+  if (saved) {
+    var confirmLoad = confirm('📁 Un travail sauvegardé existe pour ce sujet.\n\nVoulez-vous le reprendre ?\n(Cliquez sur "OK" pour reprendre, "Annuler" pour commencer un nouveau travail)');
+    if (confirmLoad) {
+      loadFullWork();
+    }
+  }
+}
+
 function ouvrirSujet(idx) {
+  currentSujetIdx = idx;
   var s = SUJETS[idx];
   document.getElementById('svTitre').innerHTML = 'DNB ' + s.annee + ' — ' + s.session;
   document.getElementById('svSub').textContent = s.titre;
   document.getElementById('svDl').href = s.pdf;
   document.getElementById('btnPdfExport').onclick = function() { exportPDF(idx); };
+  document.getElementById('btnSaveWork').onclick = function() { saveFullWork(); };
 
   var html = '';
   s.exos.forEach(function(exo, ei) {
@@ -640,9 +735,13 @@ function ouvrirSujet(idx) {
   sv.style.display = 'block';
   sv.classList.add('active');
   window.scrollTo(0,0);
+  
+  // Proposer de reprendre le travail sauvegardé
+  setTimeout(function() { askReloadWork(); }, 100);
 }
 
 function retour() {
+  currentSujetIdx = null;
   document.getElementById('sujetView').style.display = 'none';
   document.getElementById('sujetView').classList.remove('active');
   document.getElementById('landing').style.display = 'block';
@@ -657,7 +756,7 @@ async function corriger(sIdx, ei, qi, qid) {
   if (!ans) { alert("Écris ta réponse d'abord !"); return; }
 
   var panel = document.getElementById('panel_' + qid);
-  var btn = document.getElementById('panel_' + qid).previousElementSibling.querySelector('.btn-corriger');
+  var btn = document.querySelector('#ans_' + qid).parentElement.querySelector('.btn-corriger');
   panel.classList.add('show');
   panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction en cours...</div>';
   if (btn) btn.disabled = true;
@@ -691,7 +790,7 @@ async function corriger(sIdx, ei, qi, qid) {
     var json = safeJSON(txt);
 
     if (!STORE[s.id]) STORE[s.id] = [];
-    STORE[s.id].push({
+    var correctionEntry = {
       exo: exo.label,
       qi: qi + 1,
       question: q.texte.substring(0,80),
@@ -703,7 +802,8 @@ async function corriger(sIdx, ei, qi, qid) {
       correctionOff: q.rep,
       pts: pts,
       note: json ? json.note : null
-    });
+    };
+    STORE[s.id].push(correctionEntry);
     try { localStorage.setItem(_STORE_KEY, JSON.stringify(STORE)); } catch(e) {}
 
     panel.innerHTML = '<div class="corr-ia">'
@@ -767,8 +867,15 @@ function exportPDF(sIdx) {
       + '<div class="rep-off">📖 <strong>Correction officielle :</strong><br>' + c.correctionOff + '</div>';
   });
   html += '</body></html>';
-  var win = window.open('', '_blank');
-  if (win) { win.document.write(html); win.document.close(); win.print(); }
+  var blob = new Blob([html], {type:'text/html'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'corrections_' + s.annee + '_' + s.session.replace(/[^a-z0-9]/gi,'_') + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 window.onload = buildGrid;
