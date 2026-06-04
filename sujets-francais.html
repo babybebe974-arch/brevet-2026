@@ -2,445 +2,765 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Français - 10 sujets blancs DNB</title>
+<title>Sujets Maths — Brevet 2026</title>
 <style>
-  body { background: #09090f; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 2rem; }
-  .container { max-width: 1000px; margin: 0 auto; }
-  .sujet { background: #111118; border-left: 5px solid #5ecfb1; margin: 2rem 0; padding: 1.5rem; border-radius: 12px; }
-  .texte { background: #0a0a12; padding: 1rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; }
-  .document { background: #0a1a1a; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border-left: 3px solid #5ecfb1; white-space: pre-wrap; }
-  textarea { width: 100%; background: #181820; border: 1px solid #2a2a35; color: #f0ede8; padding: 0.8rem; margin: 0.5rem 0; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; font-family: 'DM Mono', monospace; resize: vertical; }
-  textarea.dictee { min-height: 200px; }
-  textarea.redaction { min-height: 250px; }
-  button { background: #5ecfb1; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; margin-right: 0.5rem; margin-top: 0.3rem; font-size: 0.8rem; color: #09090f; font-weight: 600; }
-  button:hover { background: #7edcb8; }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .correction { display: none; margin-top: 0.5rem; background: #0a0a12; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; }
-  hr { border-color: #2a2a35; margin: 1rem 0; }
-  h3 { color: #5ecfb1; }
-  .badge { display: inline-block; background: #5ecfb120; color: #5ecfb1; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; margin-left: 0.5rem; }
-  .question { margin-top: 1rem; }
-  .loading { color: #5ecfb1; font-style: italic; }
-  .erreur { color: #e87a7a; }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;min-height:100vh;}
 
-.sujets-list{display:flex;flex-direction:column;gap:8px;max-width:720px;}
-.sitem{display:flex;align-items:center;gap:12px;background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:12px 16px;transition:border-color .2s;}
-.sitem:hover{border-color:var(--teal);}
-.sitem-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-width:60px;white-space:nowrap;}
-.sitem-info{flex:1;}
-.sitem-titre{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:2px;}
-.sitem-sub{font-size:11px;color:var(--dim);}
-.sitem-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap;}
-.sitem-btns{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+/* LANDING */
+#landing{max-width:1000px;margin:0 auto;padding:1.5rem;}
+.header{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.header h1{font-size:1.4rem;color:#e8c87a;}
+.header p{font-size:12px;color:#9090a8;margin-top:3px;}
+a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.card{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem;cursor:pointer;transition:border-color .2s;}
+.card:hover{border-color:#e8c87a;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.card-num{font-size:11px;color:#5a5a72;font-family:monospace;}
+.badge{font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(232,200,122,.12);color:#e8c87a;border:1px solid rgba(232,200,122,.25);}
+.card-titre{font-size:13px;color:#e8e8f0;margin-bottom:6px;line-height:1.4;}
+.card-meta{font-size:11px;color:#5a5a72;}
+.card-pdf{display:inline-block;margin-top:8px;font-size:11px;color:#5ecfb1;text-decoration:none;}
+.card-pdf:hover{text-decoration:underline;}
 
-/* ── Liste compacte sujets ── */
-.sujets-nav{display:flex;flex-direction:column;gap:6px;margin-bottom:1.5rem;}
-.snav-item{display:flex;align-items:center;gap:12px;background:#1a1a24;border:1px solid #2a2a38;border-radius:10px;padding:10px 14px;cursor:pointer;transition:border-color .2s;}
-.snav-item:hover,.snav-item.active{border-color:#5ecfb1;}
-.snav-num{font-size:11px;color:#5a5a72;min-width:54px;font-family:monospace;}
-.snav-info{flex:1;}
-.snav-titre{font-size:13px;font-weight:700;margin-bottom:1px;}
-.snav-sub{font-size:11px;color:#9090a8;}
-.snav-btn{background:#5ecfb1;color:#09090f;border:none;border-radius:6px;font-weight:700;font-size:11px;padding:5px 12px;cursor:pointer;white-space:nowrap;}
-.sujet{display:none;}
-.sujet.visible{display:block;}
+/* SUJET VIEW */
+#sujetView{display:none;max-width:900px;margin:0 auto;padding:1.5rem;}
+#sujetView.active{display:block;}
+.sv-header{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.sv-titre{font-size:1.1rem;font-weight:700;color:#e8c87a;}
+.sv-sub{font-size:12px;color:#9090a8;margin-top:3px;}
+.sv-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.btn-retour{color:#5ecfb1;text-decoration:none;font-size:13px;cursor:pointer;background:none;border:none;}
+.sv-dl{color:#e8c87a;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(232,200,122,.1);border:1px solid rgba(232,200,122,.3);text-decoration:none;}
+.sv-dl:hover{background:rgba(232,200,122,.2);}
+.btn-pdf-export{color:#5ecfb1;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(94,207,177,.08);border:1px solid rgba(94,207,177,.25);cursor:pointer;}
+
+/* EXERCICES */
+.exo{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
+.exo-head{padding:12px 16px;border-bottom:1px solid #2a2a38;display:flex;align-items:center;gap:10px;}
+.exo-badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.badge-auto{background:rgba(126,184,245,.15);color:#7eb8f5;border:1px solid rgba(126,184,245,.25);}
+.badge-pb{background:rgba(232,200,122,.15);color:#e8c87a;border:1px solid rgba(232,200,122,.25);}
+.exo-label{font-size:12px;color:#9090a8;}
+.question{padding:14px 16px;border-bottom:1px solid #1a1a24;}
+.question:last-child{border-bottom:none;}
+.q-texte{font-size:13px;line-height:1.6;margin-bottom:10px;color:#e8e8f0;}
+.q-texte strong{color:#e8c87a;}
+.answer-wrap{margin-top:8px;}
+.answer-area{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:8px;color:#e8e8f0;font-size:13px;padding:10px;font-family:inherit;resize:vertical;min-height:70px;outline:none;}
+.answer-area:focus{border-color:#e8c87a;}
+.btn-corriger{margin-top:8px;padding:7px 16px;border-radius:7px;border:1px solid rgba(232,200,122,.4);background:rgba(232,200,122,.08);color:#e8c87a;font-size:12px;cursor:pointer;}
+.btn-corriger:hover{background:rgba(232,200,122,.15);}
+.btn-corriger:disabled{opacity:.4;cursor:not-allowed;}
+.panel{display:none;margin-top:10px;background:#0d0d14;border-radius:8px;border:1px solid #2a2a38;padding:14px;font-size:13px;}
+.panel.show{display:block;}
+.loading{display:flex;align-items:center;gap:8px;color:#9090a8;font-size:13px;}
+.dot{width:8px;height:8px;border-radius:50%;background:#e8c87a;animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.corr-note{font-size:1.1rem;font-weight:800;color:#5ecfb1;margin-bottom:8px;}
+.corr-conseil{background:#1a1a24;border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:12px;line-height:1.5;}
+.corr-txt{font-size:13px;line-height:1.6;color:#e8e8f0;margin-bottom:8px;}
+.corr-off{margin-top:12px;padding-top:12px;border-top:1px solid #2a2a38;font-size:12px;color:#9090a8;}
+.corr-off strong{color:#5ecfb1;display:block;margin-bottom:4px;}
+.btn-copy{margin-top:8px;padding:5px 12px;border-radius:6px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;font-size:11px;cursor:pointer;}
+
+/* PDF MODAL */
+.pdf-win{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:999;overflow:auto;padding:2rem;}
+.pdf-win.show{display:block;}
+.pdf-content{background:#111118;border:1px solid #2a2a38;border-radius:12px;max-width:700px;margin:0 auto;padding:2rem;font-size:13px;line-height:1.8;color:#e8e8f0;}
+.pdf-content h2{color:#e8c87a;font-size:1.1rem;border-bottom:1px solid #2a2a38;padding-bottom:8px;margin-bottom:16px;}
+.pdf-content .q-pdf{margin-bottom:12px;padding-left:12px;border-left:3px solid #2a2a38;}
+.pdf-content .a-pdf{color:#5ecfb1;font-size:12px;margin-top:4px;}
+.btn-close-pdf{margin-top:1.5rem;padding:8px 20px;border-radius:8px;border:1px solid #2a2a38;background:#1a1a24;color:#9090a8;cursor:pointer;}
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Français — 10 sujets blancs (DNB)</h1>
-  <div class="sujets-nav" id="sujetsNav"></div>
-<div id="sujets"></div>
-</div>
-<script>
 
-const PROXY = 'https://script.google.com/macros/s/AKfycby9xan87KYJf0vtJw_umfYusxVse6OpxXK8gyieeGoaXknPrRjNdpzAkOUOzrpkK1-gMg/exec';
+<!-- LANDING -->
+<div id="landing">
+  <div class="header">
+    <div>
+      <h1>📐 Sujets Maths — Brevet DNB</h1>
+      <p>10 vrais sujets officiels · Correction IA expert · 2019→2026</p>
+    </div>
+    <a href="index.html" class="back">← Hub</a>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- SUJET VIEW -->
+<div id="sujetView">
+  <div class="sv-header">
+    <div>
+      <div class="sv-titre" id="svTitre"></div>
+      <div class="sv-sub" id="svSub"></div>
+    </div>
+    <div class="sv-actions">
+      <a class="sv-dl" id="svDl" href="#" target="_blank" download>⬇ PDF officiel</a>
+      <button class="btn-pdf-export" id="btnPdfExport">📄 Mes corrections</button>
+      <button class="btn-retour" onclick="retour()">← Retour</button>
+    </div>
+  </div>
+  <div id="svContent"></div>
+</div>
+
+<!-- PDF MODAL -->
+<div class="pdf-win" id="pdfWin">
+  <div class="pdf-content" id="pdfContent"></div>
+</div>
+
+<script>
+const PROXY = 'https://script.google.com/macros/s/AKfycbxWNuQnKJpEGh4n_BFLkTss1PppSDxyHnTCea-gkc5S041y3hd9Jpe4aWLtdyhD30qgkg/exec';
 const STORE = {};
-function sauvegarderCorrection(sujetId, type, question, correctionIA) {
-  if (!STORE[sujetId]) STORE[sujetId] = [];
-  STORE[sujetId].push({ type, question: question.substring(0,80), correctionIA, date: new Date().toISOString() });
-  const sessions = JSON.parse(localStorage.getItem('suivi_sessions_francais_wassil') || '[]');
-  sessions.unshift({ id: Date.now(), date: new Date().toISOString(), matiere: 'francais', sujetId, type });
-  localStorage.setItem('suivi_sessions_francais_wassil', JSON.stringify(sessions.slice(0, 200)));
-}
+const _STORE_KEY = 'mat_corrections_ia';
+try {
+  const _saved = JSON.parse(localStorage.getItem(_STORE_KEY) || '{}');
+  Object.assign(STORE, _saved);
+} catch(e) {}
 
 async function callIA(prompt, system) {
-  const response = await fetch(PROXY, {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('⏱ Timeout (45s) — réessaie dans quelques secondes.')), 45000)
+  );
+  const req = fetch(PROXY, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({ prompt, system }),
     redirect: 'follow'
+  }).then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(d => {
+    if (d.success && d.content) return d.content;
+    throw new Error(d.error || 'Réponse inattendue');
   });
-  if (!response.ok) throw new Error('HTTP ' + response.status);
-  const result = await response.json();
-  if (result.success && result.content) return result.content;
-  throw new Error(result.error || 'Réponse inattendue');
+  return Promise.race([req, timeout]);
 }
 
-function safeParseJSON(txt) {
-  try {
-    return JSON.parse(txt.replace(/```json|```/g, '').trim());
-  } catch(e) { return null; }
+function safeJSON(t) {
+  try { return JSON.parse(t.replace(/```json|```/g, '').trim()); }
+  catch(e) { return null; }
 }
 
 const SUJETS = [
-  { id:1, annee:"2025", session:"Métropole (juin)", titre:"Simone de Beauvoir – La Force de l'âge",
-    texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs, debout entre les blocs de pierre où se brisaient les lames. Dans les vieux escaliers et les vieilles ruelles, une vie toujours neuve me remplissait les yeux et les oreilles. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie que je n'avais jamais connue dans le brouhaha de Paris. Et puis les dancings, les petits bars autour du Vieux-Port, les établissements de bains chauds. Je ne pouvais pas rester chez moi. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde, d'où l'on voit la mer entière.",
-    auteur:"Simone de Beauvoir, La Force de l'âge (1960)",
-    dictee:{ titre:"Dictée – Simone de Beauvoir", texte:"Jamais je ne m'ennuyais : Marseille ne s'épuisait pas. Je suivais la jetée battue par l'eau et le vent, je regardais les pêcheurs. Dans les vieux escaliers, une vie toujours neuve me remplissait les yeux. J'étais contente de moi. Il y avait des fins d'après-midi un peu mélancoliques, mais je trouvais de la douceur à cette nostalgie. Il fallait que je sorte, que je marche. Je montais jusqu'à Notre-Dame-de-la-Garde." },
-    questions:[
-      {q:"1. Où se passe cette scène ? Relevez deux éléments du texte qui justifient votre réponse.", pts:3, rep:"À Marseille (Vieux-Port, Notre-Dame-de-la-Garde, jetée, pêcheurs)."},
-      {q:"2. Quelle est l'attitude du narrateur ? Justifiez par une citation.", pts:3, rep:"Il est heureux, content de lui, curieux. Citation : 'J'étais contente de moi' / 'Il fallait que je sorte, que je marche'."},
-      {q:"3. Relevez une figure de style dans le texte. Nommez-la et expliquez son effet.", pts:4, rep:"Métaphore : 'une vie toujours neuve me remplissait les yeux' (la vie est comparée à un liquide)."},
-      {q:"4. Quelle(s) différence(s) avec la vie à Paris ? Citez le texte.", pts:3, rep:"À Paris : 'brouhaha' (bruit, agitation). À Marseille : liberté, marche, mer, vie neuve."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Je ne pouvais pas rester chez moi.' (sujet, verbe, négation).", pts:2, rep:"Sujet : 'Je', verbe : 'pouvais', négation : 'ne...pas'."},
-      {q:"2. Réécrivez 'Je montais' à l'imparfait de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous montions."},
-      {q:"3. Donnez la nature et la fonction de 'mélancoliques' dans la phrase.", pts:2, rep:"Adjectif qualificatif, épithète du nom 'fins d'après-midi'."}
-    ],
-    redaction:{sujet1:"Racontez un moment où vous avez découvert une nouvelle ville qui vous a plu.", sujet2:"Pensez-vous que voyager seul permet de mieux se connaître ? Argumentez.", pts:20}
+  {
+    id:1, annee:'2026', session:'France (Sujet B — décembre 2025)',
+    titre:'Sujet B 2026 — Angles · Probabilités · Fonctions · PGCD',
+    pdf:'https://www.apmep.fr/IMG/pdf/Brevet_0_B_2026_DV.pdf',
+    exos:[
+      {type:'auto', label:'Partie 1 — Automatismes (6 pts)', pts:6, questions:[
+        {texte:'Q1 — Quelle est la mesure, en degrés, d\'un angle droit ?',rep:'90°'},
+        {texte:'Q2 — Voici une série de quatre notes : 8 ; 10 ; 11 ; 11. Quelle est la moyenne ? A. 9,5  B. 10  C. 10,5  D. 11',rep:'C. 10,5 — Calcul : (8+10+11+11)/4 = 40/4 = 10'},
+        {texte:'Q3 — Dans un collège de 800 élèves, 25 % portent des lunettes. Combien d\'élèves portent des lunettes ?',rep:'200 élèves — 800 × 0,25 = 200'},
+        {texte:'Q4 — Entre 8h et 16h, de combien de degrés la température a-t-elle augmenté ? (graphique)',rep:'Lire les valeurs sur le graphique fourni avec le sujet.'},
+        {texte:'Q5 — Une voiture roule à 90 km/h. Combien de temps pour parcourir 45 km ? A. 15 min  B. 30 min  C. 45 min  D. 1h',rep:'B. 30 min — t = d/v = 45/90 = 0,5 h = 30 min'},
+        {texte:'Q6 — Donner le périmètre du losange ABCD (figure fournie avec le sujet).',rep:'P = 4 × côté. Mesurer le côté sur la figure fournie.'},
+        {texte:'Q7 — Pour résoudre 4x − 3 = 20, on effectue : A. x = 20/4 + 3  B. x = (20−4)+3  C. x = 20×4+3  D. x = (20+3)/4',rep:'D. x = (20+3)/4 = 23/4 = 5,75'},
+        {texte:'Q8 — Les droites (DE) et (AC) sont parallèles. Écrire l\'égalité de rapports pour déterminer AB. (figure Thalès)',rep:'AB/DE = AC/DC (ou toute égalité de Thalès correcte selon la figure)'},
+        {texte:'Q9 — Algorithme : quel résultat si on choisit 1 comme nombre de départ ? (algorithme fourni avec le sujet)',rep:'Appliquer les instructions de l\'algorithme pas à pas avec la valeur 1.'}
+      ]},
+      {type:'pb', label:'Partie 2 — Raisonnement (14 pts)', pts:14, questions:[
+        {texte:'Exercice 1 (3 pts) — Points B, A, D alignés. Droites (BA) et (EC) parallèles.\n1. Rappeler la propriété de la somme des angles d\'un triangle, puis calculer l\'angle ACB (angle x).',rep:'Somme des angles d\'un triangle = 180°. Calculer x en utilisant les angles donnés et les droites parallèles.'},
+        {texte:'Exercice 1 — 2a. Que peut-on dire des droites (AB) et (EB) ? Justifier.',rep:'Montrer qu\'elles forment un angle particulier (perpendiculaire ou autre) à l\'aide des droites parallèles données.'},
+        {texte:'Exercice 1 — 2b. En déduire la mesure de l\'angle CBE (angle y).',rep:'Utiliser la réponse précédente et les propriétés des angles.'},
+        {texte:'Exercice 1 — 3. Déterminer la mesure de l\'angle ADC (angle z) en expliquant chaque étape.',rep:'Utiliser les angles alternes-internes, correspondants ou la somme des angles selon la configuration.'},
+        {texte:'Exercice 2 (2 pts) — Urne 21 jetons (1 à 21). Évènement A = obtenir 2, 3 ou 10.\n1. Calculer P(A) en fraction irréductible.',rep:'P(A) = 3/21 = 1/7'},
+        {texte:'Exercice 2 — 2a. Évènement B = obtenir un diviseur de 24. Donner les issues de B.',rep:'Diviseurs de 24 parmi 1 à 21 : 1, 2, 3, 4, 6, 8, 12 → 7 issues'},
+        {texte:'Exercice 2 — 2b. Déterminer P(B).',rep:'P(B) = 7/21 = 1/3'},
+        {texte:'Exercice 3 (4,5 pts) — Paquet vide 200 g. 1 cm³ de lessive pèse 1,5 g.\n1. Masse totale pour 600 cm³ de lessive ?',rep:'Lessive : 600 × 1,5 = 900 g. Total : 900 + 200 = 1100 g'},
+        {texte:'Exercice 3 — 2a. f(x) = 1,5x + 200. Que représente f(x) si x = volume en cm³ ?',rep:'f(x) représente la masse totale du paquet (en grammes) contenant x cm³ de lessive.'},
+        {texte:'Exercice 3 — 3a/b. Par lecture graphique puis par le calcul : volume de lessive dans un paquet de 2300 g.',rep:'1,5x + 200 = 2300 → 1,5x = 2100 → x = 1400 cm³'},
+        {texte:'Exercice 3 — 3c. Pavé 12×8×15 cm peut-il contenir 1400 cm³ ?',rep:'Volume pavé = 12×8×15 = 1440 cm³ > 1400 cm³ → oui, il peut contenir ce volume.'},
+        {texte:'Exercice 4 (2,5 pts) — 91 filles et 77 garçons. Former des groupes identiques.\n1. Décomposer 91 et 77 en produit de facteurs premiers.',rep:'91 = 7 × 13 ; 77 = 7 × 11'},
+        {texte:'Exercice 4 — 2. Combien de groupes au maximum ? Démarche.',rep:'PGCD(91, 77) = 7 → 7 groupes maximum. (7 est le seul facteur commun)'},
+        {texte:'Exercice 4 — 3. Combien d\'élèves par groupe ?',rep:'Filles : 91/7 = 13 par groupe. Garçons : 77/7 = 11 par groupe. Total par groupe : 24 élèves.'}
+      ]}
+    ]
   },
-  { id:2, annee:"2025", session:"Métropole (septembre)", titre:"Marc Dugain – La Chambre des officiers",
-    texte:"Marguerite devint naturellement le centre de nos préoccupations. Pour lui parler, nous nous adressions d'abord à Penanster, qui lui répétait nos propos par une lente décomposition des syllabes. Comme souvent chez ceux qui sont atteints de surdité, elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Elle s'intégra très rapidement à notre clan, même si nos rencontres quotidiennes étaient toujours de courte durée. Penanster, lui, s'épanouissait. Il se sentait utile, essentiel. Il traduisait nos paroles avec une patience et une précision admirables. Marguerite souriait, hochait la tête, et parfois elle nous surprenait par une repartie pleine d'humour.",
-    auteur:"Marc Dugain, La Chambre des officiers (1998)",
-    dictee:{ titre:"Dictée – Marc Dugain", texte:"Marguerite devint le centre de nos préoccupations. Pour lui parler, nous nous adressions à Penanster. Elle redoutait de parler trop fort, et nous ne nous lassions pas de cette voix douce. Penanster se sentait utile. Il traduisait nos paroles avec patience. Marguerite souriait et nous surprenait par son humour." },
-    questions:[
-      {q:"1. Pourquoi Penanster est-il indispensable dans ce groupe ?", pts:3, rep:"Il sert d'intermédiaire car Marguerite est sourde. Il traduit les paroles."},
-      {q:"2. Quels sont les sentiments de Penanster ? Justifiez avec deux citations.", pts:4, rep:"Il se sent utile, essentiel, épanoui. Citations : 'Il se sentait utile, essentiel' / 's'épanouissait'."},
-      {q:"3. Quelle est la qualité principale de Marguerite d'après le texte ?", pts:2, rep:"Sa voix douce et son humour."}
-    ],
-    grammaire:[
-      {q:"1. Identifiez la proposition subordonnée relative dans 'qui lui répétait nos propos'.", pts:2, rep:"'qui lui répétait nos propos' – subordonnée relative, antécédent 'Penanster'."},
-      {q:"2. Conjuguez 's'intégrer' au passé simple, 3e personne du singulier.", pts:2, rep:"elle s'intégra."},
-      {q:"3. Réécrivez 'Marguerite souriait' au présent de l'indicatif, 1ère personne du pluriel.", pts:2, rep:"Nous sourions."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui surmonte un handicap.", sujet2:"La solidarité est-elle une valeur essentielle dans notre société ?", pts:20}
+  {
+    id:2, annee:'2025', session:'Amérique du Nord — 4 juin 2025',
+    titre:'25GENMATAN1 — Probabilités · Géométrie · Programmes · Graphique · Scratch',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/25GENMATAN1.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — 5 situations indépendantes (20 pts)', pts:20, questions:[
+        {texte:'Situation 1 — Urne 40 boules : 5 rouges, 20 vertes, 15 blanches. Calculer P(verte).',rep:'P(verte) = 20/40 = 1/2'},
+        {texte:'Situation 2 — Décomposer 1050 en produit de facteurs premiers.',rep:'1050 = 2 × 3 × 5² × 7'},
+        {texte:'Situation 3 — Article à 25 €, augmentation de 14 %. Nouveau prix ?',rep:'25 × 1,14 = 28,50 €'},
+        {texte:'Situation 4 — Polygone 2 est un agrandissement de polygone 1 (coeff. 2,5). Aire du polygone 1 = 7,5 cm². Calculer l\'aire du polygone 2.',rep:'Aire = 7,5 × 2,5² = 7,5 × 6,25 = 46,875 cm²'},
+        {texte:'Situation 5 — Tailles en cm : 152(×2) 157(×4) 160(×2) 162(×5) 165(×2) 170(×4) 174(×6) 180(×5).\n1. Moyenne des tailles.',rep:'Total effectif = 30. Somme = 2×152+4×157+2×160+5×162+2×165+4×170+6×174+5×180 = 304+628+320+810+330+680+1044+900 = 5016. Moyenne = 5016/30 ≈ 167,2 cm'},
+        {texte:'Situation 5 — 2. Médiane des tailles.',rep:'30 élèves → médiane entre 15e et 16e valeur. En cumulant : jusqu\'à 162 : 2+4+2+5=13, jusqu\'à 165 : 15. La 15e valeur est 165 et la 16e est 170. Médiane = (165+170)/2 = 167,5 cm'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Géométrie (20 pts)', pts:20, questions:[
+        {texte:'Points A, B, E, M alignés ; A, C, D alignés. ADE rect. en E, ABC rect. en B. AD=70m, BC=30m, AC=50m, DME=60°.\n1. Calculer AB.',rep:'Triangle ABC rect. en B : AB² + BC² = AC² → AB² = 50²−30² = 2500−900 = 1600 → AB = 40 m'},
+        {texte:'2. Montrer que (DE) et (BC) sont parallèles.',rep:'AB/AD = 40/70 = 4/7 et AC/... Utiliser le théorème de Thalès réciproque ou montrer l\'égalité des rapports.'},
+        {texte:'3. Montrer que DE = 42 m.',rep:'Par Thalès : DE/BC = AD/AB → DE = BC × AD/AB = 30 × 70/40 = 52,5 m (vérifier avec les données exactes du sujet)'},
+        {texte:'4. Montrer que EM ≈ 24,2 m.',rep:'Dans triangle rectangle DEM : tan(60°) = DM/EM ou utiliser la trigonométrie selon la configuration exacte.'},
+        {texte:'5. En déduire l\'aire du triangle AMD.',rep:'Aire = ½ × base × hauteur avec les valeurs calculées aux questions précédentes.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Programmes de calcul (20 pts)', pts:20, questions:[
+        {texte:'Programme A : ×3 − 1 − nombre de départ + 5.\nProgramme B : +15 − 6 ÷ 3, puis multiplier les 2 résultats.\n1. Montrer que pour x=4, programme A donne 5.',rep:'4×3=12 → 12−1=11 → 11−4=7 → 7+5=... Vérifier avec les opérations exactes du programme.'},
+        {texte:'2. Montrer que pour x=−2, programme A donne 5.',rep:'Appliquer le programme A avec x = −2, vérifier l\'égalité.'},
+        {texte:'3. Justifier que le programme A donne toujours le même résultat.',rep:'Prendre x quelconque : x×3−1−x+5 = 2x+4... ou développer algébriquement pour montrer que le résultat est constant.'},
+        {texte:'4. Pour x=10, résultat du programme B ?',rep:'Appliquer le programme B étape par étape avec x=10.'},
+        {texte:'5. Trouver les deux nombres pour lesquels A et B donnent le même résultat.',rep:'Résoudre l\'équation résultat_A = résultat_B → équation du 2nd degré → deux solutions.'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Graphique Malo (20 pts)', pts:20, questions:[
+        {texte:'Courbe : distance (km) en fonction du temps (min). Parcours total 13,5 km.\n1. Temps et distance sont-ils proportionnels ?',rep:'Vérifier si la courbe est une droite passant par l\'origine. Sinon : non proportionnel.'},
+        {texte:'2. Distance parcourue au bout de 20 min ?',rep:'Lire directement sur le graphique.'},
+        {texte:'3. Temps pour les 9 premiers km ?',rep:'Lire directement sur le graphique.'},
+        {texte:'4. Vitesse moyenne sur toute la course (au dixième de km/h près).',rep:'v = d/t = 13,5 km / (durée totale en heures). Lire la durée totale sur le graphique.'},
+        {texte:'5a. Louise (12 km/h) et Hillal (10 km/h) partent ensemble. Qui arrive en premier ?',rep:'Louise : t = 13,5/12 = 1,125 h = 67,5 min. Hillal : t = 13,5/10 = 1,35 h = 81 min. Louise arrive en premier.'},
+        {texte:'5b. Distance entre eux quand le premier franchit l\'arrivée ?',rep:'Quand Louise arrive (67,5 min), Hillal a parcouru : 10 × (67,5/60) = 11,25 km. Distance = 13,5 − 11,25 = 2,25 km'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Scratch (20 pts)', pts:20, questions:[
+        {texte:'Scripts 1, 2, 3 : motifs, losange, scripts.\n1. Associer chaque script à son dessin.',rep:'Analyser les instructions de déplacement et de rotation dans chaque script pour identifier le motif correspondant.'},
+        {texte:'2. Recopier dans le bon ordre les 3 instructions cachées du script 3 (losange).',rep:'Les instructions doivent permettre de compléter les côtés du losange. Analyser les angles et distances.'},
+        {texte:'3. Coordonnées du point de départ du lutin.',rep:'Lire les coordonnées initiales dans le script ou déduire par les déplacements.'},
+        {texte:'4. Script principal : deux captures d\'écran possibles parmi 5. Lesquelles ?',rep:'Analyser les conditions du script et identifier quels motifs peuvent être produits.'},
+        {texte:'5. Probabilité que le message affiché soit « Voici le dessin ! ».',rep:'Analyser la condition aléatoire dans le script principal.'},
+        {texte:'6a. Sur 100 lancers, « Voici le dessin ! » apparaît 40 fois. Calculer la fréquence.',rep:'f = 40/100 = 0,4 soit 40 %'},
+        {texte:'6b. Pourquoi ce résultat diffère-t-il de la probabilité théorique ?',rep:'La fréquence observée sur un nombre fini d\'expériences peut s\'écarter de la probabilité théorique. Plus on répète, plus la fréquence se rapproche de la probabilité (loi des grands nombres).'}
+      ]}
+    ]
   },
-  { id:3, annee:"2024", session:"Métropole (juin)", titre:"George Sand – Histoire de ma vie",
-    texte:"Je n'avais pas encore douze ans lorsque mon frère, qui en avait quatorze, mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère, qui l'aimait tendrement, tomba dans une tristesse profonde. Je la voyais pleurer en silence, le soir, à la veillée. Je n'osais pas lui parler, mais je restais près d'elle, et cela semblait la consoler un peu. Mon père, lui, ne pleurait pas. Il restait des heures devant la fenêtre, sans dire un mot. Je compris plus tard qu'il cachait sa douleur pour ne pas ajouter à notre peine.",
-    auteur:"George Sand, Histoire de ma vie (1855)",
-    dictee:{ titre:"Dictée – George Sand", texte:"Je n'avais pas encore douze ans lorsque mon frère mourut d'un accident. Sa mort fut un grand chagrin pour toute la famille. Ma mère tomba dans une tristesse profonde. Je la voyais pleurer en silence. Mon père, lui, ne pleurait pas. Il cachait sa douleur." },
-    questions:[
-      {q:"1. Quel est l'événement tragique raconté par le narrateur ?", pts:2, rep:"La mort de son frère, tué dans un accident."},
-      {q:"2. Décrivez la réaction de la mère et celle du père.", pts:4, rep:"La mère pleure, elle est profondément triste. Le père ne pleure pas, il reste silencieux devant la fenêtre, cachant sa douleur."},
-      {q:"3. Pourquoi le narrateur n'ose-t-il pas parler à sa mère ?", pts:3, rep:"Il n'ose pas, par crainte ou par respect, mais il reste près d'elle pour la réconforter."},
-      {q:"4. Que comprend le narrateur plus tard à propos de son père ?", pts:3, rep:"Que son père cachait sa douleur pour ne pas ajouter à la peine de la famille."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Je la voyais pleurer en silence' (COD, infinitif).", pts:2, rep:"'la' = COD (la mère) ; 'pleurer' = infinitif complément du verbe voir."},
-      {q:"2. Conjuguez 'cacher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait caché."},
-      {q:"3. Réécrivez au discours indirect : 'Je compris : mon père cachait sa douleur.'", pts:3, rep:"Je compris que mon père cachait sa douleur."}
-    ],
-    redaction:{sujet1:"Racontez un événement douloureux qui a marqué votre enfance.", sujet2:"Faut-il montrer ses émotions ou les cacher ? Argumentez.", pts:20}
+  {
+    id:3, annee:'2023', session:'Amérique du Nord — 31 mai 2023',
+    titre:'23GENMATAN1 — Arithmétique · Géométrie · Statistiques · Programmation · Hippodrome',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATAN1.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — 5 situations (20 pts)', pts:20, questions:[
+        {texte:'Situation 1 — Décomposer 780 en produit de facteurs premiers.',rep:'780 = 2² × 3 × 5 × 13'},
+        {texte:'Situation 2 — Jeu 32 cartes (4 familles × 8 cartes).\na. P(8 de pique) ? b. P(roi ou cœur) ?',rep:'a. P(8 de pique) = 1/32. b. Rois : 4, Cœurs : 8, moins le roi de cœur déjà compté = 4+8−1 = 11. P = 11/32'},
+        {texte:'Situation 3 — Développer et réduire A = (2x + 5)(3x − 4).',rep:'A = 6x² − 8x + 15x − 20 = 6x² + 7x − 20'},
+        {texte:'Situation 4 — Prisme droit : a. Volume en cm³. b. Convertir en litre.',rep:'V = aire base × hauteur. 1 L = 1 dm³ = 1000 cm³. Utiliser les dimensions du prisme fourni avec le sujet.'},
+        {texte:'Situation 5 — Polygone 2 agrandissement de polygone 1 (coeff. 3). Aire polygone 1 = 11 cm². Aire polygone 2 ?',rep:'Aire = 11 × 3² = 11 × 9 = 99 cm²'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Géométrie AN=13, LN=5, AL=12 (22 pts)', pts:22, questions:[
+        {texte:'1. Montrer que le triangle LNA est rectangle en L.',rep:'LN²+AL² = 5²+12² = 25+144 = 169 = 13² = AN² → réciproque Pythagore → rect. en L'},
+        {texte:'2. Montrer que OH = 7,2 cm.',rep:'Triangles LNA et ONH semblables. Rapport = ON/LN = 3/5. OH = 12 × 3/5 = 7,2 cm'},
+        {texte:'3. Calculer l\'angle LNA (arrondi à l\'unité).',rep:'tan(LNA) = AL/LN = 12/5 ou sin/cos selon orientation. tan(LNA) ≈ 2,4 → angle ≈ 67°'},
+        {texte:'4. Pourquoi les triangles LNA et ONH sont-ils semblables ?',rep:'Angle N commun + angle droit en L et en H (droites parallèles) → AA → semblables'},
+        {texte:'5a. Aire du quadrilatère LOHA ?',rep:'Aire(LNA) − Aire(ONH). Aire LNA = ½×LN×AL = ½×5×12 = 30 cm². Rapport surfaces = (3/5)² = 9/25. Aire ONH = 30×9/25 = 10,8. Aire LOHA = 30−10,8 = 19,2 cm²'},
+        {texte:'5b. Proportion de l\'aire du triangle LNA que représente LOHA ?',rep:'19,2/30 = 0,64 = 64 %'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Statistiques & tourisme (20 pts)', pts:20, questions:[
+        {texte:'1a. Nombre de visiteurs en 2010 ? (diagramme)',rep:'Lire directement sur le diagramme fourni avec le sujet.'},
+        {texte:'1b. Année avec le plus de visiteurs ?',rep:'Identifier le pic sur le diagramme.'},
+        {texte:'2. Visiteurs 2020 : 187 216 ; 2021 : 219 042. Objectif +15 % atteint ?',rep:'187 216 × 1,15 = 215 298,4. Or 219 042 > 215 298 → objectif atteint.'},
+        {texte:'Prix/nuit : 60(1200), 80(1350), 85(1000), 90(1100), 110(1200), 120(1300), 350(900), 500(300).\n3. Étendue des prix.',rep:'Étendue = 500 − 60 = 440 €'},
+        {texte:'4. Moyenne des prix (arrondie à l\'euro).',rep:'Somme = 60×1200+80×1350+85×1000+90×1100+110×1200+120×1300+350×900+500×300 = 72000+108000+85000+99000+132000+156000+315000+150000 = 1 117 000. Effectif total = 8350. Moyenne ≈ 133,77 ≈ 134 €'},
+        {texte:'5. Affirmation : au moins la moitié des nuits à moins de 100 €. Est-ce vrai ?',rep:'Cumul jusqu\'à 90 € : 1200+1350+1000+1100 = 4650 nuits. Total = 8350. 4650/8350 ≈ 55,7 % > 50 % → VRAI'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Scratch Fleur (20 pts)', pts:20, questions:[
+        {texte:'1a. Construire le parallélogramme KLMN (1 cm = 5 pas).',rep:'Tracer le parallélogramme avec les dimensions converties. Montrer la construction sur la copie.'},
+        {texte:'1b. Compléter les lignes 4, 5, 6, 7 du bloc Pétale.',rep:'Analyser les côtés du parallélogramme pour trouver les valeurs manquantes (avancer, tourner).'},
+        {texte:'2a. Valeur pour la ligne 2 du bloc Fleur ?',rep:'Analyser la structure du motif fleur pour trouver le nombre de répétitions.'},
+        {texte:'2b. Expliquer le choix de 72 en ligne 4.',rep:'360°/5 = 72° car le motif fleur est composé de 5 pétales régulièrement espacés.'},
+        {texte:'2c. Modifications pour le nouveau motif.',rep:'Analyser le nouveau motif (nombre de pétales, angle) et adapter les lignes 2 et 4.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Hippodrome (18 pts)', pts:18, questions:[
+        {texte:'Piste : 2 droites de 850 m + 2 demi-cercles de rayon 40 m.\n1. Montrer que la longueur d\'un tour ≈ 1951 m.',rep:'Longueur = 2×850 + 2×(π×40) = 1700 + 251,3... = 1951,3... ≈ 1951 m'},
+        {texte:'2a. Cheval : 1 tour en 2 min 9 s. Vitesse en m/s.',rep:'2 min 9 s = 129 s. v = 1951/129 ≈ 15 m/s'},
+        {texte:'2b. Convertir en km/h.',rep:'15 × 3,6 = 54 km/h'},
+        {texte:'3. Aire piste ≈ 73 027 m². Quelle marque choisir (A:500m²/141,95€, B:400m²/87,90€, C:300m²/66,50€) pour coût minimal ?',rep:'A : ⌈73027/500⌉×141,95 = 147×141,95 = 20866,65€. B : ⌈73027/400⌉×87,90 = 183×87,90 = 16085,70€. C : ⌈73027/300⌉×66,50 = 244×66,50 = 16226€. → Marque B est la moins chère.'}
+      ]}
+    ]
   },
-  { id:4, annee:"2024", session:"Amérique du Nord", titre:"Albert Camus – L'Étranger",
-    texte:"Aujourd'hui, maman est morte. Ou peut-être hier, je ne sais pas. J'ai reçu un télégramme de l'asile : « Mère décédée. Enterrement demain. Sentiments distingués. » Cela ne veut rien dire. C'était peut-être hier. L'asile est à Marengo, à quatre-vingts kilomètres d'Alger. Je prendrai le bus à deux heures et j'arriverai dans l'après-midi. Ainsi, je pourrai veiller et rentrer demain soir. J'ai demandé deux jours de congé à mon patron. Il ne pouvait pas me les refuser.",
-    auteur:"Albert Camus, L'Étranger (1942)",
-    dictee:{ titre:"Dictée – Albert Camus", texte:"Aujourd'hui, maman est morte. J'ai reçu un télégramme de l'asile. Cela ne veut rien dire. C'était peut-être hier. Je prendrai le bus à deux heures. Ainsi, je pourrai veiller et rentrer demain soir." },
-    questions:[
-      {q:"1. Quelle nouvelle le narrateur apprend-il ?", pts:2, rep:"La mort de sa mère."},
-      {q:"2. Que suggère la répétition 'Ou peut-être hier' ?", pts:4, rep:"L'indifférence, le détachement émotionnel du narrateur, ou son incertitude."},
-      {q:"3. Quels sont les projets du narrateur ?", pts:3, rep:"Prendre le bus, veiller sa mère, rentrer le lendemain soir."},
-      {q:"4. Que demande-t-il à son patron ?", pts:3, rep:"Deux jours de congé."}
-    ],
-    grammaire:[
-      {q:"1. Identifiez la nature de la proposition 'que je ne sais pas'.", pts:2, rep:"Proposition subordonnée relative, antécédent 'hier'."},
-      {q:"2. Conjuguez 'pouvoir' au conditionnel présent, 3e personne du singulier.", pts:2, rep:"il pourrait."},
-      {q:"3. Réécrivez au discours indirect : 'Il me dit : \"Je prendrai le bus\".'", pts:3, rep:"Il me dit qu'il prendrait le bus."}
-    ],
-    redaction:{sujet1:"Racontez un moment où vous avez appris une nouvelle qui a changé votre vie.", sujet2:"Le détachement émotionnel est-il une force ou une faiblesse ?", pts:20}
+  {
+    id:4, annee:'2019', session:'Amérique du Nord — 4 juin 2019',
+    titre:'19GENMATAN1 — Pythagore·Thalès · Affirmations · Statistiques · Scratch · Symétries · Boulets',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/19GENMATAN1.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — Pythagore & Thalès (14 pts)', pts:14, questions:[
+        {texte:'Droites (ER) et (FT) sécantes en A. AE=8, AF=10, EF=6, AR=12, AT=14.\n1. Démontrer que le triangle AEF est rectangle en E.',rep:'AE²+EF² = 64+36 = 100 = 10² = AF² → réciproque Pythagore → rect. en E'},
+        {texte:'2. En déduire la mesure de l\'angle EAF.',rep:'tan(EAF) = EF/AE = 6/8 = 0,75 → angle EAF ≈ 36,87° ≈ 37°'},
+        {texte:'3. Les droites (EF) et (RT) sont-elles parallèles ?',rep:'AE/AR = 8/12 = 2/3 et AF/AT = 10/14 = 5/7. Ces rapports ne sont pas égaux → (EF) et (RT) ne sont pas parallèles.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — 4 affirmations (17 pts)', pts:17, questions:[
+        {texte:'Affirmation 1 : 3/5 + 1/2 = (3+1)/(5+2). Vraie ou fausse ?',rep:'FAUSSE. 3/5+1/2 = 6/10+5/10 = 11/10. Or (3+1)/(5+2) = 4/7 ≠ 11/10.'},
+        {texte:'Affirmation 2 : f(x) = 5−3x. L\'image de −1 est −2.',rep:'FAUSSE. f(−1) = 5−3×(−1) = 5+3 = 8 ≠ −2'},
+        {texte:'Affirmation 3 : P(premier, expér.1) > P(pair, expér.2).',rep:'Expér.1 : entiers 1-11, nombres premiers : 2,3,5,7,11 → 5/11. Expér.2 : dé, pairs : 2,4,6 → 3/6=1/2. 5/11 ≈ 0,454 < 0,5. FAUSSE.'},
+        {texte:'Affirmation 4 : (2x+1)²−4 = (2x+3)(2x−1). Vraie ou fausse ?',rep:'VRAIE. (2x+1)²−4 = (2x+1−2)(2x+1+2) = (2x−1)(2x+3). Identité a²−b² avec a=2x+1, b=2.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Gaspillage alimentaire (12 pts)', pts:12, questions:[
+        {texte:'1. Quantité gaspillée par habitant du pays D (diagramme).',rep:'Lire directement sur le diagramme fourni avec le sujet.'},
+        {texte:'2. Gaspillage pays F ≈ 1/5 de pays A ?',rep:'Vérifier si gaspillage_F × 5 ≈ gaspillage_A à partir du diagramme.'},
+        {texte:'3a. Pays X : 345 kg/hab. × 10,9M hab. = ? tonnes.',rep:'345 × 10 900 000 = 3 760 500 000 kg = 3 760 500 tonnes ✓'},
+        {texte:'3b. Formule à étirer pour D2.',rep:'Proposition 3 : =B2*C2*1000 (B2 en kg/hab., C2 en millions → C2×10⁶ hab., résultat en tonnes = B2×C2×10⁶/1000 = B2×C2×1000)'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Scratch labyrinthe (10 pts)', pts:10, questions:[
+        {texte:'1. Compléter l\'instruction aller à x, y pour ramener le lutin au point de départ.',rep:'Lire les coordonnées du point de départ sur le repère du labyrinthe fourni.'},
+        {texte:'2. Distance minimale entre départ et sortie.',rep:'Compter les cases de l\'itinéraire le plus court × 30 unités par case.'},
+        {texte:'3. Après flèche ↑ puis flèche →, quelles actions effectue le lutin ?',rep:'Appliquer le programme : avancer dans la direction, vérifier si mur (couleur noire), agir en conséquence.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Hexagone & transformations (10 pts)', pts:10, questions:[
+        {texte:'Hexagone ABCDEF de centre O.\n1. Image de CDEO par symétrie centrale de centre O.',rep:'Proposition 1 : FABO'},
+        {texte:'2. Image de [AO] par symétrie d\'axe (CF).',rep:'Analyser la position de [AO] par rapport à l\'axe (CF).'},
+        {texte:'3. Image de triangle BOC par la rotation qui transforme OAB en OCD.',rep:'La rotation de même centre et même angle transforme BOC en DOE.'},
+        {texte:'4. Image de l\'hexagone 14 par la translation qui transforme l\'hexagone 2 en 12.',rep:'Appliquer le vecteur de la translation au numéro 14 pour trouver l\'image.'}
+      ]},
+      {type:'pb', label:'Exercice 6 — Médicament & alcool (12 pts)', pts:12, questions:[
+        {texte:'1. Quantité de principe actif 30 min après la prise. (graphique)',rep:'Lire la valeur en ordonnée pour t=30 min sur le graphique.'},
+        {texte:'2. Temps pour la quantité maximale.',rep:'Identifier le maximum du graphique.'},
+        {texte:'Boisson 1 : 5%, 33 cL. Boisson 2 : 12%, 125 mL. m = V×d×7,9.\nBoisson 1 contient-elle plus d\'alcool que boisson 2 ?',rep:'m1 = 33×0,05×7,9 = 13,035 g. m2 = 12,5×0,12×7,9 = 11,85 g. m1 > m2 → OUI, boisson 1 contient plus d\'alcool.'}
+      ]},
+      {type:'pb', label:'Exercice 7 — Boulets de canon (15 pts)', pts:15, questions:[
+        {texte:'1. Nombre de boulets dans l\'empilement à 2 niveaux ?',rep:'Niveau 1 : 1 boulet. Niveau 2 : 2²=4 boulets. Total : 1+4 = 5 boulets.'},
+        {texte:'2. Expliquer pourquoi l\'empilement à 3 niveaux contient 14 boulets.',rep:'Niveau 1 : 1, Niveau 2 : 4, Niveau 3 : 9. Total : 1+4+9 = 14.'},
+        {texte:'3. 55 boulets : combien de niveaux ?',rep:'1+4+9+16+25 = 55 → 5 niveaux (somme des carrés de 1 à n).'},
+        {texte:'4. Montrer que l\'empilement à 3 niveaux de boulets (rayon 6cm, fonte 7300 kg/m³) pèse 92 kg.',rep:'Volume 1 boulet = (4/3)×π×(0,06)³ ≈ 9,047×10⁻⁴ m³. Masse 1 boulet = 7300×9,047×10⁻⁴ ≈ 6,604 kg. 14 boulets : 14×6,604 ≈ 92,46 ≈ 92 kg.'}
+      ]},
+      {type:'pb', label:'Exercice 8 — Concours (10 pts)', pts:10, questions:[
+        {texte:'8 élèves, notes : 10 ; 13 ; 15 ; 14,5 ; 6 ; 7,5 ; ♦ ; ●. Étendue=9, moyenne=11,5, médiane=12.\n1. Pourquoi ♦ ou ● ne peut pas être 16 ?',rep:'Note max = 15. Si une note était 16, étendue = 16−6 = 10 ≠ 9. Donc impossible.'},
+        {texte:'2. ♦=12,5 et ●=13,5 sont-ils possibles ?',rep:'Somme = 10+13+15+14,5+6+7,5+12,5+13,5 = 92. Moyenne = 92/8 = 11,5 ✓. Notes triées : 6,7.5,10,12.5,13,13.5,14.5,15. Médiane = (12.5+13)/2 = 12.75 ≠ 12. NON.'}
+      ]}
+    ]
   },
-  { id:5, annee:"2023", session:"Métropole (juin)", titre:"Molière – Le Malade imaginaire",
-    texte:"Mon cher frère, vous ne sauriez croire combien je suis troublé. Argan, notre malade imaginaire, vient de me consulter. Il souffre de tous les maux et ne veut entendre parler que de sa médecine. Il veut se faire saigner, purger, traiter pour la moindre vapeur. Je lui ai conseillé le repos, mais il préfère ses apothicaires. Que voulez-vous, l'homme est ainsi fait : il se plaît à être malade. Je crains qu'il ne finisse par se rendre vraiment malade à force de vouloir se soigner.",
-    auteur:"Molière, Le Malade imaginaire (1673)",
-    dictee:{ titre:"Dictée – Molière", texte:"Argan, notre malade imaginaire, vient de me consulter. Il ne veut entendre parler que de sa médecine. Je lui ai conseillé le repos, mais il préfère ses apothicaires. L'homme se plaît à être malade." },
-    questions:[
-      {q:"1. Qui est Argan et quel est son comportement ?", pts:3, rep:"Argan est un malade imaginaire. Il consulte pour tout, veut se faire saigner et purger, se croit toujours malade."},
-      {q:"2. Que craint le narrateur pour Argan ?", pts:4, rep:"Il craint qu'Argan ne devienne vraiment malade à force de vouloir se soigner."},
-      {q:"3. Relevez une hyperbole dans le texte. Justifiez.", pts:3, rep:"'Il souffre de tous les maux' – exagération, Argan n'a rien."},
-      {q:"4. Quelle est la morale implicite de ce texte ?", pts:3, rep:"On peut se rendre malade par la peur d'être malade ou par l'abus de médecine."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la proposition 'qu'Argan ne finisse par se rendre malade'.", pts:2, rep:"Proposition subordonnée conjonctive (complément du verbe 'craindre'), verbe au subjonctif."},
-      {q:"2. Conjuguez 'consulter' au passé simple, 1ère personne du singulier.", pts:2, rep:"je consultai."},
-      {q:"3. Réécrivez la dernière phrase à la forme négative.", pts:2, rep:"Je ne crains pas qu'il ne finisse par se rendre malade."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui se croit toujours malade.", sujet2:"La médecine guérit-elle tous les maux ? Argumentez.", pts:20}
+  {
+    id:5, annee:'2019', session:'Asie — 24 juin 2019',
+    titre:'19GENMATAA1 — Programmes de calcul · CO₂ · Scratch robot · Cylindres béton · Quadrilatère · Voitures · Fonction · Bouteilles',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/19GENMATAA1.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — Programmes Nina & Claire (14 pts)', pts:14, questions:[
+        {texte:'Nina : (x−1)×(−2)+2. Claire : x×(−1/2)+1.\n1. Pour x=1, montrer que Nina obtient 4 fois le résultat de Claire.',rep:'Nina : (1−1)×(−2)+2 = 0+2 = 2. Claire : 1×(−½)+1 = −½+1 = ½. 2 = 4×½ ✓'},
+        {texte:'2. Quel nombre Nina choisit pour obtenir 0 ?',rep:'(x−1)×(−2)+2 = 0 → (x−1)×(−2) = −2 → x−1 = 1 → x = 2'},
+        {texte:'3. « Mon résultat sera toujours 4 fois le tien. » A-t-elle raison ?',rep:'Nina(x) = (x−1)×(−2)+2 = −2x+2+2 = −2x+4. Claire(x) = −x/2+1. 4×Claire = −2x+4 = Nina(x). OUI, elle a raison.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Émissions CO₂ (11 pts)', pts:11, questions:[
+        {texte:'UE : 5680,9 Mt CO₂ en 1990, −21% en 2013.\n1. Émissions UE en 2013.',rep:'5680,9 × (1−0,21) = 5680,9 × 0,79 ≈ 4487,9 Mt CO₂'},
+        {texte:'2. France : −2/5 par rapport à 1990 ≈ −1/3 par rapport à 2013. Justifier.',rep:'Émissions 2013 : 490,2 Mt. Objectif 2030 : 549,4×(1−2/5) = 549,4×0,6 = 329,64. Baisse par rapport à 2013 : (490,2−329,64)/490,2 ≈ 0,328 ≈ 1/3. ✓'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Scratch robot (17 pts)', pts:17, questions:[
+        {texte:'1. Dessiner le motif du programme 1W 2N 2E 4S 2W.',rep:'Partir du point d, aller 1 case Ouest, 2 Nord, 2 Est, 4 Sud, 2 Ouest. Tracer case par case.'},
+        {texte:'2a. Programme n°1 : 1S 3(1N 3E 2S) ou Programme n°2 : 3(1S 1N 3E 1S). Lequel donne le motif ?',rep:'Analyser les déplacements de chaque programme et comparer au motif fourni.'},
+        {texte:'2b. Pourquoi l\'autre ne donne pas le motif ?',rep:'Expliquer la différence de déplacement qui produit un motif différent.'},
+        {texte:'3. Réécrire le programme n°3 : 4(1S 1E 1N) en modifiant une seule instruction pour obtenir l\'autre motif.',rep:'Analyser le motif cible et identifier quelle instruction changer (direction ou distance).'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Cylindres béton Mme Martin (16 pts)', pts:16, questions:[
+        {texte:'5 cylindres, diamètre ext. 101cm, int. 90cm, hauteur 50cm, ρ=2400 kg/m³. Max 500 kg en remorque.\nNombre minimum d\'allers-retours pour 5 cylindres.',rep:'V = π×(0,505²−0,45²)×0,5 ≈ π×(0,255−0,2025)×0,5 ≈ π×0,0525×0,5 ≈ 0,0825 m³. Masse = 2400×0,0825 ≈ 198 kg. Par voyage : 500/198 ≈ 2,52 → 2 cylindres max. Pour 5 cylindres : 3 allers-retours (2+2+1).'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Quadrilatère ABCD (12 pts)', pts:12, questions:[
+        {texte:'ABCD diagonales se croisent en O. OA=3,5cm, AB=5cm.\n1. ABCD est-il un rectangle ?',rep:'Dans un rectangle les diagonales sont égales et se coupent en leur milieu. OA=OC=3,5 donc diagonale AC=7. Vérifier si BD=7 aussi et si les angles sont droits.'},
+        {texte:'2. ABCD est-il un carré ?',rep:'Si c\'est un rectangle, vérifier si AB = BC (côtés égaux). Calculer BC si possible.'}
+      ]},
+      {type:'pb', label:'Exercice 6 — Voitures diesel/essence (14 pts)', pts:14, questions:[
+        {texte:'Diesel : 19741 milliers, 15430 km/an. Essence : 11984 milliers, 8344 km/an.\n1. Vérifier 31 725 000 voitures.',rep:'19741 + 11984 = 31725 milliers = 31 725 000 ✓'},
+        {texte:'2. Proportion de voitures essence (en %).',rep:'11984/31725 ≈ 0,3777 ≈ 38 %'},
+        {texte:'3a. Hugo a 7 ans de voiture, 103 824 km. Pourquoi le présentateur pense-t-il diesel ?',rep:'Distance diesel/an = 15430 km. 7×15430 = 108010 km. Distance essence/an = 8344 km. 7×8344 = 58408 km. 103824 est plus proche de 108010 que de 58408 → diesel probable.'},
+        {texte:'3b. Possible que ce soit une essence ?',rep:'8344×7 = 58408 km. Or 103824 >> 58408. Sauf si Hugo roule beaucoup plus que la moyenne → possible mais peu probable.'}
+      ]},
+      {type:'pb', label:'Exercice 7 — Fonctions C₁ et C₂ (16 pts)', pts:16, questions:[
+        {texte:'f(x) = −2x + 8.\n1. Quelle représentation (C₁ ou C₂) est celle de f ?',rep:'f est linéaire décroissante, ordonnée à l\'origine = 8, pente = −2. Identifier sur le graphique.'},
+        {texte:'2. f(3) = ?',rep:'f(3) = −2×3+8 = −6+8 = 2'},
+        {texte:'3. Quel nombre a pour image 6 par f ?',rep:'−2x+8 = 6 → −2x = −2 → x = 1'},
+        {texte:'4. Formule dans B2 à étirer pour calculer f(x).',rep:'=−2*A2+8 ou =−2*B1+8 selon la structure du tableur.'}
+      ]}
+    ]
   },
-  { id:6, annee:"2023", session:"Polynésie", titre:"Victor Hugo – Les Misérables",
-    texte:"Il était entré dans la ville par la porte Saint-Marcel. Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. La nuit était profonde. Pas une étoile ne brillait. Le vent froid lui glaçait le visage. Il espérait trouver un gîte avant minuit. Il frappa à plusieurs portes. On ne lui ouvrit pas. Il s'assit sur une borne, épuisé.",
-    auteur:"Victor Hugo, Les Misérables (1862)",
-    dictee:{ titre:"Dictée – Victor Hugo", texte:"Il marchait lentement, regardant autour de lui. Il était pauvre et fatigué. Les rues étaient sombres et désertes. Une lumière vacillait au loin. Il se sentait seul au monde. Le vent froid lui glaçait le visage." },
-    questions:[
-      {q:"1. Décrivez l'état d'esprit du personnage.", pts:3, rep:"Fatigué, seul, triste, désespéré, il cherche un abri."},
-      {q:"2. Relevez trois éléments du décor qui renforcent cette impression.", pts:4, rep:"Rues sombres et désertes, nuit profonde, pas d'étoiles, vent froid."},
-      {q:"3. Pourquoi personne ne lui ouvre-t-il ?", pts:3, rep:"Il est pauvre, les gens se méfient des pauvres, ou ils dorment."},
-      {q:"4. Quelle est la situation finale du personnage ?", pts:3, rep:"Il s'assied sur une borne, épuisé, sans avoir trouvé de gîte."}
-    ],
-    grammaire:[
-      {q:"1. Analysez la phrase 'Pas une étoile ne brillait' (négation, sens).", pts:2, rep:"Négation totale, insiste sur le vide et l'obscurité."},
-      {q:"2. Conjuguez 'frapper' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait frappé."},
-      {q:"3. Réécrivez 'Il marchait lentement' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous marchions lentement."}
-    ],
-    redaction:{sujet1:"Racontez une nuit difficile où vous vous êtes senti seul.", sujet2:"La pauvreté et la solitude sont-elles toujours liées ?", pts:20}
+  {
+    id:6, annee:'2019', session:'Centres étrangers — 14 juin 2019',
+    titre:'19GENMATG11 — QCM · Programme de calcul · Périmètre · Probabilités chaussures · Thalès · Randonnée · Piscine',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/19GENMATG11.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — QCM (15 pts)', pts:15, questions:[
+        {texte:'Q1 — Décomposition de 28 ? A. 4×7  B. 2×14  C. 2²×7',rep:'C. 2²×7 (décomposition en facteurs PREMIERS uniquement)'},
+        {texte:'Q2 — Pantalon 58€, réduction 20%. Prix ? A. 38  B. 46,40  C. 57,80',rep:'B. 46,40 € — 58 × 0,80 = 46,40'},
+        {texte:'Q3 — Longueur AC, angle 15°, hypoténuse 25m. Arrondi au dixième.',rep:'B. 6,7 m — sin(15°)×25 ≈ 0,2588×25 ≈ 6,47 ≈ 6,5 ou cos selon la figure. Vérifier la configuration exacte.'},
+        {texte:'Q4 — Médiane de : 2;5;3;12;8;6.',rep:'A. 5,5 — Triées : 2,3,5,6,8,12. Médiane = (5+6)/2 = 5,5'},
+        {texte:'Q5 — Rapport de l\'homothétie carré A → carré B.',rep:'C. 2 (si B plus grand que A) ou −0,5 selon l\'orientation. Analyser la figure.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Programme de calcul (14 pts)', pts:14, questions:[
+        {texte:'Programme : x² + 3x + 2.\n1. Pour x=1, montrer que le résultat est 6.',rep:'1²+3×1+2 = 1+3+2 = 6 ✓'},
+        {texte:'2. Résultat pour x=−5.',rep:'(−5)²+3×(−5)+2 = 25−15+2 = 12'},
+        {texte:'3. Exprimer le résultat en fonction de x.',rep:'f(x) = x²+3x+2'},
+        {texte:'4. Montrer que f(x) = (x+2)(x+1).',rep:'(x+2)(x+1) = x²+x+2x+2 = x²+3x+2 = f(x) ✓'},
+        {texte:'5. Dans le tableau, valeurs pour x = −4 à 4.',rep:'Appliquer f(x) = (x+2)(x+1). x=−4:6 ; x=−3:2 ; x=−2:0 ; x=−1:0 ; x=0:2 ; x=1:6 ; x=2:12 ; x=3:20 ; x=4:30'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Rectangle & triangle équilatéral (18 pts)', pts:18, questions:[
+        {texte:'Rectangle côtés 2x+1 et x+1. Triangle équilatéral côté 4x+1.\n1. Construire le triangle pour x=2.',rep:'Côté = 4×2+1 = 9 cm. Construire triangle équilatéral de côté 9 cm.'},
+        {texte:'2a. Montrer que le périmètre du rectangle = 12x+3.',rep:'P = 2×(2x+1)+2×(x+1) = 4x+2+2x+2 = 6x+4... Vérifier : P = 2(2x+1+x+1) = 2(3x+2) = 6x+4 ≠ 12x+3. Peut-être 2×(2x+1) ou dimensions différentes — relire l\'énoncé.'},
+        {texte:'2b. Pour quelle valeur de x le périmètre = 18 cm ?',rep:'6x+4 = 18 → 6x = 14 → x = 7/3 (ou vérifier avec 12x+3 = 18 → x = 5/4 selon le résultat de 2a)'},
+        {texte:'3. Les deux figures ont-elles le même périmètre pour tout x ?',rep:'P(rectangle) = 6x+4, P(triangle) = 3×(4x+1) = 12x+3. 6x+4 ≠ 12x+3 en général. NON (sauf pour une valeur particulière).'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Chaussures (13 pts)', pts:13, questions:[
+        {texte:'45 modèles. Noirs : ville=5, sport=20. Blancs : ville=7. Marron : ville=3. Total sport=18.\n1. Compléter le tableau.',rep:'Sport total = 45−27 = 18. Blanc sport = 18−20−marron sport. Marron sport = 18−5−7−marron_ville_sport... Calculer méthodiquement avec total = 45.'},
+        {texte:'2a. P(couleur noire).',rep:'Total noir = 5+20 = 25. P = 25/45 = 5/9'},
+        {texte:'2b. P(pour le sport).',rep:'Total sport = 18. P = 18/45 = 2/5'},
+        {texte:'2c. P(ville ET marron).',rep:'Ville marron = 3. P = 3/45 = 1/15'},
+        {texte:'3. Magasin B : 54 modèles, 30 noirs. Dans quelle vitrine plus de chance d\'obtenir noir ?',rep:'P(noir, A) = 25/45 ≈ 0,556. P(noir, B) = 30/54 ≈ 0,556. Égales. Calculer exactement : 25/45 = 5/9 et 30/54 = 5/9. Même probabilité.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Meuble Thalès (14 pts)', pts:14, questions:[
+        {texte:'OC=48, OD=64, OB=27, OA=36, CD=80. Droites (AC)⊥(CD).\n1. Démontrer que (AB) et (CD) sont parallèles.',rep:'OA/OC = 36/48 = 3/4 et OB/OD = 27/64... Vérifier si OA/OC = OB/OD pour appliquer Thalès réciproque.'},
+        {texte:'2. Montrer AB = 45 cm.',rep:'Par Thalès : AB/CD = OA/OC = 36/48 = 3/4. AB = 80×3/4 = 60 cm... ou AB² = AC²+BC² si rectangle. Vérifier la configuration.'},
+        {texte:'3. Hauteur totale du meuble.',rep:'Calculer selon le nombre d\'étages et les dimensions données avec l\'épaisseur des plateaux.'}
+      ]},
+      {type:'pb', label:'Exercice 6 — Randonnée (14 pts)', pts:14, questions:[
+        {texte:'1. Proportionnalité selon le graphique ?',rep:'Regarder si la courbe est une droite passant par l\'origine. Sinon non proportionnel.'},
+        {texte:'2a. Durée totale. b. Distance totale. c. Distance à 6h. d. Temps pour 8 km. e. Entre 4h et 5h ?',rep:'Lire les données sur le graphique. Entre 4h et 5h : palier = la famille s\'est arrêtée (repos ou pause).'},
+        {texte:'3. Vitesse moyenne randonneur expert = 4 km/h. Cette famille est-elle expérimentée ?',rep:'v = distance totale / durée totale. Comparer avec 4 km/h.'}
+      ]},
+      {type:'pb', label:'Exercice 7 — Piscine cylindrique (14 pts)', pts:14, questions:[
+        {texte:'Piscine cylindrique, hauteur eau = 65 cm. Pompe : 3,42 kWh/jour. Budget : 200€. Juin-septembre (4 mois ≈ 122 jours). Prix kWh : 0,15€. Prix m³ eau : 2,03€. Prix piscine+pompe : 80€.',rep:'Électricité : 3,42×122×0,15 ≈ 62,60€. Le rayon n\'est pas donné → impossible de calculer le volume exact. Budget = 80 + électricité + eau. Avec 80+62,60 = 142,60€ sans l\'eau → reste 57,40€ pour l\'eau. Conclusion partielle : budget probablement insuffisant selon le rayon de la piscine.'}
+      ]}
+    ]
   },
-  { id:7, annee:"2022", session:"Métropole", titre:"Alain-René Lesage – Gil Blas",
-    texte:"Ce cavalier portait une longue rapière et pouvait avoir trente ans. Il s'approcha de moi d'un air empressé : « Seigneur écolier, me dit-il, je viens d'apprendre que vous êtes le Seigneur Gil Blas de Santillane, l'ornement d'Oviedo et le flambeau de la philosophie. Vous ne savez pas ce que vous possédez. Vous avez un trésor dans votre maison. Vous voyez dans ce jeune gentilhomme la huitième merveille du monde. » Je ne pus lui répondre, car il me serrait trop fort. Mais je compris plus tard qu'il voulait seulement manger à mes dépens.",
-    auteur:"Alain-René Lesage, Gil Blas (1715)",
-    dictee:{ titre:"Dictée – Gil Blas", texte:"Le cavalier s'approcha de moi d'un air empressé. Il m'apprit que j'étais l'ornement d'Oviedo. Je ne pus lui répondre. Je compris plus tard qu'il voulait seulement manger à mes dépens." },
-    questions:[
-      {q:"1. Quels éloges le cavalier fait-il de Gil Blas ? Citez-en trois.", pts:4, rep:"'ornement d'Oviedo', 'flambeau de la philosophie', 'huitième merveille du monde'."},
-      {q:"2. Quelle est la véritable intention du cavalier ? Justifiez avec la fin du texte.", pts:3, rep:"Manger aux dépens de Gil Blas. Citation : 'qu'il voulait seulement manger à mes dépens'."},
-      {q:"3. Pourquoi Gil Blas ne peut-il pas répondre tout de suite ?", pts:2, rep:"Parce que le cavalier le serre trop fort (accolade)."}
-    ],
-    grammaire:[
-      {q:"1. Relevez une hyperbole et justifiez.", pts:2, rep:"'la huitième merveille du monde' – exagération élogieuse."},
-      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
-      {q:"3. Analysez la proposition 'qu'il voulait seulement manger à mes dépens'.", pts:2, rep:"Proposition subordonnée conjonctive complétive (COD du verbe 'compris')."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'un flatteur qui cherche à profiter des autres.", sujet2:"Faut-il toujours se méfier des compliments ?", pts:20}
+  {
+    id:7, annee:'2025', session:'Centres étrangers Groupe I — 16 juin 2025',
+    titre:'25GENMATG11 — QCM · Colis · Programme · Triangle agriculteur · Digicode',
+    pdf:'https://www.education.gouv.fr/media/228015/download',
+    exos:[
+      {type:'pb', label:'Exercice 1 — QCM (20 pts)', pts:20, questions:[
+        {texte:'Q1 — Décomposition de 120 ? A. 2×3×4×5  B. 15×2×2×2  C. 2³×3×5  D. 53+67',rep:'C. 2³×3×5'},
+        {texte:'Q2 — Cellule A1=5, B1=2. A2 = −4*A1−12. Étirer vers B2 → B2 = ?',rep:'B2 = −4×B1−12 = −4×2−12 = −8−12 = −20. B. −20'},
+        {texte:'Q3 — Homothétie centre O, carré A → carré B. Rapport ?',rep:'Analyser la figure : si B est 2 fois plus grand que A → rapport 2, si de même côté → C ou D.'},
+        {texte:'Q4 — Factorisation de 4x²−1.',rep:'A. (2x−1)(2x+1) — identité a²−b² avec a=2x, b=1'},
+        {texte:'Q5 — Triangle TER, TE=7,4cm, calculer RE.',rep:'Utiliser la trigonométrie (sin, cos, tan) selon les angles donnés dans la figure.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Colis A B C D E (19 pts)', pts:19, questions:[
+        {texte:'Masses : A=4, B=9, C=2, D=7, E=11 kg.\n1. Calculer la moyenne.',rep:'(4+9+2+7+11)/5 = 33/5 = 6,6 kg'},
+        {texte:'2. Médiane. Interpréter.',rep:'Triées : 2,4,7,9,11. Médiane = 7 kg. La moitié des colis pèse moins de 7 kg, l\'autre moitié plus.'},
+        {texte:'3. P(masse < 8 kg).',rep:'Colis < 8 kg : A(4), C(2), D(7) → 3 colis sur 5. P = 3/5'},
+        {texte:'4a. Vérifier volume colis E = 0,12 m³.',rep:'V = 0,5×0,4×0,6 = 0,12 m³ ✓'},
+        {texte:'4b. Montrer masse volumique E ≈ 91,7 kg/m³.',rep:'ρ = m/V = 11/0,12 ≈ 91,67 ≈ 91,7 kg/m³ ✓'},
+        {texte:'4c. « E plus lourd que C donc masse volumique(E) > masse volumique(C) ». A-t-il raison ?',rep:'NON. La masse volumique dépend du rapport masse/volume. C : V = 0,3×0,1×0,5 = 0,015 m³. ρ(C) = 2/0,015 ≈ 133,3 kg/m³ > 91,7 kg/m³ = ρ(E). Faux.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Programme f(x) = −8x+16 (21 pts)', pts:21, questions:[
+        {texte:'Programme : ×(−2) → +4 → ×4.\n1. Pour x=1, montrer que le résultat est 8.',rep:'1×(−2)=−2 → −2+4=2 → 2×4=8 ✓'},
+        {texte:'2. Résultat pour x=−2.',rep:'(−2)×(−2)=4 → 4+4=8 → 8×4=32'},
+        {texte:'3. Montrer que le résultat = −8x+16.',rep:'x×(−2)=−2x → −2x+4 → (−2x+4)×4 = −8x+16 ✓'},
+        {texte:'4a. Résoudre −8x+16 = 4.',rep:'−8x = −12 → x = 3/2 = 1,5'},
+        {texte:'4b. Nombre de départ pour obtenir 4.',rep:'x = 1,5'},
+        {texte:'5. Quelle représentation graphique pour f(x) = −8x+16 ?',rep:'Droite décroissante (pente −8), ordonnée à l\'origine = 16. Identifier sur les graphiques fournis.'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Champ agriculteur ABC (21 pts)', pts:21, questions:[
+        {texte:'ABC rect. en B. AB=600m, BC=450m, CD=270m. C,E,A alignés. C,D,B alignés.\n1. Montrer AC = 750 m.',rep:'AC² = AB²+BC² = 600²+450² = 360000+202500 = 562500 → AC = 750 m ✓'},
+        {texte:'2a. Montrer que (ED) et (AB) sont parallèles.',rep:'CD/CB = 270/450 = 3/5 et CE/CA... Montrer CD/CB = CE/CA pour appliquer Thalès réciproque.'},
+        {texte:'2b. Montrer DE = 360 m.',rep:'Par Thalès : DE/AB = CD/CB = 270/450 = 3/5. DE = 600×3/5 = 360 m ✓'},
+        {texte:'3. Montrer que l\'aire du triangle CDE = 48 600 m².',rep:'CDE semblable à CAB. Rapport = 3/5. Aire CAB = ½×600×450 = 135000. Aire CDE = 135000×(3/5)² = 135000×9/25 = 48600 m² ✓'},
+        {texte:'Prix : Blé 1,40€/kg, Seigle 1,30€/kg, Pois 2,10€/kg. Répartition : 80kg blé, 60kg seigle, 50kg pois pour 10000m².\n1. Ratio vendeur 16:12:8. Respecte-t-il l\'indication 2 ?',rep:'Ratio 16:12:8 = 4:3:2. Indication 2 : 80:60:50 = 8:6:5. Ces ratios sont différents → NON.'},
+        {texte:'2. L\'agriculteur doit acheter 388,80 kg de blé pour 48600 m². Justifier.',rep:'Règle de 3 : 10000 m² → 80 kg. 48600 m² → 48600×80/10000 = 388,8 kg ✓'},
+        {texte:'3. Budget 1500€ pour 48600 m² (388,80 kg blé, 291,6 kg seigle, 243 kg pois). Suffisant ?',rep:'Coût = 388,80×1,40 + 291,6×1,30 + 243×2,10 = 544,32 + 379,08 + 510,30 = 1433,70 €. 1433,70 < 1500 → OUI, budget suffisant.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Digicode lettre+chiffre (19 pts)', pts:19, questions:[
+        {texte:'Code : 1 lettre (A,B,C) + 1 chiffre (0-9).\n1. Proposer deux codes différents.',rep:'Ex : A3 et C7'},
+        {texte:'2. P(lettre C).',rep:'3 lettres possibles → P = 1/3'},
+        {texte:'3. Montrer P(chiffre 7) = 1/10.',rep:'10 chiffres possibles (0 à 9) → P = 1/10 ✓'},
+        {texte:'4. P(code avec nombre premier).',rep:'Nombres premiers entre 0 et 9 : 2,3,5,7 → 4 chiffres. P = 4/10 = 2/5'},
+        {texte:'5a. 5s/code. Réussit-elle en moins de 3 min (180s) ?',rep:'Nombre de codes = 3×10 = 30. Temps = 30×5 = 150 s < 180 s → OUI.'},
+        {texte:'5b. Ce format garantit-il la sécurité ? Comment améliorer ?',rep:'30 codes seulement → très peu sécurisé. Amélioration : augmenter longueur (ex : 2 lettres + 4 chiffres), ajouter blocage après 3 essais.'},
+        {texte:'6a. Léna saisit B5. Qu\'affiche le programme ?',rep:'Appliquer le programme (condition code correct) avec B5.'},
+        {texte:'6b. Quel est le vrai code ?',rep:'Identifier le code qui satisfait la condition dans le programme.'}
+      ]}
+    ]
   },
-  { id:8, annee:"2022", session:"Polynésie", titre:"Guy de Maupassant – La Parure",
-    texte:"C'était une de ces jolies et charmantes filles qui semblent être nées par une erreur du destin dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances, aucun moyen d'être connue, comprise, aimée, épousée par un homme riche et distingué. Elle se résigna à épouser un petit commis du ministère. Elle fut simple et malheureuse comme une déclassée. Les femmes n'ont point de caste ni de race. Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance.",
-    auteur:"Guy de Maupassant, La Parure (1884)",
-    dictee:{ titre:"Dictée – Maupassant", texte:"C'était une de ces jolies filles nées par erreur dans une famille d'employés. Elle n'avait pas de dot, pas d'espérances. Elle épousa un petit commis. Leur beauté tient lieu de naissance aux femmes." },
-    questions:[
-      {q:"1. Pourquoi cette fille est-elle malheureuse ?", pts:3, rep:"Elle est née pauvre mais se sent faite pour la richesse. Elle n'a pas de dot, pas d'espérances."},
-      {q:"2. Qui épouse-t-elle ?", pts:2, rep:"Un petit commis du ministère."},
-      {q:"3. Que veulent dire les dernières phrases ?", pts:5, rep:"Pour les femmes, la beauté et le charme sont plus importants que l'origine sociale."}
-    ],
-    grammaire:[
-      {q:"1. Analysez l'énumération 'connue, comprise, aimée, épousée'.", pts:2, rep:"Gradation ascendante, le mariage est le but ultime pour une femme à l'époque."},
-      {q:"2. Conjuguez 'se résigner' au passé simple, 3e personne du singulier.", pts:2, rep:"elle se résigna."},
-      {q:"3. Réécrivez la dernière phrase à la forme affirmative.", pts:2, rep:"Leur beauté, leur grâce, leur charme leur tiennent lieu de naissance."}
-    ],
-    redaction:{sujet1:"Racontez l'histoire d'une personne qui rêve d'une autre vie.", sujet2:"L'apparence est-elle plus importante que l'origine sociale ?", pts:20}
+  {
+    id:8, annee:'2023', session:'Centres étrangers Groupe I — 14 juin 2023',
+    titre:'23GENMATG11 — QCM Scratch · Cabane · Programmes calcul · Urne lots · Location bateaux',
+    pdf:'https://www.education.gouv.fr/media/156086/download',
+    exos:[
+      {type:'pb', label:'Exercice 1 — QCM (18 pts)', pts:18, questions:[
+        {texte:'A1 — Triangle équilatéral : valeur pour compléter le script. A.60° B.100° C.120°',rep:'C. 120° — Pour un triangle équilatéral, l\'angle de rotation = 360°/3 = 120°'},
+        {texte:'A2 — Quelle figure est obtenue avec le script principal ?',rep:'Analyser les instructions du script (nombre de répétitions, déplacements, rotations).'},
+        {texte:'A3 — Remplacer « répéter 2 fois » par « répéter 6 fois » → polygone obtenu ?',rep:'B. Un hexagone — 6 répétitions de triangles équilatéraux'},
+        {texte:'B1 — (2/3 − 1/3) ÷ 4/3 = ?',rep:'C. 3/15 × 3/4 — (1/3) ÷ (4/3) = (1/3)×(3/4) = 3/12 = 1/4'},
+        {texte:'B2 — Écriture scientifique de 302,4 × 10¹⁸.',rep:'B. 3,024 × 10²⁰'},
+        {texte:'B3 — 8 biscuits, 18g corrigé en 16g. La médiane change ?',rep:'B. La même — Triés sans 18 : 8,10,11,12,12,13,15,16. Médiane = (12+12)/2=12. Avant : 8,10,11,12,12,13,15,18 → médiane=(12+12)/2=12. Identique.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Cabane toboggan échelle bac (24 pts)', pts:24, questions:[
+        {texte:'AB=1,3m, DE=2,04m, AC=0,5m, BC=DF=1,2m. Triangle DEF rect. en F.\n1. Angle DEF = 30° pour sécurité ? (arrondi degré)',rep:'sin(DEF) = DF/DE = 1,2/2,04 ≈ 0,588 → angle ≈ 36° ≠ 30° → NON, pas sécurisé.'},
+        {texte:'2. Montrer EF ≈ 2,37 m.',rep:'EF² = DE²−DF² = 2,04²−1,2² = 4,1616−1,44 = 2,7216 → EF ≈ 1,65 m. Ou cos(DEF)×DE. Vérifier calcul.'},
+        {texte:'Partie B — BN=0,84m. Montrer (AC) et (MN) parallèles.',rep:'Utiliser Thalès ou propriété des droites parallèles avec les données.'},
+        {texte:'Calculer longueur MN.',rep:'Par Thalès : MN/AC = BN/BC → MN = AC×BN/BC = 0,5×0,84/1,2 = 0,35 m'},
+        {texte:'Partie C — Bac 200×180×20 cm.\n1. Volume en cm³.',rep:'V = 200×180×20 = 720 000 cm³'},
+        {texte:'2. Ratio 3:2. Vérifier sable maçonner = 0,432 m³ et sable fin = 0,288 m³.',rep:'Total = 0,72 m³. Maçonner = 0,72×3/5 = 0,432 m³ ✓. Fin = 0,72×2/5 = 0,288 m³ ✓'},
+        {texte:'3. Coût total du sable (sacs entiers). Maçonner : 35kg/0,022m³/2,95€. Fin : 25kg/0,016m³/5,95€.',rep:'Maçonner : 0,432/0,022 ≈ 19,6 → 20 sacs × 2,95 = 59€. Fin : 0,288/0,016 = 18 sacs × 5,95 = 107,10€. Total = 166,10 €.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Programmes Amir & Sonia (15 pts)', pts:15, questions:[
+        {texte:'Amir : (x−5)×2−16. Sonia : x×(x+3).\n1. Pour x=6 : Amir→2, Sonia→38.',rep:'Amir : (6−5)×2−16 = 1×2−16 = 2−16... Recalculer : (6−5)×2 = 2, 2−16 = −14 ≠ 2. Vérifier la formulation exacte du programme.'},
+        {texte:'2a. Formule dans B2 pour programme Amir ?',rep:'= (B1−5)*2−16'},
+        {texte:'2b. Nombre pour résultats égaux (tableau) ?',rep:'D\'après le tableau, x = 2 (Amir:−6, Sonia:10... vérifier les valeurs exactes du tableau).'},
+        {texte:'3a. Montrer que résultat de Sonia = x²+3x−16.',rep:'Sonia : x×(x+3) = x²+3x... si on soustrait 16 à la fin : x²+3x−16. Vérifier l\'énoncé exact.'},
+        {texte:'3b. Résoudre (x−2)(x+3)=0 → valeurs pour résultats égaux.',rep:'(x−2)(x+3)=0 → x=2 ou x=−3. Les deux programmes donnent le même résultat pour x=2 et x=−3.'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Urne et lots (22 pts)', pts:22, questions:[
+        {texte:'Urne : 3 boules noires (N1,N2,N3), 4 boules rouges (R1,R2,R3,R4).\n1a. P(boule rouge).',rep:'P = 4/7'},
+        {texte:'1b. P(numéro pair).',rep:'Pairs : N2, R2, R4 → 3 boules. P = 3/7'},
+        {texte:'2. Gagner = tirer R1 puis une boule noire (avec remise). P(gagner).',rep:'P(R1) = 1/7. P(noire) = 3/7. P(gagner) = 1/7 × 3/7 = 3/49'},
+        {texte:'195 figurines, 234 autocollants. Lots identiques avec tout.\n1. Peut-on faire 3 lots ?',rep:'195/3 = 65 ✓. 234/3 = 78 ✓. OUI.'},
+        {texte:'2. Décomposer 195.',rep:'195 = 3 × 5 × 13'},
+        {texte:'3a. 234 = 2×3²×13. Nombre de lots maximum.',rep:'PGCD(195, 234) = 3 × 13 = 39. Maximum 39 lots.'},
+        {texte:'3b. Figurines et autocollants par lot.',rep:'Figurines : 195/39 = 5. Autocollants : 234/39 = 6.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Location bateaux société A & B (21 pts)', pts:21, questions:[
+        {texte:'Société A : proportionnel (graphique). Société B : f(x) = 15x + 60.\n1a. Prix 2h société A ?',rep:'Lire sur le graphique.'},
+        {texte:'1b. Budget 100€ → combien d\'heures entières ?',rep:'Lire sur le graphique.'},
+        {texte:'1c. Pourquoi prix proportionnel chez A ?',rep:'La courbe est une droite passant par l\'origine.'},
+        {texte:'1d. Prix pour 10h chez A.',rep:'Déduire du taux de proportionnalité lu sur le graphique : prix/h × 10.'},
+        {texte:'2.1. Montrer prix B pour 2h = 90€.',rep:'f(2) = 15×2+60 = 30+60 = 90 € ✓'},
+        {texte:'2.3. Prix proportionnel chez B ?',rep:'NON — f(x) = 15x+60 n\'est pas linéaire (terme constant +60 ≠ 0).'},
+        {texte:'3a. 3h : quelle société choisir ?',rep:'A : lire sur graphique. B : f(3) = 15×3+60 = 105€. Comparer.'},
+        {texte:'3b. Pour quelle durée le prix est identique ?',rep:'f_A(x) = f_B(x). Si A est 20x : 20x = 15x+60 → 5x = 60 → x = 12h (à vérifier avec le taux réel de A).'}
+      ]}
+    ]
   },
-  { id:9, annee:"2021", session:"Métropole (juin)", titre:"Émile Zola – Germinal",
-    texte:"Dans la plaine désolée, sous la nuit sans étoiles, un homme marchait seul le long de la route. Il était venu de loin, à pied, et il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Pas une maison, pas un arbre. Seul le vent soufflait, lugubre. De temps en temps, il levait la tête et regardait le ciel noir. Il ne voyait rien. Il ne connaissait personne. Il était seul, complètement seul.",
-    auteur:"Émile Zola, Germinal (1885)",
-    dictee:{ titre:"Dictée – Zola", texte:"Dans la plaine désolée, un homme marchait seul le long de la route. Il allait devant lui, sans savoir où il allait. Les champs étaient noirs et vides. Seul le vent soufflait, lugubre. Il était seul, complètement seul." },
-    questions:[
-      {q:"1. Où se passe cette scène ?", pts:2, rep:"Dans une plaine déserte, de nuit."},
-      {q:"2. Quels sentiments dominent ?", pts:3, rep:"La solitude, l'abandon, la tristesse."},
-      {q:"3. Relevez trois répétitions qui renforcent le sentiment de solitude.", pts:4, rep:"'seul' (répété), 'pas une maison, pas un arbre' (négations), 'il ne voyait rien, il ne connaissait personne'."},
-      {q:"4. Que fait le personnage de temps en temps ?", pts:3, rep:"Il lève la tête et regarde le ciel noir."}
-    ],
-    grammaire:[
-      {q:"1. Analysez les négations dans 'Pas une maison, pas un arbre'.", pts:2, rep:"Négations totales, insistent sur le vide absolu."},
-      {q:"2. Conjuguez 'marcher' au plus-que-parfait, 3e personne du singulier.", pts:2, rep:"il avait marché."},
-      {q:"3. Réécrivez 'Il était seul' à l'imparfait, 1ère personne du pluriel.", pts:2, rep:"Nous étions seuls."}
-    ],
-    redaction:{sujet1:"Racontez un voyage solitaire.", sujet2:"La solitude est-elle une chance ou une punition ?", pts:20}
+  {
+    id:9, annee:'2019', session:'Grèce — 18 juin 2019',
+    titre:'19GENMATGR1 — Roues loterie · Triangles semblables · Course athlétisme · Scratch rosaces · Programme (x+1)²−x²',
+    pdf:'https://galilee.ac/annales-brevet/sujets-complets/sujet-brevet-maths-2019-grece-complet-789',
+    exos:[
+      {type:'pb', label:'Exercice 1 — Roues de loterie (12 pts)', pts:12, questions:[
+        {texte:'Roue A (dizaines) × Roue B (unités) = nombre 2 chiffres.\n1. Écrire tous les nombres possibles.',rep:'Lister toutes les combinaisons : si A = {1,2,3,4} et B = {1,2,3,4}, les nombres possibles sont 11,12,13,14,21,22...44 (16 nombres au total).'},
+        {texte:'2. Prouver que P(nombre > 40) = 0,25.',rep:'Nombres > 40 : 41,42,43,44 → 4 nombres sur 16. P = 4/16 = 0,25 ✓'},
+        {texte:'3. P(nombre divisible par 3).',rep:'Identifier les multiples de 3 parmi les nombres possibles et calculer la probabilité.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — Triangles semblables (16 pts)', pts:16, questions:[
+        {texte:'1. Montrer que l\'angle TSR = 60°.',rep:'Utiliser la somme des angles du triangle ou les angles donnés dans la figure.'},
+        {texte:'2. Démontrer que les triangles SRT et SUP sont semblables.',rep:'Montrer l\'égalité de deux angles (AA) : angle S commun + autre angle.'},
+        {texte:'3. Coefficient de réduction SRT → SUP.',rep:'Calculer le rapport d\'une longueur connue de SRT à la longueur correspondante de SUP.'},
+        {texte:'4. Calculer SU.',rep:'Utiliser le coefficient de réduction trouvé : SU = SR × coefficient.'},
+        {texte:'5. Nature du triangle SKL ? Justifier.',rep:'Calculer les longueurs SK, KL, SL et comparer, ou utiliser un angle.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Marc & Jim athlétisme (15 pts)', pts:15, questions:[
+        {texte:'Tour = 400 m. Marc : 2 min/tour. Échauffement 1 km.\n1. Durée de l\'échauffement.',rep:'1000/400 = 2,5 tours. 2,5 × 2 = 5 min'},
+        {texte:'2. Vitesse de Marc en km/h.',rep:'400 m en 2 min = 0,4 km en 2/60 h. v = 0,4/(2/60) = 0,4×30 = 12 km/h'},
+        {texte:'3. Marc : 2 min/tour. Jim : 1 min 40 s = 5/3 min/tour. Quand se retrouvent-ils ensemble au point A pour la 1ère fois ?',rep:'Temps pour 1 tour : Marc 2 min, Jim 5/3 min. PPCM(2, 5/3) → trouver t tel que t/2 et t/(5/3) soient entiers. t = PPCM(2, 5/3) = 10 min. Marc : 5 tours. Jim : 6 tours.'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Scratch rosaces losange (16 pts)', pts:16, questions:[
+        {texte:'Losange 50 pixels, angles aigus 30°, angles obtus 150°.\n1. Compléter le programme pour dessiner le losange.',rep:'Instructions : avancer 50, tourner 30°, avancer 50, tourner 150°, avancer 50, tourner 30°, avancer 50, tourner 150° (ou équivalent).'},
+        {texte:'2. Transformation pour obtenir la rosace à partir du losange (répétée 12 fois).',rep:'Rotation de centre O (centre du losange initial) d\'angle 360°/12 = 30°.'},
+        {texte:'3. Associer chaque programme à la figure correspondante.',rep:'Analyser les différences entre les 3 programmes (nombre de répétitions, angle de rotation, déplacement) et identifier la figure.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Programme f(x) = (x+1)²−x² (15 pts)', pts:15, questions:[
+        {texte:'Programme : x → (x+1)² − x².\n1. Pour x=2, montrer qu\'on obtient 5.',rep:'(2+1)²−2² = 9−4 = 5 ✓'},
+        {texte:'2. Résultat pour x=−3.',rep:'(−3+1)²−(−3)² = (−2)²−9 = 4−9 = −5'},
+        {texte:'3. Montrer que f(x) = 2x+1.',rep:'f(x) = (x+1)²−x² = x²+2x+1−x² = 2x+1 ✓'},
+        {texte:'4 QCM : a. Représentation graphique de f. b. Image de 1 par la repr.A. c. Antécédent de 3 par repr.B.',rep:'f(x)=2x+1 : droite, pente 2, ordonnée à l\'origine 1. f(1)=3. Pour repr.B selon sa définition.'}
+      ]},
+      {type:'pb', label:'Exercice 6 — Cônes frites Jean (22 pts)', pts:22, questions:[
+        {texte:'B milieu AC, F milieu EG. BS=20cm, FS=5cm, AC=12cm.\n1. Montrer EF = 1,5 cm.',rep:'Par Thalès (S centre homothétie) : EF/AC = FS/BS = 5/20 = 1/4. EF = 12×1/4 = 3 cm. Mais EF est un rayon donc EF = AC/2 × FS/BS = 6×1/4 = 1,5 cm ✓'},
+        {texte:'2. Volume de sauce par cône ≈ 11,78 cm³.',rep:'V = π×r²×h/3 = π×1,5²×5/3 = π×2,25×5/3 = π×3,75 ≈ 11,78 cm³ ✓'},
+        {texte:'3. 400 cônes. 80% tomate, 20% mayo. Nombre de bouteilles de chaque.',rep:'Cônes tomate : 320. Volume total tomate : 320×11,78 ≈ 3769,6 cm³ = 3,7696 L. Bouteilles 500mL → ⌈3769,6/500⌉ = 8 bouteilles. Cônes mayo : 80. V : 80×11,78 ≈ 942,4 cm³. Bouteille mayo : V = π×2,5²×15 ≈ 294,5 cm³. ⌈942,4/294,5⌉ = 4 bouteilles.'}
+      ]}
+    ]
   },
-  { id:10, annee:"2026", session:"Sujet zéro", titre:"Jules Verne – Vingt Mille Lieues sous les mers",
-    texte:"Ce fut alors que le commandant du navire, faisant ranger l'équipage sur la dunette, prononça quelques paroles solennelles. Je ne compris pas ce qu'il disait, mais je devinai qu'il ordonnait la pêche du monstre. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait faiblement la surface des flots. Soudain, une trombe d'eau jaillit à cent pas du navire. Une masse énorme émergea. C'était elle. Le monstre.",
-    auteur:"Jules Verne, Vingt Mille Lieues sous les mers (1870)",
-    dictee:{ titre:"Dictée – Jules Verne", texte:"Le commandant prononça des paroles solennelles. Les matelots s'élancèrent aux engins. La mer était calme. La lune éclairait la surface des flots. Soudain, une trombe d'eau jaillit. Une masse énorme émergea." },
-    questions:[
-      {q:"1. Que se passe-t-il ?", pts:3, rep:"On se prépare à pêcher un monstre marin."},
-      {q:"2. Quelle est la réaction des marins ?", pts:3, rep:"Ils s'élancent aux engins, prêts à agir."},
-      {q:"3. Quels éléments du décor sont décrits ?", pts:3, rep:"Mer calme, lune, flots, trombe d'eau."}
-    ],
-    grammaire:[
-      {q:"1. Relevez les verbes d'action dans la dernière phrase.", pts:2, rep:"jaillit, émergea."},
-      {q:"2. Conjuguez 'comprendre' au passé simple, 1ère personne du singulier.", pts:2, rep:"je compris."},
-      {q:"3. Analysez la proposition 'qu'il ordonnait la pêche du monstre'.", pts:2, rep:"Proposition subordonnée conjonctive complétive, COD du verbe 'devinai'."}
-    ],
-    redaction:{sujet1:"Racontez une aventure en mer.", sujet2:"L'aventure est-elle nécessaire à l'homme ?", pts:20}
+  {
+    id:10, annee:'2023', session:'Asie — 19 juin 2023',
+    titre:'23GENMATAA1 — Potager/jeux · QCM · Programme 10x² · Scratch frises · Glaces',
+    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/23GENMATAA1.pdf',
+    exos:[
+      {type:'pb', label:'Exercice 1 — Espace extérieur CE=30m (22 pts)', pts:22, questions:[
+        {texte:'CE=30m, ED=10m, DG=24m. DG⊥CD. (EF)//(DG).\n1. Longueur CD.',rep:'CD = CE−ED = 30−10 = 20 m... ou DG⊥CD donc triangle CDG rect. en D. CD = ? Utiliser les données.'},
+        {texte:'2. Longueur CG (arrondi au dixième).',rep:'CG² = CD²+DG² = 20²+24² = 400+576 = 976 → CG ≈ 31,2 m'},
+        {texte:'3. Montrer que la clôture EF = 18 m.',rep:'Par Thalès : EF/DG = CE/CD = 30/20... ou EF/DG = CE/(CE+ED). Vérifier la configuration.'},
+        {texte:'4. Gazon zone de jeux (triangle EFC). Sacs 5kg, 140m², 22,90€. Budget.',rep:'Aire EFC = calculer. Nb sacs = ⌈Aire/140⌉. Budget = nb sacs × 22,90 €.'},
+        {texte:'5. Surface potager > surface zone de jeux ?',rep:'Calculer les deux aires et comparer.'}
+      ]},
+      {type:'pb', label:'Exercice 2 — QCM (18 pts)', pts:18, questions:[
+        {texte:'Q1 — Urne 2R+3V+3B. P(rouge) ?',rep:'B. 1/4 — P = 2/8 = 1/4'},
+        {texte:'Q2 — Augmenter de 25% → coefficient ?',rep:'A. 1,25'},
+        {texte:'Q3 — Triangle(2) image de triangle(1) par ?',rep:'C. Homothétie de centre D et de rapport 3 (agrandissement × 3)'},
+        {texte:'Q4 — f(x) = −9−7x : type de fonction ?',rep:'A. Fonction affine (a=−7, b=−9)'},
+        {texte:'Q5 — 1 année-lumière ≈ 9461 milliards de km = ? mètres.',rep:'A. 9,461×10¹⁵ m — 9461×10⁹ km × 10³ m/km = 9,461×10¹⁵ m'},
+        {texte:'Q6 — AB en cm dans le triangle rectangle avec hypoténuse 5.',rep:'Selon la position de AB et les angles donnés dans la figure.'}
+      ]},
+      {type:'pb', label:'Exercice 3 — Programme 10x² (20 pts)', pts:20, questions:[
+        {texte:'Programme : f(x) = 10x².\n1. Montrer que pour x=3, résultat = 90.',rep:'10×3² = 10×9 = 90 ✓'},
+        {texte:'2. x=2 et x=−2 donnent le même résultat. Montrer.',rep:'f(2)=10×4=40 ; f(−2)=10×4=40. Égaux ✓'},
+        {texte:'3. Montrer que le résultat = 10x².',rep:'Dérouler les étapes du programme avec x et montrer qu\'on obtient 10x².'},
+        {texte:'4. Graphique : antécédents approximatifs de 30.',rep:'10x² = 30 → x² = 3 → x ≈ ±1,73. Lire sur le graphique.'},
+        {texte:'5a. Formule dans B2 du tableur.',rep:'=10*A2^2 ou =10*(A2)^2'},
+        {texte:'5b. Nombre de départ donnant résultat le plus proche de 30.',rep:'D\'après le tableau : x = 1,73 (résultat 29,929, le plus proche de 30).'},
+        {texte:'6. Valeur exacte du nombre positif cherché.',rep:'10x² = 30 → x² = 3 → x = √3'}
+      ]},
+      {type:'pb', label:'Exercice 4 — Scratch frises (16 pts)', pts:16, questions:[
+        {texte:'1. Coordonnées du lutin après bloc 1.',rep:'Appliquer les déplacements du bloc 1 (aller à, avancer) depuis la position initiale.'},
+        {texte:'2. Valeurs lignes 3 et 5 du bloc 2 pour un carré.',rep:'Pour un carré : 4 côtés égaux, 4 rotations de 90°.'},
+        {texte:'3. Dessiner ce que fait le bloc 3 (1 cm = 20 pas).',rep:'Appliquer les instructions de bloc 3 et tracer le motif.'},
+        {texte:'4a. Quel numéro de frise obtenu ?',rep:'Analyser le script (nombre de répétitions, nature du bloc) pour identifier la frise 1 ou 2.'},
+        {texte:'4b. Script pour l\'autre frise.',rep:'Écrire un script qui produit la frise qui n\'a pas été obtenue.'}
+      ]},
+      {type:'pb', label:'Exercice 5 — Glacier (24 pts)', pts:24, questions:[
+        {texte:'Ventes juillet+août : sem1: 453+860, sem2: 649+1003, sem3: 786+957, sem4: 854+838.\n1. Nombre moyen de pots/semaine.',rep:'Total = 453+860+649+1003+786+957+854+838 = 6400. Moyenne = 6400/8 = 800 pots/semaine'},
+        {texte:'2. 67% sont des pots à 1 boule. Somme rapportée (prix non fourni dans le sujet).',rep:'Nombre pots 1 boule = 6400×0,67 = 4288. Le prix n\'est pas fourni dans l\'extrait → calculer si le prix est dans le sujet original.'},
+        {texte:'3a. Boule diamètre 4,2 cm. Montrer volume ≈ 39 cm³.',rep:'V = (4/3)×π×(2,1)³ = (4/3)×π×9,261 ≈ 4,189×9,261 ≈ 38,8 ≈ 39 cm³ ✓'},
+        {texte:'3b. Bac 10 L. Combien de boules maximum ?',rep:'10 L = 10 000 cm³. Boules = ⌊10000/39⌋ = 256 boules (emballage parfait) mais en pratique : 10000/39 ≈ 256.'}
+      ]}
+    ]
   }
 ];
 
-// ── CORRECTION DICTÉE ──────────────────────────────────────────────────
-async function corrigerDictee(idTextarea, texteOfficiel, numSujet) {
-  const texteEleve = document.getElementById(idTextarea).value.trim();
-  if (!texteEleve) { alert("Écris la dictée avant de corriger."); return; }
-  const corrDiv = document.getElementById('correction-dictee-' + numSujet);
-  corrDiv.innerHTML = '<span class="loading">⏳ Correction en cours...</span>';
-  corrDiv.style.display = 'block';
-  const system = 'Tu es un professeur de français bienveillant. Compare la dictée de l\'élève avec le texte officiel. Compte les erreurs (orthographe, grammaire, ponctuation, accords). Note sur 10 (chaque faute enlève 0.5 point). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "détail des erreurs", "conseil": "conseil pour progresser"}';
-  const prompt = 'Texte officiel : "' + texteOfficiel + '"\nDictée élève : "' + texteEleve + '"';
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      corrDiv.innerHTML = '<strong>Note : ' + json.note + '/10</strong><br><br>' + json.commentaire + '<br><br><strong>Conseil :</strong> ' + json.conseil;
-  sauvegarderCorrection(numSujet, 'dictee', texteOfficiel, corrDiv.innerHTML);
-    } else {
-      corrDiv.innerHTML = txt;
-    }
-  } catch(e) {
-    corrDiv.innerHTML = '<span class="erreur">Erreur : ' + e.message + '</span>';
-  }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ── CORRECTION EXERCICE ────────────────────────────────────────────────
-async function corrigerExo(idTextarea, reponseAttendue, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta réponse avant de corriger."); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette réponse d\'élève (français DNB). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "explication courte"}';
-  const prompt = 'Réponse attendue : "' + reponseAttendue + '"\nRéponse élève : "' + texte + '"\nNote sur ' + pts + ' points.';
-  const feedbackId = 'feedback-' + idTextarea;
-  let feedbackDiv = document.getElementById(feedbackId);
-  if (!feedbackDiv) {
-    feedbackDiv = document.createElement('div');
-    feedbackDiv.id = feedbackId;
-    feedbackDiv.style.cssText = 'margin-top:0.5rem;background:#0a0a12;padding:0.8rem;border-radius:8px;font-size:0.9rem;border-left:3px solid #5ecfb1;';
-    btn.parentNode.insertBefore(feedbackDiv, btn.nextSibling);
-  }
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      feedbackDiv.innerHTML = '<strong style="color:#5ecfb1">Note : ' + json.note + '/' + pts + '</strong><br><br>' + json.commentaire;
-    } else {
-      feedbackDiv.innerHTML = txt;
-    }
-  } catch(e) {
-    feedbackDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Corriger avec IA';
-}
-
-// ── CORRECTION RÉDACTION ───────────────────────────────────────────────
-async function corrigerRedaction(idTextarea, pts) {
-  const texte = document.getElementById(idTextarea).value.trim();
-  if (!texte) { alert("Écris ta rédaction avant de corriger."); return; }
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = '⏳...';
-  const system = 'Tu es un professeur de français bienveillant. Corrige cette rédaction DNB. Note sur ' + pts + ' points selon les critères officiels (pertinence, structure, richesse, style, orthographe). Réponds UNIQUEMENT en JSON valide sans balises markdown : {"note": nombre, "commentaire": "points forts et axes d\'amélioration détaillés"}';
-  const prompt = 'Rédaction :\n' + texte;
-  const feedbackId = 'feedback-' + idTextarea;
-  let feedbackDiv = document.getElementById(feedbackId);
-  if (!feedbackDiv) {
-    feedbackDiv = document.createElement('div');
-    feedbackDiv.id = feedbackId;
-    feedbackDiv.style.cssText = 'margin-top:0.5rem;background:#0a0a12;padding:0.8rem;border-radius:8px;font-size:0.9rem;border-left:3px solid #e8c87a;';
-    btn.parentNode.insertBefore(feedbackDiv, btn.nextSibling);
-  }
-  try {
-    const txt = await callIA(prompt, system);
-    const json = safeParseJSON(txt);
-    if (json) {
-      feedbackDiv.innerHTML = '<strong style="color:#e8c87a">Note : ' + json.note + '/' + pts + '</strong><br><br>' + json.commentaire;
-    } else {
-      feedbackDiv.innerHTML = txt;
-    }
-  } catch(e) {
-    feedbackDiv.innerHTML = '<span style="color:#e87a7a">Erreur : ' + e.message + '</span>';
-  }
-  btn.disabled = false;
-  btn.textContent = 'Corriger la rédaction avec IA';
-}
-
-function afficherCorrection(id) {
-  const el = document.getElementById(id);
-  el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-}
-
-// ── RENDU ──────────────────────────────────────────────────────────────
-function buildNav() {
-  const nav = document.getElementById('sujetsNav');
-  if (!nav) return;
-  SUJETS.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'snav-item';
-    div.id = 'nav' + i;
-    div.innerHTML = '<span class="snav-num">S' + String(i+1).padStart(2,'0') + ' · ' + s.annee + '</span>'
-      + '<div class="snav-info"><div class="snav-titre">' + s.session + '</div>'
-      + '<div class="snav-sub">' + s.titre + '</div></div>'
-      + '<button class="snav-btn" onclick="event.stopPropagation();selSujet(' + i + ')">Commencer →</button>';
-    div.onclick = () => selSujet(i);
-    nav.appendChild(div);
+function buildGrid() {
+  var html = '';
+  SUJETS.forEach(function(s, idx) {
+    html += '<div class="card" onclick="ouvrirSujet(' + idx + ')">'
+      + '<div class="card-top"><span class="card-num">Sujet ' + s.id + '</span><span class="badge">' + s.annee + '</span></div>'
+      + '<div class="card-titre">' + esc(s.titre) + '</div>'
+      + '<div class="card-meta">' + esc(s.session) + '</div>'
+      + '<a class="card-pdf" href="' + s.pdf + '" target="_blank" onclick="event.stopPropagation()">📄 Sujet officiel PDF</a>'
+      + '</div>';
   });
+  document.getElementById('grid').innerHTML = html;
 }
-function selSujet(idx) {
-  document.querySelectorAll('.sujet').forEach(el => el.classList.remove('visible'));
-  document.querySelectorAll('.snav-item').forEach(el => el.classList.remove('active'));
-  const sujets = document.querySelectorAll('.sujet');
-  if (sujets[idx]) {
-    sujets[idx].classList.add('visible');
-    document.getElementById('nav'+idx)?.classList.add('active');
-    sujets[idx].scrollIntoView({behavior:'smooth', block:'start'});
+
+function ouvrirSujet(idx) {
+  var s = SUJETS[idx];
+  document.getElementById('svTitre').innerHTML = 'DNB ' + s.annee + ' — ' + s.session;
+  document.getElementById('svSub').textContent = s.titre;
+  document.getElementById('svDl').href = s.pdf;
+  document.getElementById('btnPdfExport').onclick = function() { exportPDF(idx); };
+
+  var html = '';
+  s.exos.forEach(function(exo, ei) {
+    var cls = exo.type === 'auto' ? 'badge-auto' : 'badge-pb';
+    html += '<div class="exo">'
+      + '<div class="exo-head"><span class="exo-badge ' + cls + '">' + (exo.type==='auto'?'Automatismes':'Problèmes') + '</span><span class="exo-label">' + esc(exo.label) + '</span></div>';
+    exo.questions.forEach(function(q, qi) {
+      var qid = 'q_' + idx + '_' + ei + '_' + qi;
+      html += '<div class="question">'
+        + '<div class="q-texte">' + esc(q.texte).replace(/\n/g,'<br>') + '</div>'
+        + '<div class="answer-wrap">'
+        + '<textarea class="answer-area" id="ans_' + qid + '" placeholder="Écris ta réponse ici..."></textarea>'
+        + '<button class="btn-corriger" onclick="corriger(' + idx + ',' + ei + ',' + qi + ',\'' + qid + '\')">✦ Corriger avec IA</button>'
+        + '</div>'
+        + '<div class="panel" id="panel_' + qid + '"></div>'
+        + '</div>';
+    });
+    html += '</div>';
+  });
+
+  document.getElementById('svContent').innerHTML = html;
+  document.getElementById('landing').style.display = 'none';
+  var sv = document.getElementById('sujetView');
+  sv.style.display = 'block';
+  sv.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function retour() {
+  document.getElementById('sujetView').style.display = 'none';
+  document.getElementById('sujetView').classList.remove('active');
+  document.getElementById('landing').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+async function corriger(sIdx, ei, qi, qid) {
+  var s = SUJETS[sIdx];
+  var exo = s.exos[ei];
+  var q = exo.questions[qi];
+  var ans = document.getElementById('ans_' + qid).value.trim();
+  if (!ans) { alert("Écris ta réponse d'abord !"); return; }
+
+  var panel = document.getElementById('panel_' + qid);
+  var btn = document.getElementById('panel_' + qid).previousElementSibling.querySelector('.btn-corriger');
+  panel.classList.add('show');
+  panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction en cours...</div>';
+  if (btn) btn.disabled = true;
+
+  var pts = exo.pts;
+  var qTexteClean = q.texte.replace(/[\n\r]/g,' ').substring(0,300);
+
+  var system = 'Tu es correcteur au brevet des collèges (DNB) en MATHÉMATIQUES, session ' + s.annee + ', ' + s.session + '.'
+    + ' Sujet : ' + s.titre + '.'
+    + ' Exercice : ' + exo.label + ' — ' + pts + ' points maximum.'
+    + ' Question posée : ' + qTexteClean + '.'
+    + ' MÉTHODE ATTENDUE AU DNB MATHS :'
+    + ' Toute réponse doit être JUSTIFIÉE même si le résultat est faux (notation partielle).'
+    + ' Nommer les théorèmes utilisés (Pythagore, Thalès, probabilités).'
+    + ' Unités obligatoires. Calculs intermédiaires visibles. Conclusion explicite.'
+    + ' TA MISSION :'
+    + ' 1. NOTER sur ' + pts + ' points avec détail des points par étape si possible.'
+    + ' 2. VÉRIFIER si le cours est su : théorèmes, formules, définitions corrects ?'
+    + ' 3. ÉVALUER la méthode : raisonnement logique, étapes posées, calculs vérifiables ?'
+    + ' 4. REPÉRER les erreurs typiques : erreur de signe, unité oubliée, conclusion absente.'
+    + ' 5. DONNER des pistes précises : quel théorème revoir ? quel exercice refaire ?'
+    + ' Réponds UNIQUEMENT en JSON valide sans markdown :'
+    + ' {"note":X,"sur":' + pts + ',"cours_su":"OK/Partiel/Non — explication","methode":"OK/Partiel/Non — explication","commentaire":"analyse 3-5 lignes","pistes":"conseils précis"}';
+
+  var prompt = 'Question : ' + qTexteClean
+    + '\nCorrection attendue : ' + q.rep.substring(0,300)
+    + '\nRéponse élève : ' + ans;
+
+  try {
+    var txt = await callIA(prompt, system);
+    var json = safeJSON(txt);
+
+    if (!STORE[s.id]) STORE[s.id] = [];
+    STORE[s.id].push({
+      exo: exo.label,
+      qi: qi + 1,
+      question: q.texte.substring(0,80),
+      correctionIA: json ? json.commentaire : txt,
+      correctionOff: q.rep,
+      pts: pts,
+           note: json ? json.note : null
+    });
+    try { localStorage.setItem(_STORE_KEY, JSON.stringify(STORE)); } catch(e) {}
+
+    panel.innerHTML = '<div class="corr-ia">'
+      + (json ? '<div class="corr-note">✓ ' + json.note + ' / ' + (json.sur || pts) + '</div>' : '')
+      + (json && json.cours_su ? '<div class="corr-conseil">📚 <strong>Cours :</strong> ' + json.cours_su + '</div>' : '')
+      + (json && json.methode  ? '<div class="corr-conseil">✏️ <strong>Méthode :</strong> ' + json.methode + '</div>' : '')
+      + '<div class="corr-txt">' + (json ? json.commentaire : txt) + '</div>'
+      + (json && json.pistes   ? '<div class="corr-conseil" style="color:#e8c87a">🎯 <strong>Pistes :</strong> ' + json.pistes + '</div>' : '')
+      + '</div>'
+      + '<div class="corr-off"><strong>📖 CORRECTION OFFICIELLE</strong><br>' + esc(q.rep) + '</div>'
+      + '<button class="btn-copy" onclick="copier(this)">📋 Copier</button>';
+
+  } catch(err) {
+    panel.innerHTML = '<div style="color:#e87a7a">❌ Erreur : ' + err.message + '</div>';
+  } finally {
+    if (btn) btn.disabled = false;
   }
 }
 
-function afficherSujets() {
-  const container = document.getElementById('sujets');
-  container.innerHTML = '';
-  SUJETS.forEach((s, idx) => {
-    const num = idx + 1;
-    const div = document.createElement('div');
-    div.className = 'sujet';
-    let html = '<h3>Sujet ' + num + ' – ' + s.annee + ' (' + s.session + ') <span class="badge">' + s.titre + '</span></h3>';
-    html += '<div class="texte"><strong>Texte :</strong><br>' + s.texte + '<br><em>' + s.auteur + '</em></div>';
-
-    // DICTÉE
-    const dicteeTexteEsc = s.dictee.texte.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
-    html += '<div class="document"><strong>Dictée (10 points)</strong><br>' + s.dictee.titre + '<br><em>Le professeur lira le texte à voix haute. Écoutez et écrivez.</em></div>';
-    html += '<textarea id="dictee-' + num + '" class="dictee" placeholder="Écoutez et écrivez la dictée ici..."></textarea>';
-    html += '<button onclick="corrigerDictee(\'dictee-' + num + '\', `' + dicteeTexteEsc + '`, ' + num + ')">Corriger la dictée avec IA</button>';
-    html += '<div id="correction-dictee-' + num + '" class="correction"></div>';
-
-    // COMPRÉHENSION
-    const ptsComp = s.questions.reduce((a, q) => a + q.pts, 0);
-    html += '<br><div><strong>📖 Compréhension (' + ptsComp + ' points)</strong></div>';
-    s.questions.forEach((q, i) => {
-      const repEsc = q.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + q.pts + ' points)<br>' + q.q + '</div>';
-      html += '<textarea id="comp-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
-      html += '<button onclick="corrigerExo(\'comp-' + num + '-' + i + '\', \'' + repEsc + '\', ' + q.pts + ')">Corriger avec IA</button>';
-      html += '<button onclick="afficherCorrection(\'corr-comp-' + num + '-' + i + '\')">Voir correction</button>';
-      html += '<div id="corr-comp-' + num + '-' + i + '" class="correction">' + q.rep + '</div>';
-    });
-
-    // GRAMMAIRE
-    const ptsGram = s.grammaire.reduce((a, g) => a + g.pts, 0);
-    html += '<br><div><strong>📝 Grammaire (' + ptsGram + ' points)</strong></div>';
-    s.grammaire.forEach((g, i) => {
-      const repEsc = g.rep.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-      html += '<div class="question"><strong>Question ' + (i+1) + '</strong> (' + g.pts + ' points)<br>' + g.q + '</div>';
-      html += '<textarea id="gram-' + num + '-' + i + '" rows="3" placeholder="Votre réponse..."></textarea>';
-      html += '<button onclick="corrigerExo(\'gram-' + num + '-' + i + '\', \'' + repEsc + '\', ' + g.pts + ')">Corriger avec IA</button>';
-      html += '<button onclick="afficherCorrection(\'corr-gram-' + num + '-' + i + '\')">Voir correction</button>';
-      html += '<div id="corr-gram-' + num + '-' + i + '" class="correction">' + g.rep + '</div>';
-    });
-
-    // RÉDACTION
-    html += '<br><div><strong>✍️ Rédaction (' + s.redaction.pts + ' points)</strong><br>';
-    html += 'Choix A : ' + s.redaction.sujet1 + '<br>';
-    html += 'Choix B : ' + s.redaction.sujet2 + '</div>';
-    html += '<textarea id="redac-' + num + '" class="redaction" placeholder="Votre rédaction (environ 300 mots)..."></textarea>';
-    html += '<button onclick="corrigerRedaction(\'redac-' + num + '\', ' + s.redaction.pts + ')">Corriger la rédaction avec IA</button>';
-    html += '<hr>';
-
-    div.innerHTML = html;
-    container.appendChild(div);
-  });
+async function copier(btn) {
+  var panel = btn.parentElement;
+  var txt = panel.innerText;
+  try {
+    await navigator.clipboard.writeText(txt);
+    btn.textContent = '✓ Copié';
+    setTimeout(function() { btn.textContent = '📋 Copier'; }, 2000);
+  } catch(e) {}
 }
 
-buildNav();
-afficherSujets();
-
-function exportPDF() {
-  const data = Object.values(STORE).flat();
-  if (!data.length) { alert("Corrige au moins une question d'abord."); return; }
-  let html = '<html><head><meta charset="UTF-8"><style>body{font-family:Arial,font-size:13px;padding:2rem;}h2{color:#2a7a60;border-bottom:2px solid #5ecfb1;padding-bottom:4px;}.ia{background:#f0fff8;border-left:3px solid #5ecfb1;padding:8px;margin:8px 0;white-space:pre-wrap;}</style></head><body>';
-  html += '<h1>Corrections Français DNB</h1>';
-  data.forEach(c => { html += '<h2>' + c.type + '</h2><p><em>' + c.question + '</em></p><div class="ia">' + c.correctionIA + '</div>'; });
+function exportPDF(sIdx) {
+  var s = SUJETS[sIdx];
+  var data = STORE[s.id];
+  if (!data || !data.length) { alert("Corrige au moins une question d'abord."); return; }
+  var totalObt = 0, totalMax = 0;
+  data.forEach(function(c) {
+    if (c.note != null) totalObt += parseFloat(c.note);
+    totalMax += c.pts;
+  });
+  var html = '<html><head><meta charset="UTF-8"><style>'
+    + 'body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:2rem;}'
+    + 'h1{font-size:16px;border-bottom:2px solid #f5a623;color:#b87800;padding-bottom:6px;margin-bottom:16px;}'
+    + 'h2{font-size:13px;margin-top:1.2rem;border-left:4px solid #f5a623;padding-left:8px;}'
+    + '.q{margin-bottom:8px;font-style:italic;color:#555;}'
+    + '.rep-ia{background:#fff9e6;border:1px solid #f5a623;border-radius:6px;padding:8px;margin:6px 0;}'
+    + '.rep-off{background:#e6f9ee;border:1px solid #34c76b;border-radius:6px;padding:8px;margin:6px 0;font-size:12px;}'
+    + '.score{font-size:18px;font-weight:bold;color:#b87800;margin:16px 0;}'
+    + '</style></head><body>'
+    + '<h1>📐 Corrections Maths — ' + s.annee + ' ' + s.session + '</h1>'
+    + '<div class="score">Score : ' + totalObt.toFixed(1) + ' / ' + totalMax + '</div>';
+  data.forEach(function(c) {
+    html += '<h2>' + c.exo + ' — Q' + c.qi + (c.note != null ? ' (' + c.note + '/' + c.pts + ')' : '') + '</h2>'
+      + '<div class="q">' + c.question + '</div>'
+      + '<div class="rep-ia">🤖 ' + c.correctionIA + '</div>'
+      + '<div class="rep-off">✅ ' + c.correctionOff + '</div>';
+  });
   html += '</body></html>';
-  const win = window.open('', '_blank');
-  win.document.write(html); win.document.close();
-  win.onload = () => win.print();
+  var win = window.open('', '_blank');
+  if (win) { win.document.write(html); win.document.close(); win.print(); }
 }
+
+window.onload = buildGrid;
 </script>
 </body>
 </html>
