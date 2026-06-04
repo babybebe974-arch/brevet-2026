@@ -148,7 +148,7 @@ const SUJETS = [
   {
     id:1, annee:'2026', session:'France (Sujet B — décembre 2025)',
     titre:'Sujet B 2026 — Angles · Probabilités · Fonctions · PGCD',
-    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/Sujet-zero-B-2026.pdf',
+    pdf:'https://www.apmep.fr/IMG/pdf/Brevet_0_B_2026_DV.pdf',
     exos:[
       {type:'auto', label:'Partie 1 — Automatismes (6 pts)', pts:6, questions:[
         {texte:'Q1 — Quelle est la mesure, en degrés, d\'un angle droit ?',rep:'90°'},
@@ -508,7 +508,7 @@ const SUJETS = [
   {
     id:9, annee:'2019', session:'Grèce — 18 juin 2019',
     titre:'19GENMATGR1 — Roues loterie · Triangles semblables · Course athlétisme · Scratch rosaces · Programme (x+1)²−x²',
-    pdf:'https://pi.ac3j.fr/wp-content/uploads/Brevets/19GENMATGR1.pdf',
+    pdf:'https://galilee.ac/annales-brevet/sujets-complets/sujet-brevet-maths-2019-grece-complet-789',
     exos:[
       {type:'pb', label:'Exercice 1 — Roues de loterie (12 pts)', pts:12, questions:[
         {texte:'Roue A (dizaines) × Roue B (unités) = nombre 2 chiffres.\n1. Écrire tous les nombres possibles.',rep:'Lister toutes les combinaisons : si A = {1,2,3,4} et B = {1,2,3,4}, les nombres possibles sont 11,12,13,14,21,22...44 (16 nombres au total).'},
@@ -695,10 +695,14 @@ async function corriger(sIdx, ei, qi, qid) {
       exo: exo.label,
       qi: qi + 1,
       question: q.texte.substring(0,80),
+      reponseEleve: ans,
+      cours_su: json ? json.cours_su : '',
+      methode: json ? json.methode : '',
+      pistes: json ? json.pistes : '',
       correctionIA: json ? json.commentaire : txt,
       correctionOff: q.rep,
       pts: pts,
-           note: json ? json.note : null
+      note: json ? json.note : null
     });
     try { localStorage.setItem(_STORE_KEY, JSON.stringify(STORE)); } catch(e) {}
 
@@ -744,6 +748,9 @@ function exportPDF(sIdx) {
     + 'h2{font-size:13px;margin-top:1.2rem;border-left:4px solid #f5a623;padding-left:8px;}'
     + '.q{margin-bottom:8px;font-style:italic;color:#555;}'
     + '.rep-ia{background:#fff9e6;border:1px solid #f5a623;border-radius:6px;padding:8px;margin:6px 0;}'
+    + '.rep-eleve{background:#f0f0ff;border:1px solid #9090c8;border-radius:6px;padding:8px;margin:6px 0;}'
+    + '.rep-detail{background:#f9f9f0;border:1px solid #c8c890;border-radius:6px;padding:6px 10px;margin:4px 0;font-size:12px;}'
+    + '.rep-pistes{background:#fff8e6;border:1px solid #f5a623;border-radius:6px;padding:8px;margin:6px 0;}'
     + '.rep-off{background:#e6f9ee;border:1px solid #34c76b;border-radius:6px;padding:8px;margin:6px 0;font-size:12px;}'
     + '.score{font-size:18px;font-weight:bold;color:#b87800;margin:16px 0;}'
     + '</style></head><body>'
@@ -751,9 +758,13 @@ function exportPDF(sIdx) {
     + '<div class="score">Score : ' + totalObt.toFixed(1) + ' / ' + totalMax + '</div>';
   data.forEach(function(c) {
     html += '<h2>' + c.exo + ' — Q' + c.qi + (c.note != null ? ' (' + c.note + '/' + c.pts + ')' : '') + '</h2>'
-      + '<div class="q">' + c.question + '</div>'
-      + '<div class="rep-ia">🤖 ' + c.correctionIA + '</div>'
-      + '<div class="rep-off">✅ ' + c.correctionOff + '</div>';
+      + '<div class="q"><strong>Question :</strong> ' + c.question + '</div>'
+      + '<div class="rep-eleve"><strong>✏️ Réponse élève :</strong><br>' + (c.reponseEleve || '—') + '</div>'
+      + (c.cours_su ? '<div class="rep-detail">📚 <strong>Cours :</strong> ' + c.cours_su + '</div>' : '')
+      + (c.methode  ? '<div class="rep-detail">✏️ <strong>Méthode :</strong> ' + c.methode + '</div>' : '')
+      + '<div class="rep-ia">🤖 <strong>Analyse IA :</strong><br>' + c.correctionIA + '</div>'
+      + (c.pistes   ? '<div class="rep-pistes">🎯 <strong>Pistes :</strong> ' + c.pistes + '</div>' : '')
+      + '<div class="rep-off">📖 <strong>Correction officielle :</strong><br>' + c.correctionOff + '</div>';
   });
   html += '</body></html>';
   var win = window.open('', '_blank');
