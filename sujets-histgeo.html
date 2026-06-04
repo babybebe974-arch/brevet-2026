@@ -149,6 +149,12 @@ textarea::placeholder{color:var(--muted);}
 <script>
 const PROXY = 'https://script.google.com/macros/s/AKfycby9xan87KYJf0vtJw_umfYusxVse6OpxXK8gyieeGoaXknPrRjNdpzAkOUOzrpkK1-gMg/exec';
 const STORE = {};
+const _STORE_KEY = 'hg_corrections_ia';
+// Charger les corrections sauvegardées
+try {
+  const _saved = JSON.parse(localStorage.getItem(_STORE_KEY) || '{}');
+  Object.assign(STORE, _saved);
+} catch(e) {}
 
 async function callIA(prompt, system) {
   const r = await fetch(PROXY, {
@@ -487,7 +493,7 @@ function ouvrirSujet(idx) {
 
   html += `<div class="export-zone">
     <p>📄 Sauvegarder toutes les corrections IA de ce sujet</p>
-    <button class="btn-pdf" onclick="exportPDF(${idx})">📄 Générer PDF</button>
+    <button class="btn-pdf" onclick="exportPDF(${idx})">📄 Générer PDF</button><button class="sv-dl" style="margin-left:8px;color:#e87a7a" onclick="effacerCorrections(${idx})">🗑 Effacer corrections</button>
   </div>`;
 
   document.getElementById('svContent').innerHTML = html;
@@ -558,6 +564,8 @@ Réponds UNIQUEMENT en JSON valide sans markdown :
   _sessions.unshift({ id: Date.now(), date: new Date().toISOString(), matiere: 'histoire', sujetId: s.id, sujetTitre: s.titre });
   localStorage.setItem(_kSuivi, JSON.stringify(_sessions.slice(0, 200)));
     STORE[s.id].push({exo:s.exos[ei].label, qi:qi+1, question:q.texte, correctionIA:contenu, correctionOff:q.rep, pts, note:json?json.note:null});
+  // Sauvegarder dans localStorage
+  try { localStorage.setItem(_STORE_KEY, JSON.stringify(STORE)); } catch(e) {}
 
     panel.innerHTML = `
       <div class="corr-ia">
@@ -583,6 +591,14 @@ async function copier(btn) {
     btn.textContent = '✓ Copié !';
     setTimeout(()=>btn.textContent='📋 Copier',1500);
   } catch(e){}
+}
+
+function effacerCorrections(sIdx) {
+  const s = SUJETS[sIdx];
+  if (!confirm('Effacer toutes les corrections sauvegardées pour ce sujet ?')) return;
+  delete STORE[s.id];
+  try { localStorage.setItem(_STORE_KEY, JSON.stringify(STORE)); } catch(e) {}
+  alert('Corrections effacées.');
 }
 
 function exportPDF(sIdx) {
