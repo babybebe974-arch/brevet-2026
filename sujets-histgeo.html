@@ -147,7 +147,7 @@ textarea::placeholder{color:var(--muted);}
 </div>
 
 <script>
-const PROXY = 'https://script.google.com/macros/s/AKfycby9xan87KYJf0vtJw_umfYusxVse6OpxXK8gyieeGoaXknPrRjNdpzAkOUOzrpkK1-gMg/exec';
+const PROXY = 'https://script.google.com/macros/s/AKfycbxWNuQnKJpEGh4n_BFLkTss1PppSDxyHnTCea-gkc5S041y3hd9Jpe4aWLtdyhD30qgkg/exec';
 const STORE = {};
 const _STORE_KEY = 'hg_corrections_ia';
 // Charger les corrections sauvegardées
@@ -157,16 +157,24 @@ try {
 } catch(e) {}
 
 async function callIA(prompt, system) {
-  const r = await fetch(PROXY, {
-    method:'POST', headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({prompt, system}), redirect:'follow'
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('⏱ Timeout (45s) — réessaie dans quelques secondes.')), 45000)
+  );
+  const req = fetch(PROXY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ prompt, system }),
+    redirect: 'follow'
+  }).then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(d => {
+    if (d.success && d.content) return d.content;
+    throw new Error(d.error || 'Réponse inattendue');
   });
-  if (!r.ok) throw new Error('HTTP '+r.status);
-  const d = await r.json();
-  if (d.success && d.content) return d.content;
-  throw new Error(d.error||'Réponse inattendue');
+  return Promise.race([req, timeout]);
 }
-function safeJSON(t){try{return JSON.parse(t.replace(/```json|```/g,'').trim());}catch(e){return null;}}
+
 
 const SUJETS = [
   {
@@ -533,6 +541,7 @@ async function corriger(sIdx, ei, qi, qid) {
     ? "En Géographie, la méthode DNB attend : (1) pour les questions sur documents : relever des informations précises, utiliser les indicateurs chiffrés, localiser et nommer les espaces, (2) pour le développement construit : intro (définir le thème+problématique), 2-3 parties avec exemples localisés (nommer les lieux), conclusion, (3) pour la cartographie : légende soignée, figurés adaptés, titres. Notions de cours attendues : vocabulaire géographique précis, exemples concrets d'espaces étudiés en classe."
     : "En EMC, la méthode DNB attend : (1) analyser un document (nature, source, message), (2) mobiliser des notions civiques précises (droits, devoirs, institutions, valeurs républicaines), (3) pour une situation pratique : construire un argumentaire structuré liant valeurs républicaines + exemples concrets + conclusion engagée. Notions de cours attendues : Liberté-Égalité-Fraternité, laïcité, citoyenneté, institutions.";
   const sujet_nom = s.titre || '';
+  const qTexteClean = q.texte.replace(/📄[^—]*—\s*/,'').substring(0,300);
   const system = `Tu es correcteur au brevet des collèges (DNB) en ${mat_label}.
 Sujet : "${sujet_nom}" — ${s.annee}, ${s.session}.
 Exercice : ${s.exos[ei].label} (${pts} points maximum).
@@ -554,7 +563,7 @@ Réponds UNIQUEMENT en JSON valide sans markdown :
   try {
     const txt = await callIA(prompt, system);
     const json = safeJSON(txt);
-    const contenu = json ? 'Note : '+json.note+'/'+pts+'\n'+json.commentaire+'\n💡 '+json.conseil : txt;
+    const contenu = json ? (json.note ? 'Note : '+json.note+'/'+pts+'\n' : '') + (json.commentaire||txt) + (json.pistes ? '\n💡 '+json.pistes : '') : txt;
 
     if (!STORE[s.id]) STORE[s.id] = [];
   // Sauvegarde suivi parental
