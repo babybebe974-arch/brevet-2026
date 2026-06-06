@@ -546,23 +546,19 @@ async function corriger(sIdx, ei, qi, qid) {
     : "En EMC, la méthode DNB attend : (1) analyser un document (nature, source, message), (2) mobiliser des notions civiques précises (droits, devoirs, institutions, valeurs républicaines), (3) pour une situation pratique : construire un argumentaire structuré liant valeurs républicaines + exemples concrets + conclusion engagée. Notions de cours attendues : Liberté-Égalité-Fraternité, laïcité, citoyenneté, institutions.";
   const sujet_nom = s.titre || '';
   const qTexteClean = q.texte.replace(/📄[^—]*—\s*/,'').substring(0,300);
-  const system = `Tu es correcteur au brevet des collèges (DNB) en ${mat_label}.
-Sujet : "${sujet_nom}" — ${s.annee}, ${s.session}.
-Exercice : ${s.exos[ei].label} (${pts} points maximum).
-Question posée : ${qTexteClean}
-
-MÉTHODE ATTENDUE POUR CETTE MATIÈRE :
-${methodo}
-
-TA MISSION :
-1. NOTER sur ${pts} points (sois précis et juste, pas complaisant).
-2. ANALYSER si le cours est su : notions correctes ? vocabulaire disciplinaire présent ? dates/acteurs/exemples attendus ?
-3. ÉVALUER la méthode de rédaction : structure, connecteurs, paragraphes, réponse à la question posée ?
-4. DONNER des pistes précises et concrètes si la réponse est insuffisante : quelles notions revoir ? quelle méthode améliorer ? quel exemple manque ?
-
-Réponds UNIQUEMENT en JSON valide sans markdown :
-{"note":X,"sur":${pts},"cours_su":"✅ Oui / ⚠ Partiel / ❌ Non — [explication 1 phrase]","methode":"✅ Bonne / ⚠ À améliorer / ❌ Insuffisante — [explication 1 phrase]","commentaire":"[analyse détaillée 3-5 lignes]","pistes":"[conseils précis si note < ${pts}*0.7, sinon bravo + point à approfondir]"}`;
-  const prompt = `Exercice : "${s.exos[ei].label}"\nQuestion : "${q.texte.replace(/📄[^—]*—\s*/,'').substring(0,200)}"\nCorrection attendue : "${q.rep}"\nRéponse élève : "${ans}"`;
+  const system = 'Tu es correcteur au brevet des collèges (DNB) en ' + mat_label + '.'
+    + ' Sujet : ' + sujet_nom + ' — ' + s.annee + ', ' + s.session + '.'
+    + ' Exercice : ' + s.exos[ei].label + ' (' + pts + ' points maximum).'
+    + ' Question posée : ' + qTexteClean
+    + ' MÉTHODE ATTENDUE : ' + methodo
+    + ' TA MISSION :'
+    + ' 1. NOTER sur ' + pts + ' points (précis, pas complaisant).'
+    + ' 2. ANALYSER si le cours est su : notions, vocabulaire, dates/acteurs/exemples.'
+    + ' 3. ÉVALUER la méthode : structure, connecteurs, réponse à la question posée.'
+    + ' 4. DONNER des pistes précises si insuffisant.'
+    + ' Réponds UNIQUEMENT en JSON valide sans markdown :'
+    + ' {"note":X,"sur":' + pts + ',"cours_su":"OK/Partiel/Non — explication","methode":"OK/Partiel/Non — explication","commentaire":"analyse 3-5 lignes","pistes":"conseils précis"}';
+  const prompt = 'Exercice : ' + s.exos[ei].label + '\nQuestion : ' + qTexteClean + '\nCorrection attendue : ' + q.rep.substring(0,200) + '\nRéponse élève : ' + ans;
 
   try {
     const txt = await callIA(prompt, system);
