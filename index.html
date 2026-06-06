@@ -6,9 +6,9 @@
   <title>📚 Révisions Brevet 2026</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#09090f;color:#e8e8f0;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;}
+    body{background:#09090f;color:#e8e8f0;font-family:Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;}
     .hub{max-width:600px;width:100%;}
-    h1{font-size:1.8rem;text-align:center;margin-bottom:0.5rem;color:#e8c87a;font-family:'Syne',sans-serif;}
+    h1{font-size:1.8rem;text-align:center;margin-bottom:0.5rem;color:#e8c87a;}
     .sub{text-align:center;color:#9090a8;font-size:13px;margin-bottom:2rem;}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:1.5rem;}
     .card{background:#111118;border:1px solid #2a2a38;border-radius:12px;padding:1rem;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:#e8e8f0;display:block;}
@@ -30,31 +30,31 @@
     <div class="sub">Choisis une matière pour réviser</div>
     
     <div class="grid">
-      <a href="automatismes-francais.html" class="card fr" target="_blank">
+      <a href="?page=francais" class="card fr" target="_blank">
         <span>🇫🇷</span>
         <h3>Français</h3>
         <p>Grammaire, conjugaison, figures de style</p>
       </a>
       
-      <a href="automatismes-maths.html" class="card ma" target="_blank">
+      <a href="?page=maths" class="card ma" target="_blank">
         <span>📐</span>
         <h3>Mathématiques</h3>
         <p>Calculs, équations, géométrie</p>
       </a>
       
-      <a href="automatismes-histgeo.html" class="card hg" target="_blank">
+      <a href="?page=histgeo" class="card hg" target="_blank">
         <span>🌍</span>
         <h3>Histoire-Géo-EMC</h3>
         <p>Dates, repères, valeurs de la République</p>
       </a>
       
-      <a href="automatismes-sciences.html" class="card sc" target="_blank">
+      <a href="?page=sciences" class="card sc" target="_blank">
         <span>🔬</span>
         <h3>Sciences</h3>
         <p>SVT, physique-chimie, écosystèmes</p>
       </a>
       
-      <a href="suivi-parent.html" class="card parent" target="_blank">
+      <a href="?page=suivi" class="card parent" target="_blank">
         <span>📊</span>
         <h3>Suivi Parental</h3>
         <p>Notes, progression, statistiques</p>
@@ -65,5 +65,25 @@
       💡 Les notes sont sauvegardées automatiquement dans ton navigateur
     </div>
   </div>
+  
+  <script>
+    // Gestion des paramètres URL pour le déploiement Apps Script
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var page = params.get('page');
+      if(page) {
+        var urls = {
+          'francais': '<?= getFrancais().getUrl() ?>',
+          'maths': '<?= getMaths().getUrl() ?>',
+          'histgeo': '<?= getHistgeo().getUrl() ?>',
+          'sciences': '<?= getSciences().getUrl() ?>',
+          'suivi': '<?= getSuivi().getUrl() ?>'
+        };
+        if(urls[page]) {
+          window.location.href = urls[page];
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
