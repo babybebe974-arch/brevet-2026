@@ -26,8 +26,8 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 /* NOTE GLOBALE */
 .note-globale{background:#111118;border:1px solid #2a2a38;border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
 .note-cercle{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;}
-.note-num{font-size:2.4rem;font-weight:800;line-height:1;}
-.note-denom{font-size:13px;color:#9090a8;}
+.note-num{font-size:2rem;font-weight:800;line-height:1;}
+.note-denom{font-size:12px;color:#9090a8;}
 .note-infos{flex:1;}
 .note-titre{font-size:15px;font-weight:700;margin-bottom:6px;}
 .note-sub{font-size:13px;color:#9090a8;line-height:1.6;}
@@ -95,7 +95,7 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
   <div class="header">
     <div>
       <h1>📊 Suivi Parental — Brevet 2026</h1>
-      <p>Note sur 10 · Chapitres faibles et forts · Dernières sessions</p>
+      <p>Note réelle sur le nombre de questions · Chapitres faibles et forts · Dernières sessions</p>
     </div>
     <a href="index.html" class="back">← Hub</a>
   </div>
@@ -153,35 +153,72 @@ var MATIERES = [
   {id:'sciences', nom:'Sciences',     ico:'🔬', couleur:'#5eaacf', cls:'mat-sc'}
 ];
 
-// ─── Lecture localStorage ───
+// ─── Lecture localStorage avec gestion de l'ancien format (pourcentage seul) ───
 function getSessions(matiere) {
-  try { return JSON.parse(localStorage.getItem('suivi_sessions_'+matiere+'_'+eleve)||'[]'); }
+  try { 
+    var sessions = JSON.parse(localStorage.getItem('suivi_sessions_'+matiere+'_'+eleve)||'[]');
+    // Conversion pour compatibilité avec l'ancien format (noteSur non défini)
+    return sessions.map(function(s){
+      if(s.noteSur === undefined && s.pourcentage !== undefined) {
+        // Ancien format : on simule une note sur 20 (pour compatibilité)
+        return Object.assign({}, s, {noteSur: 20, noteObtenue: Math.round(s.pourcentage * 20 / 100)});
+      }
+      return s;
+    });
+  }
   catch(e){ return []; }
 }
+
 function getAllSessions() {
   var all = [];
   MATIERES.forEach(function(m){
-    getSessions(m.id).forEach(function(s){ all.push(Object.assign({},s,{matiereId:m.id,matiereNom:m.nom,matiereIco:m.ico,couleur:m.couleur})); });
+    getSessions(m.id).forEach(function(s){ 
+      all.push(Object.assign({}, s, {
+        matiereId: m.id, 
+        matiereNom: m.nom, 
+        matiereIco: m.ico, 
+        couleur: m.couleur
+      })); 
+    });
   });
   return all.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
 }
 
-// ─── Note sur 10 : 1 bonne réponse ≥ 50% ───
+// ─── Formater une note (X/Y) ───
+function formatNote(obtenue, sur) {
+  if(sur === undefined || sur === 0) return obtenue + '/?';
+  return obtenue + '/' + sur;
+}
+
+// ─── Calculer le pourcentage à partir de noteObtenue/noteSur ───
+function calculerPourcentage(session) {
+  if(session.noteSur && session.noteSur > 0) {
+    return Math.round(session.noteObtenue / session.noteSur * 100);
+  }
+  return session.pourcentage || 0;
+}
+
+// ─── Note sur 10 (pour l'affichage global) : pourcentage >= 50% = bonne réponse ───
 function pctToNote(pct) {
   return Math.round(pct / 10);
 }
+
 function noteClass(n) {
   return n >= 8 ? 'vert' : n >= 5 ? 'orange' : 'rouge';
 }
+
 function noteBg(n) {
   return n >= 8 ? 'rgba(94,207,177,.15)' : n >= 5 ? 'rgba(232,200,122,.15)' : 'rgba(232,122,122,.15)';
 }
+
 function noteBorder(n) {
   return n >= 8 ? '#5ecfb1' : n >= 5 ? '#e8c87a' : '#e87a7a';
 }
+
 function noteLibelle(n) {
   return n >= 9 ? '🌟 Excellent' : n >= 8 ? '👍 Très bien' : n >= 6 ? '👌 Bien' : n >= 5 ? '💪 Passable' : '📚 À retravailler';
 }
+
 function fmtDate(str) {
   try { var d=new Date(str); return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
   catch(e){ return str; }
@@ -201,7 +238,7 @@ function renderAlerte() {
   }
 }
 
-// ─── Note globale ───
+// ─── Note globale (moyenne des pourcentages, affichée en X/Y simulé) ───
 function renderNoteGlobale() {
   var all = getAllSessions().slice(0,10);
   var el = document.getElementById('noteGlobale');
@@ -209,17 +246,18 @@ function renderNoteGlobale() {
     el.innerHTML = '<div class="vide" style="width:100%">Aucune session enregistrée pour l\'instant.</div>';
     return;
   }
-  var moy = Math.round(all.reduce(function(a,s){return a+s.pourcentage;},0)/all.length);
-  var note = pctToNote(moy);
+  var moyPct = Math.round(all.reduce(function(a,s){return a + calculerPourcentage(s);},0)/all.length);
+  var note = pctToNote(moyPct);
   var coulBg = noteBg(note);
   var coulBord = noteBorder(note);
   var libelle = noteLibelle(note);
   var nb = getAllSessions().length;
   var dern = all[0];
   var diff = Math.floor((Date.now()-new Date(dern.date))/(1000*60*60*24));
-  var diffTxt = diff===0?'aujourd\'hui':diff===1?'hier':il+' y a '+diff+' jours';
+  var diffTxt = diff===0?'aujourd\'hui':diff===1?'hier':'il y a '+diff+' jours';
+  
   // tendance
-  var t5 = all.slice(0,5).map(function(s){return s.pourcentage;});
+  var t5 = all.slice(0,5).map(function(s){return calculerPourcentage(s);});
   var tend = t5.length>=2?(t5[0]>t5[t5.length-1]?'↑ En progression':t5[0]<t5[t5.length-1]?'↓ En baisse':'→ Stable'):'—';
   var tendCol = tend.includes('↑')?'#5ecfb1':tend.includes('↓')?'#e87a7a':'#9090a8';
 
@@ -231,7 +269,7 @@ function renderNoteGlobale() {
     +'<div class="note-infos">'
     +'<div class="note-titre">Note globale de '+(eleve==='wassil'?'Wassil':'Nawal')+' — moyenne des 10 dernières sessions</div>'
     +'<div class="note-sub">'
-    +'<strong>'+moy+'%</strong> de bonnes réponses (≥50% = bonne réponse)<br>'
+    +'<strong>'+moyPct+'%</strong> de bonnes réponses en moyenne<br>'
     +'<strong>'+nb+'</strong> session'+(nb>1?'s':'')+' enregistrée'+(nb>1?'s':'')+' · Dernière : <strong>'+fmtDate(dern.date)+'</strong><br>'
     +'<span style="color:'+tendCol+'"><strong>'+tend+'</strong></span> sur les 5 dernières sessions'
     +'</div>'
@@ -239,7 +277,7 @@ function renderNoteGlobale() {
     +'</div>';
 }
 
-// ─── Cartes matières ───
+// ─── Cartes matières (avec note sur le vrai dénominateur) ───
 function renderMatieres() {
   var html = '';
   MATIERES.forEach(function(m){
@@ -253,15 +291,22 @@ function renderMatieres() {
         +'<div class="mat-sessions">0 session</div></div>';
       return;
     }
-    var moy = Math.round(sessions.slice(0,5).reduce(function(a,s){return a+s.pourcentage;},0)/Math.min(sessions.length,5));
-    var note = pctToNote(moy);
+    // Prendre les 5 dernières sessions pour la moyenne
+    var recentes = sessions.slice(0,5);
+    var moyPct = Math.round(recentes.reduce(function(a,s){return a + calculerPourcentage(s);},0)/recentes.length);
+    var note = pctToNote(moyPct);
     var col = noteBorder(note);
+    
+    // Dernière session avec note réelle
+    var dern = sessions[0];
+    var dernNote = dern.noteSur ? formatNote(dern.noteObtenue, dern.noteSur) : dern.pourcentage+'%';
+    
     html += '<div class="matiere-card '+m.cls+'">'
       +'<div class="mat-head"><span class="mat-nom">'+m.ico+' '+m.nom+'</span>'
-      +'<div style="text-align:right"><div class="mat-note" style="color:'+col+'">'+note+'</div><div class="mat-note-label">/10</div></div></div>'
-      +'<div class="mat-bar-wrap"><div class="mat-bar"><div class="mat-fill" style="width:'+moy+'%;background:'+m.couleur+'"></div></div>'
-      +'<div class="mat-bar-label"><span style="color:'+col+'">'+moy+'%</span><span style="color:#5a5a72">100%</span></div></div>'
-      +'<div class="mat-sessions">'+sessions.length+' session'+(sessions.length>1?'s':'')+' · '+noteLibelle(note)+'</div></div>';
+      +'<div style="text-align:right"><div class="mat-note" style="color:'+col+'">'+note+'</div><div class="mat-note-label">/10 (moy)</div></div></div>'
+      +'<div class="mat-bar-wrap"><div class="mat-bar"><div class="mat-fill" style="width:'+moyPct+'%;background:'+m.couleur+'"></div></div>'
+      +'<div class="mat-bar-label"><span style="color:'+col+'">'+moyPct+'%</span><span style="color:#5a5a72">100%</span></div></div>'
+      +'<div class="mat-sessions">'+sessions.length+' session'+(sessions.length>1?'s':'')+' · Dernière : '+dernNote+' · '+noteLibelle(note)+'</div></div>';
   });
   document.getElementById('matieresGrid').innerHTML = html || '<div class="vide">Aucune donnée.</div>';
 }
@@ -334,21 +379,24 @@ function renderChapitres() {
     + renderGroupe('✅ Points forts (≥ 8/10)', forts, 'fort', '#5ecfb1');
 }
 
-// ─── Sessions récentes ───
+// ─── Sessions récentes (affichage X/Y) ───
 function renderSessions() {
   var all = getAllSessions().slice(0,15);
   var el = document.getElementById('sessionsBody');
   if(!all.length){ el.innerHTML='<div class="vide">Aucune session enregistrée.</div>'; return; }
 
   var rows = all.map(function(s){
-    var note = pctToNote(s.pourcentage);
+    var pct = calculerPourcentage(s);
+    var note = pctToNote(pct);
     var cls = note>=8?'score-ok':note>=5?'score-mid':'score-bad';
     var chaps = Array.isArray(s.chapitres)?s.chapitres.slice(0,3).join(', ')+(s.chapitres.length>3?'…':''):'—';
+    var noteAffichage = s.noteSur ? formatNote(s.noteObtenue, s.noteSur) : pct+'%';
+    
     return '<tr>'
       +'<td style="white-space:nowrap">'+fmtDate(s.date)+'</td>'
       +'<td><span class="mat-badge" style="background:rgba(232,200,122,.1);color:'+s.couleur+';border:1px solid '+s.couleur+'">'+s.matiereIco+' '+s.matiereNom+'</span></td>'
       +'<td style="font-size:11px;color:#9090a8">'+chaps+'</td>'
-      +'<td><span class="'+cls+'">'+note+'/10</span><span style="font-size:11px;color:#5a5a72"> ('+s.pourcentage+'%)</span></td>'
+      +'<td><span class="'+cls+'">'+noteAffichage+'</span><span style="font-size:11px;color:#5a5a72"> ('+pct+'%)</span></td>'
       +'</tr>';
   }).join('');
 

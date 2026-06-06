@@ -17,8 +17,16 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .page-title span{color:var(--acc);}
 .eleve-bar{display:flex;gap:8px;background:var(--s2);border-radius:50px;padding:4px;width:fit-content;}
 .eleve-btn{padding:7px 22px;border-radius:50px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;background:transparent;color:var(--dim);}
-.eleve-btn.aw{background:var(--blue-w);color:#09090f;}
-.eleve-btn.an{background:var(--pink-n);color:#09090f;}
+.eleve-btn.e1{background:var(--blue-w);color:#09090f;}
+.eleve-btn.e2{background:var(--pink-n);color:#09090f;}
+
+/* WARNING SPACED LEARNING */
+.warning-box{background:rgba(232,200,122,.1);border-left:4px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--gold);}
+.warning-box strong{color:var(--gold);font-family:'Syne',sans-serif;}
+.warning-box p{margin:4px 0;}
+.warning-box .close-warning{float:right;cursor:pointer;font-size:16px;opacity:0.7;transition:opacity .2s;}
+.warning-box .close-warning:hover{opacity:1;}
+
 .container{max-width:960px;margin:0 auto;padding:24px;}
 .phase{display:none;}.phase.active{display:block;}
 .stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
@@ -90,13 +98,24 @@ textarea.rep::placeholder{color:var(--muted);}
     <div class="page-title"><span>Automatismes</span> Histoire-Géo-EMC</div>
     <span style="font-size:1.5rem">🌍</span>
     <div class="eleve-bar">
-      <button class="eleve-btn aw" id="btnW">🌊 Wassil</button>
-      <button class="eleve-btn" id="btnN">⚡ Nawal</button>
+      <button class="eleve-btn e1" id="btn1">👤 Élève 1</button>
+      <button class="eleve-btn" id="btn2">👤 Élève 2</button>
     </div>
   </div>
 </div>
 <div class="container">
   <div class="phase active" id="phaseSelect">
+    
+    <!-- ⚠️ WARNING SPACED LEARNING ⚠️ -->
+    <div class="warning-box" id="warningBox">
+      <span class="close-warning" onclick="document.getElementById('warningBox').style.display='none';">&times;</span>
+      <strong>🧠 Mode Spaced Learning (révision circulaire)</strong>
+      <p>✅ Pour activer la <strong>répétition espacée</strong> (révision des leçons anciennes + nouvelles) :</p>
+      <p>👉 <strong>Sélectionnez TOUS les chapitres que vous avez déjà vus depuis le début de l'année</strong> (même les anciens).</p>
+      <p>📌 L'ordinateur piochera automatiquement : <strong>20 cartes des chapitres choisis + 10 cartes des erreurs + 10 cartes d'autres chapitres</strong>.</p>
+      <p>💡 <strong>Plus vous sélectionnez de chapitres, plus la révision est efficace !</strong></p>
+    </div>
+
     <div class="stats-bar" style="margin-top:8px">
       <div class="stat"><div class="stat-val" id="stCartes">0</div><div class="stat-label">Cartes sél.</div></div>
       <div class="stat"><div class="stat-val" id="stMait" style="color:var(--teal)">0</div><div class="stat-label">Maîtrisées</div></div>
@@ -548,7 +567,7 @@ const CHAPITRES_HG = {
 </script>
 <script>
 
-let eleve = 'wassil';
+let eleve = 'eleve1';
 let session = [], idx = 0;
 let score = { ok:0, total:0, chTaux:{} };
 let timerInt = null, tps = 45*60;
@@ -578,8 +597,8 @@ function getFaibles() {
 }
 function setEleve(e) {
   eleve = e;
-  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil'?' aw':'');
-  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal'?' an':'');
+  document.getElementById('btn1').className = 'eleve-btn' + (e==='eleve1'?' e1':'');
+  document.getElementById('btn2').className = 'eleve-btn' + (e==='eleve2'?' e2':'');
   buildGrid(); updateStats();
 }
 function buildGrid() {
@@ -639,20 +658,52 @@ function genSession() {
   }
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
+
+// ══════════════ ÉVALUATION — NIVEAU MOYEN ══════════════
 function evaluer(rep, att) {
-  if (!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
-  const r=rep.toLowerCase().trim(), a=att.toLowerCase();
-  if (r===a) return{ok:true,t:100,m:'Parfait !'};
-  const mA=a.split(/[\s,;.()+->]+/).filter(m=>m.length>3);
-  const mR=r.split(/[\s,;.()+->]+/);
-  let ok=0; mA.forEach(ma=>{if(mR.some(mr=>mr.includes(ma.slice(0,4))||ma.includes(mr.slice(0,4))))ok++;});
-  let t=mA.length?Math.round(ok/mA.length*100):50;
-  if (mR.filter(m=>m.length>3).length<=5&&t>=35) t=Math.min(100,t+20);
-  const cles=mA.slice(0,3).filter(m=>mR.some(mr=>mr.includes(m.slice(0,4)))).length;
-  if (cles>=2) t=Math.min(100,t+10);
-  if (t>=55) return{ok:true,t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
-  return{ok:false,t,m:'À retravailler.'};
+  if (!rep || rep.length < 2) return { ok: false, t: 0, m: 'Écris une réponse.' };
+  
+  const r = rep.toLowerCase().trim();
+  const a = att.toLowerCase();
+  
+  if (r === a) return { ok: true, t: 100, m: 'Parfait !' };
+  
+  // MOYEN : mots de PLUS de 4 lettres (au lieu de 3)
+  const mA = a.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
+  const mR = r.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
+  
+  let ok = 0;
+  mA.forEach(ma => {
+    if (mR.some(mr => mr.includes(ma.slice(0, 4)) || ma.includes(mr.slice(0, 4)))) ok++;
+  });
+  
+  let t = mA.length ? Math.round(ok / mA.length * 100) : 50;
+  
+  // MOYEN : bonus réduit (+10 au lieu de +20), condition plus stricte
+  if (mR.length <= 4 && t >= 45) t = Math.min(100, t + 10);
+  
+  const cles = mA.slice(0, 3).filter(m => 
+    mR.some(mr => mr.includes(m.slice(0, 4)))
+  );
+  if (cles.length >= 2) t = Math.min(100, t + 5);
+  
+  // MOYEN : exiger au moins 50% des mots-clés
+  const motsTrouves = mA.filter(m => 
+    mR.some(mr => mr.includes(m.slice(0, 4)))
+  ).length;
+  
+  if (motsTrouves < mA.length / 2) {
+    return { ok: false, t: Math.min(t, 50), m: 'Il manque des éléments essentiels.' };
+  }
+  
+  // MOYEN : seuil à 65% (au lieu de 55%)
+  if (t >= 65) {
+    return { ok: true, t, m: t >= 85 ? 'Parfait !' : (t >= 75 ? 'Bien !' : 'Presque !') };
+  }
+  
+  return { ok: false, t, m: 'À retravailler.' };
 }
+
 function demarrer() {
   try {
     session = genSession();
@@ -709,19 +760,22 @@ function startTimer(){
 }
 function fin(){
   clearInterval(timerInt);
-  const pct=score.total?Math.round(score.ok/score.total*100):0;
+  const totalQuestions = score.total;
+  const bonnesReponses = score.ok;
+  const pct = totalQuestions ? Math.round(bonnesReponses / totalQuestions * 100) : 0;
   const chapitres=getSel().map(n=>DATA[n]?.titre).filter(Boolean);
   const chapitresTaux={};
   Object.entries(score.chTaux).forEach(([ch,d])=>{chapitresTaux[DATA[ch]?.titre||'Ch'+ch]=Math.round(d.ok/d.t*100);});
   const sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'histoire',eleve,pourcentage:pct,chapitres,chapitresTaux});
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'histoire',eleve,pourcentage:pct,noteSur:totalQuestions,noteObtenue:bonnesReponses,chapitres,chapitresTaux});
   localStorage.setItem(kSuivi(),JSON.stringify(sessions.slice(0,200)));
   showPhase('phaseRes');
   const cls=pct>=80?'ex':pct>=60?'bi':'ef';
   const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
   document.getElementById('scoreGrand').className='score-grand '+cls;
-  document.getElementById('scoreGrand').textContent=pct+'%';
-  document.getElementById('scoreDetail').textContent=score.ok+' bonnes réponses sur '+score.total;
+  // Affichage de la note sur le nombre total de questions
+  document.getElementById('scoreGrand').textContent = bonnesReponses + '/' + totalQuestions;
+  document.getElementById('scoreDetail').textContent = bonnesReponses + ' bonnes réponses sur ' + totalQuestions + ' (' + pct + '%)';
   document.getElementById('msgFin').textContent=msg;
   const faibles=Object.entries(chapitresTaux).filter(([,t])=>t<60).map(([ch])=>ch);
   if(faibles.length){
@@ -730,18 +784,17 @@ function fin(){
 }
 function showPhase(id){['phaseSelect','phaseSession','phaseRes'].forEach(p=>document.getElementById(p).className='phase'+(p===id?' active':''));}
 function initApp() {
-  setEleve('wassil');
+  setEleve('eleve1');
   document.getElementById('btnStart').addEventListener('click', demarrer);
   document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
   document.getElementById('btnNone').addEventListener('click', () => selectAll(false));
   document.getElementById('btnFaibles').addEventListener('click', selFaibles);
   document.getElementById('btnReset').addEventListener('click', resetProg);
-  document.getElementById('btnW').addEventListener('click', () => setEleve('wassil'));
-  document.getElementById('btnN').addEventListener('click', () => setEleve('nawal'));
+  document.getElementById('btn1').addEventListener('click', () => setEleve('eleve1'));
+  document.getElementById('btn2').addEventListener('click', () => setEleve('eleve2'));
   document.getElementById('btnNext').addEventListener('click', () => { document.getElementById('nextWrap').style.display='none'; affQ(); });
   document.getElementById('btnNouv').addEventListener('click', () => location.reload());
   document.getElementById('btnSuivi').addEventListener('click', () => window.location.href='suivi-parent.html');
-  // Onglets filtres Histoire/Géo/EMC
   const setTab = (id) => { document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active')); document.getElementById(id).classList.add('active'); };
   document.getElementById('tabTout').addEventListener('click', () => { selectAll(true); setTab('tabTout'); });
   document.getElementById('tabHi').addEventListener('click', () => { filterPart(1,10); setTab('tabHi'); });

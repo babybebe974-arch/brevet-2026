@@ -21,6 +21,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .eleve-btn.an{background:var(--pink-n);color:#09090f;}
 .container{max-width:960px;margin:0 auto;padding:24px;}
 .phase{display:none;}.phase.active{display:block;}
+
+/* WARNING SPACED LEARNING */
+.warning-box{background:rgba(232,200,122,.1);border-left:4px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--gold);}
+.warning-box strong{color:var(--gold);font-family:'Syne',sans-serif;}
+.warning-box p{margin:4px 0;}
+.warning-box .close-warning{float:right;cursor:pointer;font-size:16px;opacity:0.7;transition:opacity .2s;}
+.warning-box .close-warning:hover{opacity:1;}
+
 .stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
 .stat{background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:10px 16px;display:flex;flex-direction:column;gap:2px;}
 .stat-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--acc);}
@@ -97,6 +105,17 @@ textarea.rep::placeholder{color:var(--muted);}
 </div>
 <div class="container">
   <div class="phase active" id="phaseSelect">
+    
+    <!-- ⚠️ WARNING SPACED LEARNING ⚠️ -->
+    <div class="warning-box" id="warningBox">
+      <span class="close-warning" onclick="document.getElementById('warningBox').style.display='none';">&times;</span>
+      <strong>🧠 Mode Spaced Learning (révision circulaire)</strong>
+      <p>✅ Pour activer la <strong>répétition espacée</strong> (révision des leçons anciennes + nouvelles) :</p>
+      <p>👉 <strong>Sélectionnez TOUS les chapitres que vous avez déjà vus depuis le début de l'année</strong> (même les anciens).</p>
+      <p>📌 L'ordinateur piochera automatiquement : <strong>20 cartes des chapitres choisis + 10 cartes des erreurs + 10 cartes d'autres chapitres</strong>.</p>
+      <p>💡 <strong>Plus vous sélectionnez de chapitres, plus la révision est efficace !</strong></p>
+    </div>
+
     <div class="stats-bar" style="margin-top:8px">
       <div class="stat"><div class="stat-val" id="stCartes">0</div><div class="stat-label">Cartes sél.</div></div>
       <div class="stat"><div class="stat-val" id="stMait" style="color:var(--teal)">0</div><div class="stat-label">Maîtrisées</div></div>
@@ -266,7 +285,7 @@ function genSession() {
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
 
-// ══════════════ ÉVALUATION AMÉLIORÉE (maths) ══════════════
+// ══════════════ ÉVALUATION AMÉLIORÉE (maths) — NIVEAU MOYEN ══════════════
 function normaliserReponse(str) {
   if (!str) return '';
   return str
@@ -295,15 +314,19 @@ function extraireValeurNumerique(str) {
 function comparerExpressions(r, a) {
   const numR = extraireValeurNumerique(r);
   const numA = extraireValeurNumerique(a);
+  
+  // MOYEN : tolérance plus stricte 0.001 (au lieu de 0.01)
   if (numR !== null && numA !== null) {
-    return Math.abs(numR - numA) <= 0.01;
+    return Math.abs(numR - numA) <= 0.001;
   }
   
   const rNorm = normaliserReponse(r);
   const aNorm = normaliserReponse(a);
   
   if (rNorm === aNorm) return true;
-  if (rNorm.split('').sort().join('') === aNorm.split('').sort().join('')) return true;
+  
+  // MOYEN : plus d'acceptation automatique de 3x4 = 4x3 (ordre imposé)
+  // Le bloc suivant est SUPPRIMÉ pour rendre plus difficile
   
   if (aNorm === '(+)' && (rNorm === '+' || rNorm === 'plus')) return true;
   if (aNorm === '(-)' && (rNorm === '-' || rNorm === 'moins')) return true;
@@ -312,7 +335,7 @@ function comparerExpressions(r, a) {
     const parts = rNorm.split('/');
     if (parts.length === 2) {
       const val = parseFloat(parts[0]) / parseFloat(parts[1]);
-      if (!isNaN(val) && Math.abs(val - numA) <= 0.01) return true;
+      if (!isNaN(val) && Math.abs(val - numA) <= 0.001) return true;
     }
   }
   
@@ -331,16 +354,9 @@ function evaluer(rep, att) {
     return { ok: true, t: 100, m: 'Parfait !' };
   }
   
-  if (attendu.includes(' x ') || attendu.includes('×')) {
-    const repParts = normaliserReponse(reponse).split(/[\sx×]+/).sort().join('');
-    const attParts = normaliserReponse(attendu).split(/[\sx×]+/).sort().join('');
-    if (repParts === attParts) {
-      return { ok: true, t: 100, m: 'Parfait !' };
-    }
-  }
-  
-  const motsAtt = attendu.split(/[\s,;.()+->×x]+/).filter(m => m.length > 3);
-  const motsRep = reponse.split(/[\s,;.()+->×x]+/).filter(m => m.length > 3);
+  // MOYEN : mots de PLUS de 4 lettres (au lieu de 3)
+  const motsAtt = attendu.split(/[\s,;.()+->×x]+/).filter(m => m.length > 4);
+  const motsRep = reponse.split(/[\s,;.()+->×x]+/).filter(m => m.length > 4);
   
   let motsOk = 0;
   motsAtt.forEach(ma => {
@@ -350,21 +366,33 @@ function evaluer(rep, att) {
   });
   
   let taux = motsAtt.length ? Math.round((motsOk / motsAtt.length) * 100) : 50;
-  if (motsRep.length <= 5 && taux >= 35) taux = Math.min(100, taux + 20);
+  
+  // MOYEN : bonus réduit (+10 au lieu de +20), condition plus stricte
+  if (motsRep.length <= 4 && taux >= 45) taux = Math.min(100, taux + 10);
   
   const essentiels = motsAtt.slice(0, 3).filter(m => 
     motsRep.some(mr => mr.includes(m.slice(0, 4)))
   );
-  if (essentiels.length >= 2) taux = Math.min(100, taux + 10);
+  if (essentiels.length >= 2) taux = Math.min(100, taux + 5);
   
   const numRep = extraireValeurNumerique(reponse);
   const numAtt = extraireValeurNumerique(attendu);
-  if (numRep !== null && numAtt !== null && Math.abs(numRep - numAtt) <= 0.01) {
+  if (numRep !== null && numAtt !== null && Math.abs(numRep - numAtt) <= 0.001) {
     return { ok: true, t: 100, m: 'Parfait !' };
   }
   
-  if (taux >= 55) {
-    const message = taux >= 80 ? 'Parfait !' : (taux >= 70 ? 'Bien !' : 'Presque !');
+  // MOYEN : exiger au moins 50% des mots-clés
+  const motsTrouves = motsAtt.filter(m => 
+    motsRep.some(mr => mr.includes(m.slice(0, 4)))
+  ).length;
+  
+  if (motsTrouves < motsAtt.length / 2) {
+    return { ok: false, t: Math.min(taux, 50), m: 'Il manque des éléments essentiels.' };
+  }
+  
+  // MOYEN : seuil à 65% (au lieu de 55%)
+  if (taux >= 65) {
+    const message = taux >= 85 ? 'Parfait !' : (taux >= 75 ? 'Bien !' : 'Presque !');
     return { ok: true, t: taux, m: message };
   }
   
@@ -427,19 +455,22 @@ function startTimer(){
 }
 function fin(){
   clearInterval(timerInt);
-  const pct=score.total?Math.round(score.ok/score.total*100):0;
+  const totalQuestions = score.total;
+  const bonnesReponses = score.ok;
+  const pct = totalQuestions ? Math.round(bonnesReponses / totalQuestions * 100) : 0;
   const chapitres=getSel().map(n=>DATA[n]?.titre).filter(Boolean);
   const chapitresTaux={};
   Object.entries(score.chTaux).forEach(([ch,d])=>{chapitresTaux[DATA[ch]?.titre||'Ch'+ch]=Math.round(d.ok/d.t*100);});
   const sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve,pourcentage:pct,chapitres,chapitresTaux});
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve,pourcentage:pct,noteSur:totalQuestions,noteObtenue:bonnesReponses,chapitres,chapitresTaux});
   localStorage.setItem(kSuivi(),JSON.stringify(sessions.slice(0,200)));
   showPhase('phaseRes');
   const cls=pct>=80?'ex':pct>=60?'bi':'ef';
   const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
   document.getElementById('scoreGrand').className='score-grand '+cls;
-  document.getElementById('scoreGrand').textContent=pct+'%';
-  document.getElementById('scoreDetail').textContent=score.ok+' bonnes réponses sur '+score.total;
+  // Affichage de la note sur le nombre total de questions
+  document.getElementById('scoreGrand').textContent = bonnesReponses + '/' + totalQuestions;
+  document.getElementById('scoreDetail').textContent = bonnesReponses + ' bonnes réponses sur ' + totalQuestions + ' (' + pct + '%)';
   document.getElementById('msgFin').textContent=msg;
   const faibles=Object.entries(chapitresTaux).filter(([,t])=>t<60).map(([ch])=>ch);
   if(faibles.length){

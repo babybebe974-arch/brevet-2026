@@ -39,8 +39,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 /* ELEVE */
 .eleve-bar{display:flex;gap:8px;background:var(--s2);border-radius:50px;padding:4px;width:fit-content;}
 .eleve-btn{padding:7px 22px;border-radius:50px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;transition:.2s;background:transparent;color:var(--dim);}
-.eleve-btn.aw{background:var(--blue-w);color:#09090f;}
-.eleve-btn.an{background:var(--pink-n);color:#09090f;}
+.eleve-btn.e1{background:var(--blue-w);color:#09090f;}
+.eleve-btn.e2{background:var(--pink-n);color:#09090f;}
+
+/* WARNING SPACED LEARNING */
+.warning-box{background:rgba(232,200,122,.1);border-left:4px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--gold);}
+.warning-box strong{color:var(--gold);font-family:'Syne',sans-serif;}
+.warning-box p{margin:4px 0;}
+.warning-box .close-warning{float:right;cursor:pointer;font-size:16px;opacity:0.7;transition:opacity .2s;}
+.warning-box .close-warning:hover{opacity:1;}
 
 /* CONTAINER */
 .container{max-width:960px;margin:0 auto;padding:24px;}
@@ -132,8 +139,8 @@ textarea.rep::placeholder{color:var(--muted);}
     <div class="page-title"><span>Automatismes</span> Français</div>
     <span class="flag">🇫🇷</span>
     <div class="eleve-bar">
-      <button class="eleve-btn aw" id="btnW">🌊 Wassil</button>
-      <button class="eleve-btn" id="btnN">⚡ Nawal</button>
+      <button class="eleve-btn e1" id="btn1">👤 Élève 1</button>
+      <button class="eleve-btn" id="btn2">👤 Élève 2</button>
     </div>
   </div>
 </div>
@@ -142,6 +149,16 @@ textarea.rep::placeholder{color:var(--muted);}
 
   <!-- PHASE SELECT -->
   <div class="phase active" id="phaseSelect">
+
+    <!-- ⚠️ WARNING SPACED LEARNING ⚠️ -->
+    <div class="warning-box" id="warningBox">
+      <span class="close-warning" onclick="document.getElementById('warningBox').style.display='none';">&times;</span>
+      <strong>🧠 Mode Spaced Learning (révision circulaire)</strong>
+      <p>✅ Pour activer la <strong>répétition espacée</strong> (révision des leçons anciennes + nouvelles) :</p>
+      <p>👉 <strong>Sélectionnez TOUS les chapitres que vous avez déjà vus depuis le début de l'année</strong> (même les anciens).</p>
+      <p>📌 L'ordinateur piochera automatiquement : <strong>20 cartes des chapitres choisis + 10 cartes des erreurs + 10 cartes d'autres chapitres</strong>.</p>
+      <p>💡 <strong>Plus vous sélectionnez de chapitres, plus la révision est efficace !</strong></p>
+    </div>
 
     <div class="stats-bar" style="margin-top:8px">
       <div class="stat"><div class="stat-val" id="stCartes">0</div><div class="stat-label">Cartes sél.</div></div>
@@ -335,7 +352,7 @@ const CHAPITRES_FR = {
     { q: "Qu'est-ce que l'argot ?", r: "Langage propre à un groupe" },
     { q: "Donnez 3 mots du champ lexical de la mer", r: "vague, bateau, pêche, marée, port, plage" },
     { q: "Donnez 3 mots du champ lexical de la guerre", r: "combat, arme, soldat, bataille, victoire, mort" },
-    { q: "Donnez 3 mots du champ lexical de l'amour", r: "coeur, passion, désir, tendresse, amoureux" },
+    { q: "Donnez 3 mots du champ lexical de l'amour", r: "cœur, passion, désir, tendresse, amoureux" },
     { q: "Donnez 3 mots du champ lexical de la peur", r: "crainte, terreur, angoisse, panique, effroi" },
     { q: "Donnez 3 mots du champ lexical de la joie", r: "bonheur, gaieté, sourire, plaisir, rire" },
     { q: "Qu'est-ce qu'un champ sémantique ?", r: "Ensemble des sens d'un même mot" },
@@ -381,7 +398,7 @@ const CHAPITRES_FR = {
     { q: "Registre comique", r: "Provoque le rire" },
     { q: "Registre tragique", r: "Inspire terreur et pitié" },
     { q: "Registre épique", r: "Célèbre des héros, des exploits" },
-    { q: "Registre lyrique", r: "Exprime des sentiments personnels (amour, nostalgie)" },
+    { q: "Registre lyrique", r: "Exprime des sentiments personnels" },
     { q: "Registre satirique", r: "Critique de manière moqueuse" },
     { q: "Registre pathétique", r: "Suscite l'émotion, la tristesse" },
     { q: "Registre fantastique", r: "Hésitation entre réel et irréel" },
@@ -480,9 +497,9 @@ const CHAPITRES_FR = {
     { q: "Accords du participe passé avec être", r: "S'accorde avec le sujet" },
     { q: "Accords du participe passé avec avoir", r: "S'accorde avec le COD si placé avant" },
     { q: "Vérifier les homophones", r: "Remplacer par un autre mot équivalent" },
-    { q: "Vérifier les terminaisons en é", r: "Remplacer par un verbe du 1er groupe (manger)" },
-    { q: "Vérifier les terminaisons en er", r: "Remplacer par un verbe (vendre)" },
-    { q: "Vérifier le pluriel des noms", r: "Ajouter un s ou x" },
+    { q: "Vérifier les terminaisons en 'é'", r: "Remplacer par 'manger'" },
+    { q: "Vérifier les terminaisons en 'er'", r: "Remplacer par 'vendre'" },
+    { q: "Vérifier le pluriel des noms", r: "Ajouter un 's' ou 'x'" },
     { q: "Vérifier l'accord des adjectifs", r: "Regarder le nom qu'ils qualifient" }
   ]},
   24: { titre: "Grammaire (analyse)", cartes: [
@@ -500,7 +517,7 @@ const CHAPITRES_FR = {
   25: { titre: "Réécriture", cartes: [
     { q: "Changer 'je' en 'nous'", r: "Verbe à la 1ère personne du pluriel" },
     { q: "Changer féminin en masculin", r: "Modifier déterminants, adjectifs et participes" },
-    { q: "Changer singulier en pluriel", r: "Ajouter s ou x, adapter le verbe" },
+    { q: "Changer singulier en pluriel", r: "Ajouter 's' ou 'x', adapter le verbe" },
     { q: "Présent en imparfait", r: "Terminaisons -ais, -ais, -ait, -ions, -iez, -aient" },
     { q: "Présent en futur", r: "Terminaisons -ai, -as, -a, -ons, -ez, -ont" },
     { q: "Présent en passé composé", r: "Auxiliaire avoir/être au présent + participe passé" },
@@ -512,21 +529,21 @@ const CHAPITRES_FR = {
   26: { titre: "Essai", cartes: [
     { q: "Structure de l'essai", r: "Introduction, développement (thèse/antithèse), conclusion" },
     { q: "Comment trouver des idées ?", r: "Brainstorming" },
-    { q: "Comment illustrer ses arguments ?", r: "Exemples précis (oeuvres, films, expériences)" },
+    { q: "Comment illustrer ses arguments ?", r: "Exemples précis (œuvres, films, expériences)" },
     { q: "Structure d'un paragraphe argumentatif", r: "1. Idée. 2. Exemple. 3. Explication du lien" },
     { q: "Comment conclure un essai ?", r: "Rappeler la réponse, ouvrir sur une question plus large" },
-    { q: "Que faire si on n'a pas d'idée ?", r: "Chercher des exemples concrets, penser à des oeuvres étudiées" },
+    { q: "Que faire si on n'a pas d'idée ?", r: "Chercher des exemples concrets, penser à des œuvres étudiées" },
     { q: "Faut-il donner son avis ?", r: "Oui, mais justifié" },
     { q: "Faut-il des connecteurs logiques ?", r: "Oui, pour structurer" },
     { q: "Combien de paragraphes dans le développement ?", r: "2 ou 3 paragraphes" },
-    { q: "Peut-on utiliser le je ?", r: "Oui, mais avec modération" }
+    { q: "Peut-on utiliser le 'je' ?", r: "Oui, mais avec modération" }
   ]}
 };
 
 </script>
 <script>
 // ══════════════ STATE ══════════════
-let eleve = 'wassil';
+let eleve = 'eleve1';
 let session = [], idx = 0;
 let score = { ok:0, total:0, chTaux:{} };
 let timerInt = null, tps = 45*60;
@@ -563,8 +580,8 @@ function getFaibles() {
 // ══════════════ ELEVE ══════════════
 function setEleve(e) {
   eleve = e;
-  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil'?' aw':'');
-  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal'?' an':'');
+  document.getElementById('btn1').className = 'eleve-btn' + (e==='eleve1'?' e1':'');
+  document.getElementById('btn2').className = 'eleve-btn' + (e==='eleve2'?' e2':'');
   buildGrid();
   updateStats();
 }
@@ -644,20 +661,49 @@ function genSession() {
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
 
-// ══════════════ ÉVALUATION ══════════════
+// ══════════════ ÉVALUATION — NIVEAU MOYEN ══════════════
 function evaluer(rep, att) {
-  if (!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
-  const r=rep.toLowerCase().trim(), a=att.toLowerCase();
-  if (r===a) return{ok:true,t:100,m:'Parfait !'};
-  const mA=a.split(/[\s,;.()+->]+/).filter(m=>m.length>3);
-  const mR=r.split(/[\s,;.()+->]+/);
-  let ok=0; mA.forEach(ma=>{if(mR.some(mr=>mr.includes(ma.slice(0,4))||ma.includes(mr.slice(0,4))))ok++;});
-  let t=mA.length?Math.round(ok/mA.length*100):50;
-  if (mR.filter(m=>m.length>3).length<=5&&t>=35) t=Math.min(100,t+20);
-  const cles=mA.slice(0,3).filter(m=>mR.some(mr=>mr.includes(m.slice(0,4)))).length;
-  if (cles>=2) t=Math.min(100,t+10);
-  if (t>=55) return{ok:true,t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
-  return{ok:false,t,m:'À retravailler.'};
+  if (!rep || rep.length < 2) return { ok: false, t: 0, m: 'Écris une réponse.' };
+  
+  const r = rep.toLowerCase().trim();
+  const a = att.toLowerCase();
+  
+  if (r === a) return { ok: true, t: 100, m: 'Parfait !' };
+  
+  // MOYEN : mots de PLUS de 4 lettres (au lieu de 3)
+  const mA = a.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
+  const mR = r.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
+  
+  let ok = 0;
+  mA.forEach(ma => {
+    if (mR.some(mr => mr.includes(ma.slice(0, 4)) || ma.includes(mr.slice(0, 4)))) ok++;
+  });
+  
+  let t = mA.length ? Math.round(ok / mA.length * 100) : 50;
+  
+  // MOYEN : bonus réduit (+10 au lieu de +20), condition plus stricte
+  if (mR.length <= 4 && t >= 45) t = Math.min(100, t + 10);
+  
+  const cles = mA.slice(0, 3).filter(m => 
+    mR.some(mr => mr.includes(m.slice(0, 4)))
+  );
+  if (cles.length >= 2) t = Math.min(100, t + 5);
+  
+  // MOYEN : exiger au moins 50% des mots-clés
+  const motsTrouves = mA.filter(m => 
+    mR.some(mr => mr.includes(m.slice(0, 4)))
+  ).length;
+  
+  if (motsTrouves < mA.length / 2) {
+    return { ok: false, t: Math.min(t, 50), m: 'Il manque des éléments essentiels.' };
+  }
+  
+  // MOYEN : seuil à 65% (au lieu de 55%)
+  if (t >= 65) {
+    return { ok: true, t, m: t >= 85 ? 'Parfait !' : (t >= 75 ? 'Bien !' : 'Presque !') };
+  }
+  
+  return { ok: false, t, m: 'À retravailler.' };
 }
 
 // ══════════════ SESSION ══════════════
@@ -752,7 +798,9 @@ function startTimer(){
 // ══════════════ FIN + SUIVI PARENTAL ══════════════
 function fin(){
   clearInterval(timerInt);
-  const pct=score.total?Math.round(score.ok/score.total*100):0;
+  const totalQuestions = score.total;
+  const bonnesReponses = score.ok;
+  const pct = totalQuestions ? Math.round(bonnesReponses / totalQuestions * 100) : 0;
   const chapitres=getSel().map(n=>CHAPITRES_FR[n]?.titre).filter(Boolean);
 
   // chapitresTaux : titre -> pourcentage (pour suivi-parent)
@@ -769,6 +817,8 @@ function fin(){
     matiere:'francais',
     eleve,
     pourcentage:pct,
+    noteSur: totalQuestions,
+    noteObtenue: bonnesReponses,
     chapitres,
     chapitresTaux
   });
@@ -778,8 +828,9 @@ function fin(){
   const cls=pct>=80?'ex':pct>=60?'bi':'ef';
   const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
   document.getElementById('scoreGrand').className='score-grand '+cls;
-  document.getElementById('scoreGrand').textContent=pct+'%';
-  document.getElementById('scoreDetail').textContent=score.ok+' bonnes réponses sur '+score.total;
+  // Affichage de la note sur le nombre total de questions
+  document.getElementById('scoreGrand').textContent = bonnesReponses + '/' + totalQuestions;
+  document.getElementById('scoreDetail').textContent = bonnesReponses + ' bonnes réponses sur ' + totalQuestions + ' (' + pct + '%)';
   document.getElementById('msgFin').textContent=msg;
 
   const faibles=Object.entries(chapitresTaux).filter(([,t])=>t<60).map(([ch])=>ch);
@@ -794,16 +845,15 @@ function showPhase(id){
   ['phaseSelect','phaseSession','phaseRes'].forEach(p=>document.getElementById(p).className='phase'+(p===id?' active':''));
 }
 
-// INIT
-function initApp() {
-  setEleve('wassil');
+// INITfunction initApp() {
+  setEleve('eleve1');
   document.getElementById('btnStart').addEventListener('click', demarrer);
   document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
   document.getElementById('btnNone').addEventListener('click', () => selectAll(false));
   document.getElementById('btnFaibles').addEventListener('click', selFaibles);
   document.getElementById('btnReset').addEventListener('click', resetProg);
-  document.getElementById('btnW').addEventListener('click', () => setEleve('wassil'));
-  document.getElementById('btnN').addEventListener('click', () => setEleve('nawal'));
+  document.getElementById('btn1').addEventListener('click', () => setEleve('eleve1'));
+  document.getElementById('btn2').addEventListener('click', () => setEleve('eleve2'));
 }
 
 if (document.readyState === 'loading') {
