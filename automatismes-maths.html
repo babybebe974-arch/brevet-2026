@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automatismes Mathématiques — Brevet 2026</title>
+<title>⚡ Automatismes Mathématiques — Brevet 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#09090f;--s1:#111118;--s2:#1a1a24;--br:#2a2a38;--acc:#e8c87a;--acc2:#d4911a;--teal:#5ecfb1;--gold:#e8c87a;--red:#e87a7a;--blue-w:#7eb8f5;--pink-n:#f59eb8;--text:#e8e8f0;--dim:#9090a8;--muted:#5a5a72;}
@@ -265,20 +265,112 @@ function genSession() {
   }
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
-function evaluer(rep, att) {
-  if (!rep||rep.length<2) return{ok:false,t:0,m:'Écris une réponse.'};
-  const r=rep.toLowerCase().trim(), a=att.toLowerCase();
-  if (r===a) return{ok:true,t:100,m:'Parfait !'};
-  const mA=a.split(/[\s,;.()+->]+/).filter(m=>m.length>3);
-  const mR=r.split(/[\s,;.()+->]+/);
-  let ok=0; mA.forEach(ma=>{if(mR.some(mr=>mr.includes(ma.slice(0,4))||ma.includes(mr.slice(0,4))))ok++;});
-  let t=mA.length?Math.round(ok/mA.length*100):50;
-  if (mR.filter(m=>m.length>3).length<=5&&t>=35) t=Math.min(100,t+20);
-  const cles=mA.slice(0,3).filter(m=>mR.some(mr=>mr.includes(m.slice(0,4)))).length;
-  if (cles>=2) t=Math.min(100,t+10);
-  if (t>=55) return{ok:true,t,m:t>=80?'Parfait !':t>=70?'Bien !':'Presque !'};
-  return{ok:false,t,m:'À retravailler.'};
+
+// ══════════════ ÉVALUATION AMÉLIORÉE (maths) ══════════════
+function normaliserReponse(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/,/g, '.')
+    .replace(/\s+/g, ' ')
+    .replace(/[×\*·]/g, 'x')
+    .replace(/\^/g, '**')
+    .replace(/\((\d+)\)/g, '$1')
+    .replace(/^\+/, '')
+    .replace(/²/g, '^2')
+    .replace(/³/g, '^3')
+    .replace(/∞/g, 'inf')
+    .replace(/\s*(km\/h|m\/s|km|m|cm|mm|l|dm³|cm³|m³|litres|points|pts)\b/gi, '')
+    .replace(/\s*([+\-x÷/])\s*/g, '$1')
+    .replace(/\.$/, '')
+    .trim();
 }
+
+function extraireValeurNumerique(str) {
+  const match = str.match(/(-?\d+(?:\.\d+)?)/);
+  return match ? parseFloat(match[1]) : null;
+}
+
+function comparerExpressions(r, a) {
+  const numR = extraireValeurNumerique(r);
+  const numA = extraireValeurNumerique(a);
+  if (numR !== null && numA !== null) {
+    return Math.abs(numR - numA) <= 0.01;
+  }
+  
+  const rNorm = normaliserReponse(r);
+  const aNorm = normaliserReponse(a);
+  
+  if (rNorm === aNorm) return true;
+  if (rNorm.split('').sort().join('') === aNorm.split('').sort().join('')) return true;
+  
+  if (aNorm === '(+)' && (rNorm === '+' || rNorm === 'plus')) return true;
+  if (aNorm === '(-)' && (rNorm === '-' || rNorm === 'moins')) return true;
+  
+  if (rNorm.includes('/')) {
+    const parts = rNorm.split('/');
+    if (parts.length === 2) {
+      const val = parseFloat(parts[0]) / parseFloat(parts[1]);
+      if (!isNaN(val) && Math.abs(val - numA) <= 0.01) return true;
+    }
+  }
+  
+  return false;
+}
+
+function evaluer(rep, att) {
+  if (!rep || rep.length < 2) {
+    return { ok: false, t: 0, m: 'Écris une réponse.' };
+  }
+  
+  const reponse = rep.trim();
+  const attendu = att.trim();
+  
+  if (comparerExpressions(reponse, attendu)) {
+    return { ok: true, t: 100, m: 'Parfait !' };
+  }
+  
+  if (attendu.includes(' x ') || attendu.includes('×')) {
+    const repParts = normaliserReponse(reponse).split(/[\sx×]+/).sort().join('');
+    const attParts = normaliserReponse(attendu).split(/[\sx×]+/).sort().join('');
+    if (repParts === attParts) {
+      return { ok: true, t: 100, m: 'Parfait !' };
+    }
+  }
+  
+  const motsAtt = attendu.split(/[\s,;.()+->×x]+/).filter(m => m.length > 3);
+  const motsRep = reponse.split(/[\s,;.()+->×x]+/).filter(m => m.length > 3);
+  
+  let motsOk = 0;
+  motsAtt.forEach(ma => {
+    if (motsRep.some(mr => mr.includes(ma.slice(0, 4)) || ma.includes(mr.slice(0, 4)))) {
+      motsOk++;
+    }
+  });
+  
+  let taux = motsAtt.length ? Math.round((motsOk / motsAtt.length) * 100) : 50;
+  if (motsRep.length <= 5 && taux >= 35) taux = Math.min(100, taux + 20);
+  
+  const essentiels = motsAtt.slice(0, 3).filter(m => 
+    motsRep.some(mr => mr.includes(m.slice(0, 4)))
+  );
+  if (essentiels.length >= 2) taux = Math.min(100, taux + 10);
+  
+  const numRep = extraireValeurNumerique(reponse);
+  const numAtt = extraireValeurNumerique(attendu);
+  if (numRep !== null && numAtt !== null && Math.abs(numRep - numAtt) <= 0.01) {
+    return { ok: true, t: 100, m: 'Parfait !' };
+  }
+  
+  if (taux >= 55) {
+    const message = taux >= 80 ? 'Parfait !' : (taux >= 70 ? 'Bien !' : 'Presque !');
+    return { ok: true, t: taux, m: message };
+  }
+  
+  return { ok: false, t: taux, m: 'À retravailler.' };
+}
+
 function demarrer() {
   try {
     session = genSession();
