@@ -17,17 +17,22 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .page-title span{color:var(--acc);}
 .eleve-bar{display:flex;gap:8px;background:var(--s2);border-radius:50px;padding:4px;width:fit-content;}
 .eleve-btn{padding:7px 22px;border-radius:50px;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;background:transparent;color:var(--dim);}
-.eleve-btn.e1{background:var(--blue-w);color:#09090f;}
-.eleve-btn.e2{background:var(--pink-n);color:#09090f;}
+.eleve-btn.aw{background:var(--blue-w);color:#09090f;}
+.eleve-btn.an{background:var(--pink-n);color:#09090f;}
 .container{max-width:960px;margin:0 auto;padding:24px;}
 .phase{display:none;}.phase.active{display:block;}
+
+/* WARNING SPACED LEARNING */
+.warning-box{background:rgba(232,200,122,.1);border-left:4px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--gold);}
+.warning-box strong{color:var(--gold);font-family:'Syne',sans-serif;}
+.warning-box p{margin:4px 0;}
+.warning-box .close-warning{float:right;cursor:pointer;font-size:16px;opacity:0.7;transition:opacity .2s;}
+.warning-box .close-warning:hover{opacity:1;}
+
 .stats-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
 .stat{background:var(--s1);border:1px solid var(--br);border-radius:10px;padding:10px 16px;display:flex;flex-direction:column;gap:2px;}
 .stat-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--acc);}
 .stat-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace;}
-.warning-box{background:rgba(232,200,122,.1);border-left:4px solid #e8c87a;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#e8c87a;}
-.warning-box strong{color:#e8c87a;}
-.warning-box .close-warning{float:right;cursor:pointer;font-size:18px;}
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
 .section-title::after{content:'';flex:1;height:1px;background:var(--br);}
 .chapitres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px;max-height:340px;overflow-y:auto;padding:2px;margin-bottom:14px;}
@@ -81,6 +86,9 @@ textarea.rep::placeholder{color:var(--muted);}
 .faibles-box{background:var(--s2);border:1px solid rgba(232,66,74,.3);border-radius:8px;padding:12px;margin:12px 0;text-align:left;}
 .faibles-box h4{color:var(--acc2);font-size:12px;font-family:'Syne',sans-serif;margin-bottom:6px;}
 .faibles-box li{font-size:12px;color:var(--dim);padding:2px 0;}
+.part-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.ptab{padding:5px 14px;border-radius:20px;border:1px solid var(--br);background:var(--s2);color:var(--dim);font-size:11px;cursor:pointer;font-family:'Syne',sans-serif;}
+.ptab.active{border-color:var(--acc);color:var(--acc);}
 </style>
 </head>
 <body>
@@ -90,27 +98,31 @@ textarea.rep::placeholder{color:var(--muted);}
     <div class="page-title"><span>Automatismes</span> Mathématiques</div>
     <span style="font-size:1.5rem">📐</span>
     <div class="eleve-bar">
-      <button class="eleve-btn e1" id="btn1">👤 Élève 1</button>
-      <button class="eleve-btn" id="btn2">👤 Élève 2</button>
+      <button class="eleve-btn aw" id="btnW">🌊 Wassil</button>
+      <button class="eleve-btn" id="btnN">⚡ Nawal</button>
     </div>
   </div>
 </div>
 <div class="container">
   <div class="phase active" id="phaseSelect">
+    
+    <!-- ⚠️ WARNING SPACED LEARNING ⚠️ -->
     <div class="warning-box" id="warningBox">
       <span class="close-warning" onclick="document.getElementById('warningBox').style.display='none';">&times;</span>
       <strong>🧠 Mode Spaced Learning (révision circulaire)</strong>
-      <p>✅ Pour activer la <strong>répétition espacée</strong> :</p>
+      <p>✅ Pour activer la <strong>répétition espacée</strong> (révision des leçons anciennes + nouvelles) :</p>
       <p>👉 <strong>Sélectionnez TOUS les chapitres que vous avez déjà vus depuis le début de l'année</strong> (même les anciens).</p>
-      <p>📌 L'ordinateur piochera : <strong>20 questions des chapitres choisis</strong> + <strong>10 des erreurs</strong> + <strong>10 de révision des anciens chapitres</strong>.</p>
+      <p>📌 L'ordinateur piochera automatiquement : <strong>20 cartes des chapitres choisis + 10 cartes des erreurs + 10 cartes d'autres chapitres</strong>.</p>
       <p>💡 <strong>Plus vous sélectionnez de chapitres, plus la révision est efficace !</strong></p>
     </div>
+
     <div class="stats-bar" style="margin-top:8px">
       <div class="stat"><div class="stat-val" id="stCartes">0</div><div class="stat-label">Cartes sél.</div></div>
       <div class="stat"><div class="stat-val" id="stMait" style="color:var(--teal)">0</div><div class="stat-label">Maîtrisées</div></div>
       <div class="stat"><div class="stat-val" id="stPct" style="color:var(--gold)">0%</div><div class="stat-label">Progression</div></div>
       <div class="stat"><div class="stat-val" id="stRegle" style="color:var(--dim);font-size:.9rem">—</div><div class="stat-label">Questions</div></div>
     </div>
+    
     <div class="section-title">Chapitres à réviser</div>
     <div class="chapitres-grid" id="chapGrid"></div>
     <div class="btn-row">
@@ -185,7 +197,7 @@ var CHAPITRES_MA = {
 </script>
 <script>
 
-let eleve = 'eleve1';
+let eleve = 'wassil';
 let session = [], idx = 0;
 let score = { ok:0, total:0, chTaux:{} };
 let timerInt = null, tps = 45*60;
@@ -215,8 +227,8 @@ function getFaibles() {
 }
 function setEleve(e) {
   eleve = e;
-  document.getElementById('btn1').className = 'eleve-btn' + (e==='eleve1'?' e1':'');
-  document.getElementById('btn2').className = 'eleve-btn' + (e==='eleve2'?' e2':'');
+  document.getElementById('btnW').className = 'eleve-btn' + (e==='wassil'?' aw':'');
+  document.getElementById('btnN').className = 'eleve-btn' + (e==='nawal'?' an':'');
   buildGrid(); updateStats();
 }
 function buildGrid() {
@@ -273,29 +285,25 @@ function genSession() {
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
 
-// ========== NORMALISATION AMÉLIORÉE POUR LES MATHS ==========
+// ══════════════ NORMALISATION AVEC RESPECT DES PARENTHÈSES ══════════════
 function normaliserReponse(str) {
   if (!str) return '';
-  let res = str
+  // On ne supprime PAS les parenthèses, on les conserve telles quelles
+  // Mais on normalise les espaces, les symboles, etc.
+  return str
     .toLowerCase()
     .trim()
-    .replace(/,/g, '.')
-    .replace(/\s+/g, ' ')
-    .replace(/[×\*·]/g, 'x')
-    .replace(/\^/g, '**')
-    .replace(/\((\d+)\)/g, '$1')
-    .replace(/^\+/, '')                    // enlève le + au début (ex: +3 → 3)
+    .replace(/,/g, '.')           // virgule décimale -> point
+    .replace(/\s+/g, ' ')         // espaces multiples -> un espace
+    .replace(/[×\*·]/g, 'x')      // signe multiplication -> x
+    .replace(/\^/g, '**')         // puissance ^ -> **
     .replace(/²/g, '^2')
     .replace(/³/g, '^3')
     .replace(/∞/g, 'inf')
     .replace(/\s*(km\/h|m\/s|km|m|cm|mm|l|dm³|cm³|m³|litres|points|pts)\b/gi, '')
     .replace(/\s*([+\-x÷/])\s*/g, '$1')
     .replace(/\.$/, '')
-    .replace(/^0+/, '')
-    .replace(/\.0+$/, '')
-    .replace(/,0+$/, '')
     .trim();
-  return res;
 }
 
 function extraireValeurNumerique(str) {
@@ -303,58 +311,31 @@ function extraireValeurNumerique(str) {
   return match ? parseFloat(match[1]) : null;
 }
 
-// Détection des questions spéciales
-function estQuestionPuissanceZero(question) {
-  return question.includes('⁰') || question.includes('^0') || (question.includes('a⁰') || question.includes('x⁰'));
-}
-
-function estQuestionComparaison(question) {
-  return question.includes('Comparer') || question.includes('compare');
-}
-
-function estQuestionValeurAbsolue(question) {
-  return question.includes('Valeur absolue');
-}
-
-function comparerExpressions(r, a, question) {
-  const rNorm = normaliserReponse(r);
-  const aNorm = normaliserReponse(a);
-  
-  // Cas spécial: a⁰ = 1
-  if (estQuestionPuissanceZero(question)) {
-    if (rNorm === '1' || rNorm === '1.0' || extraireValeurNumerique(r) === 1) return true;
-  }
-  
-  // Cas spécial: valeur absolue
-  if (estQuestionValeurAbsolue(question)) {
-    const num = extraireValeurNumerique(r);
-    if (num !== null && num >= 0) return true;
-  }
-  
-  // Cas spécial: comparaison (ex: -3 > -5)
-  if (estQuestionComparaison(question)) {
-    const rClean = rNorm.replace(/[<>]/g, '').trim();
-    const aClean = aNorm.replace(/[<>]/g, '').trim();
-    if (rClean === aClean) return true;
-    // Accepter aussi la forme sans espace
-    if (rNorm === aNorm) return true;
-  }
-  
-  // Comparaison numérique (tolérance 0.001)
+// Comparaison STRICTE des parenthèses : on vérifie que la chaîne normalisée
+// (sans les espaces superflus) est identique, SAUF si les deux valeurs numériques
+// sont égales (tolérance 0.001) – auquel cas on accepte même si les parenthèses diffèrent
+// (ex: (2+3) vs 5). Mais pour les expressions littérales, les parenthèses doivent correspondre.
+function comparerExpressions(r, a) {
   const numR = extraireValeurNumerique(r);
   const numA = extraireValeurNumerique(a);
+  
+  // Tolérance numérique stricte 0.001
   if (numR !== null && numA !== null) {
     if (Math.abs(numR - numA) <= 0.001) return true;
   }
   
-  // Comparaison textuelle
+  const rNorm = normaliserReponse(r);
+  const aNorm = normaliserReponse(a);
+  
+  // Comparaison exacte après normalisation (préserve parenthèses)
   if (rNorm === aNorm) return true;
   
-  // Vérification des signes
+  // Pour les signes (+) et (-)
   if (aNorm === '(+)' && (rNorm === '+' || rNorm === 'plus')) return true;
   if (aNorm === '(-)' && (rNorm === '-' || rNorm === 'moins')) return true;
   
-  // Fractions
+  // Pour les fractions : si la réponse est une fraction et que sa valeur numérique
+  // correspond à la valeur attendue, on accepte (ex: 3/4 vs 0.75)
   if (rNorm.includes('/')) {
     const parts = rNorm.split('/');
     if (parts.length === 2) {
@@ -363,10 +344,14 @@ function comparerExpressions(r, a, question) {
     }
   }
   
+  // Tolérance pour les formes développées vs factorisées ? Non, on veut être exigeant.
+  // On ne permet pas l'ordre différent des facteurs (supprimé).
+  
   return false;
 }
 
-function evaluer(rep, att, question) {
+// Évaluation principale avec seuil 50% et vérification des mots-clés
+function evaluer(rep, att) {
   if (!rep || rep.length < 2) {
     return { ok: false, t: 0, m: 'Écris une réponse.' };
   }
@@ -374,11 +359,15 @@ function evaluer(rep, att, question) {
   const reponse = rep.trim();
   const attendu = att.trim();
   
-  if (comparerExpressions(reponse, attendu, question)) {
+  // Vérification stricte (parenthèses, forme exacte)
+  if (comparerExpressions(reponse, attendu)) {
     return { ok: true, t: 100, m: 'Parfait !' };
   }
   
-  // Extraction des mots-clés (min 5 caractères)
+  // Si la réponse est une expression numérique différente mais numériquement égale,
+  // on a déjà accepté plus haut. Sinon, on continue avec l'analyse par mots-clés.
+  
+  // MOYEN : mots de PLUS de 4 lettres
   const motsAtt = attendu.split(/[\s,;.()+->×x]+/).filter(m => m.length > 4);
   const motsRep = reponse.split(/[\s,;.()+->×x]+/).filter(m => m.length > 4);
   
@@ -391,33 +380,36 @@ function evaluer(rep, att, question) {
   
   let taux = motsAtt.length ? Math.round((motsOk / motsAtt.length) * 100) : 50;
   
-  // Bonus "peu de mots" (<=4 mots et taux >=45)
+  // Bonus réduit (+10) si peu de mots et déjà un bon début
   if (motsRep.length <= 4 && taux >= 45) taux = Math.min(100, taux + 10);
   
-  // Exigence minimum : 50% des mots-clés
-  const motsTrouves = motsAtt.filter(m => 
-    motsRep.some(mr => mr.includes(m.slice(0, 4)))
-  ).length;
-  if (motsTrouves < motsAtt.length / 2) {
-    return { ok: false, t: Math.min(taux, 50), m: 'Il manque des éléments essentiels.' };
-  }
-  
-  // Bonus mots essentiels (premiers mots-clés)
   const essentiels = motsAtt.slice(0, 3).filter(m => 
     motsRep.some(mr => mr.includes(m.slice(0, 4)))
   );
   if (essentiels.length >= 2) taux = Math.min(100, taux + 5);
   
-  // Vérification numérique
+  // Vérification numérique (au cas où)
   const numRep = extraireValeurNumerique(reponse);
   const numAtt = extraireValeurNumerique(attendu);
   if (numRep !== null && numAtt !== null && Math.abs(numRep - numAtt) <= 0.001) {
-    return { ok: true, t: 100, m: 'Parfait !' };
+    // Si la valeur numérique est correcte mais que la forme est différente,
+    // on accepte avec un score de 80% (sauf si déjà mieux)
+    if (taux < 80) taux = 80;
+    return { ok: true, t: taux, m: taux >= 90 ? 'Parfait !' : (taux >= 80 ? 'Bien !' : 'Presque !') };
   }
   
-  // Seuil de réussite à 65
-  if (taux >= 65) {
-    const message = taux >= 85 ? 'Parfait !' : (taux >= 75 ? 'Bien !' : 'Presque !');
+  // Exiger au moins 50% des mots-clés
+  const motsTrouves = motsAtt.filter(m => 
+    motsRep.some(mr => mr.includes(m.slice(0, 4)))
+  ).length;
+  
+  if (motsTrouves < motsAtt.length / 2) {
+    return { ok: false, t: Math.min(taux, 50), m: 'Il manque des éléments essentiels.' };
+  }
+  
+  // SEUIL À 50%
+  if (taux >= 50) {
+    const message = taux >= 80 ? 'Parfait !' : (taux >= 70 ? 'Bien !' : 'Presque !');
     return { ok: true, t: taux, m: message };
   }
   
@@ -454,8 +446,7 @@ function affQ() {
 function verif() {
   const rep=document.getElementById('repIn')?.value.trim();
   if(!rep){alert('Écris une réponse.');return;}
-  const c=session[idx];
-  const ev=evaluer(rep, c.r, c.q);
+  const c=session[idx]; const ev=evaluer(rep,c.r);
   if(ev.ok) score.ok++; score.total++;
   if(!score.chTaux[c.ch]) score.chTaux[c.ch]={ok:0,t:0};
   score.chTaux[c.ch].t++; if(ev.ok) score.chTaux[c.ch].ok++;
@@ -481,19 +472,21 @@ function startTimer(){
 }
 function fin(){
   clearInterval(timerInt);
-  const pct=score.total?Math.round(score.ok/score.total*100):0;
+  const totalQuestions = score.total;
+  const bonnesReponses = score.ok;
+  const pct = totalQuestions ? Math.round(bonnesReponses / totalQuestions * 100) : 0;
   const chapitres=getSel().map(n=>DATA[n]?.titre).filter(Boolean);
   const chapitresTaux={};
   Object.entries(score.chTaux).forEach(([ch,d])=>{chapitresTaux[DATA[ch]?.titre||'Ch'+ch]=Math.round(d.ok/d.t*100);});
   const sessions=JSON.parse(localStorage.getItem(kSuivi())||'[]');
-  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve,pourcentage:pct,chapitres,chapitresTaux,noteSur:score.total,noteObtenue:score.ok});
+  sessions.unshift({id:Date.now(),date:new Date().toISOString(),matiere:'maths',eleve,pourcentage:pct,noteSur:totalQuestions,noteObtenue:bonnesReponses,chapitres,chapitresTaux});
   localStorage.setItem(kSuivi(),JSON.stringify(sessions.slice(0,200)));
   showPhase('phaseRes');
   const cls=pct>=80?'ex':pct>=60?'bi':'ef';
   const msg=pct>=80?'🌟 Excellent !':pct>=60?'👍 Bien joué !':pct>=40?'💪 Courage !':'📚 Continue.';
   document.getElementById('scoreGrand').className='score-grand '+cls;
-  document.getElementById('scoreGrand').textContent = score.ok + '/' + score.total;
-  document.getElementById('scoreDetail').textContent=score.ok+' bonnes réponses sur '+score.total;
+  document.getElementById('scoreGrand').textContent = bonnesReponses + '/' + totalQuestions;
+  document.getElementById('scoreDetail').textContent = bonnesReponses + ' bonnes réponses sur ' + totalQuestions + ' (' + pct + '%)';
   document.getElementById('msgFin').textContent=msg;
   const faibles=Object.entries(chapitresTaux).filter(([,t])=>t<60).map(([ch])=>ch);
   if(faibles.length){
@@ -502,14 +495,14 @@ function fin(){
 }
 function showPhase(id){['phaseSelect','phaseSession','phaseRes'].forEach(p=>document.getElementById(p).className='phase'+(p===id?' active':''));}
 function initApp() {
-  setEleve('eleve1');
+  setEleve('wassil');
   document.getElementById('btnStart').addEventListener('click', demarrer);
   document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
   document.getElementById('btnNone').addEventListener('click', () => selectAll(false));
   document.getElementById('btnFaibles').addEventListener('click', selFaibles);
   document.getElementById('btnReset').addEventListener('click', resetProg);
-  document.getElementById('btn1').addEventListener('click', () => setEleve('eleve1'));
-  document.getElementById('btn2').addEventListener('click', () => setEleve('eleve2'));
+  document.getElementById('btnW').addEventListener('click', () => setEleve('wassil'));
+  document.getElementById('btnN').addEventListener('click', () => setEleve('nawal'));
   document.getElementById('btnNext').addEventListener('click', () => { document.getElementById('nextWrap').style.display='none'; affQ(); });
   document.getElementById('btnNouv').addEventListener('click', () => location.reload());
   document.getElementById('btnSuivi').addEventListener('click', () => window.location.href='suivi-parent.html');

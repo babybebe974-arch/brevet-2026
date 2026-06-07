@@ -661,7 +661,7 @@ function genSession() {
   return melanger(dedup([...vingt,...dixRat,...dixRev])).slice(0,40);
 }
 
-// ══════════════ ÉVALUATION — NIVEAU MOYEN ══════════════
+// ══════════════ ÉVALUATION — NIVEAU MOYEN (seuil 50%) ══════════════
 function evaluer(rep, att) {
   if (!rep || rep.length < 2) return { ok: false, t: 0, m: 'Écris une réponse.' };
   
@@ -670,7 +670,7 @@ function evaluer(rep, att) {
   
   if (r === a) return { ok: true, t: 100, m: 'Parfait !' };
   
-  // MOYEN : mots de PLUS de 4 lettres (au lieu de 3)
+  // MOYEN : mots de PLUS de 4 lettres
   const mA = a.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
   const mR = r.split(/[\s,;.()+->]+/).filter(m => m.length > 4);
   
@@ -681,7 +681,7 @@ function evaluer(rep, att) {
   
   let t = mA.length ? Math.round(ok / mA.length * 100) : 50;
   
-  // MOYEN : bonus réduit (+10 au lieu de +20), condition plus stricte
+  // Bonus réduit (+10 au lieu de +20), condition plus stricte
   if (mR.length <= 4 && t >= 45) t = Math.min(100, t + 10);
   
   const cles = mA.slice(0, 3).filter(m => 
@@ -689,7 +689,7 @@ function evaluer(rep, att) {
   );
   if (cles.length >= 2) t = Math.min(100, t + 5);
   
-  // MOYEN : exiger au moins 50% des mots-clés
+  // Exiger au moins 50% des mots-clés
   const motsTrouves = mA.filter(m => 
     mR.some(mr => mr.includes(m.slice(0, 4)))
   ).length;
@@ -698,9 +698,9 @@ function evaluer(rep, att) {
     return { ok: false, t: Math.min(t, 50), m: 'Il manque des éléments essentiels.' };
   }
   
-  // MOYEN : seuil à 65% (au lieu de 55%)
-  if (t >= 65) {
-    return { ok: true, t, m: t >= 85 ? 'Parfait !' : (t >= 75 ? 'Bien !' : 'Presque !') };
+  // SEUIL À 50% (au lieu de 55 ou 65)
+  if (t >= 50) {
+    return { ok: true, t, m: t >= 80 ? 'Parfait !' : (t >= 70 ? 'Bien !' : 'Presque !') };
   }
   
   return { ok: false, t, m: 'À retravailler.' };
@@ -845,7 +845,8 @@ function showPhase(id){
   ['phaseSelect','phaseSession','phaseRes'].forEach(p=>document.getElementById(p).className='phase'+(p===id?' active':''));
 }
 
-// INITfunction initApp() {
+// INIT
+function initApp() {
   setEleve('eleve1');
   document.getElementById('btnStart').addEventListener('click', demarrer);
   document.getElementById('btnAll').addEventListener('click', () => selectAll(true));
