@@ -105,8 +105,8 @@ body {
   background: transparent;
   color: var(--dim);
 }
-.etab.aw { background: #7eb8f5; color: #09090f; }
-.etab.an { background: #f59eb8; color: #09090f; }
+.etab.e1 { background: #7eb8f5; color: #09090f; }
+.etab.e2 { background: #f59eb8; color: #09090f; }
 
 /* SECTION */
 .section { margin-bottom: 48px; }
@@ -230,6 +230,8 @@ body {
 /* FOOTER */
 .footer { max-width: 1100px; margin: 0 auto; padding: 20px 24px 40px; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 </style>
+<script src="monetization.js"></script>
+<script src="proxy-client.js"></script>
 </head>
 <body>
 
@@ -250,8 +252,8 @@ body {
 
   <!-- ELEVE TABS -->
   <div class="eleve-tabs" style="margin-top:28px">
-    <button class="etab aw" id="btnW" onclick="setEleve('wassil')">🌊 Wassil</button>
-    <button class="etab an" id="btnN" onclick="setEleve('nawal')">⚡ Nawal</button>
+    <button class="etab e1" id="btn1" onclick="setEleve('eleve1')">👤 Élève 1</button>
+    <button class="etab e2" id="btn2" onclick="setEleve('eleve2')">👤 Élève 2</button>
   </div>
 
   <!-- ALERTE INACTIVITE -->
@@ -440,7 +442,7 @@ body {
       <a href="agent-oral.html" class="card sp">
         <div class="card-icon">🎤</div>
         <div class="card-title">Agent oral IA</div>
-        <div class="card-desc">Wassil : L'invention du zéro · Nawal : Féminisme et Malala · Correction IA</div>
+        <div class="card-desc">Sujet libre · 3+7 questions · Correction IA · PDF export</div>
         <div class="card-badge ia">Correcteur IA</div>
       </a>
       <a href="suivi-parent.html" class="card" style="--accent:#a07af5">
@@ -455,7 +457,7 @@ body {
 </div>
 
 <div class="footer">
-  <span>Brevet 2026 — Wassil &amp; Nawal</span>
+  <span>Brevet 2026 — Élève 1 &amp; Élève 2</span>
   <span id="footerDate"></span>
 </div>
 
@@ -475,13 +477,13 @@ updateCountdown();
 document.getElementById('footerDate').textContent = new Date().toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
 
 // ── ELEVE ──
-let eleve = localStorage.getItem('brevet_eleve') || 'wassil';
+let eleve = localStorage.getItem('brevet_eleve') || 'eleve1';
 
 function setEleve(e) {
   eleve = e;
   localStorage.setItem('brevet_eleve', e);
-  document.getElementById('btnW').className = 'etab' + (e==='wassil' ? ' aw' : '');
-  document.getElementById('btnN').className = 'etab' + (e==='nawal' ? ' an' : '');
+  document.getElementById('btn1').className = 'etab' + (e==='eleve1' ? ' e1' : '');
+  document.getElementById('btn2').className = 'etab' + (e==='eleve2' ? ' e2' : '');
   updateStats();
 }
 
@@ -539,7 +541,7 @@ function updateStats() {
       el.classList.remove('hidden');
       document.getElementById('alerteMsg').textContent =
         'Dernière session il y a ' + diff + ' jour' + (diff>1?'s':'') + '. ' +
-        (eleve==='wassil'?'Wassil':'Nawal') + ' doit travailler aujourd\'hui !';
+        (eleve==='eleve1'?'Élève 1':'Élève 2') + ' doit travailler aujourd\'hui !';
     } else {
       el.classList.add('hidden');
     }
