@@ -1,6 +1,6 @@
 // ============================================================
-// SMART LEARN — SYSTÈME DE MONÉTISATION (v4.0.0)
-// Essai gratuit 2 jours · 29€/an · Code famille
+// SMART LEARN — SYSTÈME DE MONÉTISATION (v4.1.0)
+// Essai gratuit 2 jours · 29€/an · Code par email automatique
 // ============================================================
 
 const MONETIZATION = {
@@ -9,7 +9,7 @@ const MONETIZATION = {
   dureeAbonnement: 365,
   essaiJours: 2,
   rappelHeures: 12,
-  codeMaitre: 'Entrepotes974NawalWassil',
+  codeMaitre: 'EntrepotesNawalWassil974',  // ← Code famille et amis (mis à jour)
   paymentWise: 'https://wise.com/pay/r/UeBUFQoUY_B5FYE',
   emailContact: 'smartlearn.mu@gmail.com',
   nomBeneficiaire: 'SMART LEARN',
@@ -17,7 +17,9 @@ const MONETIZATION = {
     trialStart: 'brevet_start',
     paidValid: 'brevet_paid',
     lastReminder: 'brevet_last_reminder',
-    overlayDismissed: 'brevet_ov_dismiss'
+    overlayDismissed: 'brevet_ov_dismiss',
+    pendingCode: 'brevet_pending_code',
+    pendingEmail: 'brevet_pending_email'
   }
 };
 
@@ -60,22 +62,84 @@ function verifierCodeLocal(code) {
 }
 
 // ============================================================
-// VALIDATION DE CODE
+// GÉNÉRATION DE CODE UNIQUE (compatible proxy)
+// ============================================================
+
+function genererCodeUnique() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var code = '';
+  for (var i = 0; i < 8; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
+}
+
+// ============================================================
+// ENVOI D'EMAIL VIA PROXY APPS SCRIPT
+// ============================================================
+
+async function envoyerCodeParEmail(email, code) {
+  var proxyUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.proxyUrl) 
+    ? APP_CONFIG.proxyUrl 
+    : 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  
+  var payload = {
+    userId: (typeof getUserId !== 'undefined') ? getUserId() : 'anon',
+    action: 'generer_code_email',  // Nouvelle action dans le proxy
+    email: email,
+    code: code,
+    source: document.title || window.location.pathname,
+    timestamp: Date.now()
+  };
+
+  try {
+    var response = await fetch(proxyUrl, {
+      method: 'POST',
+      body: new URLSearchParams({ data: JSON.stringify(payload) })
+    });
+    var result = await response.json();
+    return result.success === true;
+  } catch(e) {
+    console.error('Erreur envoi email:', e);
+    return false;
+  }
+}
+
+// ============================================================
+// VALIDATION DE CODE (locale + serveur + pending)
 // ============================================================
 
 function validerCode(codeSaisi, callback) {
-  // 1. Code maître local (jamais envoyé au serveur)
-  if (verifierCodeLocal(codeSaisi)) {
+  var code = codeSaisi.trim();
+  
+  // 1. Code maître local (famille et amis)
+  if (verifierCodeLocal(code)) {
     localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+    localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingCode);
+    localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingEmail);
     if (callback) callback({ success: true, message: '✅ Code famille activé ! Accès complet débloqué.' });
     return;
   }
+  
+  // 2. Code en attente (généré récemment)
+  var pendingCode = localStorage.getItem(MONETIZATION.STORAGE_KEYS.pendingCode);
+  if (pendingCode && pendingCode === code) {
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+    localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingCode);
+    localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingEmail);
+    if (callback) callback({ success: true, message: '✅ Code valide ! Accès complet débloqué.' });
+    return;
+  }
 
-  // 2. Validation serveur via proxy (URLSearchParams)
+  // 3. Validation serveur (codes pré-générés dans la feuille Codes)
+  var proxyUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.proxyUrl) 
+    ? APP_CONFIG.proxyUrl 
+    : 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  
   var payload = JSON.stringify({
     userId: (typeof getUserId !== 'undefined') ? getUserId() : 'anon',
     action: 'valider_code',
-    code: codeSaisi.trim(),
+    code: code,
     sessionId: (typeof getSessionId !== 'undefined') ? getSessionId() : 'sess',
     source: document.title || ''
   });
@@ -84,9 +148,7 @@ function validerCode(codeSaisi, callback) {
     setTimeout(function() { reject(new Error('Timeout')); }, 10000);
   });
 
-  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
-
-  var req = fetch(PROXY, {
+  var req = fetch(proxyUrl, {
     method: 'POST',
     body: new URLSearchParams({ data: payload })
   }).then(function(r) { return r.json(); });
@@ -94,6 +156,8 @@ function validerCode(codeSaisi, callback) {
   Promise.race([req, timeout]).then(function(data) {
     if (data && data.success === true) {
       localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+      localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingCode);
+      localStorage.removeItem(MONETIZATION.STORAGE_KEYS.pendingEmail);
       if (callback) callback({ success: true, message: '✅ Code valide ! Accès complet débloqué.' });
     } else {
       if (callback) callback({ success: false, message: '❌ ' + (data && data.error ? data.error : 'Code invalide.') });
@@ -104,14 +168,14 @@ function validerCode(codeSaisi, callback) {
 }
 
 // ============================================================
-// OVERLAY BLOQUANT
+// OVERLAY AVEC EMAIL ET CODE
 // ============================================================
 
-function creerOverlayMonetization(type, joursRestants) {
+function creerOverlayAvecEmail(type, joursRestants) {
   if (document.getElementById('monet-overlay')) return;
   joursRestants = joursRestants || 0;
 
-  var titre, message;
+  var titre, message, showEmailForm = true;
   if (type === 'expire') {
     titre = '⏰ Essai gratuit terminé';
     message = 'Votre essai gratuit de 2 jours est terminé.';
@@ -123,6 +187,7 @@ function creerOverlayMonetization(type, joursRestants) {
   } else {
     titre = '🔒 Accès bloqué';
     message = 'Vous devez débloquer l\'accès complet pour continuer.';
+    showEmailForm = false;
   }
 
   var canClose = (type === 'rappel');
@@ -162,51 +227,135 @@ function creerOverlayMonetization(type, joursRestants) {
     '<div class="monet-title">' + titre + '</div>' +
     '<div class="monet-sub">' + message + '</div>' +
     '<div class="monet-price">29€ <small>/ an</small></div>' +
-    '<div class="monet-step">' +
-    '<strong>Comment débloquer :</strong><br>' +
-    '1. Payez via Wise ci-dessous<br>' +
-    '2. Envoyez votre email à <strong>smartlearn.mu@gmail.com</strong><br>' +
-    '3. Recevez votre code d\'activation par retour' +
+    (showEmailForm ? 
+    '<div class="monet-step" id="email-step">' +
+    '<strong>📧 Étape 1 : Recevez votre code</strong><br>' +
+    '<input type="email" id="code-email" class="monet-input" placeholder="Votre adresse email" style="margin-top:10px;">' +
+    '<button class="monet-btn gold" id="send-code-btn">📧 Envoyer le code par email</button>' +
     '</div>' +
-    '<a href="' + MONETIZATION.paymentWise + '" target="_blank" class="monet-pay-btn wise" onclick="activerApresPaiement()">💳 Payer 29€ via Wise</a>' +
+    '<div class="monet-step" id="code-step" style="display:none;">' +
+    '<strong>🔑 Étape 2 : Entrez votre code</strong><br>' +
+    '<input type="text" id="activation-code" class="monet-input" placeholder="Code reçu par email" maxlength="40" style="margin-top:10px;">' +
+    '<button class="monet-btn teal" id="validate-code-btn">✓ Valider le code</button>' +
+    '</div>' : '') +
     '<hr class="monet-divider">' +
-    '<input type="text" class="monet-input" id="monet-code-input" placeholder="Entrez votre code d\'accès" maxlength="40">' +
-    '<div>' +
-    '<button class="monet-btn teal" id="monet-valider-btn">✓ Valider le code</button>' +
-    (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '') +
+    '<div class="monet-step">' +
+    '<strong>💳 Ou si vous avez déjà un code :</strong><br>' +
+    '<input type="text" id="direct-code" class="monet-input" placeholder="Entrez votre code d\'activation" maxlength="40" style="margin-top:10px;">' +
+    '<button class="monet-btn teal" id="direct-validate-btn">✓ Valider le code</button>' +
     '</div>' +
+    '<hr class="monet-divider">' +
+    '<div class="monet-step">' +
+    '<strong>💳 Paiement sécurisé :</strong><br>' +
+    '<a href="' + MONETIZATION.paymentWise + '" target="_blank" class="monet-pay-btn wise" onclick="activerApresPaiement()">Payer 29€ via Wise</a>' +
+    '</div>' +
+    (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '') +
     '<div class="monet-msg" id="monet-msg"></div>' +
     '</div>';
 
   document.body.appendChild(overlay);
 
-  // Valider le code
-  var validerBtn = document.getElementById('monet-valider-btn');
   var msgDiv = document.getElementById('monet-msg');
-  var codeInput = document.getElementById('monet-code-input');
-
-  if (validerBtn) {
-    validerBtn.onclick = function() {
-      var code = codeInput ? codeInput.value.trim() : '';
-      if (!code) { msgDiv.className = 'monet-msg error'; msgDiv.textContent = 'Veuillez entrer un code.'; return; }
-      validerBtn.disabled = true;
-      msgDiv.className = 'monet-msg'; msgDiv.textContent = 'Vérification...';
+  
+  // Étape 1 : Envoi du code par email
+  var sendBtn = document.getElementById('send-code-btn');
+  if (sendBtn) {
+    sendBtn.onclick = async function() {
+      var email = document.getElementById('code-email').value.trim();
+      if (!email || !email.includes('@')) {
+        msgDiv.className = 'monet-msg error';
+        msgDiv.textContent = '❌ Veuillez entrer une adresse email valide.';
+        return;
+      }
+      
+      sendBtn.disabled = true;
+      msgDiv.className = 'monet-msg';
+      msgDiv.textContent = '⏳ Génération et envoi du code...';
+      
+      var code = genererCodeUnique();
+      var sent = await envoyerCodeParEmail(email, code);
+      
+      if (sent) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.pendingCode, code);
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.pendingEmail, email);
+        
+        document.getElementById('email-step').style.display = 'none';
+        document.getElementById('code-step').style.display = 'block';
+        msgDiv.className = 'monet-msg success';
+        msgDiv.innerHTML = '✅ Code envoyé à ' + email + '<br>📩 Vérifiez vos emails (pensez aux spams)';
+      } else {
+        sendBtn.disabled = false;
+        msgDiv.className = 'monet-msg error';
+        msgDiv.textContent = '❌ Erreur d\'envoi. Réessayez ou contactez support.';
+      }
+    };
+  }
+  
+  // Validation du code reçu par email (étape 2)
+  var validateBtn = document.getElementById('validate-code-btn');
+  if (validateBtn) {
+    validateBtn.onclick = function() {
+      var code = document.getElementById('activation-code').value.trim();
+      if (!code) {
+        msgDiv.className = 'monet-msg error';
+        msgDiv.textContent = '❌ Veuillez entrer le code reçu par email.';
+        return;
+      }
+      
+      validateBtn.disabled = true;
+      msgDiv.className = 'monet-msg';
+      msgDiv.textContent = 'Vérification...';
+      
       validerCode(code, function(result) {
-        validerBtn.disabled = false;
+        validateBtn.disabled = false;
         if (result.success) {
-          msgDiv.className = 'monet-msg success'; msgDiv.textContent = result.message;
-          setTimeout(function() { fermerOverlay(); window.location.reload(); }, 1500);
+          msgDiv.className = 'monet-msg success';
+          msgDiv.textContent = result.message;
+          setTimeout(function() { 
+            fermerOverlay(); 
+            window.location.reload(); 
+          }, 1500);
         } else {
-          msgDiv.className = 'monet-msg error'; msgDiv.textContent = result.message;
+          msgDiv.className = 'monet-msg error';
+          msgDiv.textContent = result.message;
         }
       });
     };
-    // Valider aussi sur Entrée
-    if (codeInput) {
-      codeInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') validerBtn.click(); });
-    }
+  }
+  
+  // Validation directe (code existant)
+  var directValidateBtn = document.getElementById('direct-validate-btn');
+  if (directValidateBtn) {
+    directValidateBtn.onclick = function() {
+      var code = document.getElementById('direct-code').value.trim();
+      if (!code) {
+        msgDiv.className = 'monet-msg error';
+        msgDiv.textContent = '❌ Veuillez entrer votre code.';
+        return;
+      }
+      
+      directValidateBtn.disabled = true;
+      msgDiv.className = 'monet-msg';
+      msgDiv.textContent = 'Vérification...';
+      
+      validerCode(code, function(result) {
+        directValidateBtn.disabled = false;
+        if (result.success) {
+          msgDiv.className = 'monet-msg success';
+          msgDiv.textContent = result.message;
+          setTimeout(function() { 
+            fermerOverlay(); 
+            window.location.reload(); 
+          }, 1500);
+        } else {
+          msgDiv.className = 'monet-msg error';
+          msgDiv.textContent = result.message;
+        }
+      });
+    };
   }
 
+  // Fermeture (essai seulement)
   var closeBtn = document.getElementById('monet-close');
   if (closeBtn) {
     closeBtn.onclick = function() {
@@ -221,8 +370,8 @@ function fermerOverlay() {
   if (overlay) overlay.remove();
 }
 
-function afficherBlocageEssaiExpire() { creerOverlayMonetization('expire'); }
-function afficherRappelPaiement() { creerOverlayMonetization('rappel', joursRestantsEssai()); }
+function afficherBlocageEssaiExpire() { creerOverlayAvecEmail('expire'); }
+function afficherRappelPaiement() { creerOverlayAvecEmail('rappel', joursRestantsEssai()); }
 
 function activerApresPaiement() {
   localStorage.setItem('brevet_paiement_en_attente', 'true');
