@@ -1,38 +1,30 @@
 // ============================================================
-// SMART LEARN — PROXY DEEPSEEK + MONÉTISATION
-// Contact = email (Réunion) ou WhatsApp (Maurice)
+// SMART LEARN — PROXY DEEPSEEK + MONETISATION
+// Contact = email (Worldwide) ou WhatsApp (Maurice)
+// v4.1.1 : ajout action generer_code_email
 // ============================================================
 
 var COUT_DEEPSEEK_USD   = 0.0002;
 var PRIX_ABONNEMENT_EUR = 29.0;
-var PRIX_ABONNEMENT_MU  = 990;
+var PRIX_ABONNEMENT_MU  = 999;
 var TAUX_EUR_USD        = 1.08;
-
-// ============================================================
-// GET — test de vie
-// ============================================================
 
 function doGet() {
   return ContentService
-    .createTextOutput('Smart Learn Proxy OK')
+    .createTextOutput('Smart Learn Proxy OK v4.1.1')
     .setMimeType(ContentService.MimeType.TEXT);
 }
 
-// ============================================================
-// POST — point d'entrée principal
-// ============================================================
-
 function doPost(e) {
   try {
-    if (!e) return rep({ success: false, error: 'Pas de données' });
-
+    if (!e) return rep({ success: false, error: 'Pas de donnees' });
     var params;
     if (e.parameter && e.parameter.data) {
       params = JSON.parse(e.parameter.data);
     } else if (e.postData && e.postData.contents) {
       params = JSON.parse(e.postData.contents);
     } else {
-      return rep({ success: false, error: 'Pas de données' });
+      return rep({ success: false, error: 'Pas de donnees' });
     }
 
     var action    = params.action    || '';
@@ -54,13 +46,11 @@ function doPost(e) {
       var coutEUR = coutUSD / TAUX_EUR_USD;
       var nbCorr  = getCount(userId);
       var profit  = estPayant ? (PRIX_ABONNEMENT_EUR / Math.max(1, nbCorr + 1)) - coutEUR : -coutEUR;
-
       logStat(userId, sessionId, action, matiere, statut, estPayant, joursEssai, note,
               coutUSD, coutEUR, 0, profit, duree, source,
               Math.round((params.prompt || '').length / 4));
       majClient(userId, estPayant, matiere, coutUSD);
       setCount(userId, nbCorr + 1);
-
       return rep({ success: true, content: result,
         stats: { estPayant: estPayant, joursEssai: joursEssai, corrections: nbCorr + 1 }});
     }
@@ -70,7 +60,41 @@ function doPost(e) {
       return validerCode(params);
     }
 
-    // ── Stats tracker (page_view, trial_start) ────────────
+    // ── Envoi code par email (v4.1.1) ─────────────────────
+    if (action === 'generer_code_email') {
+      try {
+        var email = params.email || '';
+        var code  = params.code  || '';
+        if (!email || !code) return rep({ success: false, error: 'Email ou code manquant' });
+
+        MailApp.sendEmail({
+          to: email,
+          subject: 'Votre code Hub Brevet 2026 — Smart Learn',
+          body: 'Bonjour,\n\n' +
+                'Votre code d\'activation Hub Brevet 2026 :\n\n' +
+                '    ' + code + '\n\n' +
+                'Entrez ce code sur la page Hub Brevet pour debloquer votre acces.\n' +
+                'Valable 24h.\n\n' +
+                'Pour toute question : smartlearn.mu@gmail.com\n\n' +
+                '— Smart Learn'
+        });
+
+        getCodesSheet().appendRow([
+          code, email, new Date().toISOString(),
+          false, '', '', 'auto-email'
+        ]);
+
+        logStat(userId, sessionId, 'code_email', '', 'essai', false,
+                joursEssai, '', 0, 0, 0, 0, 0, source, 0);
+
+        return rep({ success: true, message: 'Code envoye a ' + email });
+      } catch(err) {
+        console.error('Erreur envoi email:', err);
+        return rep({ success: false, error: err.toString() });
+      }
+    }
+
+    // ── Stats tracker ─────────────────────────────────────
     if (action === 'page_view' || action === 'trial_start') {
       logStat(userId, sessionId, action, matiere, 'essai', false,
               joursEssai, '', 0, 0, 0, 0, 0, source, 0);
@@ -84,10 +108,6 @@ function doPost(e) {
     return rep({ success: false, error: err.toString() });
   }
 }
-
-// ============================================================
-// DEEPSEEK
-// ============================================================
 
 function appelerDeepSeek(prompt, system, temperature) {
   temperature = temperature || 0.7;
@@ -117,10 +137,6 @@ function appelerDeepSeek(prompt, system, temperature) {
   return data.choices[0].message.content;
 }
 
-// ============================================================
-// FEUILLE STATISTIQUES
-// ============================================================
-
 function logStat(userId, sessionId, action, matiere, statut, estPayant,
                  joursEssai, note, coutUSD, coutEUR, revenue, profit,
                  duree, source, tokens) {
@@ -141,10 +157,6 @@ function logStat(userId, sessionId, action, matiere, statut, estPayant,
       duree, source, tokens, true]);
   } catch(e) { console.error('logStat:', e); }
 }
-
-// ============================================================
-// FEUILLE CLIENTS
-// ============================================================
 
 function majClient(userId, estPayant, matiere, coutUSD) {
   try {
@@ -184,10 +196,6 @@ function majClient(userId, estPayant, matiere, coutUSD) {
       matiere, estPayant ? now : '']);
   } catch(e) { console.error('majClient:', e); }
 }
-
-// ============================================================
-// FEUILLE CODES
-// ============================================================
 
 function validerCode(params) {
   var code   = (params.code || '').toString().trim();
@@ -237,117 +245,40 @@ function getCodesSheet() {
     var h = ['Code','Contact','DateCreation','Utilise','DateUtilisation','UserId','Notes'];
     sheet.getRange(1,1,1,h.length).setValues([h])
          .setFontWeight('bold').setBackground('#1a1a2e').setFontColor('#ffffff');
-    sheet.setColumnWidth(1,150);
-    sheet.setColumnWidth(2,200);
+    sheet.setColumnWidth(1,150); sheet.setColumnWidth(2,220);
   }
   return sheet;
 }
 
-// ============================================================
-// COMPTEURS (Cache)
-// ============================================================
-
 function getCount(userId) {
-  var cache  = CacheService.getScriptCache();
-  var cached = cache.get('cnt_' + userId);
+  var cache = CacheService.getScriptCache(), cached = cache.get('cnt_'+userId);
   if (cached !== null) return parseInt(cached, 10);
   var n = countFromSheet(userId);
-  cache.put('cnt_' + userId, n.toString(), 600);
+  cache.put('cnt_'+userId, n.toString(), 600);
   return n;
 }
-
 function setCount(userId, n) {
-  CacheService.getScriptCache().put('cnt_' + userId, n.toString(), 600);
+  CacheService.getScriptCache().put('cnt_'+userId, n.toString(), 600);
   writeCountSheet(userId, n);
 }
-
 function countFromSheet(userId) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Compteurs');
     if (!sheet) return 0;
     var data = sheet.getDataRange().getValues();
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0] === userId) return parseInt(data[i][1], 10) || 0;
-    }
+    for (var i = 1; i < data.length; i++) if (data[i][0]===userId) return parseInt(data[i][1],10)||0;
     return 0;
   } catch(e) { return 0; }
 }
-
 function writeCountSheet(userId, n) {
   try {
-    var ss    = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Compteurs');
-    if (!sheet) {
-      sheet = ss.insertSheet('Compteurs');
-      sheet.getRange(1,1,1,2).setValues([['UserId','NbCorrections']]);
-    }
-    var data = sheet.getDataRange().getValues();
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0] === userId) { sheet.getRange(i+1,2).setValue(n); return; }
-    }
-    sheet.appendRow([userId, n]);
+    var ss=SpreadsheetApp.getActiveSpreadsheet(), sheet=ss.getSheetByName('Compteurs');
+    if (!sheet){sheet=ss.insertSheet('Compteurs');sheet.getRange(1,1,1,2).setValues([['UserId','NbCorrections']]);}
+    var data=sheet.getDataRange().getValues();
+    for (var i=1;i<data.length;i++){if(data[i][0]===userId){sheet.getRange(i+1,2).setValue(n);return;}}
+    sheet.appendRow([userId,n]);
   } catch(e) { console.error('writeCount:', e); }
 }
-
-// ============================================================
-// ADMIN — GÉNÉRATION DE CODES
-// ============================================================
-
-function generateCode() {
-  // Modifier avant d'executer :
-  var contact = '+230XXXXXXXX';   // email@exemple.com ou +230XXXXXXXX
-  var notes   = '';
-
-  var code = genCode();
-  getCodesSheet().appendRow([code, contact, new Date().toISOString(), false, '', '', notes]);
-
-  console.log('========================================');
-  console.log('Contact : ' + contact);
-  console.log('Code    : ' + code);
-  console.log('========================================');
-  return { code: code, contact: contact };
-}
-
-function generateCodesPourListe() {
-  var clients = [
-    { contact: '+230XXXXXXXX', notes: 'Juice 12/06' },
-    { contact: '+230YYYYYYYY', notes: 'Juice 12/06' }
-  ];
-  for (var i = 0; i < clients.length; i++) {
-    var code = genCode();
-    getCodesSheet().appendRow([code, clients[i].contact,
-      new Date().toISOString(), false, '', '', clients[i].notes]);
-    console.log(clients[i].contact + ' -> ' + code);
-  }
-}
-
-function genCode() {
-  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  var c = '';
-  for (var i = 0; i < 8; i++) c += chars.charAt(Math.floor(Math.random() * chars.length));
-  return c;
-}
-
-function voirCodes() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Codes');
-  if (!sheet) { console.log('Pas de feuille Codes'); return; }
-  var data = sheet.getDataRange().getValues();
-  var actifs = 0, utilises = 0;
-  for (var i = 1; i < data.length; i++) {
-    if (data[i][3]) {
-      utilises++;
-      console.log('UTILISE | ' + data[i][0] + ' | ' + data[i][1]);
-    } else {
-      actifs++;
-      console.log('ACTIF   | ' + data[i][0] + ' | ' + data[i][1]);
-    }
-  }
-  console.log('Actifs: ' + actifs + ' | Utilises: ' + utilises);
-}
-
-// ============================================================
-// UTILITAIRES
-// ============================================================
 
 function extraireNote(txt) {
   try {
@@ -365,21 +296,46 @@ function rep(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ============================================================
-// SETUP — exécuter une seule fois
-// ============================================================
+// ── Admin ─────────────────────────────────────────────────────
+
+function generateCode() {
+  var contact = '+230XXXXXXXX'; // email ou WhatsApp
+  var notes   = '';
+  var code = genCode();
+  getCodesSheet().appendRow([code, contact, new Date().toISOString(), false, '', '', notes]);
+  console.log('Contact : ' + contact);
+  console.log('Code    : ' + code);
+  return { code: code, contact: contact };
+}
+
+function genCode() {
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', c='';
+  for(var i=0;i<8;i++) c+=chars.charAt(Math.floor(Math.random()*chars.length));
+  return c;
+}
+
+function voirCodes() {
+  var sheet=SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Codes');
+  if(!sheet){console.log('Pas de feuille Codes');return;}
+  var data=sheet.getDataRange().getValues(), actifs=0, utilises=0;
+  for(var i=1;i<data.length;i++){
+    if(data[i][3]){utilises++;console.log('UTILISE | '+data[i][0]+' | '+data[i][1]);}
+    else{actifs++;console.log('ACTIF   | '+data[i][0]+' | '+data[i][1]);}
+  }
+  console.log('Actifs: '+actifs+' | Utilises: '+utilises);
+}
 
 function creerFeuilles() {
   getCodesSheet();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  if (!ss.getSheetByName('Statistiques')) logStat('init','','init','','',false,0,'',0,0,0,0,0,'setup',0);
-  if (!ss.getSheetByName('Clients'))      majClient('init', false, 'setup', 0);
-  if (!ss.getSheetByName('Compteurs'))    writeCountSheet('init', 0);
+  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  if(!ss.getSheetByName('Statistiques')) logStat('init','','init','','',false,0,'',0,0,0,0,0,'setup',0);
+  if(!ss.getSheetByName('Clients'))      majClient('init',false,'setup',0);
+  if(!ss.getSheetByName('Compteurs'))    writeCountSheet('init',0);
   console.log('Feuilles creees : Statistiques Clients Codes Compteurs');
 }
 
 function verifierCleAPI() {
-  var key = PropertiesService.getScriptProperties().getProperty('DEEPSEEK_API_KEY');
-  if (key && key.startsWith('sk-')) { console.log('Cle DeepSeek OK'); return true; }
-  console.log('Cle DeepSeek MANQUANTE'); return false;
+  var key=PropertiesService.getScriptProperties().getProperty('DEEPSEEK_API_KEY');
+  if(key&&key.startsWith('sk-')){console.log('Cle DeepSeek OK');return true;}
+  console.log('Cle DeepSeek MANQUANTE');return false;
 }
