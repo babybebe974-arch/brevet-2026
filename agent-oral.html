@@ -7,30 +7,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--red:#f55a5a;--green:#7ecf8a;--oral:#f0a3a3;--oral-dark:#e08282;--r:14px;--r-sm:8px;}
+:root{--bg:#09090f;--bg2:#111118;--bg3:#181820;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:rgba(240,237,232,0.45);--gold:#e8c87a;--teal:#5ecfb1;--red:#f55a5a;--green:#7ecf8a;--blue:#6ab4f5;--purple:#a98af5;--r:14px;--r-sm:8px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(240,163,163,0.08) 0%,transparent 55%);}
-.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--oral);border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
+#home{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;background:radial-gradient(ellipse at 50% 0%,rgba(106,180,245,0.08) 0%,transparent 55%);}
+.badge{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--blue);border:1px solid rgba(106,180,245,0.3);background:rgba(106,180,245,0.06);padding:5px 14px;border-radius:999px;margin-bottom:20px;}
 h1{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,54px);font-weight:800;text-align:center;line-height:1.05;margin-bottom:8px;}
-h1 em{color:var(--oral);font-style:italic;}
+h1 em{color:var(--blue);font-style:italic;}
 .sub{color:var(--muted);font-size:14px;text-align:center;max-width:480px;line-height:1.7;margin-bottom:32px;}
 .cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:800px;width:100%;margin:20px 0;}
 .candidate-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:28px;cursor:pointer;text-align:center;transition:all 0.2s;}
-.candidate-card:hover{transform:translateY(-4px);border-color:rgba(240,163,163,0.5);}
-.candidate-card.wassil{border-top:3px solid #7eb8f5;}
-.candidate-card.nawal{border-top:3px solid #f59eb8;}
+.candidate-card:hover{transform:translateY(-4px);border-color:rgba(106,180,245,0.5);}
+.candidate-card.eleve1{border-top:3px solid #7eb8f5;}
+.candidate-card.eleve2{border-top:3px solid #f59eb8;}
 .candidate-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;}
-.candidate-theme{font-size:13px;color:var(--muted);margin:8px 0;}
+.candidate-theme{font-size:13px;color:var(--muted);margin:8px 0;font-style:italic;}
 #oral-page{display:none;max-width:1000px;margin:0 auto;}
 .oral-header{position:sticky;top:0;background:rgba(9,9,15,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
 .back-btn{background:none;border:1px solid var(--border2);border-radius:var(--r-sm);padding:7px 14px;color:var(--muted);cursor:pointer;}
-.chrono-bar{background:rgba(240,163,163,0.06);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
-.chrono-time{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--oral);}
-.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(240,163,163,0.3);background:rgba(240,163,163,0.07);color:var(--oral);cursor:pointer;}
+.chrono-bar{background:rgba(106,180,245,0.06);padding:8px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.chrono-time{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--blue);}
+.chrono-btn{font-size:11px;padding:4px 12px;border-radius:999px;border:1px solid rgba(106,180,245,0.3);background:rgba(106,180,245,0.07);color:var(--blue);cursor:pointer;}
 .s-body{padding:24px;}
 .expose-section{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:20px;margin-bottom:24px;}
-.section-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--oral);margin-bottom:12px;}
+.section-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue);margin-bottom:12px;}
 .answer-ta{width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical;}
 .ai-btn{background:rgba(94,207,177,0.1);border:1px solid var(--teal);color:var(--teal);padding:8px 18px;border-radius:999px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;margin-top:12px;}
 .ai-feedback{background:linear-gradient(135deg,rgba(94,207,177,0.08),transparent);border-left:3px solid var(--teal);padding:16px;margin-top:16px;border-radius:var(--r-sm);font-size:13px;line-height:1.6;display:none;}
@@ -45,7 +45,235 @@ h1 em{color:var(--oral);font-style:italic;}
 .generate-pdf{background:var(--bg2);border:2px solid var(--gold);border-radius:var(--r);padding:14px;color:var(--gold);cursor:pointer;font-family:'DM Mono',monospace;font-weight:600;width:100%;margin:20px 0;}
 .toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 20px;font-size:12px;z-index:200;opacity:0;transition:0.3s;}
 .toast.show{opacity:1;}
+textarea{font-family:'DM Sans',sans-serif;}
 </style>
+<script>
+// SMART LEARN — MONÉTISATION MAURICE
+// Essai 2 jours · 999 Rs · WhatsApp + Juice
+
+const MONETIZATION = {
+  prix: 999, devise: 'Rs', essaiJours: 2,
+  codeMaitre: 'Entrepotes974NawalWassil',
+  whatsapp: 'https://wa.me/23058459402',
+  numeroJuice: '+230 58 45 94 02',
+  STORAGE_KEYS: { trialStart: 'brevet_start', paidValid: 'brevet_paid' }
+};
+
+function estEnEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return true;
+  return (Date.now() - parseInt(s)) / 86400000 < MONETIZATION.essaiJours;
+}
+function essaiExpire() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return false;
+  return (Date.now() - parseInt(s)) / 86400000 >= MONETIZATION.essaiJours;
+}
+function aAccesComplet() {
+  if (localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true') return true;
+  return estEnEssai();
+}
+function aAccesPayant() {
+  return localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true';
+}
+function joursRestantsEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return MONETIZATION.essaiJours;
+  return Math.max(0, Math.ceil(MONETIZATION.essaiJours - (Date.now() - parseInt(s)) / 86400000));
+}
+function validerCode(code, callback) {
+  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  var payload = JSON.stringify({ userId: localStorage.getItem('user_id') || 'anon', action: 'valider_code', code: code.trim(), source: document.title || '' });
+  fetch(PROXY, { method: 'POST', body: new URLSearchParams({ data: payload }) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+        if (callback) callback({ success: true, message: '✅ Accès débloqué !' });
+      } else {
+        if (callback) callback({ success: false, message: '❌ ' + (data.error || 'Code invalide.') });
+      }
+    }).catch(function() { if (callback) callback({ success: false, message: '❌ Vérifiez votre connexion.' }); });
+}
+function creerBanniere() {
+  if (document.getElementById('monet-banner') || aAccesPayant()) return;
+  var j = joursRestantsEssai(), expire = essaiExpire();
+  var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
+  var texte = expire ? '⚠️ Essai terminé — Corrections IA bloquées'
+    : '🆓 Essai gratuit — <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' — Accès complet <strong>999 Rs/an</strong>';
+  var b = document.createElement('div');
+  b.id = 'monet-banner';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">💬 Débloquer via WhatsApp</button>';
+  document.body.insertBefore(b, document.body.firstChild);
+}
+function afficherOverlay() {
+  if (document.getElementById('monet-overlay')) return;
+  var canClose = estEnEssai();
+  var o = document.createElement('div');
+  o.id = 'monet-overlay';
+  o.innerHTML = '<style>#monet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(9,9,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}.monet-card{background:#111118;border:1px solid #2a2a38;border-radius:16px;padding:32px 28px;max-width:460px;width:92%;color:#e8e8f0;text-align:center;}.monet-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:#25D366;color:#fff;margin:12px 0;width:100%;box-sizing:border-box;border:none;cursor:pointer;}.monet-input{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:10px;color:#e8e8f0;font-size:15px;padding:12px 16px;text-align:center;outline:none;box-sizing:border-box;margin-bottom:10px;}.monet-btn{padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.1);color:#5ecfb1;margin:4px;}.monet-btn.ghost{background:transparent;color:#9090a8;border:1px solid #2a2a38;}.monet-msg{font-size:13px;margin-top:10px;min-height:24px;}</style>'
+    + '<div class="monet-card">'
+    + '<div style="font-size:44px;margin-bottom:10px;">⏰</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#e8c87a;margin-bottom:8px;">Essai gratuit terminé</div>'
+    + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">Débloquez l\'accès complet pour continuer.</div>'
+    + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">999 Rs <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
+    + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1️⃣ Envoyez <strong>999 Rs</strong> par Juice au <strong>+230 58 45 94 02</strong><br>2️⃣ Envoyez la <strong>capture</strong> sur WhatsApp<br>3️⃣ Recevez votre <strong>code d\'activation</strong></div>'
+    + '<a href="https://wa.me/23058459402?text=' + encodeURIComponent('Bonjour, je souhaite débloquer Hub Brevet 2026 (999 Rs). Je vous envoie ma capture Juice.') + '" target="_blank" class="monet-wa-btn">💬 Contacter sur WhatsApp</a>'
+    + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
+    + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'accès…" maxlength="40">'
+    + '<div><button class="monet-btn" id="monet-valider">✓ Valider le code</button>'
+    + (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '')
+    + '</div><div class="monet-msg" id="monet-msg"></div></div>';
+  document.body.appendChild(o);
+  document.getElementById('monet-valider').onclick = function() {
+    var code = document.getElementById('monet-code-input').value.trim();
+    var msg = document.getElementById('monet-msg');
+    if (!code) { msg.style.color='#e87a7a'; msg.textContent='Entrez un code.'; return; }
+    msg.style.color='#9090a8'; msg.textContent='Vérification...';
+    validerCode(code, function(r) {
+      if (r.success) { msg.style.color='#5ecfb1'; msg.textContent=r.message; setTimeout(function(){document.getElementById('monet-overlay').remove();location.reload();},1500); }
+      else { msg.style.color='#e87a7a'; msg.textContent=r.message; }
+    });
+  };
+  var cl = document.getElementById('monet-close');
+  if (cl) cl.onclick = function() { document.getElementById('monet-overlay').remove(); };
+}
+function afficherBlocageEssaiExpire() { afficherOverlay(); }
+function initMonetization() {
+  if (!localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart))
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.trialStart, Date.now().toString());
+  if (!localStorage.getItem('user_id'))
+    localStorage.setItem('user_id', (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Date.now());
+  if (aAccesPayant()) return;
+  creerBanniere();
+  if (essaiExpire()) setTimeout(afficherOverlay, 500);
+  setInterval(function() {
+    var b = document.getElementById('monet-banner');
+    if (b && !aAccesPayant()) b.style.background = essaiExpire() ? '#e87a7a' : '#e8c87a';
+  }, 60000);
+}
+window.aAccesComplet = aAccesComplet;
+window.aAccesPayant = aAccesPayant;
+window.essaiExpire = essaiExpire;
+window.afficherBlocageEssaiExpire = afficherBlocageEssaiExpire;
+window.afficherOverlay = afficherOverlay;
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonetization);
+else initMonetization();
+</script>
+<script>
+// SMART LEARN — MONÉTISATION WORLDWIDE
+// Essai 2 jours · 29€/an · Wise · Email
+
+const MONETIZATION = {
+  prix: 29, devise: '€', essaiJours: 2,
+  codeMaitre: 'Entrepotes974NawalWassil',
+  wiseUrl: 'https://wise.com/pay/r/UeBUFQoUY_B5FYE',
+  email: 'smartlearn.mu@gmail.com',
+  STORAGE_KEYS: { trialStart: 'brevet_start', paidValid: 'brevet_paid' }
+};
+
+function estEnEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return true;
+  return (Date.now() - parseInt(s)) / 86400000 < MONETIZATION.essaiJours;
+}
+function essaiExpire() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return false;
+  return (Date.now() - parseInt(s)) / 86400000 >= MONETIZATION.essaiJours;
+}
+function aAccesComplet() {
+  if (localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true') return true;
+  return estEnEssai();
+}
+function aAccesPayant() {
+  return localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true';
+}
+function joursRestantsEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return MONETIZATION.essaiJours;
+  return Math.max(0, Math.ceil(MONETIZATION.essaiJours - (Date.now() - parseInt(s)) / 86400000));
+}
+function validerCode(code, callback) {
+  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  var payload = JSON.stringify({ userId: localStorage.getItem('user_id') || 'anon', action: 'valider_code', code: code.trim(), source: document.title || '' });
+  fetch(PROXY, { method: 'POST', body: new URLSearchParams({ data: payload }) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+        if (callback) callback({ success: true, message: '\u2705 Acc\u00e8s d\u00e9bloqu\u00e9 !' });
+      } else {
+        if (callback) callback({ success: false, message: '\u274c ' + (data.error || 'Code invalide.') });
+      }
+    }).catch(function() { if (callback) callback({ success: false, message: '\u274c V\u00e9rifiez votre connexion.' }); });
+}
+function creerBanniere() {
+  if (document.getElementById('monet-banner') || aAccesPayant()) return;
+  var j = joursRestantsEssai(), expire = essaiExpire();
+  var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
+  var texte = expire ? '\u26a0\ufe0f Essai termin\u00e9 \u2014 Corrections IA bloqu\u00e9es'
+    : '\U0001f4a1 Essai gratuit \u2014 <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' \u2014 Acc\u00e8s complet <strong>29\u20ac/an</strong>';
+  var b = document.createElement('div');
+  b.id = 'monet-banner';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">\U0001f513 D\u00e9bloquer l\'acc\u00e8s</button>';
+  document.body.insertBefore(b, document.body.firstChild);
+}
+function afficherOverlay() {
+  if (document.getElementById('monet-overlay')) return;
+  var canClose = estEnEssai();
+  var o = document.createElement('div');
+  o.id = 'monet-overlay';
+  o.innerHTML = '<style>#monet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(9,9,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}.monet-card{background:#111118;border:1px solid #2a2a38;border-radius:16px;padding:32px 28px;max-width:460px;width:92%;color:#e8e8f0;text-align:center;}.monet-wise-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:#00b9ff;color:#fff;margin:12px 0;width:100%;box-sizing:border-box;border:none;cursor:pointer;}.monet-input{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:10px;color:#e8e8f0;font-size:15px;padding:12px 16px;text-align:center;outline:none;box-sizing:border-box;margin-bottom:10px;}.monet-btn{padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.1);color:#5ecfb1;margin:4px;}.monet-btn.ghost{background:transparent;color:#9090a8;border:1px solid #2a2a38;}.monet-msg{font-size:13px;margin-top:10px;min-height:24px;}</style>'
+    + '<div class="monet-card">'
+    + '<div style="font-size:44px;margin-bottom:10px;">\u23f0</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#e8c87a;margin-bottom:8px;">Essai gratuit termin\u00e9</div>'
+    + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">D\u00e9bloquez l\'acc\u00e8s complet pour continuer.</div>'
+    + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">29\u20ac <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
+    + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1\ufe0f\u20e3 Cliquez sur le bouton Wise ci-dessous<br>2\ufe0f\u20e3 Payez <strong>29\u20ac</strong> par carte ou virement<br>3\ufe0f\u20e3 Envoyez votre confirmation \u00e0 <strong>smartlearn.mu@gmail.com</strong><br>4\ufe0f\u20e3 Recevez votre <strong>code d\'activation</strong> par retour</div>'
+    + '<a href="https://wise.com/pay/r/UeBUFQoUY_B5FYE" target="_blank" class="monet-wise-btn">\U0001f4b3 Payer 29\u20ac via Wise</a>'
+    + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
+    + '<div style="font-size:12px;color:#9090a8;margin-bottom:8px;">Vous avez d\u00e9j\u00e0 un code ?</div>'
+    + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'acc\u00e8s\u2026" maxlength="40">'
+    + '<div><button class="monet-btn" id="monet-valider">\u2713 Valider le code</button>'
+    + (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '')
+    + '</div><div class="monet-msg" id="monet-msg"></div></div>';
+  document.body.appendChild(o);
+  document.getElementById('monet-valider').onclick = function() {
+    var code = document.getElementById('monet-code-input').value.trim();
+    var msg = document.getElementById('monet-msg');
+    if (!code) { msg.style.color='#e87a7a'; msg.textContent='Entrez un code.'; return; }
+    msg.style.color='#9090a8'; msg.textContent='V\u00e9rification...';
+    validerCode(code, function(r) {
+      if (r.success) { msg.style.color='#5ecfb1'; msg.textContent=r.message; setTimeout(function(){document.getElementById('monet-overlay').remove();location.reload();},1500); }
+      else { msg.style.color='#e87a7a'; msg.textContent=r.message; }
+    });
+  };
+  var cl = document.getElementById('monet-close');
+  if (cl) cl.onclick = function() { document.getElementById('monet-overlay').remove(); };
+}
+function afficherBlocageEssaiExpire() { afficherOverlay(); }
+function initMonetization() {
+  if (!localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart))
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.trialStart, Date.now().toString());
+  if (!localStorage.getItem('user_id'))
+    localStorage.setItem('user_id', (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Date.now());
+  if (aAccesPayant()) return;
+  creerBanniere();
+  if (essaiExpire()) setTimeout(afficherOverlay, 500);
+  setInterval(function() {
+    var b = document.getElementById('monet-banner');
+    if (b && !aAccesPayant()) b.style.background = essaiExpire() ? '#e87a7a' : '#e8c87a';
+  }, 60000);
+}
+window.aAccesComplet = aAccesComplet;
+window.aAccesPayant = aAccesPayant;
+window.essaiExpire = essaiExpire;
+window.afficherBlocageEssaiExpire = afficherBlocageEssaiExpire;
+window.afficherOverlay = afficherOverlay;
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonetization);
+else initMonetization();
+</script>
 </head>
 <body>
 <div id="home">
@@ -53,20 +281,20 @@ h1 em{color:var(--oral);font-style:italic;}
   <h1>Oral Blanc <em>· 3 + 7 questions</em></h1>
   <p class="sub">3 questions sur VOTRE exposé · 7 questions sur le thème (hors exposé)<br>L'IA corrige, note et conseille · PDF avec corrections modèles</p>
   <div class="cards-container">
-    <div class="candidate-card wassil" onclick="selectCandidate('Wassil')">
-      <div class="candidate-name">🌊 Wassil</div>
-      <div class="candidate-theme">📐 L'invention du zéro · Al-Khwarizmi · Mathématiques arabes</div>
+    <div class="candidate-card eleve1" onclick="selectCandidate('eleve1')">
+      <div class="candidate-name">👤 Élève 1</div>
+      <div class="candidate-theme">Choisissez votre thème et rédigez votre exposé</div>
     </div>
-    <div class="candidate-card nawal" onclick="selectCandidate('Nawal')">
-      <div class="candidate-name">⚡ Nawal</div>
-      <div class="candidate-theme">📖 Malala · Féminisme · Droit à l'éducation des filles</div>
+    <div class="candidate-card eleve2" onclick="selectCandidate('eleve2')">
+      <div class="candidate-name">👤 Élève 2</div>
+      <div class="candidate-theme">Choisissez votre thème et rédigez votre exposé</div>
     </div>
   </div>
 </div>
 
 <div id="oral-page">
   <div class="oral-header">
-    <div><strong id="oral-candidate"></strong><br><span id="oral-theme" style="font-size:11px;color:var(--muted);"></span></div>
+    <div><strong id="oral-candidate"></strong><br><span id="oral-theme" style="font-size:11px;color:var(--muted);">Préparez votre exposé</span></div>
     <button class="back-btn" onclick="goHome()">← Retour accueil</button>
   </div>
   <div class="chrono-bar">
@@ -80,52 +308,38 @@ h1 em{color:var(--oral);font-style:italic;}
 <div class="toast" id="toast"></div>
 
 <script>
-const THEMES = {
-  Wassil: {
-    nom: "Wassil",
-    theme: "L'invention du zéro",
-    consignes: "Racontez l'histoire du zéro : ses origines en Inde, sa transmission par les mathématiciens arabes (Al-Khwarizmi), son importance dans les mathématiques modernes (algèbre, système décimal, informatique).",
-    cultureQuestions: [
-      { q: "Quel mathématicien persan a écrit 'Al-Kitāb al-mukhtaṣar fī ḥisāb al-ğabr wa-l-muqābala' ?", r: "Al-Khwarizmi (IXe siècle)." },
-      { q: "Que signifie le mot 'algorithme' étymologiquement ?", r: "Il vient du nom du mathématicien Al-Khwarizmi (latinisé en 'Algorithmi')." },
-      { q: "Pourquoi la division par zéro est-elle impossible en mathématiques ?", r: "Parce qu'aucun nombre multiplié par 0 ne donne un nombre non nul." },
-      { q: "Quel est le symbole du zéro dans la numération maya ?", r: "Un coquillage (ou une coquille vide)." },
-      { q: "Les Romains utilisaient-ils un zéro ?", r: "Non, ils utilisaient des abaques ou le mot 'nulla' (rien)." },
-      { q: "Qu'est-ce que la notation positionnelle ?", r: "Système où la valeur d'un chiffre dépend de sa position. Le zéro marque les positions vides." },
-      { q: "Cite un usage du zéro en informatique.", r: "En binaire, 0 et 1 sont les états des transistors (éteint/allumé)." },
-      { q: "Qu'est-ce que le zéro absolu ?", r: "Température la plus basse (-273,15°C), où l'agitation cesse." },
-      { q: "Pourquoi le zéro a-t-il été interdit à Florence ?", r: "Associé aux chiffres arabes, jugés 'diaboliques'." },
-      { q: "Qui est Brahmagupta ?", r: "Mathématicien indien (VIIe) : a+0=a, a×0=0, a/0 non défini." },
-      { q: "Que vaut 0⁰ ?", r: "Forme indéterminée. En info, souvent défini comme 1." },
-      { q: "En quoi le zéro a permis la comptabilité ?", r: "Il différencie 105 de 15, évite les erreurs." },
-      { q: "Lien entre zéro et vide en philosophie ?", r: "Le zéro symbolise le néant. Dans le bouddhisme, le vide créateur." },
-      { q: "Rôle de Fibonacci ?", r: "Dans son 'Liber Abaci' (1202), il diffuse le zéro en Europe." },
-      { q: "Pourquoi sans zéro pas d'ordinateurs ?", r: "Le binaire (0/1) est la base de tous les calculs." }
-    ]
-  },
-  Nawal: {
-    nom: "Nawal",
-    theme: "Malala et le féminisme · Droit à l'éducation",
-    consignes: "Présentez Malala Yousafzai : son enfance au Pakistan, l'attentat des talibans, son combat pour l'éducation des filles, son Prix Nobel de la Paix et son discours à l'ONU.",
-    cultureQuestions: [
-      { q: "Année du Prix Nobel de Malala ?", r: "2014 (à 17 ans, plus jeune lauréate)." },
-      { q: "Titre de son autobiographie ?", r: "Moi, Malala ('I Am Malala')." },
-      { q: "Que signifie 'féminisme' ?", r: "Mouvement pour l'égalité femmes-hommes." },
-      { q: "Cite une féministe historique.", r: "Olympe de Gouges, Simone de Beauvoir, Flora Tristan." },
-      { q: "Différence égalité/équité ?", r: "Égalité = même traitement. Équité = donner à chacun selon ses besoins." },
-      { q: "Pourquoi les talibans interdisaient l'école aux filles ?", r: "Interprétation rigoriste de l'Islam." },
-      { q: "Combien de filles non scolarisées ?", r: "Environ 130 millions (UNESCO)." },
-      { q: "Qu'est-ce que la fondation Malala ?", r: "Organisation pour le droit à l'éducation des filles." },
-      { q: "Cite une autre militante.", r: "Kailash Satyarthi, Greta Thunberg." },
-      { q: "Message du Malala Day (12 juillet) ?", r: "Rappeler l'importance de l'éducation pour tous." },
-      { q: "Pourquoi éducation = cause féministe ?", r: "Les filles sont les premières privées d'école." },
-      { q: "Différence féminisme/misandrie ?", r: "Le féminisme lutte pour l'égalité, pas contre les hommes." },
-      { q: "Discours célèbre de Malala à l'ONU ?", r: "Appel à l'éducation pour tous (2013)." },
-      { q: "Film documentaire sur Malala ?", r: "He Named Me Malala (2015)." },
-      { q: "Comment l'éducation des filles lutte contre la pauvreté ?", r: "Une femme éduquée a plus de revenus et éduque mieux ses enfants." }
-    ]
-  }
-};
+const PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+
+async function callIA(prompt, system) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('⏱ Timeout (45s) — réessaie dans quelques secondes.')), 45000)
+  );
+  const payload = JSON.stringify({
+    userId: localStorage.getItem('user_id') || 'anon',
+    action: 'correction_ia',
+    prompt: prompt,
+    system: system,
+    estPayant: false,
+    sessionId: sessionStorage.getItem('session_id') || 'sess',
+    joursRestantsEssai: 3,
+    source: 'agent-oral',
+    matiere: 'oral'
+  });
+  const req = fetch(PROXY, {
+    method: 'POST',
+    body: new URLSearchParams({ data: payload })
+  }).then(r => r.json())
+  .then(d => {
+    if (d.success && d.content) return d.content;
+    throw new Error(d.error || 'Réponse inattendue');
+  });
+  return Promise.race([req, timeout]);
+}
+
+function safeJSON(t) {
+  try { return JSON.parse(t.replace(/```json|```/g, '').trim()); }
+  catch(e) { return null; }
+}
 
 let currentCandidate = null;
 let currentExpose = "";
@@ -139,8 +353,7 @@ function selectCandidate(name) {
   currentCandidate = name;
   document.getElementById('home').style.display = 'none';
   document.getElementById('oral-page').style.display = 'block';
-  document.getElementById('oral-candidate').innerHTML = THEMES[name].nom;
-  document.getElementById('oral-theme').innerHTML = THEMES[name].theme;
+  document.getElementById('oral-candidate').innerHTML = name === 'eleve1' ? '👤 Élève 1' : '👤 Élève 2';
   renderOralInterface();
   resetChrono();
 }
@@ -150,7 +363,7 @@ function renderOralInterface() {
     <div class="expose-section">
       <div class="section-title">🎤 1. ÉCRIVEZ OU COLLEZ VOTRE EXPOSÉ (5 min)</div>
       <div class="texte-box" style="background:var(--bg3);padding:14px;border-radius:var(--r-sm);margin-bottom:16px;font-size:13px;">
-        <strong>📌 Consigne :</strong> ${THEMES[currentCandidate].consignes}
+        <strong>📌 Consigne :</strong> Rédigez votre exposé (environ 200-400 mots). Introduisez votre thème, développez 2-3 idées principales, concluez.
       </div>
       <textarea id="expose-text" class="answer-ta" placeholder="Collez ou rédigez ici votre exposé..."></textarea>
       <button class="ai-btn" onclick="analyserExposeEtGenererQuestions()">🤖 IA : Analyser mon exposé + générer les 10 questions</button>
@@ -184,16 +397,16 @@ async function analyserExposeEtGenererQuestions() {
   showToast("🤖 IA analyse l'exposé et génère les questions...", "ok");
   await new Promise(r => setTimeout(r, 800));
   
-  generatedContentQuestions = genererQuestionsSurExpose(exposeText, currentCandidate);
-  contentReponsesModeles = generatedContentQuestions.map((q, i) => genererReponseModeleExpose(q, currentCandidate));
+  // Générer 3 questions sur l'exposé via IA
+  generatedContentQuestions = await genererQuestionsSurExposeParIA(exposeText);
+  contentReponsesModeles = await Promise.all(generatedContentQuestions.map((q, i) => genererReponseModeleExposeParIA(q, exposeText)));
   
-  const bank = [...THEMES[currentCandidate].cultureQuestions];
-  for (let i = bank.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bank[i], bank[j]] = [bank[j], bank[i]]; }
-  selectedCultureQuestions = bank.slice(0, 7);
-  cultureReponsesModeles = selectedCultureQuestions.map(q => q.r);
-  selectedCultureQuestions = selectedCultureQuestions.map(q => q.q);
+  // Générer 7 questions de culture générale sur le thème via IA
+  const theme = extraireTheme(exposeText);
+  selectedCultureQuestions = await genererQuestionsCultureParIA(theme);
+  cultureReponsesModeles = await Promise.all(selectedCultureQuestions.map((q) => genererReponseModeleCultureParIA(q)));
   
-  const evaluationExpose = evaluerExpose(exposeText, currentCandidate);
+  const evaluationExpose = evaluerExpose(exposeText);
   const fbDiv = document.getElementById('expose-feedback');
   fbDiv.style.display = 'block';
   fbDiv.innerHTML = `<strong>✨ Analyse IA de votre exposé</strong><br><br>${evaluationExpose.feedback}<br><br><strong>📊 Note estimée : ${evaluationExpose.note}/20</strong>`;
@@ -202,44 +415,79 @@ async function analyserExposeEtGenererQuestions() {
   showToast("✓ Questions générées ! Répondez, l'IA corrigera chaque réponse.", "ok");
 }
 
-function genererQuestionsSurExpose(expose, candidate) {
-  let questions = [];
-  if (candidate === "Wassil") {
-    questions.push("D'après votre exposé, dans quel pays et à quelle époque le zéro a-t-il été inventé ?");
-    questions.push("Quel rôle Al-Khwarizmi a-t-il joué dans la transmission du zéro selon votre exposé ?");
-    questions.push("Selon votre exposé, pourquoi le zéro est-il indispensable en informatique ?");
-  } else {
-    questions.push("Où et dans quelles conditions Malala a-t-elle grandi selon votre exposé ?");
-    questions.push("Que s'est-il passé le 9 octobre 2012 ? Racontez avec les détails que vous avez donnés.");
-    questions.push("Pourquoi Malala a-t-elle reçu le Prix Nobel de la Paix ?");
-  }
-  return questions;
+function extraireTheme(expose) {
+  // Extrait les 100 premiers caractères comme thème approximatif
+  return expose.substring(0, 150);
 }
 
-function genererReponseModeleExpose(question, candidate) {
-  if (candidate === "Wassil") {
-    if (question.includes("pays")) return "Le zéro a été inventé en Inde vers le Ve siècle après J.-C., par des mathématiciens indiens comme Brahmagupta.";
-    if (question.includes("Al-Khwarizmi")) return "Al-Khwarizmi a popularisé le zéro et les chiffres arabes dans le monde musulman, puis en Europe via ses ouvrages traduits en latin.";
-    return "Le zéro est indispensable en informatique car le système binaire (0 et 1) est la base du langage des ordinateurs.";
-  } else {
-    if (question.includes("grandi")) return "Malala a grandi au Pakistan, dans la vallée de Swat, où les talibans interdisaient l'éducation des filles.";
-    if (question.includes("9 octobre")) return "Le 9 octobre 2012, à 15 ans, Malala a été victime d'un attentat des talibans. Elle a reçu une balle dans la tête.";
-    return "Malala a reçu le Prix Nobel de la Paix en 2014 pour son combat pour le droit à l'éducation des filles.";
+async function genererQuestionsSurExposeParIA(expose) {
+  const system = "Tu es examinateur pour l'oral du brevet. Génère 3 questions précises sur l'exposé que tu vas lire. Les questions doivent porter sur le contenu, les arguments et les exemples de l'exposé. Réponds UNIQUEMENT en JSON : {\"questions\": [\"Q1\", \"Q2\", \"Q3\"]}";
+  const prompt = "Voici l'exposé de l'élève :\n" + expose + "\n\nGénère 3 questions sur cet exposé.";
+  try {
+    const rep = await callIA(prompt, system);
+    const json = safeJSON(rep);
+    if (json && json.questions && json.questions.length === 3) return json.questions;
+    throw new Error("Format incorrect");
+  } catch(e) {
+    console.error(e);
+    return [
+      "Quel est le sujet principal de votre exposé ?",
+      "Quels arguments principaux avez-vous développés ?",
+      "Quels exemples avez-vous cités pour illustrer votre propos ?"
+    ];
   }
 }
 
-function evaluerExpose(expose, candidate) {
+async function genererReponseModeleExposeParIA(question, expose) {
+  const system = "Tu es professeur. Donne une réponse modèle (2-3 lignes) à cette question sur l'exposé de l'élève. Sois précis et pédagogique. Réponds en texte brut.";
+  const prompt = "Exposé : " + expose + "\nQuestion : " + question + "\nRéponse modèle :";
+  try {
+    return await callIA(prompt, system);
+  } catch(e) {
+    return "Réponse modèle non disponible. Relisez votre exposé pour répondre précisément.";
+  }
+}
+
+async function genererQuestionsCultureParIA(theme) {
+  const system = "Tu es examinateur pour l'oral du brevet. Génère 7 questions de culture générale sur le thème suivant. Les questions doivent être variées (définitions, exemples, comparaisons, actualité, histoire, enjeux). Réponds UNIQUEMENT en JSON : {\"questions\": [\"Q1\", \"Q2\", \"Q3\", \"Q4\", \"Q5\", \"Q6\", \"Q7\"]}";
+  const prompt = "Thème approximatif de l'exposé (premiers mots) : " + theme + "\n\nGénère 7 questions de culture générale sur ce thème.";
+  try {
+    const rep = await callIA(prompt, system);
+    const json = safeJSON(rep);
+    if (json && json.questions && json.questions.length === 7) return json.questions;
+    throw new Error("Format incorrect");
+  } catch(e) {
+    console.error(e);
+    return [
+      "Pouvez-vous définir le thème central de votre exposé ?",
+      "Quels sont les enjeux actuels liés à ce sujet ?",
+      "Citez un exemple concret illustrant ce thème.",
+      "Quelles sont les idées reçues sur ce sujet ?",
+      "Comment ce thème a-t-il évolué dans l'histoire ?",
+      "Quelles solutions ou alternatives existent ?",
+      "Pourquoi ce sujet est-il important aujourd'hui ?"
+    ];
+  }
+}
+
+async function genererReponseModeleCultureParIA(question) {
+  const system = "Tu es professeur. Donne une réponse modèle (2-3 lignes) à cette question de culture générale. Sois précis et pédagogique. Réponds en texte brut.";
+  const prompt = "Question : " + question + "\nRéponse modèle :";
+  try {
+    return await callIA(prompt, system);
+  } catch(e) {
+    return "Consultez vos cours ou faites des recherches sur cette question.";
+  }
+}
+
+function evaluerExpose(expose) {
   let score = 10;
   const mots = expose.split(/\s+/).length;
-  if (mots > 200) score += 2;
-  if (mots > 350) score += 2;
-  if (expose.includes("introduction") || expose.includes("tout d'abord")) score += 2;
-  if (expose.includes("conclusion") || expose.includes("pour conclure")) score += 2;
-  if (candidate === "Wassil") {
-    if (expose.includes("zéro") && (expose.includes("Inde") || expose.includes("Al-Khwarizmi"))) score += 2;
-  } else {
-    if (expose.includes("Malala") && (expose.includes("Pakistan") || expose.includes("éducation"))) score += 2;
-  }
+  if (mots > 150) score += 2;
+  if (mots > 300) score += 2;
+  if (expose.includes("introduction") || expose.includes("d'abord") || expose.includes("tout d'abord")) score += 2;
+  if (expose.includes("conclusion") || expose.includes("pour conclure") || expose.includes("en résumé")) score += 2;
+  if (expose.includes("exemple") || expose.includes("par exemple")) score += 2;
   score = Math.min(20, Math.max(0, score));
   let feedback = score >= 15 ? "Exposé solide ! Structure claire et contenu riche." : (score >= 11 ? "Exposé correct, mais ajoutez plus d'exemples précis." : "Travaillez la structure (intro/développement/conclusion).");
   return { feedback, note: score };
@@ -298,25 +546,35 @@ async function corrigerReponse(type, idx) {
     reponse = document.getElementById(`ans-u-${idx}`)?.value;
     modele = cultureReponsesModeles[idx];
   }
-  if (!reponse || reponse.trim().length < 20) { showToast("Écrivez une réponse plus développée (min 20 caractères)", "err"); return; }
+  if (!reponse || reponse.trim().length < 10) { showToast("Écrivez une réponse plus développée (min 10 caractères)", "err"); return; }
   showToast("🤖 IA corrige...", "ok");
-  await new Promise(r => setTimeout(r, 500));
   
-  let note = 5;
-  if (reponse.length > 60) note += 1;
-  if (reponse.length > 120) note += 1;
-  const motsClesModele = modele.toLowerCase().split(/\s+/).slice(0, 10);
-  let trouve = 0;
-  motsClesModele.forEach(mot => { if (reponse.toLowerCase().includes(mot) && mot.length > 3) trouve++; });
-  note += Math.min(3, trouve);
-  note = Math.min(10, note);
+  // Appel IA pour correction avancée
+  const system = "Tu es correcteur pour l'oral du brevet. Évalue la réponse de l'élève (note sur 10), donne un feedback et une réponse modèle courte. Réponds UNIQUEMENT en JSON : {\"note\":X,\"feedback\":\"...\",\"reponse_modele\":\"...\"}";
+  const prompt = "Question : " + (type === 'c' ? generatedContentQuestions[idx] : selectedCultureQuestions[idx]) + "\nRéponse élève : " + reponse + "\nRéponse modèle attendue : " + modele;
+  let note = 5, feedback = "", reponse_modele = modele;
   
-  let feedback = note >= 7 ? "Bonne réponse !" : (note >= 5 ? "Réponse correcte mais à approfondir." : "Revoir la réponse modèle ci-dessous.");
+  try {
+    const rep = await callIA(prompt, system);
+    const json = safeJSON(rep);
+    if (json) {
+      note = json.note || note;
+      feedback = json.feedback || "";
+      reponse_modele = json.reponse_modele || modele;
+    }
+  } catch(e) {
+    console.error(e);
+    // Fallback simple
+    if (reponse.length > 50) note = 7;
+    else if (reponse.length > 20) note = 5;
+    else note = 3;
+    feedback = note >= 7 ? "Bonne réponse !" : (note >= 5 ? "Réponse correcte mais à approfondir." : "Revoir la réponse modèle ci-dessous.");
+  }
   
   const fbDiv = document.getElementById(`fb-${type}-${idx}`);
   const scoreSpan = document.getElementById(`score-${type}-${idx}`);
   fbDiv.style.display = 'block';
-  fbDiv.innerHTML = `<strong>🤖 IA :</strong> ${feedback}<br><strong>Note : ${note}/10</strong><br><br><strong>✅ Réponse modèle :</strong> ${modele}`;
+  fbDiv.innerHTML = `<strong>🤖 IA :</strong> ${feedback}<br><strong>Note : ${note}/10</strong><br><br><strong>✅ Réponse modèle :</strong> ${reponse_modele}`;
   scoreSpan.textContent = `🎯 ${note}/10`;
   
   if (type === 'c') localStorage.setItem(`oral_${currentCandidate}_content_${idx}`, reponse);
@@ -343,7 +601,7 @@ function genererPDFComplet() {
   
   doc.setFont("helvetica");
   doc.setFontSize(16);
-  doc.text(`Oral Blanc · ${currentCandidate} · ${THEMES[currentCandidate].theme}`, 15, y);
+  doc.text(`Oral Blanc · ${currentCandidate === 'eleve1' ? 'Élève 1' : 'Élève 2'}`, 15, y);
   y += 8;
   doc.setFontSize(9);
   doc.text(`Date : ${new Date().toLocaleString()}`, 15, y);
@@ -355,19 +613,19 @@ function genererPDFComplet() {
   y += exposeLines.length * 5 + 8;
   
   doc.setFontSize(11);
-  doc.setTextColor(240, 163, 163);
+  doc.setTextColor(106, 180, 245);
   doc.text("📝 CORRECTION IA DE L'EXPOSÉ", 15, y);
   y += 5;
   doc.setFontSize(9);
   doc.setTextColor(200, 200, 200);
-  const evalExpose = evaluerExpose(currentExpose, currentCandidate);
+  const evalExpose = evaluerExpose(currentExpose);
   const correctionTexte = `Note estimée : ${evalExpose.note}/20\n${evalExpose.feedback}`;
   const correctionLines = doc.splitTextToSize(correctionTexte, 170);
   doc.text(correctionLines, 15, y);
   y += correctionLines.length * 5 + 10;
   
   doc.setFontSize(11);
-  doc.setTextColor(240, 163, 163);
+  doc.setTextColor(106, 180, 245);
   doc.text("❓ CORRECTIONS DES 10 QUESTIONS", 15, y);
   y += 6;
   
@@ -421,5 +679,6 @@ function updateChrono() { const m = Math.floor(chronoSecs / 60); const s = chron
 function goHome() { document.getElementById('oral-page').style.display = 'none'; document.getElementById('home').style.display = 'flex'; if (chronoInterval) clearInterval(chronoInterval); running = false; }
 function showToast(msg, type) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3000); }
 </script>
+
 </body>
 </html>

@@ -32,7 +32,7 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 .sv-dl{color:#c97de8;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(201,125,232,.1);border:1px solid rgba(201,125,232,.3);text-decoration:none;}
 .sv-dl:hover{background:rgba(201,125,232,.2);}
 .btn-dl{color:#5ecfb1;font-size:12px;padding:5px 12px;border-radius:6px;background:rgba(94,207,177,.08);border:1px solid rgba(94,207,177,.25);cursor:pointer;}
-.section-box{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:hidden;}
+.section-box{background:#111118;border:1px solid #2a2a38;border-radius:12px;margin-bottom:1.2rem;overflow:visible;}
 .section-head{padding:10px 16px;border-bottom:1px solid #2a2a38;display:flex;align-items:center;gap:10px;}
 .sec-badge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;}
 .badge-red{background:rgba(201,125,232,.15);color:#c97de8;border:1px solid rgba(201,125,232,.25);}
@@ -70,6 +70,233 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
 .btn-corriger-dict{margin-top:8px;padding:7px 16px;border-radius:7px;border:1px solid rgba(94,207,177,.4);background:rgba(94,207,177,.08);color:#5ecfb1;font-size:12px;cursor:pointer;}
 .btn-corriger-dict:hover{background:rgba(94,207,177,.15);}
 </style>
+<script>
+// SMART LEARN — MONÉTISATION MAURICE
+// Essai 2 jours · 999 Rs · WhatsApp + Juice
+
+const MONETIZATION = {
+  prix: 999, devise: 'Rs', essaiJours: 2,
+  codeMaitre: 'Entrepotes974NawalWassil',
+  whatsapp: 'https://wa.me/23058459402',
+  numeroJuice: '+230 58 45 94 02',
+  STORAGE_KEYS: { trialStart: 'brevet_start', paidValid: 'brevet_paid' }
+};
+
+function estEnEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return true;
+  return (Date.now() - parseInt(s)) / 86400000 < MONETIZATION.essaiJours;
+}
+function essaiExpire() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return false;
+  return (Date.now() - parseInt(s)) / 86400000 >= MONETIZATION.essaiJours;
+}
+function aAccesComplet() {
+  if (localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true') return true;
+  return estEnEssai();
+}
+function aAccesPayant() {
+  return localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true';
+}
+function joursRestantsEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return MONETIZATION.essaiJours;
+  return Math.max(0, Math.ceil(MONETIZATION.essaiJours - (Date.now() - parseInt(s)) / 86400000));
+}
+function validerCode(code, callback) {
+  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  var payload = JSON.stringify({ userId: localStorage.getItem('user_id') || 'anon', action: 'valider_code', code: code.trim(), source: document.title || '' });
+  fetch(PROXY, { method: 'POST', body: new URLSearchParams({ data: payload }) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+        if (callback) callback({ success: true, message: '✅ Accès débloqué !' });
+      } else {
+        if (callback) callback({ success: false, message: '❌ ' + (data.error || 'Code invalide.') });
+      }
+    }).catch(function() { if (callback) callback({ success: false, message: '❌ Vérifiez votre connexion.' }); });
+}
+function creerBanniere() {
+  if (document.getElementById('monet-banner') || aAccesPayant()) return;
+  var j = joursRestantsEssai(), expire = essaiExpire();
+  var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
+  var texte = expire ? '⚠️ Essai terminé — Corrections IA bloquées'
+    : '🆓 Essai gratuit — <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' — Accès complet <strong>999 Rs/an</strong>';
+  var b = document.createElement('div');
+  b.id = 'monet-banner';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">💬 Débloquer via WhatsApp</button>';
+  document.body.insertBefore(b, document.body.firstChild);
+}
+function afficherOverlay() {
+  if (document.getElementById('monet-overlay')) return;
+  var canClose = estEnEssai();
+  var o = document.createElement('div');
+  o.id = 'monet-overlay';
+  o.innerHTML = '<style>#monet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(9,9,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}.monet-card{background:#111118;border:1px solid #2a2a38;border-radius:16px;padding:32px 28px;max-width:460px;width:92%;color:#e8e8f0;text-align:center;}.monet-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:#25D366;color:#fff;margin:12px 0;width:100%;box-sizing:border-box;border:none;cursor:pointer;}.monet-input{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:10px;color:#e8e8f0;font-size:15px;padding:12px 16px;text-align:center;outline:none;box-sizing:border-box;margin-bottom:10px;}.monet-btn{padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.1);color:#5ecfb1;margin:4px;}.monet-btn.ghost{background:transparent;color:#9090a8;border:1px solid #2a2a38;}.monet-msg{font-size:13px;margin-top:10px;min-height:24px;}</style>'
+    + '<div class="monet-card">'
+    + '<div style="font-size:44px;margin-bottom:10px;">⏰</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#e8c87a;margin-bottom:8px;">Essai gratuit terminé</div>'
+    + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">Débloquez l\'accès complet pour continuer.</div>'
+    + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">999 Rs <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
+    + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1️⃣ Envoyez <strong>999 Rs</strong> par Juice au <strong>+230 58 45 94 02</strong><br>2️⃣ Envoyez la <strong>capture</strong> sur WhatsApp<br>3️⃣ Recevez votre <strong>code d\'activation</strong></div>'
+    + '<a href="https://wa.me/23058459402?text=' + encodeURIComponent('Bonjour, je souhaite débloquer Hub Brevet 2026 (999 Rs). Je vous envoie ma capture Juice.') + '" target="_blank" class="monet-wa-btn">💬 Contacter sur WhatsApp</a>'
+    + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
+    + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'accès…" maxlength="40">'
+    + '<div><button class="monet-btn" id="monet-valider">✓ Valider le code</button>'
+    + (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '')
+    + '</div><div class="monet-msg" id="monet-msg"></div></div>';
+  document.body.appendChild(o);
+  document.getElementById('monet-valider').onclick = function() {
+    var code = document.getElementById('monet-code-input').value.trim();
+    var msg = document.getElementById('monet-msg');
+    if (!code) { msg.style.color='#e87a7a'; msg.textContent='Entrez un code.'; return; }
+    msg.style.color='#9090a8'; msg.textContent='Vérification...';
+    validerCode(code, function(r) {
+      if (r.success) { msg.style.color='#5ecfb1'; msg.textContent=r.message; setTimeout(function(){document.getElementById('monet-overlay').remove();location.reload();},1500); }
+      else { msg.style.color='#e87a7a'; msg.textContent=r.message; }
+    });
+  };
+  var cl = document.getElementById('monet-close');
+  if (cl) cl.onclick = function() { document.getElementById('monet-overlay').remove(); };
+}
+function afficherBlocageEssaiExpire() { afficherOverlay(); }
+function initMonetization() {
+  if (!localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart))
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.trialStart, Date.now().toString());
+  if (!localStorage.getItem('user_id'))
+    localStorage.setItem('user_id', (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Date.now());
+  if (aAccesPayant()) return;
+  creerBanniere();
+  if (essaiExpire()) setTimeout(afficherOverlay, 500);
+  setInterval(function() {
+    var b = document.getElementById('monet-banner');
+    if (b && !aAccesPayant()) b.style.background = essaiExpire() ? '#e87a7a' : '#e8c87a';
+  }, 60000);
+}
+window.aAccesComplet = aAccesComplet;
+window.aAccesPayant = aAccesPayant;
+window.essaiExpire = essaiExpire;
+window.afficherBlocageEssaiExpire = afficherBlocageEssaiExpire;
+window.afficherOverlay = afficherOverlay;
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonetization);
+else initMonetization();
+</script>
+<script>
+// SMART LEARN — MONÉTISATION WORLDWIDE
+// Essai 2 jours · 29€/an · Wise · Email
+
+const MONETIZATION = {
+  prix: 29, devise: '€', essaiJours: 2,
+  codeMaitre: 'Entrepotes974NawalWassil',
+  wiseUrl: 'https://wise.com/pay/r/UeBUFQoUY_B5FYE',
+  email: 'smartlearn.mu@gmail.com',
+  STORAGE_KEYS: { trialStart: 'brevet_start', paidValid: 'brevet_paid' }
+};
+
+function estEnEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return true;
+  return (Date.now() - parseInt(s)) / 86400000 < MONETIZATION.essaiJours;
+}
+function essaiExpire() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return false;
+  return (Date.now() - parseInt(s)) / 86400000 >= MONETIZATION.essaiJours;
+}
+function aAccesComplet() {
+  if (localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true') return true;
+  return estEnEssai();
+}
+function aAccesPayant() {
+  return localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true';
+}
+function joursRestantsEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return MONETIZATION.essaiJours;
+  return Math.max(0, Math.ceil(MONETIZATION.essaiJours - (Date.now() - parseInt(s)) / 86400000));
+}
+function validerCode(code, callback) {
+  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  var payload = JSON.stringify({ userId: localStorage.getItem('user_id') || 'anon', action: 'valider_code', code: code.trim(), source: document.title || '' });
+  fetch(PROXY, { method: 'POST', body: new URLSearchParams({ data: payload }) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+        if (callback) callback({ success: true, message: '\u2705 Acc\u00e8s d\u00e9bloqu\u00e9 !' });
+      } else {
+        if (callback) callback({ success: false, message: '\u274c ' + (data.error || 'Code invalide.') });
+      }
+    }).catch(function() { if (callback) callback({ success: false, message: '\u274c V\u00e9rifiez votre connexion.' }); });
+}
+function creerBanniere() {
+  if (document.getElementById('monet-banner') || aAccesPayant()) return;
+  var j = joursRestantsEssai(), expire = essaiExpire();
+  var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
+  var texte = expire ? '\u26a0\ufe0f Essai termin\u00e9 \u2014 Corrections IA bloqu\u00e9es'
+    : '\U0001f4a1 Essai gratuit \u2014 <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' \u2014 Acc\u00e8s complet <strong>29\u20ac/an</strong>';
+  var b = document.createElement('div');
+  b.id = 'monet-banner';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">\U0001f513 D\u00e9bloquer l\'acc\u00e8s</button>';
+  document.body.insertBefore(b, document.body.firstChild);
+}
+function afficherOverlay() {
+  if (document.getElementById('monet-overlay')) return;
+  var canClose = estEnEssai();
+  var o = document.createElement('div');
+  o.id = 'monet-overlay';
+  o.innerHTML = '<style>#monet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(9,9,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}.monet-card{background:#111118;border:1px solid #2a2a38;border-radius:16px;padding:32px 28px;max-width:460px;width:92%;color:#e8e8f0;text-align:center;}.monet-wise-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:#00b9ff;color:#fff;margin:12px 0;width:100%;box-sizing:border-box;border:none;cursor:pointer;}.monet-input{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:10px;color:#e8e8f0;font-size:15px;padding:12px 16px;text-align:center;outline:none;box-sizing:border-box;margin-bottom:10px;}.monet-btn{padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.1);color:#5ecfb1;margin:4px;}.monet-btn.ghost{background:transparent;color:#9090a8;border:1px solid #2a2a38;}.monet-msg{font-size:13px;margin-top:10px;min-height:24px;}</style>'
+    + '<div class="monet-card">'
+    + '<div style="font-size:44px;margin-bottom:10px;">\u23f0</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#e8c87a;margin-bottom:8px;">Essai gratuit termin\u00e9</div>'
+    + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">D\u00e9bloquez l\'acc\u00e8s complet pour continuer.</div>'
+    + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">29\u20ac <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
+    + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1\ufe0f\u20e3 Cliquez sur le bouton Wise ci-dessous<br>2\ufe0f\u20e3 Payez <strong>29\u20ac</strong> par carte ou virement<br>3\ufe0f\u20e3 Envoyez votre confirmation \u00e0 <strong>smartlearn.mu@gmail.com</strong><br>4\ufe0f\u20e3 Recevez votre <strong>code d\'activation</strong> par retour</div>'
+    + '<a href="https://wise.com/pay/r/UeBUFQoUY_B5FYE" target="_blank" class="monet-wise-btn">\U0001f4b3 Payer 29\u20ac via Wise</a>'
+    + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
+    + '<div style="font-size:12px;color:#9090a8;margin-bottom:8px;">Vous avez d\u00e9j\u00e0 un code ?</div>'
+    + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'acc\u00e8s\u2026" maxlength="40">'
+    + '<div><button class="monet-btn" id="monet-valider">\u2713 Valider le code</button>'
+    + (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '')
+    + '</div><div class="monet-msg" id="monet-msg"></div></div>';
+  document.body.appendChild(o);
+  document.getElementById('monet-valider').onclick = function() {
+    var code = document.getElementById('monet-code-input').value.trim();
+    var msg = document.getElementById('monet-msg');
+    if (!code) { msg.style.color='#e87a7a'; msg.textContent='Entrez un code.'; return; }
+    msg.style.color='#9090a8'; msg.textContent='V\u00e9rification...';
+    validerCode(code, function(r) {
+      if (r.success) { msg.style.color='#5ecfb1'; msg.textContent=r.message; setTimeout(function(){document.getElementById('monet-overlay').remove();location.reload();},1500); }
+      else { msg.style.color='#e87a7a'; msg.textContent=r.message; }
+    });
+  };
+  var cl = document.getElementById('monet-close');
+  if (cl) cl.onclick = function() { document.getElementById('monet-overlay').remove(); };
+}
+function afficherBlocageEssaiExpire() { afficherOverlay(); }
+function initMonetization() {
+  if (!localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart))
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.trialStart, Date.now().toString());
+  if (!localStorage.getItem('user_id'))
+    localStorage.setItem('user_id', (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Date.now());
+  if (aAccesPayant()) return;
+  creerBanniere();
+  if (essaiExpire()) setTimeout(afficherOverlay, 500);
+  setInterval(function() {
+    var b = document.getElementById('monet-banner');
+    if (b && !aAccesPayant()) b.style.background = essaiExpire() ? '#e87a7a' : '#e8c87a';
+  }, 60000);
+}
+window.aAccesComplet = aAccesComplet;
+window.aAccesPayant = aAccesPayant;
+window.essaiExpire = essaiExpire;
+window.afficherBlocageEssaiExpire = afficherBlocageEssaiExpire;
+window.afficherOverlay = afficherOverlay;
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonetization);
+else initMonetization();
+</script>
 </head>
 <body>
 <div id="landing">
@@ -97,37 +324,12 @@ a.back{color:#5ecfb1;text-decoration:none;font-size:13px;}
   <div id="svContent"></div>
 </div>
 <script>
-const PROXY = 'https://script.google.com/macros/s/AKfycbxWNuQnKJpEGh4n_BFLkTss1PppSDxyHnTCea-gkc5S041y3hd9Jpe4aWLtdyhD30qgkg/exec';
 const STORE = {};
 const _STORE_KEY = 'fr_corrections_ia';
 try {
   const _saved = JSON.parse(localStorage.getItem(_STORE_KEY) || '{}');
   Object.assign(STORE, _saved);
 } catch(e) {}
-
-async function callIA(prompt, system) {
-  const timeout = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('Timeout 45s — reessaie dans quelques secondes.')), 45000)
-  );
-  const req = fetch(PROXY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ prompt, system }),
-    redirect: 'follow'
-  }).then(r => {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  }).then(d => {
-    if (d.success && d.content) return d.content;
-    throw new Error(d.error || 'Reponse inattendue');
-  });
-  return Promise.race([req, timeout]);
-}
-
-function safeJSON(t) {
-  try { return JSON.parse(t.replace(/```json|```/g,'').trim()); }
-  catch(e) { return null; }
-}
 
 const SUJETS = [
   {
@@ -261,25 +463,28 @@ const SUJETS = [
     ]
   },
   {
-    id:7, annee:'2021', session:'Métropole (juin)',
-    titre:'21GENFRQGME1 — Abdellatif Laâbi, L\'Arbre à poèmes — liberté, résistance',
-    pdf:'https://www.education.gouv.fr/media/115740/download',
-    dictee_auteur:'Antoine de Saint-Exupéry, Citadelle, 1948',
-    redaction_s1:'SUJET D\'IMAGINATION — Écrivez un texte poétique dans lequel vous donnerez la parole à un élément de la nature qui exprimera sa liberté et sa beauté. Commencez par « Je suis... » et terminez par « Je suis vivant.e ».',
-    redaction_s2:'SUJET DE RÉFLEXION — Selon vous, faut-il résister à l\'évolution du monde ? Développez avec exemples variés issus de votre expérience, de votre culture et des œuvres étudiées.',
-    texte_sujet:'1   Je suis l\'arbre à poèmes. Les savants disent que j\'appartiens à une espèce en voie de\n2   disparition. Mais personne ne s\'en émeut alors que des campagnes ont été lancées\n3   récemment pour sauver le panda du Népal et l\'éléphant d\'Afrique.\n4   Question d\'intérêt, diront certains. Question de mémoire, dirai-je. De temps en temps,\n5   la mémoire des hommes sature. Ils se délestent alors du plus encombrant, font de la\n6   place en prévision du nouveau dont ils sont si friands.\n7   Aujourd\'hui, la mode n\'est plus aux vieilles essences. On invente des arbres qui poussent\n8   vite, se contentent de l\'eau et du soleil qu\'on leur mesure et font leur métier d\'arbre en\n9   silence, sans état d\'âme.\n10  Je suis l\'arbre à poèmes. On a bien essayé sur moi des manipulations, qui n\'ont rien\n11  donné. Je suis réfractaire, maître de mes mutations. Je ne m\'émeus pas à de simples\n12  changements de saison, d\'époque. Les fruits que je donne ne sont jamais les mêmes.\n13  J\'y mets tantôt du nectar, tantôt du fiel. Et quand je vois de loin un prédateur, je les\n14  truffe d\'épines.\n15  Parfois je me dis : Suis-je réellement un arbre ? Et j\'ai peur de me mettre à marcher,\n16  parler le triste langage de l\'espèce menteuse, m\'emparer d\'une hache et m\'abattre sur\n17  le tronc du plus faible de mes voisins.\n18  Alors je m\'accroche de toutes mes forces à mes racines. Dans leurs veines infinies\n19  je remonte le cours de la parole jusqu\'au cri primordial. Je défais l\'écheveau des langues.\n20  J\'attrape le bout du fil et je tire pour libérer la musique et la lumière. L\'image se rend\n21  à moi. J\'en fais les bourgeons qui me plaisent et donne rendez-vous aux fleurs. Tout\n22  cela nuitamment, avec la complicité des étoiles et des rares oiseaux qui ont choisi la liberté.\n23  Je suis l\'arbre à poèmes. Je me ris de l\'éphémère et de l\'éternel. Je suis vivant.\n    Abdellatif Laâbi, L\'Étreinte du monde, 1993',
+    id:7, annee:'2019', session:'Metropole (juin)',
+    titre:'19GENFRQGCAG1 — Victor Hugo, Les Contemplations — Leopoldine, souvenir, deuil',
+    pdf:'https://tiplanet.org/modules/archives/downloads2/1561806559/1561800194_15f4646b02.pdf',
+    dictee_auteur:'Victor Hugo, Les Contemplations, 1856',
+    dictee_texte:'Elle avait dix ans, et moi trente ; J\'etais pour elle l\'univers. Oh ! comme l\'herbe est odorante Sous les arbres profonds et verts ! Elle faisait mon sort prospere, Mon travail leger, mon ciel bleu. Lorsqu\'elle me disait : Mon pere, Tout mon coeur s\'ecriait : Mon Dieu !',
+    redaction_s1:'SUJET D\'IMAGINATION — Victor Hugo evoque dans ce poeme les souvenirs heureux passes avec sa fille Leopoldine. Racontez un souvenir precieux partage avec une personne qui vous est chere. Vous decrirez les moments vecus, les emotions ressenties et expliquerez en quoi ce souvenir est important pour vous.',
+    redaction_s2:'SUJET DE REFLEXION — La poesie est-elle selon vous le meilleur moyen d\'exprimer le deuil et la douleur ? Vous developperez votre point de vue en vous appuyant sur des exemples precis issus de vos lectures et de votre culture personnelle.',
+    texte_sujet:'1   Quand nous habitions tous ensemble\n2   Sur nos collines d\'autrefois,\n3   Ou l\'eau court, ou le buisson tremble,\n4   Dans la maison qui touche aux bois,\n5   Elle avait dix ans, et moi trente ;\n6   J\'etais pour elle l\'univers.\n7   Oh ! comme l\'herbe est odorante\n8   Sous les arbres profonds et verts !\n9   Elle faisait mon sort prospere,\n10  Mon travail leger, mon ciel bleu.\n11  Lorsqu\'elle me disait : Mon pere,\n12  Tout mon coeur s\'ecriait : Mon Dieu !\n13  A travers mes songes sans nombre,\n14  J\'ecoutais son parler joyeux,\n15  Et mon front s\'eclairait dans l\'ombre\n16  A la lumiere de ses yeux.\n17  Elle avait l\'air d\'une princesse\n18  Quand je la tenais par la main ;\n19  Elle cherchait des fleurs sans cesse\n20  Et des pauvres dans le chemin.\n21  Elle donnait comme on derobe,\n22  En se cachant aux yeux de tous.\n23  Oh ! la belle petite robe\n24  Qu\'elle avait, vous rappelez-vous ?\n25  Le soir, aupres de ma bougie,\n26  Elle jasait a petit bruit,\n27  Tandis qu\'a la vitre rougie\n28  Heurtaient les papillons de nuit.\n29  Les anges se miraient en elle.\n30  Que son bonjour etait charmant !\n31  Le ciel mettait dans sa prunelle\n32  Ce regard qui jamais ne ment.\n33  Oh ! je l\'avais, si jeune encore,\n34  Vue apparaitre en mon destin !\n35  C\'etait l\'enfant de mon aurore,\n36  Et mon etoile du matin !\n37  Quand la lune claire et sereine\n38  Brillait aux cieux, dans ces beaux mois,\n39  Comme nous allions dans la plaine !\n40  Comme nous courions dans les bois !\n41  Puis, vers la lumiere isolee\n42  Etoilant le logis obscur,\n43  Nous revenions par la vallee\n44  En tournant le coin du vieux mur ;\n45  Nous revenions, coeurs pleins de flamme,\n46  En parlant des splendeurs du ciel.\n47  Je composais cette jeune ame\n48  Comme l\'abeille fait son miel.\n49  Doux ange aux candides pensees,\n50  Elle etait gaie en arrivant... -\n51  Toutes ces choses sont passees\n52  Comme l\'ombre et comme le vent !\n    Victor Hugo, Les Contemplations, Livre IV, poeme VI, publie en 1856.',
     questions:[
-      {type:'comprehension',pts:4,texte:'Q1 — Montrez que l\'arbre est personnifié en relevant deux éléments expliqués. (4 pts)',rep:'Ex : « je m\'accroche » (parle à la 1ère personne), « je les truffe d\'épines » (action volontaire).'},
-      {type:'comprehension',pts:6,texte:'Q2 — Quels reproches l\'arbre fait-il à l\'homme ? Trois éléments. (6 pts)',rep:'1) Les hommes coupent les arbres sans respect. 2) Détruisent la nature. 3) Ne respectent pas la vie.'},
-      {type:'comprehension',pts:3,texte:'Q3a — Lignes 17 à 24 : Trois éléments justifiant « Je suis vivant ». (3 pts)',rep:'1) S\'accroche de toutes ses forces. 2) Produit des épines pour se défendre. 3) Continue à pousser malgré tout.'},
-      {type:'comprehension',pts:4,texte:'Q3b — En quoi ce passage présente-t-il une vision poétique du monde ? Justifiez. (4 pts)',rep:'La nature n\'est pas passive mais résistante et vivante. L\'arbre symbolise la vie qui lutte contre la mort.'},
-      {type:'comprehension',pts:6,texte:'Q4 — Comment le poète montre-t-il qu\'il tient à défendre sa liberté ? Trois éléments. (6 pts)',rep:'1) Résiste aux manipulations. 2) S\'accroche malgré tout. 3) Sa parole (le poème lui-même) est un acte de liberté.'},
-      {type:'comprehension',pts:5,texte:'Q5 — Quels liens entre ce texte et le document iconographique (Pawel Kuczynski, Soul, 2010) ? Deux éléments. (5 pts)',rep:'Liberté, résistance, nature, enfermement vs ouverture.'},
-      {type:'grammaire',pts:3,texte:'Q6 — « réellement » (l.15) : a) formation du mot. b) Classe grammaticale. (3 pts)',rep:'a) Adjectif réel + suffixe -ment → réellement. b) Adverbe (de manière).'},
-      {type:'grammaire',pts:3,texte:'Q7 — « je les truffe d\'épines » : réécrivez en remplaçant le pronom par le groupe auquel il renvoie. (3 pts)',rep:'« je truffe mes branches d\'épines » (selon le texte).'},
-      {type:'grammaire',pts:5,texte:'Q8 — « Ils se délestent alors du plus encombrant, font de la place en prévision du nouveau dont ils sont si friands. » a) Verbes conjugués. b) Construction de la phrase. (5 pts)',rep:'a) Se délestent, font, sont. b) Phrase complexe avec propositions juxtaposées et subordonnée relative.'},
-      {type:'grammaire',pts:2,texte:'Q9 — Remplacez la subordonnée relative par un adjectif qualificatif : « des manipulations, qui n\'ont rien donné ». (2 pts)',rep:'« des manipulations inefficaces / vaines / infructueuses ».'},
-      {type:'grammaire',pts:9,texte:'Q10 — Réécrivez en remplaçant « je » par « nous » à l\'imparfait. Toutes les modifications. (9 pts)',rep:'« Alors nous nous accrochions de toutes nos forces à nos racines. Dans leurs veines infinies nous remontions le cours de la parole... »'}
+      {type:'grammaire',pts:2,texte:'Q1 — Identifiez le temps du verbe dans « Quand nous habitions tous ensemble » (vers 1) et expliquez son emploi. (2 pts)',rep:'Imparfait. Emploi : valeur durative, evoque une epoque revolue, ancree dans la memoire. Souligne la duree du bonheur passe (opposition avec la mort de Leopoldine).'},
+      {type:'grammaire',pts:5,texte:'Q2 — a) Relevez les propositions subordonnees relatives dans la premiere strophe. b) Quels mots completent-elles ? c) Precisez leur fonction. (5 pts)',rep:'a) Ou l\'eau court / ou le buisson tremble / qui touche aux bois. b) Collines (x2) et maison. c) Complement de l\'antecedent (ou = dans lesquelles ; qui = maison).'},
+      {type:'grammaire',pts:2,texte:'Q3 — a) Quel est le type de phrases dominant dans les strophes 8, 9 et 10 (vers 29-40) ? b) Pourquoi Hugo a-t-il utilise ce type ? (2 pts)',rep:'a) Phrases exclamatives. b) Exprime l\'admiration du pere, l\'intensite de ses sentiments, l\'exaltation du souvenir heureux.'},
+      {type:'grammaire',pts:2,texte:'Q4 — Justifiez l\'accord du verbe « heurtaient » (vers 28). (2 pts)',rep:'Sujet = « les papillons de nuit » (3e personne du pluriel). Le sujet est postpose (inversion) mais accorde normalement : heurtaient = imparfait 3e pluriel.'},
+      {type:'grammaire',pts:3,texte:'Q5 — a) Expliquez la construction du mot « etoilant » (vers 42) en nommant les elements. b) Trouvez un mot de la meme famille dans le poeme. (3 pts)',rep:'a) Radical : etoile + suffixe -ant (participe present, formation verbale). b) « etoile du matin » (vers 36).'},
+      {type:'grammaire',pts:6,texte:'Q6 — Reecrivez la strophe 5 en changeant « elle » par « elles » et « je » par « nous » (6 pts) : Elle avait l\'air d\'une princesse / Quand je la tenais par la main ; / Elle cherchait des fleurs sans cesse / Et des pauvres dans le chemin.',rep:'Elles avaient l\'air de princesses / Quand nous les tenions par la main ; / Elles cherchaient des fleurs sans cesse / Et des pauvres dans le chemin.'},
+      {type:'comprehension',pts:4,texte:'Q7 — Quelles qualites de l\'enfant Victor Hugo met-il en avant ? Identifiez deux qualites justifiees par des citations. (4 pts)',rep:'1) Generosite : « Elle donnait comme on derobe / En se cachant aux yeux de tous ». 2) Beaute et grace angelique : « Les anges se miraient en elle » / « Elle avait l\'air d\'une princesse ».'},
+      {type:'comprehension',pts:5,texte:'Q8 — Dans les trois premieres strophes, expliquez ce que ressentent le pere et la fille l\'un pour l\'autre. Justifiez par deux citations. (5 pts)',rep:'Le pere : admiration et amour total (« J\'etais pour elle l\'univers »). La fille : confiance absolue, lien filial sacre (« Lorsqu\'elle me disait : Mon pere, / Tout mon coeur s\'ecriait : Mon Dieu ! »).'},
+      {type:'comprehension',pts:4,texte:'Q9 — Vers 15-16 : a) Relevez et nommez une figure de style. b) Expliquez son sens. (4 pts)',rep:'a) Metaphore : « mon front s\'eclairait dans l\'ombre / A la lumiere de ses yeux ». b) Les yeux de Leopoldine sont compares a une lumiere qui dissipe les tenebres, symbolisant la joie et l\'espoir qu\'elle apporte a son pere.'},
+      {type:'comprehension',pts:2,texte:'Q10 — Dans la strophe 10 (vers 37-40), quel sentiment est associe au theme de la nature ? Justifiez. (2 pts)',rep:'La joie et la liberte : « Comme nous allions dans la plaine ! / Comme nous courions dans les bois ! » La nature est espace de bonheur partage, les exclamatives soulignent l\'enthousiasme.'},
+      {type:'comprehension',pts:5,texte:'Q11 — Quels sentiments Hugo exprime-t-il dans la derniere strophe ? Appuyez-vous sur les figures de style, la ponctuation et les sonorites. (5 pts)',rep:'Douleur du deuil et sentiment de perte irreversible. Figures : comparaisons (« Comme l\'ombre et comme le vent ») = disparition rapide, insaisissable. Ponctuation : tiret (—) rupture brutale, suspension de la parole. Sonorites : alliteration en [s] (« ces choses sont passees ») = souffle, evanescence.'},
+      {type:'comprehension',pts:6,texte:'Q12 — Pourquoi Hugo a-t-il ecrit ce poeme ? Donnez votre point de vue en developpant trois idees appuyees sur le texte. (6 pts)',rep:'1) Garder vivante la memoire de Leopoldine (details precis : la robe, les promenades). 2) Exprimer et surmonter le deuil par l\'ecriture poetique (date : « 4 septembre 1844 », 1 an apres sa mort). 3) Transmettre un message universel sur l\'amour paternel et la fragile beaute de la vie.'},
+      {type:'comprehension',pts:4,texte:'Q13 — Observez la sculpture d\'Oedipe a Colone (Hugues, 1885). Quels liens etablissez-vous entre le poeme et cette oeuvre ? (4 pts)',rep:'Lien : relation pere/enfant, guidance et protection. Antigone guide Oedipe aveugle comme Leopoldine « eclairait » son pere (vers 15-16). Les deux oeuvres exaltent l\'amour filial, la devotion de l\'enfant et la dependance affective du parent.'}
     ]
   },
   {
@@ -351,7 +556,56 @@ const SUJETS = [
       {type:'comprehension',pts:6,texte:'Q10 — Tableau de Norman Rockwell (The Gossips) : a) Pourquoi chaque personnage est-il représenté deux fois ? b) Comparez texte et tableau : comment la parole se retourne-t-elle contre son locuteur ? (6 pts)',rep:'a) Pour montrer la chaîne de la rumeur : chaque personne reçoit et transmet. b) Poème : le mot revient à celui qui l\'a dit. Tableau : la rumeur encercle et piège.'}
     ]
   }
+
 ];
+
+// ============================================================
+// PROXY APPS SCRIPT
+// ============================================================
+const PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+
+function getUserId() {
+  var id = localStorage.getItem('user_id');
+  if (!id) { id = (crypto.randomUUID ? crypto.randomUUID() : 'user_' + Date.now()); localStorage.setItem('user_id', id); }
+  return id;
+}
+function getSessionId() {
+  var sid = sessionStorage.getItem('session_id');
+  if (!sid) { sid = 'sess_' + Date.now(); sessionStorage.setItem('session_id', sid); }
+  return sid;
+}
+function isPaid() { return false; }
+function getJoursRestantsEssai() { return 3; }
+
+async function callIA(prompt, system) {
+  var timeout = new Promise(function(_, reject) {
+    setTimeout(function() { reject(new Error('Timeout 45s')); }, 45000);
+  });
+  var payload = JSON.stringify({
+    userId: getUserId(),
+    action: 'correction_ia',
+    prompt: prompt,
+    system: system,
+    estPayant: isPaid(),
+    sessionId: getSessionId(),
+    joursRestantsEssai: getJoursRestantsEssai(),
+    source: document.title,
+    matiere: 'francais'
+  });
+  var req = fetch(PROXY, {
+    method: 'POST',
+    body: new URLSearchParams({ data: payload })
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.success && d.content) return d.content;
+    throw new Error(d.error || 'Erreur API');
+  });
+  return Promise.race([req, timeout]);
+}
+
+function safeJSON(t) {
+  try { return JSON.parse(t.replace(/```json|```/g, '').trim()); }
+  catch(e) { return null; }
+}
 
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -438,25 +692,36 @@ function retour() {
   window.scrollTo(0,0);
 }
 
+
+function badge(val) {
+  var ok=(val==='Oui'||val==='OK'), partiel=(val==='Partiel');
+  var bg=ok?'rgba(94,207,177,.15)':partiel?'rgba(245,166,35,.15)':'rgba(232,122,122,.15)';
+  var col=ok?'#5ecfb1':partiel?'#f5a623':'#e87a7a';
+  var icon=ok?'\u2713':partiel?'\u25d1':'\u2717';
+  return '<span style="background:'+bg+';color:'+col+';border:1px solid '+col+';border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;">'+icon+' '+esc(val)+'</span>';
+}
+
 async function corrigerDictee(sIdx, did) {
   var s = SUJETS[sIdx];
   var texteEleve = document.getElementById(did).value.trim();
   if (!texteEleve) { alert('Ecris ta dictee dabord !'); return; }
 
   var panel = document.getElementById('panel_' + did);
-  var btn = panel.previousElementSibling;
+  var btn = document.querySelector('[onclick*="' + did + '"]');
   panel.classList.add('show');
-  panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction en cours...</div>';
+  panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction IA en cours...</div>';
   if (btn) btn.disabled = true;
 
-  var system = 'Tu es correcteur DNB FRANCAIS specialiste en DICTEE.'
-    + ' Tu compares le texte officiel et le texte de l eleve.'
-    + ' Tu comptes les fautes PAR CATEGORIE : lexicale, accord sujet-verbe, accord nom-adjectif, participe passe, homophone, ponctuation.'
-    + ' NOTATION : sur 10 points. Deduction de 0.5 par faute. La meme faute repetee = -0.5 une seule fois.'
-    + ' Tu cites CHAQUE faute avec la forme incorrecte → la forme correcte et la regle a retenir.'
-    + ' Tu termines par les 2-3 regles prioritaires a retravailler.'
+  var system = 'Tu es correcteur expert DNB FRANCAIS DICTEE, exigeant et bienveillant.'
+    + ' Compare mot par mot le texte officiel et le texte eleve.'
+    + ' BAREME DICTEE : note sur 10 pts. -0.5 par faute. Meme faute repetee = -0.5 une seule fois. Note minimale = 0.'
+    + ' CATEGORIES de fautes : lexicale, accord sujet-verbe, accord nom-adjectif, participe passe, homophone, ponctuation.'
+    + ' Pour CHAQUE faute : cite la forme incorrecte, donne la forme correcte, enonce la regle precise.'
+    + ' COURS SU : evalue si les regles de base sont maitrisees (Oui/Partiel/Non).'
+    + ' CORRECTION MODELE : recris les 2-3 phrases les plus fautives dans leur version correcte.'
+    + ' PISTES : cite les 2-3 regles prioritaires a retravailler (ex: accord participe passe avec avoir).'
     + ' Reponds UNIQUEMENT en JSON valide sans markdown :'
-    + ' {"note":X,"sur":10,"fautes":{"lexicale":N,"sujet_verbe":N,"nom_adj":N,"participe":N,"homophone":N,"ponctuation":N},"total_fautes":N,"liste_fautes":[{"incorrect":"...","correct":"...","regle":"..."}],"regles":"regles prioritaires a retravailler","commentaire":"bilan general"}';
+    + ' {"note":X,"sur":10,"cours_su":"Oui/Partiel/Non","fautes":{"lexicale":N,"sujet_verbe":N,"nom_adj":N,"participe":N,"homophone":N,"ponctuation":N},"total_fautes":N,"liste_fautes":[{"incorrect":"...","correct":"...","regle":"..."}],"correction_modele":"phrases corrigees...","regles":"regles a retravailler","commentaire":"bilan general"}';
 
   var prompt = 'Texte officiel : ' + s.dictee_texte + '\nTexte de l eleve : ' + texteEleve;
 
@@ -469,18 +734,30 @@ async function corrigerDictee(sIdx, did) {
       correctionOff: s.dictee_texte,
       note: json ? json.note : null, pts: 10
     });
+    
+    // TRACKER
+    if (typeof trackAction === 'function') {
+      trackAction('correction_ia', 'francais', 'dictee', json?.note || null);
+    }
 
+    var listeFautes = (json && json.liste_fautes && json.liste_fautes.length)
+      ? json.liste_fautes.map(function(f){ return '&bull; <em>'+esc(f.incorrect||'')+'</em> &rarr; <strong>'+esc(f.correct||'')+'</strong> &mdash; '+esc(f.regle||''); }).join('<br>')
+      : '';
     panel.innerHTML = '<div class="corr-ia">'
-      + (json ? '<div class="corr-note">✓ ' + json.note + ' / 10</div>' : '')
-      + (json && json.total_fautes != null ? '<div class="corr-conseil">📊 Total fautes : ' + json.total_fautes + '</div>' : '')
-      + (json && json.liste_fautes && json.liste_fautes.length ? '<div class="corr-conseil"><strong>Fautes :</strong><br>'
-          + json.liste_fautes.map(function(f){ return '• <em>' + esc(f.incorrect||'') + '</em> → ' + esc(f.correct||'') + ' — ' + esc(f.regle||''); }).join('<br>')
-          + '</div>' : '')
-      + (json ? '<div class="corr-txt">' + esc(json.commentaire||txt) + '</div>' : '<div class="corr-txt">' + txt + '</div>')
-      + (json && json.regles ? '<div class="corr-conseil" style="color:#f5a623">🎯 A retravailler : ' + esc(json.regles) + '</div>' : '')
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">'
+      +   '<div class="corr-note">Note : ' + (json ? json.note : '?') + ' / 10</div>'
+      +   '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'
+      +     '<span style="font-size:10px;color:#9090a8;margin-right:2px;">Cours</span>' + badge(json ? json.cours_su : '?')
+      +     (json && json.total_fautes != null ? '<span style="font-size:11px;color:#e87a7a;margin-left:8px;">Fautes: ' + json.total_fautes + '</span>' : '')
+      +   '</div>'
       + '</div>'
-      + '<div class="corr-off"><strong>📖 TEXTE OFFICIEL</strong><br>' + esc(s.dictee_texte) + '</div>'
-      + '<button class="btn-copy" onclick="copier(this)">📋 Copier</button>';
+      + (listeFautes ? '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#e87a7a;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Fautes detectees</div><div style="background:rgba(232,122,122,.06);border-left:3px solid #e87a7a;border-radius:0 6px 6px 0;padding:10px 13px;font-size:13px;line-height:1.8;">' + listeFautes + '</div></div>' : '')
+      + (json && json.correction_modele ? '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#c97de8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Correction modele</div><div style="background:rgba(201,125,232,.06);border-left:3px solid #c97de8;border-radius:0 6px 6px 0;padding:10px 13px;font-size:13px;line-height:1.6;">' + esc(json.correction_modele) + '</div></div>' : '')
+      + '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#5ecfb1;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Bilan</div><div class="corr-txt" style="font-size:13px;">' + esc(json ? json.commentaire : txt) + '</div></div>'
+      + (json && json.regles ? '<div><div style="font-size:10px;color:#9090a8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">A retravailler</div><div class="corr-conseil" style="font-size:13px;">' + esc(json.regles) + '</div></div>' : '')
+      + '</div>'
+      + '<div class="corr-off"><strong>TEXTE OFFICIEL</strong><br>' + esc(s.dictee_texte) + '</div>'
+      + '<button class="btn-copy" onclick="copier(this)">Copier</button>';
   } catch(err) {
     panel.innerHTML = '<div style="color:#e87a7a">❌ ' + err.message + '</div>';
   } finally {
@@ -495,38 +772,24 @@ async function corriger(sIdx, qi, qid) {
   if (!ans) { alert('Ecris ta reponse dabord !'); return; }
 
   var panel = document.getElementById('panel_' + qid);
-  var btn = panel.previousElementSibling;
+  var btn = document.querySelector('[onclick*="' + qid + '"]');
   panel.classList.add('show');
-  panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction en cours...</div>';
+  panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction IA en cours...</div>';
   if (btn) btn.disabled = true;
 
   var pts = q.pts;
   var disc = q.type === 'comprehension' ? 'COMPREHENSION ET INTERPRETATION' : 'GRAMMAIRE ET COMPETENCES LINGUISTIQUES';
   var qTexte = q.texte.split('\n').join(' ').substring(0, 300);
 
-  var system = 'Tu es correcteur DNB FRANCAIS specialiste en ' + disc + '.'
+  var methodeDetail = (q.type === 'comprehension')
+    ? 'citation exacte avec guillemets + numero de ligne, reformulation en mots propres, figures de style nommees avec leur effet, nombre d elements demandes respecte, structure : point de vue + justification + citation'
+    : 'regle grammaticale/orthographique explicite, accords justifies (genre, nombre, personne), pour une reecriture : TOUS les changements verifies (pronoms, verbes, adjectifs, participes), regle precise citee';
+
+  var system = 'Tu es correcteur expert DNB FRANCAIS ' + disc + ', exigeant et bienveillant.'
     + ' Sujet : ' + s.titre + ', session ' + s.annee + ', ' + s.session + '.'
-    + ' Question (' + pts + ' pts) : ' + qTexte;
-
-  if (q.type === 'comprehension') {
-    system += ' METHODE COMPREHENSION DNB :'
-      + ' 1. Verifier la citation du texte (guillemets + numero de ligne si demande).'
-      + ' 2. Verifier que la reformulation est en mots propres (pas de copie du texte).'
-      + ' 3. Verifier les figures de style identifiees avec leur effet precise.'
-      + ' 4. Verifier que le nombre d elements demandes est respecte (2 elements, 3 idees...).'
-      + ' 5. Verifier la construction de la reponse : point de vue + justification + citation.';
-  } else {
-    system += ' METHODE GRAMMAIRE DNB :'
-      + ' 1. Verifier la regle orthographique ou grammaticale appliquee est correcte.'
-      + ' 2. Verifier les accords justifies (genre, nombre, personne).'
-      + ' 3. Pour une reecriture : verifier TOUS les changements (pronoms, verbes, adjectifs, participes).'
-      + ' 4. Identifier l erreur typique : accord oublie, confusion homophone, mauvais temps.'
-      + ' 5. Citer la regle precise a revoir.';
-  }
-
-  system += ' TA MISSION : noter sur ' + pts + ' pts, analyser si le cours est su, evaluer la methode, reperer les erreurs, donner des pistes precises.'
-    + ' Reponds UNIQUEMENT en JSON valide sans markdown :'
-    + ' {"note":X,"sur":' + pts + ',"cours_su":"OK/Partiel/Non — explication","methode":"OK/Partiel/Non — explication","commentaire":"analyse 3-5 lignes","pistes":"conseils precis"}';
+    + ' METHODE ' + disc + ' attendue au DNB : ' + methodeDetail + '.'
+    + ' Correction APPROFONDIE. Reponds UNIQUEMENT en JSON valide sans markdown :'
+    + ' {"note":X,"sur":' + pts + ',"cours_su":"Oui/Partiel/Non","transfert":"Oui/Partiel/Non","methode":"Oui/Partiel/Non","correction_experte":"reponse modele complete avec citations, procedes nommes, vocabulaire precis. 3 a 6 phrases.","analyse_eleve":"ce qui est bien et ce qui manque ou est inexact.","pistes":"2-3 conseils concrets et actionnables."}';
 
     var texteContext = (q.type === 'comprehension' && s.texte_sujet)
     ? 'TEXTE SOUMIS A L EXAMEN (avec numeros de lignes) :\n' + s.texte_sujet + '\n\n'
@@ -551,16 +814,27 @@ async function corriger(sIdx, qi, qid) {
       pts: pts,
       note: json ? json.note : null
     });
+    
+    // TRACKER
+    if (typeof trackAction === 'function') {
+      trackAction('correction_ia', 'francais', q.type, json?.note || null);
+    }
 
     panel.innerHTML = '<div class="corr-ia">'
-      + (json ? '<div class="corr-note">✓ ' + json.note + ' / ' + (json.sur||pts) + '</div>' : '')
-      + (json && json.cours_su ? '<div class="corr-conseil">📚 <strong>Cours :</strong> ' + esc(json.cours_su) + '</div>' : '')
-      + (json && json.methode  ? '<div class="corr-conseil">✏️ <strong>Methode :</strong> ' + esc(json.methode) + '</div>' : '')
-      + '<div class="corr-txt">' + esc(json ? json.commentaire : txt) + '</div>'
-      + (json && json.pistes   ? '<div class="corr-conseil" style="color:#c97de8">🎯 <strong>Pistes :</strong> ' + esc(json.pistes) + '</div>' : '')
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">'
+      +   '<div class="corr-note">Note : ' + (json ? json.note : '?') + ' / ' + pts + '</div>'
+      +   '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'
+      +     '<span style="font-size:10px;color:#9090a8;">Cours</span>' + badge(json ? json.cours_su : '?')
+      +     '<span style="font-size:10px;color:#9090a8;margin-left:6px;">Transfert</span>' + badge(json ? json.transfert : '?')
+      +     '<span style="font-size:10px;color:#9090a8;margin-left:6px;">Methode</span>' + badge(json ? json.methode : '?')
+      +   '</div>'
       + '</div>'
-      + '<div class="corr-off"><strong>📖 CORRECTION OFFICIELLE</strong><br>' + esc(q.rep) + '</div>'
-      + '<button class="btn-copy" onclick="copier(this)">📋 Copier</button>';
+      + '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#c97de8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Correction modele</div><div style="background:rgba(201,125,232,.06);border-left:3px solid #c97de8;border-radius:0 6px 6px 0;padding:10px 13px;font-size:13px;line-height:1.6;">' + esc(json ? (json.correction_experte||'') : '') + '</div></div>'
+      + '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#5ecfb1;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Analyse de ta reponse</div><div class="corr-txt" style="font-size:13px;">' + esc(json ? (json.analyse_eleve||json.commentaire||txt) : txt) + '</div></div>'
+      + (json && json.pistes ? '<div><div style="font-size:10px;color:#9090a8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Pour progresser</div><div class="corr-conseil" style="font-size:13px;">' + esc(json.pistes) + '</div></div>' : '')
+      + '</div>'
+      + '<div class="corr-off"><strong>CORRECTION OFFICIELLE</strong><br>' + esc(q.rep) + '</div>'
+      + '<button class="btn-copy" onclick="copier(this)">Copier</button>';
   } catch(err) {
     panel.innerHTML = '<div style="color:#e87a7a">❌ ' + err.message + '</div>';
   } finally {
@@ -574,21 +848,17 @@ async function corrigerRedac(sIdx) {
   if (!ans) { alert('Ecris ta redaction dabord !'); return; }
 
   var panel = document.getElementById('panel_redac_' + sIdx);
-  var btn = panel.previousElementSibling;
+  var btn = document.querySelector('[onclick*="corrigerRedac(' + sIdx + ')"]');
   panel.classList.add('show');
   panel.innerHTML = '<div class="loading"><span class="dot"></span>Correction en cours...</div>';
   if (btn) btn.disabled = true;
 
-  var system = 'Tu es correcteur DNB FRANCAIS specialiste en REDACTION.'
-    + ' Sujet : ' + s.titre + ', session ' + s.annee + '.'
-    + ' BAREME REDACTION DNB (sur 40 points) :'
-    + ' - Adequation au sujet et coherence du recit (10 pts)'
-    + ' - Style, vocabulaire, figures de style (10 pts)'
-    + ' - Orthographe et grammaire (10 pts)'
-    + ' - Organisation et structure (introduction, developpement, conclusion) (10 pts)'
-    + ' ALLER PLUS LOIN : proposer une amelioration concrete (réécrire un passage, suggerer une figure de style).'
+  var system = 'Tu es correcteur expert DNB FRANCAIS REDACTION, exigeant et bienveillant.'
+    + ' BAREME sur 40 pts : Adequation/coherence (10) - Style/figures (10) - Orthographe (10) - Structure (10).'
+    + ' COURS SU : regles ecriture maitrisees ? METHODE : structure narrative respectee ?'
+    + ' CORRECTION EXPERTE : reecrire un passage de l eleve en l ameliorant (style, figures, structure).'
     + ' Reponds UNIQUEMENT en JSON valide sans markdown :'
-    + ' {"note":X,"sur":40,"criteres":{"adequation":X,"style":X,"orthographe":X,"structure":X},"points_forts":"...","amelioration":"réécriture ou suggestion concrete","pistes":"conseils precis","commentaire":"bilan general"}';
+    + ' {"note":X,"sur":40,"cours_su":"Oui/Partiel/Non","methode":"Oui/Partiel/Non","criteres":{"adequation":X,"style":X,"orthographe":X,"structure":X},"correction_experte":"reecriture amelioree passage cle","points_forts":"ce qui est reussi","analyse_eleve":"lacunes precises","pistes":"2-3 conseils concrets","commentaire":"bilan general"}';
 
   var sujets_proposes = 'Sujet 1 : ' + s.redaction_s1 + ' | Sujet 2 : ' + s.redaction_s2;
   var prompt = 'Sujets proposes : ' + sujets_proposes
@@ -603,16 +873,32 @@ async function corrigerRedac(sIdx) {
       correctionOff: 'Sujet 1 : ' + s.redaction_s1 + ' | Sujet 2 : ' + s.redaction_s2,
       note: json ? json.note : null, pts: 40
     });
+    
+    // TRACKER
+    if (typeof trackAction === 'function') {
+      trackAction('correction_ia', 'francais', 'redaction', json?.note || null);
+    }
 
     panel.innerHTML = '<div class="corr-ia">'
-      + (json ? '<div class="corr-note">✓ ' + json.note + ' / 40</div>' : '')
-      + (json && json.criteres ? '<div class="corr-conseil">📊 <strong>Détail :</strong> Sujet ' + (json.criteres.adequation||'?') + '/10 · Style ' + (json.criteres.style||'?') + '/10 · Ortho ' + (json.criteres.orthographe||'?') + '/10 · Structure ' + (json.criteres.structure||'?') + '/10</div>' : '')
-      + (json && json.points_forts ? '<div class="corr-conseil" style="color:#5ecfb1">✅ <strong>Points forts :</strong> ' + esc(json.points_forts) + '</div>' : '')
-      + '<div class="corr-txt">' + esc(json ? json.commentaire : txt) + '</div>'
-      + (json && json.amelioration ? '<div class="corr-conseil" style="color:#e8c87a">✍️ <strong>Amélioration :</strong> ' + esc(json.amelioration) + '</div>' : '')
-      + (json && json.pistes ? '<div class="corr-conseil" style="color:#c97de8">🎯 <strong>Pistes :</strong> ' + esc(json.pistes) + '</div>' : '')
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">'
+      +   '<div class="corr-note">Note : ' + (json ? json.note : '?') + ' / 40</div>'
+      +   '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">'
+      +     '<span style="font-size:10px;color:#9090a8;">Cours</span>' + badge(json ? json.cours_su : '?')
+      +     '<span style="font-size:10px;color:#9090a8;margin-left:6px;">Methode</span>' + badge(json ? json.methode : '?')
+      +   '</div>'
       + '</div>'
-      + '<button class="btn-copy" onclick="copier(this)">📋 Copier</button>';
+      + (json && json.criteres ? '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#9090a8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Bareme detail</div><div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      +   '<span style="background:rgba(201,125,232,.1);color:#c97de8;border:1px solid rgba(201,125,232,.3);border-radius:4px;padding:3px 9px;font-size:11px;">Sujet '+String(json.criteres.adequation||'?')+'/10</span>'
+      +   '<span style="background:rgba(94,207,177,.1);color:#5ecfb1;border:1px solid rgba(94,207,177,.3);border-radius:4px;padding:3px 9px;font-size:11px;">Style '+String(json.criteres.style||'?')+'/10</span>'
+      +   '<span style="background:rgba(232,122,122,.1);color:#e87a7a;border:1px solid rgba(232,122,122,.3);border-radius:4px;padding:3px 9px;font-size:11px;">Ortho '+String(json.criteres.orthographe||'?')+'/10</span>'
+      +   '<span style="background:rgba(245,166,35,.1);color:#f5a623;border:1px solid rgba(245,166,35,.3);border-radius:4px;padding:3px 9px;font-size:11px;">Structure '+String(json.criteres.structure||'?')+'/10</span>'
+      + '</div></div>' : '')
+      + (json && json.correction_experte ? '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#c97de8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Reecriture amelioree</div><div style="background:rgba(201,125,232,.06);border-left:3px solid #c97de8;border-radius:0 6px 6px 0;padding:10px 13px;font-size:13px;line-height:1.7;">' + esc(json.correction_experte) + '</div></div>' : '')
+      + (json && json.points_forts ? '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#5ecfb1;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Points forts</div><div style="background:rgba(94,207,177,.06);border-left:3px solid #5ecfb1;border-radius:0 6px 6px 0;padding:8px 13px;font-size:13px;">' + esc(json.points_forts) + '</div></div>' : '')
+      + '<div style="margin-bottom:10px;"><div style="font-size:10px;color:#e8c87a;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Analyse</div><div class="corr-txt" style="font-size:13px;">' + esc(json ? (json.analyse_eleve||json.commentaire||txt) : txt) + '</div></div>'
+      + (json && json.pistes ? '<div><div style="font-size:10px;color:#9090a8;font-weight:700;text-transform:uppercase;margin-bottom:5px;">Pour progresser</div><div class="corr-conseil" style="font-size:13px;">' + esc(json.pistes) + '</div></div>' : '')
+      + '</div>'
+      + '<button class="btn-copy" onclick="copier(this)">Copier</button>';
   } catch(err) {
     panel.innerHTML = '<div style="color:#e87a7a">❌ ' + err.message + '</div>';
   } finally {
@@ -650,7 +936,120 @@ function telecharger(sIdx) {
     + '.rep-pistes{background:#fff8f0;border:1px solid #f5a623;border-radius:6px;padding:8px;margin:6px 0;}'
     + '.rep-off{background:#e6f9ee;border:1px solid #34c76b;border-radius:6px;padding:10px;margin:8px 0;font-size:12px;}'
     + '.label{font-weight:bold;margin-bottom:4px;display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#666;}'
-    + '</style></head><body>'
+    + '</style><script>
+// SMART LEARN — MONÉTISATION MAURICE
+// Essai 2 jours · 999 Rs · WhatsApp + Juice
+
+const MONETIZATION = {
+  prix: 999, devise: 'Rs', essaiJours: 2,
+  codeMaitre: 'Entrepotes974NawalWassil',
+  whatsapp: 'https://wa.me/23058459402',
+  numeroJuice: '+230 58 45 94 02',
+  STORAGE_KEYS: { trialStart: 'brevet_start', paidValid: 'brevet_paid' }
+};
+
+function estEnEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return true;
+  return (Date.now() - parseInt(s)) / 86400000 < MONETIZATION.essaiJours;
+}
+function essaiExpire() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return false;
+  return (Date.now() - parseInt(s)) / 86400000 >= MONETIZATION.essaiJours;
+}
+function aAccesComplet() {
+  if (localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true') return true;
+  return estEnEssai();
+}
+function aAccesPayant() {
+  return localStorage.getItem(MONETIZATION.STORAGE_KEYS.paidValid) === 'true';
+}
+function joursRestantsEssai() {
+  var s = localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart);
+  if (!s) return MONETIZATION.essaiJours;
+  return Math.max(0, Math.ceil(MONETIZATION.essaiJours - (Date.now() - parseInt(s)) / 86400000));
+}
+function validerCode(code, callback) {
+  var PROXY = 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+  var payload = JSON.stringify({ userId: localStorage.getItem('user_id') || 'anon', action: 'valider_code', code: code.trim(), source: document.title || '' });
+  fetch(PROXY, { method: 'POST', body: new URLSearchParams({ data: payload }) })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        localStorage.setItem(MONETIZATION.STORAGE_KEYS.paidValid, 'true');
+        if (callback) callback({ success: true, message: '✅ Accès débloqué !' });
+      } else {
+        if (callback) callback({ success: false, message: '❌ ' + (data.error || 'Code invalide.') });
+      }
+    }).catch(function() { if (callback) callback({ success: false, message: '❌ Vérifiez votre connexion.' }); });
+}
+function creerBanniere() {
+  if (document.getElementById('monet-banner') || aAccesPayant()) return;
+  var j = joursRestantsEssai(), expire = essaiExpire();
+  var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
+  var texte = expire ? '⚠️ Essai terminé — Corrections IA bloquées'
+    : '🆓 Essai gratuit — <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' — Accès complet <strong>999 Rs/an</strong>';
+  var b = document.createElement('div');
+  b.id = 'monet-banner';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">💬 Débloquer via WhatsApp</button>';
+  document.body.insertBefore(b, document.body.firstChild);
+}
+function afficherOverlay() {
+  if (document.getElementById('monet-overlay')) return;
+  var canClose = estEnEssai();
+  var o = document.createElement('div');
+  o.id = 'monet-overlay';
+  o.innerHTML = '<style>#monet-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(9,9,15,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:"DM Sans",Arial,sans-serif;}.monet-card{background:#111118;border:1px solid #2a2a38;border-radius:16px;padding:32px 28px;max-width:460px;width:92%;color:#e8e8f0;text-align:center;}.monet-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:12px;font-weight:800;font-size:15px;text-decoration:none;background:#25D366;color:#fff;margin:12px 0;width:100%;box-sizing:border-box;border:none;cursor:pointer;}.monet-input{width:100%;background:#0d0d14;border:1px solid #2a2a38;border-radius:10px;color:#e8e8f0;font-size:15px;padding:12px 16px;text-align:center;outline:none;box-sizing:border-box;margin-bottom:10px;}.monet-btn{padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:1px solid rgba(94,207,177,0.3);background:rgba(94,207,177,0.1);color:#5ecfb1;margin:4px;}.monet-btn.ghost{background:transparent;color:#9090a8;border:1px solid #2a2a38;}.monet-msg{font-size:13px;margin-top:10px;min-height:24px;}</style>'
+    + '<div class="monet-card">'
+    + '<div style="font-size:44px;margin-bottom:10px;">⏰</div>'
+    + '<div style="font-size:22px;font-weight:800;color:#e8c87a;margin-bottom:8px;">Essai gratuit terminé</div>'
+    + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">Débloquez l\'accès complet pour continuer.</div>'
+    + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">999 Rs <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
+    + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1️⃣ Envoyez <strong>999 Rs</strong> par Juice au <strong>+230 58 45 94 02</strong><br>2️⃣ Envoyez la <strong>capture</strong> sur WhatsApp<br>3️⃣ Recevez votre <strong>code d\'activation</strong></div>'
+    + '<a href="https://wa.me/23058459402?text=' + encodeURIComponent('Bonjour, je souhaite débloquer Hub Brevet 2026 (999 Rs). Je vous envoie ma capture Juice.') + '" target="_blank" class="monet-wa-btn">💬 Contacter sur WhatsApp</a>'
+    + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
+    + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'accès…" maxlength="40">'
+    + '<div><button class="monet-btn" id="monet-valider">✓ Valider le code</button>'
+    + (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer l\'essai</button>' : '')
+    + '</div><div class="monet-msg" id="monet-msg"></div></div>';
+  document.body.appendChild(o);
+  document.getElementById('monet-valider').onclick = function() {
+    var code = document.getElementById('monet-code-input').value.trim();
+    var msg = document.getElementById('monet-msg');
+    if (!code) { msg.style.color='#e87a7a'; msg.textContent='Entrez un code.'; return; }
+    msg.style.color='#9090a8'; msg.textContent='Vérification...';
+    validerCode(code, function(r) {
+      if (r.success) { msg.style.color='#5ecfb1'; msg.textContent=r.message; setTimeout(function(){document.getElementById('monet-overlay').remove();location.reload();},1500); }
+      else { msg.style.color='#e87a7a'; msg.textContent=r.message; }
+    });
+  };
+  var cl = document.getElementById('monet-close');
+  if (cl) cl.onclick = function() { document.getElementById('monet-overlay').remove(); };
+}
+function afficherBlocageEssaiExpire() { afficherOverlay(); }
+function initMonetization() {
+  if (!localStorage.getItem(MONETIZATION.STORAGE_KEYS.trialStart))
+    localStorage.setItem(MONETIZATION.STORAGE_KEYS.trialStart, Date.now().toString());
+  if (!localStorage.getItem('user_id'))
+    localStorage.setItem('user_id', (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'user_' + Date.now());
+  if (aAccesPayant()) return;
+  creerBanniere();
+  if (essaiExpire()) setTimeout(afficherOverlay, 500);
+  setInterval(function() {
+    var b = document.getElementById('monet-banner');
+    if (b && !aAccesPayant()) b.style.background = essaiExpire() ? '#e87a7a' : '#e8c87a';
+  }, 60000);
+}
+window.aAccesComplet = aAccesComplet;
+window.aAccesPayant = aAccesPayant;
+window.essaiExpire = essaiExpire;
+window.afficherBlocageEssaiExpire = afficherBlocageEssaiExpire;
+window.afficherOverlay = afficherOverlay;
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonetization);
+else initMonetization();
+</script>
+</head><body>'
     + '<h1>📖 Corrections Français — ' + esc(s.annee) + ' ' + esc(s.session) + '</h1>'
     + '<div class="score">Score total : ' + totalObt.toFixed(1) + ' / ' + totalMax + '</div>';
 
@@ -681,5 +1080,6 @@ function telecharger(sIdx) {
 
 window.onload = buildGrid;
 </script>
+
 </body>
 </html>

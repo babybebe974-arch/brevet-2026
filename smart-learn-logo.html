@@ -1,29 +1,183 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>🤖 Correcteur – Brevet 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#000000;font-family:'DM Sans',sans-serif;padding:1rem;color:#ffffff;}
-    .container{max-width:900px;margin:0 auto;background:#1a1a1a;border-radius:2rem;padding:2rem;border:1px solid #ffcc00;}
-    h1{font-family:'Playfair Display',serif;font-size:2rem;color:#ffcc00;margin-bottom:0.25rem;}
-    .sub{color:#aaa;margin-bottom:2rem;border-left:3px solid #ffcc00;padding-left:1rem;}
-    .back-link{display:inline-block;margin-bottom:1rem;text-decoration:none;color:#5ecfb1;font-size:0.8rem;}
-    
-    textarea{width:100%;background:#0a0a0f;border:1px solid #333;border-radius:1rem;padding:1rem;color:white;font-size:1rem;margin-bottom:1rem;font-family:'DM Sans',sans-serif;resize:vertical;}
-    .btn-group{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
-    button{background:#1e2a3e;border:1px solid #5ecfb1;border-radius:40px;padding:0.5rem 1.2rem;font-size:0.8rem;color:#5ecfb1;cursor:pointer;}
-    button:hover{background:#2a3652;}
-    .loading{color:#ffcc00;text-align:center;padding:1rem;display:none;}
-    .resultat{background:#2a2a2a;border-radius:1rem;padding:1rem;margin-top:1rem;border-left:4px solid #5ecfb1;display:none;}
-    .selecteur{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
-    select{background:#2a2a2a;border:1px solid #333;border-radius:40px;padding:0.4rem 0.8rem;color:white;}
-    .note{font-size:2rem;font-weight:700;color:#ffcc00;}
-  </style>
-  <script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Learn — Logo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #F4F1EA;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    padding: 40px 20px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: -32px;
+  }
+
+  /* ============ LOGO CARD - DARK ============ */
+  .logo-dark {
+    background: linear-gradient(135deg, #0D1B3E 0%, #1A2F5E 100%);
+    border-radius: 28px;
+    padding: 40px 56px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    box-shadow: 0 20px 60px rgba(13,27,62,0.30), 0 2px 8px rgba(0,0,0,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-dark::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ============ BRAIN SVG ICON ============ */
+  .brain-icon {
+    width: 90px;
+    height: 130px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .brain-icon svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* ============ TEXT BLOCK ============ */
+  .text-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .brand-smart {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 58px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+    line-height: 1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+
+  .brand-separator {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #C9A84C, #F0C355, #A8732A);
+    margin: 6px 0 5px 0;
+    opacity: 0.7;
+  }
+
+  .brand-learn {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 58px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #C9A84C 0%, #F0C355 50%, #A8732A 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 8px;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(240,195,85,0.3));
+  }
+
+  .brand-tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  /* ============ LOGO CARD - LIGHT ============ */
+  .logo-light {
+    background: #FFFFFF;
+    border-radius: 28px;
+    padding: 40px 56px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    box-shadow: 0 8px 40px rgba(13,27,62,0.10), 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid rgba(13,27,62,0.08);
+  }
+
+  .logo-light .brand-smart {
+    color: #0D1B3E;
+  }
+
+  .logo-light .brand-tagline {
+    color: rgba(13,27,62,0.35);
+  }
+
+  /* ============ COMPACT ICON ONLY ============ */
+  .logo-icon-only {
+    background: linear-gradient(135deg, #0D1B3E 0%, #1A2F5E 100%);
+    border-radius: 22px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(13,27,62,0.35);
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+
+  /* ============ CARDS ROW ============ */
+  .row {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ============ ANIMATED GLOW ============ */
+  @keyframes subtleGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(240,195,85,0.25)); }
+    50% { filter: drop-shadow(0 0 14px rgba(240,195,85,0.5)); }
+  }
+
+  .gold-circuit {
+    animation: subtleGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo-dark, .logo-light, .logo-icon-only {
+    animation: fadeUp 0.6s ease both;
+  }
+  .logo-light { animation-delay: 0.15s; }
+  .logo-icon-only { animation-delay: 0.3s; }
+</style>
+<script>
 // SMART LEARN — MONÉTISATION MAURICE
 // Essai 2 jours · 999 Rs · WhatsApp + Juice
 
@@ -76,10 +230,10 @@ function creerBanniere() {
   var j = joursRestantsEssai(), expire = essaiExpire();
   var bg = expire ? '#e87a7a' : '#e8c87a', col = expire ? '#fff' : '#09090f';
   var texte = expire ? '⚠️ Essai terminé — Corrections IA bloquées'
-    : '🆓 Essai gratuit — <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' — Accès complet <strong>999 Rs/an</strong>';
+    : '�� Essai gratuit — <strong>J-' + j + '</strong> ' + (j <= 1 ? 'jour restant' : 'jours restants') + ' — Accès complet <strong>999 Rs/an</strong>';
   var b = document.createElement('div');
   b.id = 'monet-banner';
-  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">💬 Débloquer via WhatsApp</button>';
+  b.innerHTML = '<style>#monet-banner{position:sticky;top:0;left:0;right:0;background:' + bg + ';color:' + col + ';font-family:"DM Sans",Arial,sans-serif;font-size:13px;padding:9px 20px;z-index:9998;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}.monet-banner-btn{padding:5px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:' + col + ';color:' + bg + ';}</style><span>' + texte + '</span><button class="monet-banner-btn" onclick="afficherOverlay()">�� Débloquer via WhatsApp</button>';
   document.body.insertBefore(b, document.body.firstChild);
 }
 function afficherOverlay() {
@@ -94,7 +248,7 @@ function afficherOverlay() {
     + '<div style="font-size:14px;color:#9090a8;margin-bottom:12px;">Débloquez l\'accès complet pour continuer.</div>'
     + '<div style="font-size:40px;font-weight:800;color:#5ecfb1;margin:8px 0;">999 Rs <span style="font-size:16px;color:#9090a8;">/ an</span></div>'
     + '<div style="background:#0d0d14;border-radius:10px;padding:14px;margin:12px 0;text-align:left;font-size:13px;line-height:2;">1️⃣ Envoyez <strong>999 Rs</strong> par Juice au <strong>+230 58 45 94 02</strong><br>2️⃣ Envoyez la <strong>capture</strong> sur WhatsApp<br>3️⃣ Recevez votre <strong>code d\'activation</strong></div>'
-    + '<a href="https://wa.me/23058459402?text=' + encodeURIComponent('Bonjour, je souhaite débloquer Hub Brevet 2026 (999 Rs). Je vous envoie ma capture Juice.') + '" target="_blank" class="monet-wa-btn">💬 Contacter sur WhatsApp</a>'
+    + '<a href="https://wa.me/23058459402?text=' + encodeURIComponent('Bonjour, je souhaite débloquer Hub Brevet 2026 (999 Rs). Je vous envoie ma capture Juice.') + '" target="_blank" class="monet-wa-btn">�� Contacter sur WhatsApp</a>'
     + '<hr style="border:none;border-top:1px solid #2a2a38;margin:16px 0;">'
     + '<input type="text" class="monet-input" id="monet-code-input" placeholder="Votre code d\'accès…" maxlength="40">'
     + '<div><button class="monet-btn" id="monet-valider">✓ Valider le code</button>'
@@ -252,142 +406,157 @@ else initMonetization();
 </script>
 </head>
 <body>
-<div class="container">
-  <a href="index.html" class="back-link">← Retour au hub</a>
-  <h1>🤖 Correcteur</h1>
-  <div class="sub">Notation • Correction • Méthodologie par matière</div>
 
-  <div class="selecteur">
-    <label>📚 Matière : </label>
-    <select id="matiereSelect">
-      <option value="francais">📖 Français (rédaction, essai, commentaire)</option>
-      <option value="maths">📐 Mathématiques (démonstration, résolution)</option>
-      <option value="histoire">🌍 Histoire-Géo & EMC (paragraphe argumenté)</option>
-      <option value="sciences">🔬 Sciences (démarche scientifique)</option>
-    </select>
+<h2>Version foncée — référence principale</h2>
+
+<!-- DARK VERSION -->
+<div class="logo-dark">
+  <div class="brain-icon">
+    <svg viewBox="0 0 110 160" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#C9A84C"/>
+          <stop offset="50%" stop-color="#F0C355"/>
+          <stop offset="100%" stop-color="#A8732A"/>
+        </linearGradient>
+        <filter id="glow1">
+          <feGaussianBlur stdDeviation="1.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- BRAIN left hemisphere -->
+      <path d="
+        M 58 8
+        C 44 6, 28 14, 20 28
+        C 12 42, 16 54, 10 66
+        C 4 78, 2 88, 6 100
+        C 10 112, 22 118, 26 128
+        C 30 138, 28 150, 38 156
+        C 48 162, 60 158, 66 152
+        C 72 146, 72 138, 72 138
+        L 72 8
+        Z
+      " fill="none" stroke="white" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"/>
+
+      <!-- Sulci folds -->
+      <path d="M 58 8 C 68 22, 72 38, 72 56" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity="0.8"/>
+      <path d="M 14 60 C 28 53, 46 56, 58 68" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+      <path d="M 8 94 C 24 86, 44 90, 56 102" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+      <path d="M 28 130 C 42 122, 56 126, 64 136" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+
+      <!-- Center divider -->
+      <line x1="72" y1="8" x2="72" y2="152" stroke="white" stroke-width="2" opacity="0.3"/>
+
+      <!-- Center hub dot -->
+      <circle cx="72" cy="80" r="4" fill="url(#g1)" filter="url(#glow1)"/>
+
+      <!-- CIRCUITS (gold + navy) right side -->
+      <!-- Line 1 top - gold -->
+      <g class="gold-circuit">
+        <polyline points="72,30 88,30 100,18" fill="none" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="100" cy="18" r="5.5" fill="#0D1B3E" stroke="url(#g1)" stroke-width="2.5"/>
+      </g>
+
+      <!-- Line 2 - navy/blue -->
+      <polyline points="72,55 92,55 106,46" fill="none" stroke="#3D5DA8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="106" cy="46" r="5.5" fill="#0D1B3E" stroke="#3D5DA8" stroke-width="2.5"/>
+
+      <!-- Line 3 mid - gold -->
+      <g class="gold-circuit">
+        <polyline points="72,80 108,80" fill="none" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="108" cy="80" r="5.5" fill="#0D1B3E" stroke="url(#g1)" stroke-width="2.5"/>
+      </g>
+
+      <!-- Line 4 - navy/blue -->
+      <polyline points="72,105 92,105 106,114" fill="none" stroke="#3D5DA8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="106" cy="114" r="5.5" fill="#0D1B3E" stroke="#3D5DA8" stroke-width="2.5"/>
+
+      <!-- Line 5 bottom - gold -->
+      <g class="gold-circuit">
+        <polyline points="72,132 88,132 100,144" fill="none" stroke="url(#g1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="100" cy="144" r="5.5" fill="#0D1B3E" stroke="url(#g1)" stroke-width="2.5"/>
+      </g>
+    </svg>
   </div>
 
-  <textarea id="userTexte" rows="12" placeholder="Collez votre texte ici..."></textarea>
-  
-  <div class="btn-group">
-    <button id="corrigerBtn">🤖 Corriger mon texte</button>
-    <button id="effacerBtn">🗑️ Effacer</button>
+  <div class="text-block">
+    <span class="brand-smart">SMART</span>
+    <div class="brand-separator"></div>
+    <span class="brand-learn">LEARN</span>
+    <span class="brand-tagline">Apprendre · Progresser · Exceller</span>
   </div>
-
-  <div id="loading" class="loading">⏳ Analyse en cours...</div>
-  <div id="resultat" class="resultat"></div>
-
-  <div class="sub" style="margin-top:1rem; font-size:0.7rem;">💡 Le correcteur note selon le barème officiel et donne une aide méthodologique adaptée à la matière.</div>
 </div>
 
-<script>
-  // ============================================================
-  // URL DU PROXY GOOGLE SHEETS
-  // ============================================================
-      
-  // Barèmes et méthodologies par matière
-  const baremes = {
-    francais: { nom: "Français", points: 20, criteres: "Orthographe (4 pts), syntaxe (4 pts), cohérence (6 pts), pertinence (6 pts)", methodologie: "Introduction : amorce, présentation, problématique, plan. Développement : paragraphes structurés, connecteurs, exemples. Conclusion : rappel, synthèse, ouverture." },
-    maths: { nom: "Mathématiques", points: 20, criteres: "Démarche (5 pts), calculs (5 pts), rédaction (5 pts), résultat (5 pts)", methodologie: "1. Lire l'énoncé, repérer les données. 2. Choisir la propriété/théorème. 3. Rédiger les calculs étape par étape. 4. Vérifier la cohérence du résultat. 5. Conclure par une phrase." },
-    histoire: { nom: "Histoire-Géo & EMC", points: 20, criteres: "Connaissances (6 pts), analyse (6 pts), argumentation (4 pts), expression (4 pts)", methodologie: "Paragraphe argumenté : 1. Introduction (contexte, problématique). 2. Développement (thèse, arguments, exemples précis). 3. Conclusion (réponse, ouverture)." },
-    sciences: { nom: "Sciences", points: 20, criteres: "Connaissances (6 pts), démarche scientifique (6 pts), rigueur (4 pts), expression (4 pts)", methodologie: "Démarche scientifique : 1. Problématique/hypothèse. 2. Protocole expérimental. 3. Résultats observés. 4. Interprétation/conclusion." }
-  };
+<h2>Version claire — usage sur fond blanc</h2>
 
-  async function callCorrection(texte, matiere) {
-    // Vérification accès
-    if (typeof aAccesComplet !== 'undefined' && !aAccesComplet()) {
-      if (typeof afficherBlocageEssaiExpire !== 'undefined') afficherBlocageEssaiExpire();
-      throw new Error('ACCES_BLOQUE');
-    }
-    const b = baremes[matiere];
-    const prompt = `Tu es correcteur expert du brevet des collèges.
+<!-- LIGHT VERSION -->
+<div class="logo-light">
+  <div class="brain-icon">
+    <svg viewBox="0 0 110 160" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#C9A84C"/>
+          <stop offset="50%" stop-color="#D4A017"/>
+          <stop offset="100%" stop-color="#8B6014"/>
+        </linearGradient>
+      </defs>
+      <path d="M 58 8 C 44 6, 28 14, 20 28 C 12 42, 16 54, 10 66 C 4 78, 2 88, 6 100 C 10 112, 22 118, 26 128 C 30 138, 28 150, 38 156 C 48 162, 60 158, 66 152 C 72 146, 72 138, 72 138 L 72 8 Z"
+        fill="none" stroke="#0D1B3E" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M 58 8 C 68 22, 72 38, 72 56" fill="none" stroke="#0D1B3E" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <path d="M 14 60 C 28 53, 46 56, 58 68" fill="none" stroke="#0D1B3E" stroke-width="1.8" stroke-linecap="round" opacity="0.35"/>
+      <path d="M 8 94 C 24 86, 44 90, 56 102" fill="none" stroke="#0D1B3E" stroke-width="1.8" stroke-linecap="round" opacity="0.35"/>
+      <path d="M 28 130 C 42 122, 56 126, 64 136" fill="none" stroke="#0D1B3E" stroke-width="1.8" stroke-linecap="round" opacity="0.35"/>
+      <line x1="72" y1="8" x2="72" y2="152" stroke="#0D1B3E" stroke-width="1.5" opacity="0.2"/>
+      <circle cx="72" cy="80" r="4" fill="url(#g2)"/>
+      <polyline points="72,30 88,30 100,18" fill="none" stroke="url(#g2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="100" cy="18" r="5.5" fill="white" stroke="url(#g2)" stroke-width="2.5"/>
+      <polyline points="72,55 92,55 106,46" fill="none" stroke="#2A4A9A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="106" cy="46" r="5.5" fill="white" stroke="#2A4A9A" stroke-width="2.5"/>
+      <polyline points="72,80 108,80" fill="none" stroke="url(#g2)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="108" cy="80" r="5.5" fill="white" stroke="url(#g2)" stroke-width="2.5"/>
+      <polyline points="72,105 92,105 106,114" fill="none" stroke="#2A4A9A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="106" cy="114" r="5.5" fill="white" stroke="#2A4A9A" stroke-width="2.5"/>
+      <polyline points="72,132 88,132 100,144" fill="none" stroke="url(#g2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="100" cy="144" r="5.5" fill="white" stroke="url(#g2)" stroke-width="2.5"/>
+    </svg>
+  </div>
+  <div class="text-block">
+    <span class="brand-smart" style="color:#0D1B3E">SMART</span>
+    <div class="brand-separator"></div>
+    <span class="brand-learn">LEARN</span>
+    <span class="brand-tagline" style="color:rgba(13,27,62,0.4)">Apprendre · Progresser · Exceller</span>
+  </div>
+</div>
 
-Matière : ${b.nom}
-Barème : ${b.criteres} — BAREME UNIVERSEL : 1/3 bonne réponse + 1/3 rédaction + 1/3 justification.
-Méthodologie attendue : ${b.methodologie}
+<h2>Icône seule — app icon / favicon</h2>
 
-Texte de l'élève :
-${texte}
-
-Réponds UNIQUEMENT en JSON (sans texte avant ou après) :
-{
-  "note": X,
-  "detail_bareme": "réponse X/3 - rédaction X/3 - justification X/3",
-  "appreciation": "...",
-  "erreurs": ["erreur 1", "erreur 2"],
-  "conseilsMethodologiques": ["conseil 1", "conseil 2"],
-  "versionCorrigee": "..."
-}`;
-
-    try {
-      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout 45s')), 45000));
-      const payload = JSON.stringify({
-        userId: localStorage.getItem('user_id') || 'anon',
-        action: 'correction_ia', prompt: prompt,
-        system: 'Tu es un correcteur bienveillant et exigeant pour le brevet.',
-        estPayant: typeof isPaid !== 'undefined' ? isPaid() : false,
-        sessionId: sessionStorage.getItem('session_id') || 'sess',
-        joursRestantsEssai: 3, source: 'correcteur-ia', matiere: matiere
-      });
-      const req = fetch('https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec', {
-        method: 'POST',
-        body: new URLSearchParams({ data: payload })
-      }).then(r => r.json()).then(d => {
-        if (d.success && d.content) return d.content;
-        throw new Error(d.error || 'Erreur proxy');
-      });
-      return await Promise.race([req, timeout]);
-    } catch(e) {
-      console.error(e);
-      return "{}";
-    }
-  }
-
-
-  function afficherCorrection(correction, matiere) {
-    const resultDiv = document.getElementById("resultat");
-    try {
-      const json = JSON.parse(correction);
-      const b = baremes[matiere];
-      resultDiv.innerHTML = `
-        <div class="note">📊 Note : ${json.note}/${b.points}</div>
-        <div style="margin: 0.5rem 0;"><strong>👍 Appréciation :</strong> ${json.appreciation || "..."}</div>
-        <hr style="border-color:#333; margin:0.5rem 0;">
-        <strong>⚠️ Erreurs détectées :</strong>
-        <ul>${(json.erreurs || []).map(e => `<li>${e}</li>`).join('') || "<li>Aucune erreur majeure</li>"}</ul>
-        <strong>💡 Conseils méthodologiques (${b.nom}) :</strong>
-        <ul>${(json.conseilsMethodologiques || []).map(c => `<li>${c}</li>`).join('') || "<li>Relisez votre texte à voix haute.</li>"}</ul>
-        <strong>✍️ Version corrigée :</strong><br>
-        <div style="background:#0a0a0f; padding:0.8rem; border-radius:0.8rem; margin-top:0.5rem;">${(json.versionCorrigee || "Non disponible").replace(/\n/g, '<br>')}</div>
-      `;
-    } catch(e) {
-      resultDiv.innerHTML = `<pre style="white-space:pre-wrap;">${correction}</pre>`;
-    }
-    resultDiv.style.display = "block";
-  }
-
-  document.getElementById("corrigerBtn").addEventListener("click", async () => {
-    const texte = document.getElementById("userTexte").value.trim();
-    if (texte === "") { alert("Veuillez écrire un texte à corriger."); return; }
-    const matiere = document.getElementById("matiereSelect").value;
-    document.getElementById("loading").style.display = "block";
-    document.getElementById("resultat").style.display = "none";
-    const correction = await callCorrection(texte, matiere);
-    document.getElementById("loading").style.display = "none";
-    
-    // TRACKER : correction dans l'outil correcteur
-    if (typeof trackAction === 'function') {
-      trackAction('correction_ia', matiere, 'correcteur', null);
-    }
-    
-    afficherCorrection(correction, matiere);
-  });
-
-  document.getElementById("effacerBtn").addEventListener("click", () => {
-    document.getElementById("userTexte").value = "";
-    document.getElementById("resultat").style.display = "none";
-  });
-</script>
+<!-- ICON ONLY -->
+<div class="row">
+  <div class="logo-icon-only">
+    <svg viewBox="0 0 110 160" width="52" height="75" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <defs>
+        <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#C9A84C"/>
+          <stop offset="50%" stop-color="#F0C355"/>
+          <stop offset="100%" stop-color="#A8732A"/>
+        </linearGradient>
+      </defs>
+      <path d="M 58 8 C 44 6, 28 14, 20 28 C 12 42, 16 54, 10 66 C 4 78, 2 88, 6 100 C 10 112, 22 118, 26 128 C 30 138, 28 150, 38 156 C 48 162, 60 158, 66 152 C 72 146, 72 138, 72 138 L 72 8 Z"
+        fill="none" stroke="white" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M 58 8 C 68 22, 72 38, 72 56" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 14 60 C 28 53, 46 56, 58 68" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+      <path d="M 8 94 C 24 86, 44 90, 56 102" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+      <circle cx="72" cy="80" r="4" fill="url(#g3)"/>
+      <polyline points="72,30 88,30 100,18" fill="none" stroke="url(#g3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="100" cy="18" r="6" fill="#0D1B3E" stroke="url(#g3)" stroke-width="2.5"/>
+      <polyline points="72,80 108,80" fill="none" stroke="url(#g3)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="108" cy="80" r="6" fill="#0D1B3E" stroke="url(#g3)" stroke-width="2.5"/>
+      <polyline points="72,132 88,132 100,144" fill="none" stroke="url(#g3)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="100" cy="144" r="6" fill="#0D1B3E" stroke="url(#g3)" stroke-width="2.5"/>
+    </svg>
+  </div>
+</div>
 
 </body>
 </html>
