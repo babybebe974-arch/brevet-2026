@@ -10,7 +10,7 @@ var SEUIL_GRATUIT = 5;
 // === FONCTION PRINCIPALE ===
 function doPost(e) {
   try {
-    if (!e) return createResponse({ success: false, error: 'Aucune donnée reçue' });
+    if (!e) return createResponse({ success: false, error: 'Aucune donnee recue' });
 
     var params;
     if (e.parameter && e.parameter.data) {
@@ -18,7 +18,7 @@ function doPost(e) {
     } else if (e.postData && e.postData.contents) {
       params = JSON.parse(e.postData.contents);
     } else {
-      return createResponse({ success: false, error: 'Aucune donnée reçue' });
+      return createResponse({ success: false, error: 'Aucune donnee recue' });
     }
 
     var action = params.action;
@@ -41,7 +41,7 @@ function doPost(e) {
       if (!peutCorriger) {
         return createResponse({
           success: false,
-          error: 'Limite gratuite atteinte (' + SEUIL_GRATUIT + ' corrections). Passez à la version payante.',
+          error: 'Limite gratuite atteinte (' + SEUIL_GRATUIT + ' corrections). Passez a la version payante.',
           code: 'LIMIT_REACHED',
           correctionsCount: correctionsCount,
           seuilGratuit: SEUIL_GRATUIT
@@ -54,7 +54,7 @@ function doPost(e) {
 
       var note = extraireNote(result);
 
-      // Sauvegarde stats en arrière-plan (non bloquant)
+      // Sauvegarde stats en arriere-plan (non bloquant)
       sauvegarderStatistique({
         timestamp: new Date().toISOString(),
         userId: userId, action: action, matiere: matiere,
@@ -73,7 +73,7 @@ function doPost(e) {
         success: true,
         content: result,
         stats: {
-          correctionsRestantes: estPayant ? 'Illimité' : Math.max(0, SEUIL_GRATUIT - correctionsCount - 1),
+          correctionsRestantes: estPayant ? 'Illimite' : Math.max(0, SEUIL_GRATUIT - correctionsCount - 1),
           estPayant: estPayant,
           joursRestantsEssai: joursRestants
         }
@@ -107,9 +107,9 @@ function getCorrectionsCountFast(userId) {
 
 function incrementerCorrectionsCountFast(userId, oldCount) {
   var newCount = oldCount + 1;
-  // Mettre à jour le cache immédiatement
+  // Mettre a jour le cache immediatement
   CacheService.getScriptCache().put('count_' + userId, newCount.toString(), 600);
-  // Mettre à jour Sheets en arrière-plan
+  // Mettre a jour Sheets en arriere-plan
   incrementerCorrectionsCountSheets(userId, newCount);
 }
 
@@ -148,9 +148,9 @@ function appelerDeepSeek(prompt, system, temperature) {
   temperature = temperature || 0.7;
 
   var API_KEY = PropertiesService.getScriptProperties().getProperty('DEEPSEEK_API_KEY');
-  if (!API_KEY) throw new Error('Clé API DeepSeek manquante.');
+  if (!API_KEY) throw new Error('Cle API DeepSeek manquante.');
 
-  var systemContent = system || 'Tu es un correcteur expert du DNB en Histoire-Géographie-EMC.\nRéponds UNIQUEMENT en JSON :\n{"note":"X/Y","commentaire":"...","pistes":"...","cours_su":"OK/Partiel/Non","methode":"OK/Partiel/Non"}';
+  var systemContent = system || 'Tu es un correcteur expert du DNB en Histoire-Geographie-EMC.\nReponds UNIQUEMENT en JSON :\n{"note":"X/Y","commentaire":"...","pistes":"...","cours_su":"OK/Partiel/Non","methode":"OK/Partiel/Non"}';
 
   var options = {
     method: 'POST',
@@ -174,10 +174,10 @@ function appelerDeepSeek(prompt, system, temperature) {
   try {
     response = UrlFetchApp.fetch('https://api.deepseek.com/v1/chat/completions', options);
   } catch (fetchErr) {
-    throw new Error('Connexion DeepSeek échouée : ' + fetchErr.toString());
+    throw new Error('Connexion DeepSeek echouee : ' + fetchErr.toString());
   }
 
-  if (!response) throw new Error('Réponse undefined de DeepSeek');
+  if (!response) throw new Error('Reponse undefined de DeepSeek');
 
   var code = response.getResponseCode();
   var rawText = response.getContentText();
@@ -188,7 +188,7 @@ function appelerDeepSeek(prompt, system, temperature) {
   try {
     data = JSON.parse(rawText);
   } catch (e) {
-    throw new Error('Réponse non-JSON : ' + rawText.substring(0, 300));
+    throw new Error('Reponse non-JSON : ' + rawText.substring(0, 300));
   }
 
   if (!data.choices || !data.choices[0] || !data.choices[0].message) {
@@ -234,11 +234,11 @@ function extraireNote(reponse) {
       var m = reponse.match(patterns[i]);
       if (m) return m[1] + '/' + m[2];
     }
-    return 'Non évaluée';
+    return 'Non evaluee';
   } catch (e) { return 'Erreur'; }
 }
 
-// === RÉPONSE HTTP ===
+// === REPONSE HTTP ===
 function createResponse(data) {
   return ContentService
     .createTextOutput(JSON.stringify(data))
@@ -248,18 +248,18 @@ function createResponse(data) {
 // === TESTS & SETUP ===
 function testCorrection() {
   var result = appelerDeepSeek(
-    'Question: Q1 — Relevez un extrait qui définit la gigafactory. (2 pts)\nCorrection attendue: "usines de fabrication de batteries"\nRéponse élève: Les gigafactories sont des usines qui fabriquent des batteries.'
+    'Question: Q1 — Relevez un extrait qui definit la gigafactory. (2 pts)\nCorrection attendue: "usines de fabrication de batteries"\nReponse eleve: Les gigafactories sont des usines qui fabriquent des batteries.'
   );
-  console.log('Résultat test:', result);
+  console.log('Resultat test:', result);
   return result;
 }
 
 function verifierCleAPI() {
   var key = PropertiesService.getScriptProperties().getProperty('DEEPSEEK_API_KEY');
   if (key && key.startsWith('sk-')) {
-    console.log('✅ Clé API DeepSeek configurée'); return true;
+    console.log('Cle API DeepSeek configuree'); return true;
   } else {
-    console.log('❌ Clé API DeepSeek NON configurée'); return false;
+    console.log('Cle API DeepSeek NON configuree'); return false;
   }
 }
 
@@ -278,7 +278,7 @@ function creerFeuilles() {
     var s2 = ss.insertSheet('Compteurs');
     s2.getRange(1,1,1,2).setValues([['UserId','CorrectionsCount']]);
   }
-  console.log('✅ Feuilles prêtes');
+  console.log('Feuilles pretes');
 }
 
 function getStatsGlobales() {
@@ -305,7 +305,7 @@ function getStatsGlobales() {
 }
 
 // ============================================================
-// MONÉTISATION — CODES D'ACCÈS
+// MONETISATION — CODES D'ACCES
 // ============================================================
 
 function traiterValidationCode(params) {
@@ -325,12 +325,12 @@ function traiterValidationCode(params) {
         sheet.getRange(i + 1, 5).setValue(new Date().toISOString());
         sheet.getRange(i + 1, 6).setValue(userId);
         console.log('Code valide: ' + code + ' — ' + userId);
-        return createResponse({ success: true, message: 'Code valide ! Accès complet débloqué.', email: data[i][1] || '' });
+        return createResponse({ success: true, message: 'Code valide ! Acces complet debloque.', email: data[i][1] || '' });
       }
     }
 
     console.log('Code invalide: ' + code);
-    return createResponse({ success: false, error: 'Code invalide ou déjà utilisé.' });
+    return createResponse({ success: false, error: 'Code invalide ou deja utilise.' });
 
   } catch (err) {
     return createResponse({ success: false, error: 'Erreur serveur: ' + err.toString() });
@@ -351,7 +351,7 @@ function getOrCreateCodesSheet() {
 }
 
 function generateCode() {
-  // ← CHANGER L'EMAIL ICI avant d'exécuter
+  // ← CHANGER L'EMAIL ICI avant d'executer
   var email = 'email@exemple.com';
   var notes = '';
 
@@ -371,7 +371,7 @@ function generateCodesPourListe() {
   for (var i = 0; i < emails.length; i++) {
     var code = _genererCode();
     getOrCreateCodesSheet().appendRow([code, emails[i], new Date().toISOString(), false, '', '', '']);
-    console.log(emails[i] + ' → ' + code);
+    console.log(emails[i] + ' -> ' + code);
   }
 }
 
@@ -387,10 +387,37 @@ function voirTousCodes() {
   if (!sheet) { console.log('Aucune feuille Codes'); return; }
   var data = sheet.getDataRange().getValues();
   var actifs = 0, utilises = 0;
-  console.log('\n=== CODES D\'ACCÈS ===');
+  console.log('=== CODES D\'ACCES ===');
   for (var i = 1; i < data.length; i++) {
-    if (data[i][3]) { utilises++; console.log('✓ UTILISÉ  | ' + data[i][0] + ' | ' + data[i][1]); }
-    else { actifs++; console.log('○ ACTIF    | ' + data[i][0] + ' | ' + data[i][1]); }
+    if (data[i][3]) { utilises++; console.log('UTILISE  | ' + data[i][0] + ' | ' + data[i][1]); }
+    else { actifs++; console.log('ACTIF    | ' + data[i][0] + ' | ' + data[i][1]); }
   }
-  console.log('Actifs: ' + actifs + ' | Utilisés: ' + utilises);
+  console.log('Actifs: ' + actifs + ' | Utilises: ' + utilises);
+}
+
+// === DOGET — pour le deploiement Web App ===
+function doGet(e) {
+  return createResponse({
+    status: 'active',
+    message: 'Proxy DeepSeek DNB Hist-Geo-EMC',
+    version: '2.0',
+    timestamp: new Date().toISOString()
+  });
+}
+
+// === TEST DIAGNOSTIC ===
+function testDiagnostic() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Codes');
+  if (!sheet) { console.log('ERREUR: feuille Codes absente'); return; }
+  var data = sheet.getDataRange().getValues();
+  console.log('Nb lignes: ' + data.length);
+  for (var i = 0; i < data.length; i++) {
+    console.log('Ligne ' + i + ': ' + JSON.stringify(data[i]));
+  }
+  var codeTest = 'Entrepotes974NawalWassil';
+  for (var j = 1; j < data.length; j++) {
+    var codeSheet = (data[j][0] || '').toString().trim();
+    console.log('[' + codeSheet + '] === [' + codeTest + '] : ' + (codeSheet === codeTest));
+  }
 }

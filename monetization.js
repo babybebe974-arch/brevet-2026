@@ -1,7 +1,7 @@
-// ============================================================
-// SMART LEARN — SYSTÈME DE MONÉTISATION (v4.1.1)
-// Essai gratuit 2 jours · 29€/an · Code par email automatique
-// Fix : verifierRappel lancé + setTimeout J1
+﻿// ============================================================
+// SMART LEARN â€” SYSTÃˆME DE MONÃ‰TISATION (v4.1.1)
+// Essai gratuit 2 jours Â· 29â‚¬/an Â· Code par email automatique
+// Fix : verifierRappel lancÃ© + setTimeout J1
 // ============================================================
 
 const MONETIZATION = {
@@ -70,7 +70,7 @@ function genererCodeUnique() {
 async function envoyerCodeParEmail(email, code) {
   var proxyUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.proxyUrl)
     ? APP_CONFIG.proxyUrl
-    : 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+    : 'https://script.google.com/macros/s/AKfycbxzUhsZ4ewxV_zGsu5h_L2eryTJiW2E-gZLvihC-vPl2DimCJxAeTF2dhbDF8no-ocG/exec';
   var payload = {
     userId: (typeof getUserId !== 'undefined') ? getUserId() : 'anon',
     action: 'generer_code_email',
@@ -114,7 +114,7 @@ function validerCode(codeSaisi, callback) {
 
   var proxyUrl = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.proxyUrl)
     ? APP_CONFIG.proxyUrl
-    : 'https://script.google.com/macros/s/AKfycbxxQCRDZvKAb9fuXkDslK7LYMXjcIrIi-_EpA8DWT1-tTelSpYcMxPkiSPG5bKheLTY/exec';
+    : 'https://script.google.com/macros/s/AKfycbxzUhsZ4ewxV_zGsu5h_L2eryTJiW2E-gZLvihC-vPl2DimCJxAeTF2dhbDF8no-ocG/exec';
 
   var payload = JSON.stringify({
     userId: (typeof getUserId !== 'undefined') ? getUserId() : 'anon',
@@ -193,10 +193,10 @@ function creerOverlayAvecEmail(type, joursRestants) {
     '.monet-step strong{color:#e8e8f0;}' +
     '</style>' +
     '<div class="monet-card">' +
-    '<div class="monet-icon">' + (type === 'expire' ? '60' : type === 'rappel' ? '🔔' : '🔒') + '</div>' +
+    '<div class="monet-icon">' + (type === 'expire' ? '60' : type === 'rappel' ? 'ðŸ””' : 'ðŸ”’') + '</div>' +
     '<div class="monet-title">' + titre + '</div>' +
     '<div class="monet-sub">' + message + '</div>' +
-    '<div class="monet-price">29€ <small>/ an</small></div>' +
+    '<div class="monet-price">29â‚¬ <small>/ an</small></div>' +
     (showEmailForm ?
       '<div class="monet-step" id="email-step">' +
       '<strong>Etape 1 : Recevez votre code</strong><br>' +
@@ -217,7 +217,7 @@ function creerOverlayAvecEmail(type, joursRestants) {
     '<hr class="monet-divider">' +
     '<div class="monet-step">' +
     '<strong>Paiement securise :</strong><br>' +
-    '<a href="' + MONETIZATION.paymentWise + '" target="_blank" class="monet-pay-btn wise">Payer 29€ via Wise</a>' +
+    '<a href="' + MONETIZATION.paymentWise + '" target="_blank" class="monet-pay-btn wise">Payer 29â‚¬ via Wise</a>' +
     '</div>' +
     (canClose ? '<button class="monet-btn ghost" id="monet-close">Continuer essai</button>' : '') +
     '<div class="monet-msg" id="monet-msg"></div>' +
@@ -323,8 +323,8 @@ function creerBanniereEssai() {
     '.monet-banner-text{font-weight:600;}' +
     '.monet-banner-btn{padding:4px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:#09090f;color:#e8c87a;}' +
     '</style>' +
-    '<span class="monet-banner-text">🆓 Essai gratuit - J-' + j + ' ' + (j <= 1 ? 'jour restant' : 'jours restants') + '</span>' +
-    '<button class="monet-banner-btn" onclick="afficherRappelPaiement()">💳 Debloquer (29€/an)</button>';
+    '<span class="monet-banner-text">ðŸ†“ Essai gratuit - J-' + j + ' ' + (j <= 1 ? 'jour restant' : 'jours restants') + '</span>' +
+    '<button class="monet-banner-btn" onclick="afficherRappelPaiement()">ðŸ’³ Debloquer (29â‚¬/an)</button>';
   document.body.insertBefore(banner, document.body.firstChild);
 }
 
@@ -337,8 +337,8 @@ function creerBanniereExpire() {
     '.monet-banner-text{font-weight:600;}' +
     '.monet-banner-btn{padding:4px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:#fff;color:#e87a7a;}' +
     '</style>' +
-    '<span class="monet-banner-text">⚠️ Essai gratuit termine - Corrections IA bloquees</span>' +
-    '<button class="monet-banner-btn" onclick="afficherBlocageEssaiExpire()">💳 Debloquer 29€/an</button>';
+    '<span class="monet-banner-text">âš ï¸ Essai gratuit termine - Corrections IA bloquees</span>' +
+    '<button class="monet-banner-btn" onclick="afficherBlocageEssaiExpire()">ðŸ’³ Debloquer 29â‚¬/an</button>';
   document.body.insertBefore(banner, document.body.firstChild);
 }
 
